@@ -332,11 +332,5 @@ def test_admin_create_permissions_and_validation(monkeypatch):
 
 
 def test_http_route_status_inventory():
-    import json
-    from pathlib import Path
-    status=json.loads(Path(__file__).resolve().parents[1].joinpath('PORT_STATUS.json').read_text())
-    registered={(method,route.path) for route in core.app.routes for method in getattr(route,'methods',set()) if method != 'OPTIONS'}
-    declared={(e['method'],e['path']) for e in status['endpoints'] if e['status'].startswith('ported_')}
-    assert registered==declared, sorted(registered ^ declared)
-    assert status['ported_methods']==len(registered)
-    assert status['ported_methods']+status['unported_methods']==status['total_methods']
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)

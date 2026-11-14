@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from uuid import NAMESPACE_URL, uuid5
 
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse, Response
@@ -9,7 +10,7 @@ from fastapi.responses import JSONResponse, Response
 from . import main as core
 from .study_plan_level import (
     LEVELS, QUESTION_COUNT, interpretation, new_attempt, public_questions,
-    read_bank, score_attempt,
+    read_bank, score_attempt, score_public_hint,
 )
 from .study_plan_port import body_object, failure, response, plan_participant
 from .study_plan_thirty import normalize_level
@@ -36,6 +37,41 @@ async def _save_level(con, user_id, level: str) -> None:
            VALUES($1,$2)
            ON CONFLICT(user_id) DO UPDATE SET current_level=EXCLUDED.current_level""",
         user_id, level)
+
+
+@router.post('/landing/import')
+async def import_public_level(req: Request) -> JSONResponse:
+    user, error = await plan_participant(req)
+    if error is not None:
+        return error
+    allowed = {'version', 'source', 'level', 'estimated_ielts', 'goal_band', 'exam_date',
+               'daily_minutes', 'correct_answers', 'total_questions', 'skill_results',
+               'created_at', 'raw_answers'}
+    data = await body_object(req, allowed)
+    grade = score_public_hint(data)
+    if grade is None:
+        return failure('invalid_public_assessment', 400)
+    db = await core.pool()
+    event_id = uuid5(NAMESPACE_URL, f'learners-area:public-level-hint:{user["id"]}')
+    async with db.acquire() as con, con.transaction():
+        claimed = await con.fetchval(
+            '''INSERT INTO activity_events(id,user_id,type,payload)
+               VALUES($1,$2,'PUBLIC_LEVEL_HINT',$3) ON CONFLICT(id) DO NOTHING RETURNING id''',
+            event_id, user['id'], grade)
+        if not claimed:
+            return response({'state': 'ignored'})
+        # Both conditions are checked in the write. Concurrent in-app/manual
+        # results always take precedence; public imports never reset them.
+        saved = await con.fetchval(
+            '''INSERT INTO onboarding_profiles(user_id,current_level)
+               SELECT $1,$2 WHERE NOT EXISTS(SELECT 1 FROM study_plan_30_level_checks
+                   WHERE user_id=$1 AND submitted_at IS NOT NULL)
+               ON CONFLICT(user_id) DO UPDATE SET current_level=EXCLUDED.current_level
+               WHERE coalesce(onboarding_profiles.current_level,'')=''
+                 AND NOT EXISTS(SELECT 1 FROM study_plan_30_level_checks
+                     WHERE user_id=$1 AND submitted_at IS NOT NULL)
+               RETURNING current_level''', user['id'], grade['level'])
+    return response({'state': 'saved' if saved else 'ignored'})
 
 
 @router.get("/landing/audio/{day}")

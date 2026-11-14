@@ -155,7 +155,9 @@ def test_reply_schema_is_private_and_deduplicated():
 def test_full_guardian_id_in_staff_directory_is_not_masked():
     source = (Path(__file__).resolve().parents[1] / "app/guardian_port.py").read_text()
     directory = source.split("async def staff_guardians", 1)[1].split("async def staff_guardian_detail", 1)[0]
-    assert "'ID ' + r['telegram_user_id']" in directory
+    assert "'telegramUsername': r['username']" in directory
+    detail = source.split('async def staff_guardian_detail', 1)[1].split('async def staff_templates', 1)[0]
+    assert "'telegramUserId': r['telegram_user_id']" in detail
     assert "mask_tg(r['telegram_user_id'])" not in directory
 
 

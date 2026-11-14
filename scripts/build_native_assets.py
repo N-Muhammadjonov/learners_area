@@ -2,6 +2,9 @@
 from __future__ import annotations
 import hashlib
 import gzip
+import ast
+from html import escape
+from html.parser import HTMLParser
 from importlib.metadata import version
 import json
 import os
@@ -17,6 +20,88 @@ ALLOWED = ('index.html', 'js', 'modules', 'css/global.css', 'css/fonts.css',
 EXTENSIONS = {'.html','.js','.mjs','.css','.json','.woff','.woff2','.ttf','.png','.jpg',
               '.wasm','.bin','.gz','.bcmap','.pfb','.jpeg','.webp','.svg','.avif','.ico','.mp4','.webm','.mp3','.ogg','.wav','.m4a'}
 FORBIDDEN = {'package.json','package-lock.json','node_modules','scripts','tests','docs'}
+
+
+class LandingContent(HTMLParser):
+    """Retain semantic visitor text without landing CSS, scripts or quiz answers."""
+    tags = {'section', 'header', 'footer', 'nav', 'h1', 'h2', 'h3', 'p',
+            'ul', 'ol', 'li', 'a', 'strong', 'em', 'small', 'span',
+            'details', 'summary', 'br', 'div'}
+    void = {'br', 'img', 'input', 'meta', 'link', 'hr', 'source', 'wbr'}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.output = []
+        self.stack = []
+        self.suppressed = 0
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        blocked = tag in {'script', 'style', 'svg', 'dialog'}
+        hidden = self.suppressed > 0 or blocked
+        emitted = tag in self.tags and not hidden
+        if emitted:
+            allowed = {key: value for key, value in attrs.items()
+                       if key in {'href', 'id'} and value is not None}
+            attributes = ''.join(' ' + key + '="' + escape(value, quote=True) + '"'
+                                 for key, value in allowed.items())
+            self.output.append('<' + tag + attributes + '>')
+        if tag not in self.void:
+            self.stack.append((tag, emitted, hidden))
+            self.suppressed += int(hidden)
+
+    def handle_endtag(self, tag):
+        if tag in self.void:
+            return
+        if not any(row[0] == tag for row in self.stack):
+            return
+        while self.stack:
+            opened, emitted, hidden = self.stack.pop()
+            self.suppressed -= int(hidden)
+            if emitted:
+                self.output.append('</' + opened + '>')
+            if opened == tag:
+                break
+
+    def handle_data(self, data):
+        if not self.suppressed:
+            self.output.append(escape(data))
+
+
+def landing_fallback(base=BASE):
+    """Build the no-JS document from the exact visible landing source."""
+    source = (Path(base) / 'modules/landing-inline.js').read_text()
+    document = json.JSONDecoder().raw_decode(re.split(r'export const LANDING_HTML\s*=', source, maxsplit=1)[1].lstrip())[0]
+    # These literal arrays also render the visible feature cards, steps and FAQ.
+    literal = lambda pattern: ast.literal_eval(re.search(pattern, document, re.S)[1])
+    features = literal(r'const TL=(\[.*?\]);')
+    steps = literal(r"\$\('#stp'\)\.innerHTML=(\[.*?\])\.map")
+    faq = literal(r"\$\('#fqs'\)\.innerHTML=(\[.*?\])\.map")
+    cards = ''.join('<h3>' + escape(row[0]) + '</h3><p>' + escape(row[1]) + '</p>'
+                    for row in features)
+    steps_html = '<ol>' + ''.join('<li><h3>' + escape(row[1]) + '</h3><p>' + escape(row[2]) + '</p></li>'
+                                  for row in steps) + '</ol>'
+    faq_html = ''.join('<details><summary>' + escape(q) + '</summary><p>' + escape(a) + '</p>' +
+                       ('<a href="https://t.me/learnersareaaccessbot">Adminga yozish ↗</a>' if i == 2 else '') +
+                       '</details>' for i, (q, a) in enumerate(faq))
+    intro = re.search(r'function intro\(\)\{return `(.*?)`\}', document, re.S)[1]
+    body = re.search(r'<body[^>]*>(.*?)<script>', document, re.S)[1]
+    for ident, content in [('tg', cards), ('stp', steps_html), ('fqs', faq_html), ('app', intro)]:
+        body, count = re.subn(r'(<div\b[^>]*\bid="' + ident + r'"[^>]*>)(</div>)',
+                              lambda m: m[1] + content + m[2], body, count=1)
+        if count != 1:
+            raise ValueError('Missing landing content container: ' + ident)
+    parser = LandingContent()
+    parser.feed(body)
+    semantic = ''.join(parser.output)
+    if semantic.count('<h1>') != 1 or not faq:
+        raise ValueError('Invalid landing semantic document')
+    structured = {'@context': 'https://schema.org', '@type': 'FAQPage',
+                  'mainEntity': [{'@type': 'Question', 'name': q,
+                                  'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in faq]}
+    return ('\n<main class="la-static-landing" data-public-landing-fallback lang="uz" style="min-height:100vh;background:#06101f;color:#e8f0fc;padding:24px;font-family:system-ui;line-height:1.6">' +
+            semantic + '</main>\n<script type="application/ld+json">' +
+            json.dumps(structured, ensure_ascii=False).replace('<', '\\u003c') + '</script>\n')
 
 
 def publish_speech_parts(build_root,public_root):
@@ -174,11 +259,31 @@ def build(base=BASE):
                     raise ValueError('Server/framework dependency in browser asset: '+str(relative))
                 target=temporary/relative;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(file,target)
                 content=target.read_bytes();files[relative.as_posix()]={'sha256':hashlib.sha256(content).hexdigest(),'bytes':len(content)}
+        index = temporary / 'index.html'
+        if (base / 'modules/landing-inline.js').is_file():
+            document = re.sub(r'(?<=<!--public-content-start-->).*?(?=<!--public-content-end-->)',
+                              lambda _: landing_fallback(base), index.read_text(), flags=re.S)
+            index.write_text(document)
+            files['index.html'] = {'sha256': hashlib.sha256(index.read_bytes()).hexdigest(),
+                                   'bytes': index.stat().st_size}
         feature_bundles = overlay_feature_bundles(temporary, files, base)
         bundled_paths = set()
         if feature_bundles['enabled']:
             report = json.loads((Path(os.environ['LA_BROWSER_BUNDLES'])/'bundle-report.json').read_text())
             bundled_paths = {row['path'] for row in report['chunks']}
+        if (base / 'modules/landing-inline.js').is_file():
+            fallback = landing_fallback(base).split('<script type="application/ld+json">', 1)[0]
+            for name in files:
+                if not name.endswith(('.js', '.mjs')):
+                    continue
+                target = temporary / name
+                text = target.read_text()
+                if '<!--la-public-fallback-->' in text:
+                    text = re.sub(r'''(['"])<!--la-public-fallback-->\1''',
+                                  lambda _: json.dumps(fallback, ensure_ascii=False), text)
+                    target.write_text(text)
+                    files[name] = {'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
+                                   'bytes': target.stat().st_size}
         revision,stats=optimize(temporary,files,bundled_paths)
         stats['featureBundles'] = feature_bundles
         manifest={'version':1,'revision':revision,'files':files,'routes':routes['routes'],'redirects':routes['redirects'],'optimization':stats}

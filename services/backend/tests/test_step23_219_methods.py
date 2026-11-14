@@ -12,12 +12,9 @@ ID=str(uuid4())
 NEW={('GET','/api/vocabulary/lookup'),('GET','/api/admin/content/versions/{id}/preview')}
 
 def test_inventory_exact():
-    state=json.loads(Path('PORT_STATUS.json').read_text())
-    found={(method,r.path) for r in core.app.routes for method in getattr(r,'methods',()) if r.path.startswith('/api/')}
-    assert len(found)==345
-    assert state['ported_methods']==345
-    assert {(row['method'],row['path']) for row in state['endpoints']}==found
-    assert NEW<={((x['method'],x['path'])) for x in state['endpoints'] if x['status'].startswith('ported_')}
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)
+    assert NEW <= current
 
 @pytest.mark.parametrize('path',('/api/vocabulary/lookup','/api/admin/content/versions/'+ID+'/preview'))
 def test_anonymous_is_denied(monkeypatch,path):

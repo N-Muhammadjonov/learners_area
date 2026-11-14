@@ -1,3 +1,4 @@
+import {consumePublicLevelHint} from '../../js/public-level-hint.js';
 import {enableDiagnostics} from '../../js/diagnostics.js';
 import {api} from '../../js/api-client.js';
 import {publishSessionEvent} from '../../js/session-events.js';
@@ -9,14 +10,22 @@ import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
 import {telegram} from './telegram.js';
-import {LANDING_HTML} from '../landing-inline.js';
+// Replaced from LANDING_HTML by the Python asset builder, including bundled chunks.
+const LANDING_FALLBACK_HTML='<!--la-public-fallback-->';
 /** Public policy loads inside the stable source AuthShell, not a blank route.
  * Retrying bootstrap never remounts controls or replays an account mutation. */
 export async function mount(context){
- // The standalone landing is supplied by this already-loaded auth module.
+ // Load the standalone document only on its public routes.
  // srcdoc isolates the original typography, CSS and animations from AuthShell.
  if(context.url.pathname==='/'||context.url.pathname==='/landing'){
   const {root,signal,navigate}=context;
+  const template=document.createElement('template');
+  template.innerHTML=LANDING_FALLBACK_HTML;
+  const fallback=document.querySelector('[data-public-landing-fallback]')?.cloneNode(true)??template.content.firstElementChild;
+  if(fallback)root.append(fallback);
+  let LANDING_HTML;
+  try{({LANDING_HTML}=await import('../landing-inline.js'));}catch{return;}
+  if(signal.aborted)return;
   const frame=document.createElement('iframe');
   frame.title='Learners Area — platforma bilan tanishing';
   frame.setAttribute('data-inline-landing','');
@@ -25,7 +34,14 @@ export async function mount(context){
   // A srcdoc document inherits the site's nonce-based CSP.
   // Reuse the nonce from the server-rendered module bootstrap.
   const nonce=document.querySelector('script[nonce]')?.nonce;
-  if(!nonce)throw new Error('Missing CSP nonce for the public landing');
+  if(!nonce)return;
+  frame.style.display='none';
+  frame.addEventListener('load',()=>{
+   if(signal.aborted)return;
+   fallback?.remove();
+   frame.style.display='block';
+  },{once:true,signal});
+  frame.addEventListener('error',()=>frame.remove(),{once:true,signal});
   frame.setAttribute('allow','autoplay');
   frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
   let entranceAudio=null;
@@ -93,6 +109,7 @@ export async function mount(context){
      method:'POST',body:{...intent,...registration},signal
     });
     if(signal.aborted)return;
+    void consumePublicLevelHint();
     publishSessionEvent('refresh');
     context.invalidateSession?.();
     const destination=result.accountStatus==='active'?

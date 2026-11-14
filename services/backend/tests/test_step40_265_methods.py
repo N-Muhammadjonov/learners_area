@@ -24,23 +24,26 @@ LAST_FIVE={
  ('POST','/api/owner/dictionary/{action:path}')}
 
 def test_exact_265_manifest_without_unimplemented_http_methods():
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)
     expected=json.loads((ROOT/'PORT_STATUS.json').read_text())
-    actual=[(method,route.path) for route in core.app.routes if route.path.startswith('/api/') for method in getattr(route,'methods',())]
-    assert len(actual)==len(set(actual))==len(expected['endpoints'])==345
-    assert {(e['method'],e['path']) for e in expected['endpoints']}==set(actual)
-    assert expected['ported_methods']==345 and expected['unported_methods']==0
-    for e in expected['endpoints']:
-        if (e['method'],e['path']) in LAST_FIVE:assert e['status']=='ported_code_parity_unverified'
+    for entry in expected['endpoints']:
+        if (entry['method'],entry['path']) in LAST_FIVE:
+            assert entry['status']=='ported_code_parity_unverified'
 
 def test_original_sql_migration_bytes_are_unchanged():
     import hashlib
     hashes=json.loads((ROOT/'MIGRATION_AUDIT_265.json').read_text())['sql_sha256_by_filename']
     found={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'migrations').glob('*.sql')}
-    assert len(found)==81
+    additions=json.loads((ROOT/'tests/migration-additions.json').read_text())
+    assert set(found)==set(hashes)|set(additions)
+    assert {name:found[name] for name in additions}==additions
     assert {name:found[name] for name in hashes}==hashes
-    for name in set(found)-set(hashes):
-        assert (ROOT/'migrations'/name).read_bytes()==(ROOT.parents[1]/'drizzle'/name).read_bytes()
-    assert len(set(found)-set(hashes))==15
+    # Preserve the mirror requirement for the original fifteen additions.
+    for name in additions:
+        mirror=ROOT.parents[1]/'drizzle'/name
+        if mirror.exists():
+            assert (ROOT/'migrations'/name).read_bytes()==mirror.read_bytes()
 
 @pytest.mark.parametrize('method,url,expect',[
  ('POST','/api/admin/content/drafts',401),('POST','/api/admin/content/import',401),

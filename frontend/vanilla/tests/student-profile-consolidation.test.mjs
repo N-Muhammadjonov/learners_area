@@ -2,16 +2,32 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import staffRoutes from '../modules/staff-final30/routes.js';
+import {setup,tick,ID} from './staff-final30/harness.mjs';
 
 const source = path => fs.readFileSync(new URL(path, import.meta.url), 'utf8');
 
-test('owner student detail and assigned teacher detail use one complete review renderer', async () => {
+test('admin plan-only entry preserves owner and assigned-teacher full review delegation', async () => {
   const owner = staffRoutes.find(route => route.pattern === '/app/admin/people/:id');
   const teacher = staffRoutes.find(route => route.pattern === '/app/teacher/students/:id');
-  assert.deepEqual(owner.roles, ['owner']);
+  assert.deepEqual(owner.roles, ['admin', 'owner']);
   assert.deepEqual(teacher.roles, ['teacher', 'owner']);
   const [ownerView, teacherView] = await Promise.all([owner.load(), teacher.load()]);
-  assert.equal(ownerView.mount, teacherView.mount);
+  const complete = await import('../modules/staff-final30/teacher.js');
+  assert.equal(teacherView.mount, complete.studentMount);
+  const entry = source('../modules/staff-final30/staff-student-entry.js');
+  assert(entry.includes("if(role==='owner')"));
+  assert(entry.includes('return studentMount(ctx)'));
+  const fixture = setup({role:'admin',path:'/app/admin/people/'+ID(2)});
+  try {
+    fixture.stub({'/api/study-plan/monthly/sequence/staff/*':{plan:null,name:'Fixture learner'}});
+    await ownerView.mount(fixture.ctx);
+    await tick();
+    assert(fixture.q('[data-admin-student-plan]'));
+    assert(fixture.q('[data-student-plan-inline]'));
+    assert.equal(fixture.q('[data-student-full-review]'),null);
+    assert.equal(fixture.calls.length,1);
+    assert.equal(fixture.calls[0].path,'/api/study-plan/monthly/sequence/staff/'+ID(2));
+  } finally { fixture.dispose(); }
 });
 
 test('complete student review includes all historical academic and writing sections', () => {

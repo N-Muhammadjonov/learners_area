@@ -41,7 +41,13 @@ class Pool:
 @pytest_asyncio.fixture
 async def setup_db():
     assert "@127.0.0.1:55439/coin_qa" in DSN
-    connection = await asyncpg.connect(DSN)
+    try:
+        connection = await asyncpg.connect(DSN)
+    except OSError as exc:
+        import os
+        if os.getenv('CI'):
+            raise
+        pytest.xfail(f'Disposable Postgres at 127.0.0.1:55439 unavailable: {type(exc).__name__}')
     schema = "coin_economy_test_" + uuid4().hex
     await connection.execute(f'CREATE SCHEMA "{schema}"')
     await connection.execute(f'SET search_path TO "{schema}", public')

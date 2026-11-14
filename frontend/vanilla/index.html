@@ -31,18 +31,60 @@
 <script type="module" src="/js/main.js"></script>
 </head>
 <body><div id="root"><!--public-content-start-->
+<main class="la-static-landing" data-public-landing-fallback lang="uz" style="min-height:100vh;background:#06101f;color:#e8f0fc;padding:24px;font-family:system-ui;line-height:1.6">
+<div id="sb"></div><div id="cursorSpot"></div>
+<nav><div><a href="#top">LEARNERS AREA</a><div><a href="#imkon">Imkoniyatlar</a><a href="#natija">Natijalar</a><a href="#faq">FAQ</a><a href="/login">Kirish</a><div><div>UZEN</div><a href="#test">Testni boshlash</a><a href="/register">Hisob yaratish</a></div></div></div></nav>
 
-<section class="la-static-landing" style="min-height:100dvh;box-sizing:border-box;padding:18px 24px 60px;background:radial-gradient(ellipse at 10% 20%,rgba(57,112,255,.35),transparent 48%),radial-gradient(ellipse at 92% 25%,rgba(50,222,208,.18),transparent 48%),#06101f;color:#f4f7fc;font-family:Geist,Inter,system-ui,sans-serif;text-align:center">
-  <nav aria-label="Learners Area" style="box-sizing:border-box;width:min(100%,1200px);margin:0 auto;padding:18px 24px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(10,22,40,.75);display:flex;align-items:center;justify-content:space-between;gap:16px">
-    <strong style="font-size:13px;letter-spacing:.2em">LEARNERS AREA</strong>
-    <div style="display:flex;align-items:center;gap:18px"><a href="/login" style="color:#9db0cc;text-decoration:none">Kirish</a><a href="/register" style="color:#06101f;background:linear-gradient(100deg,#32ded0,#3970ff);border-radius:999px;padding:12px 20px;text-decoration:none;font-weight:700">Hisob yaratish</a></div>
-  </nav>
-  <div style="margin:clamp(60px,10vh,110px) auto 0;max-width:1200px">
-    <a href="/register" style="display:inline-block;color:#a9bcff;background:rgba(57,112,255,.15);border:1px solid rgba(57,112,255,.38);padding:10px 18px;border-radius:999px;font-size:14px;text-decoration:none;font-weight:700">Birinchi marta keldingizmi?</a>
-    <h1 style="margin:26px auto 0;font-size:clamp(42px,8.4vw,112px);line-height:.98;letter-spacing:-.045em;font-weight:800">Darajangizni aniqlang.<span style="display:block">Keyingi qadam: <strong style="display:block;font-weight:800;background:linear-gradient(100deg,#32ded0,#3970ff);background-clip:text;-webkit-background-clip:text;color:transparent">Listening</strong></span></h1>
-    <p style="max-width:800px;margin:28px auto 32px;color:#9db0cc;font-size:18px;line-height:1.6">17 ta savol, taxminan 10 daqiqa. Natijangiz asosida zaif ko‘nikmangizga qaratilgan shaxsiy 30 kunlik IELTS reja tuzilishiga yordam beramiz.</p>
-    <a href="/landing#test" style="display:inline-flex;align-items:center;justify-content:center;padding:18px 30px;border-radius:999px;background:#f4f7fc;color:#06101f;text-decoration:none;font-weight:700">Testni boshlash →</a>
+<header id="top">
+<div>
+<a href="/register">Birinchi marta keldingizmi?</a><br>
+<h1>Darajangizni aniqlang.<br>Keyingi qadam: <em id="rot">Listening</em></h1>
+<p>17 ta savol, taxminan 10 daqiqa. Natijangiz asosida zaif ko‘nikmangizga qaratilgan shaxsiy 30 kunlik IELTS reja tuzilishiga yordam beramiz.</p>
+<a href="#test">Testni boshlash <span>→</span></a><a href="#imkon">Platforma haqida</a>
+<div><span>Login talab qilinmaydi</span><span>5 ta yo‘nalish</span><span>Natija darhol</span></div>
+</div>
+<div>
+<div><div><span>DARAJA · NAMUNA</span><div id="hr"><div><span>B2<small id="hi">IELTS 5.5–6.5</small></span></div></div></div></div>
+<div><div><span>BUGUNGI REJA · NAMUNA</span><div>Listening: 1 Section</div><div>Reading: T/F/NG</div><div>Vocabulary: 15 so‘z</div></div></div>
+<div><div><span>LISTENING</span><div id="wv"></div></div></div>
+<div><div><span>PROGRESS</span></div></div>
+</div>
+</header>
+<div><div><span>LISTENING</span><span>READING</span><span>WRITING</span><span>SPEAKING</span><span>GRAMMAR</span><span>VOCABULARY</span><span>USE OF ENGLISH</span><span>30 KUNLIK REJA</span><span>LISTENING</span><span>READING</span><span>WRITING</span><span>SPEAKING</span><span>GRAMMAR</span><span>VOCABULARY</span><span>USE OF ENGLISH</span><span>30 KUNLIK REJA</span></div></div>
+
+
+
+
+<section id="test"><div id="app"><div><span>DARAJA ANIQLASH TESTI</span><span>17 savol · ≈10 daqiqa</span></div>
+<h2>A1 dan C2 gacha, bitta test.</h2>
+<p>Savollar osondan qiyinga boradi. Javobni bilmasangiz, “Bilmayman” tugmasini bosing — taxmin qilish natijani buzadi. Listening savollarini audio orqali tinglaysiz.</p>
+Boshlash →</div></section>
+
+
+<section id="imkon"><div><p>PLATFORMA HAQIDA</p><h2>Ko‘nikmalar bitta joyda. Reja esa <em>sizga moslangan.</em></h2><p>Learners Area — IELTS va ingliz tili ko‘nikmalari uchun darslar, testlar, topshiriqlar va progressni birlashtiruvchi platforma. Har bir ko‘nikma ustida alohida va tizimli ishlaysiz.</p></div><div id="tg"><h3>Listening</h3><p>Audio bilan ishlash va savollarga javob berish mashqlari.</p><h3>Reading</h3><p>Matn bilan ishlash va savollarga javob berish mashqlari.</p><h3>Writing</h3><p>Yozma topshiriqlar: Task 1 va Task 2 bo‘yicha mashqlar.</p><h3>Speaking</h3><p>Part 1–3 bo‘yicha gapirish mashqlari.</p><h3>Jonli darslar</h3><p>Live class va topshiriqlarni haftalik tartibga joylang.</p><h3>Natijalar dinamikasi</h3><p>Mock va individual faoliyat ko‘rsatkichlarini oldingi davrlar bilan solishtiring.</p><h3>Aniq maqsad</h3><p>Har hafta asosiy prioritetlarni belgilang, bo‘shliqlarni aniqlang.</p><h3>Practice → Feedback → Repeat</h3><p>Faol mashq, feedback va maqsadli takrorlash — tizimli o‘sish uchun.</p></div></section>
+<section><div><p>QANDAY ISHLAYDI</p><h2>Kamroq chalg‘ish. Ko‘proq <em>mazmunli mashq.</em></h2></div><div id="stp"><ol><li><h3>Testni topshiring</h3><p>17 savol, kirishsiz. Daraja va kuchli/zaif ko‘nikmalar aniqlanadi.</p></li><li><h3>Rejani sozlang</h3><p>Maqsad, imtihon sanasi va kunlik vaqtni tanlang — 30 kunlik reja tuziladi.</p></li><li><h3>Telegram orqali kiring</h3><p>Hozircha platformaga kirish Telegram autentifikatsiyasi orqali.</p></li><li><h3>Mashq qiling</h3><p>Practice → Feedback → Repeat: har mashg‘ulot aniq natija bilan yakunlanadi.</p></li></ol></div></section>
+<section id="natija"><div><p>PLATFORMA ICHIDAN</p><h2>Mashq sahifalaridan <em>ba’zi namunalar.</em></h2></div><div id="r1"><div></div></div><div id="r2"><div></div></div></section>
+
+<section id="faq"><div><p>YORDAM MARKAZI</p><h2>Ko‘p beriladigan <em>savollar.</em></h2></div><div id="fqs"><details><summary>Learners Area saytida qanday imkoniyatlar mavjud?</summary><p>Bu yerda IELTS va ingliz tili bo‘yicha Listening, Reading, Writing, Speaking, Grammar, Vocabulary, topshiriqlar va natijalar bitta platformada jamlangan.</p></details><details><summary>Platformaga qanday kiraman?</summary><p>Saytga Telegram orqali hisob yaratib kirishingiz mumkin.</p></details><details><summary>Savol yoki taklif bo‘lsa, kimga yozaman?</summary><p>Savol va takliflaringizni administratorga yuboring.</p><a href="https://t.me/learnersareaaccessbot">Adminga yozish ↗</a></details></div></section>
+<section id="bandJourney">
+ <div>
+  <div></div>
+  <div id="bandStory">
+   <div>
+    <div><p>KEYINGI QADAM</p>
+     <h2>Qaysi ko‘nikma sizni ortga tortayotganini <em>aniqlang.</em></h2>
+     <p>17 ta savol orqali taxminiy darajangizni biling. Maqsadni belgilang, keyin Learners Area’da 30 kunlik o‘quv rejangizni boshlang.</p>
+      <div><a href="#test">Testni boshlash →</a><a href="/register">Hisob yaratish →</a></div>
+    </div>
+    <div><span>MAQSAD</span><strong>IELTS 9.0</strong><span>TEST</span><strong>Bepul</strong><span>KIRISH</span><strong>Telegram orqali</strong><small>Natijangiz o‘zingiz bilan.</small></div>
+   </div>
   </div>
+  <div id="bigBandNumber"><span>9</span><span>.</span><span>0</span></div>
+ </div>
 </section>
+<footer><div><span>© 2026 Learners Area · Barcha huquqlar himoyalangan.</span><span><a href="https://t.me/Learnersareaaccessbot">Telegram</a></span></div></footer>
+
+</main>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Learners Area saytida qanday imkoniyatlar mavjud?", "acceptedAnswer": {"@type": "Answer", "text": "Bu yerda IELTS va ingliz tili bo‘yicha Listening, Reading, Writing, Speaking, Grammar, Vocabulary, topshiriqlar va natijalar bitta platformada jamlangan."}}, {"@type": "Question", "name": "Platformaga qanday kiraman?", "acceptedAnswer": {"@type": "Answer", "text": "Saytga Telegram orqali hisob yaratib kirishingiz mumkin."}}, {"@type": "Question", "name": "Savol yoki taklif bo‘lsa, kimga yozaman?", "acceptedAnswer": {"@type": "Answer", "text": "Savol va takliflaringizni administratorga yuboring."}}]}</script>
 <!--public-content-end--></div><noscript>O‘quv kabinetidagi mashqlarni ishlatish uchun JavaScript’ni yoqing.</noscript></body>
 </html>

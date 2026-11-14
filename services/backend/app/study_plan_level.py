@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import secrets
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +19,56 @@ QUESTION_COUNT = 17
 PASS_SCORE = 11
 BASE_QUESTIONS = QUESTIONS_PER_SKILL * len(SKILLS)
 BASE_THRESHOLDS = {'A1': 11, 'A2': 11, 'B1': 11, 'B2': 12, 'C1': 13, 'C2': 14}
+PUBLIC_HINT_TTL = timedelta(hours=24)
+
+
+def score_public_hint(data: object, *, now: datetime | None = None,
+                      bank: dict[str, dict] | None = None) -> dict | None:
+    """Re-grade raw public answers; reported levels and scores are never authority."""
+    if not isinstance(data, dict) or type(data.get('version')) is not int or data['version'] != 1:
+        return None
+    if data.get('source') != 'public-level-check' or not isinstance(data.get('created_at'), str):
+        return None
+    try:
+        created = datetime.fromisoformat(data['created_at'].replace('Z', '+00:00'))
+        age = (now or datetime.now(timezone.utc)) - created
+    except (TypeError, ValueError):
+        return None
+    if not timedelta(seconds=-60) <= age < PUBLIC_HINT_TTL:
+        return None
+    rows = data.get('raw_answers')
+    if not isinstance(rows, list) or len(rows) != QUESTION_COUNT:
+        return None
+    owned = read_bank() if bank is None else bank
+    ids, counts, skills, correct = set(), [0] * 6, {skill: 0 for skill in SKILLS}, [0] * 6
+    weighted = maximum = total = 0
+    for row in rows:
+        if not isinstance(row, dict) or set(row) != {'id', 'answer'} or not isinstance(row['id'], str):
+            return None
+        question = owned.get(row['id'])
+        if question is None or row['id'] in ids:
+            return None
+        level = LEVELS.index(question['level'])
+        # The visible public bank uses the first one/two canonical items per skill.
+        if row['id'] not in {f"{question['level']}-{question['skill']}-{i}"
+                             for i in range(1, (1 if level < 3 else 2) + 1)}:
+            return None
+        answer = row['answer']
+        if type(answer) is not int or not -1 <= answer < len(question['options']):
+            return None
+        ids.add(row['id'])
+        counts[level] += 1
+        skills[question['skill']] += 1
+        maximum += level + 1
+        if answer == question['answer']:
+            correct[level] += 1
+            weighted += level + 1
+            total += 1
+    if counts != [2, 3, 3, 3, 3, 3] or any(count < 2 for count in skills.values()):
+        return None
+    index = sum(weighted / maximum >= threshold for threshold in (.22, .38, .54, .70, .86))
+    secondary = max((level for level, value in enumerate(correct) if value >= 2), default=-1)
+    return {'level': LEVELS[min(index, secondary + 1)], 'correct': total}
 
 
 def read_bank(path: Path = BANK_FILE) -> dict[str, dict]:

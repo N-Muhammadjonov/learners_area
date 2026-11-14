@@ -4,6 +4,7 @@ import logging
 import asyncio
 import json
 import math
+import time
 from uuid import UUID
 from contextlib import asynccontextmanager
 from fastapi import Request
@@ -19,15 +20,49 @@ _pool = None
 _pool_lock = None
 
 
+class TimedAcquire:
+    """Preserve asyncpg's await/context-manager interface while timing only acquire."""
+    def __init__(self, lease, observe):
+        self.lease = lease
+        self.observe = observe
+
+    async def _wait(self):
+        start = time.monotonic()
+        try:
+            return await self.lease
+        finally:
+            self.observe(time.monotonic() - start)
+
+    def __await__(self):
+        return self._wait().__await__()
+
+    async def __aenter__(self):
+        start = time.monotonic()
+        try:
+            return await self.lease.__aenter__()
+        finally:
+            self.observe(time.monotonic() - start)
+
+    async def __aexit__(self, *args):
+        return await self.lease.__aexit__(*args)
+
+
 class BoundedPool:
     """Keep every existing acquire call bounded, including context-manager use."""
     def __init__(self, raw, acquire_timeout):
         self._raw = raw
         self.acquire_timeout = acquire_timeout
+        self._acquire_warning_at = float('-inf')
+
+    def _observe_acquire(self, seconds):
+        now = time.monotonic()
+        if seconds > .25 and now - self._acquire_warning_at >= 60:
+            self._acquire_warning_at = now
+            LOG.warning('Database pool acquire wait exceeded 250ms: wait_ms=%.0f', seconds * 1000)
 
     def acquire(self, *, timeout=None):
         wait = self.acquire_timeout if timeout is None else min(timeout, self.acquire_timeout)
-        return self._raw.acquire(timeout=wait)
+        return TimedAcquire(self._raw.acquire(timeout=wait), self._observe_acquire)
 
     def __getattr__(self, name):
         return getattr(self._raw, name)

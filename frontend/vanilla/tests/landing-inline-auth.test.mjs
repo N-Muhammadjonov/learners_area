@@ -6,13 +6,16 @@ import {LANDING_HTML} from '../modules/landing-inline.js';
 
 const read = relative => readFileSync(new URL(relative,import.meta.url),'utf8');
 
-test('public login eagerly includes the landing document in the same module graph',()=>{
+test('only landing routes dynamically load the landing document',()=>{
  const source=read('../modules/auth/public.js');
  const routes=read('../js/routes.js');
- assert.match(source,/import \{LANDING_HTML\} from '\.\.\/landing-inline\.js'/);
+ assert.match(source,/await import\('\.\.\/landing-inline\.js'\)/);
+ assert.doesNotMatch(source,/^import .*landing-inline/m);
  assert.match(source,/frame\.srcdoc=LANDING_HTML/);
  assert.match(source,/frame\.setAttribute\('loading','eager'\)/);
  assert.match(routes,/pattern:"\/landing",load:\(\)=>import\('\.\.\/modules\/auth\/public\.js'\)/);
+ assert.match(read('../index.html'),/data-public-landing-fallback/);
+ assert.match(read('../index.html'),/href="\/register"/);
  assert.match(read('../index.html'),/class="la-static-landing"/);
 });
 

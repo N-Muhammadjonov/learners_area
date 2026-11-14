@@ -1,3 +1,4 @@
+import {consumePublicLevelHint} from '../public-level-hint.js';
 import {privateScope} from '../private-scope.js';
 import {api,ApiError} from '../api-client.js';
 import {viewPolicy,presentationKey} from '../cache-policy.js';
@@ -13,7 +14,7 @@ export function validatePublic(value){const p=value?.public,a=p?.auth;
  if(value?.version!==1||p?.diagnostics!==undefined&&typeof p.diagnostics!=='boolean'||!a||['passwordEnabled','telegramOnly','telegramIntentEnabled','telegramConfigured','googleConfigured'].some(k=>typeof a[k]!=='boolean')||a.diagnostics!==undefined&&typeof a.diagnostics!=='boolean'||a.telegramOnly&&a.passwordEnabled||a.telegramConfigured&&(!a.botUsername||!/^[A-Za-z0-9_]{5,32}$/.test(a.botUsername)))throw new ApiError(502,'invalid_public_adapter');return p;
 }
 export async function publicPresentation(signal){return validatePublic(await api.request(ADAPTERS.public,{signal}));}
-export async function sessionPresentation(signal){return validateSession(await api.request(ADAPTERS.session,{signal}));}
+export async function sessionPresentation(signal){const session=validateSession(await api.request(ADAPTERS.session,{signal}));if(session.user.accountStatus==='active'&&['student','owner'].includes(session.user.role))void consumePublicLevelHint();return session;}
 function viewPath(route,region){if(region!==undefined&&!['dashboard','openLessons','mock','progressSummary','progressStreak','progressTrends','progressMocks'].includes(region))throw new TypeError('Unknown view region');return ADAPTERS.view+'?route='+encodeURIComponent(route)+(region?'&region='+region:'');}
 export function viewSnapshot(route,region){const policy=viewPolicy(route);if(!policy?.snapshot)return undefined;const row=privateScope.inspect(presentationKey('view',viewPath(route,region)));return row?{data:structuredClone(row.value),stale:row.stale}:undefined;}
 export async function viewData(route,signal,region,{fresh=false,maxBytes}={}){

@@ -9,6 +9,7 @@ import base64
 import hashlib
 import hmac
 import json
+import logging
 import math
 import os
 import re
@@ -24,6 +25,23 @@ SESSION_COOKIE = 'la_session'
 SESSION_TTL = 60 * 60 * 24 * 30
 JS_MAX_SAFE_INTEGER = 2 ** 53 - 1
 ROLES = {'student', 'teacher', 'admin', 'owner', 'guardian'}
+_startup_warnings: set[str] = set()
+
+
+def warn_deployment_settings() -> None:
+    """One warning per process and concern, without logging configuration values."""
+    mode = environment()
+    log = logging.getLogger('uvicorn.error')
+    if mode in ('production', 'preview') and len(os.getenv('AUTH_SECRET', '')) < 32:
+        if 'auth_secret' not in _startup_warnings:
+            _startup_warnings.add('auth_secret')
+            log.warning('AUTH_SECRET is shorter than 32 characters; generate at least 32 random characters for a planned future rotation. The 16-character minimum is unchanged.')
+    origin_secret = os.getenv('CLOUDFLARE_ORIGIN_SECRET', '')
+    verified_edge = (32 <= len(origin_secret) <= 256 and origin_secret.isascii()
+                     and not any(char.isspace() for char in origin_secret))
+    if mode == 'production' and not verified_edge and 'peer_identity' not in _startup_warnings:
+        _startup_warnings.add('peer_identity')
+        log.warning('Rate-limit identity uses the unverified peer IP. Proxy users can share the login_ip bucket (default 40 reservations per 900 seconds). See docs/RATE-LIMIT-DEPLOYMENT-BOUNDARY.md; forwarding-header trust is unchanged.')
 
 
 def _b64(data: bytes) -> str:

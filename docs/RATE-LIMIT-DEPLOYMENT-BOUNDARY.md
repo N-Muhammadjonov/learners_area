@@ -1,59 +1,42 @@
-# Shared rate limiting: current Python deployment boundary
+# Rate-limit va proxy chegarasi
 
-The active implementation is `services/backend/app/rate_limit.py`, not the retired
-TypeScript process-local limiter. All deployed replicas/functions use PostgreSQL
-`api_rate_buckets` (migration 0071); AI multi-budget admission uses
-`la_claim_ai_provider_v1` (0072). A host/region change does not create independent
-in-memory quotas. This source repair requires no new production migration.
+`client_key()` faqat `OriginBoundary` tekshirgan `cf-connecting-ip` qiymatini
+foydalanuvchi IP manzili sifatida qabul qiladi. Boshqa holatda TCP peer IP
+ishlatiladi. `uvicorn proxy_headers=False` saqlanadi. `TRUST_PROXY_HEADERS=true`
+origin hisoblashga ta'sir qiladi, rate-limit identifikatsiyasini tasdiqlamaydi.
 
-## Enforcement and failure behavior
+Cloudflare origin chegarasi yoqilmagan proxy ortida barcha foydalanuvchilar bitta
+`login_ip` bucketiga tushishi mumkin. Standart limit 900 soniyada 40 ta rezerv.
+Rezerv bajarilayotgan so'rovni ham hisoblaydi. Muvaffaqiyatli login yoki `WorkBusy`
+holatida mavjud release mantiqi ishlaydi. Bu faqat muvaffaqiyatsiz urinishlar
+hisoblagichi emas.
 
-- Atomic database updates reserve capacity before sensitive work, including
-  password comparison. Bucket keys use HMAC with the stable environment-specific
-  `AUTH_SECRET`; secrets/account identifiers are not stored as plain bucket keys.
-- Counters survive process restarts. Fixed windows and cleanup are bounded; this
-  is not a claim of sliding-window precision. `RATE_LIMIT_<RULE>` overrides are
-  bounded by the implementation. AI limits cannot be raised above safe ceilings.
-- `RATE_LIMIT_BACKEND=memory` is rejected in production and preview, including
-  managed deployments without explicit APP_ENV. Missing/unavailable shared state
-  fails closed with controlled service unavailability; it does not silently
-  grant requests or fall back to per-process counters. `/readyz` verifies the
-  operational schema and AI function before accepting the service as ready.
-- Quota exhaustion returns 429 with Retry-After. Request admission can separately
-  return 503 under load. These are protective capacity responses, not successful
-  saves. A saved/acknowledged learner write must never be discarded to improve
-  timing. Provider failure preserves saved submissions and bounded retry paths.
-- The existing AI claim/lease mechanism bounds global/user/request slots and
-  hourly budgets. External timeouts and ambiguous completion do not grant
-  unlimited paid retries. Deployment does not reset shared spend counters.
+`rate_limit.py::_limits()` va `counter()` aniq `RATE_LIMIT_LOGIN_IP` o'zgaruvchisini
+o'qiydi. Masalan, operator tasdiqlagan qisqa muddatli sinov uchun
+`RATE_LIMIT_LOGIN_IP=120` qo'yish mumkin. 900 soniyalik oyna o'zgarmaydi.
+Qiymatni kuzatilgan yuklamaga mos cheklang; `RATE_LIMIT_LOGIN_ACCOUNT=8` himoyasini
+saqlang. Ilova uchun cheksiz yoki avtomatik ko'tariladigan override yo'q.
+Standart qiymatlar bu o'zgarishda o'zgartirilmagan.
 
-## Client identity and proxy trust
+Barqaror yechim — faqat oldindan vakolat berilgan deploy ishida Cloudflare va
+Railway tomonlarida bir xil origin tekshiruvini sozlash. Oddiy forwarding
+headerlarini ishonchli deb belgilash rate-limit muammosini xavfsiz hal qilmaydi.
+Bu branch production sozlamalari yoki secretlarini o'qimaydi va o'zgartirmaydi.
 
-`client_key` accepts a valid CF-Connecting-IP literal only after OriginBoundary
-verified the configured edge secret. Without that proof, it uses the transport
-peer IP and ignores X-Forwarded-For, X-Real-IP and provider-branded headers.
-Malformed/duplicated values do not establish a new trusted identity. Rotating
-caller-supplied headers cannot evade the IP bucket.
+Telegram redirect va video `embedOrigin` endi `security.request_origin()`dan
+foydalanadi. U `TRUST_PROXY_HEADERS=true` bo'lsa tekshirilgan formatdagi forwarded
+host/protoni oladi; aks holda so'rov originini saqlaydi. `PUBLIC_BASE_URL`
+`check_origin()`dagi ruxsat etilgan originlar ro'yxatiga kiradi, lekin amaldagi
+`request_origin()` uning qiymatini qaytarish uchun ishlatmaydi. Bu trust mantiqi
+ushbu tuzatishda o'zgartirilmagan.
 
-Behind an unverified hosting proxy several users may share its peer-IP bucket.
-That conservative restriction is intentional until a reviewed trusted boundary
-is installed. `TRUST_PROXY_HEADERS` controls CSRF origin resolution only; it does
-not grant rate-limit identity trust. Never enable an origin secret on one side
-without the matching edge rule. Health/readiness exceptions do not open learner
-or upload routes. The bot credential exception is restricted to its internal
-Telegram API prefix and does not attest a Cloudflare client address.
+AUTH_SECRET kamida 16 belgilik avvalgi minimumni saqlaydi. Yangi sozlashda kamida
+32 tasodifiy belgi yarating: `openssl rand -base64 48`. 16–31 belgilik qiymat
+production/preview startupida faqat ogohlantirish beradi. Secret rotatsiyasi
+mavjud sessiyalarni bekor qiladi; bu branch rotatsiya qilmaydi.
 
-## Operational compatibility
-
-All replicas in one environment need the same AUTH_SECRET and shared database;
-preview needs separate resources. Sum per-replica pool sizes before scaling. Do
-not drop 0071/0072 when rolling back compatible code. Monitor 429/503, acquire wait
-and PostgreSQL capacity; raising limits or trusting unverified headers is not a
-performance fix. Registration's existing email_taken response is a retained
-product behavior, not a promise of account-enumeration elimination.
-
-Regression evidence comes from `tests/test_shared_limits.py`,
-`tests/test_origin_boundary.py`, `tests/test_runtime_portability.py` and the real
-PostgreSQL probes/integration suite. The final release receipt records actual
-counts; old Next.js/Map measurements are historical Git evidence, not the current
-runtime contract.
+`is_https()` o'zgartirilmagan. Hozirgi kod forwarded HTTPS belgisi orqali Secure
+cookie qo'yadi. Jonli Railway sozlamalari tekshirilmagani va ularni o'qish scope
+tashqarisida bo'lgani uchun bu himoyani toraytirish tasdiqlanmadi.
+Srcdoc `postMessage('*')` ham saqlangan: bu muhitda haqiqiy brauzer tekshiruvi
+bloklandi. Parent tomonidagi source/origin/path tekshiruvlari saqlanadi.

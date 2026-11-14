@@ -12,9 +12,9 @@ test('assigned source lessons are accepted; unavailable != empty, locked/schedul
 test('mock dates hydrate on a copy and original owned outcomes are never recomputed',()=>{const raw={...valid().mock,finishedCount:1,attempts:[{id:'isolated',mockTestId:null,title:null,skill:'full',startedAt:'2026-10-17T12:00:00Z',finishedAt:'2026-10-18T00:00:00Z',estimatedBand:7,rawScore:30}]};const clean=mockDTO(raw);assert(clean.attempts[0].finishedAt instanceof Date);assert.equal(typeof raw.attempts[0].finishedAt,'string');assert.equal(clean.attempts[0].estimatedBand,7);assert.equal(clean.attempts[0].mockTestId,null);});
 test('mock unknown/malformed fields do not become empty/successful attempts',()=>{assert.throws(()=>mockDTO({tests:[],attempts:[]}));assert.throws(()=>mockDTO({...valid().mock,finishedCount:0,attempts:[{id:'bad',finishedAt:'bad'}]}));});
 test('all source dashboard slots initially load independently without reading absent DTOs',()=>{setup();const slots={},renderers={},n=render({slots,renderers,dict,locale:'en',user:fixtureSession().session.user,context:{}});assert.equal(n.querySelectorAll('[data-dashboard-region-slot]').length,2);assert.deepEqual(Object.keys(renderers).sort(),['dashboard','mock','openLessons']);assert(!n.querySelector('[data-dashboard-content]'));});
-test('dashboard streams three regions plus separate thirty-day plan and aborts stale responses',async()=>{const ctx=setup(),resolvers=[],paths=[];api.request=(path)=>{paths.push(path);return new Promise(r=>resolvers.push(r));};await mount(ctx);assert.equal(paths.length,4);assert.equal(ctx.root.querySelector('[data-dashboard-plan-open]'),null);assert.equal(ctx.root.querySelector('[data-dashboard-companion-link]').getAttribute('href'),'/app/speaking/speak-or-die');assert(ctx.root.querySelector('[data-dashboard-companion-link] svg'),'existing Speak or Die companion is reused');assert(ctx.root.querySelector('.la-dashboard-top-grid > [data-dashboard-30-plan]'),'plan has its own rectangle next to the hero');
+test('dashboard streams three regions plus separate thirty-day plan and aborts stale responses',async()=>{const ctx=setup(),resolvers=[],paths=[];api.request=(path)=>{paths.push(path);return new Promise(r=>resolvers.push(r));};await mount(ctx);assert.equal(paths.length,4);assert.equal(ctx.root.querySelector('[data-dashboard-plan-open]'),null);assert.equal(ctx.root.querySelector('[data-dashboard-companion-link]'),null);assert(ctx.root.querySelector('.la-dashboard-companion svg'),'existing Speak or Die companion is reused');assert(ctx.root.querySelector('.la-dashboard-top-grid > [data-dashboard-30-plan]'),'plan has its own rectangle next to the hero');
 assert.equal(ctx.root.querySelector('.la-dashboard-top-grid').children.length,2);
-assert(ctx.root.querySelector('.la-dashboard-hero h1').nextElementSibling?.matches('[data-dashboard-companion-link]'),'companion sits beneath the greeting');assert.equal(ctx.root.querySelector('[data-dashboard-study-plan]'),null,'old weekly plan no longer duplicates dashboard card');assert(paths.includes('/api/study-plan/monthly/sequence'));assert(paths.some(p=>p.endsWith('&region=openLessons')));assert(paths.some(p=>p.endsWith('&region=dashboard')));assert(paths.some(p=>p.endsWith('&region=mock')));controller.abort();ctx.root.textContent='newer route';for(const resolve of resolvers)resolve({version:1,route:'/app',data:valid()});await tick();assert.equal(ctx.root.textContent,'newer route');});
+assert(ctx.root.querySelector('.la-dashboard-hero h1').nextElementSibling?.matches('.la-dashboard-companion'),'companion sits beneath the greeting');assert.equal(ctx.root.querySelector('[data-dashboard-study-plan]'),null,'old weekly plan no longer duplicates dashboard card');assert(paths.includes('/api/study-plan/monthly/sequence'));assert(paths.some(p=>p.endsWith('&region=openLessons')));assert(paths.some(p=>p.endsWith('&region=dashboard')));assert(paths.some(p=>p.endsWith('&region=mock')));controller.abort();ctx.root.textContent='newer route';for(const resolve of resolvers)resolve({version:1,route:'/app',data:valid()});await tick();assert.equal(ctx.root.textContent,'newer route');});
 
 test('owner dashboard mounts plan and Speak or Die companion in the greeting',async()=>{
   const ctx=setup(),paths=[];
@@ -22,11 +22,10 @@ test('owner dashboard mounts plan and Speak or Die companion in the greeting',as
   api.request=path=>{paths.push(path);return new Promise(()=>{});};
   await mount(ctx);
   assert(ctx.root.querySelector('.la-dashboard-top-grid > [data-dashboard-30-plan]'));
-  assert(ctx.root.querySelector('.la-dashboard-hero [data-dashboard-companion-link] svg'));
-  assert.equal(ctx.root.querySelector('.la-dashboard-hero h1')?.nextElementSibling?.getAttribute('data-dashboard-companion-link'),'',
+  assert(ctx.root.querySelector('.la-dashboard-hero .la-dashboard-companion svg'));
+  assert.equal(ctx.root.querySelector('.la-dashboard-hero h1')?.nextElementSibling?.classList.contains('la-dashboard-companion'),true,
     'companion belongs immediately below the greeting and learner name');
-  assert.equal(ctx.root.querySelector('[data-dashboard-companion-link]').getAttribute('href'),
-    '/app/speaking/speak-or-die');
+  assert.equal(ctx.root.querySelector('[data-dashboard-companion-link]'),null);
   assert(paths.includes('/api/study-plan/monthly/sequence'));
 });
 

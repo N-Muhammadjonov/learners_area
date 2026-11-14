@@ -41,6 +41,8 @@ async def _rejected_account_cleanup():
 
 @asynccontextmanager
 async def lifespan(app):
+    from .security import warn_deployment_settings
+    warn_deployment_settings()
     worker_state = control.start()
     from .ai_runtime import control as ai_control
     ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.

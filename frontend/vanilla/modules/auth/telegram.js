@@ -1,3 +1,4 @@
+import {consumePublicLevelHint} from '../../js/public-level-hint.js';
 import {anySignal} from '../../js/signals.js';
 import {publishSessionEvent} from '../../js/session-events.js';
 import {el,listen} from '../../js/dom.js';
@@ -56,7 +57,8 @@ export function telegram(context,auth,purpose){
    const data=accountResult(await api.request('/api/auth/telegram/intent/exchange',{method:'POST',body:{...pair,...registration},signal:flight}),'login');if(flight.aborted)return;pending=null;
    if(['link','replace'].includes(purpose)){waiting=false;link=null;paint();}else if(data.outcome==='suspended'||data.accountStatus==='suspended')error=t.telegramSuspended;else if(purpose==='register'&&data.outcome==='already_pending')error=t.telegramAlreadyPending;else if(purpose==='register'&&['pending','reopened'].includes(data.outcome))error=t.telegramRegisterPending;else if(purpose==='register'&&data.outcome==='already_active')error=t.telegramAlreadyActive;paint();
    const destination=['link','replace'].includes(purpose)?'/app/profile':data.outcome==='suspended'||data.accountStatus==='suspended'?'/pending':purpose==='register'&&(['pending','reopened','already_pending'].includes(data.outcome)||data.accountStatus!=='active')?'/pending':safeNextPath(url.searchParams.get('next'))??(data.onboarded?'/app':'/onboarding');
-   publishSessionEvent('refresh');context.invalidateSession?.();await navigate(destination);return;
+   void consumePublicLevelHint();
+    publishSessionEvent('refresh');context.invalidateSession?.();await navigate(destination);return;
   }
   if(!flight.aborted)throw {code:'expired'};
  }catch(e){if(!flight.aborted){waiting=false;if(e?.code==='expired'||e?.code==='intent_not_confirmed')link=null;error=failure(e,dict,known);paint();}}

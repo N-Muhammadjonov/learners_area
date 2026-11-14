@@ -36,25 +36,10 @@ def test_sql_migrations_unchanged_from_original_sha256():
     }
     assert set(expected) <= set(actual), 'A baseline SQL migration is missing'
     assert {name: actual[name] for name in expected} == expected, 'A baseline SQL migration changed'
-    approved_additions = {
-        '0066_notification_event_idempotency.sql',
-        '0067_assignment_deadline_indexes.sql',
-        '0068_writing_model_pattern_capacity.sql',
-        '0069_video_progress_playback_duration.sql',
-        '0071_shared_abuse_limits.sql',
-        '0072_ai_provider_admission.sql',
-        '0073_live_classes_youtube_chat_attendance.sql',
-        '0075_riwi_core_and_governance.sql',
-        '0076_riwi_assessments_and_security_signals.sql',
-        '0077_riwi_speaking_sessions_and_activity_indexes.sql',
-        '0078_riwi_server_only_tables.sql',
-        '0079_riwi_canonical_task_metadata.sql',
-        '0080_study_plan.sql',
-        '0081_monthly_study_plan.sql',
-        '0082_live_partner_features.sql',
-    }
-    assert set(actual) - set(expected) == approved_additions
-    assert len(actual) == len(expected) + len(approved_additions)
+    additions = json.loads((ROOT/'tests/migration-additions.json').read_text())
+    assert set(actual) == set(expected) | set(additions)
+    assert {name: actual[name] for name in additions} == additions
+
 
 
 def test_port_status_no_duplicates():

@@ -1,0 +1,2132 @@
+[
+  {
+    "method": "POST",
+    "path": "/api/admin/admission/{id}/decide",
+    "name": "decide"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/authoring-capabilities",
+    "name": "content_capabilities"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/bank",
+    "name": "content_bank"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/content/drafts",
+    "name": "content_drafts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/import",
+    "name": "import_capabilities"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/content/import",
+    "name": "generic_import"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/items",
+    "name": "admin_content_items"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/items/{module}/{contentType}/{sourceRef}",
+    "name": "content_item_versions"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/lessons/{id}/edit",
+    "name": "lesson_editor"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/content/lessons/{id}/revision",
+    "name": "revise"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/previews",
+    "name": "preview_inventory"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/template",
+    "name": "content_template"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/content/validate",
+    "name": "content_validate"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/content/versions/{id}/preview",
+    "name": "preview"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/content/versions/{id}/publication",
+    "name": "version_publication"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/content/{type}/{id}",
+    "name": "delete_content"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/content/{type}/{id}/publication",
+    "name": "publication"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/grammar/import",
+    "name": "grammar_import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/grammar/topics",
+    "name": "admin_grammar_topics"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/grammar/topics/{id}/exercises",
+    "name": "grammar_exercise"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/listening/import",
+    "name": "listening_import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/listening/tests",
+    "name": "listening_test_create"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/listening/tests/{id}",
+    "name": "delete_listening_test"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/listening/tests/{id}",
+    "name": "rename_listening_test"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/listening/tests/{id}/convert",
+    "name": "get_converter"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/listening/tests/{id}/convert",
+    "name": "convert_listening"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/listening/tests/{id}/questions",
+    "name": "listening_question"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/people/refresh-telegram",
+    "name": "refresh_people"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/reading/import",
+    "name": "reading_import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/reading/passages",
+    "name": "admin_reading_passages"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/reading/passages/{id}/questions",
+    "name": "reading_question"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/retention/texts",
+    "name": "list_texts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/retention/texts",
+    "name": "retention_create"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/retention/texts/{id}",
+    "name": "delete"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/retention/texts/{id}",
+    "name": "detail"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/retention/texts/{id}",
+    "name": "active"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/retention/texts/{id}/versions",
+    "name": "retention_version"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/retention/validate",
+    "name": "retention_validate"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/roster",
+    "name": "roster"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/uploads/cleanup",
+    "name": "cleanup_uploads"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/users/{id}",
+    "name": "delete_suspended_student"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/users/{id}/role",
+    "name": "change_role"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/users/{id}/status",
+    "name": "change_account_status"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/video-lessons",
+    "name": "staff_video_lessons"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/video-lessons",
+    "name": "admin_video_create"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/writing-prompts",
+    "name": "legacy_prompt"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/writing/{kind}",
+    "name": "create_writing"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/admin/writing/{kind}/{id}",
+    "name": "update_writing"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admission/request",
+    "name": "admission_request"
+  },
+  {
+    "method": "GET",
+    "path": "/api/assignments",
+    "name": "get_assignments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/assignments",
+    "name": "assignments_create"
+  },
+  {
+    "method": "GET",
+    "path": "/api/assignments/assignable",
+    "name": "assignable"
+  },
+  {
+    "method": "POST",
+    "path": "/api/assignments/{id}/evaluate",
+    "name": "assignment_evaluate"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/changes",
+    "name": "changes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/google/callback",
+    "name": "callback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/google/start",
+    "name": "google_start"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/login",
+    "name": "login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/logout",
+    "name": "logout"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/recovery/login",
+    "name": "recovery_login"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/register",
+    "name": "register"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/reset/confirm",
+    "name": "auth_reset_confirm"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/reset/request",
+    "name": "auth_reset_request"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/state",
+    "name": "auth_state"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/telegram/callback",
+    "name": "telegram_callback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/telegram/intent",
+    "name": "telegram_intent_create"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/telegram/intent/cancel",
+    "name": "telegram_intent_cancel"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/telegram/intent/exchange",
+    "name": "intent_exchange"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/telegram/intent/status",
+    "name": "telegram_intent_status"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/admin/gifts",
+    "name": "admin_gifts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coins/admin/gifts",
+    "name": "create_gift"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/coins/admin/gifts/{gift_id}",
+    "name": "update_gift"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/admin/purchases",
+    "name": "owner_purchases"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/coins/admin/purchases/{purchase_id}",
+    "name": "resolve_purchase"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/daily",
+    "name": "daily_read"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coins/daily/claim",
+    "name": "daily_claim"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/gifts",
+    "name": "gifts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coins/gifts/{gift_id}/purchase",
+    "name": "purchase_gift"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coins/grammar-book/complete",
+    "name": "grammar_book"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coins/media/heartbeat",
+    "name": "heartbeat"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/policy",
+    "name": "policy"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/purchases",
+    "name": "purchases"
+  },
+  {
+    "method": "POST",
+    "path": "/api/coins/referral-link",
+    "name": "referral_link"
+  },
+  {
+    "method": "GET",
+    "path": "/api/coins/wallet",
+    "name": "coin_wallet"
+  },
+  {
+    "method": "GET",
+    "path": "/api/dictionary/entries/{lexemeId}",
+    "name": "dictionary_entry"
+  },
+  {
+    "method": "POST",
+    "path": "/api/dictionary/entries/{lexemeId}",
+    "name": "remember"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/dictionary/recent",
+    "name": "dictionary_recent_clear"
+  },
+  {
+    "method": "GET",
+    "path": "/api/dictionary/recent",
+    "name": "get_recent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/dictionary/save",
+    "name": "save_sense"
+  },
+  {
+    "method": "GET",
+    "path": "/api/dictionary/search",
+    "name": "dictionary_search"
+  },
+  {
+    "method": "POST",
+    "path": "/api/grammar/exercises/{id}/practice",
+    "name": "grammar_practice"
+  },
+  {
+    "method": "POST",
+    "path": "/api/grammar/exercises/{id}/produce",
+    "name": "grammar_produce"
+  },
+  {
+    "method": "POST",
+    "path": "/api/grammar/topics/{id}/submit",
+    "name": "submit_grammar_topic"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children",
+    "name": "guardian_children"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children/{student_id}/leaderboard",
+    "name": "guardian_leaderboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children/{student_id}/progress",
+    "name": "guardian_progress"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardians/invitations",
+    "name": "web_create_invitation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardians/links",
+    "name": "web_links"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardians/links/{link_id}/approve",
+    "name": "web_approve"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardians/links/{link_id}/reject",
+    "name": "web_reject"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardians/links/{link_id}/revoke",
+    "name": "web_revoke"
+  },
+  {
+    "method": "GET",
+    "path": "/api/history",
+    "name": "history"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/admins",
+    "name": "list_admins"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/admins",
+    "name": "add_admin"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/internal/telegram/admins/{telegramUserId}",
+    "name": "delete_admin"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/internal/telegram/admins/{telegramUserId}",
+    "name": "patch_admin"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/admission/decide",
+    "name": "bot_admission_decide"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/admission/pending",
+    "name": "telegram_pending_admissions"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/admission/request",
+    "name": "bot_admission_request"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/auth/confirm",
+    "name": "telegram_auth_confirm"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/auth/handoff",
+    "name": "create_handoff"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/auth/preflight",
+    "name": "telegram_auth_preflight"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/broadcasts",
+    "name": "broadcasts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/broadcasts/claim",
+    "name": "claim"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/broadcasts/{id}",
+    "name": "status"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/broadcasts/{id}",
+    "name": "cancel"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/coins/referral",
+    "name": "record_referral"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/coins/referral-link",
+    "name": "bot_referral_link"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/contacts",
+    "name": "post_contacts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/contacts/phone",
+    "name": "bot_contact_phone"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/contacts/{telegramId}/message",
+    "name": "directory_contact_message"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/contacts/{telegramUserId}",
+    "name": "get_telegram_contact"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/contacts/{telegramUserId}/remove",
+    "name": "remove_unlinked_telegram_contact"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/directory",
+    "name": "search_directory"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/directory/{userId}",
+    "name": "directory_detail"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/directory/{userId}/delete",
+    "name": "delete_from_bot"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/directory/{userId}/message",
+    "name": "directory_message"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/directory/{userId}/parents",
+    "name": "student_parents"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/directory/{userId}/remove",
+    "name": "directory_remove"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/directory/{userId}/results",
+    "name": "directory_results"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/directory/{userId}/status",
+    "name": "directory_status"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/directory/{userId}/unlink",
+    "name": "directory_unlink"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/drafts",
+    "name": "flow_drafts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/check-channel",
+    "name": "bot_check_channel"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/decide",
+    "name": "bot_decide"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/deliveries/claim",
+    "name": "bot_claim_deliveries"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/invitations",
+    "name": "bot_invitation"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/redeem",
+    "name": "bot_redeem"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/relationship",
+    "name": "bot_relationship"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/replies",
+    "name": "bot_guardian_reply"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/replies/claim",
+    "name": "bot_claim_guardian_replies"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/guardians/state",
+    "name": "bot_state"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/guardians/student-links",
+    "name": "bot_student_links"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/notifications",
+    "name": "get_notifications"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/notifications",
+    "name": "queue_notifications"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/internal/telegram/notifications",
+    "name": "put_notifications"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/ops",
+    "name": "get_ops"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/internal/telegram/ops",
+    "name": "patch_ops"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/owner",
+    "name": "get_owner"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/owner/handover",
+    "name": "handover"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/owner/transfer",
+    "name": "owner_transfer_callback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/parents",
+    "name": "parent_directory"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/parents/{profileId}",
+    "name": "parent_detail"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/ready",
+    "name": "telegram_ready"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/required-channels",
+    "name": "get_required_channels"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/required-channels",
+    "name": "post_required_channels"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/support/threads",
+    "name": "support_list"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/support/threads",
+    "name": "support_create"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/support/threads/{id}",
+    "name": "support_detail"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/support/threads/{id}/actions",
+    "name": "support_action"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/support/threads/{id}/messages",
+    "name": "support_reply"
+  },
+  {
+    "method": "POST",
+    "path": "/api/internal/telegram/updates",
+    "name": "webhook_update"
+  },
+  {
+    "method": "GET",
+    "path": "/api/internal/telegram/users/{telegramUserId}",
+    "name": "telegram_user"
+  },
+  {
+    "method": "POST",
+    "path": "/api/lessons/blocks/{blockId}/answer",
+    "name": "answer_lesson"
+  },
+  {
+    "method": "GET",
+    "path": "/api/lessons/units",
+    "name": "unit_options"
+  },
+  {
+    "method": "GET",
+    "path": "/api/lessons/{id}",
+    "name": "read_lesson"
+  },
+  {
+    "method": "GET",
+    "path": "/api/lessons/{id}/notes",
+    "name": "lesson_note_read"
+  },
+  {
+    "method": "POST",
+    "path": "/api/lessons/{id}/notes",
+    "name": "lesson_note_save"
+  },
+  {
+    "method": "POST",
+    "path": "/api/lessons/{id}/state",
+    "name": "set_lesson_state"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/attempts",
+    "name": "start_attempt"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/listening/attempts/{id}/draft",
+    "name": "save_listening_draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/attempts/{id}/submit",
+    "name": "submit"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/full/{id}/activity",
+    "name": "activity"
+  },
+  {
+    "method": "GET",
+    "path": "/api/listening/full/{id}/authored",
+    "name": "authored"
+  },
+  {
+    "method": "GET",
+    "path": "/api/listening/full/{id}/authored-state",
+    "name": "authored_state"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/listening/full/{id}/authored-state",
+    "name": "authored_write"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/full/{id}/practice",
+    "name": "practice"
+  },
+  {
+    "method": "GET",
+    "path": "/api/listening/full/{id}/progress",
+    "name": "progress_get"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/full/{id}/progress",
+    "name": "progress_post"
+  },
+  {
+    "method": "GET",
+    "path": "/api/listening/full/{id}/sandbox",
+    "name": "sandbox"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/full/{id}/start",
+    "name": "start_full"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/full/{id}/study",
+    "name": "study"
+  },
+  {
+    "method": "POST",
+    "path": "/api/listening/mcq",
+    "name": "start"
+  },
+  {
+    "method": "GET",
+    "path": "/api/listening/mcq/{id}",
+    "name": "get"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/listening/mcq/{id}",
+    "name": "advance"
+  },
+  {
+    "method": "GET",
+    "path": "/api/live-classes",
+    "name": "list_live_classes_api"
+  },
+  {
+    "method": "GET",
+    "path": "/api/live-classes/recordings",
+    "name": "get_live_class_recordings_api"
+  },
+  {
+    "method": "GET",
+    "path": "/api/live-classes/{id}",
+    "name": "get_live_class_detail_api"
+  },
+  {
+    "method": "POST",
+    "path": "/api/live-classes/{id}/attendance",
+    "name": "post_live_class_attendance"
+  },
+  {
+    "method": "GET",
+    "path": "/api/live-classes/{id}/chat",
+    "name": "get_live_class_chat"
+  },
+  {
+    "method": "POST",
+    "path": "/api/live-classes/{id}/chat",
+    "name": "post_live_class_chat"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/live-classes/{id}/chat/{message_id}",
+    "name": "delete_live_class_chat_message"
+  },
+  {
+    "method": "POST",
+    "path": "/api/live-classes/{id}/join",
+    "name": "join_live_class"
+  },
+  {
+    "method": "GET",
+    "path": "/api/live-partner",
+    "name": "get_partner"
+  },
+  {
+    "method": "POST",
+    "path": "/api/live-partner",
+    "name": "post_partner"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/live-partner/profile",
+    "name": "update_partner_profile"
+  },
+  {
+    "method": "POST",
+    "path": "/api/locale",
+    "name": "locale"
+  },
+  {
+    "method": "GET",
+    "path": "/api/materials/{type}/{id}",
+    "name": "get_materials"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/materials/{type}/{id}",
+    "name": "put_materials"
+  },
+  {
+    "method": "POST",
+    "path": "/api/media/authorize",
+    "name": "authorize"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mocks/attempts/{id}",
+    "name": "get_mock_attempt_snapshot"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mocks/attempts/{id}/listening/playback",
+    "name": "update_mock_listening_playback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mocks/attempts/{id}/results",
+    "name": "get_mock_attempt_results"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/mocks/attempts/{id}/sections/{skill}/draft",
+    "name": "save_mock_section_draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mocks/attempts/{id}/sections/{skill}/submit",
+    "name": "submit_mock_section"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mocks/attempts/{id}/speaking/responses",
+    "name": "upload_response"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mocks/attempts/{id}/speaking/upload-finalize",
+    "name": "finalize_mock_speaking_upload"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mocks/attempts/{id}/speaking/upload-intent",
+    "name": "create_mock_speaking_upload_intent"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/mocks/attempts/{id}/speaking/uploads/{uploadId}",
+    "name": "upload_mock_speaking_bytes"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mocks/catalog",
+    "name": "get_mocks_catalog"
+  },
+  {
+    "method": "GET",
+    "path": "/api/mocks/media/{versionId}",
+    "name": "get_mock_material_media"
+  },
+  {
+    "method": "POST",
+    "path": "/api/mocks/{testId}/attempts",
+    "name": "start_or_resume_mock_attempt"
+  },
+  {
+    "method": "GET",
+    "path": "/api/notifications",
+    "name": "get_notifications"
+  },
+  {
+    "method": "POST",
+    "path": "/api/notifications",
+    "name": "post_notifications"
+  },
+  {
+    "method": "POST",
+    "path": "/api/onboarding",
+    "name": "onboarding"
+  },
+  {
+    "method": "GET",
+    "path": "/api/owner/ai-control",
+    "name": "owner_get"
+  },
+  {
+    "method": "POST",
+    "path": "/api/owner/ai-control",
+    "name": "owner_post"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/owner/dictionary/{action:path}",
+    "name": "discard_dictionary_draft"
+  },
+  {
+    "method": "GET",
+    "path": "/api/owner/dictionary/{action:path}",
+    "name": "dictionary_owner_read"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/owner/dictionary/{action:path}",
+    "name": "edit_dictionary_draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/owner/dictionary/{action:path}",
+    "name": "dictionary_post"
+  },
+  {
+    "method": "POST",
+    "path": "/api/owner/retention",
+    "name": "retention_policy"
+  },
+  {
+    "method": "GET",
+    "path": "/api/owner/student-export",
+    "name": "student_export"
+  },
+  {
+    "method": "POST",
+    "path": "/api/owner/transfer",
+    "name": "transfer_owner"
+  },
+  {
+    "method": "POST",
+    "path": "/api/presence",
+    "name": "presence"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/profile",
+    "name": "profile_patch"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/profile/photo",
+    "name": "delete_profile_photo"
+  },
+  {
+    "method": "POST",
+    "path": "/api/profile/photo",
+    "name": "post_profile_photo"
+  },
+  {
+    "method": "GET",
+    "path": "/api/profile/photo/{id}",
+    "name": "get_profile_photo"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/profile/study",
+    "name": "study_patch"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reading/academic",
+    "name": "start"
+  },
+  {
+    "method": "GET",
+    "path": "/api/reading/articles/progress",
+    "name": "get_progress"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reading/articles/{article_id}/complete",
+    "name": "complete_article"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reading/attempts",
+    "name": "start_reading"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/reading/attempts/{id}",
+    "name": "save_reading_draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reading/attempts/{id}/submit",
+    "name": "reading_submit"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reading/general/progress",
+    "name": "general_progress"
+  },
+  {
+    "method": "GET",
+    "path": "/api/reports",
+    "name": "reports"
+  },
+  {
+    "method": "GET",
+    "path": "/api/resources/{key:path}",
+    "name": "resource_get"
+  },
+  {
+    "method": "HEAD",
+    "path": "/api/resources/{key:path}",
+    "name": "resource_head"
+  },
+  {
+    "method": "GET",
+    "path": "/api/retention/attempts",
+    "name": "retention_live"
+  },
+  {
+    "method": "POST",
+    "path": "/api/retention/attempts",
+    "name": "start"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/retention/attempts/{id}",
+    "name": "abandon"
+  },
+  {
+    "method": "GET",
+    "path": "/api/retention/attempts/{id}",
+    "name": "retention_attempt_detail"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/retention/attempts/{id}/draft",
+    "name": "draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/retention/attempts/{id}/finish-reading",
+    "name": "finish_reading"
+  },
+  {
+    "method": "POST",
+    "path": "/api/retention/attempts/{id}/submit",
+    "name": "submit"
+  },
+  {
+    "method": "GET",
+    "path": "/api/retention/history",
+    "name": "retention_history"
+  },
+  {
+    "method": "GET",
+    "path": "/api/retention/summary",
+    "name": "retention_summary"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/chat",
+    "name": "_http_post_riwi_chat"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/riwi/conversations/{conversation_id}",
+    "name": "_http_delete_riwi_conversation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/conversations/{conversation_id}",
+    "name": "_http_get_riwi_conversation"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/conversations/{conversation_id}/archive",
+    "name": "_http_archive_riwi_conversation"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/documents/export",
+    "name": "_http_export_riwi_document"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/feedback",
+    "name": "_http_post_riwi_feedback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/learning-signals",
+    "name": "_http_get_riwi_learning_signals"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/learning-signals",
+    "name": "_http_post_riwi_learning_signal"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/learning-signals/{signal_id}",
+    "name": "_http_get_riwi_learning_signal_detail"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/learning-signals/{signal_id}/knowledge",
+    "name": "_http_post_riwi_learning_signal_knowledge"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/learning-signals/{signal_id}/review",
+    "name": "_http_post_riwi_learning_signal_review"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/materials",
+    "name": "_http_get_riwi_materials"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/objective-explanation",
+    "name": "_http_post_riwi_objective_explanation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/assessment-policies",
+    "name": "_http_get_riwi_owner_assessment_policies"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/assessment-policies",
+    "name": "_http_post_riwi_owner_assessment_policy_create"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/assessment-policies/preview",
+    "name": "_http_post_riwi_owner_assessment_policy_preview"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/assessment-policies/{version_id}/approve",
+    "name": "_http_post_riwi_owner_assessment_policy_approve"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/assessment-policies/{version_id}/reject",
+    "name": "_http_post_riwi_owner_assessment_policy_reject"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/assessment-policies/{version_id}/rollback",
+    "name": "_http_post_riwi_owner_assessment_policy_rollback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/audit",
+    "name": "_http_get_riwi_owner_audit"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/diagnostics",
+    "name": "_http_get_riwi_owner_diagnostics"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/knowledge",
+    "name": "_http_get_riwi_owner_knowledge"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/knowledge",
+    "name": "_http_post_riwi_owner_knowledge"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/knowledge/conflicts",
+    "name": "_http_get_riwi_owner_knowledge_conflicts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/knowledge/{source_id}",
+    "name": "_http_get_riwi_owner_knowledge_detail"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/knowledge/{source_id}/approve",
+    "name": "_http_post_riwi_owner_knowledge_approve"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/knowledge/{source_id}/promote",
+    "name": "_http_post_riwi_owner_knowledge_promote"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/knowledge/{source_id}/reject",
+    "name": "_http_post_riwi_owner_knowledge_reject"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/provider-lab",
+    "name": "_http_get_riwi_owner_provider_lab"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/provider-lab",
+    "name": "_http_post_riwi_owner_provider_lab"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/owner/security-signals",
+    "name": "_http_get_riwi_owner_security_signals"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/owner/security-signals/{signal_id}/review",
+    "name": "_http_post_riwi_owner_security_signal_review"
+  },
+  {
+    "method": "POST",
+    "path": "/api/riwi/presence",
+    "name": "_http_post_riwi_presence"
+  },
+  {
+    "method": "GET",
+    "path": "/api/riwi/targets",
+    "name": "_http_get_riwi_targets"
+  },
+  {
+    "method": "GET",
+    "path": "/api/search",
+    "name": "global_search"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/ai/script",
+    "name": "examiner_script"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/attempts",
+    "name": "attempts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/attempts",
+    "name": "start_attempt"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/speaking/attempts/{id}",
+    "name": "delete_attempt"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/attempts/{id}",
+    "name": "attempt_detail"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/speaking/attempts/{id}",
+    "name": "attach_attempt"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/attempts/{id}/submit",
+    "name": "speaking_submit"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/attempts/{id}/transcript",
+    "name": "speaking_transcript"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/live-partner/questions",
+    "name": "live_partner_questions"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/materials",
+    "name": "create"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/speaking/materials/{id}",
+    "name": "remove_speaking_material"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/speaking/materials/{id}",
+    "name": "patch_material"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/practice/facets",
+    "name": "speaking_facets"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/practice/questions",
+    "name": "speaking_questions"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/prompts",
+    "name": "speaking_prompts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/prompts",
+    "name": "prompt_post"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/prompts/vocabulary",
+    "name": "prompt_vocabulary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/speaking/prompts/{id}/support",
+    "name": "speaking_prompt_support"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/speaking/topics",
+    "name": "topic_delete"
+  },
+  {
+    "method": "POST",
+    "path": "/api/speaking/topics",
+    "name": "topic_post"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/guardian-message-templates",
+    "name": "staff_templates"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/guardian-messages/preview",
+    "name": "staff_preview"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/guardian-messages/send",
+    "name": "staff_send"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/guardian-messages/{batch_id}",
+    "name": "staff_batch"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/guardians",
+    "name": "staff_guardians"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/guardians/{link_id}",
+    "name": "staff_guardian_detail"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/mocks/authoring",
+    "name": "authoring_index"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/authoring",
+    "name": "save_mock_draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/batches/{batchId}/publish",
+    "name": "publish_staff_mock_batch"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/existing",
+    "name": "bind_existing_exam_material"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/exports",
+    "name": "create_staff_mock_export_batch"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/mocks/exports/{batchId}/download",
+    "name": "download_staff_mock_export"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/grade-imports/commit",
+    "name": "commit_staff_grade_import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/grade-imports/validate",
+    "name": "validate_staff_grade_import"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/grades/{revisionId}/approve",
+    "name": "approve_staff_mock_grade"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/grades/{revisionId}/revise",
+    "name": "revise_staff_mock_grade"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/mocks/materials",
+    "name": "upload_mock_material"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/mocks/prompts",
+    "name": "get_staff_gemini_prompts"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/mocks/queue",
+    "name": "get_staff_mock_queue"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/staff/mocks/{testId}/access",
+    "name": "set_mock_access"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/mocks/{testId}/preview",
+    "name": "preview_mock_materials"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan",
+    "name": "read_plan"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/leaderboard",
+    "name": "leaderboard"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/study-plan/leaderboard/participation",
+    "name": "participation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/monthly",
+    "name": "get_month"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/assessment",
+    "name": "submit_assessment"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/monthly/sequence",
+    "name": "read_plan"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/grammar/verify",
+    "name": "verify_skill_grammar"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/monthly/sequence/level",
+    "name": "read_level_check"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/monthly/sequence/level/landing/audio/{day}",
+    "name": "landing_mcq_audio"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/level/landing/import",
+    "name": "import_public_level"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/level/manual",
+    "name": "set_profile_level"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/level/start",
+    "name": "start_level_check"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/level/submit",
+    "name": "submit_level_check"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/regenerate",
+    "name": "regenerate_plan"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/monthly/sequence/staff",
+    "name": "list_progress"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/monthly/sequence/staff/{student_id}",
+    "name": "detail_progress"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/sequence/start",
+    "name": "start_plan"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/monthly/start",
+    "name": "start_assessment"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/study-plan/preferences",
+    "name": "save_preferences"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/study-plan/reschedule",
+    "name": "reschedule"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/rewards",
+    "name": "rewards"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/study-plan/rewards/{item_key}",
+    "name": "redeem"
+  },
+  {
+    "method": "GET",
+    "path": "/api/study-plan/share",
+    "name": "list_shares"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/share",
+    "name": "publish_share"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/study-plan/share/{share_id}",
+    "name": "revoke_share"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-plan/shared",
+    "name": "shared_plan"
+  },
+  {
+    "method": "POST",
+    "path": "/api/study-time",
+    "name": "post"
+  },
+  {
+    "method": "GET",
+    "path": "/api/support/reports",
+    "name": "list_problem_reports"
+  },
+  {
+    "method": "POST",
+    "path": "/api/support/reports",
+    "name": "submit_problem_report"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/support/reports/{id}",
+    "name": "resolve_problem_report"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teacher/feedback",
+    "name": "teacher_feedback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teacher/live-classes",
+    "name": "create_live_class"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/teacher/live-classes/{id}",
+    "name": "update_live_class"
+  },
+  {
+    "method": "GET",
+    "path": "/api/teacher/live-classes/{id}/attendance",
+    "name": "get_teacher_class_attendance"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teacher/live-classes/{id}/check-recording",
+    "name": "check_live_class_recording"
+  },
+  {
+    "method": "POST",
+    "path": "/api/teacher/live-classes/{id}/students",
+    "name": "assign_live_class_students"
+  },
+  {
+    "method": "POST",
+    "path": "/api/theme",
+    "name": "theme"
+  },
+  {
+    "method": "POST",
+    "path": "/api/uploads",
+    "name": "upload_bytes"
+  },
+  {
+    "method": "POST",
+    "path": "/api/uploads/finalize",
+    "name": "finalize"
+  },
+  {
+    "method": "POST",
+    "path": "/api/uploads/intent",
+    "name": "upload_intent"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/uploads/{id}",
+    "name": "abort_upload"
+  },
+  {
+    "method": "GET",
+    "path": "/api/version",
+    "name": "version"
+  },
+  {
+    "method": "POST",
+    "path": "/api/video-lessons/{id}/answers",
+    "name": "submit_video_answers"
+  },
+  {
+    "method": "GET",
+    "path": "/api/video-lessons/{id}/progress",
+    "name": "get_progress"
+  },
+  {
+    "method": "POST",
+    "path": "/api/video-lessons/{id}/progress",
+    "name": "watched_progress"
+  },
+  {
+    "method": "POST",
+    "path": "/api/video-lessons/{id}/response",
+    "name": "submit_video_response"
+  },
+  {
+    "method": "POST",
+    "path": "/api/video-lessons/{id}/vocabulary",
+    "name": "video_vocabulary"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/vocabulary",
+    "name": "remove_saved_vocabulary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary",
+    "name": "vocabulary_library"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary",
+    "name": "create_vocabulary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/due",
+    "name": "vocabulary_due"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/folders",
+    "name": "vocabulary_folders"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary/folders",
+    "name": "vocabulary_folders_post"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/games",
+    "name": "get_games"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary/games",
+    "name": "answer_game"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/leaderboard",
+    "name": "vocab_leaderboard"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/lookup",
+    "name": "lookup"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/meaning",
+    "name": "meaning"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/packs",
+    "name": "list_vocabulary_packs"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary/packs",
+    "name": "add_pack"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/vocabulary/packs/{pack_id}",
+    "name": "remove_pack"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary/remove",
+    "name": "remove_saved_vocabulary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/search",
+    "name": "vocabulary_search"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/sentences",
+    "name": "vocabulary_sentences"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/source-saved",
+    "name": "source_saved"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/summary",
+    "name": "vocabulary_summary"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/vocabulary/{entry_id}",
+    "name": "edit_saved_vocabulary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/vocabulary/{id}/contexts",
+    "name": "vocabulary_contexts"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary/{id}/review",
+    "name": "review"
+  },
+  {
+    "method": "POST",
+    "path": "/api/vocabulary/{id}/use",
+    "name": "vocab_use"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/activation/check",
+    "name": "check_activation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/writing/activation/items",
+    "name": "activation_random"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/activation/items",
+    "name": "activation_resolve"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/exam",
+    "name": "exam_start"
+  },
+  {
+    "method": "GET",
+    "path": "/api/writing/exam/{id}",
+    "name": "writing_exam_read"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/writing/exam/{id}/draft",
+    "name": "exam_draft"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/exam/{id}/finalize",
+    "name": "exam_finalize"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/grade",
+    "name": "new_grade"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/grade/{id}",
+    "name": "retry_grade"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/lessons/{id}",
+    "name": "writing_lesson_completed"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/writing/patterns/{id}",
+    "name": "writing_pattern_save"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/stealing/patterns/{id}/vocabulary",
+    "name": "pattern_vocabulary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/writing/stealing/practice",
+    "name": "start_pattern_practice"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/stealing/practice",
+    "name": "post"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/stealing/sessions",
+    "name": "start_stealing_session"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/stealing/sessions/{id}",
+    "name": "advance_session"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/stealing/sessions/{id}/patterns",
+    "name": "personal_create"
+  },
+  {
+    "method": "GET",
+    "path": "/api/writing/stealing/sessions/{id}/study",
+    "name": "study_get"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/writing/stealing/sessions/{id}/study",
+    "name": "study_put"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/submissions",
+    "name": "create_submission"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/writing/submissions/{id}",
+    "name": "update_submission"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/submissions/{id}/submit",
+    "name": "writing_submit"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/translation",
+    "name": "begin_translation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/writing/translation/{id}",
+    "name": "translation_view"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/translation/{id}/answer",
+    "name": "submit"
+  },
+  {
+    "method": "GET",
+    "path": "/api/writing/typing",
+    "name": "writing_typing_history"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/typing",
+    "name": "submit_legacy"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/typing/finish",
+    "name": "finish"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/typing/pause",
+    "name": "pause"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/typing/prepare",
+    "name": "prepare"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/typing/resume",
+    "name": "resume"
+  },
+  {
+    "method": "POST",
+    "path": "/api/writing/typing/start",
+    "name": "start"
+  }
+]

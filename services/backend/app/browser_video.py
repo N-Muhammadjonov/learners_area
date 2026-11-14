@@ -6,7 +6,7 @@ import re
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, identifier, live
-from .security import normalize_origin
+from .security import normalize_origin, request_origin
 
 
 def direct_media(video):
@@ -32,7 +32,7 @@ async def studio(con, user, video, req):
     return {'videoLesson':camel(video),'questions':[camel(r) for r in questions],
             'progress':camel(progress),'vocabulary':{'ready':True,'items':[camel(r) for r in words]},
             'directMedia':direct_media(video),
-            'embedOrigin':str(req.base_url).rstrip('/')}
+            'embedOrigin':request_origin(req)}
 
 
 async def course_video(req,user,lesson_id):
