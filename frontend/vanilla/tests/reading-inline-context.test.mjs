@@ -17,8 +17,8 @@ test('General Reading supplies exact source meanings to its word renderer', () =
 
 test('unlinked words do not open dictionary searches in General Reading', () => {
  const text = source('modules/vocabulary/clickable-text.js');
- assert.match(text, /verifiedOnly&&phraseTarget/);
- assert.match(text, /verifiedOnly\|\|phraseTarget/);
+ assert.match(text, /!verifiedOnly\|\|phraseTarget/);
+ assert.match(text, /!verifiedOnly\|\|phraseTarget/);
  assert.match(text, /if\(verifiedOnly&&!occurrence\)return/);
  assert.match(text, /inlineContext:verifiedOnly/);
 });
