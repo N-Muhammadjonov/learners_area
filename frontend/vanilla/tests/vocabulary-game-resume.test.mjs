@@ -56,6 +56,6 @@ test('Explicit retry starts a new attempt without clearing the previous attempt'
   assert.equal(starts,1);
   assert.equal(previous.attemptId,ID(41));
   assert.equal(previous.state.correct,1);
-  assert.match(h.q('[data-translation-prompt]')?.textContent??'',/aniqlashtirmoq/);
+  assert.match(h.q('[data-game-frame]')?.textContent??'',/1 \/ 2/);
  }finally{h.dispose();}
 });
