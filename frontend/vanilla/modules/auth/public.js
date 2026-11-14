@@ -9,14 +9,18 @@ import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
 import {telegram} from './telegram.js';
-import {LANDING_HTML} from '../landing-inline.js';
 /** Public policy loads inside the stable source AuthShell, not a blank route.
  * Retrying bootstrap never remounts controls or replays an account mutation. */
 export async function mount(context){
- // The standalone landing is supplied by this already-loaded auth module.
+ // Load the standalone document only on its public routes.
  // srcdoc isolates the original typography, CSS and animations from AuthShell.
  if(context.url.pathname==='/'||context.url.pathname==='/landing'){
   const {root,signal,navigate}=context;
+  const fallback=document.querySelector('[data-public-landing-fallback]')?.cloneNode(true);
+  if(fallback)root.append(fallback);
+  let LANDING_HTML;
+  try{({LANDING_HTML}=await import('../landing-inline.js'));}catch{return;}
+  if(signal.aborted)return;
   const frame=document.createElement('iframe');
   frame.title='Learners Area — platforma bilan tanishing';
   frame.setAttribute('data-inline-landing','');
@@ -25,7 +29,14 @@ export async function mount(context){
   // A srcdoc document inherits the site's nonce-based CSP.
   // Reuse the nonce from the server-rendered module bootstrap.
   const nonce=document.querySelector('script[nonce]')?.nonce;
-  if(!nonce)throw new Error('Missing CSP nonce for the public landing');
+  if(!nonce)return;
+  frame.style.display='none';
+  frame.addEventListener('load',()=>{
+   if(signal.aborted)return;
+   fallback?.remove();
+   frame.style.display='block';
+  },{once:true,signal});
+  frame.addEventListener('error',()=>frame.remove(),{once:true,signal});
   frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
   const allowed=new Set(['/login','/register']);
   const receive=event=>{
