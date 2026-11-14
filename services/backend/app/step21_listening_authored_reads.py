@@ -120,13 +120,31 @@ async def authored(req:Request,id:str):
                 AND source_type='listening' AND segment_key IN ('s1','s2','s3','s4')
                 AND resolution_status='resolved' AND lexeme_id IS NOT NULL
               ORDER BY section_number,start_char,end_char""",core.uuid_value(id))
+            from .js_text import slice as js_slice, length as js_length
+            import re
             spans=[]
+            name_spans={}
+            for index, section in enumerate(sections, 1):
+                transcript=section.get('transcript','') if isinstance(section,dict) else ''
+                # Named multiword entities (places, people, organisations, titles)
+                # must never inherit the dictionary meaning of an individual word.
+                # The source offset uses JS UTF-16 units, just like the Script frame.
+                name_spans[index]=[
+                    (js_length(transcript[:match.start()]),
+                     js_length(transcript[:match.end()]))
+                    for match in re.finditer(
+                        r'\\b[A-Z][a-z]+(?:[ \\t]+[A-Z][a-z]+)+\\b',
+                        transcript
+                    )
+                ]
             for row in rows:
                 part=row['section_number'];start=row['start_char'];end=row['end_char']
                 if not isinstance(part,int) or not 1<=part<=4 or len(sections)<part:continue
                 transcript=sections[part-1].get('transcript','')
-                if not isinstance(transcript,str) or not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=len(transcript):continue
-                if transcript[start:end]!=row['surface_form']:continue
+                if not isinstance(transcript,str) or not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=js_length(transcript):continue
+                if js_slice(transcript,start,end)!=row['surface_form']:continue
+                if any(start<name_end and end>name_start
+                       for name_start,name_end in name_spans.get(part,())):continue
                 spans.append({'part':part,'start':start,'end':end,'surface':row['surface_form'],'occurrenceId':str(row['id'])})
             out['contextualOccurrences']=spans
             if definition:out['storageKey']=definition['storageKey']
