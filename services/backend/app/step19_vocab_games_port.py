@@ -50,13 +50,25 @@ def size(raw):
 async def get_games(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
+    if req.query_params.get('attempt')=='1':
+        return await get_game_attempt(req)
     key=req.query_params.get('set','due')
     if key not in SETS:key='due'
     folder=req.query_params.get('folderId');topic=req.query_params.get('topicPack')
     game=req.query_params.get('game')
     if game and game not in GAMES:return core.j({'error':'invalid_game'},400)
     limit=size(req.query_params.get('limit'))
+    raw_ids=req.query_params.get('entryIds')
+    saved_ids=None
+    if raw_ids is not None:
+        candidates=raw_ids.split(',')
+        if not game or game=='cards' or not 1<=len(candidates)<=24 or len(set(candidates))!=len(candidates) or any(not core.uuid_value(v) for v in candidates):
+            return core.j({'error':'invalid_entry_ids'},400,PRIVATE)
+        saved_ids=[core.uuid_value(v) for v in candidates]
     args=[user['id']];where=conditions(key,folder,topic,args)
+    if saved_ids is not None:
+        args.append(saved_ids)
+        where+=f' AND uv.id=ANY(${len(args)}::uuid[])'
     db=await core.pool()
     async with db.acquire() as con:
         if game=='cards' and req.query_params.get('batches')=='1':
@@ -80,7 +92,10 @@ async def get_games(req:Request):
           FROM user_vocabulary uv WHERE {where}''',*args)
         words=[row_to_dict(r) for r in rows]
         eligible=eligible_words(words,game)
-        if game and req.query_params.get('random')=='1':
+        if saved_ids is not None:
+            by_id={str(w['id']):w for w in eligible}
+            eligible=[by_id[str(entry_id)] for entry_id in saved_ids if str(entry_id) in by_id]
+        if saved_ids is None and game and req.query_params.get('random')=='1':
             random.shuffle(eligible)
         chosen=eligible[:limit] if game else []
         projected=[]
@@ -137,6 +152,8 @@ async def answer_game(req:Request):
     user=await core.current_user(req,active=True)
     if not user:return core.auth_error()
     b=await core.payload(req)
+    if isinstance(b,dict) and b.get('action') in ('start','save'):
+        return await update_game_attempt(req,b)
     if not input_valid(b):return core.j({'error':'invalid_input'},400)
     db=await core.pool();now=datetime.now(timezone.utc)
     async with db.acquire() as con:
@@ -184,6 +201,109 @@ async def answer_game(req:Request):
         try:await con.execute('''UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,NOW()) WHERE id=$1''',user['id'])
         except Exception:pass
         return core.j({'ok':True,'correct':bool(correct),'verified':verified,'awarded':1 if awarded else 0,'srsUntouched':True})
+
+
+def attempt_scope(data):
+    if not isinstance(data,dict):return None
+    game=data.get('gameId');key=data.get('set')
+    if game not in GAMES or key not in SETS:return None
+    folder=data.get('folderId') if key=='folder' else None
+    topic=data.get('topicPack') if key=='topic' else None
+    if key=='folder' and not core.uuid_value(folder):return None
+    if key=='topic' and (not isinstance(topic,str) or not 1<=len(topic)<=100):return None
+    batch=data.get('batchIndex') if game=='cards' else None
+    if game=='cards' and (type(batch)!=int or not 0<=batch<=1000000):return None
+    return {'gameId':game,'set':key,'folderId':folder,'topicPack':topic,'batchIndex':batch,
+            'scope':json.dumps([game,key,folder,topic,batch],separators=(',',':'))}
+
+
+async def latest_attempt(con,user_id,scope):
+    return await con.fetchrow('''SELECT id,payload FROM activity_events
+        WHERE user_id=$1 AND type='VOCAB_GAME_ATTEMPT' AND payload->>'scope'=$2
+        ORDER BY created_at DESC,id DESC LIMIT 1''',user_id,scope)
+
+
+async def get_game_attempt(req:Request):
+    user=await core.current_user(req,active=True)
+    if not user:return core.auth_error()
+    params=dict(req.query_params)
+    if 'batchIndex' in params:
+        if not params['batchIndex'].isdecimal() or len(params['batchIndex'])>7:
+            return core.j({'error':'invalid_input'},400,PRIVATE)
+        params['batchIndex']=int(params['batchIndex'])
+    scope=attempt_scope(params)
+    if scope is None:return core.j({'error':'invalid_input'},400,PRIVATE)
+    db=await core.pool()
+    async with db.acquire() as con:
+        if scope['folderId'] and not await con.fetchval(
+            'SELECT 1 FROM vocab_folders WHERE id=$1 AND user_id=$2',
+            scope['folderId'],user['id']):
+            return core.j({'error':'folder_not_found'},404,PRIVATE)
+        row=await latest_attempt(con,user['id'],scope['scope'])
+    return core.j({'ok':True,'attempt':{**row['payload'],'attemptId':str(row['id'])} if row else None},headers=PRIVATE)
+
+
+async def update_game_attempt(req:Request,body):
+    user=await core.current_user(req,active=True)
+    if not user:return core.auth_error()
+    if not isinstance(body,dict) or body.get('action') not in ('start','save'):
+        return core.j({'error':'invalid_input'},400,PRIVATE)
+    scope=attempt_scope(body)
+    if scope is None:return core.j({'error':'invalid_input'},400,PRIVATE)
+    state=body.get('state',{})
+    if (not isinstance(state,dict) or len(state)>32
+        or len(json.dumps(state,ensure_ascii=False))>12000):
+        return core.j({'error':'invalid_state'},400,PRIVATE)
+    db=await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user['id'])
+            if scope['folderId'] and not await con.fetchval(
+                'SELECT 1 FROM vocab_folders WHERE id=$1 AND user_id=$2',
+                scope['folderId'],user['id']):
+                return core.j({'error':'folder_not_found'},404,PRIVATE)
+            latest=await latest_attempt(con,user['id'],scope['scope'])
+            if body['action']=='start':
+                deck=body.get('deck')
+                max_words=10 if scope['gameId']=='cards' else 24
+                if (not isinstance(deck,list) or not 1<=len(deck)<=max_words
+                    or len(set(map(str,deck)))!=len(deck)
+                    or any(not isinstance(v,str) or not core.uuid_value(v) for v in deck)):
+                    return core.j({'error':'invalid_deck'},400,PRIVATE)
+                rows=await con.fetch('SELECT * FROM user_vocabulary WHERE user_id=$1 AND id=ANY($2::uuid[])',
+                                     user['id'],[core.uuid_value(v) for v in deck])
+                if len(rows)!=len(deck):
+                    return core.j({'error':'invalid_deck'},400,PRIVATE)
+                now=datetime.now(timezone.utc)
+                for entry in rows:
+                    if not await in_set(con,entry,scope['set'],scope['folderId'],scope['topicPack'],user['id'],now):
+                        return core.j({'error':'invalid_deck'},400,PRIVATE)
+                if scope['gameId']=='cards':
+                    from .vocabulary_flashcard_batches import load_groups,group_ids
+                    ids,marks,groups,due=await load_groups(con,user['id'],scope['set'],scope['folderId'],scope['topicPack'])
+                    batch=scope['batchIndex']
+                    if batch>=len(groups) or not groups[batch]['unlocked']:
+                        return core.j({'error':'batch_locked'},409,PRIVATE)
+                    if not set(deck).issubset({str(x) for x in group_ids(ids,groups,batch)}):
+                        return core.j({'error':'invalid_deck'},400,PRIVATE)
+                data={**scope,'deck':deck,'state':state,'revision':0}
+                row=await con.fetchrow('''INSERT INTO activity_events(user_id,type,payload)
+                      VALUES($1,'VOCAB_GAME_ATTEMPT',$2::jsonb) RETURNING id''',
+                      user['id'],json.dumps(data,ensure_ascii=False))
+                return core.j({'ok':True,'attempt':{**data,'attemptId':str(row['id'])}},headers=PRIVATE)
+            attempt_id=body.get('attemptId')
+            revision=body.get('revision')
+            if not core.uuid_value(attempt_id) or type(revision)!=int or revision<0:
+                return core.j({'error':'invalid_input'},400,PRIVATE)
+            if not latest or str(latest['id'])!=attempt_id or latest['payload'].get('revision')!=revision:
+                return core.j({'error':'stale_attempt'},409,PRIVATE)
+            data={**latest['payload'],'state':state,'revision':revision+1}
+            row=await con.fetchrow('''UPDATE activity_events SET payload=$3::jsonb
+                  WHERE id=$1 AND user_id=$2 AND type='VOCAB_GAME_ATTEMPT'
+                  RETURNING id''',core.uuid_value(attempt_id),user['id'],json.dumps(data,ensure_ascii=False))
+            if not row:return core.j({'error':'stale_attempt'},409,PRIVATE)
+            return core.j({'ok':True,'attempt':{**data,'attemptId':attempt_id}},headers=PRIVATE)
+
 
 def install():core.app.include_router(router)
 
