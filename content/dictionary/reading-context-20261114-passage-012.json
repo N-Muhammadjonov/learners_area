@@ -1,0 +1,1278 @@
+{
+  "testNo": 4,
+  "passageNo": 3,
+  "terms": [
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "wonder products",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mo‘jizaviy mahsulotlar",
+      "definitionEn": "innovative products that achieve remarkable commercial success"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "companies",
+      "partOfSpeech": "noun",
+      "translationUz": "kompaniyalar",
+      "definitionEn": "business organisations"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "survive",
+      "partOfSpeech": "verb",
+      "translationUz": "omon qolmoq",
+      "definitionEn": "continue operating despite competition"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "competitive markets",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "raqobat kuchli bozorlar",
+      "definitionEn": "markets where firms compete intensely for customers"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "defines",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’riflaydi",
+      "definitionEn": "explains the meaning of a word"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "invention",
+      "partOfSpeech": "noun",
+      "translationUz": "ixtiro",
+      "definitionEn": "the creation or discovery of a new device or method"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "by contrast",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "aksincha",
+      "definitionEn": "used to mark a difference between two things"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "discovery",
+      "partOfSpeech": "noun",
+      "translationUz": "kashfiyot",
+      "definitionEn": "finding something previously unknown"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "revolutionary",
+      "partOfSpeech": "adjective",
+      "translationUz": "inqilobiy",
+      "definitionEn": "causing a fundamental change"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "safety razor",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "xavfsiz ustara",
+      "definitionEn": "a shaving device designed to reduce cuts"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "hydraulic brake",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "gidravlik tormoz",
+      "definitionEn": "a braking system operated through fluid pressure"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "DNA fingerprinting",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "DNK barmoq izlarini tahlil qilish",
+      "definitionEn": "identification of individuals using patterns in genetic material"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "firms",
+      "partOfSpeech": "noun",
+      "translationUz": "firmalar",
+      "definitionEn": "commercial businesses"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "industries",
+      "partOfSpeech": "noun",
+      "translationUz": "sohalar",
+      "definitionEn": "branches of economic activity"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "truly",
+      "partOfSpeech": "adverb",
+      "translationUz": "haqiqatan ham",
+      "definitionEn": "genuinely or in fact"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "differentiating",
+      "partOfSpeech": "adjective",
+      "translationUz": "tubdan farq qiluvchi",
+      "definitionEn": "setting a product apart from competing alternatives"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "new-product breakthroughs",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yangi mahsulotdagi katta yutuqlar",
+      "definitionEn": "major innovations that produce fundamentally new products"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "increasingly",
+      "partOfSpeech": "adverb",
+      "translationUz": "tobora",
+      "definitionEn": "to a growing degree"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "rare",
+      "partOfSpeech": "adjective",
+      "translationUz": "kamyob",
+      "definitionEn": "infrequent or uncommon"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "blockbuster",
+      "partOfSpeech": "noun",
+      "translationUz": "ulkan tijoriy muvaffaqiyat keltiruvchi mahsulot",
+      "definitionEn": "a commercially outstanding product"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "novel products",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yangicha mahsulotlar",
+      "definitionEn": "products that introduce original features"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "steadily",
+      "partOfSpeech": "adverb",
+      "translationUz": "muntazam ravishda",
+      "definitionEn": "continuously and gradually"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "focus",
+      "partOfSpeech": "verb",
+      "translationUz": "e’tibor qaratmoq",
+      "definitionEn": "concentrate efforts or attention"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "instead",
+      "partOfSpeech": "adverb",
+      "translationUz": "buning o‘rniga",
+      "definitionEn": "as an alternative"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "unfortunately",
+      "partOfSpeech": "adverb",
+      "translationUz": "afsuski",
+      "definitionEn": "used when describing an undesirable event"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "innovators",
+      "partOfSpeech": "noun",
+      "translationUz": "yangilik kirituvchilar",
+      "definitionEn": "people who introduce new ideas or methods"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "change",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘zgartirmoq",
+      "definitionEn": "make something different"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "markets",
+      "partOfSpeech": "noun",
+      "translationUz": "bozorlar",
+      "definitionEn": "systems in which goods are exchanged"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "resist",
+      "partOfSpeech": "verb",
+      "translationUz": "qarshilik ko‘rsatmoq",
+      "definitionEn": "oppose an attempted change"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "frequently",
+      "partOfSpeech": "adverb",
+      "translationUz": "tez-tez",
+      "definitionEn": "occurring often"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "nervous",
+      "partOfSpeech": "adjective",
+      "translationUz": "hadiksiragan",
+      "definitionEn": "worried about a possible result"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "co-author",
+      "partOfSpeech": "noun",
+      "translationUz": "hammuallif",
+      "definitionEn": "a person who writes a work jointly with someone else"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "cites",
+      "partOfSpeech": "verb",
+      "translationUz": "misol qilib keltiradi",
+      "definitionEn": "quotes an instance as supporting evidence"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "PC-maker",
+      "partOfSpeech": "noun",
+      "translationUz": "kompyuter ishlab chiqaruvchi korxona",
+      "definitionEn": "a firm producing personal computers"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "set out",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "maqsad qilib kirishmoq",
+      "definitionEn": "began trying to accomplish something"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "imitate",
+      "partOfSpeech": "verb",
+      "translationUz": "taqlid qilmoq",
+      "definitionEn": "copy an existing method"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "computer assembly",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kompyuterlarni yig‘ish",
+      "definitionEn": "putting together computer components"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "attempts",
+      "partOfSpeech": "noun",
+      "translationUz": "urinishlar",
+      "definitionEn": "efforts to achieve an objective"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "frustrated",
+      "partOfSpeech": "verb",
+      "translationUz": "barbod qilingan",
+      "definitionEn": "prevented from succeeding"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "manufacturing",
+      "partOfSpeech": "noun",
+      "translationUz": "ishlab chiqarish",
+      "definitionEn": "the process of making goods"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "feared",
+      "partOfSpeech": "verb",
+      "translationUz": "xavfsiragan",
+      "definitionEn": "was afraid something bad might happen"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "existing",
+      "partOfSpeech": "adjective",
+      "translationUz": "mavjud",
+      "definitionEn": "already present or established"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "proposal",
+      "partOfSpeech": "noun",
+      "translationUz": "taklif",
+      "definitionEn": "a plan presented for consideration"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "got nowhere",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "natijasiz qolgan",
+      "definitionEn": "failed to make progress"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "dominate",
+      "partOfSpeech": "verb",
+      "translationUz": "yetakchilik qilmoq",
+      "definitionEn": "hold a leading position in a market"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "describes",
+      "partOfSpeech": "verb",
+      "translationUz": "tushuntiradi",
+      "definitionEn": "gives an account of how something works"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "simpler",
+      "partOfSpeech": "adjective",
+      "translationUz": "soddaroq",
+      "definitionEn": "less complex"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "cheaper",
+      "partOfSpeech": "adjective",
+      "translationUz": "arzonroq",
+      "definitionEn": "costing less"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "convenient",
+      "partOfSpeech": "adjective",
+      "translationUz": "qulay",
+      "definitionEn": "easy and suitable to use"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "seriously",
+      "partOfSpeech": "adverb",
+      "translationUz": "jiddiy ravishda",
+      "definitionEn": "to an important degree"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "upset",
+      "partOfSpeech": "verb",
+      "translationUz": "izdan chiqarmoq",
+      "definitionEn": "disrupt an established system"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "rapid",
+      "partOfSpeech": "adjective",
+      "translationUz": "tezkor",
+      "definitionEn": "happening quickly"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "thriving",
+      "partOfSpeech": "adjective",
+      "translationUz": "gullab-yashnayotgan",
+      "definitionEn": "successful and expanding"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "long-standing businesses",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "uzoq tarixga ega korxonalar",
+      "definitionEn": "firms operating over a long period"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "widely recognised",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "keng e’tirof etilgan",
+      "definitionEn": "accepted by many people"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "organisations",
+      "partOfSpeech": "noun",
+      "translationUz": "tashkilotlar",
+      "definitionEn": "groups arranged for a purpose"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "designed",
+      "partOfSpeech": "verb",
+      "translationUz": "moslashtirilgan",
+      "definitionEn": "created to serve a purpose"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "series",
+      "partOfSpeech": "noun",
+      "translationUz": "ketma-ket qator",
+      "definitionEn": "a succession of similar items"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "improve",
+      "partOfSpeech": "verb",
+      "translationUz": "takomillashtirmoq",
+      "definitionEn": "make something better"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "argues",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’kidlaydi",
+      "definitionEn": "presents a reasoned point of view"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "lessons",
+      "partOfSpeech": "noun",
+      "translationUz": "saboqlar",
+      "definitionEn": "things learned from experience"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "history",
+      "partOfSpeech": "noun",
+      "translationUz": "tarix",
+      "definitionEn": "records of past events"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "redirected",
+      "partOfSpeech": "verb",
+      "translationUz": "boshqa yo‘nalishga burilgan",
+      "definitionEn": "shifted resources to a different purpose"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "Research and Development",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ilmiy tadqiqot va tajriba-konstruktorlik ishlari",
+      "definitionEn": "activities that develop new knowledge and commercial methods"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "spending",
+      "partOfSpeech": "noun",
+      "translationUz": "xarajatlar",
+      "definitionEn": "money used for an activity"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "discoveries",
+      "partOfSpeech": "noun",
+      "translationUz": "kashfiyotlar",
+      "definitionEn": "findings of previously unknown things"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "white-coated scientists",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "oq xalatli olimlar",
+      "definitionEn": "research scientists working in laboratories"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "processes",
+      "partOfSpeech": "noun",
+      "translationUz": "jarayonlar",
+      "definitionEn": "sequences of activities used to achieve results"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "constitute",
+      "partOfSpeech": "verb",
+      "translationUz": "tashkil etmoq",
+      "definitionEn": "form or make up a whole"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "daily operations",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kundalik operatsiyalar",
+      "definitionEn": "routine business activities"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "marketing specialist",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "marketing mutaxassisi",
+      "definitionEn": "a professional who studies and promotes products in markets"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "adjust",
+      "partOfSpeech": "verb",
+      "translationUz": "moslashmoq",
+      "definitionEn": "change behaviour to fit new conditions"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "ongoing",
+      "partOfSpeech": "adjective",
+      "translationUz": "davom etayotgan",
+      "definitionEn": "continuing at present"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "once-uniform",
+      "partOfSpeech": "adjective",
+      "translationUz": "ilgari yaxlit bo‘lgan",
+      "definitionEn": "previously consistent as one market"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "mass markets",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ommaviy bozorlar",
+      "definitionEn": "large markets serving broad groups of consumers"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "breaking up",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "kichik qismlarga bo‘linmoqda",
+      "definitionEn": "dividing into separate groups"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "countless",
+      "partOfSpeech": "adjective",
+      "translationUz": "son-sanoqsiz",
+      "definitionEn": "too many to count"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "consumers",
+      "partOfSpeech": "noun",
+      "translationUz": "iste’molchilar",
+      "definitionEn": "people who buy or use products"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "looking for",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "izlamoq",
+      "definitionEn": "trying to discover or obtain something"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "task",
+      "partOfSpeech": "noun",
+      "translationUz": "vazifa",
+      "definitionEn": "work that needs to be done"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "executives",
+      "partOfSpeech": "noun",
+      "translationUz": "rahbarlar",
+      "definitionEn": "senior managers of companies"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "stuck with",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "eski usulga yopishib olgan",
+      "definitionEn": "continuing to use an outdated approach"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "strategies",
+      "partOfSpeech": "noun",
+      "translationUz": "strategiyalar",
+      "definitionEn": "plans for achieving goals"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "camera",
+      "partOfSpeech": "noun",
+      "translationUz": "fotoapparat",
+      "definitionEn": "a device used to take photographs"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "competition",
+      "partOfSpeech": "noun",
+      "translationUz": "raqobat",
+      "definitionEn": "the contest between sellers for customers"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "decade",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘n yillik",
+      "definitionEn": "a period of ten years"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "rival products",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "raqobatchi mahsulotlar",
+      "definitionEn": "goods sold by competing firms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "rushed onto",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "shoshilinch olib chiqilgan",
+      "definitionEn": "introduced to the market very quickly"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "unimaginable",
+      "partOfSpeech": "adjective",
+      "translationUz": "tasavvur qilib bo‘lmaydigan",
+      "definitionEn": "too extreme to imagine"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "headline-hitting",
+      "partOfSpeech": "adjective",
+      "translationUz": "gazeta sarlavhasiga chiqadigan",
+      "definitionEn": "significant enough to attract major news coverage"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "despair",
+      "partOfSpeech": "verb",
+      "translationUz": "tushkunlikka tushmoq",
+      "definitionEn": "lose hope of success"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "plenty",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘plab imkoniyatlar",
+      "definitionEn": "a large supply or number"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "albeit",
+      "partOfSpeech": "conjunction",
+      "translationUz": "garchi ... bo‘lsa-da",
+      "definitionEn": "even though"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "glamorous",
+      "partOfSpeech": "adjective",
+      "translationUz": "ko‘zga tashlanadigan",
+      "definitionEn": "attractive and impressive in public"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "claims",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’kidlaydi",
+      "definitionEn": "states something to be true"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "roots",
+      "partOfSpeech": "noun",
+      "translationUz": "asosiy sabablar",
+      "definitionEn": "fundamental causes of a trend"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "genuine",
+      "partOfSpeech": "adjective",
+      "translationUz": "haqiqiy",
+      "definitionEn": "real and authentic"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "revolution",
+      "partOfSpeech": "noun",
+      "translationUz": "tub o‘zgarish",
+      "definitionEn": "a fundamental transformation"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "information technology",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "axborot texnologiyalari",
+      "definitionEn": "computing and communications tools"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "business processes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "biznes jarayonlari",
+      "definitionEn": "organised activities through which a firm operates"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "from top to bottom",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "yuqoridan pastgacha butunlay",
+      "definitionEn": "throughout every part of an organisation"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "highlights",
+      "partOfSpeech": "verb",
+      "translationUz": "alohida ko‘rsatadi",
+      "definitionEn": "draws attention to an important case"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "instances",
+      "partOfSpeech": "noun",
+      "translationUz": "misollar",
+      "definitionEn": "specific cases of an event"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "considerably",
+      "partOfSpeech": "adverb",
+      "translationUz": "sezilarli darajada",
+      "definitionEn": "by a large amount"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "creativity",
+      "partOfSpeech": "noun",
+      "translationUz": "ijodkorlik",
+      "definitionEn": "the ability to develop original ideas"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "notable",
+      "partOfSpeech": "adjective",
+      "translationUz": "alohida e’tiborga molik",
+      "definitionEn": "worthy of particular attention"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "retail giant",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "chakana savdo giganti",
+      "definitionEn": "a very large company selling goods to customers"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "superficially",
+      "partOfSpeech": "adverb",
+      "translationUz": "bir qarashda",
+      "definitionEn": "when judged only by outward appearance"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "mundane",
+      "partOfSpeech": "adjective",
+      "translationUz": "oddiy",
+      "definitionEn": "unremarkable or routine"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "shifting",
+      "partOfSpeech": "verb",
+      "translationUz": "qayta ortish",
+      "definitionEn": "moving goods from one truck to another"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "suppliers",
+      "partOfSpeech": "noun",
+      "translationUz": "yetkazib beruvchilar",
+      "definitionEn": "companies providing goods to other businesses"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "trucks",
+      "partOfSpeech": "noun",
+      "translationUz": "yuk mashinalari",
+      "definitionEn": "large road vehicles for transporting merchandise"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "heading for",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "... tomon yo‘l olgan",
+      "definitionEn": "travelling toward a destination"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "stores",
+      "partOfSpeech": "noun",
+      "translationUz": "do‘konlar",
+      "definitionEn": "places selling goods"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "fundamental",
+      "partOfSpeech": "adjective",
+      "translationUz": "asosiy",
+      "definitionEn": "essential to a successful outcome"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "ability",
+      "partOfSpeech": "noun",
+      "translationUz": "qobiliyat",
+      "definitionEn": "the capacity to do something"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "outstanding",
+      "partOfSpeech": "adjective",
+      "translationUz": "mislsiz",
+      "definitionEn": "exceptionally good or important"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "encouraged",
+      "partOfSpeech": "verb",
+      "translationUz": "undalmoqda",
+      "definitionEn": "being urged to take an action"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "embrace",
+      "partOfSpeech": "verb",
+      "translationUz": "qabul qilib amalga oshirmoq",
+      "definitionEn": "adopt an idea enthusiastically"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "regional carrier",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mintaqaviy aviatashuvchi",
+      "definitionEn": "an airline operating flights within a region"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "creative strategies",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ijodiy strategiyalar",
+      "definitionEn": "original approaches to achieving business goals"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "timing",
+      "partOfSpeech": "noun",
+      "translationUz": "vaqtni to‘g‘ri tanlash",
+      "definitionEn": "choosing the most suitable moment"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "victory",
+      "partOfSpeech": "noun",
+      "translationUz": "g‘alaba",
+      "definitionEn": "success over a competitor"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "ailing",
+      "partOfSpeech": "adjective",
+      "translationUz": "og‘ir ahvoldagi",
+      "definitionEn": "performing poorly as a business"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "competitor",
+      "partOfSpeech": "noun",
+      "translationUz": "raqobatchi",
+      "definitionEn": "another company competing for customers"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "packaging",
+      "partOfSpeech": "noun",
+      "translationUz": "qadoqlash",
+      "definitionEn": "providing containers and wrappers for products"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "ready-made containers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tayyor idishlar",
+      "definitionEn": "containers manufactured before delivery"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "customers",
+      "partOfSpeech": "noun",
+      "translationUz": "mijozlar",
+      "definitionEn": "people or businesses purchasing goods"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "machinery",
+      "partOfSpeech": "noun",
+      "translationUz": "uskunalar",
+      "definitionEn": "mechanical devices used for production"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "supplying",
+      "partOfSpeech": "verb",
+      "translationUz": "yetkazib berish",
+      "definitionEn": "providing goods or materials"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "dedicated materials",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "maxsus xomashyolar",
+      "definitionEn": "materials specifically made for a production method"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "switch suppliers",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "yetkazib beruvchini almashtirmoq",
+      "definitionEn": "change from one supplying company to another"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "achieved",
+      "partOfSpeech": "verb",
+      "translationUz": "erishdilar",
+      "definitionEn": "successfully attained a goal"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "underlying",
+      "partOfSpeech": "adjective",
+      "translationUz": "asosiy",
+      "definitionEn": "forming the fundamental basis"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "recommend",
+      "partOfSpeech": "verb",
+      "translationUz": "tavsiya qilmoq",
+      "definitionEn": "advise choosing a particular approach"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "demand innovations",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "talab innovatsiyalari",
+      "definitionEn": "innovations based on discovering new forms of market demand"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "far-sighted organisations",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "uzoqni ko‘ra biladigan tashkilotlar",
+      "definitionEn": "companies anticipating future changes"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "meeting existing demand",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "mavjud talabni qondirish",
+      "definitionEn": "supplying what current customers already want"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "discovering",
+      "partOfSpeech": "verb",
+      "translationUz": "kashf etish",
+      "definitionEn": "finding previously unknown possibilities"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "adapting",
+      "partOfSpeech": "verb",
+      "translationUz": "moslashish",
+      "definitionEn": "changing to suit new circumstances"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "services",
+      "partOfSpeech": "noun",
+      "translationUz": "xizmatlar",
+      "definitionEn": "non-material products supplied for payment"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "industrial gas",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sanoat gazi",
+      "definitionEn": "gas used in industrial processes"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "commodity",
+      "partOfSpeech": "noun",
+      "translationUz": "ommaviy standart tovar",
+      "definitionEn": "a widely traded undifferentiated product"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "operational income",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "operatsion daromad",
+      "definitionEn": "profit earned from a company's core operations"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "skills",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘nikmalar",
+      "definitionEn": "abilities developed through experience"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "gained",
+      "partOfSpeech": "verb",
+      "translationUz": "orttirgan",
+      "definitionEn": "acquired through work or learning"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "management services",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "boshqaruv xizmatlari",
+      "definitionEn": "professional help managing related operations"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "accompany",
+      "partOfSpeech": "verb",
+      "translationUz": "hamroh bo‘lmoq",
+      "definitionEn": "be provided alongside another product"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "profits",
+      "partOfSpeech": "noun",
+      "translationUz": "foyda",
+      "definitionEn": "financial gains after costs"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "rose",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘tarildi",
+      "definitionEn": "increased over a period"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "managers",
+      "partOfSpeech": "noun",
+      "translationUz": "rahbarlar",
+      "definitionEn": "people responsible for directing teams"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "projects",
+      "partOfSpeech": "noun",
+      "translationUz": "loyihalar",
+      "definitionEn": "planned pieces of work"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "potential",
+      "partOfSpeech": "noun",
+      "translationUz": "salohiyat",
+      "definitionEn": "capacity for future success"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "rapidly",
+      "partOfSpeech": "adverb",
+      "translationUz": "tezda",
+      "definitionEn": "at high speed"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "independent business units",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mustaqil biznes bo‘linmalari",
+      "definitionEn": "separately operated parts of a company"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "smothering influence",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "bo‘g‘uvchi ta’sir",
+      "definitionEn": "pressure that prevents new ideas developing"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "ultimate outcome",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yakuniy natija",
+      "definitionEn": "the final effect of a process"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "unpredictable",
+      "partOfSpeech": "adjective",
+      "translationUz": "oldindan aytib bo‘lmaydigan",
+      "definitionEn": "impossible to forecast reliably"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 3,
+      "surface": "emerges",
+      "partOfSpeech": "verb",
+      "translationUz": "vujudga keladi",
+      "definitionEn": "arises from a process"
+    }
+  ]
+}

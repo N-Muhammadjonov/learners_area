@@ -1,0 +1,1046 @@
+{
+  "testNo": 4,
+  "passageNo": 2,
+  "terms": [
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "parrots",
+      "partOfSpeech": "noun",
+      "translationUz": "to‘tiqushlar",
+      "definitionEn": "birds with strong curved beaks"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "tropics",
+      "partOfSpeech": "noun",
+      "translationUz": "tropik mintaqalar",
+      "definitionEn": "warm regions close to the equator"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "southern hemisphere",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Janubiy yarimshar",
+      "definitionEn": "the southern half of the Earth"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "continents",
+      "partOfSpeech": "noun",
+      "translationUz": "qit’alar",
+      "definitionEn": "major landmasses on Earth"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "display",
+      "partOfSpeech": "verb",
+      "translationUz": "namoyon etmoq",
+      "definitionEn": "show a particular quality"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "richness",
+      "partOfSpeech": "noun",
+      "translationUz": "boylik",
+      "definitionEn": "an abundance of different forms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "diversity",
+      "partOfSpeech": "noun",
+      "translationUz": "xilma-xillik",
+      "definitionEn": "a wide range of species or forms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "species",
+      "partOfSpeech": "noun",
+      "translationUz": "turlar",
+      "definitionEn": "distinct groups of biological organisms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "parrot",
+      "partOfSpeech": "noun",
+      "translationUz": "to‘tiqush",
+      "definitionEn": "a bird with a strong curved bill"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "variety",
+      "partOfSpeech": "noun",
+      "translationUz": "turfa xillik",
+      "definitionEn": "many different forms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "cartographer",
+      "partOfSpeech": "noun",
+      "translationUz": "xaritashunos",
+      "definitionEn": "a person who draws maps"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "world map",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "dunyo xaritasi",
+      "definitionEn": "a representation of the whole world"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "present-day",
+      "partOfSpeech": "adjective",
+      "translationUz": "hozirgi kundagi",
+      "definitionEn": "relating to the current time"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "European settlers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yevropalik ko‘chib kelganlar",
+      "definitionEn": "Europeans who came to settle in Australia"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "referred to",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "deb atagan",
+      "definitionEn": "described by a particular name"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "celebrated",
+      "partOfSpeech": "adjective",
+      "translationUz": "taniqli",
+      "definitionEn": "widely respected and famous"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "naturalist",
+      "partOfSpeech": "noun",
+      "translationUz": "tabiatshunos",
+      "definitionEn": "a scientist who studies nature"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "wildlife artist",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yovvoyi tabiat rassomi",
+      "definitionEn": "an artist portraying wild animals"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "tropical",
+      "partOfSpeech": "adjective",
+      "translationUz": "tropik",
+      "definitionEn": "characteristic of the tropics"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "benign",
+      "partOfSpeech": "adjective",
+      "translationUz": "yoqimli",
+      "definitionEn": "gentle and pleasant"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "numerous",
+      "partOfSpeech": "adjective",
+      "translationUz": "son-sanoqsiz",
+      "definitionEn": "many in number"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "tenanted",
+      "partOfSpeech": "verb",
+      "translationUz": "yashaydigan",
+      "definitionEn": "inhabited by a group"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "ancient line",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qadimiy nasl",
+      "definitionEn": "a lineage existing for a long time"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "inhabit",
+      "partOfSpeech": "verb",
+      "translationUz": "yashamoq",
+      "definitionEn": "live in a particular area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "certain",
+      "partOfSpeech": "adjective",
+      "translationUz": "deyarli aniq",
+      "definitionEn": "strongly believed to be true"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "broke up",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "bo‘linib ketgan",
+      "definitionEn": "split into separate landmasses"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "separate",
+      "partOfSpeech": "adjective",
+      "translationUz": "alohida",
+      "definitionEn": "distinct from others"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "comprised",
+      "partOfSpeech": "verb",
+      "translationUz": "iborat bo‘lgan",
+      "definitionEn": "consisted of several parts"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "vast",
+      "partOfSpeech": "adjective",
+      "translationUz": "ulkan",
+      "definitionEn": "very extensive in area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "rainforests",
+      "partOfSpeech": "noun",
+      "translationUz": "yomg‘ir o‘rmonlari",
+      "definitionEn": "forests receiving abundant rainfall"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "intersected",
+      "partOfSpeech": "verb",
+      "translationUz": "kesib o‘tilgan",
+      "definitionEn": "crossed from one part to another"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "huge",
+      "partOfSpeech": "adjective",
+      "translationUz": "ulkan",
+      "definitionEn": "extremely large"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "slow-flowing",
+      "partOfSpeech": "adjective",
+      "translationUz": "sokin oqadigan",
+      "definitionEn": "moving with a gentle current"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "expansive lakes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "keng ko‘llar",
+      "definitionEn": "lakes extending over large areas"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "underway",
+      "partOfSpeech": "adjective",
+      "translationUz": "boshlangan",
+      "definitionEn": "already in progress"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "dry out",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "quriy boshlamoq",
+      "definitionEn": "lose water and become dry"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "gradually",
+      "partOfSpeech": "adverb",
+      "translationUz": "asta-sekin",
+      "definitionEn": "in a series of small stages"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "covered",
+      "partOfSpeech": "verb",
+      "translationUz": "qoplagan",
+      "definitionEn": "extended across a surface"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "limited extent",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "cheklangan miqyos",
+      "definitionEn": "a relatively small area or degree"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "creatures",
+      "partOfSpeech": "noun",
+      "translationUz": "jonivorlar",
+      "definitionEn": "living animals"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "remained",
+      "partOfSpeech": "verb",
+      "translationUz": "qolib ketgan",
+      "definitionEn": "continued to exist in a place"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "shrinking",
+      "partOfSpeech": "adjective",
+      "translationUz": "qisqarib borayotgan",
+      "definitionEn": "becoming smaller"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "adapt",
+      "partOfSpeech": "verb",
+      "translationUz": "moslashmoq",
+      "definitionEn": "change to survive new conditions"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "drier",
+      "partOfSpeech": "adjective",
+      "translationUz": "quruqroq",
+      "definitionEn": "having less moisture"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "desperate circumstances",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "og‘ir sharoitlar",
+      "definitionEn": "conditions presenting serious threats"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "populated",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘rnashib olgan",
+      "definitionEn": "established populations in an area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "harshest",
+      "partOfSpeech": "adjective",
+      "translationUz": "eng qattiq",
+      "definitionEn": "most difficult for living organisms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "spread",
+      "partOfSpeech": "verb",
+      "translationUz": "tarqalgan",
+      "definitionEn": "moved into new habitats"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "ancestral",
+      "partOfSpeech": "adjective",
+      "translationUz": "qadimiy ajdodlarga oid",
+      "definitionEn": "relating to the ancestors of a species"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "eucalypt woodlands",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "evkalipt to‘qaylari",
+      "definitionEn": "forests dominated by eucalyptus trees"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "deserts",
+      "partOfSpeech": "noun",
+      "translationUz": "cho‘llar",
+      "definitionEn": "very dry regions"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "consequence",
+      "partOfSpeech": "noun",
+      "translationUz": "oqibat",
+      "definitionEn": "a result of earlier events"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "diversified",
+      "partOfSpeech": "verb",
+      "translationUz": "xilma-xil turlarga ajralgan",
+      "definitionEn": "developed into a variety of forms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "wide range",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "keng turli xillik",
+      "definitionEn": "many different types"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "reflect",
+      "partOfSpeech": "verb",
+      "translationUz": "aks ettirmoq",
+      "definitionEn": "show the effects of changes"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "substance",
+      "partOfSpeech": "noun",
+      "translationUz": "modda",
+      "definitionEn": "material from which something is made"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "capable of",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "qodir",
+      "definitionEn": "having the ability to do something"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "gathering",
+      "partOfSpeech": "verb",
+      "translationUz": "terib olish",
+      "definitionEn": "collecting items for food"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "favoured",
+      "partOfSpeech": "verb",
+      "translationUz": "afzal ko‘riladigan",
+      "definitionEn": "preferred over alternatives"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "various",
+      "partOfSpeech": "adjective",
+      "translationUz": "turli xil",
+      "definitionEn": "several different forms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "blunt",
+      "partOfSpeech": "adjective",
+      "translationUz": "to‘mtoq",
+      "definitionEn": "not sharp"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "downcurved",
+      "partOfSpeech": "adjective",
+      "translationUz": "pastga qayrilgan",
+      "definitionEn": "curving downwards"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "upper section",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yuqori qismi",
+      "definitionEn": "the top portion of a structure"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "comparatively",
+      "partOfSpeech": "adverb",
+      "translationUz": "nisbatan",
+      "definitionEn": "when compared with others"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "seeds",
+      "partOfSpeech": "noun",
+      "translationUz": "urug‘lar",
+      "definitionEn": "plant structures capable of growing into new plants"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "fruit",
+      "partOfSpeech": "noun",
+      "translationUz": "meva",
+      "definitionEn": "a plant's seed-bearing structure"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "broader",
+      "partOfSpeech": "adjective",
+      "translationUz": "kengroq",
+      "definitionEn": "wider than another"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "stronger",
+      "partOfSpeech": "adjective",
+      "translationUz": "mustahkamroq",
+      "definitionEn": "able to withstand greater force"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "cracking",
+      "partOfSpeech": "verb",
+      "translationUz": "chaqish",
+      "definitionEn": "breaking the hard shell of a seed"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "differently shaped",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "turlicha shakllangan",
+      "definitionEn": "having differing forms"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "relationship",
+      "partOfSpeech": "noun",
+      "translationUz": "munosabat",
+      "definitionEn": "an interaction between species"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "honey-eating birds",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "nektarxo‘r qushlar",
+      "definitionEn": "birds feeding on flower nectar"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "rainbow-coloured",
+      "partOfSpeech": "adjective",
+      "translationUz": "kamalakrang",
+      "definitionEn": "having several bright colours"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "lorikeets",
+      "partOfSpeech": "noun",
+      "translationUz": "loriketlar",
+      "definitionEn": "small brightly coloured parrots"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "flowers",
+      "partOfSpeech": "noun",
+      "translationUz": "gullar",
+      "definitionEn": "flowering parts of plants"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "feed",
+      "partOfSpeech": "verb",
+      "translationUz": "oziqlanmoq",
+      "definitionEn": "eat food"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "features",
+      "partOfSpeech": "noun",
+      "translationUz": "xususiyatlar",
+      "definitionEn": "distinct physical traits"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "particular needs",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "o‘ziga xos ehtiyojlar",
+      "definitionEn": "requirements specific to an organism"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "attractive",
+      "partOfSpeech": "adjective",
+      "translationUz": "jozibali",
+      "definitionEn": "likely to draw attention"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "depend on",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "tayanmoq",
+      "definitionEn": "rely on something"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "tongues",
+      "partOfSpeech": "noun",
+      "translationUz": "tillar",
+      "definitionEn": "muscular organs within birds' mouths"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "collect",
+      "partOfSpeech": "verb",
+      "translationUz": "to‘plamoq",
+      "definitionEn": "gather into a single place"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "woodland",
+      "partOfSpeech": "noun",
+      "translationUz": "siyrak daraxtzor",
+      "definitionEn": "land covered with trees"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "open forest",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ochiq o‘rmon",
+      "definitionEn": "forest with relatively sparse trees"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "decline",
+      "partOfSpeech": "verb",
+      "translationUz": "kamayib bormoq",
+      "definitionEn": "become fewer in number"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "majority",
+      "partOfSpeech": "noun",
+      "translationUz": "aksariyat",
+      "definitionEn": "the larger part of a population"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "to some degree",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "ma’lum darajada",
+      "definitionEn": "to a limited extent"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "take advantage of",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "foydalanmoq",
+      "definitionEn": "make good use of a chance"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "feeding",
+      "partOfSpeech": "noun",
+      "translationUz": "oziqlanish",
+      "definitionEn": "the process of taking in food"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "breeding",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘payish",
+      "definitionEn": "the production of offspring"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "dry country",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qurg‘oqchil hudud",
+      "definitionEn": "land with a dry climate"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "galah",
+      "partOfSpeech": "noun",
+      "translationUz": "galah to‘tiqushi",
+      "definitionEn": "a pink and grey Australian cockatoo"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "corella",
+      "partOfSpeech": "noun",
+      "translationUz": "korella to‘tiqushi",
+      "definitionEn": "an Australian cockatoo"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "expanded",
+      "partOfSpeech": "verb",
+      "translationUz": "kengaytirgan",
+      "definitionEn": "made larger in geographical extent"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "ranges",
+      "partOfSpeech": "noun",
+      "translationUz": "yashash hududlari",
+      "definitionEn": "areas inhabited by a species"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "settlement",
+      "partOfSpeech": "noun",
+      "translationUz": "yevropaliklarning kelib joylashishi",
+      "definitionEn": "settling by European migrants"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "forest felling",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "o‘rmonlarni kesish",
+      "definitionEn": "cutting down large areas of trees"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "grasslands",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘tloqlar",
+      "definitionEn": "land dominated by grasses"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "altered",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘zgartirilgan",
+      "definitionEn": "changed from an earlier state"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "clearing",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘rmonlarni tozalash",
+      "definitionEn": "removal of trees and other vegetation"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "disappearance",
+      "partOfSpeech": "noun",
+      "translationUz": "yo‘qolib ketish",
+      "definitionEn": "loss of an animal species from an area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "double-eyed fig parrot",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ikki ko‘zli anjir to‘tiqushi",
+      "definitionEn": "an Australian species of fig parrot"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "ground parrots",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yer to‘tiqushlari",
+      "definitionEn": "parrots living close to the ground"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "draining",
+      "partOfSpeech": "noun",
+      "translationUz": "suvini quritish",
+      "definitionEn": "removal of water from wetland"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "coastal swamps",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qirg‘oq botqoqliklari",
+      "definitionEn": "wetland areas near the coast"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "benefited",
+      "partOfSpeech": "verb",
+      "translationUz": "naf ko‘rgan",
+      "definitionEn": "gained an advantage"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "confronted",
+      "partOfSpeech": "verb",
+      "translationUz": "duch kelayotgan",
+      "definitionEn": "forced to face a problem"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "shortage",
+      "partOfSpeech": "noun",
+      "translationUz": "yetishmovchilik",
+      "definitionEn": "an insufficient amount"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "nesting sites",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "uya qurish joylari",
+      "definitionEn": "places suitable for making bird nests"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "man-made changes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "inson keltirib chiqargan o‘zgarishlar",
+      "definitionEn": "environmental alterations due to humans"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "incoming species",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yangi kelgan tur",
+      "definitionEn": "an organism newly arrived in an area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "originally",
+      "partOfSpeech": "adverb",
+      "translationUz": "avvaldan",
+      "definitionEn": "from the beginning"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "cleared",
+      "partOfSpeech": "verb",
+      "translationUz": "daraxtlardan tozalagan",
+      "definitionEn": "removed trees from land"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "black cockatoo",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qora kakadu",
+      "definitionEn": "an Australian dark-coloured cockatoo"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "destroying",
+      "partOfSpeech": "verb",
+      "translationUz": "sindirib tashlagan",
+      "definitionEn": "damaging beyond recovery"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "partial collapse",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "keskin qisqarish",
+      "definitionEn": "a sharp decline that is not complete"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "population",
+      "partOfSpeech": "noun",
+      "translationUz": "populyatsiya",
+      "definitionEn": "members of one species inhabiting an area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "struggle",
+      "partOfSpeech": "noun",
+      "translationUz": "kurash",
+      "definitionEn": "strong competition for scarce resources"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "nesting hollows",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "uya uchun daraxt kovaklari",
+      "definitionEn": "natural tree cavities used by birds"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "balance",
+      "partOfSpeech": "noun",
+      "translationUz": "muvozanat",
+      "definitionEn": "a fair equilibrium"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "nest box programmes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sun’iy uya qutilari dasturlari",
+      "definitionEn": "efforts to provide artificial nesting boxes"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "ease",
+      "partOfSpeech": "verb",
+      "translationUz": "yumshatmoq",
+      "definitionEn": "reduce a problem's severity"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "substitute",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘rinbosar",
+      "definitionEn": "something replacing another thing"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "old trees",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ko‘p yillik qari daraxtlar",
+      "definitionEn": "mature trees offering food and shelter"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "competition",
+      "partOfSpeech": "noun",
+      "translationUz": "raqobat",
+      "definitionEn": "a struggle for scarce resources"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "widespread",
+      "partOfSpeech": "adjective",
+      "translationUz": "keng tarqalgan",
+      "definitionEn": "present throughout an area"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "competitors",
+      "partOfSpeech": "noun",
+      "translationUz": "raqiblar",
+      "definitionEn": "other organisms vying for resources"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "maintain",
+      "partOfSpeech": "verb",
+      "translationUz": "saqlab qolmoq",
+      "definitionEn": "keep something in a desirable condition"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "wonderfully",
+      "partOfSpeech": "adverb",
+      "translationUz": "ajoyib tarzda",
+      "definitionEn": "to an unusually impressive degree"
+    },
+    {
+      "testNo": 4,
+      "passageNo": 2,
+      "surface": "will",
+      "partOfSpeech": "noun",
+      "translationUz": "xohish va qat’iyat",
+      "definitionEn": "the determination to do something"
+    }
+  ]
+}
