@@ -8,6 +8,7 @@ on:
       - fix/listening-tests-4-6-lexical-20261114
       - fix/listening-tests-12-16-lexical-20261114
       - fix/listening-1-20-context-audit-20261114
+      - fix/listening-21-25-contextual-20261114
     paths:
       - '.github/workflows/reading-listening-lexical-qa.yml'
       - 'frontend/vanilla/**'
@@ -15,6 +16,8 @@ on:
       - 'services/backend/tests/**'
       - 'services/backend/migrations/0093_listening_12_16_contextual_occurrences.sql'
       - 'services/backend/migrations/0094_listening_1_20_context_audit.sql'
+      - 'services/backend/migrations/0095_listening_21_25_contextual.sql'
+      - 'services/backend/migrations/0096_listening_21_25_expanded_context.sql'
   workflow_dispatch:
 permissions:
   contents: read
@@ -63,8 +66,9 @@ jobs:
           node --check frontend/vanilla/tests/listening-first-three-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-tests-7-11-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-next-three-contextual.test.mjs
-          node --check frontend/vanilla/tests/listening-tests-12-16-contextual.test.mjs tests/listening-tests-1-20-context-audit.test.mjs
+          node --check frontend/vanilla/tests/listening-tests-12-16-contextual.test.mjs tests/listening-tests-1-20-context-audit.test.mjs tests/listening-tests-21-25-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-tests-1-20-context-audit.test.mjs
+          node --check frontend/vanilla/tests/listening-tests-21-25-contextual.test.mjs
       - name: Run lexical and source layout regressions
         working-directory: frontend/vanilla
         run: node --test tests/reading-source-cd.test.mjs tests/reading-interactions-v70.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/dictionary-interactions-v70.test.mjs tests/listening-context-script-coverage.test.mjs tests/reading-contextual-source.test.mjs tests/listening-test-10-source-review.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs
