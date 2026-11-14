@@ -265,7 +265,9 @@ async def update_game_attempt(req:Request,body):
             latest=await latest_attempt(con,user['id'],scope['scope'])
             if body['action']=='start':
                 deck=body.get('deck')
-                max_words=10 if scope['gameId']=='cards' else 24
+                # Authored flashcard batches can contain 24–33 words; the exact
+                # batch membership is verified below before any attempt is inserted.
+                max_words=500 if scope['gameId']=='cards' else 24
                 if (not isinstance(deck,list) or not 1<=len(deck)<=max_words
                     or len(set(map(str,deck)))!=len(deck)
                     or any(not isinstance(v,str) or not core.uuid_value(v) for v in deck)):
