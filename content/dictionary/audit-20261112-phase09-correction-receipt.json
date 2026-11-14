@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": {
+    "ranks": "44165–49685",
+    "senses": 5521,
+    "lexemes": 3279,
+    "examples_in_source": 4095
+  },
+  "reviewed_integrity": {
+    "r2_shards": 14,
+    "verified_senses": 5521,
+    "presentation_missing": 36,
+    "presentation_stale_hashes": 0,
+    "source_verified_example_replacements": 233,
+    "phase09_example_replacements": 225,
+    "out_of_phase_example_replacements": 8,
+    "source_readback_matched": 233,
+    "source_readback_failed": 0,
+    "source_readback_method": "Exact original example ID/text, lexeme/sense identity and SHA-256 meaning hash matched against immutable R2 shards 65–72 and 9e"
+  },
+  "editorial_changes": {
+    "cefr_source_verified_edits": 4,
+    "synonym_exclusions": 4,
+    "attested_collocation_phrases": 5,
+    "cefr_policy": "Null allowed for senses without a grounded CEFR value",
+    "examples_policy": "Preserve correct sentences; exact-source replacements only"
+  },
+  "quality_scope": {
+    "source_examples_without_terminal_punctuation": 3938,
+    "source_examples_lowercase_start": 2913,
+    "heuristic_fragment_candidates": 3634,
+    "heuristic_no_exact_lemma": 2288,
+    "interpretation": "Overlapping heuristic counts, not confirmed defects"
+  },
+  "signoff": {
+    "structural": true,
+    "presentation_identity_sha": true,
+    "exact_example_readback": true,
+    "all_5521_senses_semantically_certified": false,
+    "all_4095_examples_linguistically_certified": false,
+    "cefr_release_applied": false,
+    "independent_test_suite_verified": false,
+    "production_changed": false,
+    "main_merged": false
+  }
+}

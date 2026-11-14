@@ -1,0 +1,542 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-selected-0047-0064.json",
+  "prior_candidate_commit": "5e106a15433969ebcafd051dc6fd097f75dedfaf",
+  "scope": {
+    "lexemes": 5,
+    "senses": 5,
+    "field_decisions": 35,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "659902e5-5ee8-5db6-a98e-699556151c63",
+      "sense_id": "a51da463-36bc-54d5-842c-d9a38ba0b413",
+      "lemma": "flavin",
+      "meaning_sha": "ec7bed56a07efc542b1d97371302c4488e385642b2b169d1f11e0fa94b790c2b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a ketone that forms the nucleus of certain natural yellow pigments like riboflavin",
+          "after": "One of a group of yellow, nitrogen-containing pigments with an isoalloxazine-based structure, including riboflavin.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "Primary chemical classification gives isoalloxazine-based nitrogenous pigments. Replace inaccurate simple ketone classification; riboflavin remains an example, not the whole class."
+        },
+        "definition_uz": {
+          "before": "Riboflavin kabi ayrim tabiiy sariq pigmentlarning asosini tashkil etuvchi keton.",
+          "after": "Azot tutuvchi sariq pigmentlar turkumidan biri; riboflavin singari izoalloksazin tuzilishiga ega birikma.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "Replace keton error with pigment/isoalloxazine explanation; independent factual paraphrase, not a copied source translation."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tabiiy sariq pigmentlar asosini tashkil etuvchi keton",
+              "translation_id": "89771094-953b-51d3-a6a4-d49afdc210d4"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "flavin; azot tutuvchi sariq pigment",
+              "translation_id": "89771094-953b-51d3-a6a4-d49afdc210d4"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "Name flavin plus pigment explanation replaces erroneous ketone translation."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "No exact chemical noun CEFR documented; source C2 cleared. Riboflavin/vitamin B2 name is not a CEFR level."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "Riboflavin is a member of the class; flavonoid is a different chemical family. Neither universally synonymous, no guessed target."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "Reduced/oxidized flavins are chemical forms, not lexical antonyms."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/F02423",
+            "https://www.merriam-webster.com/dictionary/flavin"
+          ],
+          "reasoning": "Flavin adenine dinucleotide is a separate biochemical term; no unverified automatic compound link or new phrase selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "659eeef9-44db-544e-aa0b-351af9c3713d",
+      "sense_id": "fbde9dd8-2eee-54d1-84bd-54b95b4285f9",
+      "lemma": "Mediterranean",
+      "meaning_sha": "5fc3111e84a3c5c2819ca62ee7a5a41ebebdcae5ac23b9076baf36ea03904ab7",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "of or relating to or characteristic of or located near the Mediterranean Sea",
+          "after": "of or relating to or characteristic of or located near the Mediterranean Sea",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "Exact adjective refers to sea/surrounding region and typical features; original retained."
+        },
+        "definition_uz": {
+          "before": "O‘rta dengizga tegishli, unga xos yoki uning yaqinida joylashgan",
+          "after": "O‘rta dengizga tegishli, unga xos yoki uning yaqinida joylashgan",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "O‘rta dengizga tegishli/xos/nearby-location sense accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "O‘rta dengizga oid",
+              "translation_id": "48335235-f86f-5c6c-a65d-e9f9ff838859"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "O‘rta dengizga oid",
+              "translation_id": "48335235-f86f-5c6c-a65d-e9f9ff838859"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "O‘rta dengizga oid retained as geographic adjective."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "No reliable exact English adjective badge documented. Original B1 cleared; noun/translation-page/footer labels do not certify this sense."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "Mediterranean Sea noun is the place name rather than adjective synonym; no exact target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "Continental or oceanic climate labels are categories, not universal opposites of the regional adjective."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "a Mediterranean climate"
+            },
+            {
+              "text": "Mediterranean coast"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/mediterranean_2",
+            "https://dictionary.cambridge.org/us/dictionary/english/mediterranean?q=Mediterranean"
+          ],
+          "reasoning": "Mediterranean climate and coast explicitly attested in exact adjective/collocation entry."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65a5e59d-7bd8-574d-8c2b-e600349b5e70",
+      "sense_id": "d4e3adb7-1871-540c-93db-9a46c838ac09",
+      "lemma": "eschatologically",
+      "meaning_sha": "f334a012d5409bf4985e1cb468739a729b8fe2c778af7ea3724f7035de082aba",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "in relation to eschatology",
+          "after": "In relation to religious beliefs about death, the end of the world, or the ultimate destiny of humankind.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "Expand circular gloss with end-of-world/death/final-destiny religious subject matter, confirmed by exact adverb and base concept references."
+        },
+        "definition_uz": {
+          "before": "Eschatologiyaga, ya’ni oxirzamon va yakuniy taqdir haqidagi ta’limotga nisbatan.",
+          "after": "O‘lim, oxirzamon yoki insoniyatning yakuniy taqdiri haqidagi diniy qarashlar nuqtayi nazaridan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "Explain subject matter in natural Uzbek; retain broad religious scope rather than one tradition only."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "esxatologik jihatdan",
+              "translation_id": "f298b8e3-1e7c-5d6d-96ad-1ed93fedf443"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "esxatologik jihatdan",
+              "translation_id": "f298b8e3-1e7c-5d6d-96ad-1ed93fedf443"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "Esxatologik jihatdan retained as adverbial translation."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "No exact adverb CEFR documented; source C2 cleared. Specialist/register status does not provide CEFR."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "Theologically is broader than this specific branch; not universally equivalent. No exact target verified."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed link added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/eschatologically",
+            "https://www.merriam-webster.com/dictionary/eschatology"
+          ],
+          "reasoning": "Eschatological hope is adjective usage, not an eschatologically adverb collocation; no automatic transfer."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65aa4aee-5c46-4cf5-b908-699a10ecdb72",
+      "sense_id": "4673bf07-a6c4-4f1f-adf0-f95534c3e73c",
+      "lemma": "closed-end lease",
+      "meaning_sha": "5e127af260090c45b4f92eb016f70648eea4b4019b33c5aa2a5f799afa2b1766",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a lease that requires the asset to be returned at the end of the agreed period",
+          "after": "In U.S. consumer leasing, a lease under which the lessee can return the asset at the scheduled end without liability for a shortfall below its agreed residual value; other contractual charges may still apply.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Current US Regulation M commentary identifies residual-value liability as distinction. Return is an option, not invariably mandatory: purchase options may exist. Other contract charges retained; jurisdiction explicit."
+        },
+        "definition_uz": {
+          "before": "muddat oxirida qaytariladigan yopiq lizing",
+          "after": "AQSH iste’mol lizingida, muddat oxirida mol-mulkning haqiqiy qiymati shartnomada belgilangan qoldiq qiymatdan past chiqsa, ijarachi shu farqni qoplamaydigan lizing; shartnomadagi boshqa to‘lovlar saqlanishi mumkin.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Explain agreed residual-value shortfall risk and other possible charges instead of merely repeating return-at-end condition."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "muddat oxirida qaytariladigan yopiq lizing",
+              "translation_id": "47d2cffe-7acc-5cd8-aa7b-4702716f573e"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yopiq turdagi lizing",
+              "translation_id": "47d2cffe-7acc-5cd8-aa7b-4702716f573e"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Yopiq turdagi lizing retains term without false mandatory-return claim; fuller mechanism in definition."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Original null retained; no exact phrase-level CEFR documented."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Walk-away lease is attested in official commentary but no frozen exact target readback; no invented UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Open-end lease is an explicit contrasting type in official reference; no frozen exact target independently verified, so no guessed ID."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.consumerfinance.gov/rules-policy/regulations/1013/2/",
+            "https://www.federalreserve.gov/pubs/leasing/resource/introduction/type.htm",
+            "https://www.federalreserve.gov/pubs/leasing/resource/consider/endclosed_info5.htm"
+          ],
+          "reasoning": "Multiword headword already identifies lease type. No redundant self-link or unverified product combination added."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65ab4d18-6a09-53c5-a005-30c172068bbd",
+      "sense_id": "82260623-7e17-42fa-a87a-bf437c7342be",
+      "lemma": "disbar",
+      "meaning_sha": "949eb444a7085f7b6cf1e63026a8181f6acb61ca3c0596784e162ae90afb0af5",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "remove from the bar; expel from the practice of law by official action",
+          "after": "remove from the bar; expel from the practice of law by official action",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "Official loss of right to practise law corroborated; source does not claim universal permanent exclusion, retained."
+        },
+        "definition_uz": {
+          "before": "Rasmiy qaror bilan huquq amaliyoti olib borish vakolatini bekor qilmoq.",
+          "after": "Advokatlik faoliyatini olib borish huquqidan rasmiy ravishda mahrum etmoq.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "Clarify lawyer’s professional practice right, rather than broad legal activity."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "advokatlikdan mahrum qilmoq",
+              "translation_id": "fd5ba890-3b2a-56ee-b30d-a9f923544231"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "advokatlikdan mahrum qilmoq",
+              "translation_id": "fd5ba890-3b2a-56ee-b30d-a9f923544231"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "Advokatlikdan mahrum qilmoq accurately retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "No exact verb level in primary entry. Visible C2 belongs to unrelated ballot box Word-of-Day footer; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "Debar and expel are broader; no independently verified exact frozen target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "Reinstatement/admission is an opposing process but exact target sense not independently read; no guess."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "disbar somebody from the practice of law"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/disbar"
+          ],
+          "reasoning": "Disbar somebody from the practice of law follows explicitly attested legal-profession construction."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Five selected historical source senses with no original synonym/antonym edges; no contiguous-range completion or new source coverage.",
+  "reference_access_notes": [
+    "Exact primary/cached primary reference bodies read; failed opens are not evidence.",
+    "Cached full-shard SHA authenticates members; Supabase offsets reused from unchanged historical receipt, not a fresh database content_sha comparison."
+  ],
+  "legal_reference_scope": {
+    "term": "closed-end lease",
+    "jurisdiction": "United States consumer leasing",
+    "primary_regulation": "Regulation M 12 CFR1013.2(d) and official commentary",
+    "current_page_checked_on": "2026-11-13",
+    "no_personal_legal_or_financial_recommendation": true
+  },
+  "source_usage": "Factual checks and independently written learner definitions; no publisher attribution or source URLs added to dictionary content.",
+  "example_asset_changed": false,
+  "local_validation": {
+    "final_run": {
+      "passed": 226,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "schema": 1,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": {
+    "sense_rank_start": 44165,
+    "sense_rank_end": 49685,
+    "source_senses": 5521,
+    "source_lexemes": 3279
+  },
+  "editorial": {
+    "exact_lexeme_deltas": 31,
+    "exact_sense_deltas": 49,
+    "source_verified_cefr_edits": 16,
+    "corrected_english_definitions": 2,
+    "corrected_uzbek_definitions": 2,
+    "corrected_uzbek_translations": 3,
+    "excluded_misattributed_senses_from_future_candidate": 4,
+    "removed_incorrect_synonym_targets": 19,
+    "added_exact_synonym_edges": 20,
+    "added_exact_antonym_edges": 10,
+    "added_attested_collocations": 42
+  },
+  "latest_verified_changes": [
+    {
+      "lemma": "apprise",
+      "excluded_senses": [
+        "0a5c728a-9078-4805-bba3-8cf148e0638e",
+        "e1e227ef-4eb1-4f99-8bb7-3c7ae9ab647b"
+      ],
+      "retained_senses": [
+        "7bb141c5-1c75-48d1-a396-d405b909c878",
+        "d0ee3d9f-2168-4a66-85c3-24a1b0247cd4"
+      ],
+      "source": "https://dictionary.cambridge.org/dictionary/english/apprise"
+    },
+    {
+      "lemma": "apprize",
+      "excluded_senses": [
+        "6c961d4e-9329-5b02-86bf-82c8fed73443",
+        "d2f0df39-8f12-5d2c-9876-aa1792253d0c"
+      ],
+      "retained_senses": [
+        "9a3096d8-a0ce-5d82-ac24-f708419de9d8",
+        "835f44a7-ac69-5088-90c6-dfbde683202c"
+      ],
+      "source": "https://www.collinsdictionary.com/dictionary/english/apprise"
+    },
+    {
+      "lemma": "demonstrate",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "cefr_original": "B1",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
+      "scope": "SHOW HOW / provide exhibition to an audience"
+    },
+    {
+      "lemma": "audible",
+      "sense_id": "fd1560ca-4e94-461d-8e67-beef46ebf5d4",
+      "change": "Exact antonym inaudible (adjective sense) and audible sigh collocation",
+      "source": "https://dictionary.cambridge.org/dictionary/english/audible"
+    },
+    {
+      "lemma": "appease",
+      "sense_ids": [
+        "b22c9951-6d11-4f84-868f-5b680f47a39d",
+        "e5d3562b-ea8c-48c7-a748-59a40b542a04",
+        "5ea0659a-f428-4ca0-a049-de1e410d6c41"
+      ],
+      "change": "Placate/pacify/propitiate synonyms tied to appropriate specific meanings; appease critics / appease a guilty conscience collocations",
+      "source": "https://dictionary.cambridge.org/dictionary/english/appease"
+    },
+    {
+      "lemma": "blurb",
+      "sense_id": "efa2e5e1-dca5-488a-85c3-03ea971ccf3f",
+      "change": "Back-cover blurb and publicity blurb",
+      "source": "https://dictionary.cambridge.org/dictionary/english/blurb"
+    },
+    {
+      "lemma": "beep",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
+      "scope": "car horn C1; pager C2 remains unchanged"
+    },
+    {
+      "lemma": "abide",
+      "sense_ids": [
+        "033fda48-dc62-4b8e-91a7-30f327e8e66d",
+        "28d49c76-2120-49d9-bbc9-c93f5dabdf6f"
+      ],
+      "change": "Tolerate vs dwell synonyms matched to the respective meaning only",
+      "source": "https://dictionary.cambridge.org/dictionary/english/abide"
+    },
+    {
+      "lemma": "alms",
+      "sense_id": "fdbfb4f7-12d0-437a-867b-47269f9bca26",
+      "change": "give alms to the poor collocation",
+      "source": "https://dictionary.cambridge.org/dictionary/english/alms"
+    },
+    {
+      "lemma": "archway",
+      "sense_id": "e52d6121-d32a-4b26-9909-c1d53e593936",
+      "change": "stone archway collocation",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/archway"
+    },
+    {
+      "lemma": "chatty",
+      "sense_ids": [
+        "676b56f7-c118-4e2a-823b-0331c4f81114",
+        "c9007394-5a5e-49c7-9b8b-6e63837bc107"
+      ],
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+      "change": "Friendly talkative and conversational writing senses; exact talkative synonym and chatty letter/style collocations"
+    },
+    {
+      "lemma": "bribe",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
+      "change": "noun money/gift used to influence a person dishonestly; accept/take a bribe collocations"
+    },
+    {
+      "lemma": "baguette",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "cefr_original": "C2",
+      "cefr_replacement": "B2",
+      "source": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette",
+      "scope": "long French stick loaf"
+    },
+    {
+      "lemma": "caregiver",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver",
+      "scope": "person responsible for a child or dependent adult; other caregiver senses unchanged"
+    },
+    {
+      "lemma": "annoyance",
+      "sense_ids": [
+        "7684f98e-2417-4cdf-9a07-368ae9952f22",
+        "a4e14c69-657b-4c47-a46d-a338b7ffac8b"
+      ],
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
+      "scope": "countable irritating person/thing and uncountable emotion; existing C1 feeling sense unchanged; corrected one Uzbek rendering"
+    },
+    {
+      "lemma": "brilliance",
+      "sense_ids": [
+        "86fde680-8dd4-4286-af9b-09f93752e21a",
+        "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24"
+      ],
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+      "scope": "Oxford 5000 C1 applies to intellectual ability and impressiveness; third brightness sense remains C1; genius vs blaze/glare targets matched exactly"
+    },
+    {
+      "lemma": "blackberry",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "cefr_original": "C2",
+      "cefr_replacement": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
+      "scope": "Oxford fruit sense topic Food C1. Oxford3000 B1 applies to word list overall, so choose explicit sense-specific label; botanical plant sense unchanged"
+    },
+    {
+      "lemma": "brim",
+      "sense_ids": [
+        "ece50b59-a973-40b1-9add-e4c360a03983",
+        "f0a1a434-41dc-4c6e-861b-7a82b29f079e"
+      ],
+      "change": "Exact vessel rim/lip meanings, full to the brim; separate hat wide brim and beneath brim collocations",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brim_1"
+    },
+    {
+      "lemma": "burrow",
+      "sense_id": "26a43cd7-8094-4a68-91c4-fca58ff30636",
+      "change": "Oxford-attested burrow into the soil and burrow under the fence collocations; no CEFR change",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/burrow_1"
+    }
+  ],
+  "r2_readback": {
+    "shards": [
+      "65",
+      "66",
+      "67",
+      "68",
+      "69",
+      "6a",
+      "6b",
+      "6c",
+      "6d",
+      "6e",
+      "6f",
+      "70",
+      "71",
+      "72"
+    ],
+    "lexemes": 31,
+    "senses": 49,
+    "meaning_sha_matched": 49,
+    "cefr_originals_matched": 16,
+    "english_definitions_matched": 2,
+    "uzbek_definitions_matched": 2,
+    "uzbek_translations_matched": 3,
+    "excluded_glosses_matched": 4,
+    "mismatches": 0,
+    "missing_lexemes": 0,
+    "method": "Independent, read-only R2 decompression and original SHA/value equality",
+    "retry_note": "A transient Cloudflare HTTP 500 on shard 66 was retried; the subsequent read-only verification completed with zero source failures.",
+    "latest_exact_member_check": {
+      "senses": 4,
+      "meaning_sha_matched": 4,
+      "source_cefr_matched": 4,
+      "old_uz_translation_matched": 1,
+      "errors": 0
+    },
+    "full_overlay_readback": {
+      "lexemes_found": 31,
+      "senses_found": 49,
+      "meaning_sha_matched": 49,
+      "cefr_originals_matched": 16,
+      "english_definition_originals_matched": 2,
+      "uzbek_definition_originals_matched": 2,
+      "uzbek_translation_originals_matched": 3,
+      "excluded_original_glosses_matched": 4,
+      "missing_lexemes": [],
+      "errors": [],
+      "read_only": true
+    }
+  },
+  "graph_integrity": {
+    "incoming_exact_synonym_edges_to_excluded_senses_in_phase09_shards": 8,
+    "removal_strategy": "candidate-only whole-release target lexeme ID and sense ID matching; do not guess or reassign ambiguous unscoped edges",
+    "source_lexemes_untouched": true,
+    "example_texts_untouched": true,
+    "new_exact_target_senses_verified_in_supabase": 5
+  },
+  "publication": {
+    "candidate_only": true,
+    "live_release_mutated": false,
+    "production_deployed": false,
+    "main_merged": false,
+    "full_linguistic_signoff": false
+  }
+}

@@ -1,0 +1,363 @@
+{
+  "schema": 1,
+  "base_snapshot": "PORT_STATUS.json",
+  "base_methods": 345,
+  "actual_methods": 404,
+  "note": "Additive API registrations already present at dictionary audit baseline 05ddbd5; no endpoint implementation changed by this audit. Compared against immutable historical route snapshot, with exact union equality in tests.",
+  "additional_endpoints": [
+    {
+      "method": "DELETE",
+      "path": "/api/admin/users/{id}",
+      "module": "app.accounts_extra_port",
+      "handler": "delete_suspended_student"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/study-plan/share/{share_id}",
+      "module": "app.study_plan_port",
+      "handler": "revoke_share"
+    },
+    {
+      "method": "GET",
+      "path": "/api/coins/policy",
+      "module": "app.coin_port",
+      "handler": "policy"
+    },
+    {
+      "method": "GET",
+      "path": "/api/coins/wallet",
+      "module": "app.coin_port",
+      "handler": "coin_wallet"
+    },
+    {
+      "method": "GET",
+      "path": "/api/guardian/children",
+      "module": "app.guardian_port",
+      "handler": "guardian_children"
+    },
+    {
+      "method": "GET",
+      "path": "/api/guardian/children/{student_id}/leaderboard",
+      "module": "app.guardian_port",
+      "handler": "guardian_leaderboard"
+    },
+    {
+      "method": "GET",
+      "path": "/api/guardian/children/{student_id}/progress",
+      "module": "app.guardian_port",
+      "handler": "guardian_progress"
+    },
+    {
+      "method": "GET",
+      "path": "/api/guardians/links",
+      "module": "app.guardian_port",
+      "handler": "web_links"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/directory/{userId}/parents",
+      "module": "app.telegram_directory_port",
+      "handler": "student_parents"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/guardians/student-links",
+      "module": "app.guardian_port",
+      "handler": "bot_student_links"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/parents",
+      "module": "app.telegram_directory_port",
+      "handler": "parent_directory"
+    },
+    {
+      "method": "GET",
+      "path": "/api/internal/telegram/parents/{profileId}",
+      "module": "app.telegram_directory_port",
+      "handler": "parent_detail"
+    },
+    {
+      "method": "GET",
+      "path": "/api/reading/articles/progress",
+      "module": "app.article_progress_port",
+      "handler": "get_progress"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/guardian-message-templates",
+      "module": "app.guardian_port",
+      "handler": "staff_templates"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/guardian-messages/{batch_id}",
+      "module": "app.guardian_port",
+      "handler": "staff_batch"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/guardians",
+      "module": "app.guardian_port",
+      "handler": "staff_guardians"
+    },
+    {
+      "method": "GET",
+      "path": "/api/staff/guardians/{link_id}",
+      "module": "app.guardian_port",
+      "handler": "staff_guardian_detail"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan",
+      "module": "app.study_plan_port",
+      "handler": "read_plan"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/leaderboard",
+      "module": "app.study_plan_port",
+      "handler": "leaderboard"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/monthly",
+      "module": "app.study_plan_month_port",
+      "handler": "get_month"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/monthly/sequence",
+      "module": "app.study_plan_thirty_port",
+      "handler": "read_plan"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/monthly/sequence/level",
+      "module": "app.study_plan_level_port",
+      "handler": "read_level_check"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/monthly/sequence/staff",
+      "module": "app.study_plan_staff_port",
+      "handler": "list_progress"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/monthly/sequence/staff/{student_id}",
+      "module": "app.study_plan_staff_port",
+      "handler": "detail_progress"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/rewards",
+      "module": "app.study_plan_port",
+      "handler": "rewards"
+    },
+    {
+      "method": "GET",
+      "path": "/api/study-plan/share",
+      "module": "app.study_plan_port",
+      "handler": "list_shares"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/live-partner/profile",
+      "module": "app.step24_live_partner",
+      "handler": "update_partner_profile"
+    },
+    {
+      "method": "POST",
+      "path": "/api/coins/grammar-book/complete",
+      "module": "app.coin_port",
+      "handler": "grammar_book"
+    },
+    {
+      "method": "POST",
+      "path": "/api/coins/media/heartbeat",
+      "module": "app.coin_port",
+      "handler": "heartbeat"
+    },
+    {
+      "method": "POST",
+      "path": "/api/guardians/invitations",
+      "module": "app.guardian_port",
+      "handler": "web_create_invitation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/guardians/links/{link_id}/approve",
+      "module": "app.guardian_port",
+      "handler": "web_approve"
+    },
+    {
+      "method": "POST",
+      "path": "/api/guardians/links/{link_id}/reject",
+      "module": "app.guardian_port",
+      "handler": "web_reject"
+    },
+    {
+      "method": "POST",
+      "path": "/api/guardians/links/{link_id}/revoke",
+      "module": "app.guardian_port",
+      "handler": "web_revoke"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/auth/handoff",
+      "module": "app.telegram_handoff_port",
+      "handler": "create_handoff"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/check-channel",
+      "module": "app.guardian_port",
+      "handler": "bot_check_channel"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/decide",
+      "module": "app.guardian_port",
+      "handler": "bot_decide"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/deliveries/claim",
+      "module": "app.guardian_port",
+      "handler": "bot_claim_deliveries"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/invitations",
+      "module": "app.guardian_port",
+      "handler": "bot_invitation"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/redeem",
+      "module": "app.guardian_port",
+      "handler": "bot_redeem"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/relationship",
+      "module": "app.guardian_port",
+      "handler": "bot_relationship"
+    },
+    {
+      "method": "POST",
+      "path": "/api/internal/telegram/guardians/state",
+      "module": "app.guardian_port",
+      "handler": "bot_state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/reading/articles/{article_id}/complete",
+      "module": "app.article_progress_port",
+      "handler": "complete_article"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/guardian-messages/preview",
+      "module": "app.guardian_port",
+      "handler": "staff_preview"
+    },
+    {
+      "method": "POST",
+      "path": "/api/staff/guardian-messages/send",
+      "module": "app.guardian_port",
+      "handler": "staff_send"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/assessment",
+      "module": "app.study_plan_month_port",
+      "handler": "submit_assessment"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/sequence/grammar/verify",
+      "module": "app.study_plan_thirty_port",
+      "handler": "verify_skill_grammar"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/sequence/level/manual",
+      "module": "app.study_plan_level_port",
+      "handler": "set_profile_level"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/sequence/level/start",
+      "module": "app.study_plan_level_port",
+      "handler": "start_level_check"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/sequence/level/submit",
+      "module": "app.study_plan_level_port",
+      "handler": "submit_level_check"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/sequence/regenerate",
+      "module": "app.study_plan_thirty_port",
+      "handler": "regenerate_plan"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/sequence/start",
+      "module": "app.study_plan_thirty_port",
+      "handler": "start_plan"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/monthly/start",
+      "module": "app.study_plan_month_port",
+      "handler": "start_assessment"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/share",
+      "module": "app.study_plan_port",
+      "handler": "publish_share"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-plan/shared",
+      "module": "app.study_plan_port",
+      "handler": "shared_plan"
+    },
+    {
+      "method": "POST",
+      "path": "/api/study-time",
+      "module": "app.study_time",
+      "handler": "post"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/study-plan/leaderboard/participation",
+      "module": "app.study_plan_port",
+      "handler": "participation"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/study-plan/preferences",
+      "module": "app.study_plan_port",
+      "handler": "save_preferences"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/study-plan/reschedule",
+      "module": "app.study_plan_port",
+      "handler": "reschedule"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/study-plan/rewards/{item_key}",
+      "module": "app.study_plan_port",
+      "handler": "redeem"
+    }
+  ]
+}

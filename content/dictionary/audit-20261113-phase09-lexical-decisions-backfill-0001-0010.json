@@ -1,0 +1,1420 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+  "prior_candidate_commit": "02a4d04aef48991d7ee320c08a9f3dbb6e6e1dd1",
+  "scope": {
+    "lexemes": 10,
+    "senses": 11,
+    "field_decisions": 77,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "6568847e-1b29-5ff7-b104-60393188df8e",
+      "sense_id": "837c0d04-016a-55ec-a735-0496b50b7752",
+      "lemma": "hold fast",
+      "meaning_sha": "3b4ff0fcae84086f94643b8ca7a79bd7d4a565dc893d848461cc6b4ae9e0f9be",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "stick to firmly",
+          "after": "stick to firmly",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "Physical sticking firmly matches fixed-position hold-fast use and independently defined surface adhesion. Figurative loyalty and botanical holdfast noun excluded."
+        },
+        "definition_uz": {
+          "before": "Yuzadan ajralmay mustahkam tutashib turmoq.",
+          "after": "Yuzadan ajralmay mustahkam tutashib turmoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "Yuzadan ajralmay mustahkam tutashish physical adhesion sensega mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "mahkam yopishmoq",
+              "translation_id": "e49ce778-137e-579f-8332-b4dbbffe102c"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "mahkam yopishmoq",
+              "translation_id": "e49ce778-137e-579f-8332-b4dbbffe102c"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "Mahkam yopishmoq retained for attachment, not ideological adherence."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "Exact reviewed phrase/physical-adhesion references supply no CEFR; generic hold or stick levels not transferred. Original B1 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "b5fcda8d-bb59-590f-a83d-6c591ea63644",
+              "senseId": "d785c7f9-a8f7-5fc2-8143-e52113b68051",
+              "text": "adhere"
+            },
+            {
+              "lexemeId": "512afc95-35aa-553d-9465-1d9953c1cb57",
+              "senseId": "bcc6ef84-3dbe-4150-b64b-5de8a977e7a5",
+              "text": "bind"
+            },
+            {
+              "lexemeId": "cf8ecd42-6cc3-5e7a-b9db-a7a159feba90",
+              "senseId": "60ee90c0-89fe-4a1f-9008-dd2c2e4df0ee",
+              "text": "bond"
+            },
+            {
+              "lexemeId": "35d934fc-f30c-5aae-989a-16df8279653a",
+              "senseId": "435cdbd7-5704-4988-89e7-177b929b5e92",
+              "text": "stick"
+            },
+            {
+              "lexemeId": "1952b0ea-4ee9-57f8-b327-50e1e4d72175",
+              "senseId": "e2696dd5-c150-5df0-bc9e-5a7dd5028876",
+              "text": "stick to"
+            }
+          ],
+          "after": [
+            {
+              "text": "adhere",
+              "lexemeId": "b5fcda8d-bb59-590f-a83d-6c591ea63644",
+              "senseId": "d785c7f9-a8f7-5fc2-8143-e52113b68051"
+            },
+            {
+              "text": "bind",
+              "lexemeId": "512afc95-35aa-553d-9465-1d9953c1cb57",
+              "senseId": "bcc6ef84-3dbe-4150-b64b-5de8a977e7a5"
+            },
+            {
+              "text": "bond",
+              "lexemeId": "cf8ecd42-6cc3-5e7a-b9db-a7a159feba90",
+              "senseId": "60ee90c0-89fe-4a1f-9008-dd2c2e4df0ee"
+            },
+            {
+              "text": "stick",
+              "lexemeId": "35d934fc-f30c-5aae-989a-16df8279653a",
+              "senseId": "435cdbd7-5704-4988-89e7-177b929b5e92"
+            },
+            {
+              "text": "stick to",
+              "lexemeId": "1952b0ea-4ee9-57f8-b327-50e1e4d72175",
+              "senseId": "e2696dd5-c150-5df0-bc9e-5a7dd5028876"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "All five target original glosses are uniquely stick-to-firmly: adhere, bind, bond, stick, stick to. Full target entries prove UUID/POS/meaning; ideological, legal bond and binding-rope senses excluded. Scope exact existing edges."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "Detaching is a possible converse, but no exact primary-and-frozen-target opposite selected; no guessed edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hold-stand-fast",
+            "https://dictionary.cambridge.org/us/dictionary/english/adhere?topic=obeying-and-breaking-the-law"
+          ],
+          "reasoning": "Principles combination in primary phrase reference is figurative; not assigned to this physical adhesion sense. Optional field remains empty."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6568f383-9e76-5cf2-8622-2a4916fbb937",
+      "sense_id": "3a20a1ca-f49a-5e00-bd8b-341448a6ffa9",
+      "lemma": "brand-name drug",
+      "meaning_sha": "2cde39c33813bf59a39b1be5fbbbd304cf75e72fea37ef50697d4bc9c80f0329",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a drug that has a trade name and is protected by a patent (can be produced and sold only by the company holding the patent)",
+          "after": "A medicine sold using a company's protected trade name, whether or not a patent on the medicine remains in force.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "Official glossary defines protected proprietary trade name, not mandatory ongoing patent. Patent expiry/generic competition does not redefine brand-name status. Correct false exclusive-patent criterion without naming a product."
+        },
+        "definition_uz": {
+          "before": "Savdo nomiga ega va patent bilan himoyalangan, odatda patent egasi kompaniya ishlab chiqaradigan dori.",
+          "after": "Tovar belgisi bilan himoyalangan savdo nomi ostida sotiladigan dori; uning patenti hali amalda bo‘lishi shart emas.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "Savdo nomining tovar belgisi himoyasi bilan patent muddatini ajratadi; patent doim amalda degan xato olib tashlandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "brend nomli dori",
+              "translation_id": "f0986dba-5399-546a-bab5-bc6038ce59d6"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "brend nomli dori",
+              "translation_id": "f0986dba-5399-546a-bab5-bc6038ce59d6"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "Brend nomli dori correctly identifies trade-name marketing; retained."
+        },
+        "cefr": {
+          "before": "B2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "No reliable exact multiword pharmaceutical level documented; original B2 cleared, brand or drug component level not transferred."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "Proprietary drug can carry regulatory/patent implications in different usage; no exact target meaning independently verified, so no guessed edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "Generic drug is an alternative naming/product category with possible matching active ingredients, not a lexical opposite or inverse effect; no unverified edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.fda.gov/drugs/drug-approvals-and-databases/drugsfda-glossary-terms",
+            "https://www.fda.gov/drugs/generic-drugs/generic-drugs-questions-answers"
+          ],
+          "reasoning": "No additional combination selected for this multiword headword; no drug-use recommendation or product name inserted."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "656c7ebe-a5ba-5a68-b1d4-a5e0fd553ec0",
+      "sense_id": "c9861d39-7699-5ccd-a188-45d7a20dab2c",
+      "lemma": "under the circumstances",
+      "meaning_sha": "d787796b390564200cc236c291f0738fa7bb7ce035d5c8f506f36ba65fd7d385",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "because of prevailing conditions",
+          "after": "because of prevailing conditions",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "Existing-conditions rationale matches exact collocation/idiom entry."
+        },
+        "definition_uz": {
+          "before": "Mavjud shart-sharoitlar sabab yoki ularni inobatga olib.",
+          "after": "Mavjud shart-sharoitlar sabab yoki ularni inobatga olib.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "Shart-sharoitlarni hisobga olish yoki ular sababli meaning retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "sharoitni hisobga olganda",
+              "translation_id": "01c2efab-07ef-5c06-9edb-72dd1feb2b58"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "sharoitni hisobga olganda",
+              "translation_id": "01c2efab-07ef-5c06-9edb-72dd1feb2b58"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "Sharoitni hisobga olganda conveys exact contextual judgment."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "No reliable exact idiom badge documented. Noun circumstance B2 and separate under-no-circumstances C1 are not this phrase’s level; original B1 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "In the circumstances is an attested variant, but no frozen exact target readback selected; no invented UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "Regardless of circumstances changes the logical relation but no exact frozen target selected."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/under-the-circumstances?topic=situations-and-circumstances",
+            "https://www.oxfordlearnersdictionaries.com/definition/english/circumstance"
+          ],
+          "reasoning": "Headword itself is a collocation. No redundant self-link or generic sentence promoted to a new combination; examples remain deferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "656d9d34-7d6a-4230-a489-e68bbcad76a7",
+      "sense_id": "bd2f8786-98de-4707-9a0f-7330827cbfab",
+      "lemma": "sound system",
+      "meaning_sha": "e6b3b172e3c846514fbf8177182f4a1593f1f2a180964553d7d8bf6275d1b3e2",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the organized set of speech sounds and sound patterns used by a language",
+          "after": "the organized set of speech sounds and sound patterns used by a language",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "Primary linguistics chapter describes language sound units and patterns; retain owner-supplied linguistic meaning, not audio equipment."
+        },
+        "definition_uz": {
+          "before": "tilning tovush tizimi",
+          "after": "Tilga xos nutq tovushlari va ularning birikish tartibidan iborat tizim.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "Expand repeated headword into speech sounds and combination patterns, matching original English content."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tilning tovush tizimi",
+              "translation_id": "eecf7a53-c4aa-55f1-900d-86610eadecd5"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tilning tovush tizimi",
+              "translation_id": "eecf7a53-c4aa-55f1-900d-86610eadecd5"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "Tilning tovush tizimi is precise for linguistic system."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "Original null retained. Audio-equipment sense and phonology’s own level cannot supply a level to this linguistic phrase."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "No exact frozen system target selected. A study-of-phonology sense cannot be linked solely because its label occurs beside sound system."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "No conventional lexical opposite of a language’s sound system established."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "sound system of a language"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.cambridge.org/highereducation/books/for-the-love-of-language/3A3423B4564A8B5755C33F34F1AC6315/phonology-the-sound-system/B9A3AA20AB9A2D801690BE752592109D"
+          ],
+          "reasoning": "Sound-system-of-a-language construction directly attested in primary linguistics chapter; attached only to linguistic sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65700dea-c5bd-4747-b069-eb958e8d2524",
+      "sense_id": "d095acda-ffbd-4ed9-99ef-2b7c3632edec",
+      "lemma": "visual impact",
+      "meaning_sha": "cf7e8771a2ce5673a4aeba75b3b09dd1be18439a466ed80b9d229b61ed9536f3",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "visual effect on an audience",
+          "after": "The effect that something's appearance has on the people who see it.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Appearance affecting an audience paraphrases original owner-supplied visual effect, supported by primary visual-impact usage."
+        },
+        "definition_uz": {
+          "before": "vizual ta’sir",
+          "after": "Biror narsaning ko‘rinishi uni ko‘rgan odamlarga qanday ta’sir qilishi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Expand terse visual-effect gloss into effect of appearance on people who see it."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "vizual ta’sir",
+              "translation_id": "f79b039b-9ca8-555f-a241-195df8ee74e9"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "vizual ta’sir",
+              "translation_id": "f79b039b-9ca8-555f-a241-195df8ee74e9"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Vizual ta’sir remains the established content terminology; no silent replacement with another effect sense."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Original null retained. B2 labels component adjective visual, not this phrase independently."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Visual effect can mean a film-production technique; no unverified target sense linked by surface similarity."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Auditory impact is a different sensory effect, not an antonym."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "huge visual impact"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/visual"
+          ],
+          "reasoning": "Huge visual impact directly attested in exact primary adjective usage, matching audience/appearance effect."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6571434e-17d4-588a-b95b-db4f97be4f0a",
+      "sense_id": "662854ba-a44f-5076-8bce-6102a48c2b22",
+      "lemma": "unhoped-for",
+      "meaning_sha": "baae66228c2979fe7657d164f429f1f89449430cb82dc06a17b7fbeb79f498ab",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "so unexpected as to have not been imagined",
+          "after": "so unexpected as to have not been imagined",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Unexpected/unanticipated adjective agrees with original strong unexpectedness gloss; not deliberately unwelcome."
+        },
+        "definition_uz": {
+          "before": "Shunchalik kutilmaganki, oldindan tasavvur ham qilinmagan.",
+          "after": "Shunchalik kutilmaganki, oldindan tasavvur ham qilinmagan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Oldindan tasavvur qilinmagan darajadagi kutilmaganlik matches exact source intensity."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kutilmagan",
+              "translation_id": "7f23435d-c210-5f2f-8221-db5b4d23bc42"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kutilmagan",
+              "translation_id": "7f23435d-c210-5f2f-8221-db5b4d23bc42"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Kutilmagan correctly expresses the unexpected occurrence, not hopelessness."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Original unassigned retained; no reliable exact adjective learner level supplied."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "fb3688bc-f775-52f5-badd-56696439715b",
+              "senseId": "6404c343-80cb-566d-b583-f536b8e6788f",
+              "text": "unhoped"
+            },
+            {
+              "lexemeId": "ed65f93c-0ac3-57ee-8e1c-8e68d437c32f",
+              "senseId": "f0217ed2-62a2-54af-a736-eb08b54895c0",
+              "text": "unthought"
+            },
+            {
+              "lexemeId": "9cac87be-15dd-5960-b84d-e6e18386366a",
+              "senseId": "23ef6497-26fb-51e8-a75b-3b868f1f2476",
+              "text": "unthought-of"
+            }
+          ],
+          "after": [
+            {
+              "text": "unhoped",
+              "lexemeId": "fb3688bc-f775-52f5-badd-56696439715b",
+              "senseId": "6404c343-80cb-566d-b583-f536b8e6788f"
+            },
+            {
+              "text": "unthought",
+              "lexemeId": "ed65f93c-0ac3-57ee-8e1c-8e68d437c32f",
+              "senseId": "f0217ed2-62a2-54af-a736-eb08b54895c0"
+            },
+            {
+              "text": "unthought-of",
+              "lexemeId": "9cac87be-15dd-5960-b84d-e6e18386366a",
+              "senseId": "23ef6497-26fb-51e8-a75b-3b868f1f2476"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Unhoped is explicitly documented as a variant. Unthought/unthought-of frozen IDs uniquely carry same unexpectedness gloss, not unconsidered/unconscious meanings; exact source scopes added."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Expected is a contrast, but no exact frozen target proved here; no guess."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "an unhoped-for advantage"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unhoped-for"
+          ],
+          "reasoning": "Unhoped-for advantage explicitly attested, preserving welcome-surprise usage."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6571fcdb-cfe5-518c-a30f-d5f69215c970",
+      "sense_id": "f463e708-a119-5705-99b2-19d6e5f8a14e",
+      "lemma": "affranchise",
+      "meaning_sha": "a089029b283d8b16bfebb44107ff9ba522ee7d97a9697f8b4eff2c14d1f8c534",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "grant freedom to; as from slavery or servitude",
+          "after": "grant freedom to; as from slavery or servitude",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "Release from servitude/dependence is directly attested; stored freedom sense retained, not voting-rights sense."
+        },
+        "definition_uz": {
+          "before": "Ozodlik bermoq, masalan, qullik yoki tobelikdan.",
+          "after": "Ozodlik bermoq, masalan, qullik yoki tobelikdan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "Qullik yoki tobelikdan ozodlik berish meaning retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ozodlikka chiqarmoq",
+              "translation_id": "702e2c3b-3485-5804-b649-e0c13936fbcc"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ozodlikka chiqarmoq",
+              "translation_id": "702e2c3b-3485-5804-b649-e0c13936fbcc"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "Ozodlikka chiqarmoq is the release action."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "Original null retained; primary rare-word entries supply no CEFR. Do not assign a level from enfranchise."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "67d17e62-0168-5212-aeca-91e1b12f6f2d",
+              "senseId": "8e32f6b9-a603-5b20-95aa-d9377e0cabda",
+              "text": "enfranchise"
+            }
+          ],
+          "after": [
+            {
+              "text": "enfranchise",
+              "lexemeId": "67d17e62-0168-5212-aeca-91e1b12f6f2d",
+              "senseId": "8e32f6b9-a603-5b20-95aa-d9377e0cabda"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "Enfranchise variant explicitly attested; frozen target exact grant-freedom sense, not electoral-rights meaning. Scope existing link."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [
+            {
+              "text": "enslave",
+              "lexemeId": "3fddb8bd-d18a-5b9e-8a5d-c25240fa3813",
+              "senseId": "a2c4bdcb-37de-46eb-b1a6-1f70f9b5ba77"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "Primary release-from-slavery group explicitly lists enslave among opposites. Added frozen target means make a slave/bring into servitude, verified exact UUID, not a voting restriction."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/affranchise",
+            "https://www.merriam-webster.com/dictionary/affranchise",
+            "https://www.merriam-webster.com/thesaurus/enfranchise",
+            "https://www.merriam-webster.com/dictionary/enslave"
+          ],
+          "reasoning": "No additional exact affranchise combination independently selected; no fabricated usage example."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65727037-8d8c-5ee3-9991-b5fe6c272d8d",
+      "sense_id": "9320ddac-727d-5677-ae89-bbade9022455",
+      "lemma": "amicableness",
+      "meaning_sha": "365500a27be9e510d63efe9942e1d7ff2a7efa3950eded1903c364aa106b3daf",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "having a disposition characterized by warmth and friendliness",
+          "after": "The quality of being warm and friendly in relations with others.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Primary entry lists amicableness and amicability as nouns for friendly goodwill. Replace adjective-like having-disposition gloss with explicit quality noun."
+        },
+        "definition_uz": {
+          "before": "Iliq va do'stona muomalaga moyil tabiat.",
+          "after": "Iliq va do‘stona muomalaga moyillik xususiyati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Do‘stona muomalaga moyillikning xususiyat ekanligi aniq ifodalandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "mehribonlik",
+              "translation_id": "8320f999-f4c3-5363-b773-907b4b081f69"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "do‘stonalik",
+              "translation_id": "8320f999-f4c3-5363-b773-907b4b081f69"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Do‘stonalik is more exact friendliness than the broad kindness translation mehribonlik."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Original null retained; no independent noun-level CEFR supplied."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "12290dbe-60a1-52ce-9e3b-f5c6cccf6155",
+              "senseId": "97a20225-49c0-5c76-816f-2f375413f5f1",
+              "text": "amicability"
+            }
+          ],
+          "after": [
+            {
+              "text": "amicability",
+              "lexemeId": "12290dbe-60a1-52ce-9e3b-f5c6cccf6155",
+              "senseId": "97a20225-49c0-5c76-816f-2f375413f5f1"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Amicability explicitly listed as same adjective-derived noun; frozen target identical original friendliness-disposition gloss. Exact source scope added."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Hostility/unfriendliness plausible but no verified exact target selected; do not invent edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/amicable"
+          ],
+          "reasoning": "Amicable agreement is an adjective combination, not an amicableness-noun collocation; not transferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6572be42-5232-54fc-868d-67b3d9a73ae7",
+      "sense_id": "8a28124b-3139-4265-88fc-1bf7f53594f6",
+      "lemma": "delectable",
+      "meaning_sha": "955f2932447a0b6aada04e059e8fe994493037bfd4ff4c9d45873db32e941f47",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "extremely pleasing to the sense of taste",
+          "after": "extremely pleasing to the sense of taste",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Extremely pleasant taste is directly attested; source food-taste meaning retained."
+        },
+        "definition_uz": {
+          "before": "Ta'm bilish hissiga nihoyatda yoqadigan.",
+          "after": "Ta'm bilish hissiga nihoyatda yoqadigan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Ta’mga nihoyatda yoqish mazmuni retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "juda mazali",
+              "translation_id": "e5bea511-a674-5af8-b0e6-b14021605a1f"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "juda mazali",
+              "translation_id": "e5bea511-a674-5af8-b0e6-b14021605a1f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Juda mazali denotes food/drink taste."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Exact primary meaning has no documented CEFR; source C2 cleared. Delicious level and unrelated footer B1 not borrowed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "268377d7-fd31-5f61-ac31-b221cf76bed8",
+              "senseId": "59f73e3e-45d4-4d62-9847-4cf337e397ae",
+              "text": "delicious"
+            },
+            {
+              "lexemeId": "e28bf0c4-6749-553a-b2cc-57ed7c04da09",
+              "senseId": "06ec2365-fd25-4351-b1bf-3db6707bfc86",
+              "text": "luscious"
+            },
+            {
+              "lexemeId": "96edf145-6384-5aad-b852-35a6d188d229",
+              "senseId": "4ec21c38-28f6-4914-b4ad-9b104f700f4d",
+              "text": "scrumptious"
+            },
+            {
+              "lexemeId": "4e141c2d-e0ea-5471-8edc-5597c7280bae",
+              "senseId": "95ebace7-683a-4c21-b4ed-f4e6ac5851f8",
+              "text": "yummy"
+            }
+          ],
+          "after": [
+            {
+              "text": "delicious",
+              "lexemeId": "268377d7-fd31-5f61-ac31-b221cf76bed8",
+              "senseId": "59f73e3e-45d4-4d62-9847-4cf337e397ae"
+            },
+            {
+              "text": "luscious",
+              "lexemeId": "e28bf0c4-6749-553a-b2cc-57ed7c04da09",
+              "senseId": "06ec2365-fd25-4351-b1bf-3db6707bfc86"
+            },
+            {
+              "text": "scrumptious",
+              "lexemeId": "96edf145-6384-5aad-b852-35a6d188d229",
+              "senseId": "4ec21c38-28f6-4914-b4ad-9b104f700f4d"
+            },
+            {
+              "text": "yummy",
+              "lexemeId": "4e141c2d-e0ea-5471-8edc-5597c7280bae",
+              "senseId": "95ebace7-683a-4c21-b4ed-f4e6ac5851f8"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Delicious/scrumptious explicitly listed; luscious/yummy frozen targets are exact pleasant-taste glosses, independently appropriate contextual equivalents. All four source scopes pinned."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Unappetizing is plausible but no exact frozen target independently proved; no guessed edge."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "delectable cheesecake"
+            }
+          ],
+          "after": [
+            {
+              "text": "delectable cheesecake"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Previously added delectable cheesecake is directly attested in primary entry; retained without counting again."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6572be42-5232-54fc-868d-67b3d9a73ae7",
+      "sense_id": "f479ba8d-fdf3-4cb4-b48a-3156dc1409c9",
+      "lemma": "delectable",
+      "meaning_sha": "6074d412bdb7d3687e804ec37d65a25e6478a88d4d96461d5194f0776e91caf2",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "capable of arousing sexual desire",
+          "after": "capable of arousing sexual desire",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Primary separate attractive-person meaning corroborates stored sexual-appeal sense; not confused with food."
+        },
+        "definition_uz": {
+          "before": "Jinsiy istak uyg‘ota oladigan.",
+          "after": "Jinsiy istak uyg‘ota oladigan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Jinsiy istak uyg‘otish mazmuni sexual-appeal meaningga mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "jinsiy istak uyg‘otuvchi",
+              "translation_id": "3419cf1e-d720-5e99-b583-f6202fc4561d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "jinsiy istak uyg‘otuvchi",
+              "translation_id": "3419cf1e-d720-5e99-b583-f6202fc4561d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Jinsiy istak uyg‘otuvchi conveys the exact attraction sense."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Exact primary meaning has no documented CEFR; source C2 cleared. Delicious level and unrelated footer B1 not borrowed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "6d7f510c-1b52-504c-ad98-73bc266acd57",
+              "senseId": "0ae3fd37-64c3-5e04-ad73-8ea87c2de1ec",
+              "text": "sexually attractive"
+            }
+          ],
+          "after": [
+            {
+              "text": "sexually attractive",
+              "lexemeId": "6d7f510c-1b52-504c-ad98-73bc266acd57",
+              "senseId": "0ae3fd37-64c3-5e04-ad73-8ea87c2de1ec"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Sexually attractive target has exact original sexual-desire gloss. Scope to attraction source only, not taste."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Unattractive can mean aesthetics without sexual appeal; no exact target verified, no guessed edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/delectable",
+            "https://dictionary.cambridge.org/dictionary/english/delectable",
+            "https://dictionary.cambridge.org/us/dictionary/english/luscious",
+            "https://dictionary.cambridge.org/us/dictionary/english/yummy"
+          ],
+          "reasoning": "Food combinations excluded. No independently selected attraction-specific combination added."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65735b8f-9c69-5c83-af51-86ce9e7fbfa9",
+      "sense_id": "e8f9907d-4580-5a47-b354-52c9c1be2458",
+      "lemma": "countermand",
+      "meaning_sha": "5116107b6430df86c99b0975e9d887e475092f6feab16b0d10e215f750d4217c",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "cancel officially",
+          "after": "cancel officially",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Official cancellation agrees with order/decision cancellation; original broad official-action meaning retained."
+        },
+        "definition_uz": {
+          "before": "Rasmiy ravishda qaror, buyruq yoki taqiqni bekor qilmoq.",
+          "after": "Rasmiy ravishda qaror, buyruq yoki taqiqni bekor qilmoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Rasmiy qaror/buyruq/taqiqni bekor qilish matches the cancellation sense."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "bekor qilmoq",
+              "translation_id": "b924cf0b-15af-52ad-b48c-6ddc3616f836"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "bekor qilmoq",
+              "translation_id": "b924cf0b-15af-52ad-b48c-6ddc3616f836"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Bekor qilmoq retained with official context in definition."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Formal usage is documented, exact CEFR is not. Source C2 cleared; unrelated footer moonlight B1 excluded."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "b272a065-d0e8-587e-925b-307052ad78f4",
+              "senseId": "9117a821-728b-4592-a9a0-1f95d3209267",
+              "text": "annul"
+            },
+            {
+              "lexemeId": "ccaba4d4-d98d-57ba-ad2e-4c1174e77ca4",
+              "senseId": "3aafd90b-4cc9-5070-ac92-477e4f468e93",
+              "text": "lift"
+            },
+            {
+              "lexemeId": "87616fec-b991-52c8-a476-5650278a20f8",
+              "senseId": "fae68a7b-54d3-4555-a430-34d361eaa256",
+              "text": "overturn"
+            },
+            {
+              "lexemeId": "4d294ff9-d879-5db3-afc0-36a8a5456d6f",
+              "senseId": "d2b38fee-0bac-417b-a116-ed1b2b34934e",
+              "text": "repeal"
+            },
+            {
+              "lexemeId": "cd50db73-1d15-5465-869f-84ac8437865d",
+              "senseId": "5b43b8f5-5568-4839-ab2a-468053dce671",
+              "text": "rescind"
+            },
+            {
+              "lexemeId": "e387b787-b194-5a51-91ed-a08f2af8c28a",
+              "senseId": "75987d4c-4589-476d-9814-b6e6e95764b7",
+              "text": "reverse"
+            },
+            {
+              "lexemeId": "976261d0-e00d-50fb-b136-b4c8e4cc0068",
+              "senseId": "b0a0567c-671e-40a0-8417-d35ddbf93970",
+              "text": "revoke"
+            },
+            {
+              "lexemeId": "363bfa1d-8531-5dc2-b993-d625d89dff9e",
+              "senseId": "6636e283-1b95-4047-b047-e1d8c9135171",
+              "text": "vacate"
+            }
+          ],
+          "after": [
+            {
+              "text": "annul",
+              "lexemeId": "b272a065-d0e8-587e-925b-307052ad78f4",
+              "senseId": "9117a821-728b-4592-a9a0-1f95d3209267"
+            },
+            {
+              "text": "lift",
+              "lexemeId": "ccaba4d4-d98d-57ba-ad2e-4c1174e77ca4",
+              "senseId": "3aafd90b-4cc9-5070-ac92-477e4f468e93"
+            },
+            {
+              "text": "overturn",
+              "lexemeId": "87616fec-b991-52c8-a476-5650278a20f8",
+              "senseId": "fae68a7b-54d3-4555-a430-34d361eaa256"
+            },
+            {
+              "text": "repeal",
+              "lexemeId": "4d294ff9-d879-5db3-afc0-36a8a5456d6f",
+              "senseId": "d2b38fee-0bac-417b-a116-ed1b2b34934e"
+            },
+            {
+              "text": "rescind",
+              "lexemeId": "cd50db73-1d15-5465-869f-84ac8437865d",
+              "senseId": "5b43b8f5-5568-4839-ab2a-468053dce671"
+            },
+            {
+              "text": "reverse",
+              "lexemeId": "e387b787-b194-5a51-91ed-a08f2af8c28a",
+              "senseId": "75987d4c-4589-476d-9814-b6e6e95764b7"
+            },
+            {
+              "text": "revoke",
+              "lexemeId": "976261d0-e00d-50fb-b136-b4c8e4cc0068",
+              "senseId": "b0a0567c-671e-40a0-8417-d35ddbf93970"
+            },
+            {
+              "text": "vacate",
+              "lexemeId": "363bfa1d-8531-5dc2-b993-d625d89dff9e",
+              "senseId": "6636e283-1b95-4047-b047-e1d8c9135171"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Annul/lift/rescind/reverse/revoke explicitly listed by primary learner reference; overturn/repeal/vacate in same official-cancellation thesaurus group. All eight frozen targets uniquely cancel-officially, not lift upward, reverse direction or vacate premises. Contextual synonyms do not license universal object interchangeability."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Issuing/validating an order can oppose cancellation, but no exact frozen target independently proved; no edge guessed."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "countermand an order"
+            }
+          ],
+          "after": [
+            {
+              "text": "countermand an order"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/countermand",
+            "https://dictionary.cambridge.org/us/dictionary/english/countermand",
+            "https://www.merriam-webster.com/thesaurus/countermand"
+          ],
+          "reasoning": "Previously added countermand an order is supported by exact primary collocation entry; retained, not counted as a new addition."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Earlier phase09 source 1–10. Full original data enriches unchanged prior receipt; source totals not increased.",
+  "relation_verification": {
+    "existing_synonyms_scoped": 23,
+    "new_antonyms": 1,
+    "target_lexemes_verified": 24,
+    "source_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+    "automatic_definition_equality_is_not_independent_language_certification": true
+  },
+  "reference_access_notes": [
+    "Exact primary cached search body used where direct body returned403; no failed direct open reported as successful.",
+    "No CEFR inferred from a component word, different meaning, formal label, or Word-of-Day footer."
+  ],
+  "local_validation": {
+    "initial_backend_run": {
+      "passed": 188,
+      "failed": 1,
+      "skipped": 0,
+      "warnings": 1,
+      "failure": "test_phase09_first_200_source_receipt_and_targeted_repairs: historical synthetic fixture omitted target part_of_speech",
+      "resolution": "Use verified complete canonical entries for enriched source IDs; strict production relation-scope guard preserved."
+    },
+    "final_backend_regression_suite": {
+      "passed": 191,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "result": "PASS"
+    },
+    "new_tests": [
+      "historical/canonical source and target identities; no source recount",
+      "exact relation target scope, taste/attraction boundary, liberation/slavery boundary"
+    ],
+    "live_browser_qa_performed": false
+  }
+}

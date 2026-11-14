@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "scope": {
+    "lexemes": 94,
+    "requested_senses": 197,
+    "cached_target_lexemes": 111
+  },
+  "source_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "source_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "source_index_sha256": "01836a64b14acfafd21574d1d41fcbdd3b311ace6c4ff6eb632743d1e73e7416",
+  "candidate_asset_sha256": "0771cfca9a56aef40220aabe563e8bc9bf246591c527f38a501c797d1f58767e",
+  "presentation_manifest_sha256": "202a02e0cafafd019cff3b484bd30c750655637f5eae4500bdd1defc4533557f",
+  "elapsed_seconds": 0.556244,
+  "review_status": "prepared_context_only_no_editorial_signoff",
+  "new_editorial_senses_certified": 0,
+  "new_source_coverage_counted": 0,
+  "production_mutation": false,
+  "examples_audited": false,
+  "format": "compact_lexical_context_v1",
+  "omission_note": "Examples deferred. Full original entries, attribution and shard proofs remain in the checksum-bound audit-only SQLite index; unchanged candidate fields inherit original values.",
+  "full_packet_bytes": 2367336,
+  "compact_packet_bytes": 407147,
+  "compact_reduction_percent": 82.8,
+  "full_packet_sha256": "d47769053ac222680e9378c69a383bf9b6dbff4c97a3454d956a6d024f5640fd",
+  "compact_packet_sha256": "1aad310baf74df91e311fd1394b5c96df12c38337acb5797c375058e4a6143bc",
+  "uncached_source_count": 50
+}

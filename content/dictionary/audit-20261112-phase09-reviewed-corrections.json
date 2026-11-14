@@ -1,0 +1,282 @@
+{
+  "schema": 1,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "target": "immutable replacement release only",
+  "publication_state": "not_published",
+  "interventions": [
+    {
+      "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+      "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+      "lemma": "itself",
+      "part_of_speech": "pronoun",
+      "definition_en": "Refers back to the same subject.",
+      "cefr": {
+        "original": null,
+        "proposed": "A2",
+        "evidence": "https://dictionary.cambridge.org/dictionary/english/itself",
+        "sense_alignment": "reflexive form of it; not the separate emphatic B1 use",
+        "status": "source_verified_editorial_proposal"
+      },
+      "synonyms": {
+        "original": [
+          "myself",
+          "ourselves",
+          "themselves",
+          "yourself"
+        ],
+        "proposed": [],
+        "reason": "Different grammatical person/number and referent, not substitutable exact-sense synonyms; retain as grammatical related forms only if modeled with a different relation type",
+        "evidence": "https://dictionary.cambridge.org/dictionary/english/itself",
+        "status": "source_verified_editorial_proposal"
+      },
+      "antonyms": {
+        "original": [],
+        "proposed": [],
+        "reason": "No lexical antonym for this reflexive pronoun"
+      },
+      "collocations": {
+        "original": [],
+        "proposed": [],
+        "reason": "Do not attach by itself or in itself without verifying the intended separate idiomatic sense"
+      },
+      "translation_uz": {
+        "original": "o‘zi; o‘zini (narsa yoki hayvon)",
+        "proposed": null,
+        "reason": "Current translation consistent with reflexive usage; no rewrite proposed"
+      }
+    },
+    {
+      "lexeme_id": "6572be42-5232-54fc-868d-67b3d9a73ae7",
+      "lemma": "delectable",
+      "part_of_speech": "a",
+      "senses": [
+        {
+          "sense_id": "8a28124b-3139-4265-88fc-1bf7f53594f6",
+          "definition_en": "extremely pleasing to the sense of taste",
+          "preserve_synonyms": [
+            "delicious",
+            "luscious",
+            "scrumptious",
+            "yummy"
+          ]
+        },
+        {
+          "sense_id": "f479ba8d-fdf3-4cb4-b48a-3156dc1409c9",
+          "definition_en": "capable of arousing sexual desire",
+          "preserve_synonyms": [
+            "sexually attractive"
+          ]
+        }
+      ],
+      "status": "presentation_already_sense_scoped_no_change"
+    },
+    {
+      "lexeme_id": "657a3cc5-c380-5e80-8b2b-253585c708b9",
+      "lemma": "flake",
+      "part_of_speech": "n",
+      "senses": [
+        {
+          "sense_id": "06640187-71be-4178-b157-73c1518bfc3f",
+          "definition_en": "a crystal of snow",
+          "preserve_synonyms": [
+            "snowflake"
+          ]
+        },
+        {
+          "sense_id": "a4e4aa6d-2c53-4002-ad18-d5224208aa66",
+          "definition_en": "a person with an unusual or odd personality",
+          "preserve_synonyms": [
+            "eccentric",
+            "geek",
+            "oddball"
+          ]
+        },
+        {
+          "sense_id": "e3d17978-a3ac-4585-8165-64ec3bf4e308",
+          "definition_en": "a small fragment of something broken off from the whole",
+          "preserve_synonyms": [
+            "bit",
+            "chip",
+            "fleck",
+            "scrap"
+          ]
+        }
+      ],
+      "status": "presentation_already_sense_scoped_cefr_unresolved"
+    },
+    {
+      "lexeme_id": "65825765-33c0-5e04-8ad9-1cab90be90e5",
+      "sense_id": "d7525883-85d3-4bd1-90f0-409545b4c051",
+      "lemma": "startup",
+      "definition_en": "the act of starting a new operation or practice",
+      "examples": {
+        "remove_or_reassign": [
+          "he opposed the inauguration of fluoridation"
+        ],
+        "reason": "Example does not contain startup and illustrates inauguration, not the headword; preserve source record for separate review"
+      },
+      "status": "candidate_cleanup_pending_source_review"
+    }
+  ],
+  "quality_gates": {
+    "required": [
+      "independently verify every CEFR at exact sense",
+      "link only attested sense-matched synonyms and antonyms",
+      "collocations must be genuine, attested and explicitly attached to the matching sense",
+      "validate relation target sense IDs",
+      "build immutable R2 candidate and reader/presentation shards with regenerated hashes",
+      "recheck whole release and rollback before publication"
+    ],
+    "automated_mass_cefr_downgrade": false,
+    "automatic_relation_invention": false,
+    "production_changes": false
+  },
+  "source_verified_cefr_edits": [
+    {
+      "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+      "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+      "lemma": "itself",
+      "original": null,
+      "proposed": "A2",
+      "source": "https://dictionary.cambridge.org/dictionary/english/itself",
+      "scope": "reflexive pronoun referring back to the same subject"
+    },
+    {
+      "lexeme_id": "65a3521a-fee2-57ba-a9da-6986fbb48d7e",
+      "sense_id": "e4920ac3-62d9-4322-9dde-b2cb48d19237",
+      "lemma": "nowadays",
+      "original": "A2",
+      "proposed": "B1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/nowadays",
+      "scope": "adverb meaning at the present time compared to the past"
+    },
+    {
+      "lexeme_id": "65a67e1f-758a-5461-a706-e2e07dbdeff6",
+      "sense_id": "4d245a0c-9a49-457b-a9e5-6a3d045caac1",
+      "lemma": "cake",
+      "original": "B1",
+      "proposed": "A1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/cake",
+      "scope": "noun: sweet baked food, not a block or piece of another material"
+    },
+    {
+      "lexeme_id": "657d401a-d708-574d-96e0-4130d13b53ca",
+      "sense_id": "725120af-7844-44a6-a94b-99cad490b356",
+      "lemma": "hysterical",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/hysterical",
+      "scope": "general adjective: unable to control feelings or behavior because of strong emotion; distinct from historical psychiatric sense"
+    },
+    {
+      "lexeme_id": "6be98a49-4727-5ba5-9e5b-2818837511c4",
+      "sense_id": "2fc82e1d-4d7b-4b8e-966e-e348482493de",
+      "lemma": "demonstrate",
+      "original": "B1",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/demonstrate",
+      "scope": "give an exhibition of something to an audience; Cambridge SHOW HOW sense C1; distinct from PROTEST B2 and SHOW/PROVE B2"
+    },
+    {
+      "lexeme_id": "6aeeff90-ed52-5d70-9903-467e1603bceb",
+      "sense_id": "a1a40c1d-c4ec-40f3-a69e-860a7331523b",
+      "lemma": "beep",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/beep_2",
+      "scope": "vehicle horn sound (Oxford sense 2 Transport c1); pager-call Oxford sense 3 c2 stays C2"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "676b56f7-c118-4e2a-823b-0331c4f81114",
+      "lemma": "chatty",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+      "scope": "friendly talkative interpersonal adjective sense"
+    },
+    {
+      "lexeme_id": "6bc8aaa3-6065-5b07-88b0-7d80ae3b5dd3",
+      "sense_id": "c9007394-5a5e-49c7-9b8b-6e63837bc107",
+      "lemma": "chatty",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/chatty",
+      "scope": "informal conversational style of writing/speech"
+    },
+    {
+      "lexeme_id": "6f6bcc4e-b979-554f-8bbc-405475172731",
+      "sense_id": "b023ae8a-5add-4e04-85b3-f59ffd40824a",
+      "lemma": "bribe",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/bribe",
+      "scope": "noun denoting money or gift used to influence someone dishonestly"
+    },
+    {
+      "lexeme_id": "6e2c70ea-17b4-50d8-9ffb-62486f8f60d3",
+      "sense_id": "45af92dc-c0c8-4151-878a-18186573effe",
+      "lemma": "baguette",
+      "original": "C2",
+      "proposed": "B2",
+      "source": "https://www.oxfordlearnersdictionaries.com/us/definition/english/baguette",
+      "scope": "Long thin French stick loaf; Oxford Food B2"
+    },
+    {
+      "lexeme_id": "707450c8-bf09-55c0-8dd4-0c4935498169",
+      "sense_id": "b28678ca-7aad-4192-b56e-04f16a3715a6",
+      "lemma": "caregiver",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/caregiver",
+      "scope": "Person responsible for attending to a child or dependent adult"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "7684f98e-2417-4cdf-9a07-368ae9952f22",
+      "lemma": "annoyance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://dictionary.cambridge.org/dictionary/english/annoyance",
+      "scope": "Countable annoyance: somebody or something that bothers a person"
+    },
+    {
+      "lexeme_id": "6b82d1f2-3022-55b2-babc-654db68ced9a",
+      "sense_id": "a4e14c69-657b-4c47-a46d-a338b7ffac8b",
+      "lemma": "annoyance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/annoyance",
+      "scope": "Uncountable annoyance: feeling of being annoyed"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "86fde680-8dd4-4286-af9b-09f93752e21a",
+      "lemma": "brilliance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+      "scope": "Oxford 5000 C1, intellectual ability and exceptional intelligence meaning"
+    },
+    {
+      "lexeme_id": "6d673b56-e14b-5236-b31e-d947f28f5b42",
+      "sense_id": "bb6d0dc4-dbeb-4b26-88b2-3a5b0b4d2f24",
+      "lemma": "brilliance",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/brilliance",
+      "scope": "Oxford 5000 C1, the quality of being extremely impressive or splendid"
+    },
+    {
+      "lexeme_id": "69d5e678-3e68-5081-8e63-6cb588d34827",
+      "sense_id": "369e683a-bed2-4834-8743-e5871947d096",
+      "lemma": "blackberry",
+      "original": "C2",
+      "proposed": "C1",
+      "source": "https://www.oxfordlearnersdictionaries.com/definition/english/blackberry",
+      "scope": "Oxford Food C1 directly on the edible-fruit sense; general Oxford3000 B1 label differs and is not the sense-specific source"
+    }
+  ],
+  "cefr_policy": "A CEFR label is optional. Change it only with attested exact-sense evidence; a null value must not be auto-filled or counted as a defect. These edits are source-verified candidate release changes, not production mutations."
+}

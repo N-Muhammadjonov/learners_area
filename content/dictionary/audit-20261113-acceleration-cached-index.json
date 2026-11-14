@@ -1,0 +1,1447 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": "authenticated_cached_source_index_only",
+  "indexed": {
+    "shards": 95,
+    "lexemes": 24150,
+    "senses": 41151
+  },
+  "distinct_pos_gloss_groups": 33466,
+  "elapsed_seconds": 7.813118,
+  "fresh_database_content_sha_comparison": "NOT_RERUN_connector_unavailable",
+  "source_proofs": [
+    {
+      "shard": "00",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/13/descriptor",
+      "descriptor": {
+        "shard": "00",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f5b99f4cd2c5deddfa401c882926940bae86e7a7e8a3a513a060dd16a751d0c7",
+        "entries": 252,
+        "raw_bytes": 791990,
+        "raw_sha256": "9615743974627dfa51b2648b27104578bf882fd6ba53435ce216a33c5cba6970",
+        "compressed_bytes": 329491
+      }
+    },
+    {
+      "shard": "02",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/0/descriptor",
+      "descriptor": {
+        "shard": "02",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "340f6ad311bc0cd5e8bdef50b4f58307cda7c9495d4a2985ce4cd76d354adeb4",
+        "entries": 251,
+        "raw_bytes": 788652,
+        "raw_sha256": "5fd3153de4fab40c4e7a62fc77514ae6b81148369e2ef8fab37c0f92c23f4f88",
+        "compressed_bytes": 326026
+      }
+    },
+    {
+      "shard": "04",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/0/descriptor",
+      "descriptor": {
+        "shard": "04",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "576fada153c4cd124393bc9e484c356e08f3867160b294947bc866ee5119965a",
+        "entries": 288,
+        "raw_bytes": 907200,
+        "raw_sha256": "e6de1f518327b03fe9245ab037705960970ac09860370b63bec4f13c9fa957c2",
+        "compressed_bytes": 377996
+      }
+    },
+    {
+      "shard": "06",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/1/descriptor",
+      "descriptor": {
+        "shard": "06",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fa7c53497754174f2ca8a2461ec5e19dfd329ad381d06776ca1d34c303a20def",
+        "entries": 288,
+        "raw_bytes": 893343,
+        "raw_sha256": "ad1ce774520156113f35df60c067207629f6745210760521cb824694e67fbb66",
+        "compressed_bytes": 374092
+      }
+    },
+    {
+      "shard": "0b",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/2/descriptor",
+      "descriptor": {
+        "shard": "0b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2c2e4da1948602331c31d834d4ca8eb5b1957e0316124fa6da54a4a05a2c9342",
+        "entries": 255,
+        "raw_bytes": 804783,
+        "raw_sha256": "e110e7dcb5a0222fdbde436092cb867a7b42560c5685c6736d991d90bcd5afb3",
+        "compressed_bytes": 333825
+      }
+    },
+    {
+      "shard": "0d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/3/descriptor",
+      "descriptor": {
+        "shard": "0d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fe32a1ae48a44c13d483d9515896f9989734a28442c556ba58296be604d5ead9",
+        "entries": 260,
+        "raw_bytes": 823086,
+        "raw_sha256": "ac9c0077372670541c38eea1e53f5d02b0faf96ffd9ce2d595b5ed1a9619f292",
+        "compressed_bytes": 342891
+      }
+    },
+    {
+      "shard": "0e",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/2/descriptor",
+      "descriptor": {
+        "shard": "0e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3a5e84f46a8b309da6dca6a09009d9a2eb539d30e25050105528aad5f490984a",
+        "entries": 248,
+        "raw_bytes": 769135,
+        "raw_sha256": "6651a3d89026deb75bbaebfc88935fdf39c79010e79d0a4395d2167b73960e74",
+        "compressed_bytes": 321638
+      }
+    },
+    {
+      "shard": "0f",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json",
+      "receipt_sha256": "2347edb138cdcea712bf9c039e89f741674886c8a37816b578de6194dd8827a5",
+      "pointer": "/additional_target_proofs/0/shard_descriptor",
+      "descriptor": {
+        "shard": "0f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fe6ecf9ccaf9c931b7c6d501a8944632587363ccc4d3dd4f63306bcbccb54829",
+        "entries": 287,
+        "raw_bytes": 878064,
+        "raw_sha256": "dd2e8b65069b6c3eda8449767d0881c64c16390a09bc542234f48ee6c664b92d",
+        "compressed_bytes": 369174
+      }
+    },
+    {
+      "shard": "10",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/4/descriptor",
+      "descriptor": {
+        "shard": "10",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9cae53a480656b2aba961bbefb3fb25e5e3b6edc15c69db9d7c8096caa09bbd3",
+        "entries": 281,
+        "raw_bytes": 966735,
+        "raw_sha256": "821c18c6403326f7b13a38dbd0e8b392967ed410f804fa5b94bbb5e13678facb",
+        "compressed_bytes": 391725
+      }
+    },
+    {
+      "shard": "12",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/0/descriptor",
+      "descriptor": {
+        "shard": "12",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d2395ac6e67fcfef0d4daa28a5aa78a3e18ada92ec6d96d0beec5af476d57997",
+        "entries": 254,
+        "raw_bytes": 840267,
+        "raw_sha256": "64e3aad2a2e03ca276fe45f045ef706dca082670451971dfcbe9f246aedd8be7",
+        "compressed_bytes": 346113
+      }
+    },
+    {
+      "shard": "13",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/5/descriptor",
+      "descriptor": {
+        "shard": "13",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7ba03d4fba7a120dc856a0c9eabf975f4b74890b64fe0c2201dffa92dcf5bf4d",
+        "entries": 266,
+        "raw_bytes": 846257,
+        "raw_sha256": "5caad15d17fa4a2dbca09544336b3cf62e110a23400386774acdc8fbaa8babbe",
+        "compressed_bytes": 350391
+      }
+    },
+    {
+      "shard": "16",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/0/descriptor",
+      "descriptor": {
+        "shard": "16",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d24082eb074e0611d436dd7894e737183e1594196b95d005958338c3fdc0ee15",
+        "entries": 258,
+        "raw_bytes": 783390,
+        "raw_sha256": "a0ee780ea20c83c2ec15e183901b628b03671ea622c24f0c8576ea4baa97179c",
+        "compressed_bytes": 329788
+      }
+    },
+    {
+      "shard": "18",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/1/descriptor",
+      "descriptor": {
+        "shard": "18",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fefa07f84e9b225da741e6c80ff30214120fce5572c077b54e4ea8719e24ebc3",
+        "entries": 245,
+        "raw_bytes": 781098,
+        "raw_sha256": "9adcea053ba7622f09b1e8d5348df98714f72e2d21033ac264e9c20d8f8a9ec3",
+        "compressed_bytes": 324565
+      }
+    },
+    {
+      "shard": "19",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/1/descriptor",
+      "descriptor": {
+        "shard": "19",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c57f61105340b8d5eac2f7acd5f65d785267d5e5ac83df87009b1276ffb40444",
+        "entries": 243,
+        "raw_bytes": 726865,
+        "raw_sha256": "94cd9cf80053958f27f3e7ab3123b8fcb5e293311ebe4e728fcaf2052a54435d",
+        "compressed_bytes": 307826
+      }
+    },
+    {
+      "shard": "1a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/6/descriptor",
+      "descriptor": {
+        "shard": "1a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3712c1cb5efac99699a0e8d51cb9ced9db6a6804700d517e6e9bed053b44f668",
+        "entries": 229,
+        "raw_bytes": 682601,
+        "raw_sha256": "5afc883c3d3d0b97fce664f1c3b942adf395c03913b6b8cc21e538e1f53853e9",
+        "compressed_bytes": 288802
+      }
+    },
+    {
+      "shard": "20",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/7/descriptor",
+      "descriptor": {
+        "shard": "20",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "43150e6641eb861ddb26bc79d482c6e29d0b8ccd744b54629f2d4663e1eb0686",
+        "entries": 283,
+        "raw_bytes": 865805,
+        "raw_sha256": "12ff90190dc85c89ac7be2cea3273940b978cab3d550a7195455a34d3da92818",
+        "compressed_bytes": 363300
+      }
+    },
+    {
+      "shard": "26",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/2/descriptor",
+      "descriptor": {
+        "shard": "26",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e0cfacc5fcaf7555699bc93d0908951a1373d3578b3f6df56dfc57a23c9670fc",
+        "entries": 268,
+        "raw_bytes": 827371,
+        "raw_sha256": "7d3685a3a45f0226d6e5c6117e70bf28b588570b41cde6c9721108459dbfe077",
+        "compressed_bytes": 345554
+      }
+    },
+    {
+      "shard": "2d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/8/descriptor",
+      "descriptor": {
+        "shard": "2d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ea06ab426a341ccc97b417f95f70900939ebeae23b2abacfc95864dfac4d9045",
+        "entries": 268,
+        "raw_bytes": 854675,
+        "raw_sha256": "853fcd1e63e5e1d1b622afefa036e15129e6f3a6558097f4ebc290bfe80b502f",
+        "compressed_bytes": 355617
+      }
+    },
+    {
+      "shard": "35",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/3/descriptor",
+      "descriptor": {
+        "shard": "35",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "19825dddcbd82483d574a5fd7a928885a87a6ef73313316afd276e1555fbee11",
+        "entries": 255,
+        "raw_bytes": 849652,
+        "raw_sha256": "1ac6de10447b5aa8247e0aad22c884c2b9ef5f98718a0f705aa34b436ab75340",
+        "compressed_bytes": 347739
+      }
+    },
+    {
+      "shard": "36",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/4/descriptor",
+      "descriptor": {
+        "shard": "36",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a52602be8aa0f1ab9679ac764c70a0b759e1e4de71b14c2fa1d5cf89a95ba559",
+        "entries": 240,
+        "raw_bytes": 766914,
+        "raw_sha256": "b878053b92d65f078040e6963be69f4e65d32ff642eef1c942a485e7ea1e2711",
+        "compressed_bytes": 319641
+      }
+    },
+    {
+      "shard": "39",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/9/descriptor",
+      "descriptor": {
+        "shard": "39",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "375a1557f1ee636b67162df9632dfd8bfe48f7096aded609f64ec8cbab118548",
+        "entries": 236,
+        "raw_bytes": 762550,
+        "raw_sha256": "7210309166e92ba8ed11e654667a3aa88048219c9098828e9c50b6ae9a9128f2",
+        "compressed_bytes": 315048
+      }
+    },
+    {
+      "shard": "3d",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/3/descriptor",
+      "descriptor": {
+        "shard": "3d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3a042590c9c42bb2e8303c3b22b0d4e3e22c88de23f3c4b98e68cf8763cd3afd",
+        "entries": 263,
+        "raw_bytes": 857581,
+        "raw_sha256": "05064af033cb77cfbfa34379efc70445c1338970dbaed6dcb447606f44fb33f6",
+        "compressed_bytes": 353539
+      }
+    },
+    {
+      "shard": "3e",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/2/descriptor",
+      "descriptor": {
+        "shard": "3e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "88ab19e460f74eeaf99adb98f16a7010c0c35ea95a6e4fca1c2d49e598a1bef9",
+        "entries": 238,
+        "raw_bytes": 789420,
+        "raw_sha256": "73d4f6cb44e4a950acb25f186c163c735f6f3200488d5a6f51ca709c07623801",
+        "compressed_bytes": 323375
+      }
+    },
+    {
+      "shard": "3f",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/10/descriptor",
+      "descriptor": {
+        "shard": "3f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2687b0af17918c7f4f6133c9a6757fa80f48a39001694983fd2667c34a90dacb",
+        "entries": 255,
+        "raw_bytes": 805186,
+        "raw_sha256": "e50934c7a87c4875998890c5704610cfe58ce3e9e6bf8fa27d7cfedfe053554a",
+        "compressed_bytes": 335070
+      }
+    },
+    {
+      "shard": "42",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/11/descriptor",
+      "descriptor": {
+        "shard": "42",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3561d1e163b4f918517de818767871ae42f4c207841abbe6ff6ea628d6d2a891",
+        "entries": 261,
+        "raw_bytes": 806202,
+        "raw_sha256": "f95c58ae3cbdd02bdb72ed864eccc0c8358a9a0e3c898919882bd7bc67039541",
+        "compressed_bytes": 335941
+      }
+    },
+    {
+      "shard": "44",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/12/descriptor",
+      "descriptor": {
+        "shard": "44",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "832b828bcb5508d3ccb3ff42ebb20a42e3288c30cdffd0c8b34bc775d2b1e8ee",
+        "entries": 260,
+        "raw_bytes": 841132,
+        "raw_sha256": "1f788bef804e3a4ee29965f8a737c1797049e52920ba741b8cd4651c73eccf92",
+        "compressed_bytes": 349549
+      }
+    },
+    {
+      "shard": "45",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/13/descriptor",
+      "descriptor": {
+        "shard": "45",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1b04eb9ad41bf90fd6d8dd3f155faa8f76ae7c8f96c52786e68a8bc7f69050e4",
+        "entries": 244,
+        "raw_bytes": 826770,
+        "raw_sha256": "ad1b4c46599c4e708eaf8b9b284d8779140634e4e6564f5ad0703b489e0ccd6b",
+        "compressed_bytes": 336677
+      }
+    },
+    {
+      "shard": "46",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1718-1719.json",
+      "receipt_sha256": "feae859687175c6a5c689938c30a6c2305e0a1f098cc31f82188bf32a41b4679",
+      "pointer": "/additional_target_proofs/0/shard_descriptor/descriptor",
+      "descriptor": {
+        "shard": "46",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2c57b6bd9340424f988b38b09ee7be93ccc954c551752d19691ac4117edae601",
+        "entries": 252,
+        "raw_bytes": 841773,
+        "raw_sha256": "6becaf73182a370508852e6af6519eb06478df6426c925cb772e28d327d6c3b7",
+        "compressed_bytes": 342360
+      }
+    },
+    {
+      "shard": "49",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/14/descriptor",
+      "descriptor": {
+        "shard": "49",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a46d95f1500a36697610f5810c365f7b77dc641e871ca6e82e28946d2c504adf",
+        "entries": 251,
+        "raw_bytes": 777715,
+        "raw_sha256": "0bd8b6d8f999f7cc5f731e56707e72d9f91518825ad63e039708fd1b8bcb3acc",
+        "compressed_bytes": 323757
+      }
+    },
+    {
+      "shard": "4a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/15/descriptor",
+      "descriptor": {
+        "shard": "4a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "77d12aaf34d6e4d4dd4f671c22c5f018a86efcc084efc812191d17fa7cdbb693",
+        "entries": 246,
+        "raw_bytes": 796013,
+        "raw_sha256": "6cbbdcb6dabc08579aea285e98ed0a563c5140dec05889c1eed9fe7ece229a14",
+        "compressed_bytes": 329129
+      }
+    },
+    {
+      "shard": "4d",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/5/descriptor",
+      "descriptor": {
+        "shard": "4d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f2e5becebbcda8f97e4eaee783f1cadd00752e7f19a8257304c52bfac9c87ad6",
+        "entries": 266,
+        "raw_bytes": 908339,
+        "raw_sha256": "e724336b0e60ea071718a961fecd2a398249ad496c2bf642eb5757d8d874013e",
+        "compressed_bytes": 368952
+      }
+    },
+    {
+      "shard": "4e",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/6/descriptor",
+      "descriptor": {
+        "shard": "4e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3bf9f585dc03ca94d94f8c77908cc4f4fc222131a86ea5f417447d6c3b34ed8c",
+        "entries": 257,
+        "raw_bytes": 887244,
+        "raw_sha256": "28b0a53631de5c35721c2057751f594c303936391913bf71cfa308ade62b0b60",
+        "compressed_bytes": 361429
+      }
+    },
+    {
+      "shard": "51",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/7/descriptor",
+      "descriptor": {
+        "shard": "51",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b5f44058c947d196c6aaf2f0b46ea89ce620d58be66ed73de39f3c35c2a59b2f",
+        "entries": 282,
+        "raw_bytes": 931243,
+        "raw_sha256": "46a8a3cb9d6fb792f483abb63226e3a0f55adbbfc421051e2c3f26305134f869",
+        "compressed_bytes": 381803
+      }
+    },
+    {
+      "shard": "55",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/16/descriptor",
+      "descriptor": {
+        "shard": "55",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "84fe785bd68b60541fd1eb42e372193bf3e435bfd9b50d581d455b6170b5c72f",
+        "entries": 276,
+        "raw_bytes": 907860,
+        "raw_sha256": "0f35ffcd65b0d27557a9ff3a192cdfb89547ee484ef80f4a216729cbc984a570",
+        "compressed_bytes": 374465
+      }
+    },
+    {
+      "shard": "59",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json",
+      "receipt_sha256": "98fd4e2e8145ecb5fe0bcd07867918f739d84644165f4c8e80c2bbe575f97017",
+      "pointer": "/additional_target_proofs/0/shard_descriptor",
+      "descriptor": {
+        "shard": "59",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0bb8ba173f0c745a4480553ce31e79da333cb340dad3cc93e2b6883cbd2b92c9",
+        "entries": 281,
+        "raw_bytes": 910541,
+        "raw_sha256": "37638779874634efae2ca5f65ec5b222b38422a1c398fc5559c49888215e8368",
+        "compressed_bytes": 374713
+      }
+    },
+    {
+      "shard": "5a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/17/descriptor",
+      "descriptor": {
+        "shard": "5a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b5bffc07bff202809017fd9da2ff847306c203659a32aefd14d237b62e500e8a",
+        "entries": 274,
+        "raw_bytes": 794781,
+        "raw_sha256": "2bdab1201075e34dc3780c0ceebc8c961a0a88f10cac668b8539f8c875484bff",
+        "compressed_bytes": 338125
+      }
+    },
+    {
+      "shard": "62",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/5/descriptor",
+      "descriptor": {
+        "shard": "62",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "844abba5044dc94aae04611465dd329311984ac5e07cc577d1f4839d0561c0f7",
+        "entries": 246,
+        "raw_bytes": 810139,
+        "raw_sha256": "74d994af89c6cc43025e53a630a2a31b666de8557867b11cd51256a1a3e8cde2",
+        "compressed_bytes": 332739
+      }
+    },
+    {
+      "shard": "65",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/source_projection/0/descriptor",
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "shard": "67",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/18/descriptor",
+      "descriptor": {
+        "shard": "67",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "caf4cf81930b8adec65742492fb2ebd94ba214489e02bbc9cfebdcb71790c652",
+        "entries": 248,
+        "raw_bytes": 732531,
+        "raw_sha256": "fd608e57cede27ba9490b7fc11a10196b639a2175ace199333294711b828f299",
+        "compressed_bytes": 308379
+      }
+    },
+    {
+      "shard": "6c",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/source_projection/shards/0/descriptor",
+      "descriptor": {
+        "shard": "6c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8016aef1ef0af0fdae1ee108f51da081f2ccdf5e630d7aeb627fab2a87619565",
+        "entries": 244,
+        "raw_bytes": 790365,
+        "raw_sha256": "9fccd3f3e91bc375412bbc0b80005ce0bf76bbca097d5a5f687cab448c9be0a3",
+        "compressed_bytes": 328192
+      }
+    },
+    {
+      "shard": "6d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/source_projection/shards/1/descriptor",
+      "descriptor": {
+        "shard": "6d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c10cea52782fd76f358833597510024adb4fabb73d5eb9aafc96dbfcf1fd97e6",
+        "entries": 260,
+        "raw_bytes": 802346,
+        "raw_sha256": "95969a4185e630443cfbadee4f6d368c1e58dd39ea0de5ab68334c8ecc00e785",
+        "compressed_bytes": 335049
+      }
+    },
+    {
+      "shard": "6e",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/20/descriptor",
+      "descriptor": {
+        "shard": "6e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3596864ab7b8952a9e2c4b5950033eeeda89709b79cc23faac7b77f79cf305c3",
+        "entries": 242,
+        "raw_bytes": 738953,
+        "raw_sha256": "316c325eeb4a3e5aedac016006a6c82e3b1ff72a714cdc89264c0579abe0078c",
+        "compressed_bytes": 311949
+      }
+    },
+    {
+      "shard": "6f",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/21/descriptor",
+      "descriptor": {
+        "shard": "6f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "03b35e68d6a3ba03c3bb36e7d0b269c5d513a42124cb8d6721853b31e9732820",
+        "entries": 264,
+        "raw_bytes": 823703,
+        "raw_sha256": "9601482c7b6cb452c6be31214b55728e3a1f1957d2e3677b9e35e8c9340bb3aa",
+        "compressed_bytes": 344174
+      }
+    },
+    {
+      "shard": "70",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/22/descriptor",
+      "descriptor": {
+        "shard": "70",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "bd58bf43fb53faf8f2a0913372545cebfe291d2ada39902d6678b67845761338",
+        "entries": 243,
+        "raw_bytes": 769805,
+        "raw_sha256": "8b81c80a7dbbd6523c0d8b9379dd2e850c138a74dd934df252442d3793006799",
+        "compressed_bytes": 320124
+      }
+    },
+    {
+      "shard": "71",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/6/descriptor",
+      "descriptor": {
+        "shard": "71",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1ac5a76140d23d9fd59ba4fa62830510bffdb9e5f96ba580937b26fa0c6f8033",
+        "entries": 259,
+        "raw_bytes": 811242,
+        "raw_sha256": "b418d432137f2786145ce37816b0c9b711df76f480a9b70bff6af8bdb20fc79e",
+        "compressed_bytes": 339410
+      }
+    },
+    {
+      "shard": "72",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/23/descriptor",
+      "descriptor": {
+        "shard": "72",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4080043e1c43df6b9ccc5c97182f028cf8b2c6ab10256fd94cca82ef4148fb8f",
+        "entries": 266,
+        "raw_bytes": 833204,
+        "raw_sha256": "f1e6658df2c0e5267bf0894ef7a268bc9201937f04fde9fa47ef4b9e315b9338",
+        "compressed_bytes": 346919
+      }
+    },
+    {
+      "shard": "73",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/24/descriptor",
+      "descriptor": {
+        "shard": "73",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c794b3541516ee8f3305443df81d3ddde66faa75d9cc2374e3cb28d5e083b4ea",
+        "entries": 240,
+        "raw_bytes": 786416,
+        "raw_sha256": "6ab17d9e2c4ab4e96b66cb344522f15a994185330a2a62670ccde3e5d7b08ee3",
+        "compressed_bytes": 322674
+      }
+    },
+    {
+      "shard": "75",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/7/descriptor",
+      "descriptor": {
+        "shard": "75",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "17589d2b1e74477df2eee723c057947e5b9240e2e9adc3e9d4356c9e7727d537",
+        "entries": 236,
+        "raw_bytes": 761172,
+        "raw_sha256": "927ee283bd5c8dc66ab49f9181545df1e4fd6dcae443680b9a550b47475b4365",
+        "compressed_bytes": 313190
+      }
+    },
+    {
+      "shard": "76",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/8/descriptor",
+      "descriptor": {
+        "shard": "76",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ee9ddb288b269781ff62d22dc8ba57b471db59087e2e818530e65f18e4860041",
+        "entries": 230,
+        "raw_bytes": 690235,
+        "raw_sha256": "2defb2c25ca5894a21dfbd214d1685dfeffa70a9101dbf1f1098d057b997b3fb",
+        "compressed_bytes": 292838
+      }
+    },
+    {
+      "shard": "78",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/6/descriptor",
+      "descriptor": {
+        "shard": "78",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fadb5582baad9e6e1f7552d8522ded5ee8426d99590b74ba885d840869d8bfaf",
+        "entries": 270,
+        "raw_bytes": 794552,
+        "raw_sha256": "ce0542b6fd3a5108aaee013ebbf693b55d080af9b7def99538633eec3784f468",
+        "compressed_bytes": 337232
+      }
+    },
+    {
+      "shard": "7c",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/7/descriptor",
+      "descriptor": {
+        "shard": "7c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a81723eac2ed1f4d0a57460ee25a30558decd3c127c89be8f1c0bd6b17852445",
+        "entries": 274,
+        "raw_bytes": 888933,
+        "raw_sha256": "540932a7fd377f587fd78a18d335cf472e0b8bd21f09a1459da38c6afcf9bdd5",
+        "compressed_bytes": 368009
+      }
+    },
+    {
+      "shard": "80",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/8/descriptor",
+      "descriptor": {
+        "shard": "80",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0160c9adf7d0e846a4414316e8edd78d8ad33f704924e88ec1143a57a6c82b96",
+        "entries": 241,
+        "raw_bytes": 804456,
+        "raw_sha256": "637e11eb1b0b64efef341d8ea6ca4c16c897e23397966b9d03b9ce2babdc1c00",
+        "compressed_bytes": 330326
+      }
+    },
+    {
+      "shard": "87",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/10/descriptor",
+      "descriptor": {
+        "shard": "87",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "671359d13d98a723d3ed86df4423004b1ba9c30a7387a7b2adfd3dd77df7cc37",
+        "entries": 251,
+        "raw_bytes": 796213,
+        "raw_sha256": "66078a494c64578c8af50618c2aa542553b577249e5e5950d7d418079846c8c7",
+        "compressed_bytes": 329508
+      }
+    },
+    {
+      "shard": "88",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/25/descriptor",
+      "descriptor": {
+        "shard": "88",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e42f6300aa139a0a31d47e028f1a927cc5a6fca8f36fc933692d30458e113c73",
+        "entries": 251,
+        "raw_bytes": 794208,
+        "raw_sha256": "ef87649c1cda64c1e2816a28afa866528379699aed94168d593e3614c68a533d",
+        "compressed_bytes": 330255
+      }
+    },
+    {
+      "shard": "8b",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/26/descriptor",
+      "descriptor": {
+        "shard": "8b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7ecf72161acd0ccea402a07d64694f5e3b08a6ac8e47eb0a7e02336a79d0d149",
+        "entries": 241,
+        "raw_bytes": 745532,
+        "raw_sha256": "dfa1b0240a7ac3fcc9ffece753a3ae6afb9805614e403273757bb4ab40fe15b4",
+        "compressed_bytes": 312832
+      }
+    },
+    {
+      "shard": "8d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/27/descriptor",
+      "descriptor": {
+        "shard": "8d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a9a77993922fabcebb84b8d2cd4ab0b9e716535fa1b2edbbefd7e07e47cb6577",
+        "entries": 258,
+        "raw_bytes": 797013,
+        "raw_sha256": "e911a3ed6bcaa2e6b3332d69dbe5e7015721afa19cc7c106c03bf4d72a8f473d",
+        "compressed_bytes": 335240
+      }
+    },
+    {
+      "shard": "90",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/14/descriptor",
+      "descriptor": {
+        "shard": "90",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8fc943d563ebcebf2a85b3e44a113770f22f0e9a8b52bec97d0972592e6cb7fc",
+        "entries": 230,
+        "raw_bytes": 730851,
+        "raw_sha256": "47e38f4562e2e987c744fa6338e37819d81d3e804f0bc3235dd7558bdc9fa893",
+        "compressed_bytes": 303306
+      }
+    },
+    {
+      "shard": "94",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/10/descriptor",
+      "descriptor": {
+        "shard": "94",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "72adef47c06fee4967eff27ba12537013d99b261f8bba04bd48d10bda966cb99",
+        "entries": 226,
+        "raw_bytes": 746259,
+        "raw_sha256": "e488e7b5d8a93205623648f1cb7566aa322f6579faa5252ba4f02d71afb32c60",
+        "compressed_bytes": 305493
+      }
+    },
+    {
+      "shard": "95",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/28/descriptor",
+      "descriptor": {
+        "shard": "95",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "cdf083f6dda21570bfdfcd15d90744769d91a88e4d7c6b93a443f171553684bf",
+        "entries": 230,
+        "raw_bytes": 669159,
+        "raw_sha256": "cb24c53053bb885bfde1633c92f9dcb72aab42f3277a76ef2e482671a09af6e0",
+        "compressed_bytes": 284630
+      }
+    },
+    {
+      "shard": "96",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/11/descriptor",
+      "descriptor": {
+        "shard": "96",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "152f8866b7f68f7e1818cdef13689a9c5d111aac12b35bc940ee4e9a75c6c101",
+        "entries": 261,
+        "raw_bytes": 794553,
+        "raw_sha256": "f6ef1d2437a5e448035cf91d4c7a4cc388be979ace01f018498c8859b9dc3cdd",
+        "compressed_bytes": 335439
+      }
+    },
+    {
+      "shard": "97",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/12/descriptor",
+      "descriptor": {
+        "shard": "97",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "296681839e2011c0367687dacdc0a0feba4551adfb8631010ab29206e575c6cf",
+        "entries": 239,
+        "raw_bytes": 769235,
+        "raw_sha256": "56368d9b905a03cfc95e1cbfde099e090f649534bd71fd4534986fa0c17fa4b9",
+        "compressed_bytes": 319638
+      }
+    },
+    {
+      "shard": "9a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/29/descriptor",
+      "descriptor": {
+        "shard": "9a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e69489c2aed2827417d779db301b188052645c71e748ab757e9906ce9e8586aa",
+        "entries": 245,
+        "raw_bytes": 785595,
+        "raw_sha256": "fbbc9f822c1a95e2e36dbe23e6434a4b2edec9136132bd93a9872e32b70c0571",
+        "compressed_bytes": 325496
+      }
+    },
+    {
+      "shard": "9b",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/10/descriptor",
+      "descriptor": {
+        "shard": "9b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "42902716932adf37960caae704365cceba0091183d2b9b319036636f5af69bc1",
+        "entries": 230,
+        "raw_bytes": 693121,
+        "raw_sha256": "11cc8438151cc30ad1edccebeb719cbc3f19df0bd69b187151f3093b3f8f36d9",
+        "compressed_bytes": 294573
+      }
+    },
+    {
+      "shard": "9c",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/13/descriptor",
+      "descriptor": {
+        "shard": "9c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c8def07156974bb93e11761bc9557fdd37332cb090fa9175796816bb9aa50bdd",
+        "entries": 241,
+        "raw_bytes": 800213,
+        "raw_sha256": "333b5ada0c0c6200c14c7ce2c2d0fbc18f3f969aaa273142318b399c6e31ee77",
+        "compressed_bytes": 328385
+      }
+    },
+    {
+      "shard": "9e",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/30/descriptor",
+      "descriptor": {
+        "shard": "9e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8a440b1b1bad02764480c4149d1f090010eca960d26cb5c99cf6fdc91bbac98a",
+        "entries": 252,
+        "raw_bytes": 731878,
+        "raw_sha256": "0acb130b1456de94900d68548310820dbbb08756822f150420000f8060d99fe7",
+        "compressed_bytes": 313031
+      }
+    },
+    {
+      "shard": "a1",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/31/descriptor",
+      "descriptor": {
+        "shard": "a1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "246f339c50b25fd43a5ffeb3101bfc9ad507150b2a1137d8f2af82b97694e6ea",
+        "entries": 255,
+        "raw_bytes": 887635,
+        "raw_sha256": "4c5d118809bb55265143d163f9ccfeb4fc27588a077cc56b3898e39dda30bfd3",
+        "compressed_bytes": 358470
+      }
+    },
+    {
+      "shard": "a3",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/32/descriptor",
+      "descriptor": {
+        "shard": "a3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "bcf90653ce0998f9f878dc498d3952a05d1b6924d5efca572a84c603ae1bde4c",
+        "entries": 261,
+        "raw_bytes": 784710,
+        "raw_sha256": "acee13d57fd14916eeb8ed894f1846ee170cd81a03df4c6e11970c80283cef8e",
+        "compressed_bytes": 333007
+      }
+    },
+    {
+      "shard": "af",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/33/descriptor",
+      "descriptor": {
+        "shard": "af",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "965d0243ec7ead8f026c4f3f19373513f515824a0a7e7214da30318d472450fc",
+        "entries": 238,
+        "raw_bytes": 818793,
+        "raw_sha256": "1845079843ea412148d3152bdf909127fe886ac13e0e389445d2a2de682ebc94",
+        "compressed_bytes": 334321
+      }
+    },
+    {
+      "shard": "b2",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/14/descriptor",
+      "descriptor": {
+        "shard": "b2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "107a60b17fa8cb12f56191ea272cdd94556ebd0796042b3c32fe49838441b278",
+        "entries": 260,
+        "raw_bytes": 913215,
+        "raw_sha256": "279b6cd694c274d17dd20af10245ca7e8b3e6e35318d95fb9331421a2acaeefb",
+        "compressed_bytes": 366544
+      }
+    },
+    {
+      "shard": "b5",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/15/descriptor",
+      "descriptor": {
+        "shard": "b5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0c6141caf038f829f0e61dceb58e66ab9c7bf10e55fd1ad0847ad81062768403",
+        "entries": 235,
+        "raw_bytes": 813088,
+        "raw_sha256": "d59f33964d2426cefd94a63b078c9f5056a9f5f40a5e1a4013adade07ddd784b",
+        "compressed_bytes": 329639
+      }
+    },
+    {
+      "shard": "c1",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/34/descriptor",
+      "descriptor": {
+        "shard": "c1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4feabfb35a0d218b73e8b486d1007fa8a47962aec37a451b93275f4b1947fc28",
+        "entries": 270,
+        "raw_bytes": 889373,
+        "raw_sha256": "c5cc6bbe243cc539cc327d94f1988ad8529a8a0bbe67751825b2540b64fa7c01",
+        "compressed_bytes": 366294
+      }
+    },
+    {
+      "shard": "c2",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/35/descriptor",
+      "descriptor": {
+        "shard": "c2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "43d62ab0e64330424e7cc90366e7cfb7da2e8fbc946d6a49e41cc0b99520eaac",
+        "entries": 242,
+        "raw_bytes": 767360,
+        "raw_sha256": "925cc4e4f1e3954a454c58363442f144489c3b29d71cc3f0cecbb8f274e44837",
+        "compressed_bytes": 320421
+      }
+    },
+    {
+      "shard": "cc",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/16/descriptor",
+      "descriptor": {
+        "shard": "cc",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "52f617d569badc8bd9a87543cd086886d3cbf42edd5d715070371b3db50db30b",
+        "entries": 268,
+        "raw_bytes": 830013,
+        "raw_sha256": "e7ec66811b6ac69820a54e63d783ba13346aba3bea5c2aa83009b025de5ebb23",
+        "compressed_bytes": 346992
+      }
+    },
+    {
+      "shard": "cd",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/17/descriptor",
+      "descriptor": {
+        "shard": "cd",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8ff6d5f0eb330cfe831c153e91759cc6a3491da78971750ce590f63a4a2d95c4",
+        "entries": 238,
+        "raw_bytes": 787884,
+        "raw_sha256": "2a30abb1265579461c8c641eeba67ff3c355a8b2f17cb1df51fd73dec8eb7043",
+        "compressed_bytes": 322343
+      }
+    },
+    {
+      "shard": "cf",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/36/descriptor",
+      "descriptor": {
+        "shard": "cf",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "21b21c086f8e732f0d0a1c04c002a89cbd1cd5661bfdc1bbebd5950bac9ec8d6",
+        "entries": 266,
+        "raw_bytes": 846587,
+        "raw_sha256": "9ea9e25a6efa66e1e789490d3e98082792789a15fb86aea5a5aa795dc5ffec55",
+        "compressed_bytes": 350497
+      }
+    },
+    {
+      "shard": "d1",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/37/descriptor",
+      "descriptor": {
+        "shard": "d1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9dd9e16e6011d4e98fca799a2164f4d573e5af10ebf54cd721941f9e03b7d1e4",
+        "entries": 229,
+        "raw_bytes": 753929,
+        "raw_sha256": "17b7fb9788c0181672abb296cb24ee34f4318f2faf571a1b39fe675762b5d184",
+        "compressed_bytes": 306860
+      }
+    },
+    {
+      "shard": "d3",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/13/descriptor",
+      "descriptor": {
+        "shard": "d3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9445a89afdefcc6cf74948e01c06055aea8cb875a1c0596358048836c8a3bef1",
+        "entries": 248,
+        "raw_bytes": 818796,
+        "raw_sha256": "21723d8f216df7024bd061ad8882d3645aeff1754bd980827bcc0ef42b9e80fc",
+        "compressed_bytes": 335809
+      }
+    },
+    {
+      "shard": "d5",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/38/descriptor",
+      "descriptor": {
+        "shard": "d5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0207f29a41f5d18afd911e6b85e62215d0fcfee0714915dd8d919dff2484fd8e",
+        "entries": 221,
+        "raw_bytes": 638123,
+        "raw_sha256": "d27193c3153ca106f2f0517beee0cc8f2a51ef0bfae1393b9694e4b5e9110653",
+        "compressed_bytes": 273679
+      }
+    },
+    {
+      "shard": "d6",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/39/descriptor",
+      "descriptor": {
+        "shard": "d6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4877aa42b7f9374e2d204f543bc371bcfcfa12dc969d3967638844208c57e08a",
+        "entries": 247,
+        "raw_bytes": 835983,
+        "raw_sha256": "d81faeade127919ddee1aed3ac45630ae6e22fc6764177b00b7ca33cd27e5c8e",
+        "compressed_bytes": 343566
+      }
+    },
+    {
+      "shard": "d8",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/40/descriptor",
+      "descriptor": {
+        "shard": "d8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "033e33ed5a9ce28d2ddbbafc7bb6a1cfceed8a8e0c0a5563b8b9900f846fe92a",
+        "entries": 241,
+        "raw_bytes": 767288,
+        "raw_sha256": "77b2b4b1ac6a84856a59020ba82e238b661065a302e4b72e9009379ba30b2fee",
+        "compressed_bytes": 316498
+      }
+    },
+    {
+      "shard": "db",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/41/descriptor",
+      "descriptor": {
+        "shard": "db",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2e841554003b5466886bab441928c49923335d94f090427e6a25fbfa92f2fff3",
+        "entries": 253,
+        "raw_bytes": 784586,
+        "raw_sha256": "46ec29d705827d011c18110626a5fb99a3d4b97432e7b15fd6b31fcd1acd684b",
+        "compressed_bytes": 328339
+      }
+    },
+    {
+      "shard": "e0",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/11/descriptor",
+      "descriptor": {
+        "shard": "e0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f657e0a0a751b262790fd53823f7472f761a837240392ea497769056bc014b87",
+        "entries": 276,
+        "raw_bytes": 879755,
+        "raw_sha256": "30021b7d57a19524d3a57852740341f403070d24d3372bf78b133c23db90398f",
+        "compressed_bytes": 365596
+      }
+    },
+    {
+      "shard": "e2",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/42/descriptor",
+      "descriptor": {
+        "shard": "e2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9cdfbecbf573e0b305795c56b5dd85934085cb0f2989c95355dbb65e2131ff93",
+        "entries": 253,
+        "raw_bytes": 859467,
+        "raw_sha256": "134ee5f3c65294610662081c6c978064f0cdbeaba6541984b9a3ec6dfbfdd994",
+        "compressed_bytes": 353294
+      }
+    },
+    {
+      "shard": "e3",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/43/descriptor",
+      "descriptor": {
+        "shard": "e3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4132817f7bbbb0edaa120f7f27df8e961dd4d46ae57c2cd733432747c43e0fdb",
+        "entries": 285,
+        "raw_bytes": 987481,
+        "raw_sha256": "94a00463b2806bc5ef8bc11a2fc282dc08fc89630bfec8e0f7e2c0976a896b19",
+        "compressed_bytes": 398370
+      }
+    },
+    {
+      "shard": "e6",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/12/descriptor",
+      "descriptor": {
+        "shard": "e6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f6d781a4327f2012ded0a30f3bb7b707eda8075e2d4cb1ecbbf65aa1546dd872",
+        "entries": 277,
+        "raw_bytes": 926164,
+        "raw_sha256": "353a0b55013678d5d4954c87c9f125c461b248801ac96f540bbc79793b5054ce",
+        "compressed_bytes": 379001
+      }
+    },
+    {
+      "shard": "ea",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json",
+      "receipt_sha256": "98fd4e2e8145ecb5fe0bcd07867918f739d84644165f4c8e80c2bbe575f97017",
+      "pointer": "/additional_target_proofs/1/shard_descriptor",
+      "descriptor": {
+        "shard": "ea",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2960d1b475695757fdae53b6e0c95601f156f2f18bd4b05ca56e2ec2d0ac1791",
+        "entries": 265,
+        "raw_bytes": 829962,
+        "raw_sha256": "047b507d59dcf013810ff3509e9041bc89c68910349d48d33dda10fe4105b025",
+        "compressed_bytes": 344630
+      }
+    },
+    {
+      "shard": "ed",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/44/descriptor",
+      "descriptor": {
+        "shard": "ed",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e28b694eaa10bb69fd2956b14dddc780b55f8bb0257a0299cc1697f3b71f4592",
+        "entries": 231,
+        "raw_bytes": 663452,
+        "raw_sha256": "3d9a67ac53bd9777d6671e924bf6069f7fc2b9606ae800575858e0ea3cc3c320",
+        "compressed_bytes": 284573
+      }
+    },
+    {
+      "shard": "ef",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/45/descriptor",
+      "descriptor": {
+        "shard": "ef",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4561d340d4f279a4bc5272fbdca81b3d286ebd38ecff7f0e70958ae955cb5cb8",
+        "entries": 243,
+        "raw_bytes": 752684,
+        "raw_sha256": "711f8e71ca35732bb83e3c28abbd1b70cf7e190749994e137cc524f2901baa18",
+        "compressed_bytes": 313670
+      }
+    },
+    {
+      "shard": "f3",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/46/descriptor",
+      "descriptor": {
+        "shard": "f3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "09cd5f8e45c8696b6ee3d4905d2a67ca20d9546889a8c61a69cb6982c60139ab",
+        "entries": 275,
+        "raw_bytes": 849035,
+        "raw_sha256": "5f075576ed8700f72d7cc20409c86c37fe68d9ac4713f1c3c76c7e9a6dcda963",
+        "compressed_bytes": 358137
+      }
+    },
+    {
+      "shard": "f6",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/47/descriptor",
+      "descriptor": {
+        "shard": "f6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3286eb0499a22163404a542e88f97d84b2371166f12e739bdf5a028fbd92d10b",
+        "entries": 238,
+        "raw_bytes": 782285,
+        "raw_sha256": "cc9c1da56a3f54d417da455ee233534af516a611668db8111b19c11ce7798d8e",
+        "compressed_bytes": 321548
+      }
+    },
+    {
+      "shard": "f7",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/15/descriptor",
+      "descriptor": {
+        "shard": "f7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b1464fe6e4a93b4121a3344f7bc8d834845adfa457279b4177a000c5c103681e",
+        "entries": 255,
+        "raw_bytes": 832547,
+        "raw_sha256": "89848d38151750dbc0c9fe032bdc69c065903d29517372c21ab8648bfcb3f6e5",
+        "compressed_bytes": 342920
+      }
+    },
+    {
+      "shard": "f8",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/48/descriptor",
+      "descriptor": {
+        "shard": "f8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9d533638282e03dbcc2a4cf29be9b79efd463b4a56562631548cca98bbc4f4cb",
+        "entries": 256,
+        "raw_bytes": 866183,
+        "raw_sha256": "4c83487001bd00140ab881a1d1d2b190984598fd4e6d9e93d06a0f649acd2d6f",
+        "compressed_bytes": 354522
+      }
+    },
+    {
+      "shard": "f9",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/49/descriptor",
+      "descriptor": {
+        "shard": "f9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "38a31ce6c364f912cf0549e990bab56b41f2d45831209e695f483d87aaeecdff",
+        "entries": 263,
+        "raw_bytes": 849123,
+        "raw_sha256": "741ef0f4317fe7a8b09da49c59a1eb3d030b9c3d086e4688704314aec441f440",
+        "compressed_bytes": 349905
+      }
+    },
+    {
+      "shard": "fa",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/50/descriptor",
+      "descriptor": {
+        "shard": "fa",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "05dcd12842e18cfab18c39ce0a166fd11de0923a4e55905233599c95e4970979",
+        "entries": 282,
+        "raw_bytes": 957135,
+        "raw_sha256": "497e495f3bb114bf8564725f2d1e62b8a72c4c2be8dafb413837644e2d665f29",
+        "compressed_bytes": 390805
+      }
+    },
+    {
+      "shard": "fb",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/51/descriptor",
+      "descriptor": {
+        "shard": "fb",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "6215aede7f77511f80ff2369fd7e510afcd648c6d45c980abad71e2a8cdcd182",
+        "entries": 244,
+        "raw_bytes": 722798,
+        "raw_sha256": "0fdf9e485c5c475bd840fd45cfcedbbfd706f3ca40a72d2c52d3eb2abef9ee3d",
+        "compressed_bytes": 306676
+      }
+    }
+  ],
+  "new_editorial_senses_certified": 0,
+  "new_source_coverage_counted": 0,
+  "production_mutation": false,
+  "full_linguistic_signoff": false,
+  "examples_audited": false,
+  "index_sha256": "01836a64b14acfafd21574d1d41fcbdd3b311ace6c4ff6eb632743d1e73e7416"
+}

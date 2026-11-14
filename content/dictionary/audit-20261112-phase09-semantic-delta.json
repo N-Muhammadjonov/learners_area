@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "priority": "Translation, sense-accurate CEFR, synonyms, antonyms, collocations only. No example changes in this pass.",
+  "edits": {
+    "lexemes": 12,
+    "senses": 18,
+    "cefr_updates": 4,
+    "english_definition_updates": 2,
+    "uzbek_translation_updates": 2,
+    "removed_incorrect_synonym_edges": 19,
+    "added_exact_synonym_edges": 1,
+    "added_exact_antonym_edges": 9,
+    "added_attested_collocations": 7,
+    "uzbek_definition_updates": 2
+  },
+  "reliable_sources": [
+    {
+      "lemma": "terzetto",
+      "url": "https://www.collinsdictionary.com/dictionary/english/terzetto",
+      "correction": "A vocal/musical trio, not the number three"
+    },
+    {
+      "lemma": "actus reus",
+      "url": "https://www.law.cornell.edu/wex/actus_reus",
+      "correction": "Physical criminal-law element: act or omission; not a general word for wrongdoing"
+    },
+    {
+      "lemma": "traineeship",
+      "url": "https://www.collinsdictionary.com/dictionary/english/traineeship",
+      "decision": "Preserve specialized financial-support sense; this is an attested meaning, not automatically erroneous"
+    },
+    {
+      "lemma": "deflate",
+      "url": "https://dictionary.cambridge.org/dictionary/english/deflate",
+      "correction": "Separate air-loss, reduction and economic meanings when selecting antonyms"
+    }
+  ],
+  "integrity": {
+    "source_exact_lexeme_and_sense_keys": true,
+    "all_9_distinct_target_sense_ids_found_in_supabase": true,
+    "source_meaning_sha_required": true,
+    "immutable_candidate_copy": true,
+    "existing_release_changed": false,
+    "examples_modified_in_this_pass": false,
+    "original_r2_readback": {
+      "lexemes": 12,
+      "senses": 18,
+      "meaning_sha_verified": 18,
+      "cefr_original_matches": 4,
+      "definition_original_matches": 2,
+      "translation_original_matches": 2,
+      "canonical_synonym_exclusions_confirmed": 15,
+      "presentation_only_synonym_exclusions_confirmed": 4,
+      "missing_lexemes": 0,
+      "unexpected_mismatches": 0,
+      "source_shards": [
+        "65",
+        "66",
+        "67",
+        "68"
+      ],
+      "method": "Read-only R2 member-by-member decompression, lexeme/sense IDs and SHA-256 of original lemma/pos/definition; compared every source field before candidate transformation.",
+      "definition_uz_original_matches": 2
+    },
+    "candidate_dry_run": {
+      "entries": 12,
+      "patched_senses": 18,
+      "removed_canonical_relations": 15,
+      "added_scoped_relations": 10,
+      "added_scoped_collocations": 7,
+      "preserved_number_of_senses": true,
+      "preserved_examples": true,
+      "invalid_relation_source_ids": 0,
+      "invalid_collocation_source_ids": 0,
+      "errors": [],
+      "method": "Read-only Cloudflare R2 source decompression and in-memory dry-run of exact field/relationship changes; zero R2 writes.",
+      "phase09_duplicate_relations_detected": 430,
+      "phase09_exact_scope": "Lexeme UUIDs between 6568847e-1b29-5ff7-b104-60393188df8e and 726f905d-3146-56a5-9234-e7522f7651ce, including endpoints, restricted to frozen release"
+    }
+  },
+  "limits": {
+    "all_5521_senses_semantically_validated": false,
+    "production_published": false,
+    "full_ci_pass_confirmed": false,
+    "main_merged": false
+  },
+  "files": [
+    "services/backend/assets/dictionary/sense_corrections.json",
+    "services/backend/app/dictionary_sense_curation.py",
+    "services/backend/app/dictionary_presentation.py",
+    "services/backend/tests/test_dictionary_sense_curation_phase09.py",
+    "services/backend/tests/test_dictionary_reader_metadata.py"
+  ],
+  "quality_findings": {
+    "canonical_relation_edges": 12114,
+    "unscoped_polysemous_relation_edges": 7983,
+    "unscoped_single_sense_relation_edges": 4123,
+    "exact_scoped_relation_edges": 8,
+    "duplicate_relation_identity_keys": 430,
+    "unscoped_collocations_polysemous": 0,
+    "collocation_source_ids_invalid": 0,
+    "interpretation": "Canonical relation inventory is structurally assessed. Unscoped relations on multi-sense lexemes must not be applied to every sense; deduplication is mechanical and does not certify semantic correctness."
+  }
+}

@@ -1,0 +1,933 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "prior_candidate_commit": "0a56bbe76042d23c96c4180ad9969ce9251a4e42",
+  "scope": {
+    "lexemes": 7,
+    "senses": 8,
+    "field_decisions": 56,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "additional_target_readbacks": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "6c4a2ca3-fe53-5a00-b1c3-eb789cfeeb8a",
+      "sense_id": "91ad6046-493d-41e1-8673-a4543efb3409",
+      "lemma": "airspeed",
+      "meaning_sha": "361a2b9137c02817bbfb9a76e0b33159840ca5dd8091c3fbd20401a4195e06d5",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the speed of an aircraft relative to the air in which it is flying",
+          "after": "the speed of an aircraft relative to the air in which it is flying",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "Speed relative to surrounding air agrees with primary aviation glossary; not ground speed."
+        },
+        "definition_uz": {
+          "before": "Samolyotning o'zi uchayotgan havoga nisbatan tezligi.",
+          "after": "Havo kemasining o‘zi uchayotgan havoga nisbatan tezligi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "Samolyot changed to havo kemasi, retaining aircraft including helicopters; air-relative reference preserved."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "havoga nisbiy tezlik",
+              "translation_id": "6aa536a2-4798-55ef-8924-c3987dfeea94"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "havoga nisbatan tezlik",
+              "translation_id": "6aa536a2-4798-55ef-8924-c3987dfeea94"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "Havoga nisbatan tezlik uses the correct Uzbek relative-to construction."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "Exact airspeed noun entry explicitly Transport by air B2. Correct source C2 to B2."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "Ground speed measures a different reference frame; not linked as a synonym."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "Speed types are not lexical opposites; no unsupported edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "true airspeed"
+            },
+            {
+              "text": "indicated airspeed"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/airspeed",
+            "https://www.faa.gov/air_traffic/publications/atpubs/pcg_html/glossary-a.html"
+          ],
+          "reasoning": "True/indicated airspeed are explicitly distinguished in primary aviation glossary; both combinations refer to this air-relative measure."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4d0373-3dd6-54f4-8a00-380df8706558",
+      "sense_id": "95ead99b-43af-5c59-b48b-65beac86c18c",
+      "lemma": "bird's-eye",
+      "meaning_sha": "8e04f9a768c89e25a2601bde13ab77d4617b8c37656d3d2564b1b2766198e8f6",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "as from an altitude or distance",
+          "after": "as from an altitude or distance",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "High/distant viewpoint is the stored adjective meaning, not speckled fabric or a general summary."
+        },
+        "definition_uz": {
+          "before": "Balandlik yoki uzoqlikdan qaralgandek.",
+          "after": "Balandlik yoki uzoqlikdan qaralgandek.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "Balandlik/uzoqlikdan qarash literal viewpointga mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "tepadan ko'ringan",
+              "translation_id": "8fad33ff-2b6f-50a5-b2d2-9312b3671df6"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "tepadan ko'ringan",
+              "translation_id": "8fad33ff-2b6f-50a5-b2d2-9312b3671df6"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "Tepadan ko‘ringan is a visual adjective; retained."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "No exact adjective level established. General view or overview labels are not transferable; C1 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "panoramic",
+              "lexemeId": "edfc656b-d45e-51e4-99a9-b71b7510b449",
+              "senseId": "b00023a4-913b-481e-bdb4-1a9586120194"
+            }
+          ],
+          "after": [
+            {
+              "text": "panoramic",
+              "lexemeId": "edfc656b-d45e-51e4-99a9-b71b7510b449",
+              "senseId": "b00023a4-913b-481e-bdb4-1a9586120194"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "Primary thesaurus explicitly pairs bird’s-eye with panoramic in the visual group. Frozen target has identical altitude/distance gloss; comprehensive-work meaning excluded."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "Ground-level view is a contrast but no exact attested target pair established."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "bird’s-eye view"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/english-language-learning/birds-eye",
+            "https://api.collinsdictionary.com/dictionary/english-thesaurus/panoramic",
+            "https://dictionary.cambridge.org/dictionary/english/bird-s-eye-view"
+          ],
+          "reasoning": "Bird’s-eye view is attested for high-position visual perspective, not textile pattern."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4d9c3a-7094-5b5e-b02d-3d4057525838",
+      "sense_id": "09faa653-ccae-55f5-8719-878ca2763467",
+      "lemma": "quaver",
+      "meaning_sha": "a19e1d87186be41b125d530f281df79141b5f9de3024a2cfa446d5a9a1f80af6",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a tremulous sound",
+          "after": "a tremulous sound",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Shaking sound, especially vocal, is separate from a written musical note."
+        },
+        "definition_uz": {
+          "before": "titrab chiqadigan tovush",
+          "after": "titrab chiqadigan tovush",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Titrab chiqadigan tovush accurately expresses tremulous sound."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "titrashli tovush",
+              "translation_id": "c91dcde6-9813-5045-8b4b-562a68600492"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "titroq tovush",
+              "translation_id": "c91dcde6-9813-5045-8b4b-562a68600492"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Titroq tovush replaces the awkward titrashli adjective formation."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Music C2 badge belongs only to note sense. No voice-sense level documented; clear C2."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Tremor/warble can denote other phenomena; no exact frozen sound target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Steadiness is not an independently verified opposite sound target; keep empty."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "a quaver in her voice"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Vocal quaver-in-voice construction is directly attested; not attached to note duration."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4d9c3a-7094-5b5e-b02d-3d4057525838",
+      "sense_id": "e67bf88c-580d-5f48-bb7b-329e346b279b",
+      "lemma": "quaver",
+      "meaning_sha": "ff41449beb369a39d647bd7e962199ab124637e2c3d3029323e01bbb7661150a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a musical note having the time value of an eighth of a whole note",
+          "after": "(British English) a musical note lasting one eighth of a whole note.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Specify British English; duration is one eighth of whole note, equivalent to half crotchet."
+        },
+        "definition_uz": {
+          "before": "Butun notaning sakkizdan bir vaqt qiymatiga ega musiqiy nota.",
+          "after": "(Britaniya inglizchasida) davomiyligi butun notaning sakkizdan biriga teng musiqiy nota.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Britaniya usage and 1/8 duration explicit; no confusion with sixteenth note."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "butun notaning sakkizdan biriga teng sakkizlik nota",
+              "translation_id": "5c1caeeb-4898-5be3-89d2-f358a6a3a993"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "butun notaning sakkizdan biriga teng sakkizlik nota",
+              "translation_id": "5c1caeeb-4898-5be3-89d2-f358a6a3a993"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Existing sakkizlik-note explanation accurately gives one eighth whole-note duration."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Music C2 explicitly labels this exact musical-note sense; retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Eighth note is explicitly the North American equivalent; exact frozen lemma SELECT returned no target. No fabricated UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "Crotchet and semiquaver have different durations; neither is an antonym."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/quaver_2",
+            "https://dictionary.cambridge.org/dictionary/english/quaver"
+          ],
+          "reasoning": "No extra note-duration combination selected; vocal quaver combination excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4e2ea5-a64f-5e3f-8b8b-55bc2b08d005",
+      "sense_id": "da797cca-5d58-4cc5-9600-06fd17f4e8e9",
+      "lemma": "aforementioned",
+      "meaning_sha": "be46410337e54e12b6e08149e39c9f0d66aa4bc825612020ffed8ecd8c10a664",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "being the one previously mentioned or spoken of",
+          "after": "(formal) already mentioned earlier in a text or discussion.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Formal before-noun adjective refers to the entity already mentioned; register clarified."
+        },
+        "definition_uz": {
+          "before": "Oldinroq aytilgan yoki yozuvda eslatilgan shaxs yoki narsaga tegishli.",
+          "after": "(rasmiy) oldinroq tilga olingan yoki yozuvda eslatilgan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Replace relating-to-entity phrasing with already-mentioned adjective itself, including formal register."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "yuqorida tilga olingan",
+              "translation_id": "d5e35e30-e8b9-5bb0-a622-5e27976d7b1e"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "yuqorida tilga olingan",
+              "translation_id": "d5e35e30-e8b9-5bb0-a622-5e27976d7b1e"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Yuqorida tilga olingan correctly refers back to earlier mention."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Exact primary entries show formal usage but no CEFR. Formality does not establish C2; null."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "aforesaid",
+              "lexemeId": "cf711cd6-68b7-5d54-bcf3-b128bba48c87",
+              "senseId": "4ec9d85e-34cf-5164-a6fe-0cc89defeb0f"
+            },
+            {
+              "text": "said",
+              "lexemeId": "20230bfc-58d0-5ea0-a455-e96b1c812138",
+              "senseId": "a791fda9-234e-4e64-bef6-f9c59ea1d3f0"
+            }
+          ],
+          "after": [
+            {
+              "text": "aforesaid",
+              "lexemeId": "cf711cd6-68b7-5d54-bcf3-b128bba48c87",
+              "senseId": "4ec9d85e-34cf-5164-a6fe-0cc89defeb0f"
+            },
+            {
+              "text": "said",
+              "lexemeId": "20230bfc-58d0-5ea0-a455-e96b1c812138",
+              "senseId": "a791fda9-234e-4e64-bef6-f9c59ea1d3f0"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Aforesaid and adjectival said explicitly listed as variants; frozen UUIDs select already-mentioned gloss, not past-tense speech verb."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Subsequent is later in time, not necessarily later mentioned; no guessed antonym."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "the aforementioned person"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/aforementioned",
+            "https://dictionary.cambridge.org/us/dictionary/english/aforementioned"
+          ],
+          "reasoning": "Person combination is explicitly attested in primary adjective entry."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4e4de0-6c2e-565f-bf5f-885b13798145",
+      "sense_id": "e201bb87-9d73-5e6e-9af4-ff52cadf2227",
+      "lemma": "preliminary prospectus",
+      "meaning_sha": "d499401a039453f582d2c6c0867c0ef6126a142a9f8eb89b25dc1da9b581073f",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a first draft of a prospectus; must be clearly marked to indicate that parts may be changed in the final prospectus",
+          "after": "An early version of a document describing securities offered for sale to potential investors, issued before the final prospectus and subject to revision.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "Specify securities-offering document and provisional status. Avoid presenting an unspecified jurisdictional must-mark requirement as universal dictionary meaning."
+        },
+        "definition_uz": {
+          "before": "prospektning birinchi loyihasi bo‘lib, yakuniy nusxada ayrim qismlar o‘zgarishi mumkinligi aniq belgilanishi kerak",
+          "after": "Qimmatli qog‘ozlar taklifini potensial investorlarga tushuntiruvchi, yakuniy nusxadan oldin chiqariladigan va o‘zgartirilishi mumkin bo‘lgan dastlabki hujjat.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "Qimmatli qog‘ozlar/investorlar konteksti va yakuniy nusxadan oldingi o‘zgaruvchan hujjat aniqlandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "dastlabki prospekt",
+              "translation_id": "abab7bbc-2b83-53f3-a900-b3525c22ebb8"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qimmatli qog‘ozlar emissiyasining dastlabki prospekti",
+              "translation_id": "abab7bbc-2b83-53f3-a900-b3525c22ebb8"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "Finance-specific explanatory translation avoids confusion with a street or an unrelated brochure."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "Official securities sources give meaning, no language level; source C1 unsupported, clear to null."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "red herring",
+              "lexemeId": "c28e4bc6-55e3-554d-983e-c25ad8e49856",
+              "senseId": "0a9abbfb-c2fe-5388-9f6a-e50c7bf64f4d"
+            }
+          ],
+          "after": [
+            {
+              "text": "red herring",
+              "lexemeId": "c28e4bc6-55e3-554d-983e-c25ad8e49856",
+              "senseId": "0a9abbfb-c2fe-5388-9f6a-e50c7bf64f4d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "Primary SEC speech explicitly calls this red-herring prospectus. Frozen red herring target is the finance-document sense, not distraction or smoked fish."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "Final prospectus is a later version, not a conventional lexical antonym; no guessed edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-17",
+            "https://www.sec.gov/files/news/speech/1954/042054demmler.pdf"
+          ],
+          "reasoning": "No additional combination selected for an already multiword financial headword; do not invent a legal obligation phrase."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c4fa2ea-0ed6-5b89-b20a-adcdcd2a328a",
+      "sense_id": "6fe9c4b0-6a7a-5280-acfb-cb85ad4b8793",
+      "lemma": "acerola",
+      "meaning_sha": "24eba0a2daf6ad89e1814b6a3396f17c2e51537e3f2d48ff0a1cf79894ab22ba",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "acid red or yellow cherry-like fruit of a tropical American shrub very rich in vitamin C",
+          "after": "acid red or yellow cherry-like fruit of a tropical American shrub very rich in vitamin C",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "Cherry-like tart fruit and vitamin-C property match primary fruit entry; retain fruit rather than tree meaning."
+        },
+        "definition_uz": {
+          "before": "S vitaminiga nihoyatda boy bo'lgan, tropik Amerikada o'suvchi butaning nordon qizil yoki sariq olchasimon mevasi.",
+          "after": "C vitaminiga nihoyatda boy bo‘lgan, tropik Amerikada o‘suvchi butaning nordon qizil yoki sariq olchasimon mevasi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "Correct S vitaminiga to C vitaminiga. Source fruit description otherwise retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "atserola (Barbados gilosi)",
+              "translation_id": "15d14e1d-e13f-5502-be21-24e1fa3d3f88"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "atserola (Barbados gilosi)",
+              "translation_id": "15d14e1d-e13f-5502-be21-24e1fa3d3f88"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "Atserola and Barbados-gilos gloss refer to the edible fruit; Kew confirms the common-name association, not an independent Uzbek spelling certification."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "No sense-level CEFR in reviewed botanical/lexical sources; C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "Barbados cherry is an attested common name, but exact frozen lowercase lemma query produced no target; no fruit/tree ID guessed."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "Other fruit species are not opposites of acerola; empty retained."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "acerola juice"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/acerola",
+            "https://mpns.science.kew.org/mpns-portal/drugDetail?drugName=acerola"
+          ],
+          "reasoning": "Acerola juice is attested in the exact dictionary fruit corpus examples; juice combines with edible-fruit meaning."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c503495-e4a8-5173-92c1-19ab8cad8a91",
+      "sense_id": "42bf80b7-eaaa-4a07-ac9c-03bc4430f539",
+      "lemma": "breathing",
+      "meaning_sha": "ee8aa6d717d500c98207006fa1e9cd6e0b888af433285f2e05d4044acf4c7faa",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "passing or able to pass air in and out of the lungs normally; sometimes used in combination",
+          "after": "passing or able to pass air in and out of the lungs normally; sometimes used in combination",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "Adjectival breathing/able-to-breathe meaning retained. Normal physiological breathing independently supported by eupneic terminology."
+        },
+        "definition_uz": {
+          "before": "O‘pkaga havoni odatdagidek kiritib-chiqara oladigan; ba’zan qo‘shma shaklda ishlatiladi.",
+          "after": "Havoni o‘pkaga odatdagidek olib kirib-chiqarayotgan yoki shunday nafas ola oladigan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "Actual normal air passage and ability both retained, instead of ability only."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "nafas olayotgan",
+              "translation_id": "28be8583-b33c-56d6-9c68-6c7f8a61ca11"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "odatdagidek nafas olayotgan yoki nafas ola oladigan",
+              "translation_id": "28be8583-b33c-56d6-9c68-6c7f8a61ca11"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "Add normality and ability to breathe, matching full exact adjective sense."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "No reliable exact adjective level established; do not import a noun/verb level or third-party estimated B2. Source B1 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "eupneic",
+              "lexemeId": "e3878826-f7f8-542b-a57d-97169cf633e3",
+              "senseId": "47c13666-6516-5172-921d-3f4f30ac4110"
+            },
+            {
+              "text": "eupnoeic",
+              "lexemeId": "02669ef6-eb6a-55f1-9d3f-e8fb67ae1810",
+              "senseId": "acd35a3a-ddde-5910-a5ab-875cc75b571a"
+            }
+          ],
+          "after": [
+            {
+              "text": "eupneic",
+              "lexemeId": "e3878826-f7f8-542b-a57d-97169cf633e3",
+              "senseId": "47c13666-6516-5172-921d-3f4f30ac4110"
+            },
+            {
+              "text": "eupnoeic",
+              "lexemeId": "02669ef6-eb6a-55f1-9d3f-e8fb67ae1810",
+              "senseId": "acd35a3a-ddde-5910-a5ab-875cc75b571a"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "Eupneic/eupnoeic are the attested normal-breathing technical variants. Frozen targets have same gloss and verified UUIDs; not nouns for respiration."
+        },
+        "antonyms": {
+          "before": [
+            {
+              "text": "breathless",
+              "lexemeId": "2d149bcb-4349-5201-b3fe-481dad429d4c",
+              "senseId": "fb165acf-90b1-4aa5-9f10-72f09e257ab8"
+            }
+          ],
+          "after": [
+            {
+              "text": "breathless",
+              "lexemeId": "2d149bcb-4349-5201-b3fe-481dad429d4c",
+              "senseId": "fb165acf-90b1-4aa5-9f10-72f09e257ab8"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "Breathless target is specifically difficult/absent breathing, one of three frozen adjective senses; exciting/breathtaking and appearing-dead senses excluded."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/breathing",
+            "https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/17018693/eupneique",
+            "https://dictionary.cambridge.org/us/dictionary/english/breathless"
+          ],
+          "reasoning": "Breathing exercises is a noun modifier usage; not assigned to this adjective meaning. No independently attested adjective combination selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary evidence, not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "target_lookup": {
+    "method": "read-only SELECT original release dictionary_entries, exact lemma_norm IN",
+    "lemmas": [
+      "eighth note",
+      "barbados cherry"
+    ],
+    "result_count": 0,
+    "target_ids_invented": false
+  },
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "local_validation": {
+    "backend_regression_suite": {
+      "passed": 185,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "result": "PASS"
+    },
+    "live_browser_qa_performed": false
+  }
+}

@@ -1,0 +1,3863 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": "authenticated_cached_source_index_only",
+  "indexed": {
+    "shards": 256,
+    "lexemes": 65277,
+    "senses": 110409
+  },
+  "distinct_pos_gloss_groups": 71001,
+  "elapsed_seconds": 34.961395,
+  "fresh_database_content_sha_comparison": "NOT_RUN_offline_index_only",
+  "source_proofs": [
+    {
+      "shard": "00",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/13/descriptor",
+      "descriptor": {
+        "shard": "00",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f5b99f4cd2c5deddfa401c882926940bae86e7a7e8a3a513a060dd16a751d0c7",
+        "entries": 252,
+        "raw_bytes": 791990,
+        "raw_sha256": "9615743974627dfa51b2648b27104578bf882fd6ba53435ce216a33c5cba6970",
+        "compressed_bytes": 329491
+      }
+    },
+    {
+      "shard": "01",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/1/descriptor",
+      "descriptor": {
+        "shard": "01",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "030824d59c219a95fef17abb4f0c8b98071c938c59dce2a70cdc3546ea1ce379",
+        "entries": 259,
+        "raw_bytes": 811741,
+        "raw_sha256": "e9e41efb02ab6902c51f9e39642a5de7814202cc570ef399288ad4902e0c226f",
+        "compressed_bytes": 340851
+      }
+    },
+    {
+      "shard": "02",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/0/descriptor",
+      "descriptor": {
+        "shard": "02",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "340f6ad311bc0cd5e8bdef50b4f58307cda7c9495d4a2985ce4cd76d354adeb4",
+        "entries": 251,
+        "raw_bytes": 788652,
+        "raw_sha256": "5fd3153de4fab40c4e7a62fc77514ae6b81148369e2ef8fab37c0f92c23f4f88",
+        "compressed_bytes": 326026
+      }
+    },
+    {
+      "shard": "03",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/3/descriptor",
+      "descriptor": {
+        "shard": "03",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c2f1c2ff291a2ec33cf7acd40c85b332d661faae90370738caa00fca6ce94482",
+        "entries": 256,
+        "raw_bytes": 804885,
+        "raw_sha256": "6b2d59a7e76f8f9e2a1d3d08431d7c53232d4585ac2032327ec33ef30ca365cd",
+        "compressed_bytes": 335015
+      }
+    },
+    {
+      "shard": "04",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/04/descriptor",
+      "descriptor": {
+        "shard": "04",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "576fada153c4cd124393bc9e484c356e08f3867160b294947bc866ee5119965a",
+        "entries": 288,
+        "raw_bytes": 907200,
+        "raw_sha256": "e6de1f518327b03fe9245ab037705960970ac09860370b63bec4f13c9fa957c2",
+        "compressed_bytes": 377996
+      }
+    },
+    {
+      "shard": "05",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/5/descriptor",
+      "descriptor": {
+        "shard": "05",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "038561e8e03e9d5e140a016705e1a3f7e02a64644b89a0f3adc5d9698e4f91c3",
+        "entries": 276,
+        "raw_bytes": 873877,
+        "raw_sha256": "6f06cffcdeb41c5383ffa9f8f42bf61699585bd99ef20871082f68910965f64a",
+        "compressed_bytes": 363659
+      }
+    },
+    {
+      "shard": "06",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/1/descriptor",
+      "descriptor": {
+        "shard": "06",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fa7c53497754174f2ca8a2461ec5e19dfd329ad381d06776ca1d34c303a20def",
+        "entries": 288,
+        "raw_bytes": 893343,
+        "raw_sha256": "ad1ce774520156113f35df60c067207629f6745210760521cb824694e67fbb66",
+        "compressed_bytes": 374092
+      }
+    },
+    {
+      "shard": "07",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/7/descriptor",
+      "descriptor": {
+        "shard": "07",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b0e877695d0035889217aad8c5b8c2e4af879fbbbaf9768d88403c1ebfd9c7b8",
+        "entries": 250,
+        "raw_bytes": 771785,
+        "raw_sha256": "11b62664c741910de53ebac37bbe8321f4a25b78680b8be98d1bd6b49d7e5265",
+        "compressed_bytes": 323038
+      }
+    },
+    {
+      "shard": "08",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/8/descriptor",
+      "descriptor": {
+        "shard": "08",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7c2d51cab7e4d44995c44b9ef08931f7f301eb68e97977ee8c82d74a77f98a69",
+        "entries": 217,
+        "raw_bytes": 703961,
+        "raw_sha256": "210c1f9e7682a687b80dc5c079df5965d0d1b496e8e21cb4106715922adf6f66",
+        "compressed_bytes": 292222
+      }
+    },
+    {
+      "shard": "09",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/9/descriptor",
+      "descriptor": {
+        "shard": "09",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5c8987bca1d519b979bb2ce1beec71ec36d3afa312f3992a112657ae4773ad9a",
+        "entries": 264,
+        "raw_bytes": 839413,
+        "raw_sha256": "51d9885ef1b8a88473832ea170e0af3e7dcd8dd239f263d4f86daa081a97d510",
+        "compressed_bytes": 346539
+      }
+    },
+    {
+      "shard": "0a",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/10/descriptor",
+      "descriptor": {
+        "shard": "0a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5aaea17cae2e58f6b1fd020083a8b449f436280b42bad4f4ce071f26b97d553c",
+        "entries": 257,
+        "raw_bytes": 802787,
+        "raw_sha256": "8c75bd37e9c68c75ac82d28a72f24eb32dc26df6e4048a9572afe53a55382b63",
+        "compressed_bytes": 333172
+      }
+    },
+    {
+      "shard": "0b",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/2/descriptor",
+      "descriptor": {
+        "shard": "0b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2c2e4da1948602331c31d834d4ca8eb5b1957e0316124fa6da54a4a05a2c9342",
+        "entries": 255,
+        "raw_bytes": 804783,
+        "raw_sha256": "e110e7dcb5a0222fdbde436092cb867a7b42560c5685c6736d991d90bcd5afb3",
+        "compressed_bytes": 333825
+      }
+    },
+    {
+      "shard": "0c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/12/descriptor",
+      "descriptor": {
+        "shard": "0c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "6caa1e7fa1b52f0e54d11f85a9a2d0f2aeb861ada97ed576e12392b02e753f3b",
+        "entries": 295,
+        "raw_bytes": 933762,
+        "raw_sha256": "2c67d444d1dc9cfb3ffd98e71387f04c7a56f90bb9c4da8260418a0e18849d65",
+        "compressed_bytes": 389257
+      }
+    },
+    {
+      "shard": "0d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/3/descriptor",
+      "descriptor": {
+        "shard": "0d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fe32a1ae48a44c13d483d9515896f9989734a28442c556ba58296be604d5ead9",
+        "entries": 260,
+        "raw_bytes": 823086,
+        "raw_sha256": "ac9c0077372670541c38eea1e53f5d02b0faf96ffd9ce2d595b5ed1a9619f292",
+        "compressed_bytes": 342891
+      }
+    },
+    {
+      "shard": "0e",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/0e/descriptor",
+      "descriptor": {
+        "shard": "0e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3a5e84f46a8b309da6dca6a09009d9a2eb539d30e25050105528aad5f490984a",
+        "entries": 248,
+        "raw_bytes": 769135,
+        "raw_sha256": "6651a3d89026deb75bbaebfc88935fdf39c79010e79d0a4395d2167b73960e74",
+        "compressed_bytes": 321638
+      }
+    },
+    {
+      "shard": "0f",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json",
+      "receipt_sha256": "2347edb138cdcea712bf9c039e89f741674886c8a37816b578de6194dd8827a5",
+      "pointer": "/additional_target_proofs/0/shard_descriptor",
+      "descriptor": {
+        "shard": "0f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fe6ecf9ccaf9c931b7c6d501a8944632587363ccc4d3dd4f63306bcbccb54829",
+        "entries": 287,
+        "raw_bytes": 878064,
+        "raw_sha256": "dd2e8b65069b6c3eda8449767d0881c64c16390a09bc542234f48ee6c664b92d",
+        "compressed_bytes": 369174
+      }
+    },
+    {
+      "shard": "10",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/4/descriptor",
+      "descriptor": {
+        "shard": "10",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9cae53a480656b2aba961bbefb3fb25e5e3b6edc15c69db9d7c8096caa09bbd3",
+        "entries": 281,
+        "raw_bytes": 966735,
+        "raw_sha256": "821c18c6403326f7b13a38dbd0e8b392967ed410f804fa5b94bbb5e13678facb",
+        "compressed_bytes": 391725
+      }
+    },
+    {
+      "shard": "11",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/17/descriptor",
+      "descriptor": {
+        "shard": "11",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2149615066fe5c96b4bfc86ca83e0e580f9cf9305d6567de12945d444cef266a",
+        "entries": 256,
+        "raw_bytes": 822503,
+        "raw_sha256": "17662dde2fe52360da05d240033e6fdb865986ecb1b224e7b423773f403082ff",
+        "compressed_bytes": 342059
+      }
+    },
+    {
+      "shard": "12",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/12/descriptor",
+      "descriptor": {
+        "shard": "12",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d2395ac6e67fcfef0d4daa28a5aa78a3e18ada92ec6d96d0beec5af476d57997",
+        "entries": 254,
+        "raw_bytes": 840267,
+        "raw_sha256": "64e3aad2a2e03ca276fe45f045ef706dca082670451971dfcbe9f246aedd8be7",
+        "compressed_bytes": 346113
+      }
+    },
+    {
+      "shard": "13",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/5/descriptor",
+      "descriptor": {
+        "shard": "13",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7ba03d4fba7a120dc856a0c9eabf975f4b74890b64fe0c2201dffa92dcf5bf4d",
+        "entries": 266,
+        "raw_bytes": 846257,
+        "raw_sha256": "5caad15d17fa4a2dbca09544336b3cf62e110a23400386774acdc8fbaa8babbe",
+        "compressed_bytes": 350391
+      }
+    },
+    {
+      "shard": "14",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/20/descriptor",
+      "descriptor": {
+        "shard": "14",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8bc17b1b6752fc7316652b0b09a97235802a3bc4efaff3c736d50d02be277c08",
+        "entries": 255,
+        "raw_bytes": 773911,
+        "raw_sha256": "dd99de2af4f2ed71fa8b3dddf5b7543dfc293a2d62926524a348ec61a817080d",
+        "compressed_bytes": 326171
+      }
+    },
+    {
+      "shard": "15",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/21/descriptor",
+      "descriptor": {
+        "shard": "15",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2dda8277bb12bd542c349775f903afd42847e44b7846efc79a30b07c3fbe7163",
+        "entries": 273,
+        "raw_bytes": 869731,
+        "raw_sha256": "47cc3249bc52cf34b8622d5aad59786e90381885dba071e93b1a3a68be0f9413",
+        "compressed_bytes": 361359
+      }
+    },
+    {
+      "shard": "16",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/16/descriptor",
+      "descriptor": {
+        "shard": "16",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d24082eb074e0611d436dd7894e737183e1594196b95d005958338c3fdc0ee15",
+        "entries": 258,
+        "raw_bytes": 783390,
+        "raw_sha256": "a0ee780ea20c83c2ec15e183901b628b03671ea622c24f0c8576ea4baa97179c",
+        "compressed_bytes": 329788
+      }
+    },
+    {
+      "shard": "17",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/23/descriptor",
+      "descriptor": {
+        "shard": "17",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "982f713ea08210bd57de7187639504be17779795a925f46f3682e1cc30e786a8",
+        "entries": 244,
+        "raw_bytes": 772397,
+        "raw_sha256": "3e6ef81aa1e0c56da442b4b7566923fd583f97d701321a340517836f78627a86",
+        "compressed_bytes": 319402
+      }
+    },
+    {
+      "shard": "18",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/1/descriptor",
+      "descriptor": {
+        "shard": "18",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fefa07f84e9b225da741e6c80ff30214120fce5572c077b54e4ea8719e24ebc3",
+        "entries": 245,
+        "raw_bytes": 781098,
+        "raw_sha256": "9adcea053ba7622f09b1e8d5348df98714f72e2d21033ac264e9c20d8f8a9ec3",
+        "compressed_bytes": 324565
+      }
+    },
+    {
+      "shard": "19",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/19/descriptor",
+      "descriptor": {
+        "shard": "19",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c57f61105340b8d5eac2f7acd5f65d785267d5e5ac83df87009b1276ffb40444",
+        "entries": 243,
+        "raw_bytes": 726865,
+        "raw_sha256": "94cd9cf80053958f27f3e7ab3123b8fcb5e293311ebe4e728fcaf2052a54435d",
+        "compressed_bytes": 307826
+      }
+    },
+    {
+      "shard": "1a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/6/descriptor",
+      "descriptor": {
+        "shard": "1a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3712c1cb5efac99699a0e8d51cb9ced9db6a6804700d517e6e9bed053b44f668",
+        "entries": 229,
+        "raw_bytes": 682601,
+        "raw_sha256": "5afc883c3d3d0b97fce664f1c3b942adf395c03913b6b8cc21e538e1f53853e9",
+        "compressed_bytes": 288802
+      }
+    },
+    {
+      "shard": "1b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/27/descriptor",
+      "descriptor": {
+        "shard": "1b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "feeedb17723014f371f06c9deb8a528f2e536dea2765c13b7f3cc566844ba215",
+        "entries": 257,
+        "raw_bytes": 836373,
+        "raw_sha256": "f95b6c9d7059ddcd741fe4142a29e4ba89c853bc4c945d36006b06fa6d60f689",
+        "compressed_bytes": 344261
+      }
+    },
+    {
+      "shard": "1c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/28/descriptor",
+      "descriptor": {
+        "shard": "1c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4aa3ba392374ca782c9e5578b4f80341755ef70ffb0389ab151a2fc221e2885b",
+        "entries": 275,
+        "raw_bytes": 894915,
+        "raw_sha256": "8605aaf873b60ababbbe89a668e9b10707a68ff237690072f9e71b21f4545148",
+        "compressed_bytes": 365774
+      }
+    },
+    {
+      "shard": "1d",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/29/descriptor",
+      "descriptor": {
+        "shard": "1d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9ce1b4ad8fd94e045a2d237616d5ba6fcf4765004fb5fa41dc47c46e93089312",
+        "entries": 251,
+        "raw_bytes": 765389,
+        "raw_sha256": "67ce464405da4c54bad61a5c7381b7adf7aa1a29bf09617d505839c2f90105c2",
+        "compressed_bytes": 321062
+      }
+    },
+    {
+      "shard": "1e",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/30/descriptor",
+      "descriptor": {
+        "shard": "1e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8ef014ca56e5bffcced53ae9d7b0d6bfb94bb84b19fb63e76990d062236f0e9e",
+        "entries": 246,
+        "raw_bytes": 763337,
+        "raw_sha256": "e75fb600e40bb7253886b6a99873263c03ad4eeee775fbe3bae61b405dbeb32f",
+        "compressed_bytes": 317811
+      }
+    },
+    {
+      "shard": "1f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/31/descriptor",
+      "descriptor": {
+        "shard": "1f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d0b6404b90d7609d28f21ccd7179d6f4f12d8a90fd0d29a411e2d4ae008ace59",
+        "entries": 277,
+        "raw_bytes": 887990,
+        "raw_sha256": "f305924247869ba37039b5673a34eba47221d04b8e4857d2c292149d9319e45b",
+        "compressed_bytes": 368496
+      }
+    },
+    {
+      "shard": "20",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/7/descriptor",
+      "descriptor": {
+        "shard": "20",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "43150e6641eb861ddb26bc79d482c6e29d0b8ccd744b54629f2d4663e1eb0686",
+        "entries": 283,
+        "raw_bytes": 865805,
+        "raw_sha256": "12ff90190dc85c89ac7be2cea3273940b978cab3d550a7195455a34d3da92818",
+        "compressed_bytes": 363300
+      }
+    },
+    {
+      "shard": "21",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/33/descriptor",
+      "descriptor": {
+        "shard": "21",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4d63859dea2c4bf5aded79264002eaf9c879ff4112437dcca399d5d6a92588ba",
+        "entries": 257,
+        "raw_bytes": 766007,
+        "raw_sha256": "4b78c57cc097a2a72f2c32320ea6c0956fecd548a485b62299d6e22e14ffb626",
+        "compressed_bytes": 324670
+      }
+    },
+    {
+      "shard": "22",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/34/descriptor",
+      "descriptor": {
+        "shard": "22",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e4596f2c6ab5c5b9d150e584988d6f03f030d8ae484085ea010038a95f45c42f",
+        "entries": 236,
+        "raw_bytes": 726064,
+        "raw_sha256": "2590f3ef4c5fffe208798e6137b153bd50e2dddef36061035e06b5bd1de2eca4",
+        "compressed_bytes": 305377
+      }
+    },
+    {
+      "shard": "23",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/35/descriptor",
+      "descriptor": {
+        "shard": "23",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "acbbe63af8c935bffb870aba323cee69bf7ee7e763b3c2748ff145afff672724",
+        "entries": 283,
+        "raw_bytes": 876750,
+        "raw_sha256": "66a0f73a9cac91bd7767d2d31da781715c86cc43ae7cbade2dbe9b3faec11865",
+        "compressed_bytes": 367667
+      }
+    },
+    {
+      "shard": "24",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/36/descriptor",
+      "descriptor": {
+        "shard": "24",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0461d2b3d0d9c798a3a82b743397dcbaba43fc4c700d34636706e34e1001f7a6",
+        "entries": 259,
+        "raw_bytes": 839883,
+        "raw_sha256": "802dcc1c7ffc646f7f4e92c9e167a2999c9ddb603e465d5ccb14962bbf7da90e",
+        "compressed_bytes": 346469
+      }
+    },
+    {
+      "shard": "25",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/37/descriptor",
+      "descriptor": {
+        "shard": "25",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "67bfc2e5e60359eae0975cb4a686f14b2c8b9176af7829d0f9a12a6e87766cdb",
+        "entries": 235,
+        "raw_bytes": 751832,
+        "raw_sha256": "cf09f2a61e2a9a093159bc1791121387d13f77ec537d5fa1d202cca4d869e0ec",
+        "compressed_bytes": 312117
+      }
+    },
+    {
+      "shard": "26",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/26/descriptor",
+      "descriptor": {
+        "shard": "26",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e0cfacc5fcaf7555699bc93d0908951a1373d3578b3f6df56dfc57a23c9670fc",
+        "entries": 268,
+        "raw_bytes": 827371,
+        "raw_sha256": "7d3685a3a45f0226d6e5c6117e70bf28b588570b41cde6c9721108459dbfe077",
+        "compressed_bytes": 345554
+      }
+    },
+    {
+      "shard": "27",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/39/descriptor",
+      "descriptor": {
+        "shard": "27",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8e45770ff87676c07ff6381485730abb0ba5ca39a73fc879a493152ae0a3f295",
+        "entries": 268,
+        "raw_bytes": 858984,
+        "raw_sha256": "ebd26b40dccdf6cc4605e4e9c0c35d14e02eaf8e5e8d3f869dda76d29a9b6786",
+        "compressed_bytes": 353718
+      }
+    },
+    {
+      "shard": "28",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/40/descriptor",
+      "descriptor": {
+        "shard": "28",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ec20ad5e4385d491792815187cb4ad517f0127ba269225323a1f27437456312c",
+        "entries": 279,
+        "raw_bytes": 862872,
+        "raw_sha256": "bb148bfbea1301416c92123fca64a2c46a05813cab4374c26cd62ad1f6f801c8",
+        "compressed_bytes": 360354
+      }
+    },
+    {
+      "shard": "29",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/41/descriptor",
+      "descriptor": {
+        "shard": "29",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2059bfe032792c0d20115f2ff78354109d7ed9c4cb69aa3931a12edf65367eab",
+        "entries": 266,
+        "raw_bytes": 835351,
+        "raw_sha256": "35667aace7c9095817b1fc3c27accf42f562132e57c91704ee68e29ff54f0525",
+        "compressed_bytes": 349104
+      }
+    },
+    {
+      "shard": "2a",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/42/descriptor",
+      "descriptor": {
+        "shard": "2a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "601331f6de19e5b05cca7e699bcbe0a662531662ff986f6007bb1f5bb40ccd6e",
+        "entries": 250,
+        "raw_bytes": 730775,
+        "raw_sha256": "1cfe309b3fccf1613dcb0877ee63de89cbc3a1f3665a82ee33b44830bcd6589f",
+        "compressed_bytes": 312850
+      }
+    },
+    {
+      "shard": "2b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/43/descriptor",
+      "descriptor": {
+        "shard": "2b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b9f574d56503c380b0d37f32f98a452c5206a79171107306ec64578f93cc62d3",
+        "entries": 254,
+        "raw_bytes": 829081,
+        "raw_sha256": "549b5d26065ea038f1582439e559a51cbbaf2650c05793c7ae0ade0ac0289287",
+        "compressed_bytes": 341395
+      }
+    },
+    {
+      "shard": "2c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/44/descriptor",
+      "descriptor": {
+        "shard": "2c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ff005cb76ecf68df9709573b6cac646b3bc4d4e8009bbe2e936015d6ceda4cb4",
+        "entries": 267,
+        "raw_bytes": 836362,
+        "raw_sha256": "ebf04fa4996a20b82d6faaf40201fc71cf382fd8ac6e896c034b610fd0fa3ccc",
+        "compressed_bytes": 348943
+      }
+    },
+    {
+      "shard": "2d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/8/descriptor",
+      "descriptor": {
+        "shard": "2d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ea06ab426a341ccc97b417f95f70900939ebeae23b2abacfc95864dfac4d9045",
+        "entries": 268,
+        "raw_bytes": 854675,
+        "raw_sha256": "853fcd1e63e5e1d1b622afefa036e15129e6f3a6558097f4ebc290bfe80b502f",
+        "compressed_bytes": 355617
+      }
+    },
+    {
+      "shard": "2e",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/46/descriptor",
+      "descriptor": {
+        "shard": "2e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9f00ab17e834ef3c61bfed1ff81343b8afec0c0ac3879b5cf6287b8aff078a30",
+        "entries": 272,
+        "raw_bytes": 885643,
+        "raw_sha256": "b9d3ce2a38f2653f64f81ef002f1eb93700c5839dcb7fa6adb6f8684f40c74c5",
+        "compressed_bytes": 365594
+      }
+    },
+    {
+      "shard": "2f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/47/descriptor",
+      "descriptor": {
+        "shard": "2f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a0091dcd3924dd96f1575d6d6d6fa787318a6a501bbc749e14625f9dfea6b85a",
+        "entries": 260,
+        "raw_bytes": 796828,
+        "raw_sha256": "0ee7ae499aaf0ab439121cba3fb19b12ec40c144a57e2bafbff648c343fb6a34",
+        "compressed_bytes": 335487
+      }
+    },
+    {
+      "shard": "30",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/48/descriptor",
+      "descriptor": {
+        "shard": "30",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e475700d0b9e0e7f1170003dc6e0a6e2fbb53be23bd60dc03c563aff79811ce4",
+        "entries": 271,
+        "raw_bytes": 840387,
+        "raw_sha256": "567dbfeb887be2c41bb7924a6709106b6a43b0b5457a2037dc2984aff281d858",
+        "compressed_bytes": 351960
+      }
+    },
+    {
+      "shard": "31",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/49/descriptor",
+      "descriptor": {
+        "shard": "31",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9c4513ba465d996b0f5df813181bd6a4f63a4d22b34b86c88da39b44a78754f0",
+        "entries": 261,
+        "raw_bytes": 793400,
+        "raw_sha256": "93c04074cb9d6301c4029d073680e91e67be73af1f88d1c88ca9476a68c46a25",
+        "compressed_bytes": 332643
+      }
+    },
+    {
+      "shard": "32",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/50/descriptor",
+      "descriptor": {
+        "shard": "32",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fdae53aee154bd342c08c6787994f2355f2a0f53c8126d79c4271f204624c220",
+        "entries": 246,
+        "raw_bytes": 762506,
+        "raw_sha256": "c5aeb0af3d7854b5497cf0db14e299ba9b429ea1a5f63e85aa70dac8fd0b0415",
+        "compressed_bytes": 318860
+      }
+    },
+    {
+      "shard": "33",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/51/descriptor",
+      "descriptor": {
+        "shard": "33",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4f8853524b17ba06bf24aec1abd81ccc59d13b61d338f0dc8f3191cd47ac4daf",
+        "entries": 251,
+        "raw_bytes": 804570,
+        "raw_sha256": "5938ff7004eb4d559eec4c10b238dcb9cf43f874c98514afdaf0276c4d01e4ee",
+        "compressed_bytes": 334196
+      }
+    },
+    {
+      "shard": "34",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/52/descriptor",
+      "descriptor": {
+        "shard": "34",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f79d7f4e76a37c1f65f20580fc6c4bcfefa68ddac67be170d96aaaaec8570a72",
+        "entries": 237,
+        "raw_bytes": 742079,
+        "raw_sha256": "ae39e91e6332f5be2fb6bde37ccc10145eea43b240460b8e6798dcbc4e84be10",
+        "compressed_bytes": 306170
+      }
+    },
+    {
+      "shard": "35",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/35/descriptor",
+      "descriptor": {
+        "shard": "35",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "19825dddcbd82483d574a5fd7a928885a87a6ef73313316afd276e1555fbee11",
+        "entries": 255,
+        "raw_bytes": 849652,
+        "raw_sha256": "1ac6de10447b5aa8247e0aad22c884c2b9ef5f98718a0f705aa34b436ab75340",
+        "compressed_bytes": 347739
+      }
+    },
+    {
+      "shard": "36",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/36/descriptor",
+      "descriptor": {
+        "shard": "36",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a52602be8aa0f1ab9679ac764c70a0b759e1e4de71b14c2fa1d5cf89a95ba559",
+        "entries": 240,
+        "raw_bytes": 766914,
+        "raw_sha256": "b878053b92d65f078040e6963be69f4e65d32ff642eef1c942a485e7ea1e2711",
+        "compressed_bytes": 319641
+      }
+    },
+    {
+      "shard": "37",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/55/descriptor",
+      "descriptor": {
+        "shard": "37",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "dcacce1380f6e4cbc0eb32cf49a3fd550316bd6b02f263413022dfc9d07c04d7",
+        "entries": 254,
+        "raw_bytes": 778796,
+        "raw_sha256": "0c330ccb9010ff0a05b247f5070eb7cf5b608b9a53ef415a4fdd25553b16904d",
+        "compressed_bytes": 325611
+      }
+    },
+    {
+      "shard": "38",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/56/descriptor",
+      "descriptor": {
+        "shard": "38",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "379e0607847a642921c02be022eca37930023a5bcf15a7931ffa8653a35e87e0",
+        "entries": 268,
+        "raw_bytes": 849682,
+        "raw_sha256": "95b1db5245d960c03fcd2d38de92e2927ac655c6923e4f880d3451216ac70177",
+        "compressed_bytes": 351550
+      }
+    },
+    {
+      "shard": "39",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/9/descriptor",
+      "descriptor": {
+        "shard": "39",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "375a1557f1ee636b67162df9632dfd8bfe48f7096aded609f64ec8cbab118548",
+        "entries": 236,
+        "raw_bytes": 762550,
+        "raw_sha256": "7210309166e92ba8ed11e654667a3aa88048219c9098828e9c50b6ae9a9128f2",
+        "compressed_bytes": 315048
+      }
+    },
+    {
+      "shard": "3a",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/58/descriptor",
+      "descriptor": {
+        "shard": "3a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "413e1ced9a6b7cc6da3e4212fb18b806ab190553418db16447bfb78fe1f7da65",
+        "entries": 291,
+        "raw_bytes": 945124,
+        "raw_sha256": "b13c32f8f220bb0e39996f221839f7f4568358efd14b8de90ed4a355a821a313",
+        "compressed_bytes": 391011
+      }
+    },
+    {
+      "shard": "3b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/59/descriptor",
+      "descriptor": {
+        "shard": "3b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "bf24a5fa2548e0cd9c65074ecd2b204da661e5044feb89a88125ef4b4063a288",
+        "entries": 237,
+        "raw_bytes": 805554,
+        "raw_sha256": "f821080f985f5f3565810863a6713169bc7b534219afa747cb690277864c76c0",
+        "compressed_bytes": 327626
+      }
+    },
+    {
+      "shard": "3c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/60/descriptor",
+      "descriptor": {
+        "shard": "3c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7d13b86f5d53b3833e9e1610e397315ed15a30b644694d97ac2b84b28972167d",
+        "entries": 263,
+        "raw_bytes": 818969,
+        "raw_sha256": "11372a279858cc645cb212a0b1e4b12b106a2f3003a02ef0e001f0a923dd84d3",
+        "compressed_bytes": 341200
+      }
+    },
+    {
+      "shard": "3d",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/3d/descriptor",
+      "descriptor": {
+        "shard": "3d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3a042590c9c42bb2e8303c3b22b0d4e3e22c88de23f3c4b98e68cf8763cd3afd",
+        "entries": 263,
+        "raw_bytes": 857581,
+        "raw_sha256": "05064af033cb77cfbfa34379efc70445c1338970dbaed6dcb447606f44fb33f6",
+        "compressed_bytes": 353539
+      }
+    },
+    {
+      "shard": "3e",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/3e/descriptor",
+      "descriptor": {
+        "shard": "3e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "88ab19e460f74eeaf99adb98f16a7010c0c35ea95a6e4fca1c2d49e598a1bef9",
+        "entries": 238,
+        "raw_bytes": 789420,
+        "raw_sha256": "73d4f6cb44e4a950acb25f186c163c735f6f3200488d5a6f51ca709c07623801",
+        "compressed_bytes": 323375
+      }
+    },
+    {
+      "shard": "3f",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/10/descriptor",
+      "descriptor": {
+        "shard": "3f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2687b0af17918c7f4f6133c9a6757fa80f48a39001694983fd2667c34a90dacb",
+        "entries": 255,
+        "raw_bytes": 805186,
+        "raw_sha256": "e50934c7a87c4875998890c5704610cfe58ce3e9e6bf8fa27d7cfedfe053554a",
+        "compressed_bytes": 335070
+      }
+    },
+    {
+      "shard": "40",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/64/descriptor",
+      "descriptor": {
+        "shard": "40",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e2bff168838987231363614f1da0f14428038ede76162abe4b93eb45c38e6e55",
+        "entries": 263,
+        "raw_bytes": 872693,
+        "raw_sha256": "8d00a003506efb6b607cc496541112ff6d83aeaecbc6096b74fc6fac879b6d91",
+        "compressed_bytes": 360920
+      }
+    },
+    {
+      "shard": "41",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/65/descriptor",
+      "descriptor": {
+        "shard": "41",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "98dbb043b29d98cccd38ac19c979c8e53e51c3328f394f1059953de52adb7129",
+        "entries": 269,
+        "raw_bytes": 829349,
+        "raw_sha256": "e91c1a0c18e44747e3122341e0257bf8e184979b318b98b92adca3a841efef20",
+        "compressed_bytes": 347432
+      }
+    },
+    {
+      "shard": "42",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/11/descriptor",
+      "descriptor": {
+        "shard": "42",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3561d1e163b4f918517de818767871ae42f4c207841abbe6ff6ea628d6d2a891",
+        "entries": 261,
+        "raw_bytes": 806202,
+        "raw_sha256": "f95c58ae3cbdd02bdb72ed864eccc0c8358a9a0e3c898919882bd7bc67039541",
+        "compressed_bytes": 335941
+      }
+    },
+    {
+      "shard": "43",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/67/descriptor",
+      "descriptor": {
+        "shard": "43",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "cda5fd795b12c69233bf28502eeb5aba087e981fcb1bab52141d62b00caff70a",
+        "entries": 274,
+        "raw_bytes": 853715,
+        "raw_sha256": "bbf0433ed4a757522fd6bd60f136192e618f14693742d78f2cae9c928711b438",
+        "compressed_bytes": 359744
+      }
+    },
+    {
+      "shard": "44",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/12/descriptor",
+      "descriptor": {
+        "shard": "44",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "832b828bcb5508d3ccb3ff42ebb20a42e3288c30cdffd0c8b34bc775d2b1e8ee",
+        "entries": 260,
+        "raw_bytes": 841132,
+        "raw_sha256": "1f788bef804e3a4ee29965f8a737c1797049e52920ba741b8cd4651c73eccf92",
+        "compressed_bytes": 349549
+      }
+    },
+    {
+      "shard": "45",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/13/descriptor",
+      "descriptor": {
+        "shard": "45",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1b04eb9ad41bf90fd6d8dd3f155faa8f76ae7c8f96c52786e68a8bc7f69050e4",
+        "entries": 244,
+        "raw_bytes": 826770,
+        "raw_sha256": "ad1b4c46599c4e708eaf8b9b284d8779140634e4e6564f5ad0703b489e0ccd6b",
+        "compressed_bytes": 336677
+      }
+    },
+    {
+      "shard": "46",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1718-1719.json",
+      "receipt_sha256": "feae859687175c6a5c689938c30a6c2305e0a1f098cc31f82188bf32a41b4679",
+      "pointer": "/additional_target_proofs/0/shard_descriptor/descriptor",
+      "descriptor": {
+        "shard": "46",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2c57b6bd9340424f988b38b09ee7be93ccc954c551752d19691ac4117edae601",
+        "entries": 252,
+        "raw_bytes": 841773,
+        "raw_sha256": "6becaf73182a370508852e6af6519eb06478df6426c925cb772e28d327d6c3b7",
+        "compressed_bytes": 342360
+      }
+    },
+    {
+      "shard": "47",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/71/descriptor",
+      "descriptor": {
+        "shard": "47",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "58cef4fd8a09bc82124a03e4b99dd36e3476a976264e6f9ace61090710801768",
+        "entries": 261,
+        "raw_bytes": 808810,
+        "raw_sha256": "25ed30ae403f43bf8566eaf7f21b20af0cb48c8186960678b23e400717391c51",
+        "compressed_bytes": 338666
+      }
+    },
+    {
+      "shard": "48",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/72/descriptor",
+      "descriptor": {
+        "shard": "48",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9e9cc8cb019bd5c5573b970ca21b0d2a4d91c84f7cf4e53cea610d534ee67687",
+        "entries": 224,
+        "raw_bytes": 703932,
+        "raw_sha256": "8c678afb26d23d752fd792d246126f8549121face02b0edc6016225ede35ebd5",
+        "compressed_bytes": 291570
+      }
+    },
+    {
+      "shard": "49",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/14/descriptor",
+      "descriptor": {
+        "shard": "49",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a46d95f1500a36697610f5810c365f7b77dc641e871ca6e82e28946d2c504adf",
+        "entries": 251,
+        "raw_bytes": 777715,
+        "raw_sha256": "0bd8b6d8f999f7cc5f731e56707e72d9f91518825ad63e039708fd1b8bcb3acc",
+        "compressed_bytes": 323757
+      }
+    },
+    {
+      "shard": "4a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/15/descriptor",
+      "descriptor": {
+        "shard": "4a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "77d12aaf34d6e4d4dd4f671c22c5f018a86efcc084efc812191d17fa7cdbb693",
+        "entries": 246,
+        "raw_bytes": 796013,
+        "raw_sha256": "6cbbdcb6dabc08579aea285e98ed0a563c5140dec05889c1eed9fe7ece229a14",
+        "compressed_bytes": 329129
+      }
+    },
+    {
+      "shard": "4b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/75/descriptor",
+      "descriptor": {
+        "shard": "4b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5f9c2869b673038991cbed9d6963c3db386fbd11fdc36550d4fad4ad45a5729f",
+        "entries": 270,
+        "raw_bytes": 907181,
+        "raw_sha256": "45608e31cdbb928e28873ac279baee7fce44f3c0a5f9333e90caae8cb3f82f7b",
+        "compressed_bytes": 370449
+      }
+    },
+    {
+      "shard": "4c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/76/descriptor",
+      "descriptor": {
+        "shard": "4c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d8a2c8aa81954a290185c6fca02ba9699ab6729a1f0de40e7d60fe583930a45b",
+        "entries": 231,
+        "raw_bytes": 743952,
+        "raw_sha256": "b33a8a855d682c24654cebcea17d40064d1d1c1069b82fae218932d0e3033ebf",
+        "compressed_bytes": 307909
+      }
+    },
+    {
+      "shard": "4d",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/5/descriptor",
+      "descriptor": {
+        "shard": "4d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f2e5becebbcda8f97e4eaee783f1cadd00752e7f19a8257304c52bfac9c87ad6",
+        "entries": 266,
+        "raw_bytes": 908339,
+        "raw_sha256": "e724336b0e60ea071718a961fecd2a398249ad496c2bf642eb5757d8d874013e",
+        "compressed_bytes": 368952
+      }
+    },
+    {
+      "shard": "4e",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/4e/descriptor",
+      "descriptor": {
+        "shard": "4e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3bf9f585dc03ca94d94f8c77908cc4f4fc222131a86ea5f417447d6c3b34ed8c",
+        "entries": 257,
+        "raw_bytes": 887244,
+        "raw_sha256": "28b0a53631de5c35721c2057751f594c303936391913bf71cfa308ade62b0b60",
+        "compressed_bytes": 361429
+      }
+    },
+    {
+      "shard": "4f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/79/descriptor",
+      "descriptor": {
+        "shard": "4f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "82e02aa050d3454062701e8c911c99cd25ff0b520dc80f65cdb7e50096641984",
+        "entries": 224,
+        "raw_bytes": 690707,
+        "raw_sha256": "e04360615825640acb253e1daf89b82591977b04d5824d3dff0e0ba1d49760de",
+        "compressed_bytes": 289206
+      }
+    },
+    {
+      "shard": "50",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/80/descriptor",
+      "descriptor": {
+        "shard": "50",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b81cdc37b788cdbc527546ee54d28d80810a79bdb8ff088d5195b477dd275d3f",
+        "entries": 255,
+        "raw_bytes": 837115,
+        "raw_sha256": "a5a13b5beb4a5c5bf000e9db92cf9a0229ae418c1ef2d185c4da7441fa4b47ae",
+        "compressed_bytes": 344524
+      }
+    },
+    {
+      "shard": "51",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/7/descriptor",
+      "descriptor": {
+        "shard": "51",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b5f44058c947d196c6aaf2f0b46ea89ce620d58be66ed73de39f3c35c2a59b2f",
+        "entries": 282,
+        "raw_bytes": 931243,
+        "raw_sha256": "46a8a3cb9d6fb792f483abb63226e3a0f55adbbfc421051e2c3f26305134f869",
+        "compressed_bytes": 381803
+      }
+    },
+    {
+      "shard": "52",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/82/descriptor",
+      "descriptor": {
+        "shard": "52",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2136ae41dc65ff656170c23ac2da97a03a10a12ec71060aa4f48aeab10210fd4",
+        "entries": 262,
+        "raw_bytes": 782708,
+        "raw_sha256": "ff302a619d92de3423697c1615a42b936466fab3bba9a44a2f9a553c57d74a39",
+        "compressed_bytes": 332868
+      }
+    },
+    {
+      "shard": "53",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/83/descriptor",
+      "descriptor": {
+        "shard": "53",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "99cf2bb69e3120b9a6f231a409fe7f46f47e48e749a525b09c9715bdb315ea5c",
+        "entries": 245,
+        "raw_bytes": 721287,
+        "raw_sha256": "03971aef3d14a0fea62077cccbbbbe879cdb7599d3daf7b2d4827329b1d4b1a4",
+        "compressed_bytes": 304921
+      }
+    },
+    {
+      "shard": "54",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/84/descriptor",
+      "descriptor": {
+        "shard": "54",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f47e1bec139fc7f054f9cfd9bd96c38e42daa5af895e98896a0cbdb6c851c2f1",
+        "entries": 227,
+        "raw_bytes": 717683,
+        "raw_sha256": "cd4a9df34263887512966d10e4ce74a24dc7222131d99968f8f9ca3f466af9ef",
+        "compressed_bytes": 296624
+      }
+    },
+    {
+      "shard": "55",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/16/descriptor",
+      "descriptor": {
+        "shard": "55",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "84fe785bd68b60541fd1eb42e372193bf3e435bfd9b50d581d455b6170b5c72f",
+        "entries": 276,
+        "raw_bytes": 907860,
+        "raw_sha256": "0f35ffcd65b0d27557a9ff3a192cdfb89547ee484ef80f4a216729cbc984a570",
+        "compressed_bytes": 374465
+      }
+    },
+    {
+      "shard": "56",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/86/descriptor",
+      "descriptor": {
+        "shard": "56",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9ff4e9ec84614152d9597c439393af7c9a22acb0f817fb8016aa1afcfef0a15d",
+        "entries": 254,
+        "raw_bytes": 785532,
+        "raw_sha256": "df89f1d8ac757039c881d31971b5e2afa9be56a392e707cafb9fd777d12291c8",
+        "compressed_bytes": 329293
+      }
+    },
+    {
+      "shard": "57",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/87/descriptor",
+      "descriptor": {
+        "shard": "57",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "351f3827d7727067f428e66d3921ceca569719383734c12da6eaf9709b652daf",
+        "entries": 260,
+        "raw_bytes": 787147,
+        "raw_sha256": "31d1e848f7d9202ae865de5ff946e5e3bf2d3765fd4257d56cddd57cfa8d13e3",
+        "compressed_bytes": 330978
+      }
+    },
+    {
+      "shard": "58",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/88/descriptor",
+      "descriptor": {
+        "shard": "58",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a8b4db8d9d07a001351958e691d3e84c4063c94da2158be926e282c2be632c67",
+        "entries": 241,
+        "raw_bytes": 749965,
+        "raw_sha256": "546f5d7e0b262d0b528234ddb355a9fca04d690976e546d1191a45e966f04f29",
+        "compressed_bytes": 312322
+      }
+    },
+    {
+      "shard": "59",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json",
+      "receipt_sha256": "98fd4e2e8145ecb5fe0bcd07867918f739d84644165f4c8e80c2bbe575f97017",
+      "pointer": "/additional_target_proofs/0/shard_descriptor",
+      "descriptor": {
+        "shard": "59",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0bb8ba173f0c745a4480553ce31e79da333cb340dad3cc93e2b6883cbd2b92c9",
+        "entries": 281,
+        "raw_bytes": 910541,
+        "raw_sha256": "37638779874634efae2ca5f65ec5b222b38422a1c398fc5559c49888215e8368",
+        "compressed_bytes": 374713
+      }
+    },
+    {
+      "shard": "5a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/17/descriptor",
+      "descriptor": {
+        "shard": "5a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b5bffc07bff202809017fd9da2ff847306c203659a32aefd14d237b62e500e8a",
+        "entries": 274,
+        "raw_bytes": 794781,
+        "raw_sha256": "2bdab1201075e34dc3780c0ceebc8c961a0a88f10cac668b8539f8c875484bff",
+        "compressed_bytes": 338125
+      }
+    },
+    {
+      "shard": "5b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/91/descriptor",
+      "descriptor": {
+        "shard": "5b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5b12445874238c5042f98ea589938599022f9c45c8527ad499316eab1fdba7da",
+        "entries": 243,
+        "raw_bytes": 807544,
+        "raw_sha256": "09a983c7c2ee69a47e57e71a1d830fe0618634024b8663c491033e21d5722e8f",
+        "compressed_bytes": 332163
+      }
+    },
+    {
+      "shard": "5c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/92/descriptor",
+      "descriptor": {
+        "shard": "5c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "61877e85560eb21a49a93fdca1294f95df692477054607abad87471f47bbd655",
+        "entries": 230,
+        "raw_bytes": 721047,
+        "raw_sha256": "adc7e76f376a16153ba27a3fd20f93942a9f30930f160afd7659bbb4f08efa36",
+        "compressed_bytes": 303421
+      }
+    },
+    {
+      "shard": "5d",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/93/descriptor",
+      "descriptor": {
+        "shard": "5d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "45155fb31ef6b8dc52116c8c5a028a2d11e987c3439be02030d1192b1a81c7c3",
+        "entries": 243,
+        "raw_bytes": 794892,
+        "raw_sha256": "cf6c2ce167caa590700980ed1d1d60662b6d4d9f6439583d6d3599e22b705dfd",
+        "compressed_bytes": 326911
+      }
+    },
+    {
+      "shard": "5e",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/94/descriptor",
+      "descriptor": {
+        "shard": "5e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9f84a3676a778caa4fd02f5204f3233b56ff42bdfc8020584c823ace35f13913",
+        "entries": 264,
+        "raw_bytes": 805139,
+        "raw_sha256": "16dc7264f2e5355338c3a351f70c4be41cbe600805060e8db9a34c6743a3e1b9",
+        "compressed_bytes": 337176
+      }
+    },
+    {
+      "shard": "5f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/95/descriptor",
+      "descriptor": {
+        "shard": "5f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a739dbd8f6ae58795aa84f687b7cf3a4f2148093d4998f4113b53509c002b0e2",
+        "entries": 264,
+        "raw_bytes": 854998,
+        "raw_sha256": "5f1319309f4a7e1eb4c0af8071932564f0e6e037744ea130332e2050c7b86ad8",
+        "compressed_bytes": 351901
+      }
+    },
+    {
+      "shard": "60",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/96/descriptor",
+      "descriptor": {
+        "shard": "60",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fc0233605ef18e7a5cbba36209ffdbc1fbcebf4565008ee7265873149cf28886",
+        "entries": 264,
+        "raw_bytes": 836668,
+        "raw_sha256": "a4f8df9ceca7e2850ee213c442e1485a43a6dc5cf77f7ce5fd8acb12c65e4685",
+        "compressed_bytes": 347842
+      }
+    },
+    {
+      "shard": "61",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/97/descriptor",
+      "descriptor": {
+        "shard": "61",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "907eeb84e591acc36c0d748eed35d862b315a721b6738bbca81db346966c49b7",
+        "entries": 252,
+        "raw_bytes": 749028,
+        "raw_sha256": "50302f3d35bb79f3e322860ad9a30626b3775aebfc1b3c9fd15081af6b9f88d8",
+        "compressed_bytes": 316922
+      }
+    },
+    {
+      "shard": "62",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/62/descriptor",
+      "descriptor": {
+        "shard": "62",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "844abba5044dc94aae04611465dd329311984ac5e07cc577d1f4839d0561c0f7",
+        "entries": 246,
+        "raw_bytes": 810139,
+        "raw_sha256": "74d994af89c6cc43025e53a630a2a31b666de8557867b11cd51256a1a3e8cde2",
+        "compressed_bytes": 332739
+      }
+    },
+    {
+      "shard": "63",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/99/descriptor",
+      "descriptor": {
+        "shard": "63",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7dfaffb0f1919b5defb5d33d743a7e6f6b57439b4696cb770953ffd410785db1",
+        "entries": 262,
+        "raw_bytes": 819484,
+        "raw_sha256": "99f013c2f7b4c7eda220defa275efd630e9bfd7b3a66864420a2701269c1dad5",
+        "compressed_bytes": 343606
+      }
+    },
+    {
+      "shard": "64",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/100/descriptor",
+      "descriptor": {
+        "shard": "64",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f7e5c7c1b1278d863d985b008dc58f689e1552ed294f44f8ca3ab738da8020bd",
+        "entries": 250,
+        "raw_bytes": 811727,
+        "raw_sha256": "2f14175acc72fb7575f7cb164ec894c2aa83f1e2ccf26b860d1b20421caff2d4",
+        "compressed_bytes": 332335
+      }
+    },
+    {
+      "shard": "65",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/65/descriptor",
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      }
+    },
+    {
+      "shard": "66",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/102/descriptor",
+      "descriptor": {
+        "shard": "66",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "142aa63238b35735b7c70941a1fb2e3a0c3609144d4e181235e304ecaf92c766",
+        "entries": 254,
+        "raw_bytes": 795722,
+        "raw_sha256": "c925a5a1c0e7c76b5522285ee0fba55f49be23ba5aef6ed26f7a43cfb01aa953",
+        "compressed_bytes": 333663
+      }
+    },
+    {
+      "shard": "67",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/18/descriptor",
+      "descriptor": {
+        "shard": "67",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "caf4cf81930b8adec65742492fb2ebd94ba214489e02bbc9cfebdcb71790c652",
+        "entries": 248,
+        "raw_bytes": 732531,
+        "raw_sha256": "fd608e57cede27ba9490b7fc11a10196b639a2175ace199333294711b828f299",
+        "compressed_bytes": 308379
+      }
+    },
+    {
+      "shard": "68",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/104/descriptor",
+      "descriptor": {
+        "shard": "68",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d974aad91dae93c1e58ab856fda074f66c5674ac905c54c5937ac0fcbcbfd08c",
+        "entries": 267,
+        "raw_bytes": 844993,
+        "raw_sha256": "c966a3785f094afbf02cc820c1f09664ff6ef45448e83186b39889f0d5af89e9",
+        "compressed_bytes": 351769
+      }
+    },
+    {
+      "shard": "69",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/105/descriptor",
+      "descriptor": {
+        "shard": "69",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "45bbfc6f0e1ad92525517af1acd715107fb1b02f00c67d813de90e1af00fc701",
+        "entries": 247,
+        "raw_bytes": 766565,
+        "raw_sha256": "e3b2161bfa96fb13b5d0db4b3ceae74e606c28009dde8e64abab79ddda6346db",
+        "compressed_bytes": 322485
+      }
+    },
+    {
+      "shard": "6a",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/106/descriptor",
+      "descriptor": {
+        "shard": "6a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4f8bed84ceaaf0bb978059fa225166103c58c9c495fe080f0fc3222b0edcd71e",
+        "entries": 255,
+        "raw_bytes": 785466,
+        "raw_sha256": "9bae31206b37898f307a4144d494ac2923e29e060f8193bb359fb5e5e02467c1",
+        "compressed_bytes": 329910
+      }
+    },
+    {
+      "shard": "6b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/107/descriptor",
+      "descriptor": {
+        "shard": "6b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "64ec812cf649bdeb3e8aad3eca922bda1fa3d1da6dfd89e1fd23372cdf69435a",
+        "entries": 231,
+        "raw_bytes": 788939,
+        "raw_sha256": "f132301a328cab39785fa197b65234e7c75b92ee67a965955a42015ad25cf078",
+        "compressed_bytes": 321937
+      }
+    },
+    {
+      "shard": "6c",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/source_projection/shards/0/descriptor",
+      "descriptor": {
+        "shard": "6c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8016aef1ef0af0fdae1ee108f51da081f2ccdf5e630d7aeb627fab2a87619565",
+        "entries": 244,
+        "raw_bytes": 790365,
+        "raw_sha256": "9fccd3f3e91bc375412bbc0b80005ce0bf76bbca097d5a5f687cab448c9be0a3",
+        "compressed_bytes": 328192
+      }
+    },
+    {
+      "shard": "6d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/source_projection/shards/1/descriptor",
+      "descriptor": {
+        "shard": "6d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c10cea52782fd76f358833597510024adb4fabb73d5eb9aafc96dbfcf1fd97e6",
+        "entries": 260,
+        "raw_bytes": 802346,
+        "raw_sha256": "95969a4185e630443cfbadee4f6d368c1e58dd39ea0de5ab68334c8ecc00e785",
+        "compressed_bytes": 335049
+      }
+    },
+    {
+      "shard": "6e",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/20/descriptor",
+      "descriptor": {
+        "shard": "6e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3596864ab7b8952a9e2c4b5950033eeeda89709b79cc23faac7b77f79cf305c3",
+        "entries": 242,
+        "raw_bytes": 738953,
+        "raw_sha256": "316c325eeb4a3e5aedac016006a6c82e3b1ff72a714cdc89264c0579abe0078c",
+        "compressed_bytes": 311949
+      }
+    },
+    {
+      "shard": "6f",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/21/descriptor",
+      "descriptor": {
+        "shard": "6f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "03b35e68d6a3ba03c3bb36e7d0b269c5d513a42124cb8d6721853b31e9732820",
+        "entries": 264,
+        "raw_bytes": 823703,
+        "raw_sha256": "9601482c7b6cb452c6be31214b55728e3a1f1957d2e3677b9e35e8c9340bb3aa",
+        "compressed_bytes": 344174
+      }
+    },
+    {
+      "shard": "70",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/22/descriptor",
+      "descriptor": {
+        "shard": "70",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "bd58bf43fb53faf8f2a0913372545cebfe291d2ada39902d6678b67845761338",
+        "entries": 243,
+        "raw_bytes": 769805,
+        "raw_sha256": "8b81c80a7dbbd6523c0d8b9379dd2e850c138a74dd934df252442d3793006799",
+        "compressed_bytes": 320124
+      }
+    },
+    {
+      "shard": "71",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/71/descriptor",
+      "descriptor": {
+        "shard": "71",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1ac5a76140d23d9fd59ba4fa62830510bffdb9e5f96ba580937b26fa0c6f8033",
+        "entries": 259,
+        "raw_bytes": 811242,
+        "raw_sha256": "b418d432137f2786145ce37816b0c9b711df76f480a9b70bff6af8bdb20fc79e",
+        "compressed_bytes": 339410
+      }
+    },
+    {
+      "shard": "72",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/23/descriptor",
+      "descriptor": {
+        "shard": "72",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4080043e1c43df6b9ccc5c97182f028cf8b2c6ab10256fd94cca82ef4148fb8f",
+        "entries": 266,
+        "raw_bytes": 833204,
+        "raw_sha256": "f1e6658df2c0e5267bf0894ef7a268bc9201937f04fde9fa47ef4b9e315b9338",
+        "compressed_bytes": 346919
+      }
+    },
+    {
+      "shard": "73",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/24/descriptor",
+      "descriptor": {
+        "shard": "73",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c794b3541516ee8f3305443df81d3ddde66faa75d9cc2374e3cb28d5e083b4ea",
+        "entries": 240,
+        "raw_bytes": 786416,
+        "raw_sha256": "6ab17d9e2c4ab4e96b66cb344522f15a994185330a2a62670ccde3e5d7b08ee3",
+        "compressed_bytes": 322674
+      }
+    },
+    {
+      "shard": "74",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/116/descriptor",
+      "descriptor": {
+        "shard": "74",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "55a2cb02f319d01ab347e692c22a317d3e2a109eee86ade707e03333f98b1483",
+        "entries": 256,
+        "raw_bytes": 816295,
+        "raw_sha256": "17489d1ed027d49ddaee7986e5099f6ff5c85620768de5786711b972a642bf7b",
+        "compressed_bytes": 341168
+      }
+    },
+    {
+      "shard": "75",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/75/descriptor",
+      "descriptor": {
+        "shard": "75",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "17589d2b1e74477df2eee723c057947e5b9240e2e9adc3e9d4356c9e7727d537",
+        "entries": 236,
+        "raw_bytes": 761172,
+        "raw_sha256": "927ee283bd5c8dc66ab49f9181545df1e4fd6dcae443680b9a550b47475b4365",
+        "compressed_bytes": 313190
+      }
+    },
+    {
+      "shard": "76",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/76/descriptor",
+      "descriptor": {
+        "shard": "76",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ee9ddb288b269781ff62d22dc8ba57b471db59087e2e818530e65f18e4860041",
+        "entries": 230,
+        "raw_bytes": 690235,
+        "raw_sha256": "2defb2c25ca5894a21dfbd214d1685dfeffa70a9101dbf1f1098d057b997b3fb",
+        "compressed_bytes": 292838
+      }
+    },
+    {
+      "shard": "77",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/119/descriptor",
+      "descriptor": {
+        "shard": "77",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "477baadc8162155a04200b4947565cea33c7e3d602d61b190a97a7fdbc481798",
+        "entries": 230,
+        "raw_bytes": 735494,
+        "raw_sha256": "350a25c571de9cb48be963a0e0b5f9cb4eee47f45f70ce0e0a3872d5821cc135",
+        "compressed_bytes": 304241
+      }
+    },
+    {
+      "shard": "78",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/78/descriptor",
+      "descriptor": {
+        "shard": "78",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fadb5582baad9e6e1f7552d8522ded5ee8426d99590b74ba885d840869d8bfaf",
+        "entries": 270,
+        "raw_bytes": 794552,
+        "raw_sha256": "ce0542b6fd3a5108aaee013ebbf693b55d080af9b7def99538633eec3784f468",
+        "compressed_bytes": 337232
+      }
+    },
+    {
+      "shard": "79",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/121/descriptor",
+      "descriptor": {
+        "shard": "79",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "056b2358929b953255a3f332f3587cab209d40e03328837f7af16d6d96ef8816",
+        "entries": 265,
+        "raw_bytes": 782233,
+        "raw_sha256": "ff474a46500916657b377813b6162907b2572a4b732bdc3bcc10f1b8aae8e944",
+        "compressed_bytes": 331624
+      }
+    },
+    {
+      "shard": "7a",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/122/descriptor",
+      "descriptor": {
+        "shard": "7a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "96d60689ba331f8f9852a0a058bb35f1f2dcbbadfd381268166596cc8f95a6db",
+        "entries": 274,
+        "raw_bytes": 932791,
+        "raw_sha256": "1d9a41270f090a77eb62c6879641f5c8cb2f5749a0ca8f0d2ca2cd742c8b1ef8",
+        "compressed_bytes": 380931
+      }
+    },
+    {
+      "shard": "7b",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/123/descriptor",
+      "descriptor": {
+        "shard": "7b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2aa018713d69807a1689cfbf63060d998471ce1df483c1732675ad5b7acd45ec",
+        "entries": 276,
+        "raw_bytes": 827548,
+        "raw_sha256": "1c8f94e0a95d9067cedf3f158d00b5d7ff436dbc0f247a37f29544f60c4d7215",
+        "compressed_bytes": 350515
+      }
+    },
+    {
+      "shard": "7c",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/7/descriptor",
+      "descriptor": {
+        "shard": "7c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a81723eac2ed1f4d0a57460ee25a30558decd3c127c89be8f1c0bd6b17852445",
+        "entries": 274,
+        "raw_bytes": 888933,
+        "raw_sha256": "540932a7fd377f587fd78a18d335cf472e0b8bd21f09a1459da38c6afcf9bdd5",
+        "compressed_bytes": 368009
+      }
+    },
+    {
+      "shard": "7d",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/125/descriptor",
+      "descriptor": {
+        "shard": "7d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "be3f82880bdb19fc74dbb26db9f6825db5944bd50945b8daa7590b7745bbe37a",
+        "entries": 241,
+        "raw_bytes": 837905,
+        "raw_sha256": "97726e3783f6a5397c64eb3b09c27b4a773b38ba7766d837bf382614d740f50b",
+        "compressed_bytes": 338178
+      }
+    },
+    {
+      "shard": "7e",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/126/descriptor",
+      "descriptor": {
+        "shard": "7e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f0f42979c3a0b9f4e7a7127fb9af24d889f6ca236e385727e16e6b8f9864e6f5",
+        "entries": 242,
+        "raw_bytes": 737319,
+        "raw_sha256": "3f27129b706ae088076fd4686fcf09e8ec82835294d19574000adf53949dfbc7",
+        "compressed_bytes": 310556
+      }
+    },
+    {
+      "shard": "7f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/127/descriptor",
+      "descriptor": {
+        "shard": "7f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "57467bd6ed8acfcb5bdccf7dc185853873b59e49c1629d1f9e7394b9ebee092c",
+        "entries": 255,
+        "raw_bytes": 779915,
+        "raw_sha256": "6f09c3f289cb9b82b8f18a06b3efcc48e08f5b165af95fd002061615b8d431e4",
+        "compressed_bytes": 326739
+      }
+    },
+    {
+      "shard": "80",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/8/descriptor",
+      "descriptor": {
+        "shard": "80",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0160c9adf7d0e846a4414316e8edd78d8ad33f704924e88ec1143a57a6c82b96",
+        "entries": 241,
+        "raw_bytes": 804456,
+        "raw_sha256": "637e11eb1b0b64efef341d8ea6ca4c16c897e23397966b9d03b9ce2babdc1c00",
+        "compressed_bytes": 330326
+      }
+    },
+    {
+      "shard": "81",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/129/descriptor",
+      "descriptor": {
+        "shard": "81",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "dab94b452d9969705f8109606b13f417431a480d1655b3802b825d705d1906ab",
+        "entries": 259,
+        "raw_bytes": 842162,
+        "raw_sha256": "ffaedd4097e8915c36f0a8cab252ca743b333e3aee623c3ef915398e3239bfea",
+        "compressed_bytes": 345138
+      }
+    },
+    {
+      "shard": "82",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/130/descriptor",
+      "descriptor": {
+        "shard": "82",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2381cb6f268d1fbbdf67694dbf1b23abc3607cb3ca669ea690aa78f78a0020b7",
+        "entries": 249,
+        "raw_bytes": 740609,
+        "raw_sha256": "5157fa3af47824c658faa9e5ac18a1d1c5d878687f03fa95a2a824950356d426",
+        "compressed_bytes": 315470
+      }
+    },
+    {
+      "shard": "83",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/131/descriptor",
+      "descriptor": {
+        "shard": "83",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fdd4518dfbf7b8d1b89eb08b25a42dc9ed1bd6b7fc0c0425920190829e159cce",
+        "entries": 284,
+        "raw_bytes": 898783,
+        "raw_sha256": "b04c3d05f6b9b070f54ec7304f2ff7e7de7b846c962a72c3c7606705fae7efe1",
+        "compressed_bytes": 374437
+      }
+    },
+    {
+      "shard": "84",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/132/descriptor",
+      "descriptor": {
+        "shard": "84",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7b1351ead5cdab963db6a9361b9887a7f00be78b21a84674dabcf87857d4850f",
+        "entries": 232,
+        "raw_bytes": 749679,
+        "raw_sha256": "0f4ca577e80ca02b7cc7f09f4e0a29efa825dd366f93861a8abd1828c0a01bc2",
+        "compressed_bytes": 308765
+      }
+    },
+    {
+      "shard": "85",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/133/descriptor",
+      "descriptor": {
+        "shard": "85",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f126dbb0b8b1a0d4961ab72479d6933d54b31f3a61c5bda0cf14487f38a284c7",
+        "entries": 243,
+        "raw_bytes": 821941,
+        "raw_sha256": "886fb8531bad9dfdc3122c0737d15a35ef19c9eed573e5b903fe7869d8ee9c38",
+        "compressed_bytes": 333474
+      }
+    },
+    {
+      "shard": "86",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/134/descriptor",
+      "descriptor": {
+        "shard": "86",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8c7d3fb991cdb6992970b84551f6e58072a2c9ebb227caa74658af9d96cbcc97",
+        "entries": 245,
+        "raw_bytes": 791463,
+        "raw_sha256": "c209682c25a91dd3b588b7eb7f83293a56de1590227daa4db2212a0bebdb0636",
+        "compressed_bytes": 327096
+      }
+    },
+    {
+      "shard": "87",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/87/descriptor",
+      "descriptor": {
+        "shard": "87",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "671359d13d98a723d3ed86df4423004b1ba9c30a7387a7b2adfd3dd77df7cc37",
+        "entries": 251,
+        "raw_bytes": 796213,
+        "raw_sha256": "66078a494c64578c8af50618c2aa542553b577249e5e5950d7d418079846c8c7",
+        "compressed_bytes": 329508
+      }
+    },
+    {
+      "shard": "88",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/25/descriptor",
+      "descriptor": {
+        "shard": "88",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e42f6300aa139a0a31d47e028f1a927cc5a6fca8f36fc933692d30458e113c73",
+        "entries": 251,
+        "raw_bytes": 794208,
+        "raw_sha256": "ef87649c1cda64c1e2816a28afa866528379699aed94168d593e3614c68a533d",
+        "compressed_bytes": 330255
+      }
+    },
+    {
+      "shard": "89",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/137/descriptor",
+      "descriptor": {
+        "shard": "89",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "63ad82abd1a970ebffe88995459d1a720e9997961ff6210940a44ea683659b79",
+        "entries": 281,
+        "raw_bytes": 880062,
+        "raw_sha256": "f687572414dde7d8e8d15b2ec7a3d1bd2f4e35f49441b39d21705c0848cd27dc",
+        "compressed_bytes": 367257
+      }
+    },
+    {
+      "shard": "8a",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/138/descriptor",
+      "descriptor": {
+        "shard": "8a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e15685d34eeb435148a54579cac9e0d308dd2aaccf4b3b424ccaf4a0c28035fe",
+        "entries": 235,
+        "raw_bytes": 717633,
+        "raw_sha256": "1eab78b7797abcc86eee7465b04d4eda96e809c8318957550b796328e591b5ff",
+        "compressed_bytes": 300717
+      }
+    },
+    {
+      "shard": "8b",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/26/descriptor",
+      "descriptor": {
+        "shard": "8b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7ecf72161acd0ccea402a07d64694f5e3b08a6ac8e47eb0a7e02336a79d0d149",
+        "entries": 241,
+        "raw_bytes": 745532,
+        "raw_sha256": "dfa1b0240a7ac3fcc9ffece753a3ae6afb9805614e403273757bb4ab40fe15b4",
+        "compressed_bytes": 312832
+      }
+    },
+    {
+      "shard": "8c",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/140/descriptor",
+      "descriptor": {
+        "shard": "8c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "287b94220a378b864906f1d8d878b620c1b1f667be2c4e8e625cefc4138a52c2",
+        "entries": 239,
+        "raw_bytes": 780270,
+        "raw_sha256": "cd6f8672e564ba1113d90560ca5f5b9e33d3be8ac53af98f9db4622ccab00d4b",
+        "compressed_bytes": 321347
+      }
+    },
+    {
+      "shard": "8d",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/27/descriptor",
+      "descriptor": {
+        "shard": "8d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "a9a77993922fabcebb84b8d2cd4ab0b9e716535fa1b2edbbefd7e07e47cb6577",
+        "entries": 258,
+        "raw_bytes": 797013,
+        "raw_sha256": "e911a3ed6bcaa2e6b3332d69dbe5e7015721afa19cc7c106c03bf4d72a8f473d",
+        "compressed_bytes": 335240
+      }
+    },
+    {
+      "shard": "8e",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/142/descriptor",
+      "descriptor": {
+        "shard": "8e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4658569af2523e86c6cda2ab8fe904975b7b92915bf38f443f852ad6c7b3e59d",
+        "entries": 261,
+        "raw_bytes": 887840,
+        "raw_sha256": "efb29810de5c65552b54e0f80d92527415466664866d88c73ad5a1bb2f11c507",
+        "compressed_bytes": 362444
+      }
+    },
+    {
+      "shard": "8f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/143/descriptor",
+      "descriptor": {
+        "shard": "8f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "23e0b23fe02abef3c235203318f007adcadae04f44caf8da408c27c42a7363e0",
+        "entries": 256,
+        "raw_bytes": 878554,
+        "raw_sha256": "a76c55e230f7fd3051bdcd02d20b004e223d33f8def152ccb3de158c3ce8cd8b",
+        "compressed_bytes": 357539
+      }
+    },
+    {
+      "shard": "90",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0021-0030.json",
+      "receipt_sha256": "ed064a8381c0f8e07c190b2872b1b347eaf95ba544b5f857e8394fff00ab1861",
+      "pointer": "/target_projection/14/descriptor",
+      "descriptor": {
+        "shard": "90",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8fc943d563ebcebf2a85b3e44a113770f22f0e9a8b52bec97d0972592e6cb7fc",
+        "entries": 230,
+        "raw_bytes": 730851,
+        "raw_sha256": "47e38f4562e2e987c744fa6338e37819d81d3e804f0bc3235dd7558bdc9fa893",
+        "compressed_bytes": 303306
+      }
+    },
+    {
+      "shard": "91",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/145/descriptor",
+      "descriptor": {
+        "shard": "91",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "cc9446309a053a5483fe374f0b524ab170aad8116230f7a28b33a83c0e33bec6",
+        "entries": 283,
+        "raw_bytes": 868997,
+        "raw_sha256": "8c3cd3e9e68e3f564e50353aa7335e3a1e5a4cabc8a2e4ea54e36f3f858f231b",
+        "compressed_bytes": 361564
+      }
+    },
+    {
+      "shard": "92",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/146/descriptor",
+      "descriptor": {
+        "shard": "92",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "48a1e63488006c2b47fc7d3b86c32e9030219789843323536d389fa726d0612f",
+        "entries": 252,
+        "raw_bytes": 819727,
+        "raw_sha256": "9ecd2f7948b6707967da3c609159de04d5318c459b73dc23214354d80d8e42b6",
+        "compressed_bytes": 339089
+      }
+    },
+    {
+      "shard": "93",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/147/descriptor",
+      "descriptor": {
+        "shard": "93",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "512f969dd9bed6016c497bf5bd9ab4489f36e8ca9c3e06ae66219cb73f281028",
+        "entries": 270,
+        "raw_bytes": 818262,
+        "raw_sha256": "6ad5264dd2f56aee330bf8693ca0a83814b92ad9bf9211d11f56f7433f7f464b",
+        "compressed_bytes": 345732
+      }
+    },
+    {
+      "shard": "94",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/94/descriptor",
+      "descriptor": {
+        "shard": "94",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "72adef47c06fee4967eff27ba12537013d99b261f8bba04bd48d10bda966cb99",
+        "entries": 226,
+        "raw_bytes": 746259,
+        "raw_sha256": "e488e7b5d8a93205623648f1cb7566aa322f6579faa5252ba4f02d71afb32c60",
+        "compressed_bytes": 305493
+      }
+    },
+    {
+      "shard": "95",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/28/descriptor",
+      "descriptor": {
+        "shard": "95",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "cdf083f6dda21570bfdfcd15d90744769d91a88e4d7c6b93a443f171553684bf",
+        "entries": 230,
+        "raw_bytes": 669159,
+        "raw_sha256": "cb24c53053bb885bfde1633c92f9dcb72aab42f3277a76ef2e482671a09af6e0",
+        "compressed_bytes": 284630
+      }
+    },
+    {
+      "shard": "96",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/11/descriptor",
+      "descriptor": {
+        "shard": "96",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "152f8866b7f68f7e1818cdef13689a9c5d111aac12b35bc940ee4e9a75c6c101",
+        "entries": 261,
+        "raw_bytes": 794553,
+        "raw_sha256": "f6ef1d2437a5e448035cf91d4c7a4cc388be979ace01f018498c8859b9dc3cdd",
+        "compressed_bytes": 335439
+      }
+    },
+    {
+      "shard": "97",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/97/descriptor",
+      "descriptor": {
+        "shard": "97",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "296681839e2011c0367687dacdc0a0feba4551adfb8631010ab29206e575c6cf",
+        "entries": 239,
+        "raw_bytes": 769235,
+        "raw_sha256": "56368d9b905a03cfc95e1cbfde099e090f649534bd71fd4534986fa0c17fa4b9",
+        "compressed_bytes": 319638
+      }
+    },
+    {
+      "shard": "98",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/152/descriptor",
+      "descriptor": {
+        "shard": "98",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "dda65b60017aa45c4b2e0ca40acebfd1d53b160b38919b933c81b0633444e70d",
+        "entries": 256,
+        "raw_bytes": 840911,
+        "raw_sha256": "e7a544a6941ae3541baa4566061fefc3b42ba7b61b140667c9b92e38fbede43a",
+        "compressed_bytes": 345375
+      }
+    },
+    {
+      "shard": "99",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/153/descriptor",
+      "descriptor": {
+        "shard": "99",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "754e3c7f14410de93f71833efe0de353ce23417c44c4988b32d9cb35a6aa73d9",
+        "entries": 238,
+        "raw_bytes": 732832,
+        "raw_sha256": "e746d82dc80922a1b88ca04f3df2c5dc9dbec97c3c6636eff13db9f5a384d08d",
+        "compressed_bytes": 308413
+      }
+    },
+    {
+      "shard": "9a",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/29/descriptor",
+      "descriptor": {
+        "shard": "9a",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e69489c2aed2827417d779db301b188052645c71e748ab757e9906ce9e8586aa",
+        "entries": 245,
+        "raw_bytes": 785595,
+        "raw_sha256": "fbbc9f822c1a95e2e36dbe23e6434a4b2edec9136132bd93a9872e32b70c0571",
+        "compressed_bytes": 325496
+      }
+    },
+    {
+      "shard": "9b",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+      "receipt_sha256": "c4a3841679a83cb35d17fd021c1ee96ffabec85839d24d25a920fb9d2e322b9c",
+      "pointer": "/target_projection/10/descriptor",
+      "descriptor": {
+        "shard": "9b",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "42902716932adf37960caae704365cceba0091183d2b9b319036636f5af69bc1",
+        "entries": 230,
+        "raw_bytes": 693121,
+        "raw_sha256": "11cc8438151cc30ad1edccebeb719cbc3f19df0bd69b187151f3093b3f8f36d9",
+        "compressed_bytes": 294573
+      }
+    },
+    {
+      "shard": "9c",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/9c/descriptor",
+      "descriptor": {
+        "shard": "9c",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c8def07156974bb93e11761bc9557fdd37332cb090fa9175796816bb9aa50bdd",
+        "entries": 241,
+        "raw_bytes": 800213,
+        "raw_sha256": "333b5ada0c0c6200c14c7ce2c2d0fbc18f3f969aaa273142318b399c6e31ee77",
+        "compressed_bytes": 328385
+      }
+    },
+    {
+      "shard": "9d",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/157/descriptor",
+      "descriptor": {
+        "shard": "9d",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4a2bf44d30515889e6dd3e30a625525334d0264ebc9dbe14045381ac590ce121",
+        "entries": 264,
+        "raw_bytes": 810704,
+        "raw_sha256": "3e437a4406115cdb98ab1a7984cbfd8517607aa3607f6c054e72b10bef591b1c",
+        "compressed_bytes": 339227
+      }
+    },
+    {
+      "shard": "9e",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/30/descriptor",
+      "descriptor": {
+        "shard": "9e",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8a440b1b1bad02764480c4149d1f090010eca960d26cb5c99cf6fdc91bbac98a",
+        "entries": 252,
+        "raw_bytes": 731878,
+        "raw_sha256": "0acb130b1456de94900d68548310820dbbb08756822f150420000f8060d99fe7",
+        "compressed_bytes": 313031
+      }
+    },
+    {
+      "shard": "9f",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/159/descriptor",
+      "descriptor": {
+        "shard": "9f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "480d3739bddb407d50f0d648e2f322437eda9f5aa7dfd40de7d4c3cd6840d064",
+        "entries": 240,
+        "raw_bytes": 762188,
+        "raw_sha256": "05214352f729b1359abab5f79502bae887f0fc3457e4d0a5203aa9e19479e015",
+        "compressed_bytes": 316570
+      }
+    },
+    {
+      "shard": "a0",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/160/descriptor",
+      "descriptor": {
+        "shard": "a0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f41eba8ea5cc5b296dfdce75f1aedddeb8100a8605cce3b22cb5e057e0f1521b",
+        "entries": 248,
+        "raw_bytes": 755465,
+        "raw_sha256": "58ae1fce9353479f6efc212426a2be4b8184acd74f0ac7ba333526f4a7fe9b50",
+        "compressed_bytes": 317644
+      }
+    },
+    {
+      "shard": "a1",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/31/descriptor",
+      "descriptor": {
+        "shard": "a1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "246f339c50b25fd43a5ffeb3101bfc9ad507150b2a1137d8f2af82b97694e6ea",
+        "entries": 255,
+        "raw_bytes": 887635,
+        "raw_sha256": "4c5d118809bb55265143d163f9ccfeb4fc27588a077cc56b3898e39dda30bfd3",
+        "compressed_bytes": 358470
+      }
+    },
+    {
+      "shard": "a2",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/162/descriptor",
+      "descriptor": {
+        "shard": "a2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2640e534ffb1b9d64c3fbe1295c5fed369d8698b49be0df3918caa0c737b344a",
+        "entries": 229,
+        "raw_bytes": 767074,
+        "raw_sha256": "d6a7128152bbd08aceb3b3118bfe67247464e2e6365d01e11d3fb865871f2f76",
+        "compressed_bytes": 312587
+      }
+    },
+    {
+      "shard": "a3",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/32/descriptor",
+      "descriptor": {
+        "shard": "a3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "bcf90653ce0998f9f878dc498d3952a05d1b6924d5efca572a84c603ae1bde4c",
+        "entries": 261,
+        "raw_bytes": 784710,
+        "raw_sha256": "acee13d57fd14916eeb8ed894f1846ee170cd81a03df4c6e11970c80283cef8e",
+        "compressed_bytes": 333007
+      }
+    },
+    {
+      "shard": "a4",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/164/descriptor",
+      "descriptor": {
+        "shard": "a4",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f3031dba7d56f941ed64e48f405f3aae5542515ca3c650543ca9333e19b01fad",
+        "entries": 270,
+        "raw_bytes": 878994,
+        "raw_sha256": "c5d5830f45e828867a104bd1db9c90aee37b6ae2798bf855aeb641bed7edd827",
+        "compressed_bytes": 362929
+      }
+    },
+    {
+      "shard": "a5",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/165/descriptor",
+      "descriptor": {
+        "shard": "a5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e6cd762ba7e0a7b9a74c5b82398f8445f50a22234106d243536b05049e4c1da4",
+        "entries": 236,
+        "raw_bytes": 720057,
+        "raw_sha256": "e7edced08d623c5fe55c1380d439b412c127f75aa26fc809872dced05ac5a31a",
+        "compressed_bytes": 300647
+      }
+    },
+    {
+      "shard": "a6",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/166/descriptor",
+      "descriptor": {
+        "shard": "a6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "97d0737f3ba34da4f7c336cf39d1914582e179eb1e765b5b57bf4be8e60a34eb",
+        "entries": 268,
+        "raw_bytes": 807367,
+        "raw_sha256": "01b7b83afefdc3c5c30fdaac021ef8ed9ba308f4d83f5977735d259be3c26c55",
+        "compressed_bytes": 341251
+      }
+    },
+    {
+      "shard": "a7",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/167/descriptor",
+      "descriptor": {
+        "shard": "a7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8fd35dc02861696904a2521592d7debd499e1645a3bfd3d056a2949b7715b0df",
+        "entries": 281,
+        "raw_bytes": 941083,
+        "raw_sha256": "493b7e2f1752b4e1980a54a03acf39b12fdb74afbb1eb8876247c6eef5ef29f6",
+        "compressed_bytes": 385107
+      }
+    },
+    {
+      "shard": "a8",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/168/descriptor",
+      "descriptor": {
+        "shard": "a8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "58fba97f828c91134e6bb5d9fc3b3123e440c23c5dca79c9ec5242cf21b519b4",
+        "entries": 247,
+        "raw_bytes": 787512,
+        "raw_sha256": "2401edf78e1e0b544dc18eb3d836d652d19375a7e15a4449f8462371427b7af9",
+        "compressed_bytes": 326726
+      }
+    },
+    {
+      "shard": "a9",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/169/descriptor",
+      "descriptor": {
+        "shard": "a9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "70a56e94862ce0b639603c20705179b17755737c994c9d493d655505b9a567ab",
+        "entries": 261,
+        "raw_bytes": 815175,
+        "raw_sha256": "4a62b866f387fa33f8062b95aced4842151046dc72f9de39344d12608a454952",
+        "compressed_bytes": 338816
+      }
+    },
+    {
+      "shard": "aa",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/170/descriptor",
+      "descriptor": {
+        "shard": "aa",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "92a3ceb8a07738f111cd4038fe79f4449867a943566a43cce9e713492e4a1c23",
+        "entries": 298,
+        "raw_bytes": 975116,
+        "raw_sha256": "843449fc67cf8161281165c164929959097241485eee23243cc251c525751ffd",
+        "compressed_bytes": 399357
+      }
+    },
+    {
+      "shard": "ab",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/171/descriptor",
+      "descriptor": {
+        "shard": "ab",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "981643650532339fd2e4ba8de6af313f0a6fcfa91221854083b4c233d9fbc8c1",
+        "entries": 252,
+        "raw_bytes": 861357,
+        "raw_sha256": "ca23174422ad311e970491e62c5ef2a394f855663ab6cfc26571a17fb3aff5c3",
+        "compressed_bytes": 348924
+      }
+    },
+    {
+      "shard": "ac",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/172/descriptor",
+      "descriptor": {
+        "shard": "ac",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "dce1693f6a21aed6f123e4c4a23dc4cda2a4dc119645d9223d4dac88138fd535",
+        "entries": 247,
+        "raw_bytes": 718886,
+        "raw_sha256": "675568d8a2be858cb759095aefeb67829dd1aa64ce334a866f897227c011a22e",
+        "compressed_bytes": 305420
+      }
+    },
+    {
+      "shard": "ad",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/173/descriptor",
+      "descriptor": {
+        "shard": "ad",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "cbfd704f89fa044c0eeabc79bf6903a70d3d8458e34ee4636009647df6ac2e5b",
+        "entries": 253,
+        "raw_bytes": 811084,
+        "raw_sha256": "0e3afe81ce46faa0ad933d2bc44e12c352c4f3d003e064274b747302ceb4ca9b",
+        "compressed_bytes": 333960
+      }
+    },
+    {
+      "shard": "ae",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/174/descriptor",
+      "descriptor": {
+        "shard": "ae",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b3baafa6b720e32a0cb9906e061964377ef5a2c92ace0db0a92a86a42df63f44",
+        "entries": 255,
+        "raw_bytes": 816918,
+        "raw_sha256": "374b8430abc8e0404f7449bd78cdc73715e00bde680d408efdc9cc5b08bbec4c",
+        "compressed_bytes": 341324
+      }
+    },
+    {
+      "shard": "af",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/33/descriptor",
+      "descriptor": {
+        "shard": "af",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "965d0243ec7ead8f026c4f3f19373513f515824a0a7e7214da30318d472450fc",
+        "entries": 238,
+        "raw_bytes": 818793,
+        "raw_sha256": "1845079843ea412148d3152bdf909127fe886ac13e0e389445d2a2de682ebc94",
+        "compressed_bytes": 334321
+      }
+    },
+    {
+      "shard": "b0",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/176/descriptor",
+      "descriptor": {
+        "shard": "b0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5bce6a52c7bfd15cced69d2cbe5a0c357b02bdada1ed16d5d20dfc25364f52a9",
+        "entries": 238,
+        "raw_bytes": 746281,
+        "raw_sha256": "3efda651caf92d24ff6d404f66e3f96e9ee1ad41a4d76f8ca7df72838390046c",
+        "compressed_bytes": 312199
+      }
+    },
+    {
+      "shard": "b1",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/177/descriptor",
+      "descriptor": {
+        "shard": "b1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "bf6f92bc488d904d5eb88b8ed0a6f47be9093c466e63e27e1db6743fc6153802",
+        "entries": 273,
+        "raw_bytes": 893980,
+        "raw_sha256": "1c4e6b3fd74176e65e719993a470dc9658c538b9e42e7f1226265b561e2f1c14",
+        "compressed_bytes": 367862
+      }
+    },
+    {
+      "shard": "b2",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/b2/descriptor",
+      "descriptor": {
+        "shard": "b2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "107a60b17fa8cb12f56191ea272cdd94556ebd0796042b3c32fe49838441b278",
+        "entries": 260,
+        "raw_bytes": 913215,
+        "raw_sha256": "279b6cd694c274d17dd20af10245ca7e8b3e6e35318d95fb9331421a2acaeefb",
+        "compressed_bytes": 366544
+      }
+    },
+    {
+      "shard": "b3",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/179/descriptor",
+      "descriptor": {
+        "shard": "b3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c1fc06277581eba4e7be3f36535098d5d748692b05fc31e31ecffdd70197608d",
+        "entries": 246,
+        "raw_bytes": 803940,
+        "raw_sha256": "6024f1f7e8545e5e00a8c450cff1612bb777c02f4ded5f5600507c4b581a53d0",
+        "compressed_bytes": 329802
+      }
+    },
+    {
+      "shard": "b4",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/180/descriptor",
+      "descriptor": {
+        "shard": "b4",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "96c713177844f9c0c6f0d2ab29561df142efbb16daab5c35a3f7d1411be8fc12",
+        "entries": 286,
+        "raw_bytes": 871049,
+        "raw_sha256": "bddae8b4feda55ad48de9e983f5fa7f0814c21d0074c4dfca2c454117408e552",
+        "compressed_bytes": 366732
+      }
+    },
+    {
+      "shard": "b5",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/b5/descriptor",
+      "descriptor": {
+        "shard": "b5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0c6141caf038f829f0e61dceb58e66ab9c7bf10e55fd1ad0847ad81062768403",
+        "entries": 235,
+        "raw_bytes": 813088,
+        "raw_sha256": "d59f33964d2426cefd94a63b078c9f5056a9f5f40a5e1a4013adade07ddd784b",
+        "compressed_bytes": 329639
+      }
+    },
+    {
+      "shard": "b6",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/182/descriptor",
+      "descriptor": {
+        "shard": "b6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "90fdb6a4437f1ac45cbe8cf966919c2b79338f4ab0d2d33f8f58e2a2ba4a94da",
+        "entries": 274,
+        "raw_bytes": 854077,
+        "raw_sha256": "57972570495d9ed48ded42239057b1a3ecedb0f6ce387ebac7479de160637be1",
+        "compressed_bytes": 357179
+      }
+    },
+    {
+      "shard": "b7",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/183/descriptor",
+      "descriptor": {
+        "shard": "b7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7c465dee80cc93fd3f2ecd461f80b0ec2eb27e4ec13c3e001dbfdbdbd5750e15",
+        "entries": 236,
+        "raw_bytes": 731500,
+        "raw_sha256": "c001bf186ca6d33881a9eb9d45dc4e15cd6d26ab1bff14e5d2151a2daccf220f",
+        "compressed_bytes": 308744
+      }
+    },
+    {
+      "shard": "b8",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/184/descriptor",
+      "descriptor": {
+        "shard": "b8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1b8b5f207aab869917d7efa926c3d385747d853f05ba8f26c65719acdf506176",
+        "entries": 269,
+        "raw_bytes": 837058,
+        "raw_sha256": "52fdef8cb2628b069121a2731e1a05be5cfbfac231370f8a42d15a61c71ca2c8",
+        "compressed_bytes": 348924
+      }
+    },
+    {
+      "shard": "b9",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/185/descriptor",
+      "descriptor": {
+        "shard": "b9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5a737b1629a710ba2376e3b0c7616bbf3937e0630da10af7ccbf562fe6dd48b5",
+        "entries": 272,
+        "raw_bytes": 844829,
+        "raw_sha256": "9c83235dbf98f134b3ef48b3e30c13c54a22f3e919ee7ede2feb897b6549affb",
+        "compressed_bytes": 353403
+      }
+    },
+    {
+      "shard": "ba",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/186/descriptor",
+      "descriptor": {
+        "shard": "ba",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "6186bd70a08d7360e42b85fd8b41b6e2e6399101f2f3c429495a00e24fe44f21",
+        "entries": 265,
+        "raw_bytes": 868513,
+        "raw_sha256": "e1df65562f4f8345e7ac09a3202e630d3a5ac3a5d97d347034d6599c3b3f792b",
+        "compressed_bytes": 358607
+      }
+    },
+    {
+      "shard": "bb",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/187/descriptor",
+      "descriptor": {
+        "shard": "bb",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5fc5af59ec7e3e9fea0adfdfef7ecf1fad32371107f8aac4365a78639e9d2ee9",
+        "entries": 266,
+        "raw_bytes": 887776,
+        "raw_sha256": "2852fc6d770b2cee4c27d4b7ddf0de04d1ab776cf33e40fac365fd0e096e94e0",
+        "compressed_bytes": 362718
+      }
+    },
+    {
+      "shard": "bc",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/188/descriptor",
+      "descriptor": {
+        "shard": "bc",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3caa49e0adb98ab4926c7c9ee0278225fcd93e9cbf978875c075294e9c916b28",
+        "entries": 280,
+        "raw_bytes": 871997,
+        "raw_sha256": "2ad5778e12f105b2a38fc4caca1667ff8a4756269ae9711e906377b13d041127",
+        "compressed_bytes": 364263
+      }
+    },
+    {
+      "shard": "bd",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/189/descriptor",
+      "descriptor": {
+        "shard": "bd",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e917e8a4d0b5f89d3f0c96cf0c8527223192c6226ca88997704e43e14fd0d4a6",
+        "entries": 237,
+        "raw_bytes": 791896,
+        "raw_sha256": "64a36d6eabc6bb906292d24aba181198ba87efb7fae1510e6482d5988803d6a2",
+        "compressed_bytes": 323386
+      }
+    },
+    {
+      "shard": "be",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/190/descriptor",
+      "descriptor": {
+        "shard": "be",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "faf05177cb457f1b8d3cd27f651ba37ccbe362e97f963c0ed1fa6ffad640f5b7",
+        "entries": 234,
+        "raw_bytes": 742317,
+        "raw_sha256": "8884a3320f9d160897068728954518979dbae1f62a65c0a14df36f6a1d4165bb",
+        "compressed_bytes": 308243
+      }
+    },
+    {
+      "shard": "bf",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/191/descriptor",
+      "descriptor": {
+        "shard": "bf",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f9d20282014e072265c2c1879ef2e25b985b9abb0ae908101950c0118506568d",
+        "entries": 247,
+        "raw_bytes": 752907,
+        "raw_sha256": "418de4575dded8d01d2917d738249e23d0e6eeb73149e2f68c6cb92900216ad5",
+        "compressed_bytes": 318227
+      }
+    },
+    {
+      "shard": "c0",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/192/descriptor",
+      "descriptor": {
+        "shard": "c0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4dde49a71f482d7438db98d5ad57959dd657adcf18cb744a606e816590a0c425",
+        "entries": 261,
+        "raw_bytes": 807721,
+        "raw_sha256": "4b5a8a7b326aecaa3a348c52420f09d3818bf63ceef94192bec409c90856612b",
+        "compressed_bytes": 337451
+      }
+    },
+    {
+      "shard": "c1",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/34/descriptor",
+      "descriptor": {
+        "shard": "c1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4feabfb35a0d218b73e8b486d1007fa8a47962aec37a451b93275f4b1947fc28",
+        "entries": 270,
+        "raw_bytes": 889373,
+        "raw_sha256": "c5cc6bbe243cc539cc327d94f1988ad8529a8a0bbe67751825b2540b64fa7c01",
+        "compressed_bytes": 366294
+      }
+    },
+    {
+      "shard": "c2",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/35/descriptor",
+      "descriptor": {
+        "shard": "c2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "43d62ab0e64330424e7cc90366e7cfb7da2e8fbc946d6a49e41cc0b99520eaac",
+        "entries": 242,
+        "raw_bytes": 767360,
+        "raw_sha256": "925cc4e4f1e3954a454c58363442f144489c3b29d71cc3f0cecbb8f274e44837",
+        "compressed_bytes": 320421
+      }
+    },
+    {
+      "shard": "c3",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/195/descriptor",
+      "descriptor": {
+        "shard": "c3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f5e3b13ac8a0103d97e5f10ebe71d329af174ff918da37df315cbeae9b021214",
+        "entries": 249,
+        "raw_bytes": 790281,
+        "raw_sha256": "d60bff82ffa99b60f3afca4f2102f52e3213a654ba3f33ee0d11200103b7f9cc",
+        "compressed_bytes": 329029
+      }
+    },
+    {
+      "shard": "c4",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/196/descriptor",
+      "descriptor": {
+        "shard": "c4",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3daf9d0c14d6b57f173f9494c3acf9a2fa023bce1dc1de137b65e098baa3e492",
+        "entries": 260,
+        "raw_bytes": 797173,
+        "raw_sha256": "d9e36b81363a0e5bf55f184bfb77e250ebae896f5f684f353ffd3e7497715597",
+        "compressed_bytes": 334928
+      }
+    },
+    {
+      "shard": "c5",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/197/descriptor",
+      "descriptor": {
+        "shard": "c5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "eac574cfce8489d8f5e510aa632b3a09064bb19db8cd3773441d452f28b731ef",
+        "entries": 239,
+        "raw_bytes": 709606,
+        "raw_sha256": "3f3a5752ca62f0e82ec3af1cff567f8f377fe63c9db3a39576c4e7a731f1ee13",
+        "compressed_bytes": 301306
+      }
+    },
+    {
+      "shard": "c6",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/198/descriptor",
+      "descriptor": {
+        "shard": "c6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "dd7d22fc019c9c1131e42ad0b033fab00e1d3dbc0ea77f0e4f212e9623a36e19",
+        "entries": 259,
+        "raw_bytes": 795333,
+        "raw_sha256": "4a05e52ea7a66c1e88ef28255c8e55a24b35368479dcedcb2d62ef966174f852",
+        "compressed_bytes": 334065
+      }
+    },
+    {
+      "shard": "c7",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/199/descriptor",
+      "descriptor": {
+        "shard": "c7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2c8a419b146073a5ad5bd6c2a104de2956d9e815b3422c1f96b8ebd189ae9510",
+        "entries": 235,
+        "raw_bytes": 788969,
+        "raw_sha256": "5b96ff6b428f1be40f9e30ebdb04d013cc0c7fde6068f52c9f95f88de298b3db",
+        "compressed_bytes": 322374
+      }
+    },
+    {
+      "shard": "c8",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/200/descriptor",
+      "descriptor": {
+        "shard": "c8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b0e3859c88838b8db795013c0ae98c3e1393e01dfc6305da76afc43fb603e53c",
+        "entries": 248,
+        "raw_bytes": 791395,
+        "raw_sha256": "f2fa8215b085541b3541dfd8f715e593bb544400a804c76b1d136e652edd31a2",
+        "compressed_bytes": 329709
+      }
+    },
+    {
+      "shard": "c9",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/201/descriptor",
+      "descriptor": {
+        "shard": "c9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e03b3ae2139ab926ea5fc5f14a5bcc810a2dc36493e624e658e1a1424015b02f",
+        "entries": 258,
+        "raw_bytes": 726399,
+        "raw_sha256": "2db2f0dd4434e4744ed8350f207d07fd18eb1d4ec12e7fdca413488d5c3c2007",
+        "compressed_bytes": 312750
+      }
+    },
+    {
+      "shard": "ca",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/202/descriptor",
+      "descriptor": {
+        "shard": "ca",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "60c0571cebfbc7943a4fc2be6b088430575f5c364182d142e4627603fbcbcd7a",
+        "entries": 239,
+        "raw_bytes": 758282,
+        "raw_sha256": "91dbe7dfa22d7a860bf393634650c82e08968641db6cf8fa17b20c4e434024d9",
+        "compressed_bytes": 314056
+      }
+    },
+    {
+      "shard": "cb",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/203/descriptor",
+      "descriptor": {
+        "shard": "cb",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "6a0164818c5a81cd8b1c4d8bdae25a36983d7997eb2e4f4183817e6624f18ada",
+        "entries": 242,
+        "raw_bytes": 707739,
+        "raw_sha256": "a700d17d46538d4f1e8c90bc02955556fbccb12fe8180d7e0d9a0a4e929a5cc1",
+        "compressed_bytes": 300216
+      }
+    },
+    {
+      "shard": "cc",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/cc/descriptor",
+      "descriptor": {
+        "shard": "cc",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "52f617d569badc8bd9a87543cd086886d3cbf42edd5d715070371b3db50db30b",
+        "entries": 268,
+        "raw_bytes": 830013,
+        "raw_sha256": "e7ec66811b6ac69820a54e63d783ba13346aba3bea5c2aa83009b025de5ebb23",
+        "compressed_bytes": 346992
+      }
+    },
+    {
+      "shard": "cd",
+      "receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json",
+      "receipt_sha256": "cb8aebdadd4fe55f491dabe9ca6554be99ce51fe28349f47270d05da38601a71",
+      "pointer": "/target_projection/17/descriptor",
+      "descriptor": {
+        "shard": "cd",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8ff6d5f0eb330cfe831c153e91759cc6a3491da78971750ce590f63a4a2d95c4",
+        "entries": 238,
+        "raw_bytes": 787884,
+        "raw_sha256": "2a30abb1265579461c8c641eeba67ff3c355a8b2f17cb1df51fd73dec8eb7043",
+        "compressed_bytes": 322343
+      }
+    },
+    {
+      "shard": "ce",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/206/descriptor",
+      "descriptor": {
+        "shard": "ce",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "6aa4884d7699da85181edd7d96222663e2775ca91e1b0f08c2b37f790cf90569",
+        "entries": 249,
+        "raw_bytes": 791644,
+        "raw_sha256": "46c3078b243ac1ca439d469bf853e41dcba6e3c2bc067de138572c7b11779d01",
+        "compressed_bytes": 328240
+      }
+    },
+    {
+      "shard": "cf",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/36/descriptor",
+      "descriptor": {
+        "shard": "cf",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "21b21c086f8e732f0d0a1c04c002a89cbd1cd5661bfdc1bbebd5950bac9ec8d6",
+        "entries": 266,
+        "raw_bytes": 846587,
+        "raw_sha256": "9ea9e25a6efa66e1e789490d3e98082792789a15fb86aea5a5aa795dc5ffec55",
+        "compressed_bytes": 350497
+      }
+    },
+    {
+      "shard": "d0",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/208/descriptor",
+      "descriptor": {
+        "shard": "d0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5c1a9894c69fd93d1e498d0bddc53026205eb89bdeeac963338b4de20f43dfd2",
+        "entries": 258,
+        "raw_bytes": 872830,
+        "raw_sha256": "705570a21dfff6ad6db7c38d539f17954208cfa44b6e0641b9e8b535baf57b8c",
+        "compressed_bytes": 351671
+      }
+    },
+    {
+      "shard": "d1",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/37/descriptor",
+      "descriptor": {
+        "shard": "d1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9dd9e16e6011d4e98fca799a2164f4d573e5af10ebf54cd721941f9e03b7d1e4",
+        "entries": 229,
+        "raw_bytes": 753929,
+        "raw_sha256": "17b7fb9788c0181672abb296cb24ee34f4318f2faf571a1b39fe675762b5d184",
+        "compressed_bytes": 306860
+      }
+    },
+    {
+      "shard": "d2",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/210/descriptor",
+      "descriptor": {
+        "shard": "d2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7d02db6ad617696150ae36f1f188215ae9d0f098f22501aea2237388320e3b4b",
+        "entries": 256,
+        "raw_bytes": 838762,
+        "raw_sha256": "c664c5951316d04ba8e103bc7940905f007da291cb6036effa6ea54a1452d367",
+        "compressed_bytes": 344631
+      }
+    },
+    {
+      "shard": "d3",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/d3/descriptor",
+      "descriptor": {
+        "shard": "d3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9445a89afdefcc6cf74948e01c06055aea8cb875a1c0596358048836c8a3bef1",
+        "entries": 248,
+        "raw_bytes": 818796,
+        "raw_sha256": "21723d8f216df7024bd061ad8882d3645aeff1754bd980827bcc0ef42b9e80fc",
+        "compressed_bytes": 335809
+      }
+    },
+    {
+      "shard": "d4",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/212/descriptor",
+      "descriptor": {
+        "shard": "d4",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d8b6401aee65ee5f52aaf6bb4ad1cf823fb2a3d281459af6ba3f83efe3172e41",
+        "entries": 255,
+        "raw_bytes": 881442,
+        "raw_sha256": "76dbddd46b8eca6ad5a6b32b6c2674dba7d1d7e53b74819372d253f4d8a002c0",
+        "compressed_bytes": 361569
+      }
+    },
+    {
+      "shard": "d5",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/38/descriptor",
+      "descriptor": {
+        "shard": "d5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0207f29a41f5d18afd911e6b85e62215d0fcfee0714915dd8d919dff2484fd8e",
+        "entries": 221,
+        "raw_bytes": 638123,
+        "raw_sha256": "d27193c3153ca106f2f0517beee0cc8f2a51ef0bfae1393b9694e4b5e9110653",
+        "compressed_bytes": 273679
+      }
+    },
+    {
+      "shard": "d6",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/39/descriptor",
+      "descriptor": {
+        "shard": "d6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4877aa42b7f9374e2d204f543bc371bcfcfa12dc969d3967638844208c57e08a",
+        "entries": 247,
+        "raw_bytes": 835983,
+        "raw_sha256": "d81faeade127919ddee1aed3ac45630ae6e22fc6764177b00b7ca33cd27e5c8e",
+        "compressed_bytes": 343566
+      }
+    },
+    {
+      "shard": "d7",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/215/descriptor",
+      "descriptor": {
+        "shard": "d7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "636c96816d75377cc230f46846cd95e262019d0a04c3a993c5338b16797c581e",
+        "entries": 272,
+        "raw_bytes": 897921,
+        "raw_sha256": "b9d7ff75a537fec27fd6632f13f9a14fe59600335b9e9ffd86b7b34acd570ec2",
+        "compressed_bytes": 368631
+      }
+    },
+    {
+      "shard": "d8",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/40/descriptor",
+      "descriptor": {
+        "shard": "d8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "033e33ed5a9ce28d2ddbbafc7bb6a1cfceed8a8e0c0a5563b8b9900f846fe92a",
+        "entries": 241,
+        "raw_bytes": 767288,
+        "raw_sha256": "77b2b4b1ac6a84856a59020ba82e238b661065a302e4b72e9009379ba30b2fee",
+        "compressed_bytes": 316498
+      }
+    },
+    {
+      "shard": "d9",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/217/descriptor",
+      "descriptor": {
+        "shard": "d9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "c84e470281c4860530cd4aa2f3fc97768b34d6cd673b28e007d28f455d753421",
+        "entries": 268,
+        "raw_bytes": 876675,
+        "raw_sha256": "b347ed113423fc8f55225eb9b8e07401349383b3085a964a5f9f7fa001c6e576",
+        "compressed_bytes": 362290
+      }
+    },
+    {
+      "shard": "da",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/218/descriptor",
+      "descriptor": {
+        "shard": "da",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b77a7f4a43fd69014f261d3435e117ebb5fa24057700902844350ddd301b6f4b",
+        "entries": 275,
+        "raw_bytes": 809104,
+        "raw_sha256": "72d3a6d85eb51ffda477443caf122d4f028d1ee07a58ced8af48d6e2ae75c45c",
+        "compressed_bytes": 345521
+      }
+    },
+    {
+      "shard": "db",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/41/descriptor",
+      "descriptor": {
+        "shard": "db",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2e841554003b5466886bab441928c49923335d94f090427e6a25fbfa92f2fff3",
+        "entries": 253,
+        "raw_bytes": 784586,
+        "raw_sha256": "46ec29d705827d011c18110626a5fb99a3d4b97432e7b15fd6b31fcd1acd684b",
+        "compressed_bytes": 328339
+      }
+    },
+    {
+      "shard": "dc",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/220/descriptor",
+      "descriptor": {
+        "shard": "dc",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "309ed89fc837f3f047e1171f063b884964b082e9c1904320d603c2baf4c5f8b9",
+        "entries": 234,
+        "raw_bytes": 750485,
+        "raw_sha256": "1a790814cca50dbdcc53a1e3bb20d399a916f03c3b933ca6f3f38c0a89e57b02",
+        "compressed_bytes": 311697
+      }
+    },
+    {
+      "shard": "dd",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/221/descriptor",
+      "descriptor": {
+        "shard": "dd",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9483ab185213e74caf8ad726f8680a3ea103ba165f94ef54c94d8bfe58b7d116",
+        "entries": 235,
+        "raw_bytes": 781212,
+        "raw_sha256": "bc8dd10fda9353562b138d55de1f12e2058558735abaeb5ab06535cac3922e05",
+        "compressed_bytes": 321107
+      }
+    },
+    {
+      "shard": "de",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/222/descriptor",
+      "descriptor": {
+        "shard": "de",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b792f409ef1a138c4732620a45633a192c17b8a2d418e8352e8e1cd80051047e",
+        "entries": 234,
+        "raw_bytes": 766295,
+        "raw_sha256": "986284308de9808b1aef4918761fd5111079cf167184490013c5ed24605120db",
+        "compressed_bytes": 313797
+      }
+    },
+    {
+      "shard": "df",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/223/descriptor",
+      "descriptor": {
+        "shard": "df",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "5862c21c929ad99cf04b2a4e31ad1cbcdb97297c3d5d730611a40f1b92e395f8",
+        "entries": 234,
+        "raw_bytes": 756214,
+        "raw_sha256": "1ccb6e176dc6933f31044e677fa1f93cf05e3718ed1ad52a3852140eddc2a751",
+        "compressed_bytes": 313840
+      }
+    },
+    {
+      "shard": "e0",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/e0/descriptor",
+      "descriptor": {
+        "shard": "e0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f657e0a0a751b262790fd53823f7472f761a837240392ea497769056bc014b87",
+        "entries": 276,
+        "raw_bytes": 879755,
+        "raw_sha256": "30021b7d57a19524d3a57852740341f403070d24d3372bf78b133c23db90398f",
+        "compressed_bytes": 365596
+      }
+    },
+    {
+      "shard": "e1",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/225/descriptor",
+      "descriptor": {
+        "shard": "e1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "544b65099d6b7657bd75b9daf9ed1cef7e38907885cb7c4c21ad3078552aed78",
+        "entries": 246,
+        "raw_bytes": 713566,
+        "raw_sha256": "9abcfd2b9f281c07ce07b670b7d66456fe419b733cfb9d41809df2182fbdb1a5",
+        "compressed_bytes": 302047
+      }
+    },
+    {
+      "shard": "e2",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/42/descriptor",
+      "descriptor": {
+        "shard": "e2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9cdfbecbf573e0b305795c56b5dd85934085cb0f2989c95355dbb65e2131ff93",
+        "entries": 253,
+        "raw_bytes": 859467,
+        "raw_sha256": "134ee5f3c65294610662081c6c978064f0cdbeaba6541984b9a3ec6dfbfdd994",
+        "compressed_bytes": 353294
+      }
+    },
+    {
+      "shard": "e3",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/43/descriptor",
+      "descriptor": {
+        "shard": "e3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4132817f7bbbb0edaa120f7f27df8e961dd4d46ae57c2cd733432747c43e0fdb",
+        "entries": 285,
+        "raw_bytes": 987481,
+        "raw_sha256": "94a00463b2806bc5ef8bc11a2fc282dc08fc89630bfec8e0f7e2c0976a896b19",
+        "compressed_bytes": 398370
+      }
+    },
+    {
+      "shard": "e4",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/228/descriptor",
+      "descriptor": {
+        "shard": "e4",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f87a8718c91003d460bc445562a2237687c2a89eca01c1a80d7714df7e1c929a",
+        "entries": 247,
+        "raw_bytes": 734102,
+        "raw_sha256": "058b48ac81f3f54db04e575bd28afcd487728a2c1db397034c54bfbcd1b72acf",
+        "compressed_bytes": 310660
+      }
+    },
+    {
+      "shard": "e5",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/229/descriptor",
+      "descriptor": {
+        "shard": "e5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "57c73a88ec5b3555ebfa96dec0091f994c6a234929151355e14a3c628d5bd363",
+        "entries": 226,
+        "raw_bytes": 699465,
+        "raw_sha256": "82911187df91b003089875a5037f09ecbdf6062421b9d70b8ed66ddd9e85803c",
+        "compressed_bytes": 293811
+      }
+    },
+    {
+      "shard": "e6",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/e6/descriptor",
+      "descriptor": {
+        "shard": "e6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "f6d781a4327f2012ded0a30f3bb7b707eda8075e2d4cb1ecbbf65aa1546dd872",
+        "entries": 277,
+        "raw_bytes": 926164,
+        "raw_sha256": "353a0b55013678d5d4954c87c9f125c461b248801ac96f540bbc79793b5054ce",
+        "compressed_bytes": 379001
+      }
+    },
+    {
+      "shard": "e7",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/231/descriptor",
+      "descriptor": {
+        "shard": "e7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2bbc5057897197511a250dddc1f05cc6b13380b77d6ce1aa2aece908a44b1b9e",
+        "entries": 285,
+        "raw_bytes": 876264,
+        "raw_sha256": "7b18e0258db5a084044ce91bd19f84ad53a98fda2989426c0a413fa5557837e1",
+        "compressed_bytes": 369310
+      }
+    },
+    {
+      "shard": "e8",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/232/descriptor",
+      "descriptor": {
+        "shard": "e8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9db72898f11b1189991b24b76e1cef498ed97a1a20a4a8fd3b626e5b2fd9ea72",
+        "entries": 264,
+        "raw_bytes": 849254,
+        "raw_sha256": "3e480d86c6c7565e46b37d90a5e02dd6bbb5bc65df981e4c4f5d10a1b7d72f5c",
+        "compressed_bytes": 353283
+      }
+    },
+    {
+      "shard": "e9",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/233/descriptor",
+      "descriptor": {
+        "shard": "e9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "95982d91f4dee2ea0e14a988b799ace9164f83766cf4fc10a31e6415903b86f4",
+        "entries": 269,
+        "raw_bytes": 833922,
+        "raw_sha256": "c2b099d0ba665d20f00bc2047c1439e99da3a5471a45e8398f3e4c961118ad80",
+        "compressed_bytes": 348959
+      }
+    },
+    {
+      "shard": "ea",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json",
+      "receipt_sha256": "98fd4e2e8145ecb5fe0bcd07867918f739d84644165f4c8e80c2bbe575f97017",
+      "pointer": "/additional_target_proofs/1/shard_descriptor",
+      "descriptor": {
+        "shard": "ea",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2960d1b475695757fdae53b6e0c95601f156f2f18bd4b05ca56e2ec2d0ac1791",
+        "entries": 265,
+        "raw_bytes": 829962,
+        "raw_sha256": "047b507d59dcf013810ff3509e9041bc89c68910349d48d33dda10fe4105b025",
+        "compressed_bytes": 344630
+      }
+    },
+    {
+      "shard": "eb",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/235/descriptor",
+      "descriptor": {
+        "shard": "eb",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "d2aa78c16df4b08a266dac35673c1fbebbea1f7d82704069929b895ae0a24505",
+        "entries": 247,
+        "raw_bytes": 795091,
+        "raw_sha256": "726f5e7776bea3ef2dc3189df3bd6efd05de2c0ee1fd0d7d27e7546351843b3d",
+        "compressed_bytes": 328539
+      }
+    },
+    {
+      "shard": "ec",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/236/descriptor",
+      "descriptor": {
+        "shard": "ec",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "ca18196b3b4bf65a86c9d4747d2a53ebe28263f6a74dbcae63abb0d575b7c913",
+        "entries": 262,
+        "raw_bytes": 822878,
+        "raw_sha256": "8ef7d6c8e9cbeee631c033c215e8f40f02a7f63b67f0cd33e9eb7c43352d5938",
+        "compressed_bytes": 341008
+      }
+    },
+    {
+      "shard": "ed",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/44/descriptor",
+      "descriptor": {
+        "shard": "ed",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "e28b694eaa10bb69fd2956b14dddc780b55f8bb0257a0299cc1697f3b71f4592",
+        "entries": 231,
+        "raw_bytes": 663452,
+        "raw_sha256": "3d9a67ac53bd9777d6671e924bf6069f7fc2b9606ae800575858e0ea3cc3c320",
+        "compressed_bytes": 284573
+      }
+    },
+    {
+      "shard": "ee",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/238/descriptor",
+      "descriptor": {
+        "shard": "ee",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "eda5de9878628072824ae99b1840a98fddb0c17ae7a110360d006d961e744772",
+        "entries": 242,
+        "raw_bytes": 767105,
+        "raw_sha256": "88ec1b33e081f9b49745fd49ea3f999253c1c4eb5aaf0a3b1a163f68afc4e300",
+        "compressed_bytes": 320868
+      }
+    },
+    {
+      "shard": "ef",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/45/descriptor",
+      "descriptor": {
+        "shard": "ef",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "4561d340d4f279a4bc5272fbdca81b3d286ebd38ecff7f0e70958ae955cb5cb8",
+        "entries": 243,
+        "raw_bytes": 752684,
+        "raw_sha256": "711f8e71ca35732bb83e3c28abbd1b70cf7e190749994e137cc524f2901baa18",
+        "compressed_bytes": 313670
+      }
+    },
+    {
+      "shard": "f0",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/240/descriptor",
+      "descriptor": {
+        "shard": "f0",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "75e3f8e94bf2e586daf44c063ae485e638bf02d7d489d9bff4d5b1c9e498725d",
+        "entries": 241,
+        "raw_bytes": 730246,
+        "raw_sha256": "6fc8ec1046e4b9dae4b9029d0c0f7adc13441d5057b3f3ee5b95097fb7ce7dd0",
+        "compressed_bytes": 305432
+      }
+    },
+    {
+      "shard": "f1",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/241/descriptor",
+      "descriptor": {
+        "shard": "f1",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "7b2a892e4fa7ce8ea403bd5fb0237b202d9abb6c2cd2dcd758d94dbf0e7208f6",
+        "entries": 286,
+        "raw_bytes": 897063,
+        "raw_sha256": "141533c1909ca1341de5e585e088e811c7c8d278c1fdc334b4e7406e4285adbe",
+        "compressed_bytes": 372957
+      }
+    },
+    {
+      "shard": "f2",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/242/descriptor",
+      "descriptor": {
+        "shard": "f2",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "8757d1e1902f3692a75ba00861391af94d3077f56f6470150f1e665a4e1d3560",
+        "entries": 261,
+        "raw_bytes": 799383,
+        "raw_sha256": "5b529c9a2d68e2b5d330e1a7648185a9453b3f7cb25f42baaa47f0df716d207d",
+        "compressed_bytes": 335041
+      }
+    },
+    {
+      "shard": "f3",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/46/descriptor",
+      "descriptor": {
+        "shard": "f3",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "09cd5f8e45c8696b6ee3d4905d2a67ca20d9546889a8c61a69cb6982c60139ab",
+        "entries": 275,
+        "raw_bytes": 849035,
+        "raw_sha256": "5f075576ed8700f72d7cc20409c86c37fe68d9ac4713f1c3c76c7e9a6dcda963",
+        "compressed_bytes": 358137
+      }
+    },
+    {
+      "shard": "f4",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/244/descriptor",
+      "descriptor": {
+        "shard": "f4",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fa77bc99c3faedc7e5c570dbe94508cce4b28604f296822c7cdc8a5b645f43e2",
+        "entries": 252,
+        "raw_bytes": 740598,
+        "raw_sha256": "dc1989a59c868a76c4f6b7d25cb9e9dfda71d0ecf1b332bddd7581ac96476fd6",
+        "compressed_bytes": 315464
+      }
+    },
+    {
+      "shard": "f5",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/245/descriptor",
+      "descriptor": {
+        "shard": "f5",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b9bdfc5cc0a35fb7781972eb2d06ed924d674619baaef95f3d0320a1faeacda7",
+        "entries": 239,
+        "raw_bytes": 786042,
+        "raw_sha256": "8a554fdc367bc3bb2fa695db5ea1fb2da3a6909960dac03180a943f3d1bde7b8",
+        "compressed_bytes": 323654
+      }
+    },
+    {
+      "shard": "f6",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/47/descriptor",
+      "descriptor": {
+        "shard": "f6",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "3286eb0499a22163404a542e88f97d84b2371166f12e739bdf5a028fbd92d10b",
+        "entries": 238,
+        "raw_bytes": 782285,
+        "raw_sha256": "cc9c1da56a3f54d417da455ee233534af516a611668db8111b19c11ce7798d8e",
+        "compressed_bytes": 321548
+      }
+    },
+    {
+      "shard": "f7",
+      "receipt": "content/dictionary/audit-20261113-phase09-relation-scope-accelerated-first200.json",
+      "receipt_sha256": "6bf6eb3c0a2627651e5636451daeb429829a4bb2ad80d2c143405d2b56e0aa84",
+      "pointer": "/source_proofs/f7/descriptor",
+      "descriptor": {
+        "shard": "f7",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "b1464fe6e4a93b4121a3344f7bc8d834845adfa457279b4177a000c5c103681e",
+        "entries": 255,
+        "raw_bytes": 832547,
+        "raw_sha256": "89848d38151750dbc0c9fe032bdc69c065903d29517372c21ab8648bfcb3f6e5",
+        "compressed_bytes": 342920
+      }
+    },
+    {
+      "shard": "f8",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/48/descriptor",
+      "descriptor": {
+        "shard": "f8",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "9d533638282e03dbcc2a4cf29be9b79efd463b4a56562631548cca98bbc4f4cb",
+        "entries": 256,
+        "raw_bytes": 866183,
+        "raw_sha256": "4c83487001bd00140ab881a1d1d2b190984598fd4e6d9e93d06a0f649acd2d6f",
+        "compressed_bytes": 354522
+      }
+    },
+    {
+      "shard": "f9",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/49/descriptor",
+      "descriptor": {
+        "shard": "f9",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "38a31ce6c364f912cf0549e990bab56b41f2d45831209e695f483d87aaeecdff",
+        "entries": 263,
+        "raw_bytes": 849123,
+        "raw_sha256": "741ef0f4317fe7a8b09da49c59a1eb3d030b9c3d086e4688704314aec441f440",
+        "compressed_bytes": 349905
+      }
+    },
+    {
+      "shard": "fa",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/50/descriptor",
+      "descriptor": {
+        "shard": "fa",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "05dcd12842e18cfab18c39ce0a166fd11de0923a4e55905233599c95e4970979",
+        "entries": 282,
+        "raw_bytes": 957135,
+        "raw_sha256": "497e495f3bb114bf8564725f2d1e62b8a72c4c2be8dafb413837644e2d665f29",
+        "compressed_bytes": 390805
+      }
+    },
+    {
+      "shard": "fb",
+      "receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+      "receipt_sha256": "124db37f1e096766745c8e1298811758430767090ca273d13c5d1914a9ec3482",
+      "pointer": "/target_projection/shards/51/descriptor",
+      "descriptor": {
+        "shard": "fb",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "6215aede7f77511f80ff2369fd7e510afcd648c6d45c980abad71e2a8cdcd182",
+        "entries": 244,
+        "raw_bytes": 722798,
+        "raw_sha256": "0fdf9e485c5c475bd840fd45cfcedbbfd706f3ca40a72d2c52d3eb2abef9ee3d",
+        "compressed_bytes": 306676
+      }
+    },
+    {
+      "shard": "fc",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/252/descriptor",
+      "descriptor": {
+        "shard": "fc",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "0352cd26fffce1d6f9d7d9d3bccff3317b1a9f6e083da195c5363c035c6f719d",
+        "entries": 253,
+        "raw_bytes": 820770,
+        "raw_sha256": "0c41823fcc52b194d576629940f5a33dab8cd0254225a6b270257e6649d545e7",
+        "compressed_bytes": 338005
+      }
+    },
+    {
+      "shard": "fd",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/253/descriptor",
+      "descriptor": {
+        "shard": "fd",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "51cd02766f98b1557ccd4125b5a77f7221e9fc9eaa1f426cc8c2aeeacacdcfa5",
+        "entries": 272,
+        "raw_bytes": 950580,
+        "raw_sha256": "ea7dafbdc26aac14a585f0cdd4c2c3e5fe98cdf192779385ec26b2a74b5c8348",
+        "compressed_bytes": 382776
+      }
+    },
+    {
+      "shard": "fe",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/254/descriptor",
+      "descriptor": {
+        "shard": "fe",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "1ad4a794f870f840c41fb2561610cd19e0adaefdd9803f522451c6f8efd91d6d",
+        "entries": 245,
+        "raw_bytes": 800234,
+        "raw_sha256": "e0bd4bf1e450fe29dfb3d0d6464c95df4237cc4f2f2708500187d9d671712c31",
+        "compressed_bytes": 329299
+      }
+    },
+    {
+      "shard": "ff",
+      "receipt": "content/dictionary/audit-20261113-source-shard-descriptors-readonly.json",
+      "receipt_sha256": "523245d8d926f6c440c4808229ea42b165d5f445e8024c7bcdb7659908bb932f",
+      "pointer": "/descriptors/255/descriptor",
+      "descriptor": {
+        "shard": "ff",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "203017e0409ef93341ab3d7b861284864b2a878c85d2ec42a30f92380428f942",
+        "entries": 277,
+        "raw_bytes": 909421,
+        "raw_sha256": "6ce489ae3b1f9ba4ff81724284451383aedd6299c4de3d9f797aa6b78d81fcc3",
+        "compressed_bytes": 374203
+      }
+    }
+  ],
+  "new_editorial_senses_certified": 0,
+  "new_source_coverage_counted": 0,
+  "production_mutation": false,
+  "full_linguistic_signoff": false,
+  "examples_audited": false,
+  "index_sha256": "bfee87051198e270fa55f563117e5059eaa3a69fc852b582ceb2de89f9d9c0e4",
+  "followup_database_verification_receipt": "content/dictionary/audit-20261113-global-source-offset-verification.json"
+}

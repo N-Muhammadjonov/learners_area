@@ -1,0 +1,39 @@
+name: Dictionary audit regression checks
+on:
+  push:
+    branches:
+      - fix/dictionary-audit-phase-01-20261112
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  focused-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: services/backend/requirements.txt
+      - name: Install dependencies
+        run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - name: Compile all backend modules
+        run: python -m compileall -q services/backend/app
+      - name: Dictionary regression suite
+        working-directory: services/backend
+        run: python -m pytest -q tests/test_dictionary_audit*.py tests/test_dictionary_sense_curation*.py tests/test_dictionary_reader_metadata.py tests/test_dictionary_search_delivery_guard.py tests/test_dictionary_optimization_tools.py tests/test_step26_owner_dictionary.py tests/test_step27_dictionary_edit.py tests/test_step41_dictionary_r2_publish.py
+  browser-dictionary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked browser test dependencies
+        run: npm ci --ignore-scripts --no-audit
+      - name: Dictionary display and exact-sense interactions
+        run: node --test frontend/vanilla/tests/dictionary-*.test.mjs frontend/vanilla/tests/staff-final30/slice16-dictionary-panel.test.mjs frontend/vanilla/tests/vocabulary-corrections-v72.test.mjs

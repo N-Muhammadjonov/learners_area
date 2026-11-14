@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "phase": 4,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "scope": "sorted lexeme_id/sense_id ranks 16563..22082 inclusive",
+  "presentation_comparison": "lexeme_id and sense_id matched; not every meaningSha independently verified",
+  "counts": {
+    "senses": 5520,
+    "missing_presentation": 42,
+    "presentation_synonyms": 3071,
+    "presentation_collocations": 122,
+    "combined_synonyms": 3077,
+    "combined_collocations": 157,
+    "canonical_synonyms": 1258,
+    "canonical_collocations": 35,
+    "without_synonyms": 2443,
+    "without_collocations": 5363
+  },
+  "by_shard": [
+    {
+      "shard": "25",
+      "senses": 3,
+      "missing_presentation": 0,
+      "presentation_synonyms": 1,
+      "presentation_collocations": 0,
+      "combined_synonyms": 1,
+      "combined_collocations": 0,
+      "canonical_synonyms": 1,
+      "canonical_collocations": 0
+    },
+    {
+      "shard": "26",
+      "senses": 422,
+      "missing_presentation": 1,
+      "presentation_synonyms": 249,
+      "presentation_collocations": 8,
+      "combined_synonyms": 249,
+      "combined_collocations": 9,
+      "canonical_synonyms": 111,
+      "canonical_collocations": 1
+    },
+    {
+      "shard": "27",
+      "senses": 444,
+      "missing_presentation": 5,
+      "presentation_synonyms": 257,
+      "presentation_collocations": 10,
+      "combined_synonyms": 258,
+      "combined_collocations": 13,
+      "canonical_synonyms": 103,
+      "canonical_collocations": 3
+    },
+    {
+      "shard": "28",
+      "senses": 471,
+      "missing_presentation": 2,
+      "presentation_synonyms": 246,
+      "presentation_collocations": 3,
+      "combined_synonyms": 246,
+      "combined_collocations": 4,
+      "canonical_synonyms": 89,
+      "canonical_collocations": 1
+    },
+    {
+      "shard": "29",
+      "senses": 443,
+      "missing_presentation": 4,
+      "presentation_synonyms": 238,
+      "presentation_collocations": 16,
+      "combined_synonyms": 238,
+      "combined_collocations": 20,
+      "canonical_synonyms": 105,
+      "canonical_collocations": 4
+    },
+    {
+      "shard": "2a",
+      "senses": 403,
+      "missing_presentation": 5,
+      "presentation_synonyms": 213,
+      "presentation_collocations": 9,
+      "combined_synonyms": 214,
+      "combined_collocations": 14,
+      "canonical_synonyms": 93,
+      "canonical_collocations": 5
+    },
+    {
+      "shard": "2b",
+      "senses": 439,
+      "missing_presentation": 3,
+      "presentation_synonyms": 230,
+      "presentation_collocations": 14,
+      "combined_synonyms": 230,
+      "combined_collocations": 16,
+      "canonical_synonyms": 85,
+      "canonical_collocations": 2
+    },
+    {
+      "shard": "2c",
+      "senses": 453,
+      "missing_presentation": 2,
+      "presentation_synonyms": 252,
+      "presentation_collocations": 9,
+      "combined_synonyms": 252,
+      "combined_collocations": 10,
+      "canonical_synonyms": 100,
+      "canonical_collocations": 1
+    },
+    {
+      "shard": "2d",
+      "senses": 472,
+      "missing_presentation": 6,
+      "presentation_synonyms": 266,
+      "presentation_collocations": 11,
+      "combined_synonyms": 266,
+      "combined_collocations": 17,
+      "canonical_synonyms": 97,
+      "canonical_collocations": 6
+    },
+    {
+      "shard": "2e",
+      "senses": 461,
+      "missing_presentation": 5,
+      "presentation_synonyms": 261,
+      "presentation_collocations": 14,
+      "combined_synonyms": 262,
+      "combined_collocations": 17,
+      "canonical_synonyms": 110,
+      "canonical_collocations": 3
+    },
+    {
+      "shard": "2f",
+      "senses": 406,
+      "missing_presentation": 3,
+      "presentation_synonyms": 232,
+      "presentation_collocations": 5,
+      "combined_synonyms": 233,
+      "combined_collocations": 8,
+      "canonical_synonyms": 102,
+      "canonical_collocations": 3
+    },
+    {
+      "shard": "30",
+      "senses": 445,
+      "missing_presentation": 0,
+      "presentation_synonyms": 266,
+      "presentation_collocations": 5,
+      "combined_synonyms": 266,
+      "combined_collocations": 5,
+      "canonical_synonyms": 117,
+      "canonical_collocations": 0
+    },
+    {
+      "shard": "31",
+      "senses": 424,
+      "missing_presentation": 3,
+      "presentation_synonyms": 241,
+      "presentation_collocations": 11,
+      "combined_synonyms": 242,
+      "combined_collocations": 14,
+      "canonical_synonyms": 100,
+      "canonical_collocations": 3
+    },
+    {
+      "shard": "32",
+      "senses": 234,
+      "missing_presentation": 3,
+      "presentation_synonyms": 119,
+      "presentation_collocations": 7,
+      "combined_synonyms": 120,
+      "combined_collocations": 10,
+      "canonical_synonyms": 45,
+      "canonical_collocations": 3
+    }
+  ],
+  "semantic_review_completed": false,
+  "production_published": false
+}

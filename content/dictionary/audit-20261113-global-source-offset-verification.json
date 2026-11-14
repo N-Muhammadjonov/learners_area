@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "scope": "complete_cached_source_and_fresh_readonly_database_identity_offsets",
+  "actual": {
+    "entries": 65277,
+    "senses": 110409,
+    "distinct_senses": 110409,
+    "examples": 82021,
+    "distinct_examples": 82021,
+    "entry_inventory_sha256": "107e5a1eed4cbe642c47a6709711ff3699887578c973046b0d3b3ed13359f67d",
+    "offset_inventory_sha256": "f5dd76a6b612dbafc13d7da87ac32401091b4f217f825ebdb14d2e0ff41c930b",
+    "sense_set_sha256": "5eb3872d195d1aa6ba24ed529781d761dcf30ff0c0effd0e3a7a7edc8bcc934d",
+    "example_set_sha256": "c7c206d119eb5844a55735828b702292ee2fca0dfba85c42e827fc9d9ab6afd8"
+  },
+  "database_capture": {
+    "captured_at": "2026-11-13 10:45:56.903615+00",
+    "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+    "entries": 65277,
+    "entry_inventory_sha256": "107e5a1eed4cbe642c47a6709711ff3699887578c973046b0d3b3ed13359f67d",
+    "offset_inventory_sha256": "f5dd76a6b612dbafc13d7da87ac32401091b4f217f825ebdb14d2e0ff41c930b",
+    "invalid_storage_rows": 0,
+    "senses": 110409,
+    "distinct_senses": 110409,
+    "sense_set_sha256": "5eb3872d195d1aa6ba24ed529781d761dcf30ff0c0effd0e3a7a7edc8bcc934d",
+    "examples": 82021,
+    "distinct_examples": 82021,
+    "example_set_sha256": "c7c206d119eb5844a55735828b702292ee2fca0dfba85c42e827fc9d9ab6afd8",
+    "manifest_sha": "60dc590a2b681d2e8aec9eaa872944ad02a7d5eca8be9cd31ba47eef679167c9",
+    "entry_inventory_matches": true,
+    "sense_inventory_matches": true,
+    "example_inventory_matches": true
+  },
+  "index_sha256": "bfee87051198e270fa55f563117e5059eaa3a69fc852b582ceb2de89f9d9c0e4",
+  "fresh_database_content_sha_comparison": "PASS_full_cryptographic_inventory",
+  "storage_offsets_lengths_and_raw_sizes": "PASS_full_cryptographic_inventory",
+  "elapsed_seconds": 30.990642,
+  "new_editorial_senses_certified": 0,
+  "full_linguistic_signoff": false,
+  "example_identity_only_not_editorial_review": true,
+  "production_mutation": false,
+  "canonical_remote_manifest_sha256": "60dc590a2b681d2e8aec9eaa872944ad02a7d5eca8be9cd31ba47eef679167c9",
+  "canonical_remote_manifest_matches_fresh_database": true,
+  "source_readback_history_note": "The earlier phase09 sequential 1730/2932 checkpoint is preserved; this is a distinct complete source/offset verification, not new linguistic certification.",
+  "local_validation": {
+    "backend": {
+      "passed": 268,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1
+    },
+    "dom": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0
+    },
+    "compile": "PASS",
+    "dom_log_sha256": "3bd5f9ad80d826f811d2853609b2e614e46fa8ef7844d24f47c9db4c49be370c",
+    "compact_context_fix": "Previously curated removals remain explicit candidate_present=false with exact original IDs; no first-sense substitution."
+  }
+}

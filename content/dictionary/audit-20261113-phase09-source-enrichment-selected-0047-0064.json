@@ -1,0 +1,457 @@
+{
+  "schema": 2,
+  "phase": 9,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "purpose": "Lexical review using authenticated cached originals and archived Supabase offsets; no new source coverage or fresh database-content-hash claim.",
+  "historical_receipt": "content/dictionary/audit-20261113-phase09-first-200-lexemes.json",
+  "historical_receipt_sha256": "62c9c6e87c9889804429f7d29c1da504a85c66dc013473479e5b951e06613f5d",
+  "scope": {
+    "lexemes": 5,
+    "senses": 5,
+    "historical_sequential_positions": [
+      47,
+      52,
+      59,
+      62,
+      64
+    ],
+    "contiguous_range_claimed": false,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "target_lexemes": 0
+  },
+  "source_projection": [
+    {
+      "lexeme_id": "659902e5-5ee8-5db6-a98e-699556151c63",
+      "lemma_norm": "flavin",
+      "part_of_speech": "n",
+      "sense_ids": [
+        "a51da463-36bc-54d5-842c-d9a38ba0b413"
+      ],
+      "content_sha": "82dad6af4f954b327c93112884ba624a7cdc37364564e25edb7ebeff7b03699a",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 188932,
+      "storage_length": 852,
+      "storage_raw_bytes": 1604,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "659eeef9-44db-544e-aa0b-351af9c3713d",
+      "lemma_norm": "mediterranean",
+      "part_of_speech": "a",
+      "sense_ids": [
+        "fbde9dd8-2eee-54d1-84bd-54b95b4285f9"
+      ],
+      "content_sha": "1ee390be3d837ac84fba1fde041d5d59e8224448de31646d8f5e86718798a819",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 194461,
+      "storage_length": 895,
+      "storage_raw_bytes": 1645,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65a5e59d-7bd8-574d-8c2b-e600349b5e70",
+      "lemma_norm": "eschatologically",
+      "part_of_speech": "r",
+      "sense_ids": [
+        "d4e3adb7-1871-540c-93db-9a46c838ac09"
+      ],
+      "content_sha": "3f3e8138067974c86e3deff2d8a46560439a51b3b28323086af8d7a17f259e27",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 202651,
+      "storage_length": 820,
+      "storage_raw_bytes": 1520,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65aa4aee-5c46-4cf5-b908-699a10ecdb72",
+      "lemma_norm": "closed-end lease",
+      "part_of_speech": "noun",
+      "sense_ids": [
+        "4673bf07-a6c4-4f1f-adf0-f95534c3e73c"
+      ],
+      "content_sha": "e52a8a60e9f6c27aef477ccba574c208259df0c972d7ebabfcdf016a7487da38",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 206367,
+      "storage_length": 758,
+      "storage_raw_bytes": 1390,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    },
+    {
+      "lexeme_id": "65ab4d18-6a09-53c5-a005-30c172068bbd",
+      "lemma_norm": "disbar",
+      "part_of_speech": "v",
+      "sense_ids": [
+        "82260623-7e17-42fa-a87a-bf437c7342be"
+      ],
+      "content_sha": "42b25e6ed6a44083bf89ee0106ee8c3ed73b4d45d764836217bf88a56cc2b194",
+      "storage_shard": "65",
+      "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+      "storage_offset": 210408,
+      "storage_length": 1206,
+      "storage_raw_bytes": 2841,
+      "descriptor": {
+        "shard": "65",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "2341dbb0e7abd4e307b8f65e48a4ca3fbcc676fa5b9db52fceb40bf5e95ea096",
+        "entries": 256,
+        "raw_bytes": 796154,
+        "raw_sha256": "c0d7252e98c454ae6139e38134b22d25be0727d134c055d504defc21bd8b9fc8",
+        "compressed_bytes": 333669
+      },
+      "offset_provenance": "Archived read-only Supabase offsets in unchanged historical receipt.",
+      "content_sha_provenance": "Computed from member authenticated by previously independently verified complete immutable-shard SHA; not a fresh database content_sha comparison.",
+      "raw_bytes_provenance": "Computed from authenticated decompressed member; not a fresh database projection."
+    }
+  ],
+  "lexemes": [
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "flavin",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "659902e5-5ee8-5db6-a98e-699556151c63",
+      "lexical_type": "word",
+      "normalized_search_form": "flavin",
+      "part_of_speech": "n",
+      "pronunciations": [
+        {
+          "ipa": "flā-vən"
+        }
+      ],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "a ketone that forms the nucleus of certain natural yellow pigments like riboflavin",
+          "definition_uz": "Riboflavin kabi ayrim tabiiy sariq pigmentlarning asosini tashkil etuvchi keton.",
+          "examples": [],
+          "sense_id": "a51da463-36bc-54d5-842c-d9a38ba0b413",
+          "translations": [
+            {
+              "order": 0,
+              "text": "tabiiy sariq pigmentlar asosini tashkil etuvchi keton",
+              "translation_id": "89771094-953b-51d3-a6a4-d49afdc210d4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "Mediterranean",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "659eeef9-44db-544e-aa0b-351af9c3713d",
+      "lexical_type": "word",
+      "normalized_search_form": "mediterranean",
+      "part_of_speech": "a",
+      "pronunciations": [
+        {
+          "ipa": "ˌmɛdɪtəˈɹeɪnɪən",
+          "variety": "GB"
+        },
+        {
+          "ipa": "ˌmɛdɪtəˈɹeɪnɪən",
+          "variety": "US"
+        }
+      ],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "B1",
+          "definition_en": "of or relating to or characteristic of or located near the Mediterranean Sea",
+          "definition_uz": "O‘rta dengizga tegishli, unga xos yoki uning yaqinida joylashgan",
+          "examples": [],
+          "sense_id": "fbde9dd8-2eee-54d1-84bd-54b95b4285f9",
+          "translations": [
+            {
+              "order": 0,
+              "text": "O‘rta dengizga oid",
+              "translation_id": "48335235-f86f-5c6c-a65d-e9f9ff838859"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "eschatologically",
+      "forms": [],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65a5e59d-7bd8-574d-8c2b-e600349b5e70",
+      "lexical_type": "word",
+      "normalized_search_form": "eschatologically",
+      "part_of_speech": "r",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "in relation to eschatology",
+          "definition_uz": "Eschatologiyaga, ya’ni oxirzamon va yakuniy taqdir haqidagi ta’limotga nisbatan.",
+          "examples": [],
+          "sense_id": "d4e3adb7-1871-540c-93db-9a46c838ac09",
+          "translations": [
+            {
+              "order": 0,
+              "text": "esxatologik jihatdan",
+              "translation_id": "f298b8e3-1e7c-5d6d-96ad-1ed93fedf443"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Owner-provided course glossary. Source meaning and Uzbek translation have not received an independent human editorial review. External reference URLs identify fact checks only.",
+          "creator": "Learners Area course author",
+          "license_reference": "Owner-provided course material; reuse requested by owner",
+          "license_url": "",
+          "snapshot_id": "course-material-20261020",
+          "source_name": "Learners Area",
+          "source_url": "https://learnersarea.uz"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "closed-end lease",
+      "forms": [
+        {
+          "form_type": "authored_context_surface",
+          "surface_form": "closed-end leases"
+        }
+      ],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65aa4aee-5c46-4cf5-b908-699a10ecdb72",
+      "lexical_type": "phrase",
+      "normalized_search_form": "closed-end lease",
+      "part_of_speech": "noun",
+      "pronunciations": [],
+      "relations": [],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "definition_en": "a lease that requires the asset to be returned at the end of the agreed period",
+          "definition_uz": "muddat oxirida qaytariladigan yopiq lizing",
+          "editorial": {
+            "provenance": "derived",
+            "reference_urls": [],
+            "status": "owner_supplied",
+            "translation_status": "owner_supplied"
+          },
+          "examples": [],
+          "sense_id": "4673bf07-a6c4-4f1f-adf0-f95534c3e73c",
+          "translations": [
+            {
+              "order": 0,
+              "text": "muddat oxirida qaytariladigan yopiq lizing",
+              "translation_id": "47d2cffe-7acc-5cd8-aa7b-4702716f573e"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attribution": [
+        {
+          "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "legacy_batches_656",
+          "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+          "source_url": "https://en-word.net/"
+        },
+        {
+          "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+          "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+          "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+          "license_url": "https://creativecommons.org/licenses/by/4.0/",
+          "snapshot_id": "oewn-2025-c7ce1131",
+          "source_name": "Open English Wordnet 2025",
+          "source_url": "https://en-word.net/"
+        }
+      ],
+      "collocations": [],
+      "display_lemma": "disbar",
+      "forms": [
+        {
+          "surface_form": "disbarred"
+        },
+        {
+          "surface_form": "disbarring"
+        }
+      ],
+      "homograph_group": null,
+      "is_satellite": false,
+      "lexeme_id": "65ab4d18-6a09-53c5-a005-30c172068bbd",
+      "lexical_type": "word",
+      "normalized_search_form": "disbar",
+      "part_of_speech": "v",
+      "pronunciations": [
+        {
+          "ipa": "dɪsˈbɑː(ɹ)",
+          "variety": "GB"
+        }
+      ],
+      "relations": [
+        {
+          "display_lemma": "disbarment",
+          "lexical_type": "word",
+          "part_of_speech": "n",
+          "relation_type": "derivation",
+          "target_lexeme_id": "f0df9093-b2e6-5650-ac5e-8c7df9d1f3da",
+          "target_sense_id": "3754f0e6-c31d-4fa8-b5e9-9d031914d6aa"
+        }
+      ],
+      "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+      "schema_version": "1.0.0",
+      "senses": [
+        {
+          "cefr": "C2",
+          "definition_en": "remove from the bar; expel from the practice of law by official action",
+          "definition_uz": "Rasmiy qaror bilan huquq amaliyoti olib borish vakolatini bekor qilmoq.",
+          "examples": [
+            {
+              "example_id": "ce0c7a8b-6283-58c3-947e-5e81a4620b81",
+              "text_en": "The corrupt lawyer was disbarred",
+              "text_uz": "Korrupsiyaga aralashgan advokat advokatlik huquqidan mahrum qilindi."
+            }
+          ],
+          "sense_id": "82260623-7e17-42fa-a87a-bf437c7342be",
+          "translations": [
+            {
+              "order": 0,
+              "text": "advokatlikdan mahrum qilmoq",
+              "translation_id": "fd5ba890-3b2a-56ee-b30d-a9f923544231"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "meaning_hashes": {
+    "659902e5-5ee8-5db6-a98e-699556151c63": {
+      "a51da463-36bc-54d5-842c-d9a38ba0b413": "ec7bed56a07efc542b1d97371302c4488e385642b2b169d1f11e0fa94b790c2b"
+    },
+    "659eeef9-44db-544e-aa0b-351af9c3713d": {
+      "fbde9dd8-2eee-54d1-84bd-54b95b4285f9": "5fc3111e84a3c5c2819ca62ee7a5a41ebebdcae5ac23b9076baf36ea03904ab7"
+    },
+    "65a5e59d-7bd8-574d-8c2b-e600349b5e70": {
+      "d4e3adb7-1871-540c-93db-9a46c838ac09": "f334a012d5409bf4985e1cb468739a729b8fe2c778af7ea3724f7035de082aba"
+    },
+    "65aa4aee-5c46-4cf5-b908-699a10ecdb72": {
+      "4673bf07-a6c4-4f1f-adf0-f95534c3e73c": "5e127af260090c45b4f92eb016f70648eea4b4019b33c5aa2a5f799afa2b1766"
+    },
+    "65ab4d18-6a09-53c5-a005-30c172068bbd": {
+      "82260623-7e17-42fa-a87a-bf437c7342be": "949eb444a7085f7b6cf1e63026a8181f6acb61ca3c0596784e162ae90afb0af5"
+    }
+  },
+  "target_projection": [],
+  "target_entries": [],
+  "existing_relation_matches": [],
+  "source_verification": {
+    "full_compressed_and_raw_shard_sha_size_count": "PASS_against_previously_independently_verified_descriptor",
+    "historical_supabase_member_offsets_and_complete_original_meaning_hashes": "PASS",
+    "original_uzbek_scalars_and_full_sense_arrays": "PASS",
+    "fresh_database_content_sha_comparison": "NOT_RERUN_connector_unavailable",
+    "member_content_sha_and_raw_size": "computed_from_authenticated_immutable_member"
+  },
+  "phase_complete": false,
+  "full_linguistic_global_signoff": false,
+  "production_mutation": false
+}

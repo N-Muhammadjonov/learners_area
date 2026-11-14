@@ -1,0 +1,2092 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-0011-0020.json",
+  "prior_candidate_commit": "40fc781966414deb3e546cecf9f4e33e205a43be",
+  "scope": {
+    "lexemes": 10,
+    "senses": 18,
+    "field_decisions": 126,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "6575e91b-0bf7-57a2-b35e-516d43b661a6",
+      "sense_id": "b9c64f1e-205d-5e1f-a748-4c4b253a93a0",
+      "lemma": "a cappella",
+      "meaning_sha": "cc70b0b2c9bc1da4c160966718abd632f7b83812bcbb530418affacc3e412b73",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "without musical accompaniment",
+          "after": "(of singing) without instrumental accompaniment.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "Specify instrumental accompaniment: other unaccompanied voices are compatible with a cappella singing."
+        },
+        "definition_uz": {
+          "before": "Musiqiy jo‘rnavozlikdan foydalanmasdan.",
+          "after": "(kuylash haqida) cholg‘u asboblari jo‘rligisiz.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "Cholg‘u jo‘rligi absence is precise; generic musical accompaniment could incorrectly exclude vocal harmony."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "musiqiy jo‘rnavozliksiz",
+              "translation_id": "472d4dcf-3835-594e-a0a7-a2e1cb61feb7"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "cholg‘u asboblari jo‘rligisiz",
+              "translation_id": "472d4dcf-3835-594e-a0a7-a2e1cb61feb7"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "Explicit instrumental rather than generic musical accompaniment."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "No reliable exact adverb-level label established; original C1 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "78d7a5a7-e0d7-5406-8d51-7b3458b0f6fb",
+              "senseId": "43a5774c-e75f-529d-929e-6edb4c6a8b81",
+              "text": "a capella"
+            }
+          ],
+          "after": [
+            {
+              "text": "a capella",
+              "lexemeId": "78d7a5a7-e0d7-5406-8d51-7b3458b0f6fb",
+              "senseId": "43a5774c-e75f-529d-929e-6edb4c6a8b81"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "Less common a capella spelling explicitly attested; exact frozen adverb target and original gloss match. Pin both sense IDs."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "sing a cappella"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/a-cappella",
+            "https://www.merriam-webster.com/dictionary/a%20cappella"
+          ],
+          "reasoning": "Sing a cappella directly attested; adverb modifies singing, not an adjective-only noun phrase."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65769717-f5c9-5441-9313-b2b0f5dcd3e4",
+      "sense_id": "2fdc334b-2c55-5391-9c70-a90e12b94a91",
+      "lemma": "overwrite",
+      "meaning_sha": "d7bfa6d3c5cd4f451aabf099ed0f08ba6a380619219bd8b2eeec8ec74de78e93",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "write new data on top of existing data and thus erase the previously existing data",
+          "after": "write new data on top of existing data and thus erase the previously existing data",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "Existing computing replacement-and-erasure meaning matches exact computing reference; excessive literary writing excluded."
+        },
+        "definition_uz": {
+          "before": "Mavjud ma’lumot ustiga yangi ma’lumot yozib, oldingi ma’lumotni o‘chirib yubormoq.",
+          "after": "Mavjud ma’lumot ustiga yangi ma’lumot yozib, oldingi ma’lumotni o‘chirib yubormoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "Mavjud ma’lumotni yangisi bilan almashtirish meaning accurately preserved."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ustidan yozmoq",
+              "translation_id": "6c3c349f-a573-53c6-841b-1150e24cd5bd"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ustidan yozmoq",
+              "translation_id": "6c3c349f-a573-53c6-841b-1150e24cd5bd"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "Ustidan yozmoq retained with computing explanation."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "No exact computing CEFR documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "Replace is broader and no exact independently verified frozen target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "overwrite a file"
+            }
+          ],
+          "after": [
+            {
+              "text": "overwrite a file"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/overwrite",
+            "https://dictionary.cambridge.org/dictionary/english/overwrite"
+          ],
+          "reasoning": "Previously added overwrite a file directly attested; retained without recounting."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657883fe-636c-5804-b837-7af812739ca0",
+      "sense_id": "312fbe8a-62ae-5a0d-959c-09a5a4275216",
+      "lemma": "louche",
+      "meaning_sha": "50e5fff2b79226b4982ac67717207c80b43d48f4b3212d3c2b550a911708c4fa",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "disreputable and dissolute, somewhat agreeably",
+          "after": "disreputable and dissolute, somewhat agreeably",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "Disreputable yet agreeably attractive meaning corroborated; original English retained."
+        },
+        "definition_uz": {
+          "before": "Obro‘siz va axloqan bo‘sh, biroq ma’lum darajada jozibali.",
+          "after": "Obro‘si yoki axloqi shubhali, ammo o‘ziga xos jozibaga ega.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "Clarifies questionable respectability plus attraction in natural Uzbek."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "shubhali jozibali",
+              "translation_id": "370990d7-f8d1-51b5-accf-32ef0c11c8c0"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "obro‘si shubhali, ammo jozibali",
+              "translation_id": "370990d7-f8d1-51b5-accf-32ef0c11c8c0"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "Replace ambiguous shubhali jozibali with both intended attributes."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "Formal/register label is not a CEFR label; original C2 cleared. Unrelated footer labels excluded."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "No exact sense target independently established; attractive alone omits questionable respectability."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "louche character"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/louche",
+            "https://www.collinsdictionary.com/dictionary/english/louche"
+          ],
+          "reasoning": "Louche character attested in primary entry usage; attaches to this exact adjective meaning."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65795ee0-894d-5ef1-87d9-67317b0821e9",
+      "sense_id": "e7d88279-16ca-5bb8-80e0-e0cb6864dbff",
+      "lemma": "intrust",
+      "meaning_sha": "6e76bad406327110ea6127add7df5750d41007477ed3602cf5031767fe3b53a7",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "confer a trust upon",
+          "after": "(less common spelling of entrust) to give someone a responsibility or something to look after in confidence.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "Identify less common entrust spelling and explain conferring responsibility or care in confidence; legal in trust phrase excluded."
+        },
+        "definition_uz": {
+          "before": "Mas’uliyat, vazifa yoki sirni ishonch bilan birovga topshirmoq.",
+          "after": "Mas’uliyat, vazifa yoki sirni ishonch bilan birovga topshirmoq.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "Existing trusted responsibility/task/secret handover explanation retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ishonib topshirmoq",
+              "translation_id": "961bf612-efe4-54c4-b4c7-d61be5be2e26"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ishonib topshirmoq",
+              "translation_id": "961bf612-efe4-54c4-b4c7-d61be5be2e26"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "Ishonib topshirmoq conveys entrusting, not merely believing."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "No reliable exact spelling-specific level documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "d3d20bb2-0a6f-5a01-a56c-15c6edccd6e4",
+              "senseId": "40338123-c004-4c47-bb85-ed1fc59eb216",
+              "text": "commit"
+            },
+            {
+              "lexemeId": "d38b8549-5e61-5944-8050-e3df0e8bbfe3",
+              "senseId": "f032d58c-1040-4e4c-a769-36bc76abaf4d",
+              "text": "confide"
+            },
+            {
+              "lexemeId": "f797858d-60aa-5587-93d0-fb3065db59f9",
+              "senseId": "51bf2968-c58a-41fb-952c-8466b5325e04",
+              "text": "entrust"
+            },
+            {
+              "lexemeId": "c255eac9-4508-577c-a775-f06bb167aa8e",
+              "senseId": "e8fa5931-aefd-4ab0-aa58-ea00c6e7bc48",
+              "text": "trust"
+            }
+          ],
+          "after": [
+            {
+              "text": "commit",
+              "lexemeId": "d3d20bb2-0a6f-5a01-a56c-15c6edccd6e4",
+              "senseId": "40338123-c004-4c47-bb85-ed1fc59eb216"
+            },
+            {
+              "text": "confide",
+              "lexemeId": "d38b8549-5e61-5944-8050-e3df0e8bbfe3",
+              "senseId": "f032d58c-1040-4e4c-a769-36bc76abaf4d"
+            },
+            {
+              "text": "entrust",
+              "lexemeId": "f797858d-60aa-5587-93d0-fb3065db59f9",
+              "senseId": "51bf2968-c58a-41fb-952c-8466b5325e04"
+            },
+            {
+              "text": "trust",
+              "lexemeId": "c255eac9-4508-577c-a775-f06bb167aa8e",
+              "senseId": "e8fa5931-aefd-4ab0-aa58-ea00c6e7bc48"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "Four frozen verb targets have exact entrusting glosses; commit/confide/entrust/trust scoped to these sense IDs, not crimes or general belief."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/intrust",
+            "https://www.collinsdictionary.com/dictionary/english/intrust"
+          ],
+          "reasoning": "No independently selected exact intrust-spelling combination added; no automatic transfer from another headword spelling."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a3cc5-c380-5e80-8b2b-253585c708b9",
+      "sense_id": "06640187-71be-4178-b157-73c1518bfc3f",
+      "lemma": "flake",
+      "meaning_sha": "2c67b9bd29edf103f9cd28016af8d1fd12942cec874226c501ccb6316e83f57e",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a crystal of snow",
+          "after": "a crystal of snow",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Snow-crystal use directly attested in physical-piece sense."
+        },
+        "definition_uz": {
+          "before": "Qorning alohida kristalli.",
+          "after": "Qorning alohida kristalli.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Qorning alohida kristalli accurately denotes this snow meaning."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "qor parchasi",
+              "translation_id": "7397a804-73ff-563c-8251-2255af74ecb7"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qor parchasi",
+              "translation_id": "7397a804-73ff-563c-8251-2255af74ecb7"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Qor parchasi retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Explicit C2 applies to physical-piece sense whose examples include snow; retained, not transferred to person."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "180e9292-dd42-5796-a632-0654528e82a2",
+              "senseId": "92eb3128-2a35-41a0-bc57-71aaaca4b9b1",
+              "text": "snowflake"
+            }
+          ],
+          "after": [
+            {
+              "text": "snowflake",
+              "lexemeId": "180e9292-dd42-5796-a632-0654528e82a2",
+              "senseId": "92eb3128-2a35-41a0-bc57-71aaaca4b9b1"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Exact snowflake target is crystal-of-snow sense; figurative snowflake excluded."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "flakes of snow"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Flakes of snow directly attested; assigned only to snow sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a3cc5-c380-5e80-8b2b-253585c708b9",
+      "sense_id": "a4e4aa6d-2c53-4002-ad18-d5224208aa66",
+      "lemma": "flake",
+      "meaning_sha": "914082c7f698337bbc5b17d4e31e0bc29a0e247002ce0e1ceb3ac50c5e3eea44",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a person with an unusual or odd personality",
+          "after": "(informal, sometimes disparaging) a person with a strange or unusual personality.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Retain unusual-person meaning and mark informal, potentially disparaging register; reliability variant not silently substituted."
+        },
+        "definition_uz": {
+          "before": "O'ziga xos yoki noodatiy xarakterga ega odam.",
+          "after": "(norasmiy, ba’zan kamsituvchi) fe’l-atvori g‘alati yoki noodatiy bo‘lgan kishi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Adds matching register marker without clinical diagnosis."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "g'alati fe'lli kishi",
+              "translation_id": "925923b2-66d2-57f2-939e-11090bf9ee86"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "g'alati fe'lli kishi",
+              "translation_id": "925923b2-66d2-57f2-939e-11090bf9ee86"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "G‘alati fe’lli kishi retained for personality, not snow/material."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Person sense has no explicit level; physical-piece C2 not transferred, original C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "80216806-6016-5631-96b0-9b2608d586cc",
+              "senseId": "e26cfc11-4d7f-46d2-b125-2990fe412eb0",
+              "text": "eccentric"
+            },
+            {
+              "lexemeId": "3ed4823e-2bac-5b38-b547-a1bb8c19c480",
+              "senseId": "898dbb8d-3d2c-40af-b7b2-d8dee7df53ff",
+              "text": "geek"
+            },
+            {
+              "lexemeId": "7c225b19-af3b-5757-aa3f-301387e81858",
+              "senseId": "d400cb6e-ca87-4f7c-87ad-3141c585f304",
+              "text": "oddball"
+            }
+          ],
+          "after": [
+            {
+              "text": "eccentric",
+              "lexemeId": "80216806-6016-5631-96b0-9b2608d586cc",
+              "senseId": "e26cfc11-4d7f-46d2-b125-2990fe412eb0"
+            },
+            {
+              "text": "geek",
+              "lexemeId": "3ed4823e-2bac-5b38-b547-a1bb8c19c480",
+              "senseId": "898dbb8d-3d2c-40af-b7b2-d8dee7df53ff"
+            },
+            {
+              "text": "oddball",
+              "lexemeId": "7c225b19-af3b-5757-aa3f-301387e81858",
+              "senseId": "d400cb6e-ca87-4f7c-87ad-3141c585f304"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Eccentric/geek/oddball originals uniquely match unusual-person meaning; technical-enthusiast geek excluded by target UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "No independently selected person-specific collocation added; physical-piece combinations excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a3cc5-c380-5e80-8b2b-253585c708b9",
+      "sense_id": "e3d17978-a3ac-4585-8165-64ec3bf4e308",
+      "lemma": "flake",
+      "meaning_sha": "eb2103fd7bb9baf762fc2b4914219edaa2d03959e384e968fa3f54112b09b926",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a small fragment of something broken off from the whole",
+          "after": "A small, thin piece of material, especially one broken off from a larger whole.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Restore thin-piece property missing from original fragment gloss."
+        },
+        "definition_uz": {
+          "before": "butun narsadan sinib ajralgan kichik bo‘lak",
+          "after": "Materialning kichik, yupqa parchasi, ayniqsa kattaroq narsadan sinib ajralgan bo‘lak.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Explicitly adds yupqa property to the small material fragment."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "parcha; qirindi",
+              "translation_id": "037ba91c-ff0e-577c-8342-2a4b7becc61d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "parcha; qirindi",
+              "translation_id": "037ba91c-ff0e-577c-8342-2a4b7becc61d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Parcha; qirindi retained; thinness explained in definition."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "C2 retained for physical-piece sense explicitly exemplified by paint, not a different meaning."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "9b39319e-47ee-56e7-b3c8-47eea0909215",
+              "senseId": "8b6771f5-a1f6-4290-8767-6473d1bc86ab",
+              "text": "bit"
+            },
+            {
+              "lexemeId": "8d8e92c9-3279-585f-a1b0-15fbf277b68e",
+              "senseId": "7440006c-c553-41fd-a0eb-bf24f0f04972",
+              "text": "chip"
+            },
+            {
+              "lexemeId": "493e6bbd-6d8b-5cbb-86f1-9a568eec69a1",
+              "senseId": "18a3b63c-dfe7-4dcf-8d1b-1ae90bef4055",
+              "text": "fleck"
+            },
+            {
+              "lexemeId": "62373d42-5899-54d9-bff9-b7ff561863b0",
+              "senseId": "61a7e40e-81e6-46a9-9bac-1208a11f623b",
+              "text": "scrap"
+            }
+          ],
+          "after": [
+            {
+              "text": "bit",
+              "lexemeId": "9b39319e-47ee-56e7-b3c8-47eea0909215",
+              "senseId": "8b6771f5-a1f6-4290-8767-6473d1bc86ab"
+            },
+            {
+              "text": "chip",
+              "lexemeId": "8d8e92c9-3279-585f-a1b0-15fbf277b68e",
+              "senseId": "7440006c-c553-41fd-a0eb-bf24f0f04972"
+            },
+            {
+              "text": "fleck",
+              "lexemeId": "493e6bbd-6d8b-5cbb-86f1-9a568eec69a1",
+              "senseId": "18a3b63c-dfe7-4dcf-8d1b-1ae90bef4055"
+            },
+            {
+              "text": "scrap",
+              "lexemeId": "62373d42-5899-54d9-bff9-b7ff561863b0",
+              "senseId": "61a7e40e-81e6-46a9-9bac-1208a11f623b"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Bit/chip/fleck/scrap are contextual material-fragment synonyms with exact frozen target senses; computing meanings excluded."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "flakes of paint"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/flake_1",
+            "https://dictionary.cambridge.org/dictionary/english/flake"
+          ],
+          "reasoning": "Flakes of paint directly attested; assigned to material fragment, not person or snow."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a8965-bbc3-545e-abc3-dc702f6e587b",
+      "sense_id": "02852879-0f73-4e39-bf16-1a0745ea5145",
+      "lemma": "jig",
+      "meaning_sha": "1bc8ece62ecae872637fb65a35841d12335fa3be4482b978054b73755e9f9232",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a device that holds a piece of machine work and guides the tools operating on it",
+          "after": "a device that holds a piece of machine work and guides the tools operating on it",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Workholding/tool-guiding device matches independent technical sense."
+        },
+        "definition_uz": {
+          "before": "Mexanik ishlov beriladigan detalni ushlab turadigan va ishlov asboblarini yo‘naltiradigan qurilma.",
+          "after": "Mexanik ishlov beriladigan detalni ushlab turadigan va ishlov asboblarini yo‘naltiradigan qurilma.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Detalni ushlab turish and tool guiding both accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "konduktor (detalni mahkamlab yo‘naltiruvchi moslama)",
+              "translation_id": "04ff9d5b-f7fa-5d7c-a885-cf361d78ad11"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "konduktor (detalni mahkamlab yo‘naltiruvchi moslama)",
+              "translation_id": "04ff9d5b-f7fa-5d7c-a885-cf361d78ad11"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Konduktor with explanatory parenthesis retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No exact technical-sense level; Music C2 does not apply. Original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Fixture can be broader and no exact frozen target selected; no guessed edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No independently selected technical combination added; Irish dance combination excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a8965-bbc3-545e-abc3-dc702f6e587b",
+      "sense_id": "4a1e98e9-6f08-4a21-976b-b06ffb62fbca",
+      "lemma": "jig",
+      "meaning_sha": "f52a04a98e72959dc9176e7a5a773df578664757a0065cbf68a8b11f136a30d5",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a fisherman's lure with one or more hooks that is jerked up and down in the water",
+          "after": "a fisherman's lure with one or more hooks that is jerked up and down in the water",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Artificial angling lure moved in water corroborated; source retains its hook detail."
+        },
+        "definition_uz": {
+          "before": "Suvda yuqoriga-pastga silkib ishlatiladigan, bir yoki bir nechta ilgagi bor baliq ovlash o‘ljasi.",
+          "after": "Suvda yuqoriga-pastga silkib ishlatiladigan, bir yoki bir nechta ilgagi bor sun’iy baliq ovlash xo‘ragi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Correct o‘lja/prey wording to sun’iy xo‘rak/lure."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "djig-o‘lja (suvda silkitib o‘ynatiladigan qarmoqli sun’iy xo‘rak)",
+              "translation_id": "0ec58cd7-4fb4-577b-baff-6bdfa6e9b659"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "djig-o‘lja (suvda silkitib o‘ynatiladigan qarmoqli sun’iy xo‘rak)",
+              "translation_id": "0ec58cd7-4fb4-577b-baff-6bdfa6e9b659"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Existing parenthesis already identifies artificial lure; retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No reliable fishing-sense CEFR; Music C2 excluded, original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Lure is broader and no exact independently verified target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No independently selected fishing combination added; music/dance phrases excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a8965-bbc3-545e-abc3-dc702f6e587b",
+      "sense_id": "a1dafb0e-d2ac-4d12-99a7-16aad1e3655f",
+      "lemma": "jig",
+      "meaning_sha": "7a695c31a4f60328e4329ae409c93765a8eb5c79308e62326f8d0ffc4f452088",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "music in three-four time for dancing a jig",
+          "after": "Lively music for a jig dance, typically in a compound metre such as 6/8.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "Correct erroneous fixed 3/4: primary folk-music authority documents compound-metre jigs, commonly 6/8, with variants. Definition says typically, not universally."
+        },
+        "definition_uz": {
+          "before": "Jig raqsiga mo'ljallangan, uch chorak o'lchovli musiqa.",
+          "after": "Jig raqsi uchun jonli musiqa; odatda 6/8 kabi murakkab o‘lchovda ijro etiladi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "Uch chorak error corrected to usual compound metre such as 6/8."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "jig raqsining musiqasi",
+              "translation_id": "67ff827a-4272-59f5-89cc-938afac81856"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "jig raqsining musiqasi",
+              "translation_id": "67ff827a-4272-59f5-89cc-938afac81856"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "Jig raqsining musiqasi retained as music, not dance."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "Explicit dance-and-music C2 retained; no transfer to tools/lures."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "No exact independent tune-type target selected; reel/hornpipe not interchangeable."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig",
+            "https://www.folkengland.org/learning/resources/beginners-guides/51-english-folk-music/2481-efdss-tune-example-jigs"
+          ],
+          "reasoning": "Irish jig attestation has dance context; added to dance only, no forced music combination."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657a8965-bbc3-545e-abc3-dc702f6e587b",
+      "sense_id": "b4fdfb92-df7b-4f59-8ef5-b19277c0686e",
+      "lemma": "jig",
+      "meaning_sha": "027a794e0568de6477cb5edab805b9e613e446de11fe37efcd43ee2bfbfbd1cb",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "any of various old rustic dances involving kicking and leaping",
+          "after": "any of various old rustic dances involving kicking and leaping",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Traditional lively springing dance corroborated; historical rustic dance definition retained."
+        },
+        "definition_uz": {
+          "before": "Oyoq tepish va sakrash harakatlari bilan ijro etiladigan turli qadimiy qishloq raqslaridan biri.",
+          "after": "Oyoq tepish va sakrash harakatlari bilan ijro etiladigan turli qadimiy qishloq raqslaridan biri.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Tepish/sakrash folk-dance description retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "sakrash va tepish harakatlari bor qadimiy xalq raqsi",
+              "translation_id": "5d323aba-9227-5f04-8023-2dd374c655b6"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "sakrash va tepish harakatlari bor qadimiy xalq raqsi",
+              "translation_id": "5d323aba-9227-5f04-8023-2dd374c655b6"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Dance translation clearly differs from tune/device/lure."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "Explicit combined dance/music C2 retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No exact frozen dance synonym selected; no generic dance target guessed."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "an Irish jig"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/jig_1",
+            "https://www.merriam-webster.com/dictionary/jig",
+            "https://www.collinsdictionary.com/dictionary/english/jig"
+          ],
+          "reasoning": "An Irish jig directly attested in dance group; scoped to dance sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657b461f-ca2d-5d85-a323-67adf272a3fb",
+      "sense_id": "3249dad5-c3d8-5be1-88d0-85f0d4c292c0",
+      "lemma": "exotism",
+      "meaning_sha": "64412d5f6e10b11542cdac1ff03ec246d49e29a5eb27061c176c7abfc85f30ae",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the quality of being exotic",
+          "after": "The quality of seeming unusual and interesting, especially because of an association with a distant country.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "Replace circular exotic-quality wording with unusual/interesting quality associated with distant places; adoption-of-customs sense excluded."
+        },
+        "definition_uz": {
+          "before": "G‘ayrioddiy yoki chet ellikka xos ko‘rinish va jozibaga ega bo‘lish sifati.",
+          "after": "Ayniqsa olis yurtga xosligi sababli g‘ayrioddiy va qiziqarli tuyulish xususiyati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "Explain olis yurtga xos unusual interest, avoiding literal foreign-person interpretation."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ekzotiklik",
+              "translation_id": "4d6e22d2-5536-5a88-9f1f-127c2b7920ff"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ekzotiklik",
+              "translation_id": "4d6e22d2-5536-5a88-9f1f-127c2b7920ff"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "Ekzotiklik retained as quality noun."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "Original null retained; adjective level not borrowed."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "ccbad12a-09aa-5230-b806-aba36d46c104",
+              "senseId": "f7ece62e-e98b-5b39-b0d4-9ec63cb3b8b2",
+              "text": "exoticism"
+            },
+            {
+              "lexemeId": "16360f8e-124e-5057-b622-11b0c7eab6c9",
+              "senseId": "3f1107b7-db15-5a06-b45d-5d2f0909f209",
+              "text": "exoticness"
+            }
+          ],
+          "after": [
+            {
+              "text": "exoticism",
+              "lexemeId": "ccbad12a-09aa-5230-b806-aba36d46c104",
+              "senseId": "f7ece62e-e98b-5b39-b0d4-9ec63cb3b8b2"
+            },
+            {
+              "text": "exoticness",
+              "lexemeId": "16360f8e-124e-5057-b622-11b0c7eab6c9",
+              "senseId": "3f1107b7-db15-5a06-b45d-5d2f0909f209"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "Exoticism/exoticness exact frozen quality senses scoped; practice/adoption meanings excluded."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/exotism",
+            "https://www.collinsdictionary.com/us/dictionary/english/exoticism"
+          ],
+          "reasoning": "No independently selected exotism-noun collocation added; adjective exotic combinations not transferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657d05d9-7940-5fe6-9e0d-13f5f665a19e",
+      "sense_id": "a09f14e9-8dde-5753-974e-67540f06f258",
+      "lemma": "itself",
+      "meaning_sha": "e414bd29b9457d0d98fb2229ea562a9c646410499b9f67a27d15e17bc96ab2f8",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "Refers back to the same subject.",
+          "after": "A reflexive pronoun used when a thing, animal, situation, or idea is both the subject and the object of an action.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "Expand subject-backreference into explicit reflexive subject/object identity; distinct emphatic use excluded."
+        },
+        "definition_uz": {
+          "before": "o‘zi; o‘zini (narsa yoki hayvon)",
+          "after": "Narsa, hayvon, vaziyat yoki tushuncha harakatning ham bajaruvchisi, ham obyekti bo‘lganda qo‘llanadigan o‘zlik olmoshi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "Replace repeated translation with reflexive grammar explanation for things/animals/situations/ideas."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "o‘zi; o‘zini (narsa yoki hayvon)",
+              "translation_id": "d1be3589-a19f-5621-9e9a-e7eba6aee094"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "o‘zi; o‘zini (narsa yoki hayvon)",
+              "translation_id": "d1be3589-a19f-5621-9e9a-e7eba6aee094"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "O‘zi; o‘zini retained with explanatory scope."
+        },
+        "cefr": {
+          "before": "A2",
+          "after": "A2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "A2 reflexive label verified and prior correction retained; B1 emphatic usage excluded."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "Prior removal of four unrelated presentation synonyms retained, not recounted; no exact equivalent pronoun target guessed."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/itself?topic=reflexive-forms",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/itself"
+          ],
+          "reasoning": "By itself/in itself can carry separate idiomatic meanings, so not automatically assigned to reflexive sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657d401a-d708-574d-96e0-4130d13b53ca",
+      "sense_id": "725120af-7844-44a6-a94b-99cad490b356",
+      "lemma": "hysterical",
+      "meaning_sha": "2eb5dc07e943003429c3376df680978cd2cdddd076945f971024457ee35aa97f",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "marked by excessive or uncontrollable emotion",
+          "after": "marked by excessive or uncontrollable emotion",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Uncontrollable emotion meaning corroborated, not extremely funny or historical diagnosis."
+        },
+        "definition_uz": {
+          "before": "Haddan tashqari kuchli yoki boshqarib bo'lmaydigan hissiyot bilan kechadigan.",
+          "after": "Haddan tashqari kuchli yoki boshqarib bo'lmaydigan hissiyot bilan kechadigan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Existing intense/uncontrollable feeling explanation retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "o'zini tutolmaydigan",
+              "translation_id": "f2b4ca26-3224-5fdf-ab09-9ee0c9b1269f"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "o'zini tutolmaydigan",
+              "translation_id": "f2b4ca26-3224-5fdf-ab09-9ee0c9b1269f"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "O‘zini tutolmaydigan retained for emotional state."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Explicit C1 emotion label verified; prior correction retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Historical hysteric target must not appear in this emotion sense; exact clinical source ID used for its edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "hysterical laughter"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Hysterical laughter directly attested for emotional response; no funny-sense CEFR inferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "657d401a-d708-574d-96e0-4130d13b53ca",
+      "sense_id": "f68dd2ea-347f-4d64-8dd8-8eeecfbf385f",
+      "lemma": "hysterical",
+      "meaning_sha": "e55eff684b2eacdee535f74e05bc459823b69149c0e1b7b3711a329db0c27a58",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "characterized by or arising from psychoneurotic hysteria",
+          "after": "(historical medical usage) characterized by or arising from the condition formerly called hysteria.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Primary psychology reference identifies hysteria as historical/outdated terminology. Mark register; no unsupported one-to-one modern diagnosis substitution."
+        },
+        "definition_uz": {
+          "before": "Psixonevrotik isteriyaga xos yoki undan kelib chiqqan.",
+          "after": "(tarixiy tibbiy qo‘llanish) ilgari isteriya deb atalgan holatga xos yoki undan kelib chiqqan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Add historical medical usage and formerly called condition; retain sense identity."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "isterik",
+              "translation_id": "4d67bc19-378c-590f-852f-8054cd9d6bad"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "isterik (tarixiy tibbiy atama)",
+              "translation_id": "4d67bc19-378c-590f-852f-8054cd9d6bad"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Mark isterik as historical medical terminology."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Emotion C1 does not establish a historical clinical label; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "lexemeId": "4962ae8b-eef8-524b-bd41-a8ae7c530819",
+              "senseId": "00a2f5aa-96f9-4f7c-9daf-284e95566d29",
+              "text": "hysteric"
+            }
+          ],
+          "after": [
+            {
+              "text": "hysteric",
+              "lexemeId": "4962ae8b-eef8-524b-bd41-a8ae7c530819",
+              "senseId": "00a2f5aa-96f9-4f7c-9daf-284e95566d29"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "Hysteric frozen adjective has exact historical clinical gloss. Scope source/target IDs and repair same historical terminology in target as partial intervention."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/hysterical",
+            "https://dictionary.apa.org/hysteria"
+          ],
+          "reasoning": "No new clinical phrase promoted while example audit is deferred; emotion combination excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65804d42-453f-58e3-b22d-471b7b331ef9",
+      "sense_id": "56c90606-2887-4f56-8269-77fd9f3ba836",
+      "lemma": "diner",
+      "meaning_sha": "888c7b716dd7f4126f443af8f021a541dd95add52d8905d5249e1dbf65197132",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a passenger car where food is served in transit",
+          "after": "a passenger car where food is served in transit",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Railway dining-car meaning independently corroborated; source retained."
+        },
+        "definition_uz": {
+          "before": "Yo‘lda ketayotganda yo‘lovchilarga ovqat beriladigan temiryo‘l vagoni.",
+          "after": "Yo‘lda ketayotganda yo‘lovchilarga ovqat beriladigan temiryo‘l vagoni.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Railway passenger-food carriage explanation retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ovqatlanish vagoni; restoran-vagon",
+              "translation_id": "c5fec49d-bf8b-5d7e-9d2c-d5e044d1f0ce"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ovqatlanish vagoni; restoran-vagon",
+              "translation_id": "c5fec49d-bf8b-5d7e-9d2c-d5e044d1f0ce"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Ovqatlanish vagoni; restoran-vagon precise for actual train carriage."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "No exact dining-car level documented; person/restaurant C1 not transferred. Original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Dining car equivalent documented, but no exact target readback selected; no invented UUID."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "No independently selected railway-specific combination added; roadside restaurant combination excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65804d42-453f-58e3-b22d-471b7b331ef9",
+      "sense_id": "7e147f4d-e484-4807-a4c1-118e634c628e",
+      "lemma": "diner",
+      "meaning_sha": "d5645287420896fa5b2d5a0607e467725bd00e1c294e0635e6bde1a7406e5f41",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a person eating a meal (especially in a restaurant)",
+          "after": "a person eating a meal (especially in a restaurant)",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Person eating meaning independently corroborated, particularly restaurant customer."
+        },
+        "definition_uz": {
+          "before": "Taom yeyayotgan odam, ayniqsa restorandagi mijoz.",
+          "after": "Taom yeyayotgan odam, ayniqsa restorandagi mijoz.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Taom yeyayotgan odam accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ovqatlanayotgan kishi",
+              "translation_id": "e6461175-c78f-5ae6-a0f0-ef542dbeed7b"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ovqatlanayotgan kishi",
+              "translation_id": "e6461175-c78f-5ae6-a0f0-ef542dbeed7b"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Ovqatlanayotgan kishi retained."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Explicit C1 person sense verified and prior correction retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Guest/customer/eater meanings can differ; no exact target proof selected, no guessed edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "No new conventional combination independently selected for person; restaurant-building phrase excluded."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65804d42-453f-58e3-b22d-471b7b331ef9",
+      "sense_id": "c558d849-f291-4c12-9ba5-9e9d11b81a07",
+      "lemma": "diner",
+      "meaning_sha": "c156e46863024233acb7995cf2926d8783115ec5bcde9d8eef777598b1b0f4ba",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a restaurant that resembles a dining car",
+          "after": "a restaurant that resembles a dining car",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Carriage-style restaurant is an attested narrower restaurant use, not an actual railway carriage."
+        },
+        "definition_uz": {
+          "before": "Temiryo'l ovqatlanish vagoniga o'xshash uslubdagi restoran.",
+          "after": "Temiryo'l ovqatlanish vagoniga o'xshash uslubdagi restoran.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Vagonga o‘xshash uslubdagi restoran accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "vagon-restoran ko‘rinishidagi kichik tamaddixona",
+              "translation_id": "bc557fa8-fa18-51d8-be20-adc1063440e2"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "vagon-restoran ko‘rinishidagi kichik tamaddixona",
+              "translation_id": "bc557fa8-fa18-51d8-be20-adc1063440e2"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Vagon-restoran ko‘rinishidagi kichik tamaddixona retained."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C1",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Explicit restaurant C1 verified and prior correction retained."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Generic restaurant is broader; no exact proven target added."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "No independently verified exact opposite target selected; optional field stays empty rather than guessing an edge."
+        },
+        "collocations": {
+          "before": [
+            {
+              "text": "a roadside diner"
+            }
+          ],
+          "after": [
+            {
+              "text": "a roadside diner"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/diner",
+            "https://www.merriam-webster.com/dictionary/diner",
+            "https://www.collinsdictionary.com/dictionary/english/diner"
+          ],
+          "reasoning": "Previously added a roadside diner independently attested; retained without recounting."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Earlier phase09 source 11–20, not new source readback.",
+  "relation_verification": {
+    "existing_synonyms_scoped": 16,
+    "new_antonyms": 0,
+    "target_lexemes_verified": 16,
+    "automatic_definition_equality_is_not_independent_language_certification": true
+  },
+  "partial_target_interventions": [
+    {
+      "lexeme_id": "78d7a5a7-e0d7-5406-8d51-7b3458b0f6fb",
+      "sense_id": "43a5774c-e75f-529d-929e-6edb4c6a8b81",
+      "meaning_sha": "0bab1d170c451d6e59c70b4de951e4864b6f2c31f40047d48a56b6973fb1be6f",
+      "full_seven_field_review_counted": false
+    },
+    {
+      "lexeme_id": "4962ae8b-eef8-524b-bd41-a8ae7c530819",
+      "sense_id": "00a2f5aa-96f9-4f7c-9daf-284e95566d29",
+      "meaning_sha": "f7431ac2dbc528e7eb42d3ae6ec1c4465f3b2833b596a5254e4027e2ffa291b5",
+      "full_seven_field_review_counted": false
+    }
+  ],
+  "existing_example_corrections_preservation": {
+    "lexeme_id": "657d401a-d708-574d-96e0-4130d13b53ca",
+    "sense_id": "f68dd2ea-347f-4d64-8dd8-8eeecfbf385f",
+    "explicit_opt_in_same_meaning_register_clarification": true,
+    "example_asset_changed": false,
+    "new_example_editorial_audit_started": false
+  },
+  "reference_access_notes": [
+    "Exact primary page bodies/cached bodies reviewed; failed opens not treated as successful.",
+    "CEFR badges on separate senses/components or unrelated page footers are excluded."
+  ],
+  "local_validation": {
+    "command": "python -m pytest -q tests/test_dictionary_audit*.py tests/test_dictionary_sense_curation*.py tests/test_dictionary_reader_metadata.py tests/test_dictionary_search_delivery_guard.py tests/test_dictionary_optimization_tools.py tests/test_step26_owner_dictionary.py tests/test_step27_dictionary_edit.py tests/test_step41_dictionary_r2_publish.py",
+    "working_directory": "services/backend",
+    "initial_run": {
+      "passed": 203,
+      "failed": 1,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "FAIL",
+      "test": "test_cefr_changes_are_sense_specific_without_blanket_null_fills",
+      "cause": "Synthetic itself fixture used Default definition. rather than exact frozen Uzbek definition; strict original-text guard correctly rejected it."
+    },
+    "resolution": "Replace synthetic itself fixture with full immutable source entry; original-text guard unchanged. No skip or xfail.",
+    "final_run": {
+      "passed": 204,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "example_asset_unchanged_from_prior_candidate": true,
+    "source_verification_validator_note": "Initial redundant member comparison omitted release_id; fixed comparison to full stored member. Canonical content_sha intentionally excludes release_id. Full-object and member checks PASS."
+  }
+}

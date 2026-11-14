@@ -1,0 +1,1278 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "prior_candidate_commit": "b5e9d0b4",
+  "scope": {
+    "lexemes": 7,
+    "senses": 7,
+    "field_decisions": 49,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0,
+    "additional_target_readbacks": 1
+  },
+  "senses": [
+    {
+      "lexeme_id": "6c3a0132-9b2d-5c9e-a948-237eb29b0aa2",
+      "sense_id": "6ec7fe00-f63a-548b-9893-0500d616705a",
+      "lemma": "stomatal",
+      "meaning_sha": "35e9513f822761030c6cca54212f3150a8e41311e61601762093c9b50ccc787f",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "relating to or constituting plant stomata",
+          "after": "relating to or constituting plant stomata",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "Plant-stoma adjective matches the botanical sense, not an unrelated anatomical opening."
+        },
+        "definition_uz": {
+          "before": "Botanikada o'simlik bargidagi gaz almashinuv teshikchalari (og'izchalari) bilan bog'liq bo'lgan.",
+          "after": "O‘simlik og‘izchalariga oid yoki ularni tashkil etadigan.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "O‘simlik og‘izchalari umumiy ifodalandi; faqat bargga cheklanmaydi; oid va tashkil etish ma’nolari berildi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "og'izchaga oid (barg ustitsasiga tegishli)",
+              "translation_id": "7712b295-14cd-579f-b7e4-4addaeb6b5b3"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "o‘simlik og‘izchalariga oid",
+              "translation_id": "7712b295-14cd-579f-b7e4-4addaeb6b5b3"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "Og‘izcha terminini saqlab, barg bilan asossiz cheklash va keraksiz transliteratsiya olib tashlandi."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "No documented sense-level CEFR in the reviewed botanical adjective reference; inherited C2 cleared without guessing another level."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "stomatous",
+              "lexemeId": "9e03f1aa-6783-54c5-b47c-f4b9bf4ea141",
+              "senseId": "56307b14-e814-5b2d-9d10-bf740204e7dd"
+            }
+          ],
+          "after": [
+            {
+              "text": "stomatous",
+              "lexemeId": "9e03f1aa-6783-54c5-b47c-f4b9bf4ea141",
+              "senseId": "56307b14-e814-5b2d-9d10-bf740204e7dd"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "Reference explicitly gives stomatous as a variant. Exact target sense has identical plant-stomata definition in the readback receipt."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "No verified astomatal lexeme was found in the frozen release; do not fabricate a target ID or treat every absence-adjective as the opposite of relational usage."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "stomatal pore"
+            },
+            {
+              "text": "stomatal conductance"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/stomatal",
+            "https://www.calacademy.org/educators/lesson-plans/stomata-printing-microscope-investigation",
+            "https://pmc.ncbi.nlm.nih.gov/articles/PMC11565196/"
+          ],
+          "reasoning": "Stomatal pore is attested in the academy explanation; stomatal conductance in the cited research paper. Both use the botanical adjective."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3b5083-3e06-5f63-83cf-8c3c9e2b2162",
+      "sense_id": "6959c20b-7fa9-5d95-b75b-9425414510a6",
+      "lemma": "way of life",
+      "meaning_sha": "5053a0132fa2bb003473612ca10e11ed8345ebdc72327cf1853d4029898b4fa3",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a course of conduct",
+          "after": "a course of conduct",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "Course of conduct matches the person/society manner-of-living sense; not a physical road."
+        },
+        "definition_uz": {
+          "before": "Odamning hayotda tutgan yo'li va xulq-atvor tartibi.",
+          "after": "Odamning hayotda tutgan yo'li va xulq-atvor tartibi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "Hayotda tutgan yo‘l va xulq-atvor tartibi odatiy yashash usuliga mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "turmush tarzi",
+              "translation_id": "d36d27c9-2b8c-5335-af30-c4317d2b09c7"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "turmush tarzi",
+              "translation_id": "d36d27c9-2b8c-5335-af30-c4317d2b09c7"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "Turmush tarzi expresses the manner-of-living meaning rather than literal travel."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": "B1",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "B1 is explicitly attached to this idiom in the reference; retained."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "path",
+              "lexemeId": "67e21c9e-01de-5aa2-a368-26e2e7274eba",
+              "senseId": "be64ac4c-ebc7-4fff-a3f7-8e2988dfe094"
+            },
+            {
+              "text": "way",
+              "lexemeId": "d6486bb4-bb8e-5c54-a709-d4966627831f",
+              "senseId": "4f39661c-597e-401d-9b5d-b5e2b2b13230"
+            }
+          ],
+          "after": [
+            {
+              "text": "path",
+              "lexemeId": "67e21c9e-01de-5aa2-a368-26e2e7274eba",
+              "senseId": "be64ac4c-ebc7-4fff-a3f7-8e2988dfe094"
+            },
+            {
+              "text": "way",
+              "lexemeId": "d6486bb4-bb8e-5c54-a709-d4966627831f",
+              "senseId": "4f39661c-597e-401d-9b5d-b5e2b2b13230"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "Path and way targets are the exact course-of-conduct senses, verified by immutable target glosses; road senses are not linked."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "Ways of life can differ without being lexical opposites; no attested exact antonym target selected."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/way-of-life"
+          ],
+          "reasoning": "No exact additional combination was independently established for this source conduct sense; empty optional list retained."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3ce822-0888-572a-bc1c-d413e12896f8",
+      "sense_id": "8e67be9a-5309-541d-8b0d-69d72144e7d6",
+      "lemma": "surtout",
+      "meaning_sha": "d71da11c1c31b66bd625a6afa80321e3ad91be4cad692e8bf631a6f8cc103448",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a man's overcoat in the style of a frock coat",
+          "after": "a man's overcoat in the style of a frock coat",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "English garment noun is a man’s frock-style overcoat; not the French adverb or a different garment sense."
+        },
+        "definition_uz": {
+          "before": "Erkaklarning syurtukka o'xshatib tikilgan ustki kiyimi.",
+          "after": "Erkaklarning syurtukka o'xshatib tikilgan ustki kiyimi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "Erkaklarning syurtuk bichimidagi ustki kiyimi ta’rifga mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "syurtuk bichimli palto",
+              "translation_id": "4dcc3879-7bee-5c0b-b0fb-ef764da7c11e"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "syurtuk bichimli palto",
+              "translation_id": "4dcc3879-7bee-5c0b-b0fb-ef764da7c11e"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "Syurtuk bichimli palto gives garment and style together."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "Reference documents this historical garment sense without a CEFR assignment; C2 not inferred merely from rarity."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "Overcoat is a broader category, not an exact target equivalent; no unsupported synonym inserted."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "A garment has no conventional lexical opposite established here."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/surtout"
+          ],
+          "reasoning": "No independently attested exact combination selected; optional field remains empty."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3cfe69-4089-5454-9e83-1b3bf2a781b5",
+      "sense_id": "a601afef-e192-595e-a8bc-7417b4a54f3e",
+      "lemma": "unsmooth",
+      "meaning_sha": "8754e1849f64d3129ecd85b0baa48080a1ed620754ae3e46ef4e9a23b30020fd",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "having or caused by an irregular surface",
+          "after": "having or caused by an irregular surface",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth"
+          ],
+          "reasoning": "Physical coarse/uneven surface adjective is consistent; not the transitive ruffling verb."
+        },
+        "definition_uz": {
+          "before": "Notekis sirtga ega yoki notekis sirt sababli yuzaga kelgan.",
+          "after": "Notekis sirtga ega yoki notekis sirt sababli yuzaga kelgan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth"
+          ],
+          "reasoning": "Notekis sirtga ega yoki undan kelib chiqqan ma’nosi saqlangan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "notekis yuzali",
+              "translation_id": "8d99237e-bfcb-5469-b31e-80b2913dbae1"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "notekis yuzali",
+              "translation_id": "8d99237e-bfcb-5469-b31e-80b2913dbae1"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth"
+          ],
+          "reasoning": "Notekis yuzali is an adjective matching physical surface texture."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth"
+          ],
+          "reasoning": "No reliable exact-sense level documented for unsmooth in the reviewed source. Smooth’s B1 is not transferred through an antonym relation."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "rough",
+              "lexemeId": "498fcf66-0546-51fc-b731-8cb29ad56def",
+              "senseId": "53313f2e-9346-4501-ae03-fbdc33f643f0"
+            }
+          ],
+          "after": [
+            {
+              "text": "rough",
+              "lexemeId": "498fcf66-0546-51fc-b731-8cb29ad56def",
+              "senseId": "53313f2e-9346-4501-ae03-fbdc33f643f0"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth",
+            "https://dictionary.cambridge.org/us/thesaurus/unsmooth"
+          ],
+          "reasoning": "Rough target is the verified irregular-surface sense, not harsh speech or difficult circumstances."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [
+            {
+              "text": "smooth",
+              "lexemeId": "0faf5d86-48f5-5881-8903-41e494caa336",
+              "senseId": "0ca93477-2e12-4db3-a65f-245bb18cf933"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth",
+            "https://dictionary.cambridge.org/us/thesaurus/unsmooth"
+          ],
+          "reasoning": "Reference explicitly lists smooth as an antonym of unsmooth. Exact physical-surface UUID is verified by immutable R2; water, movement, musical and courteous-person senses are excluded."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/unsmooth",
+            "https://dictionary.cambridge.org/us/dictionary/learner-english/smooth"
+          ],
+          "reasoning": "No independently attested combination selected for this uncommon adjective; none invented."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3d053a-6ae6-5827-a54e-491b32a2875d",
+      "sense_id": "02cd7be7-2ed3-581b-8ae1-311b769f4733",
+      "lemma": "chemosorption",
+      "meaning_sha": "87cd3111c1f4011fdfa0b78f5e40a7f87321c0d60baef0a5ac08e8b098093d22",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "adsorption (especially when irreversible) by means of chemical instead of physical forces",
+          "after": "adsorption in which the adsorbed substance forms chemical bonds with the surface",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Updated to bond formation at a surface, the defining mechanism; irreversibility is not made a requirement."
+        },
+        "definition_uz": {
+          "before": "Jismoniy kuchlar o‘rniga kimyoviy kuchlar yordamida (ko‘pincha qaytmas) sodir bo‘ladigan adsorbsiya.",
+          "after": "Adsorblangan modda bilan sirt o‘rtasida kimyoviy bog‘lar hosil bo‘lishi orqali yuz beradigan adsorbsiya.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Adsorblangan modda va sirt orasidagi kimyoviy bog‘ hosil bo‘lishi aniqlandi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "xemosorbsiya",
+              "translation_id": "e455b751-1f64-5120-9992-1f089b063fe4"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "xemosorbsiya; kimyoviy adsorbsiya",
+              "translation_id": "e455b751-1f64-5120-9992-1f089b063fe4"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Xemosorbsiya terminiga kimyoviy adsorbsiya izohi qo‘shildi; yutilishning hajmiy absorption turi bilan almashtirilmagan."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Source CEFR is already absent and the technical terminology reference supplies no learner level; null preserved."
+        },
+        "synonyms": {
+          "before": [
+            {
+              "text": "chemisorption",
+              "lexemeId": "9ad13bd2-2873-5a51-a907-8023b98affc8",
+              "senseId": "c4bdac5c-3ff9-5cc7-81ba-99570f58cb04"
+            }
+          ],
+          "after": [
+            {
+              "text": "chemisorption",
+              "lexemeId": "9ad13bd2-2873-5a51-a907-8023b98affc8",
+              "senseId": "c4bdac5c-3ff9-5cc7-81ba-99570f58cb04"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Chemisorption target has the same original mechanism definition and exact verified sense ID; spelling variant resolves to that chemical adsorption meaning."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Physical adsorption is another mechanism, not a logical lexical opposite; no fabricated antonym edge."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://goldbook.iupac.org/terms/view/C01048"
+          ],
+          "reasoning": "Reviewed technical term reference does not establish an exact chemosorption-spelling combination to add here."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3e1dfe-008a-5664-bb25-9c9f9c6e2e93",
+      "sense_id": "4dc0dd14-f1ef-5ed8-a8fe-44dadfa9077b",
+      "lemma": "batik",
+      "meaning_sha": "27f1c449904df90c1595df5c6866380b7cd666f5e73f01873f215e933743727b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a dyed fabric; a removable wax is used where the dye is not wanted",
+          "after": "a dyed fabric; a removable wax is used where the dye is not wanted",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "Wax-resist dyed cloth sense is directly covered; source means the fabric, not only the craft process."
+        },
+        "definition_uz": {
+          "before": "Bo‘yoq tushishi kerak bo‘lmagan joylarga olinadigan mum surtilib, keyin bo‘yaladigan mato.",
+          "after": "Bo‘yoq tushishi kerak bo‘lmagan joylarga olinadigan mum surtilib, keyin bo‘yaladigan mato.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "Mum bilan bo‘yoqdan himoyalangan joylar orqali naqshli mato hosil qilish mexanizmi to‘g‘ri berilgan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "batik (mum surtib gul bosilgan rangdor mato)",
+              "translation_id": "554450ce-6118-5686-9328-73b0a89c39df"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "batik; mum yordamida naqsh berib bo‘yalgan mato",
+              "translation_id": "554450ce-6118-5686-9328-73b0a89c39df"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "Naqsh berib bo‘yalgan mato wording covers both hand-drawn and stamped wax-resist work; no printing-only implication."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "Explicit Art C2 covers the wax-resist method and the cloth produced; source fabric sense retains C2."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "Fabric and cloth alone are broader terms; no exact synonym target established."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "No conventional opposite fabric sense exists in reviewed evidence; keep empty."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "batik dress"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/batik",
+            "https://ich.unesco.org/en/RL/indonesian-batik-00170?RL=00170"
+          ],
+          "reasoning": "Batik dress is explicitly attested in the learner reference for cloth/material usage."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3ebbfe-9eed-5e11-a2d3-6b3ac42d233e",
+      "sense_id": "3054d4f5-d25e-5aeb-bea4-a74771acd017",
+      "lemma": "lepidoptery",
+      "meaning_sha": "417e4d1dd191d01ef23cd56de750ab8b8f73f939771465052d1af388532c6cb3",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the branch of entomology dealing with Lepidoptera",
+          "after": "the branch of entomology dealing with Lepidoptera",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "Entomology branch dealing with Lepidoptera matches scientific study of butterflies and moths."
+        },
+        "definition_uz": {
+          "before": "Tangachaqanotlilarni o‘rganuvchi entomologiya sohasi.",
+          "after": "Tangachaqanotlilarni o‘rganuvchi entomologiya sohasi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "Tangachaqanotlilar entomologiyadagi kapalaklar guruhini bildiradi; maydon va o‘rganiladigan guruh mos."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "lepidopterologiya",
+              "translation_id": "a85d8ac5-4b1d-5e2f-b9eb-872b75869a4e"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "lepidopterologiya",
+              "translation_id": "a85d8ac5-4b1d-5e2f-b9eb-872b75869a4e"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "Lepidopterologiya corresponds to the reference’s explicit lepidopterology variant."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "Specialized biology entry supplies no learner level; existing null preserved."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "Lepidopterology is an attested variant, but no matching target lexeme was found in the frozen release. No fabricated UUID edge added."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "Another biological discipline is not a lexical opposite; keep empty."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/lepidoptery"
+          ],
+          "reasoning": "No independently selected exact collocation for this science-field noun; no phrase invented."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against cited exact English sense; not a claim of independent bilingual dictionary attestation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "additional_target_proofs": [
+    {
+      "entry_projection": {
+        "lexeme_id": "0faf5d86-48f5-5881-8903-41e494caa336",
+        "sense_ids": [
+          "0383d06a-60d0-419f-9be7-a065638e5762",
+          "0ca93477-2e12-4db3-a65f-245bb18cf933",
+          "3b27c40f-20e9-47d0-a28a-8e593916a733",
+          "6b3956ee-84b9-453c-9a87-c18e6e46e949",
+          "8c2db1fa-b1e0-51ac-91c2-64ae59e52265",
+          "b2bb2d78-d522-5e0d-a393-6f757958a234",
+          "bb9c3f24-0654-5fd6-86f5-8ac7d390a845",
+          "d9b50735-8fa0-46cd-addb-ebc4162a16c4"
+        ],
+        "lemma_norm": "smooth",
+        "content_sha": "b5164eb8f9aefe69c2334186e9c1099abc31507e77defc176f765c035f2bbb10",
+        "storage_shard": "0f",
+        "part_of_speech": "a",
+        "storage_length": 4207,
+        "storage_offset": 241552,
+        "storage_release": "rel-v1-1fa06d8d41d8ff701632573e",
+        "storage_raw_bytes": 13210
+      },
+      "shard_descriptor": {
+        "shard": "0f",
+        "format": "entry-jsonl-gzip-v1",
+        "sha256": "fe6ecf9ccaf9c931b7c6d501a8944632587363ccc4d3dd4f63306bcbccb54829",
+        "entries": 287,
+        "raw_bytes": 878064,
+        "raw_sha256": "dd2e8b65069b6c3eda8449767d0881c64c16390a09bc542234f48ee6c664b92d",
+        "compressed_bytes": 369174
+      },
+      "entry": {
+        "attribution": [
+          {
+            "attribution_text": "Initial Learners Area English sense selection (legacy_batches_656), reconciled 1:1 with Open English Wordnet 2025 and Princeton University WordNet. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "Learners Area Dictionary Project; derived from Open English Wordnet and Princeton University WordNet contributors",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "legacy_batches_656",
+            "source_name": "Learners Area Initial OEWN Selection (legacy_batches_656, reconciled to Open English Wordnet 2025)",
+            "source_url": "https://en-word.net/"
+          },
+          {
+            "attribution_text": "Open English Wordnet 2025, Copyright (c) 2019-present, The Open English Wordnet Team. Based on or incorporates elements of the Princeton University WordNet database. This learner-dictionary release selects and repackages entries. Open English Wordnet is licensed under CC BY 4.0; Princeton WordNet license terms also apply to the underlying database elements.",
+            "creator": "The Open English Wordnet Team; Princeton University WordNet contributors (upstream database)",
+            "license_reference": "CC BY 4.0 for Open English Wordnet; the upstream Princeton WordNet license also applies to incorporated elements",
+            "license_url": "https://creativecommons.org/licenses/by/4.0/",
+            "snapshot_id": "oewn-2025-c7ce1131",
+            "source_name": "Open English Wordnet 2025",
+            "source_url": "https://en-word.net/"
+          }
+        ],
+        "collocations": [],
+        "display_lemma": "smooth",
+        "forms": [],
+        "homograph_group": null,
+        "is_satellite": false,
+        "lexeme_id": "0faf5d86-48f5-5881-8903-41e494caa336",
+        "lexical_type": "word",
+        "normalized_search_form": "smooth",
+        "part_of_speech": "a",
+        "pronunciations": [
+          {
+            "ipa": "smuːð"
+          }
+        ],
+        "relations": [
+          {
+            "display_lemma": "rough",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "antonym",
+            "target_lexeme_id": "498fcf66-0546-51fc-b731-8cb29ad56def",
+            "target_sense_id": "53313f2e-9346-4501-ae03-fbdc33f643f0"
+          },
+          {
+            "display_lemma": "rough",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "antonym",
+            "target_lexeme_id": "498fcf66-0546-51fc-b731-8cb29ad56def",
+            "target_sense_id": "6947f02f-ee27-5f6f-9c02-3e5d4ab89347"
+          },
+          {
+            "display_lemma": "rough",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "antonym",
+            "target_lexeme_id": "498fcf66-0546-51fc-b731-8cb29ad56def",
+            "target_sense_id": "d014da8d-56be-5824-8c7c-edbce28ddd3c"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "4558eff5-fdae-4240-8188-1d690f75d95b"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "70619e54-86d6-4ff7-986b-45ee1f71e31d"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "70619e54-86d6-4ff7-986b-45ee1f71e31d"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "c02a8a57-2a3c-45b3-bb3a-6e3d87feb28d"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "ca302285-6a5c-4511-9331-20aea077697f"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "ca302285-6a5c-4511-9331-20aea077697f"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "ca302285-6a5c-4511-9331-20aea077697f"
+          },
+          {
+            "display_lemma": "smoothness",
+            "lexical_type": "word",
+            "part_of_speech": "n",
+            "relation_type": "derivation",
+            "target_lexeme_id": "2eb9c294-b558-593c-a500-5a90c5d067bf",
+            "target_sense_id": "ca302285-6a5c-4511-9331-20aea077697f"
+          },
+          {
+            "display_lemma": "calm",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "7a1f0ce6-76b3-5729-b0eb-6be7b7ba7355",
+            "target_sense_id": "07ce7e87-e327-490b-81ac-111e789ac0ad"
+          },
+          {
+            "display_lemma": "easy",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "f56f0ed9-f297-5ece-8bf3-12753e722dca",
+            "target_sense_id": "624b323c-374e-4e68-a017-69034219bf51"
+          },
+          {
+            "display_lemma": "entire",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "0ab36cb2-2e64-502c-ae97-df3c1c926b9e",
+            "target_sense_id": "09e6d7c2-478e-45bf-aebe-de3741ee1533"
+          },
+          {
+            "display_lemma": "fast",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "10eb7303-f54d-58fe-9ea0-3dfa4a92370a",
+            "target_sense_id": "55f886a1-e385-46b4-b5ff-467bed572866"
+          },
+          {
+            "display_lemma": "glassy",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "a766d28a-9411-5600-963e-d36c10b189b4",
+            "target_sense_id": "c0042300-15aa-406e-afc2-f6ecc14e4d96"
+          },
+          {
+            "display_lemma": "graceful",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "f9ad79ea-9a63-5e89-926a-ca96113781c4",
+            "target_sense_id": "40c1b391-00e9-45da-9d06-676845fb3aaf"
+          },
+          {
+            "display_lemma": "undulate",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "similar",
+            "target_lexeme_id": "7dc1ad04-d06a-58c6-8f2e-09f8f1e156fd",
+            "target_sense_id": "a3a74a87-04cc-41ce-9263-31deb0bda8c7"
+          },
+          {
+            "display_lemma": "bland",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "85d8c24d-6977-51e9-a84b-1ccdaf2c0d3e",
+            "target_sense_id": "69cce4ab-7da1-41b2-af4e-51de5d23ee78"
+          },
+          {
+            "display_lemma": "fluent",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "1e74f4bf-3fdc-5877-a84b-bf5a4e190df3",
+            "target_sense_id": "80262ee3-deb5-4b55-8a44-4290e5d03942"
+          },
+          {
+            "display_lemma": "fluid",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "e90055a5-0546-5db5-b98c-1e82a5d0dde4",
+            "target_sense_id": "0183e154-7ae8-4a87-9d0e-721a480c7154"
+          },
+          {
+            "display_lemma": "legato",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "7d554bf5-dc74-5b55-8052-b22864eefbf2",
+            "target_sense_id": "d5d1ec82-5826-5fa6-b509-0f78dc30146f"
+          },
+          {
+            "display_lemma": "liquid",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "167e9a17-f016-5cc1-b09c-b36dc9fb83d0",
+            "target_sense_id": "2e05285e-ca0f-5773-993b-92dff128f92d"
+          },
+          {
+            "display_lemma": "placid",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "6e7702ee-af30-58fa-a1e1-75f95f65c6a1",
+            "target_sense_id": "3ef425bd-d005-4227-8815-0cf826026969"
+          },
+          {
+            "display_lemma": "politic",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "fbb6ea53-c45e-5821-833f-5b80a529312e",
+            "target_sense_id": "033e8bc3-307e-476f-8799-d0f3b07c4490"
+          },
+          {
+            "display_lemma": "quiet",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "8b889f28-fbc5-560a-99f6-3b0c6ad0aeb8",
+            "target_sense_id": "d83b2175-e08d-4ca9-a590-adea8f20562a"
+          },
+          {
+            "display_lemma": "still",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "c44db8f2-a29e-5914-863e-c94fe6e070f8",
+            "target_sense_id": "9d3f9aff-fde1-4179-9d7e-72bb1621b17f"
+          },
+          {
+            "display_lemma": "suave",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "2251cdc3-d8f3-55b8-82c3-d3dc48def475",
+            "target_sense_id": "8268d7af-21ac-4774-974d-39143e0e7dd3"
+          },
+          {
+            "display_lemma": "tranquil",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "bbe6c66a-31ed-5045-8681-8d2720959d41",
+            "target_sense_id": "53f9227c-ea12-4317-99cc-198c42948983"
+          },
+          {
+            "display_lemma": "unruffled",
+            "lexical_type": "word",
+            "part_of_speech": "a",
+            "relation_type": "synonym",
+            "target_lexeme_id": "474eb4b8-d2a2-5388-9d18-0ecf96bed9e1",
+            "target_sense_id": "cd748be8-7662-5ac1-b00a-067e3bfc0f6e"
+          }
+        ],
+        "release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+        "schema_version": "1.0.0",
+        "senses": [
+          {
+            "cefr": "B2",
+            "definition_en": "of the margin of a leaf shape; not broken up into teeth",
+            "definition_uz": "(Barg shakli haqida) chetlari tishchalarga bo‘linmagan.",
+            "examples": [],
+            "sense_id": "0383d06a-60d0-419f-9be7-a065638e5762",
+            "translations": [
+              {
+                "order": 0,
+                "text": "butun qirrali",
+                "translation_id": "18596920-7b36-514e-9155-9971edbc1d94"
+              }
+            ]
+          },
+          {
+            "cefr": "A2",
+            "definition_en": "having a surface free from roughness or bumps or ridges or irregularities",
+            "definition_uz": "yuzasida g‘adir-budirlik, bo‘rtma yoki notekislik bo‘lmagan",
+            "examples": [
+              {
+                "example_id": "085ffa2d-e34a-5028-a3ca-e81841ea9359",
+                "text_en": "water as smooth as a mirror",
+                "text_uz": "Suv oynadek silliq edi."
+              },
+              {
+                "example_id": "1a448e79-4108-592c-ba12-0e4675b58139",
+                "text_en": "smooth skin",
+                "text_uz": "Silliq teri."
+              },
+              {
+                "example_id": "3347574f-2030-5056-a48e-43f8f01cd896",
+                "text_en": "a smooth road",
+                "text_uz": "Silliq yo‘l."
+              },
+              {
+                "example_id": "40466782-2f7d-54ae-910a-64f6d1261d44",
+                "text_en": "a smooth tabletop",
+                "text_uz": "Silliq stol yuzasi."
+              },
+              {
+                "example_id": "a56da7e9-e269-558b-bccb-5b3f1d9daba3",
+                "text_en": "smooth fabric",
+                "text_uz": "Silliq mato."
+              }
+            ],
+            "sense_id": "0ca93477-2e12-4db3-a65f-245bb18cf933",
+            "translations": [
+              {
+                "order": 0,
+                "text": "silliq",
+                "translation_id": "524555fb-49ea-57e9-ba4b-4c1c619a7e19"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "smooth and unconstrained in movement",
+            "definition_uz": "Harakatda silliq, erkin va to‘siqsiz.",
+            "examples": [
+              {
+                "example_id": "138c56fb-d9aa-53ed-8afa-15c5edaafcd5",
+                "text_en": "a long, smooth stride",
+                "text_uz": "Uzun va ravon qadam."
+              },
+              {
+                "example_id": "54c80217-e044-59ee-926f-262bc39e5cf6",
+                "text_en": "the liquid grace of a ballerina",
+                "text_uz": "Balerinaning oqimli nafisligi."
+              },
+              {
+                "example_id": "f9ee5f71-443c-5fb5-85bc-4e1efebc78e3",
+                "text_en": "the fluid motion of a cat",
+                "text_uz": "Mushukning ravon harakati."
+              }
+            ],
+            "sense_id": "3b27c40f-20e9-47d0-a28a-8e593916a733",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ravon",
+                "translation_id": "181afb22-eaa5-5239-a50f-58203cb1969d"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "smoothly agreeable and courteous with a degree of sophistication",
+            "definition_uz": "Kiborlarcha xushmuomala, ustalik bilan ko'ngil oladigan.",
+            "examples": [
+              {
+                "example_id": "7b47210a-ae52-52f1-8df6-894d065e7530",
+                "text_en": "the manager pacified the customer with a smooth apology for the error",
+                "text_uz": "Menejer xato uchun silliq va muloyim uzr so'rab mijozni tinchlantirdi."
+              },
+              {
+                "example_id": "aa1b8db4-4559-5a5a-b375-eaaba54fc9c5",
+                "text_en": "he was too politic to quarrel with so important a personage",
+                "text_uz": "U bunday nufuzli shaxs bilan janjallashmaslik uchun juda ehtiyotkor va xushmuomala edi."
+              }
+            ],
+            "sense_id": "6b3956ee-84b9-453c-9a87-c18e6e46e949",
+            "translations": [
+              {
+                "order": 0,
+                "text": "muloyim va silliq muomalali",
+                "translation_id": "eb1b0aff-da2b-5fdc-92b9-5ab54864b439"
+              }
+            ]
+          },
+          {
+            "cefr": "C1",
+            "definition_en": "(of a body of water) free from disturbance by heavy waves",
+            "definition_uz": "Suv havzasiga nisbatan, kuchli to'lqinlar bezovta qilmagan.",
+            "examples": [
+              {
+                "example_id": "81c186ac-def0-5eb6-8fc6-ed2fa82e727f",
+                "text_en": "a ribbon of sand between the angry sea and the placid bay",
+                "text_uz": "G'azabnok dengiz bilan sokin qo'ltiq orasidagi qum tasmasi."
+              },
+              {
+                "example_id": "d617fbc3-4bc1-5373-bf14-77d81f6426a3",
+                "text_en": "the quiet waters of a lagoon",
+                "text_uz": "Lagunaning tinch suvlari."
+              }
+            ],
+            "sense_id": "8c2db1fa-b1e0-51ac-91c2-64ae59e52265",
+            "translations": [
+              {
+                "order": 0,
+                "text": "sokin",
+                "translation_id": "1b46bb09-8267-50b0-a4b2-d9d65d0091a1"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "lacking obstructions or difficulties",
+            "definition_uz": "To‘siq yoki qiyinchiliklarsiz kechadigan.",
+            "examples": [
+              {
+                "example_id": "fc43a9f4-f4a6-542b-8fca-52a70f13a9e9",
+                "text_en": "the bill's path through the legislature was smooth and orderly",
+                "text_uz": "Qonun loyihasining qonunchilik organidan o‘tish yo‘li muammosiz va tartibli bo‘ldi."
+              }
+            ],
+            "sense_id": "b2bb2d78-d522-5e0d-a393-6f757958a234",
+            "translations": [
+              {
+                "order": 0,
+                "text": "muammosiz",
+                "translation_id": "3891f052-4be7-569c-a16f-71cca21cf7dc"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "of motion that runs or flows or proceeds without jolts or turbulence",
+            "definition_uz": "Harakati zarbasiz, silkinishsiz yoki turbulentliksiz davom etadigan.",
+            "examples": [
+              {
+                "example_id": "18a0cb6d-2266-5adf-9fbc-4d48b23a8d3b",
+                "text_en": "a smooth ride",
+                "text_uz": "ravon yurish"
+              }
+            ],
+            "sense_id": "bb9c3f24-0654-5fd6-86f5-8ac7d390a845",
+            "translations": [
+              {
+                "order": 0,
+                "text": "ravon; silliq",
+                "translation_id": "aef435bb-529a-51b2-9151-cf5eeb7ebd9e"
+              }
+            ]
+          },
+          {
+            "cefr": "B2",
+            "definition_en": "(music) without breaks between notes; smooth and connected",
+            "definition_uz": "Musiqada notalar orasida uzilishsiz, silliq va bog‘langan ijro usuli.",
+            "examples": [
+              {
+                "example_id": "e060dcc5-3e7b-5185-94b2-2d49a112e918",
+                "text_en": "a legato passage",
+                "text_uz": "Legato parcha."
+              }
+            ],
+            "sense_id": "d9b50735-8fa0-46cd-addb-ebc4162a16c4",
+            "translations": [
+              {
+                "order": 0,
+                "text": "legato",
+                "translation_id": "83b90e93-d632-589e-9d2e-cc36760d7790"
+              }
+            ]
+          }
+        ]
+      },
+      "selected_sense_id": "0ca93477-2e12-4db3-a65f-245bb18cf933"
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "regression": {
+    "backend": {
+      "passed": 179,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1
+    },
+    "source_integrity": "pass",
+    "diff_check": "pass",
+    "remote_ci": "not_yet_run_for_this_commit"
+  }
+}

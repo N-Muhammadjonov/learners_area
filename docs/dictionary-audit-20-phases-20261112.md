@@ -1,0 +1,779 @@
+# Dictionary sense audit — 2026-11-12
+
+## Frozen production baseline
+
+- Project: `tuoeabrrnsiuxpjmslxp`
+- Channel: `stable`
+- Release: `rel-v1-1fa06d8d41d8ff701632573e`
+- Entries: **65,277**; distinct lexeme IDs: **65,277**
+- Sense IDs: **110,409**; no null sense arrays observed.
+- Storage: **Cloudflare R2**; all active entry `payload` values are null.
+- Immutable source is never edited in place. Changes require a new validated release with checksum-based R2 shards, explicit publication and rollback to previous release.
+
+## Deterministic batch partition
+
+Take all `(lexeme_id, sense_id)` pairs from the frozen release, order by `lexeme_id, sense_id`, assign 1-based row numbers, and compute `floor((row_number - 1) * 20 / 110409) + 1`. When resuming, assert the release and total are unchanged; never silently recalculate against a different release. Keep a checkpoint keyed by `release_id`, `lexeme_id`, `sense_id`. Some entries span phase boundaries by design.
+
+| Phase | Sense rank (inclusive) | Sense count | Status |
+| --- | ---: | ---: | --- |
+| 01 | 1–5,521 | 5,521 | Structural audited; semantic pending |
+| 02 | 5,522–11,041 | 5,520 | Structural and presentation coverage audited; semantic review pending |
+| 03 | 11,042–16,562 | 5,521 | Structural and presentation coverage audited; semantic review pending |
+| 04 | 16,563–22,082 | 5,520 | Structural/presentation audited; linguistic review pending |
+| 05 | 22,083–27,603 | 5,521 | Structural/presentation audited; semantic signoff pending |
+| 06 | 27,604–33,123 | 5,520 | Structural/presentation audited; semantic signoff pending |
+| 07 | 33,124–38,644 | 5,521 | Structural, presentation and meaningSha audited; semantic signoff pending |
+| 08 | 38,645–44,164 | 5,520 | Structural, presentation and meaningSha audited; semantic signoff pending |
+| 09 | 44,165–49,685 | 5,521 | Structural R2 integrity audited; presentation and semantic review pending |
+| 10 | 49,686–55,205 | 5,520 | Not started |
+| 11 | 55,206–60,725 | 5,520 | Not started |
+| 12 | 60,726–66,246 | 5,521 | Not started |
+| 13 | 66,247–71,766 | 5,520 | Not started |
+| 14 | 71,767–77,287 | 5,521 | Not started |
+| 15 | 77,288–82,807 | 5,520 | Not started |
+| 16 | 82,808–88,328 | 5,521 | Not started |
+| 17 | 88,329–93,848 | 5,520 | Not started |
+| 18 | 93,849–99,369 | 5,521 | Not started |
+| 19 | 99,370–104,889 | 5,520 | Not started |
+| 20 | 104,890–110,409 | 5,520 | Not started |
+
+## Validation gates — every sense
+
+1. Check English lemma, part of speech, distinct homographs and the exact sense definition.
+2. Cross-check English–Uzbek translation and usage examples against that sense. Flag suspect machine translations; do not guess.
+3. CEFR must be evidence-backed at *usage/sense* granularity, not assigned from obscure synonym ranking or lexeme frequency alone.
+4. Check synonym and antonym relations for target validity, POS matching and correct sense scope. Absence of legitimate antonyms is not a defect.
+5. Validate collocations: natural attestation, meaning match and link resolution. Absence is not automatically a defect.
+6. Verify entry schema, referential integrity, no duplicate ID, source/license attribution, UI read path and readback.
+7. Record evidence URL, reviewed_by, confidence, original value, proposed value, release ID and resolution state for each intervention.
+8. Require original-shard snapshot and new-release checksum verification before any publish; run regression tests and compare counts/hashes; rollback by channel switch only if required.
+
+## Priority regression outside Phase 01 — confirmed case: hello
+
+- Entry: `661696f8-4ed4-5321-8e0c-e4e513d768a5`, POS `n`.
+- Sense: `eadfd862-8108-42cf-b009-995653d25c2c`.
+- Exact definition: `an expression of greeting`; translation: `salom`.
+- Current R2 CEFR: **C2**; editorial reference for greeting **A1**: https://dictionary.cambridge.org/dictionary/english/hello (entry includes exclamation and noun).
+- Four existing canonical synonym edges: `hi`, `how-do-you-do`, `howdy`, `hullo`. The reader's presentation fallback had previously discarded unscoped edges when a curated sense row existed. Branch fix retains these for single-sense entries; no relation is fabricated.
+- No canonical antonyms or collocations recorded. Review whether authentic combinations such as `say hello` belong to this noun sense before adding; do not invent entries.
+- **Status:** canonical CEFR correction proposed, NOT published. Because the active release is immutable and checksum-bound, do not patch Postgres metadata, cached previews, or R2 objects in place. Build a new release with `A1` and rerun index, reader-metadata and presentation checks.
+- **Phase-01 senses:** All 5,521 require full sense-specific linguistic verification; `hello` is outside the frozen phase-01 range. No claims of complete QA.
+
+## QA
+
+Run relevant backend tests: `python -m pytest services/backend/tests/test_dictionary_reader_metadata.py -q` from an environment with the backend dependencies importable. Both single-sense preservation and multi-sense isolation are covered in the dedicated regression tests added on this branch.
+
+No production release, channel, data or main branch was mutated by this audit.
+
+## Phase 01 — November 12 comprehensive structural pass
+
+- Frozen rank range: **1–5,521** (lexeme/sense IDs sorted). The first 13 R2 shards `00` through `0c` were downloaded and their entire content parsed. Shard `0c` contains additional senses beyond this phase; only rank <=5,521 was included in phase totals.
+- Parsed: **3,408 entries**, of which **5,521 sense IDs** belong to Phase 01. Every shard's **SHA-256 and entry count match** production Supabase `dictionary_r2_shards` descriptors, checked independently.
+- **0** missing EN/UZ definitions, **0** empty translations, **0** invalid nonempty CEFR enumerations, **0** missing attribution objects, **0** empty Uzbek example text in authored sense records.
+- CEFR: A1=62; A2=166; B1=756; B2=954; C1=770; C2=2,377; unassigned=436. Counts sum to **5,521**.
+- Canonical sense records lacking authored examples: **3,140**. Canonical relations not directly linked to a sense: synonyms **4,345**, antonyms **5,478**, collocations **5,482**. These **are not evidence that supplementary presentation is empty** and not proof of a factual defect.
+- **436** unassigned CEFR senses and **2,377** C2 senses were preserved in the exact-ID review queue: `content/dictionary/audit-20261112-phase01-flagged-records.json`. Each of the 13 immutable shard hashes is included so the source can be reverified.
+- Independently source-checked: **you**, pronoun referring to the addressed person(s), has absent CEFR, Cambridge rates this exact usage **A1**: https://dictionary.cambridge.org/dictionary/english/you. Proposed immutable correction.
+- Independently source-checked: **come**, noun meaning semen, is marked **slang** in Cambridge rather than the common movement verb. Current **A1** is semantically suspect; leave proposed value unset pending evidence instead of automatically replacing with C2: https://dictionary.cambridge.org/dictionary/english/come.
+- **hello** is a priority out-of-band regression, **not within the phase-01 lexeme-ID partition**, and is still a source-checked C2→A1 correction proposal. Synonym presentation code fix lives on the same branch.
+
+### Signoff
+
+**Structural inventory and flag generation: COMPLETE.** **Semantic verification of all 5,521 translations, CEFR labels, synonyms, antonyms and collocations: NOT COMPLETE.** A populated field cannot be treated as a correct translation; an absent relation is not necessarily a mistake. All 5,521 entries require provenance-backed semantic review before this phase can truthfully be certified as fully corrected. The branch includes no newly published R2 release and no production data mutation. The four added preservation/isolation regression tests were executed with the broader focused backend suite on GitHub Actions. **82 passed, 1 warning**; see https://github.com/N-Muhammadjonov/learners_area/actions/runs/43231278384 . This proves focused code behavior, not linguistic correctness of all 5,521 senses. The project must not equate structural coverage with linguistic signoff.
+
+
+## Continuation: execution evidence (2026-11-12)
+
+- Fixed an additional display defect in `services/backend/app/dictionary_presentation.py`: when exact-sense curated metadata was present (even an empty curated collocation array), the reader previously discarded valid canonical collocations. The display now deduplicates the canonical and curated phrases by normalized text and target identifiers, without assigning unscoped phrases to arbitrary senses.
+- Added single- and multi-sense collocation regression tests. These extend the earlier two synonym tests.
+- Added `.github/workflows/dictionary-audit-phase1-ci.yml`. GitHub Actions run `43231278384` completed successfully: **82 passed, 1 warning** in the focused backend suite; `compileall` also succeeded. CI only verifies code, not independent translation/CEFR source correctness.
+- Current `main` has advanced independently. This audit branch is not automatically rebased or merged. Production data and immutable R2 objects have not been altered.
+- **Final classification:** structural data integrity QA and code regression complete; phase-01 human/independent linguistic certification, immutable release generation, and production readback still incomplete. The phase cannot be marked fully verified until those deliverables exist. The 436 null CEFR and 2,377 C2 records are review candidates, not blanket errors.
+
+## Presentation cross-check — all 5,521 phase-01 senses
+
+The frozen canonical R2 entries were independently matched by `lexeme_id` and `sense_id` against all 13 locally bundled presentation shards `00`–`0c`. The final shard `0c` was restricted to the first 309 senses ordered by lexeme/sense ID; its other 192 senses belong to phase 02.
+
+| Count across exact phase-01 scope | Count |
+| --- | ---: |
+| Source senses checked | 5,521 |
+| Matching presentation sense IDs observed | 5,473 |
+| No presentation sense row | 48 |
+| Senses with presentation synonyms | 3,059 |
+| Senses with canonical synonyms scoped to the exact sense or safe single-sense fallback | 1,176 |
+| Senses with synonyms in either counted layer | 3,064 |
+| Senses with presentation collocations | 114 |
+| Senses with canonical collocations scoped to the exact sense or safe single-sense fallback | 39 |
+| Senses with collocations in either counted layer | 153 |
+| Senses with no synonym in either counted layer | 2,457 |
+| Senses with no collocation in either counted layer | 5,368 |
+
+These are **presence counts**, not semantic validation. Missing presentation rows may be custom additions, stale supplementary metadata or expected base fallback; all 48 must be inspected against exact source hashes and provenance before assigning a defect. The presence audit matched sense IDs but did **not independently validate every presentation `meaningSha`**, so effective rendered counts may be lower. Unscoped relations on polysemous entries require sense disambiguation; the UI must not distribute them across unrelated senses. All missing relation numbers are review candidates rather than invented antonyms/collocations.
+
+Code fix: retaining both canonical and curated collocations without losing either when curated metadata is present. GitHub CI on branch runs the preservation and sense-isolation regression tests.
+
+### Completion criteria still outstanding
+
+- Independently verify **every one of 5,521 EN→UZ sense translations**, not merely its nonempty JSON string.
+- Check CEFR at the exact sense and register, resolve 436 null labels appropriately, and investigate 2,377 C2 labels without mass downgrading.
+- Validate that each proposed synonym, antonym and collocation is genuine, appropriately scoped and sourced. `no antonym` can be legitimate.
+- Produce reproducible immutable candidate R2 release, full source/presentation/hash QA, rollback pointer and deployment readback before changing the stable channel.
+- Rebase or reconcile independently advanced `main` only after test gates; do not silently merge.
+
+
+## Verified regression gate — final focused run
+
+- GitHub Actions: https://github.com/N-Muhammadjonov/learners_area/actions/runs/43232070037
+- Run completed successfully: **85 passed, 1 warning**, plus `compileall` PASS.
+- Includes three frozen-receipt assertions and four new sense-isolation/preservation tests (two synonym and two collocation cases).
+- External language correctness still requires source-by-source review; passing test code cannot certify unreviewed translations.
+
+
+## Phase 02 — 12 November 2026 audit
+
+Source release `rel-v1-1fa06d8d41d8ff701632573e` was frozen before starting. The phase includes exactly 5,520 sense IDs at sorted ranks 5,522–11,041, with 3,222 unique lexemes. Thirteen R2 shards (`0c`–`18`) were fetched; SHA-256, compressed byte sizes and entry counts matched production Supabase shard descriptors. Boundary shards were filtered by exact lexeme/sense ID. Audit source receipt: `content/dictionary/audit-20261112-phase02-flagged-records.json`. Additional exact sense ID presentation receipt: `content/dictionary/audit-20261112-phase02-presentation-coverage.json`.
+
+| Validation | Phase 02 observed |
+| --- | ---: |
+| Sense IDs checked structurally | 5,520 |
+| Empty translation / EN definition / UZ definition | 0 / 0 / 0 |
+| Missing CEFR | 461 |
+| Nonempty CEFR outside A1–C2 | 0 |
+| CEFR distribution A1/A2/B1/B2/C1/C2 | 64 / 185 / 733 / 975 / 768 / 2,334 |
+| Sense records without source examples | 3,111 |
+| Sense records with AI draft editorial provenance | 47 |
+| Duplicate translation rows / repeated sense IDs | 0 / 0 |
+| Invalid local source sense references in relations / collocations | 0 / 0 |
+| Canonical-only missing synonym/antonym/collocation | 4,363 / 5,492 / 5,480 |
+| Missing presentation sense row | 44 |
+| Senses with synonyms in canonical or presentation layer | 3,054 |
+| Senses with collocations in canonical or presentation layer | 129 |
+| No synonym in either counted layer | 2,466 |
+| No collocation in either counted layer | 5,391 |
+
+The counts for relationships represent *presence*, not confirmation of exact semantic correctness. The presentation comparison matched lexeme and sense IDs, but it did not independently validate every `meaningSha`, so the effective UI count can be lower when metadata is stale. The 44 absent presentation rows are follow-up candidates, not automatically errors because fallback data may be valid.
+
+**Automated structural audit: COMPLETE.** **Independent semantic translation, sense-level CEFR and relationship certification: NOT COMPLETE.** Exactly 2,795 meaning IDs are queued for missing CEFR (461) or C2 review (2,334), but C2 itself is not an invalid value. None of the 5,520 meanings has been certified as fully linguistically correct merely because all required fields are filled. No fictional synonyms, antonyms, or collocations were created. No live release, channel pointer or production content was modified.
+
+### Release and merge policy
+
+Do not merge `fix/dictionary-audit-phase-01-20261112` to `main` until all 20 planned phases are finished and separately tested. The production `stable` channel must not change before fully validated immutable release generation, backup, rollback and regression gates.
+
+## Phase 03 — 12 November 2026 audit
+
+Frozen release: `rel-v1-1fa06d8d41d8ff701632573e`. Exact rank range: 11,042–16,562 (5,521 senses, 3,343 lexemes). Cloudflare R2 shards `18`–`25` (14 shards) were read, and SHA-256, byte lengths and entry counts matched Supabase descriptors. The two boundary shards were restricted to the exact `lexeme_id/sense_id` range.
+
+Source audit receipt: `content/dictionary/audit-20261112-phase03-flagged-records.json`. Presentation receipt: `content/dictionary/audit-20261112-phase03-presentation-coverage.json`.
+
+| Validation | Phase 03 result |
+| --- | ---: |
+| Senses inventoried | 5,521 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| Missing CEFR | 444 |
+| Invalid nonempty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 164 / 696 / 944 / 766 / 2,450 |
+| Canonical source senses without examples | 3,207 |
+| AI-draft editorial senses | 48 |
+| Duplicate source sense IDs / translations | 0 / 0 |
+| Invalid local relation / collocation source sense IDs | 0 / 0 |
+| Senses without canonical synonym / antonym / collocation | 4,263 / 5,477 / 5,495 |
+| Missing supplementary presentation sense row | 33 |
+| Senses with synonyms in canonical or presentation layer | 3,059 |
+| Senses with collocations in canonical or presentation layer | 118 |
+| Senses without synonyms in counted layers | 2,462 |
+| Senses without collocations in counted layers | 5,403 |
+
+The 2,894 sense IDs with missing CEFR (444) or a C2 label (2,450) are recorded in the frozen review queue. A high C2 count is **not itself proof of wrong labels**. A missing relation or supplementary presentation row is **not automatically an error**. Supplementary comparison was performed by exact IDs, but does not prove every `meaningSha` is current or every relationship is semantically correct.
+
+A spot check illustrates why word-level inference is unsafe: `school` in this phase is a verb and includes both educating and fish schooling senses, while `OR` is a hospital operating room noun, not the conjunction. Do not apply CEFR or translations across homographs, parts of speech or senses.
+
+**Structural and presentation presence audit: COMPLETE.** **Independent source-by-source semantic correctness review, candidate immutable release generation and production readback: NOT COMPLETE**. No fabricated synonyms, antonyms or collocations, no blanket CEFR reassignment, no R2 or production writes and no merge to `main`.
+
+### Phase 03 follow-up gates
+
+1. Verify individual English–Uzbek translations and each CEFR against source-backed sense and register references.
+2. Review AI-draft meanings and investigate suspicious C2, while respecting legitimate specialist language and true synonym absence.
+3. Validate `meaningSha`, relation target lexeme/sense identities, sense matching, and provenance before finalizing a linguistic signoff.
+4. Rebuild and validate an immutable new candidate release only after accepted edits, with a backed-up rollback channel and regression tests.
+5. Keep all 20 phases on this branch until the user's no-merge rule is satisfied.
+
+## Phase 04 — 12 November 2026
+
+**Baseline unchanged:** `rel-v1-1fa06d8d41d8ff701632573e`. Frozen exact-sense ranks **16,563–22,082** (5,520 senses, 3,322 distinct lexemes). Cloudflare R2 shards `25`–`32` (14 files) were retrieved and independently verified against production Supabase SHA-256, compressed byte counts and entry counts. Start/end boundary shards were filtered by `lexeme_id/sense_id` identity. Initial script checksum typo was diagnosed against R2/Supabase and corrected before publishing the audit receipt; no source shard changed.
+
+Source receipt: `content/dictionary/audit-20261112-phase04-flagged-records.json`; presentation receipt: `content/dictionary/audit-20261112-phase04-presentation-coverage.json`.
+
+| Check | Phase 04 |
+| --- | ---: |
+| Senses examined structurally | 5,520 |
+| Missing translation / EN definition / UZ definition | 0 / 0 / 0 |
+| Missing CEFR | 456 |
+| Invalid non-empty CEFR | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 149 / 699 / 1,009 / 757 / 2,393 |
+| Canonical sense records without examples | 3,172 |
+| AI draft editorial senses | 55 |
+| Invalid local relation/collocation source sense references | 0 |
+| Duplicate source sense IDs / duplicate translations | 0 / 0 |
+| Without canonical synonym / antonym / collocation | 4,262 / 5,479 / 5,485 |
+| Absent supplementary presentation sense row | 42 |
+| Synonym presence in canonical OR presentation layer | 3,077 |
+| Collocation presence in canonical OR presentation layer | 157 |
+| No synonym / collocation across counted layers | 2,443 / 5,363 |
+
+**Review queue:** 2,849 exact sense IDs (456 missing CEFR; 2,393 C2 for *review*, not wholesale invalidation). Presentation presence was matched by exact IDs; not every `meaningSha` or relation target is separately source-certified. Missing antonyms and collocations may be linguistically appropriate. All translations and CEFR labels still require independent sense-level checks. No speculative synonym/antonym/collocation has been created.
+
+**Phase 04 automated structural and presentation presence audit: COMPLETE. Full independent linguistic verification: NOT COMPLETE.** No production release switch, destructive migration or `main` merge. Keep the original 20-phase no-merge policy.
+
+## Phase 05 — 12 November 2026
+
+Production release `rel-v1-1fa06d8d41d8ff701632573e` remains frozen. Exactly **5,521** senses (3,176 distinct lexemes) at sorted ID ranks **22,083–27,603** were structurally audited. All 14 Cloudflare R2 shards (`32`–`3f`) were fetched, parsed and checked against production Supabase SHA-256, byte count and member count. Boundary shards were restricted to exact `lexeme_id/sense_id` identifiers.
+
+Source: `content/dictionary/audit-20261112-phase05-flagged-records.json`; presentation coverage: `content/dictionary/audit-20261112-phase05-presentation-coverage.json`.
+
+| Check | Phase 05 result |
+| --- | ---: |
+| Senses checked structurally | 5,521 |
+| Missing translation / EN definition / UZ definition | 0 / 0 / 0 |
+| Unassigned CEFR | 463 |
+| Invalid non-empty CEFR | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 63 / 168 / 748 / 991 / 819 / 2,269 |
+| Source senses without examples | 3,014 |
+| AI draft senses | 57 |
+| Duplicate sense IDs / translation strings | 0 / 0 |
+| Invalid canonical source-sense relation/collocation references | 0 / 0 |
+| Without canonical synonym / antonym / collocation | 4,369 / 5,490 / 5,473 |
+| Missing presentation sense record | 57 |
+| Senses with synonym in canonical or presentation layer | 3,042 |
+| Senses with collocation in canonical or presentation layer | 179 |
+| Missing synonym / collocation across counted layers | 2,479 / 5,342 |
+
+Review queue holds **2,732 exact sense IDs** (463 without CEFR and 2,269 with C2 to validate, not automatically wrong). The meaning-level CEFR distribution remains suspect and requires independent lexical evidence. Presentation numbers measure presence only, and a matching sense ID does not independently prove `meaningSha` currency or semantic quality. No absent antonyms/collocations were invented.
+
+**Automated R2 integrity and presentation presence audit: COMPLETE. Independent linguistic review of all 5,521 translations, sense-specific CEFR and relations: NOT COMPLETE.** No new production release, channel pointer or `main` merge. Preserve the 20-phase no-merge requirement.
+
+## Phase 06 — 12 November 2026
+
+Frozen source `rel-v1-1fa06d8d41d8ff701632573e`; **5,520** sense IDs at ranks **27,604–33,123**, **3,204** distinct lexemes. Cloudflare R2 shards `3f`–`4b` (13 files) independently verified against production Supabase SHA-256, compressed byte sizes and entry/member counts; exact ID range filters applied to the boundary shards.
+
+Source receipt: `content/dictionary/audit-20261112-phase06-flagged-records.json`. Presentation receipt: `content/dictionary/audit-20261112-phase06-presentation-coverage.json`.
+
+| Check | Phase 06 |
+| --- | ---: |
+| Structurally audited senses | 5,520 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| Missing CEFR | 428 |
+| Invalid non-empty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 70 / 150 / 729 / 1,008 / 833 / 2,302 |
+| Without canonical examples | 3,181 |
+| AI draft editorial senses | 49 |
+| Duplicate source sense IDs / translations | 0 / 0 |
+| Invalid local source-sense relation/collocation references | 0 / 0 |
+| Without canonical synonym / antonym / collocation | 4,311 / 5,493 / 5,474 |
+| Missing supplementary presentation sense row | 51 |
+| Senses with synonym in canonical OR presentation layer | 3,176 |
+| Senses with collocation in canonical OR presentation layer | 168 |
+| Without synonyms / collocations across counted layers | 2,344 / 5,352 |
+
+**Frozen exact-ID CEFR review queue:** 2,730 records, consisting of 428 unassigned CEFR senses and 2,302 C2 candidates. A high C2 count is a prompt for independent sense-level review, not automatic proof of error. Additional `unscopedSynonymsPolysemous`=4,875 canonical relation edges need sense disambiguation; they are not automatically attached to arbitrary senses in the presentation reader.
+
+A spot check found `bunny` (young rabbit) labelled C2 while the other stored `bunny` sense describes a nightclub costume: this requires sense-aware independent reference verification rather than word-level reassignment. No invented antonyms or collocations were inserted.
+
+**Structural integrity and presentation presence checks: COMPLETE. Full source-backed semantic translation/CEFR/relationship certification: NOT COMPLETE.** The presentation coverage comparison used exact lexeme and sense IDs but did not independently hash-verify every `meaningSha` or verify every relation target. No production R2 overwrite, stable channel switch or `main` merge. Preserve the strict 20-stage merge gate.
+
+## Phase 07 — 12 November 2026
+
+Frozen source `rel-v1-1fa06d8d41d8ff701632573e`; exactly **5,521** sense IDs at ranks **33,124–38,644**, **3,251** distinct lexemes. All 14 R2 shards (`4b`–`58`) independently checked against production Supabase SHA-256, compressed byte sizes and member counts. The exact ID range was enforced on boundary shards.
+
+Source receipt: `content/dictionary/audit-20261112-phase07-flagged-records.json`. Presentation coverage receipt: `content/dictionary/audit-20261112-phase07-presentation-coverage.json`.
+
+| Check | Phase 07 |
+| --- | ---: |
+| Structurally audited senses | 5,521 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| Missing CEFR | 460 |
+| Invalid non-empty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 159 / 689 / 1,088 / 788 / 2,280 |
+| Canonical senses without examples | 3,008 |
+| AI-draft editorial senses | 71 |
+| Duplicate source sense IDs / translation strings | 0 / 0 |
+| Invalid local source-sense relation/collocation IDs | 0 / 0 |
+| No canonical synonyms / antonyms / collocations | 4,341 / 5,484 / 5,471 |
+| Supplementary presentation sense rows absent | 64 |
+| Existing presentation records with mismatched `meaningSha` | **0** |
+| Senses with synonym from canonical or presentation | 3,078 |
+| Senses with collocation from canonical or presentation | 164 |
+| Senses without synonym / collocation across counted layers | 2,443 / 5,357 |
+
+**New integrity gate:** all **5,457 existing presentation sense rows** were verified using SHA-256 of the canonical serialized `{definition,lemma,pos}` object against stored `meaningSha`. Zero mismatches were observed. The other **64** senses lack a supplementary presentation row and may still render through the canonical fallback; absence itself is not proof of incorrect linguistic data.
+
+**CEFR review queue:** **2,740** exact senses, consisting of 460 null CEFR values and 2,280 C2 labels for investigation. C2 itself is valid, not an automatically erroneous assignment. Unscoped synonyms on polysemous entries count 4,717 canonical edges, which must be disambiguated before sense-specific assignment. The reader must not attach these edges indiscriminately.
+
+**Automated R2, presentation identity and meaningSha checks: COMPLETE. Independent semantic translation, CEFR and relation correctness signoff: NOT COMPLETE.** No invented relations, no production write, no immutable release replacement and no `main` merge. Maintain the 20-stage merge gate.
+
+## Phase 08 — 12 November 2026
+
+Frozen source release: `rel-v1-1fa06d8d41d8ff701632573e`. Exactly **5,520 sense IDs** at sorted ranks **38,645–44,164**, with **3,304 distinct lexemes**. Cloudflare R2 shards `58`–`65` (14 files) were fetched and checked against Supabase descriptors: SHA-256 hash, compressed bytes, member count and lexeme shard assignment. Both boundary shards were filtered by the exact `lexeme_id/sense_id` pair.
+
+- Source receipt: `content/dictionary/audit-20261112-phase08-flagged-records.json`.
+- Presentation receipt: `content/dictionary/audit-20261112-phase08-presentation-coverage.json`.
+
+| Check | Phase 08 |
+| --- | ---: |
+| Structurally audited senses | 5,520 |
+| Missing translation / English definition / Uzbek definition | 0 / 0 / 0 |
+| CEFR unset | 456 |
+| Invalid non-empty CEFR labels | 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 64 / 158 / 699 / 961 / 796 / 2,386 |
+| Canonical senses with no examples | 3,114 |
+| AI draft senses | 61 |
+| Duplicate source sense IDs / translations | 0 / 0 |
+| Invalid canonical source sense references | 0 |
+| Missing canonical synonyms / antonyms / collocations | 4,358 / 5,482 / 5,479 |
+| Missing supplementary presentation sense rows | 48 |
+| Existing presentation rows with stale `meaningSha` | **0** |
+| Senses with synonym in canonical or presentation layer | 3,040 |
+| Senses with collocation in canonical or presentation layer | 154 |
+| Without synonyms / collocations in counted layers | 2,480 / 5,366 |
+
+**New integrity evidence:** all **5,472 existing supplementary presentation sense rows** had their stored `meaningSha` compared against SHA-256 of the canonical serialized `{definition,lemma,pos}`. No mismatches were found. This does not verify semantic correctness or detect missing supplementary rows as necessarily erroneous.
+
+The **2,842** exact-ID CEFR review records comprise 456 unset labels and 2,386 C2 labels. The C2 population is a review priority, not proof all those labels are false. Specialist and polysemous senses must be checked individually against reliable sources. Example: `puddle` has multiple noun senses, including a small water pool and a technical clay mixture; levels must be sense-specific rather than applied indiscriminately.
+
+**Phase 08 automated structural, presentation and hash integrity checks: COMPLETE. Independent linguistic review of all 5,520 translations, CEFR, synonyms/antonyms/collocations: NOT COMPLETE.** No invented relationships, no unverified CEFR changes, no R2 overwrite, no production release switch, and no merge to `main`.
+
+After phase 08, cumulative structural coverage is **44,164 / 110,409 senses**. Full merge and production publishing remain blocked on all 20 phases plus independent semantic quality signoff and immutable candidate release readback.
+
+
+## Phase 09 — 12 November 2026 (structural pass)
+
+Frozen release: `rel-v1-1fa06d8d41d8ff701632573e`. Exact ranks **44,165–49,685**: **5,521 senses / 3,279 lexemes**, across 14 R2 shards `65`–`72`. Each R2 object's compressed SHA-256, byte length and gzip-member count independently matched the production Supabase descriptor; each multi-member gzip entry was decompressed and parsed, and boundary lexeme/sense IDs were enforced. Evidence: `content/dictionary/audit-20261112-phase09-structural-receipt.json` (full shard hashes, scope and review examples).
+
+| Check | Phase 09 |
+| --- | ---: |
+| Structurally audited senses | 5,521 |
+| Missing EN definition / UZ definition / translation | 0 / 0 / 0 |
+| CEFR A1 / A2 / B1 / B2 / C1 / C2 | 57 / 183 / 703 / 954 / 751 / 2,414 |
+| Unassigned / invalid CEFR | 459 / 0 |
+| No canonical examples | 3,073 |
+| Duplicate sense IDs / duplicate translation texts | 0 / 0 |
+| Invalid local relation / collocation source IDs | 0 / 0 |
+| No canonical synonym / antonym / collocation | 4,277 / 5,491 / 5,500 |
+
+**Review candidates:** **2,873 exact senses** with unset CEFR (459) or C2 (2,414). This is NOT proof those C2 labels are erroneous. Examples requiring source-backed review include `itself` (missing CEFR), `flake` meaning a snow crystal (C2), and `overwrite` meaning replace existing data (C2). No speculative CEFR replacement or invented relation was published.
+
+**Signoff:** structural R2 read/checksum and JSON validation COMPLETE; **presentation coverage / `meaningSha` NOT YET AUDITED**, independent translation/CEFR/relationship semantic QA NOT COMPLETE. No candidate release creation, production mutation, deploy or `main` merge. Keep PR #149 Draft until all 20 phases and linguistic review are finished.
+
+Cumulative exact-sense structural pass: **49,685 / 110,409** (phases 01–09). This is structural coverage only, not certified linguistic correctness.
+
+
+### Phase 09 continuation — exact-sense CEFR, presentation and relation checks
+
+- Complete exact-ID review queue: `content/dictionary/audit-20261112-phase09-flagged-records.json` (**2,873** senses: 459 unset, 2,414 C2). This is a source-review queue, **not 2,873 proven mistakes**.
+- All 14 bundled presentation shards `65`–`72` were independently compared by exact `lexeme_id/sense_id`, including canonical `meaningSha` for every existing row: **5,521 senses, 36 without supplementary presentation records, 0 stale hashes**. **3,122** senses have synonym presence, **110** have collocation presence across canonical + presentation layers. **2,399 / 5,411** have neither synonym / collocation in counted layers; absence can be linguistically valid.
+- Found **4,474 unscoped canonical synonym edges on polysemous entries**, which must **not** be attached to every sense. Presentation already separates `delectable` food/attraction senses and `flake` snow/odd-person/fragment senses, so preserve their curated targeting.
+- Confirmed editorial defect: `itself`, exact reflexive sense `a09f14e9-8dde-5753-974e-67540f06f258`, currently lacks CEFR and has presentation "synonyms" `myself/ourselves/themselves/yourself`. These are other-person/number reflexive pronouns, **not substitutable synonyms**. Cambridge documents reflexive `itself` as **A2**, while its emphatic use is **B1**, which must not be mixed: https://dictionary.cambridge.org/dictionary/english/itself.
+- The immutable-release candidate correction is staged in `content/dictionary/audit-20261112-phase09-reviewed-corrections.json`: propose reflexive `itself` CEFR A2 and remove the four false synonym edges from its presentation sense only. Existing canonical translation remains unchanged. **This proposal is not applied to the stable release**.
+- `startup` includes a sentence about "inauguration of fluoridation" which does not contain the headword. Queued for review without altering the original source.
+- `services/backend/tests/test_dictionary_audit_phase09.py` introduces four receipt/proposal assertions, added to the branch's focused CI workflow. **Tests must pass on GitHub Actions before describing this as a verified code change.**
+- Remaining: independent translation and CEFR review for **every** sense, confirmed target senses for synonym/antonym edges, attested sense-specific collocations, rebuilt immutable R2+presentation+reader candidate, cross-release integrity tests, and controlled publication. No deploy, no production mutation, no `main` merge.
+
+**Phase 09 status:** structural + presentation/meaning-hash integrity COMPLETE; independently certified linguistic correctness NOT COMPLETE.
+
+
+## Direct example correction workflow — 12 November 2026
+
+Editorial rule updated: **do not defer verified errors to a generic review queue**. Correct the individual frozen `lexeme_id/sense_id/example_id` record immediately in the versioned candidate correction layer, checking the original English and Uzbek text, grammar, target meaning and UI presentation. Preserve the stable R2 release unchanged until the completed 20-stage release gate. The existence of a CEFR-null value is **not** a defect: not every sense has evidence for a CEFR classification. Only assign a CEFR label when the referenced sense-specific level is substantiated; never downgrade all C2 entries automatically.
+
+The screenshot's `happy` example was located in R2 shard `9e`, lexeme `9eae6a37-2750-5469-9403-8073c95d0a24`, sense `9a8f14f5-ea1c-4af7-afa2-ebeb957a8903`:
+- Incorrect fragment: `spent many happy days on the beach` / `Sohilda ko'p baxtli kunlarni o'tkazdi.`
+- Corrected full example: `We spent many happy days on the beach.` / `Biz sohilda ko‘p baxtli kunlarni o‘tkazdik.`
+
+All **eight authored examples** spanning `happy`'s four source senses were repaired as complete, natural English sentences with aligned Uzbek translations. The `startup` sense `d7525883-85d3-4bd1-90f0-409545b4c051` received two corrected sentences; in particular, a semantically unrelated fluoridation/inauguration example was replaced with a genuinely relevant startup example.
+
+Implementation:
+- `services/backend/assets/dictionary/example_corrections.json` — exactly keyed bilingual replacements, expected original English and meaning SHA.
+- `services/backend/app/dictionary_presentation.py` — `corrected_examples()` applies only when release, lexeme, sense, canonical meaning SHA, and original example ID/text match. The original frozen R2 data remains untouched. Legitimate examples from unaffected senses continue unchanged.
+- `services/backend/tests/test_dictionary_reader_metadata.py` — correction count, exact content, release/sense/hash/source isolation and the formerly unrelated `startup` sentence.
+
+**Scope:** Ten concrete examples repaired in the versioned presentation path, not all 110,409 dictionary senses. These are code changes on the audit branch; they do not yet constitute a new published immutable R2 release. The expanded CI has not yet been reported successful. Continue correcting individual examples in place rather than only accumulating issue lists.
+
+
+### 9-bosqich — individual tuzatishlar, source audit va testlar
+
+- R2 release `rel-v1-1fa06d8d41d8ff701632573e`, tartib 44,165–49,685: **5,521 senses**, **4,095 source examples**. All 14 shard members read and checked. The example scan detected **3,938 missing terminal punctuation**, **2,913 lowercase starts**, **3,634 heuristic fragment candidates**, and **2,288 examples where a simple exact-lemma/form match was absent**. These heuristic classes overlap and **are not verified defect totals** (inflection, idioms and genuinely complete sentences require interpretation).
+- Added **33 more exact-example bilingual corrections** to `services/backend/assets/dictionary/example_corrections.json`, bringing the total to **43**, spanning `happy` and `startup` plus diverse Phase 09 senses: `hold fast`, `under the circumstances`, `countermand`, `overwrite`, `intrust`, `flake`, `hysterical`, `making`, `groove`, `leash`, `decry`, `nowadays`, `cake`, and `precede`. Corrections require exact matching `release_id`, `lexeme_id`, `sense_id`, `meaning_sha`, `example_id`, and original English text. The revised examples are complete English sentences paired with corresponding Uzbek sentences. Unchanged examples are preserved.
+- Three precisely referenced CEFR changes recorded in `content/dictionary/audit-20261112-phase09-reviewed-corrections.json`: `itself` reflexive `null → A2` (Cambridge); `nowadays` meaning "at the present time" `A2 → B1` (Cambridge); `cake` meaning sweet baked food `B1 → A1` (Cambridge). The separate `cake` meaning "block of a substance" is **not** changed. CEFR can remain `null` where no appropriate sense-level source grade exists. No blanket null fill or C2 downgrade.
+- `services/backend/assets/dictionary/sense_corrections.json` contains exact-sense suppression of **four non-interchangeable `itself` pronoun variants** from synonyms, and **five attested collocation phrases** applied to correct meanings: `delectable cheesecake`, `birthday cake`, `chocolate cake`, `countermand an order`, and `overwrite a file`. `dictionary_presentation.py` enforces frozen-release and `meaning_sha` matching. No changes to unrelated senses.
+- Added regression coverage for bilingual examples, source/meaning/release isolation and sense-specific semantic overrides. The workflow already includes this test file. **CI execution is still to be confirmed**.
+- **Production publication is blocked** until all 20 phases have completed source-backed linguistic validation and an immutable replacement release is built, indexed, checksum-checked and tested. The above is a real set of precise branch changes; it is **not evidence that all 5,521 meanings and all 4,095 example sentences are now linguistically correct**.
+
+**Status:** Phase 09 structural/presentation inventory complete. Full sense-by-sense linguistic correction **not yet complete**. Continue in-scope verified fixes without inventing missing synonyms, antonyms, collocations or CEFR values.
+
+
+### Phase 09 — final current-turn checkpoint, 12 November 2026
+
+The first source-backed set of 43 example repairs was extended with **190 conservative mechanical sentence repairs** (pronoun-led sentences with identifiable finite verbs and exact headword/form match). Final candidate correction total: **233**, comprising **225 in Phase 09** and **8 out-of-band `happy` examples**. Corrections that only change punctuation/casing preserve the complete original sentence and Uzbek meaning. They do not convert isolated phrases into artificial sentences.
+
+**Independent readback:** Re-fetched all 14 Phase 09 R2 shard objects and the out-of-band `9e` source shard; checked every editorial record against `lexeme_id`, `sense_id`, `example_id`, exact original English text and recomputed canonical meaning SHA-256. A typo in one original example UUID was caught and fixed before re-running. **233/233 exact matches; 0 failures**. Immutable original R2 objects were not overwritten.
+
+Exact-sense, source-backed CEFR candidate edits now number **4**: `itself` reflexive `null→A2`, `nowadays` `A2→B1`, `cake` food `B1→A1`, and `hysterical` uncontrolled emotion `C2→C1`. The historic psychiatric `hysterical` sense is left untouched. Each has a Cambridge citation in the JSON correction source; no blanket level assignment. These remain edits for a future verified immutable release, **not active R2 metadata changes**.
+
+The branch's `sense_corrections.json` and `dictionary_presentation.py` additionally suppress **four false reflexive-pronoun synonym edges** for `itself` and attach **five attested collocations** strictly to their correct source-sense hashes. All other relations and collocations remain unchanged.
+
+**Verification boundary:** Existing automated structural inventory covers 5,521 meanings, presentation `meaningSha` checks have 0 stale rows, and 233 exact edited examples passed independent R2 readback. This **does not** certify that all 4,095 source examples, 5,521 meaning translations, remaining CEFR labels and semantic relations are correct. The unverified language content must not be labeled "finished" merely because it parsed. Focused regression tests were committed but their GitHub Actions pass status was not confirmed. `main`, live release, and production channel remain untouched.
+
+Current-turn receipt: `content/dictionary/audit-20261112-phase09-correction-receipt.json`. No invented synonyms or antonyms and no mass downgrade.
+
+
+### Phase 09 — lexical-first pass (no example work)
+
+The owner requested **definitions and Uzbek translations, sense-specific CEFR, synonyms, antonyms and collocations before example sentences**. No example content was modified in this pass.
+
+Verified semantic delta for this pass, consolidating previously committed work and new corrections:
+- `services/backend/assets/dictionary/sense_corrections.json`: **12 lexemes / 18 senses** carrying exact-sense edits: **4 CEFR corrections**, **2 English definition corrections**, **2 Uzbek translation corrections**, **19 incorrect synonym links suppressed**, **1 exact-sense synonym added**, **9 exact-sense antonyms added**, **7 collocations added**.
+- `terzetto` was incorrectly defined and translated as the cardinal number three. Collins describes the word as a musical/vocal trio. The obsolete numeric synonym group is excluded; the `trio` composition sense `24087232-6200-4e00-98d9-3212c842bf3b` is linked. Source: https://www.collinsdictionary.com/dictionary/english/terzetto.
+- `actus reus` incorrectly carried a generic crime/misconduct definition. Cornell identifies it as the physical element of a criminal offence (an act or omission). The Uzbek rendering now specifies the criminal-law element. Generic `misconduct`, `wrongdoing` and `wrongful conduct` synonyms are excluded from this exact sense. Source: https://www.law.cornell.edu/wex/actus_reus.
+- Sense-specific opposites now include `decry/praise`, distinct `unilateral/bilateral` senses, and distinct `deflate/inflate` air/economics/importance senses. All nine distinct target `lexeme_id/sense_id` pairs were verified against frozen Supabase `dictionary_entries.sense_ids`.
+- `traineeship` with its financial-aid sense is **not** rewritten merely because it differs from the everyday training-period meaning; Collins attests the financial-grant sense. Source: https://www.collinsdictionary.com/dictionary/english/traineeship.
+- Added `services/backend/app/dictionary_sense_curation.py` to transform exact, hash-verified entry copies in memory for a future **immutable replacement candidate**. This helper never writes to Supabase, live R2, active release, or examples. `dictionary_presentation.py` now recognizes exact-sense curated synonym and antonym additions/removals; it preserves unrelated meanings.
+- The focused CI workflow was expanded to include `tests/test_dictionary_sense_curation_phase09.py` and new relation/meaning tests in `tests/test_dictionary_reader_metadata.py`.
+
+Receipt: `content/dictionary/audit-20261112-phase09-semantic-delta.json`.
+
+**Signoff:** Concrete corrections above are committed; examples intentionally deferred. Full linguistic correctness of all **5,521** Phase 09 senses and full CI green status remain unverified. Do not report Phase 09 as fully complete or publish any replacement release until these gates are satisfied.
+
+
+**Phase 09 lexical candidate dry-run:** Independently re-read all 12 amended source lexemes from R2 shards `65`–`68`, and verified all **18** original `meaningSha` values, all **4** prior CEFR values, **2** prior English definitions and **2** prior Uzbek translations. All matched; **0 source mismatches**. A separate, in-memory candidate simulation removed 15 canonical misleading synonym edges (the other 4 are presentation-only), added 10 exact relations (1 synonym, 9 antonyms), and attached 7 sense-specific collocations. **0 invalid relation or collocation source IDs**. Source sense counts and all examples were preserved. See `audit-20261112-phase09-semantic-delta.json`. No R2 writes.
+
+
+### Phase 09 — exact-sense translation/CEFR/relations continuation
+
+This pass prioritizes lexical quality over sentence examples. Examples were not edited. New source-backed facts:
+
+- `apprise` (inform someone) was mixed with `appreciate` (increase in value), and `apprize` contains the same misattributed value-increase senses. **Four exact incorrect senses** are excluded from an unpublished candidate copy, while all four valid inform/notify senses and their examples are kept unchanged. Cambridge and Collins confirm the inform meaning for both spellings. Some historical dictionaries attest the spelling `apprize` for *appraise* (estimate value), but that does not justify the distinct gloss *gain/increase in value*.
+- Each retained informing sense has source-backed `notify` and `inform` target sense IDs and the respective `apprise/apprize someone of something` collocation. All 4 excluded glosses matched frozen R2 SHA-256 identities.
+- Source scan found **8 incoming synonym relations** to the four excluded senses in the 14 Phase-09 R2 shards. Candidate curation now removes inbound references by the exact `target_lexeme_id/target_sense_id` pair, including when the source lexeme itself has no editorial changes. The remaining in-scope examples and senses are not altered.
+- `demonstrate` meaning showing/exhibiting something to an audience changed **B1 → C1**, exactly matching Cambridge's SHOW HOW level. Its SHOW/PROVE and PROTEST senses were left as they were.
+- The accumulated exact semantic candidate delta is **15 lexemes / 25 senses**, comprising **5 CEFR changes**, 2 corrected English definitions, 2 corrected Uzbek definitions, 2 corrected Uzbek translations, 19 removed incorrect synonym edges, 5 added synonyms, 9 added antonyms, 9 added collocations, and 4 candidate-only excluded misattributed senses.
+- Independently re-read source R2 shard objects `65/66/67/68/6b/71`: **25/25 meaning hashes matched**, original CEFR values 5/5, original definitions and translations matched, all 4 exclusions source-matched, and zero missing lexemes or mismatches. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+- Regression tests cover preserving source entries and all retained example objects, preventing stale-source deletion, and preserving legitimate relation targets when pruning removed sense references. A full green CI for the latest commit is required before promoting the candidate.
+
+**Publication stays blocked:** The all-senses lexical validation of 5,521 definitions/translations and all unscoped relations is still not independently complete. No release overwrite, merge, or production mutation.
+
+
+### Phase 09 — latest exact-sense lexical expansion
+
+Following the Cambridge-sourced `demonstrate` CEFR C1 correction, the **audible**, **appease** and **blurb** entries were verified at exact sense level. The frozen R2 readback completed across shards `65`, `66`, `67`, `68`, `69`, `6b`, and `71`, despite one transient and retried Cloudflare error.
+
+Current candidate editorial totals: **18 lexemes / 30 sense records; 5 CEFR corrections, 2 English and 2 Uzbek definition corrections, 2 Uzbek translation corrections, 4 source-misattributed senses excluded only in a future candidate, 19 incorrect synonym links suppressed, 8 correct synonyms added, 10 exact antonym links added, 15 attested collocations added**. All **30/30** source meaning hashes matched, all 11 source field values matched, and four excluded original glosses matched. No R2 write or example editing.
+
+In particular `audible` is linked to the matching `inaudible` adjective sense; `appease` senses link separately to `placate`, `pacify` (goodwill meaning, not the violence-suppression meaning), and `propitiate`; `blurb` has attested book-jacket collocations. The CI regression suite covers this separation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+
+**Phase 09 is still not linguistically signed off as complete:** 5,521 source senses have been mechanically audited, but independent source-backed review has not established that every remaining translation, CEFR, synonym, antonym and collocation is correct. The unresolved ambiguity of unscoped polysemous relations must not be fabricated into sense-specific links. Examples remain deferred.
+
+
+### Phase 09 — further lexical-first correction set
+
+Corrected the `beep` **car-horn** verb sense from C2 to Oxford's **C1** (the separate `beep a person via pager` sense remains **C2**). The exact car-horn sense now links to `honk` and `blare` with verified target `sense_id` values. In `abide`, the *tolerate* meaning links only to `tolerate`, while the archaic *live in a place* meaning links only to `dwell`. Source-backed phrases were attached to `beep`, `archway`, `alms`, `abide`, and `blurb`. Example sentences remain untouched in this pass.
+
+Current cumulative candidate delta: **22 lexemes / 35 individual sense patches, 6 CEFR updates, 2 English and 2 Uzbek definitions, 2 Uzbek translations, 4 misattributed senses excluded in candidate only, 19 excluded erroneous synonym links, 12 added sense-specific synonyms, 10 added antonyms, and 21 collocations**. All **35/35 original R2 meaning hashes**, six CEFR source values and six definition/translation source values matched in a read-only scan of nine source shards. No source mismatches, missing lexemes, or published changes.
+
+The **5,521 Phase 09 senses have not been certified semantically in full**; structural integrity and the exact edited subset are distinct from comprehensive translation, CEFR and relation validation. No example edits in this continuation. Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+
+
+### Phase 09 — targeted CEFR and relation repair, November 12, 2026
+
+On the frozen release `rel-v1-1fa06d8d41d8ff701632573e`, Cambridge Dictionary explicitly supports **C1** for `chatty` in its friendly/talkative and conversational senses, and **C1** for `bribe` as a noun meaning corrupt payment. Both `chatty` source sense IDs and the `bribe` source sense ID were C2. Exact-source candidate patches change only these three senses to C1; source `meaningSha` and old CEFR values matched independently in the immutable R2 objects (3/3). The correct `talkative` sense is linked only to the friendly adjective meaning. Attested `chatty letter`, `chatty style`, `accept a bribe` and `take a bribe` phrases are attached by `sense_id`. No example sentences were edited in this pass.
+
+Cumulative candidate changes: **24 lexemes / 38 sense-level patches, 9 source-backed CEFR updates, 2 EN definitions, 2 UZ definitions, 2 UZ translations, 4 misattributed candidate-only exclusions, 19 incorrect synonym links suppressed, 13 correct synonyms, 10 antonyms, 25 collocations**. R2 readback verified all **38/38** original meaning hashes, 9/9 CEFR originals, 2/2 each EN definition/UZ definition/UZ translation originals and 4/4 excluded source glosses; no missing lexemes or mismatches.
+
+**Unresolved:** this does **not** constitute a full independent source-level check of all 5,521 meanings, so Phase 09 semantic completion cannot be claimed. Leave the immutable release unchanged, keep PR #149 Draft, and do not touch examples until the lexical verification finishes.
+
+
+### Phase 09 — four further sense-exact Cambridge/Oxford corrections
+
+Prioritize verified lexical meaning over example edits. Four further CEFR source mismatches were independently confirmed in frozen release `rel-v1-1fa06d8d41d8ff701632573e`:
+- `baguette` (long, thin French stick loaf) **C2→B2**, Oxford Food classification, with exact-sense `fresh baguette`.
+- `caregiver` (responsible for a child or dependent adult) **C2→C1**, Oxford. Its separate medically focused sense stays C2; its separate ungraded sense remains **without a CEFR label**. `primary caregiver` and `family caregiver` attached to the care-responsibility sense.
+- `annoyance` (countable trouble-causing thing/person) **C2→C1** and clarified Uzbek as `bezovta qiladigan odam yoki narsa; boshog‘riq`, with the exact `nuisance` sense linked.
+- `annoyance` (uncountable irritation/annoyed emotion) **C2→C1** with exact `irritation` emotional sense linked. Three other `annoyance` senses were preserved unchanged.
+
+The four source `meaningSha` checks passed 4/4 and all four previous C2 labels matched R2. Added relations target Supabase-present `nuisance` and `irritation` sense UUIDs. The accumulated correction overlay now covers **27 lexemes / 42 exact senses**, **13 evidence-backed CEFR edits**, 3 translations, 15 sense-specific synonym additions, 10 antonym additions and 32 collocations. The previously verified 38 hashes plus four new hashes give **42 verified source hashes**, not 5,521 linguistically reviewed senses. No example text was modified in this continuation; production R2 remains untouched.
+
+Evidence: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`. Publication remains blocked pending complete sense-by-sense linguistic audit and all 20 phases.
+
+
+### Phase 09 lexical continuation — four further exact-lexeme corrections
+
+The owner prioritizes sense-accurate Uzbek translations, CEFR, synonym/antonym links and collocations before any further example edits.
+
+**Oxford source-backed changes:** `brilliance` mental ability and magnificent/impressive quality both **C2→C1** (Oxford 5000 C1); the separate bright-light sense retains its existing C1. The edible-fruit sense of `blackberry` **C2→C1** using Oxford's explicit `Food c1` topical sense label. The page also displays the broader Oxford 3000 B1 word-list level; these levels differ, and the editorial correction deliberately prioritizes the **sense-specific** marker. The botanical blackberry-bush sense is unchanged.
+
+**Meaning-specific relations:** `brilliance` now links *genius* to the unusual-mental-ability sense and *glare/blaze* solely to the dazzling-light sense, each with frozen `target_lexeme_id/target_sense_id` validated against R2 and Supabase. `brim` links *rim/lip* only to the container-edge sense. `full to the brim` / `fill something to the brim` apply to containers; `wide brim` / `beneath the brim` apply to hats. `burrow into the soil` and `burrow under the fence` apply to digging, without altering any CEFR grade. All cited collocations occur in the Oxford Learner's Dictionary entries.
+
+The cumulative unpublished candidate overlay now covers **31 lexemes / 49 exact source senses**, with **16 CEFR updates**, two English definitions, two Uzbek definitions, three Uzbek translations, four candidate-only exclusions of demonstrably misattributed senses, 19 bad synonym links suppressed, 20 exact-sense synonyms added, 10 antonyms and 42 collocations. Independent read-only revalidation across all 14 Phase-09 R2 shards found **49/49 meaning hashes**, **16/16 original CEFR values**, all 7 original definition/translation values and all four excluded source glosses matching. Every referenced target sense ID in this continuation exists in the frozen Supabase registry. No source or production R2 objects were mutated, no example text was changed, and no merge was performed.
+
+**Important boundary:** the complete 5,521-sense Phase-09 linguistic audit is *not* finished. These are verified targeted edits, not evidence that the remaining translations, CEFR tags or 7,983 ambiguous unscoped polysemous relations have been reviewed. Continue source-backed, identity-guarded corrections, never mass-populate missing CEFR or guess semantic targets. Receipt: `content/dictionary/audit-20261112-phase09-semantic-continuation.json`.
+
+
+### Phase 09 — source attribution removed from dictionary content
+
+At the owner's request, **publisher names, brand names used for source attribution, citations and source URLs must never appear in user-visible dictionary meanings, synonyms, antonyms, collocations or CEFR labels**.
+
+- Removed **100 source URLs** and **12 internal sense-alignment annotations** from `services/backend/assets/dictionary/sense_corrections.json`. The original source records are preserved under `content/dictionary/audit-20261112-phase09-source-evidence.json` for internal validation only and are not sent to the public dictionary API.
+- `dictionary_sense_curation.py` no longer depends on source URLs being present inside dictionary patches: exclusions remain guarded by frozen source `meaning_sha`, source definition text, and a concrete non-public reason.
+- `dictionary_presentation.corrected_sense_presentation()` now uses a strict display-field allowlist. Synonyms and antonyms return only word text and exact lexeme/sense IDs; collocations return only phrase text. Source metadata is dropped even if someone accidentally inserts it into a future patch.
+- Regression tests verify that the dictionary correction JSON, in-memory candidate and public presentation contain no source URLs or publisher attribution. A malicious/future source-metadata injection is also explicitly tested. These tests do not remove genuine proper nouns that happen to be legitimate dictionary headwords.
+- **No example sentence revisions, no production R2 changes, no main merge.** Previous targeted linguistic QA remains in place. Structural Phase 09 signoff does not establish independent linguistic correctness for all 5,521 senses.
+
+
+
+### Phase 09 — November 13 targeted lexical continuation (unpublished)
+
+Four further Phase-09 sense identities were aligned to public learner-dictionary meaning/CEFR evidence without changing any example sentence or an unrelated meaning:
+
+- `casino` (gambling venue, not the different card-game sense): C2 → C1. [Evidence](https://www.oxfordlearnersdictionaries.com/definition/english/casino).
+- `clash` (conflict between people, not a clash of colours/noise): C2 → C1; exact-sense collocation `a personality clash`. [Evidence](https://www.oxfordlearnersdictionaries.com/definition/english/clash_1).
+- `circuit` (electrical path, not a racing circuit): missing CEFR → B2, backed by the explicit Engineering B2 sense; `electrical circuit`, `circuit diagram` added only to that meaning. This is a source-verified individual null fill, **not** a policy to assign CEFR to every ungraded sense. [Evidence](https://www.oxfordlearnersdictionaries.com/definition/english/circuit).
+- `dinnertime` (usual evening meal time): C2 → B2 and `before dinnertime` collocation. [Evidence](https://www.collinsdictionary.com/dictionary/english/dinnertime).
+
+The four meaning identities and prior labels are matched to the previously recorded, frozen Phase-09 flagged source snapshot; checks in `test_dictionary_sense_curation_phase09.py` also assert the exact original meaning hashes and preservation of all other meanings, translations, examples and relations. Four CEFR patches and four collocations are included in the candidate correction layer. Source URLs are stored **only** in `audit-20261112-phase09-source-evidence.json`, not in public dictionary content.
+
+**Verification boundary:** the existing `audit-20261112-phase09-semantic-continuation.json` readback receipt continues to describe the earlier **31 lexemes / 49 senses**, each independently rechecked against R2. The four new patches bring the candidate to **35 lexemes / 53 senses**, **20 CEFR edits**, and **46 added collocations**, but the four newest identities have **not** been independently re-read from immutable R2 in this continuation. The complete 5,521-sense linguistic verification is not yet complete. Do not publish to production or merge to main.
+
+
+### Phase 09 — first 200 lexemes, read-only R2 lexical continuation (November 13)
+
+Exact lexeme range: `6568847e-1b29-5ff7-b104-60393188df8e` through `662fd442-a929-56d2-a5c6-2a7999ee10b1` (inclusive), sorted by lexeme UUID, covering **200 lexemes and 353 senses**, 150 source entries from shard 65 and 50 from shard 66. Every source gzip member was read by its immutable Supabase offset and decoded, and **353 original SHA-256 meaning identities were computed**. Receipt: `content/dictionary/audit-20261113-phase09-first-200-lexemes.json`.
+
+Evidence-backed corrections in this batch (applied immediately to the candidate and guarded by original `meaning_sha`):
+- `hello` greeting noun: C2 → A1; `say hello` and `a big hello` collocations.
+- `margin of error`: replaces the incorrectly imported safety-margin English gloss, Uzbek gloss and translation with calculation/statistical error meaning; B1 → C2; suppresses exactly two inappropriate synonyms; adds two attested phrases.
+- `diner`: people eating and small roadside restaurant senses each C2 → C1; the separate railway dining-car meaning stays unchanged; adds `a roadside diner`.
+- `startup` (new company only): ungraded → C1; the other two start-operation senses keep their labels; adds `an Internet startup`.
+- `hame`: removes corrupted foreign characters and replaces broken Uzbek translation with the proper horse-harness term.
+- `zakat`: corrects the English/Uzbek definitions to specify obligatory almsgiving as an Islamic pillar; no unsupported CEFR overwrite.
+- `chatterbox` (talkative person): removes the erroneous implication that all chatterboxes are foolish; corrects English/Uzbek definitions and Uzbek translation. The separate botanical homonym remains intact.
+
+This batch adds **8 exact-sense correction records**, **5 CEFR replacements**, **6 collocations** and 21 audit-only source evidence links. Publisher references stay out of dictionary-facing correction data. All source examples and other meanings remain unchanged.
+
+**Scope gate:** R2 completeness/identity is verified for all 200 entries, but this is **not a claim of independent external linguistic confirmation for every one of the 353 senses**; unspecified CEFR grades are not automatically populated, unscoped polysemous relations are not guessed. The 20-phase audit, candidate publication, production R2 changes, and main merge remain blocked.
+
+
+### Phase 09 — next 500 lexemes (201–700), November 13 (unpublished)
+
+The exact immutable-source batch runs from `662fec4a-afb8-563b-a494-c093c80b5ad6` (conscious) through `6822c2c2-41d6-508c-9d04-d3397fcbd406` (tears), inclusive. Cloudflare R2 source entries were decoded by each stored Supabase offset/length: **500/500 lexemes**, **822/822 senses**, shards 66 (204 entries), 67 (248), 68 (48). Each sense's canonical original meaning SHA-256 was recomputed. Existing labels include **66 unset**, **355 C2**, and **1,076 unscoped lexical relation edges**. Evidence is preserved in `content/dictionary/audit-20261113-phase09-next-500-lexemes.json`.
+
+Confirmed exact-sense editorial corrections:
+- `sneaker` sports shoe B2 → A2; one sneaker collocation. The separate informal informant sense is untouched.
+- `sportsmanship` C2 → C1, fairness/respect definition and one attested collocation.
+- `manga` removes the incorrect claim that the Japanese graphic form is usually only for adults.
+- `compiler` corrects its outdated definition: compilation targets are not limited to an assembly-language program.
+- `kilogram` C1 → A2, matching the explicitly graded 1,000-gram noun.
+- `landowner` C2 → C1, with two independently attested collocations.
+- `alright` clarifies its non-standard spelling and actual satisfactory/well meaning (CEFR A2 preserved).
+- `present perfect tense` clarifies the have/has + past-participle construction and present relevance (CEFR B1 preserved).
+- `tsunami` fixes the false equation of a wave phenomenon with the resulting catastrophe; adopts the source-verified series-of-waves definition.
+
+**9 senses edited**, 4 CEFR changes and 4 phrases added; 20 field-level references preserved only in the private audit evidence. No brand/publisher labels, citations, or source URLs enter dictionary-facing corrections. No example sentences changed. This readback and automated source-structure verification **do not certify** full independent translation/CEFR/synonym accuracy of all 822 senses; missing CEFR values remain unset unless independently substantiated. Unscoped relations were not guessed or auto-attached to meanings. No production R2 publication and no merge to main.
+
+
+### Phase 09 — next 500 lexemes (701–1200), November 13 (unpublished)
+
+The exact immutable-source range is `6823fe72-835e-5119-8853-51e24d1e683d` (`studious`) through `6a1ec259-771a-5642-beef-848917b610d4` (`Lipitor`), inclusive. Every 500 immutable gzip member was decoded and matched against Supabase storage offsets and exact source lexeme/sense identities, covering **819 senses**, shard `68` (219 entries), `69` (247), `6a` (34). All 819 English meaning hashes are recorded in `content/dictionary/audit-20261113-phase09-third-500-lexemes.json`. The source includes 60 unset CEFR, 346 C2 labels, 1,122 ambiguous unscoped lexical relations; no empty Uzbek definitions or translations.
+
+Independently verified exact-sense repairs:
+- `Thursday` weekday: B2 → A1.
+- `airplane` aircraft: B1 → A1.
+- `secretary` clerical role: B1 → A2; government department head: A2 → B2; separate meanings unchanged.
+- `etiquette`: both independent but semantically overlapping etiquette definitions C2 → B2 and unset → B2.
+- `log in`: B1 → B2, clarifies authenticating to an account or computer system rather than merely entering a physical computer.
+- `pediatrician`: English/Uzbek definitions and Uzbek translation broaden corrected from infants only to children including babies; preserves otherwise unverified CEFR.
+- `light bulb`: updates dated incandescent-filament-only English/Uzbek definitions to include LED bulbs; preserves otherwise unverified CEFR.
+- Added two exact-sense collocations for `Thursday` and `airplane`.
+
+**9 exact senses, 7 CEFR changes, 2 collocations**, and 16 field-specific audit-only source references. Existing `circuit` edits are retained untouched, even though this entry falls within the current 500-source range.
+
+No attribution brands, publisher URLs or evidence citations are written to the public dictionary correction JSON. No existing examples, other unrelated senses, published R2 shards, or production Supabase tables are changed. Complete external linguistic certification of every 819 senses remains **unverified**: keep 60 unspecified CEFR values unchanged unless grounded; do not invent links for 1,122 unscoped source relations. No main merge or production release.
+
+
+### Phase 09 — next 500 lexemes (1201–1700), November 13 (candidate-only)
+
+Immutable source interval `6a218520-9c74-5549-a2ca-a4548d06f32b` (`conjunctive`) through `6c38da6c-1d2d-57b3-bdb4-38fa1a8a4c1c` (`fibrillation`). All **500 entries** and **890 senses** were loaded from Cloudflare R2 using release-scoped Supabase offsets and gzip members, across shards `6a` (221 lexemes), `6b` (231), and `6c` (48). The complete 500-record source evidence is versioned at `content/dictionary/audit-20261113-phase09-fourth-500-lexemes.json`. All original `meaning_sha` values are recorded. The read-only source contains **82 unlabeled CEFR senses**, **397 originally graded C2**, **1,245 original synonym/antonym edges without a source-sense identity**, and no completely empty Uzbek definitions or translation arrays.
+
+Verified, exact-sense edits applied in the unpublished correction layer:
+- `committee` (selected decision-making group) A2 → B2, plus `committee meeting`.
+- `tonight` (noun) A2 → A1.
+- `pricey` (expensive, informal) C2 → B2, plus `a bit pricey`.
+- `kebab` (meat and vegetables on a skewer) C1 → B2, plus `shish kebab`.
+- `sequel` (continuation of a published or performed story) C2 → C1, updated English and Uzbek definitions and translation to cover films and series; `sequel to a film`.
+- `saying` (common maxim/idiom) A1 → B1, aligned English and Uzbek definitions and translation, plus `as the saying goes`.
+- `orphan` (child whose parents are dead) B2 → C1, plus `orphan child`.
+- `napkin` (table napkin only) B2 → C1, definitions now cover cloth *or paper*, plus `table napkin`; baby nappy meaning left unchanged.
+- `e-mail` (verb) B2 → A2, aligned English/Uzbek definition and `email a report` phrase.
+- `bubble` (air or gas bubble) English/Uzbek definitions improved, two attested collocations; existing CEFR retained.
+- `invoice` (verb) English/Uzbek definition now specifies bills for goods/services provided, plus `invoice a customer`; existing CEFR retained.
+
+**11 exact-sense records edited**, 9 CEFR edits, 12 English/Uzbek definition field edits, 2 Uzbek translation edits, 11 phrase additions, 34 audit-only evidence references. Brand/source names and links stay exclusively in the private audit provenance, never in public dictionary corrections. Existing examples and unrelated senses remain untouched. Pending full external linguistic verification of all 890 senses and safe review of 1,245 unscoped edges. The working branch is **not** a production release; no R2 or Supabase mutations, no main merge.
+
+
+## 2026-11-13 — Work rejimida dalillarni tiklash va davom ettirish
+
+Davom ettirish bazasi: `05ddbd5eff511001a9c89a0742654d1f37f25133`. GitHub Actions `43354734782` logi va yangi alohida ishchi nusxadagi boshlang‘ich tekshiruv bir xil natija berdi: **148 passed, 1 warning, 0 failed**. Bu til mazmunining to‘liq tasdig‘i emas.
+
+1–8 bosqichning dastlabki receiptlari, ularni yaratgan commitlar va fayl SHA-256 qiymatlari `content/dictionary/audit-20261113-20-phase-recovery.json` da qayd etildi. 1–9 bosqich bo‘yicha **49 685 ma’no strukturaviy tekshirilgan**. Hech bir bosqichning barcha ma’nolari uchun barcha talab etilgan til maydonlarini tasdiqlaydigan dalil mavjud emas. Shuning uchun to‘liq tugagan lingvistik bosqichlar soni **0**; to‘liq tasdiqlangan ma’nolarning tarixiy umumiy soni **aniqlanmagan**, nol deb taxmin qilinmaydi.
+
+| Bosqich | Ma’no oralig‘i | Ma’nolar | Tasdiqlangan holat |
+| --- | --- | ---: | --- |
+| 01 | 1–5521 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 02 | 5522–11041 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 03 | 11042–16562 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 04 | 16563–22082 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 05 | 22083–27603 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 06 | 27604–33123 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 07 | 33124–38644 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 08 | 38645–44164 | 5520 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 09 | 44165–49685 | 5521 | Struktura qayd etilgan; to‘liq lingvistik audit tugamagan |
+| 10 | 49686–55205 | 5520 | Boshlanmagan |
+| 11 | 55206–60725 | 5520 | Boshlanmagan |
+| 12 | 60726–66246 | 5521 | Boshlanmagan |
+| 13 | 66247–71766 | 5520 | Boshlanmagan |
+| 14 | 71767–77287 | 5521 | Boshlanmagan |
+| 15 | 77288–82807 | 5520 | Boshlanmagan |
+| 16 | 82808–88328 | 5521 | Boshlanmagan |
+| 17 | 88329–93848 | 5520 | Boshlanmagan |
+| 18 | 93849–99369 | 5521 | Boshlanmagan |
+| 19 | 99370–104889 | 5520 | Boshlanmagan |
+| 20 | 104890–110409 | 5520 | Boshlanmagan |
+
+Oldingi 1 700 leksemaning readbacki qayta sanalmadi. Keyingi guruh — **1 701–1 730**, `mottle` → `hum`: **30 leksema / 48 ma’no**. Har bir to‘liq entry content SHA, ma’no SHA, barcha sense IDlar va Supabase offset/length qiymatlari asl R2 baytlari bilan tekshirildi. Bundan tashqari bog‘lanish nishonlari sifatidagi **58 leksema** 52 shardan o‘qildi; ular ketma-ket 30 leksema yoki 48 ma’no hisobiga qo‘shilmadi. Receipt: `content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json`.
+
+**58 mavjud synonym va 1 mavjud antonym bog‘lanishi** aniq source sense ID bilan bog‘landi. Synonymlarda manba va nishonning aynan bir xil asl ta’rifi yagona ma’noga mos kelishi tekshirildi; antonymda `breathing` va `breathless`ning qarama-qarshi ma’nolari tekshirildi. Bu nishon ID yaxlitligi va ma’no bo‘yicha bog‘lash dalilidir; barcha bog‘lanishlarning mustaqil tashqi lingvistik tasdig‘i tugadi degani emas. Noaniq nishon taxminan ulanmagan. Candidate kodiga mavjud qirrani **ikkala target ID** va dastlabki matn/POS bo‘yicha tekshirib source ID bilan bog‘lash operatsiyasi qo‘shildi; yo‘qolgan, takrorlangan yoki boshqa ma’noga bog‘langan qirra xato bilan to‘xtaydi.
+
+Yangi dalilli tuzatishlar: `fermion` tarjimasidagi faqat elementar zarraga cheklash olib tashlandi; AQSh suyuq `quart` C1→C2; quruq `quart` ta’rifida quruq pint va taxminiy litr aniqlandi; `introduction`ning ikki yangilikni joriy etish ma’nosi B2ga moslandi; mavhum `price` ma’nosi C1 va “badal” tarjimasi bilan aniqlashtirildi; tovush ma’nosidagi `hum`ga 3 attested collocation qo‘shildi. Manba URL va nomlari faqat audit receiptida.
+
+`abide`ning avvalgi 2 synonym/collocation tuzatishi yangi tuzatish hisobiga qo‘shilmadi. Misol gaplarga tegilmagan. **Yangi 48 ma’noning barcha til maydonlari to‘liq tasdiqlanmagan; 9-bosqich tugamagan.**
+
+Branch commitlari avtomatik preview deploy yaratmasligi uchun `vercel.json`da faqat `fix/dictionary-audit-phase-01-20261112` branchi uchun avtomatik deployment o‘chirildi. Boshqa branchlarning sozlamasi o‘zgarmaydi. GitHub dictionary testlari yangi audit testlarini ham qamraydi. `main`, production DB, R2, release va kanalga yozilmagan; merge ruxsati faqat barcha ishlar yakunlangach so‘raladi.
+
+Yakuniy mahalliy tekshiruv: **174 passed / 0 failed / 0 skipped / 1 warning**, backend compile PASS, diff check PASS. Qo‘shimcha owner-dictionary tekshiruvida eski “345 route” assertioni dastlab FAIL bo‘ldi; asl 345 route va keyin qo‘shilgan 59 route uchun aniq snapshot birlashmasi bilan to‘g‘rilandi. Hech bir route olib tashlanmadi, test skip qilinmadi. Yangi commitning masofaviy CI natijasi hali kelmagan.
+
+Masofaviy tekshiruv ham tasdiqlandi: `8d163ef2782e8443155cad73520091a976493923`, GitHub Actions `43357646899`, **174 passed / 0 failed / 0 skipped / 1 warning**, compile PASS. Vercel API ushbu commit uchun **0 deployment** qaytardi. Dalil: `content/dictionary/audit-20261113-validation-8d163ef.json`.
+
+### Dictionary ko‘rinishi va ma’no bilan saqlash regressiyasi
+
+Umumiy dictionary panelida attribution matni ko‘rinayotgan edi; ekrandagi shu blok olib tashlandi. Ownerning custom/upstream tahrirlash belgisi saqlanadi. Tekshiruvga maxsus kiritilgan manba nomlari va URL DOMda ko‘rinmaydi.
+
+Collocation saqlashda mavjud bo‘lmagan target sense ID yoki ma’nosi ko‘rsatilmagan ko‘p ma’noli nishon avval birinchi/primary ma’noga avtomatik ulanardi. Endi aniq mavjud sense ID saqlanadi; xato sense ID bilan operatsiya xato beradi; ma’nosi noaniq ko‘p ma’noli ibora mavjud manual-phrase yo‘li orqali saqlanadi, lug‘atning tasodifiy ma’nosiga biriktirilmaydi. Yagona ma’noli nishon uchun xavfsiz bir ma’noli yo‘l saqlangan.
+
+DOM interaction regressiyalari: **20 passed / 0 failed / 0 skipped**. Bu synthetic transport sinovlari; production brauzer QA deb hisoblanmaydi. Manba matnlari yoki misol gaplar tahrirlanmagan.
+
+Native asset build PASS (1 008 fayl), JavaScript parse PASS, diff check PASS. UI tuzatishlari yangi audit qilingan leksema yoki ma’no soniga qo‘shilmadi. Dalil: `content/dictionary/audit-20261113-ui-meaning-boundaries.json`.
+
+### Ma’nolar bo‘yicha alohida til maydonlari qarorlari
+
+`mottle` va `quart`ning **4 ma’nosi uchun 28 ta alohida maydon qarori** yozildi: English ta’rif, Uzbek ta’rif, tarjima, CEFR, synonym, antonym va collocation. Har birida dastlabki va candidate qiymat, manba havolasi va sabab bor. O‘zbekcha semantik tekshiruv editorial deb ochiq belgilandi; bilingual lug‘at buni mustaqil tasdiqladi degan da’vo yo‘q. Bu **yangi source readback emas** va 1 730 leksema hisobiga qayta qo‘shilmaydi.
+
+`mottle` noun va AQSh quruq `quart` ma’nosi uchun tekshirilgan manbalarda ishonchli CEFR dalili bo‘lmagani sabab daraja null qilindi. Suyuqlik quarti haqidagi C2 boshqa hajmga avtomatik ko‘chirilmagan. Britaniya imperial quarti ta’rifida yaxlitlangan litr “taxminan” deb aniqlandi. Qolgan tekshirilmagan CEFRlar ommaviy o‘zgartirilmagan. Leksema, source ma’no ID va meaning_sha saqlangan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1701-1702.json`. Ushbu guruhda ham misol gaplar keyingi bosqichga qoldirilgan; **butun 9-bosqich yoki butun lug‘at tugamagan**. Yangi mahalliy backend gate: **176 passed / 0 failed / 0 skipped / 1 warning**.
+
+Avvalgi UI commit `86be7f1c1cd5402945335c3cc5cff5db516129f8` uchun GitHub Actions `43358661596`: backend va browser-dictionary joblari SUCCESS. Dalil: `content/dictionary/audit-20261113-validation-86be7f1c.json`.
+
+### 1 703–1 709-leksemalar — keyingi yetti maydonli qarorlar
+
+`stomatal` → `lepidoptery`: **7 leksema / 7 ma’no / 49 maydon qarori**. Dastlabki ikki leksema bilan jami **9 leksema / 11 ma’no / 77 qaror** hujjatlashtirildi. Bu source readback sonini oshirmaydi; ketma-ket source hisob hali **1 730 leksema / 2 932 ma’no**. Yangi mustaqil Uzbek bilingual sertifikati deb da’vo qilinmaydi.
+
+`stomatal`, `surtout`, `unsmooth` uchun tasdiqsiz C2 boshqa daraja bilan taxminan almashtirilmay, null qilindi. `way of life` B1 va `batik` mato ma’nosi C2 aniq dalil bilan saqlandi; avval null bo‘lgan ikki texnik ma’no null qoldi. Stomatal Uzbek ta’rifi faqat bargga asossiz cheklashdan tozalandi; xemosorbsiya ta’rifi kimyoviy bog‘ hosil bo‘lishi orqali aniqlandi; batik tarjimasi turli mum-naqsh usullarini qamrab oladi. 3 collocation dalil bilan qo‘shildi.
+
+`unsmooth` uchun yangi antonym: `smooth` (`0faf5d86-48f5-5881-8903-41e494caa336` / `0ca93477-2e12-4db3-a65f-245bb18cf933`). Uning aynan sirt ma’nosi qo‘shimcha R2 readback, content SHA va barcha source sense IDlar bilan tekshirildi; boshqa 7 smooth ma’nosi ulanmagan. `astomatal` yoki `lepidopterology` uchun nishon ID topilmagani sabab hech qanday UUID to‘qib kiritilmagan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1703-1709.json`. Mahalliy backend: **179 passed / 0 failed / 0 skipped / 1 warning**. Ushbu davom ettirishda misol gaplar tekshiruvi boshlanmagan; 9-bosqich va 20 bosqichlik umumiy audit ochiq.
+
+### 1 710-leksema — abide ikki ma’nosi va bog‘langan ibora grammatikasi
+
+`abide`: **2 ma’no / 14 maydon qarori**. Dastlabki yangi guruh bo‘yicha jami **10 leksema / 13 ma’no / 91 alohida qaror** hujjatlashtirildi. “Chidamoq” ma’nosidagi C2 dalil bilan saqlandi; eski/kitobiy “yashamoq yoki qolmoq” ma’nosidagi tasdiqsiz C2 null qilindi va qo‘llanish ta’rifda aniqlandi. Ikki avvalgi collocationdagi umumiy placeholderlar manbada attested birikmalar bilan almashtirildi.
+
+Yashash ma’nosining antonymi `depart`ning faqat ketish/tark etish ma’nosiga ulandi (`5905ac40-ea16-55df-89e7-75dd578b9046` / `2b083025-bfe2-4aa3-836d-9927e8ff28e5`). `depart` va `dwell`ning asl R2 yozuvlari alohida o‘qilib, target ma’no tanlovi SHA/ID dalillari bilan tekshirildi. Bu target readbacklari ketma-ket source hisobga qo‘shilmagan.
+
+Bog‘langan `put up`ning faqat chidash ma’nosi (`4a632a8d-26ed-5eb1-8ba5-bf0e8339a391` / `36029630-eefa-5ffd-b795-f90251acef50`) bu ma’noda **put up with** shaklida ishlatilishi bilan aniqlashtirildi; aynan shu usage B2 ekaniga dalil bor. Boshqa put up ma’nolari o‘zgarmagan; lemma yoki ID qayta nomlanmagan. Bu alohida target surgical tuzatishi, to‘liq yetti maydonli yangi source audit sifatida sanalmaydi.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1710.json`. Mahalliy backend: **181 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar o‘zgarmagan.
+
+Avvalgi `9fee9ae0e72b68f5d1df24602c73255a7c60f923` uchun GitHub Actions `43360491308`: **179 backend + 20 DOM testi PASS**, 0 fail/skip; Vercel shu commit uchun 0 deployment qaytardi. Dalil: `content/dictionary/audit-20261113-validation-9fee9ae0.json`.
+
+### Tasdiqlangan davom ettirish checkpointi
+
+`973c0af1a83c40fa88b5a805ccfc26d4232afd97` uchun GitHub Actions `43361620298`: **181 backend testi + 20 DOM interaction testi PASS**, 0 failed / 0 skipped, 1 backend ogohlantirishi; compile PASS. Vercel API aynan shu SHA uchun **0 deployment** qaytardi. Dalil: `content/dictionary/audit-20261113-validation-973c0af1.json`.
+
+Joriy holat: 1 730 ketma-ket source leksema / 2 932 source ma’no; ushbu davom ettirishning alohida til maydonlari hujjatlarida 10 leksema / 13 ma’no / 91 qaror. **To‘liq tugagan bosqich — 0/20.** Oldingi branchdagi 233 example correction yozuvi saqlangan; ushbu davom ettirishda ularga yangi tahrir kiritilmagan. Keyingi lexical ma’no — `arles` (1 711-leksema); joriy 30 talik source guruhining yana 20 leksema / 35 ma’nosi bo‘yicha barcha maydon qarorlari hali yozilmagan. Keyin oldingi bosqichlarning tugamagan lingvistik qamrovi ham yopilishi kerak.
+
+
+### 1 711–1 717-leksemalar — dalilli darajalar va atamalar
+
+`arles`, `nanotechnology`, `distortable`, `thermodynamics`, `boustrophedon`, `mental condition`, `fermion`: **7 leksema / 7 ma’no / 49 maydon qarori**. Ushbu davom ettirishdagi batafsil qamrov endi **17 leksema / 20 ma’no / 140 qaror**. Yangi source readback hisobiga 0 qo‘shildi; avval tekshirilgan immutable entrylar ishlatildi.
+
+`nanotechnology` C2 → C1: aynan noun C1 bo‘lgan birlamchi topic-list dalili bor; qo‘shni `nanotechnological` adjective C2 ko‘chirilmagan. Ta’rif 1–100 nanometrning taxminiy diapazoni va shu o‘lchamga xos xossalardan foydalanishni ifodalaydi. `arles`, `thermodynamics`, `boustrophedon`, `mental condition`, `fermion`ning tasdiqlanmagan darajalari null qilindi; `distortable`ning null qiymati saqlandi.
+
+Scottish `arles`ning zakalat ma’nosi, termodinamikaning issiqlik/ish mazmuni va `mental condition`ning kasallik bilan cheklanmagan ruhiy holat ta’rifi aniqlandi. `distortable` tarjimasi sifat shakliga keltirildi. Fermionning oldingi elementar-only tuzatishi yangi tarjima tuzatishi deb qayta sanalmadi. `the laws of thermodynamics` faqat aniq termodinamika ma’nosiga ulandi. Mavjud uchta `mental condition` sinonimining source/target sense IDlari saqlandi.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1711-1717.json`. Mahalliy backend: **182 passed / 0 failed / 0 skipped / 1 warning**. Testlar skip qilinmagan. API va frontend kodi bu guruhda o‘zgarmagan; yangi live brauzer QA da’vosi yo‘q. Misollar keyinga qoldirilgan, to‘liq bosqichlar **0/20**. Keyingi ma’no `crossfire` (1 718); joriy 30 talik guruhdan **13 leksema / 28 ma’no**ning to‘liq yetti maydonli qarorlari hali yakunlanmagan.
+
+
+### 1 718–1 719-leksemalar — crossfire va introduction ma’nolari
+
+**2 leksema / 9 ma’no / 63 maydon qarori**. Jami yangi batafsil qamrov: **19 leksema / 29 ma’no / 203 qaror**. `crossfire`ning fikr almashish va kesishuvchi o‘t ochish ma’nolarida tasdiqsiz C2 null qilindi; literal tarjima aniqlandi. Ikkalasiga ma’noga mos, alohida dalilli collocation qo‘shildi.
+
+`introduction`ning 7 ma’nosi alohida tekshirildi. Dalilli beshta B2 saqlandi, shu jumladan avvalgi ikkita tuzatish qayta sanalmadi. Yangi taklifning o‘zi va fizik ichiga kiritish ma’nolarining ishonchsiz CEFRlari null qilindi; taklif ma’nosining UZ ta’rifi harakatni emas, taklifning o‘zini ifodalaydi. Beshta collocation aynan tegishli ma’noga ulandi. `introduction` → `conclusion` antonimi faqat birinchi/yakuniy matn qismi ma’nolariga bog‘landi. Nishonning barcha 9 ma’nosi original R2/Supabase orqali o‘qilib, butun shard/content SHA va member offsetlari tasdiqlandi; fikriy xulosa yoki vaqt yakuni ma’nolariga ulanmagan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1718-1719.json`. Mahalliy backend: **184 passed / 0 failed / 0 skipped / 1 warning**. Ma’no chegaralari uchun eski assertion haqiqiy candidate qiymatlariga mos yangilandi; skip qo‘shilmadi. Misollar o‘zgarmagan. Hali **0/20** bosqich to‘liq tugagan; joriy guruhning qolgan **11 leksema / 19 ma’nosi** `airspeed`dan boshlanadi.
+
+Avvalgi `e0632e284421aeb2bb96b91ad8999ad55e3ea633` uchun GitHub Actions `43363547286`: **182 backend + 20 DOM testi PASS**, 0 failed/skip, compile PASS. Vercel aynan shu SHA uchun 0 deployment qaytardi. Dalil: `content/dictionary/audit-20261113-validation-e0632e28.json`.
+
+
+### 1 720–1 726-leksemalar — aviatsiya, musiqa va aniq terminlar
+
+**7 leksema / 8 ma’no / 56 maydon qarori**: `airspeed`, `bird’s-eye`, `quaver` ikki ma’nosi, `aforementioned`, `preliminary prospectus`, `acerola`, `breathing`. Jami batafsil qamrov **26 leksema / 37 ma’no / 259 qaror**; yangi source readback 0.
+
+`airspeed` C2 → B2 — aynan havo tezligi noun uchun birlamchi dalil bor; UZ havo kemasini faqat samolyot bilan cheklamaydi. `quaver`ning musiqiy nota ma’nosida dalilli C2 saqlandi, titroq tovush ma’nosida null qilindi; Britaniya usage aniqlandi. Qolgan besh leksemaning ishonchsiz darajalari null qilindi. `aforementioned`dagi rasmiy sifat ma’nosi va `breathing`ning odatdagidek nafas olayotgan/ola oladigan mazmuni to‘g‘rilandi. `acerola` ta’rifida S vitamini → C vitamini. Dastlabki prospekt qimmatli qog‘ozlar hujjati sifatida aniqlandi; bir yurisdiksiyadagi majburiyat universal lug‘aviy ta’rif qilinmadi.
+
+Mavjud synonym/antonym targetlarining aniq ma’nolari saqlandi: `panoramic` faqat yuqoridan ko‘rinish; `said` adjective; `red herring` moliyaviy hujjat; `breathless` nafas qiyinligi. Oltita dalilli collocation tegishli ma’nolarga qo‘shildi. `eighth note` va `barbados cherry` uchun exact frozen lemma so‘rovi target topmadi; ID o‘ylab topilmadi.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1720-1726.json`. Mahalliy backend: **185 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplar o‘zgarmagan; **0/20** bosqich to‘liq tugagan. Joriy source guruhida keyingi **4 leksema / 11 ma’no**: `vacuity`, `price`, `ooh`, `hum`.
+
+`0a56bbe76042d23c96c4180ad9969ce9251a4e42` uchun GitHub Actions `43364401387`: **184 backend + 20 DOM testi PASS**, compile PASS, 0 failed/skip. Vercel shu SHA uchun 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-0a56bbe7.json`.
+
+
+### 1 727–1 730-leksemalar — joriy 30 talik guruhning til maydonlari
+
+`vacuity`, `price`, `ooh`, `hum`: **4 leksema / 11 ma’no / 77 maydon qarori**. Shu bilan **1 701–1 730 leksemalarning 48 ma’nosi** bo‘yicha yetti til maydonining **336 qarori** hujjatlashtirildi. Bu faqat ushbu 30 talik source guruhining lexical qamrovi; barcha 9-bosqich yoki 20 bosqich tugagan degani emas. Har bir original sense ID uchun bir martalik ledger borligi va hech biri tushib qolmaganligi test bilan tekshirildi.
+
+Vacuityning ma’nosizlik/bo‘shliq ma’nolari ajratildi. Price xarid narxi A2 va oldin tuzatilgan badal C1 dalil bilan saqlandi; mukofot, pora, eskirgan yuksak qadr hamda abstrakt moddiy qimmatning tasdiqlanmagan CEFRlari null qilindi. `ooh` fe’lining hamda `hum` tovush/bandlik otlarining ishonchsiz C2lari null. Humning tovush ta’rifi self-reference o‘rniga ravshan ifodalandi; faoliyat tarjimasidan tovush bilan chalg‘ituvchi ibora olib tashlandi. O‘nta collocation aynan tegishli ma’nolarga qo‘shildi.
+
+Price bilan bog‘langan `damage`ning faqat norasmiy narx ma’nosi aniqlandi, dalilsiz B2 null qilindi va aniq savol iborasi qo‘shildi; uning qolgan to‘rt fizik/huquqiy zarar ma’nosi o‘zgarmagan. Bu target surgical edit alohida sanalgan, 48 source ma’no hisobiga qo‘shilmagan.
+
+Dalil: `content/dictionary/audit-20261113-phase09-lexical-decisions-1727-1730.json`. Mahalliy backend: **188 passed / 0 failed / 0 skipped / 1 warning**. Qamrov testi to‘liq 48 source IDni ledgerlarga 1:1 moslashtiradi; damage testi boshqa ma’nolar o‘zgarmaganini tekshiradi. Misollar global lexical audit tugashigacha qoldirilgan; oldingi 233 example correction saqlangan.
+
+Joriy 48 ma’noning CEFR holati: **33 null, 1 A2, 1 B1, 6 B2, 2 C1, 5 C2**. Bular yangi qamrovning yakuniy candidate qiymatlari, butun lug‘at statistikasi emas. Barcha 110 409 ma’no auditi va **0/20** bosqich holati ochiq qoladi. Oldingi 1 700 source leksemaning yetishmayotgan til maydonlari ham alohida dalillar bilan tugatilishi kerak; source readback hisoblari qayta oshirilmaydi.
+
+`530752e6c496b9a5602d41426b94dea9c5706255` uchun GitHub Actions `43365048469`: **185 backend + 20 DOM testi PASS**, 0 failed/skip, compile PASS, aynan shu SHA uchun Vercel 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-530752e6.json`.
+
+
+### 30 talik guruh — CI va davom ettirish checkpointi
+
+`192a312b3d874a3e3d3c5bcc27399bed3f8fc93c` uchun GitHub Actions `43365892006` loglari tekshirildi: **188 backend + 20 DOM testi PASS**, 0 failed / 0 skipped, 1 backend ogohlantirishi; compile PASS. Vercel aynan shu SHA uchun 0 deployment. Dalil: `content/dictionary/audit-20261113-validation-192a312b.json`.
+
+**0/20 bosqich to‘liq tugagan.** Jami yangi yetti maydonli qamrov 30 leksema / 48 ma’no / 336 qaror; bu so‘zlarning examples auditi hali tugamagan. Keyin 9-bosqichning oldingi 1–1 700 leksemalaridagi yetishmayotgan lingvistik qamrov to‘ldiriladi. Birinchi o‘nlik `hold fast` → `countermand` (10 leksema / 11 ma’no): eski receiptlar to‘liq entry o‘rniga qisqa projection saqlagani uchun asl ma’lumot tekshiruv uchun mahalliy nusxaga boyitildi. Barcha IDlar, original meaning SHA, UZ qiymatlari va offsetlari eski receiptga mos; bu yangi lingvistik tasdiq yoki yangi readback coverage deb sanalmagan. Ular bo‘yicha yetti maydonli qarorlar hali yozilmagan.
+
+Main merge/push, production DB/R2 write va release/deploy bajarilmadi. Draft PR saqlangan. Merge ruxsati barcha 20 bosqich va examples amalda tugagachgina so‘raladi.
+
+
+### Oldingi 1–10-leksemalarning yetishmayotgan til maydonlari
+
+`hold fast` → `countermand`: **10 leksema / 11 ma’no / 77 maydon qarori**. Mavjud 1 730 leksema / 2 932 ma’no source readbackiga **0** qo‘shildi. Birinchi 200 talik tarixiy receipt o‘zgarmagan; to‘liq original entrylar bilan boyitilgan nusxa oldingi ID, meaning SHA, UZ qiymatlari va offsetlarga mosligi tekshirildi. Jami yangi batafsil yetti maydonli qamrov **40 leksema / 59 ma’no / 413 qaror** bo‘ldi, barcha bosqichlar bo‘yicha tugash holati esa hamon **0/20**.
+
+`brand-name drug`ning patent doimo amalda bo‘lishi shart degan noto‘g‘ri EN/UZ ta’rifi savdo nomi va patent farqi bilan tuzatildi. `sound system`ning aynan tilshunoslik ma’nosi saqlandi va UZ ta’rifi to‘ldirildi; audio uskunasi ma’nosiga o‘tkazilmadi. `visual impact` EN/UZ ta’rifi ravshanlandi. `amicableness` ot sifatida do‘stonalik xususiyatini ifodalaydi; tarjima aniqlandi. Dalilsiz 6 ta CEFR null qilindi, 5 ta avvalgi null saqlandi; boshqa so‘z yoki ma’noning darajasi ko‘chirilmagan.
+
+24 ta original target leksema 24 shardan tekshirildi. 23 mavjud synonym qirrasi aynan source/target sense ID bilan bog‘landi; `delectable`ning 4 ta ta’m sinonimi joziba ma’nosidagi yagona sinonimdan alohida. `affranchise`ning ozodlik berish ma’nosiga `enslave`ning qullikka solish ma’nosi antonim sifatida qo‘shildi; saylov huquqiga oid ma’noga ulanmagan. Uchta dalilli collocation qo‘shildi; oldingi delectable/countermand collocationlari qayta tuzatish sifatida sanalmadi.
+
+Dalillar: `content/dictionary/audit-20261113-phase09-source-enrichment-0001-0010.json` va `content/dictionary/audit-20261113-phase09-lexical-decisions-backfill-0001-0010.json`. Dastlabki regression run: **188 passed / 1 failed** — eski test fixture target so‘z turkumini tashlab ketgan. Test haqiqiy canonical entry bilan ishlashga tuzatildi, production guard yumshatilmadi. Yakuniy mahalliy run: **191 passed / 0 failed / 0 skipped / 1 warning**. Misol gaplarga yangi tahrir kiritilmadi; source/production/main o‘zgarmagan.

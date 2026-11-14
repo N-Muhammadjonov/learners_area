@@ -1,0 +1,660 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-selected-0031-0046.json",
+  "prior_candidate_commit": "2d72bdd3c5f0eb775c540f098c51d8dbcf5ed7f7",
+  "scope": {
+    "lexemes": 5,
+    "senses": 6,
+    "field_decisions": 42,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "6589ef64-0821-5ee5-abd9-810dc7dd6403",
+      "sense_id": "d6d47135-896f-5608-ad2f-6339ff2d54c1",
+      "lemma": "phonetically",
+      "meaning_sha": "9b24f168ad0db24d2d959b2a1a77e975486b70c16e8147efba5b9553ce6ec4ca",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "by phonetics",
+          "after": "In a way based on the sounds of speech, especially representing those sounds in writing.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "Expand circular by-phonetics gloss to speech sounds and sound-based writing, supported by exact adverb entry and primary corpus use."
+        },
+        "definition_uz": {
+          "before": "fonetika asosida yoki fonetik usulda",
+          "after": "Nutq tovushlariga asoslangan holda, xususan so‘zlarni aytilishiga mos yozish usulida.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "Explain sound-based speech/writing rather than repeating technical headword."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "fonetik jihatdan",
+              "translation_id": "d68a8f44-be6e-5093-aa97-a51a46baab08"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "fonetik jihatdan",
+              "translation_id": "d68a8f44-be6e-5093-aa97-a51a46baab08"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "Fonetik jihatdan accurately retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "No exact adverb CEFR documented; original C2 cleared. Related adjective/phonemically levels not transferred."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "Phonemically concerns phoneme representation rather than all phonetic detail; not an exact interchangeable synonym. Frozen source contains no synonym edges."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "No verified exact frozen opposite target selected; no guessed ID or redundant negated form added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "spell words phonetically"
+            },
+            {
+              "text": "transcribe phonetically"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/phonetically",
+            "https://dictionary.cambridge.org/us/dictionary/english/phonemically"
+          ],
+          "reasoning": "Spell words phonetically and transcribe phonetically supported by exact adverb usage, not copied example sentences."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "658e2b90-e8a6-54ac-8155-73fc7904e2a2",
+      "sense_id": "17267eb7-fa10-5501-b8de-a78cec3d4d1c",
+      "lemma": "zakat",
+      "meaning_sha": "bb55b2f6f443e4559d320b7897b90126408893c887e93dcaa7ddd45d5e74002a",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "obligatory charitable giving in Islam, one of its five pillars",
+          "after": "obligatory charitable giving in Islam, one of its five pillars",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "Prior correction to obligatory giving/one of five pillars retained; erroneous fourth-pillar ordinal was already repaired and is not recounted."
+        },
+        "definition_uz": {
+          "before": "Islomning besh ruknidan biri bo‘lgan, belgilangan mol-mulkdan muhtojlarga berilishi shart bo‘lgan zakot.",
+          "after": "Islomda belgilangan shartlarga javob beradigan mol-mulkning bir qismini belgilangan haqdorlarga berish majburiyati; Islomning besh ruknidan biri.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "Specify qualifying wealth and eligible recipients; avoid implying only ordinary voluntary donations or only one recipient class."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "zakot",
+              "translation_id": "b42f2042-d6c8-502c-bdbd-e9af9b7e2945"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "zakot",
+              "translation_id": "b42f2042-d6c8-502c-bdbd-e9af9b7e2945"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "Zakot is the precise Uzbek term; retained."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "Religion specialized is a register/topic label, not CEFR; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "Zakah is a spelling variant but no exact frozen target independently verified. Sadaqah is broader voluntary giving, not a universal synonym; no edge guessed."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "No verified exact frozen opposite target selected; no guessed ID or redundant negated form added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "pay zakat"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/zakat",
+            "https://www.islamic-relief.org.uk/giving/islamic-giving/zakat/"
+          ],
+          "reasoning": "Pay zakat directly attested; no universal percentage or payment instructions inserted."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65961e36-7cdf-50dc-8b88-1b572fa493dd",
+      "sense_id": "e74f6b13-3941-5450-9da8-784223dbec12",
+      "lemma": "issuer",
+      "meaning_sha": "7439b471c69490e19d8da00c63e5d4bb315e4696c611fa47d1818350c27c701b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "an institution that issues something (securities or publications or currency etc.)",
+          "after": "A person or organization that officially issues or supplies something, such as securities, publications, currency, or cards.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "Primary business entry includes person or company; remove unsupported institution-only restriction while preserving issue/supply function."
+        },
+        "definition_uz": {
+          "before": "Qimmatli qog‘oz, nashr, valyuta yoki boshqa narsani rasmiy ravishda chiqaradigan muassasa.",
+          "after": "Qimmatli qog‘oz, nashr, valyuta, karta yoki boshqa narsani rasmiy chiqaradigan yoxud taqdim etadigan shaxs yoki tashkilot.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "Include a person as well as organization; not restricted to a bank or company."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "emitent; chiqaruvchi tashkilot",
+              "translation_id": "08853cae-03bb-52e0-8cb6-f286fd65734c"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "emitent; rasmiy chiqaruvchi shaxs yoki tashkilot",
+              "translation_id": "08853cae-03bb-52e0-8cb6-f286fd65734c"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "Emitent retained with broader rasmiy chiqaruvchi shaxs yoki tashkilot explanation."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "No reliable exact noun CEFR documented; original C1 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "Publisher/card provider are domain-specific roles, not synonyms across every stored issue category; no exact frozen target verified."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "No verified exact frozen opposite target selected; no guessed ID or redundant negated form added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "credit card issuer"
+            },
+            {
+              "text": "bond issuer"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/us/dictionary/english/issuer"
+          ],
+          "reasoning": "Credit card issuer and bond issuer explicitly attested; no invented target sense links."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6596e7e9-a504-54a2-afd6-06471ef687d2",
+      "sense_id": "a7d4f224-d4ce-5ca5-9b62-81c86cc5259b",
+      "lemma": "provident",
+      "meaning_sha": "1796512049a0dca4c3e9fd564a90dda332332934d3d35320e21935a13a1316c3",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "providing carefully for the future",
+          "after": "providing carefully for the future",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Future-needs preparation sense corroborated, distinct from divine providential meaning."
+        },
+        "definition_uz": {
+          "before": "Kelgusidagi ehtiyojlar uchun puxta va ehtiyotkorlik bilan zaxira tayyorlaydigan.",
+          "after": "Kelgusidagi ehtiyojlar uchun puxta va ehtiyotkorlik bilan zaxira tayyorlaydigan.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Future needs and careful reserves explanation retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kelajak uchun tejamkorlik bilan hozirlik ko'radigan",
+              "translation_id": "2f5fa6dc-0cc2-5083-a921-bdec26bd9002"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kelajak uchun tejamkorlik bilan hozirlik ko'radigan",
+              "translation_id": "2f5fa6dc-0cc2-5083-a921-bdec26bd9002"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Kelajak uchun tejamkorlik bilan hozirlik ko‘radigan conveys the stored foresight meaning."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Formal/approving reference labels do not provide exact CEFR; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Foresighted/prudent reference group considered, but no exact frozen target readback available; no guessed relation."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "No verified exact frozen opposite target selected; no guessed ID or redundant negated form added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Provident fund is a separate institutional compound; not automatically assigned as an adjective collocation."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6596e7e9-a504-54a2-afd6-06471ef687d2",
+      "sense_id": "fb6a9094-503b-5cbf-a78e-8f1239523437",
+      "lemma": "provident",
+      "meaning_sha": "10bfcf154453f232e12d9c9995768eee12625c9b050ef5b11233b26b562cbbb4",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "careful in regard to your own interests",
+          "after": "careful in regard to your own interests",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Prudent/economical management of own affairs corroborates careful self-interest use; no selfishness or divine-action inference."
+        },
+        "definition_uz": {
+          "before": "o‘z manfaatlariga nisbatan ehtiyotkor",
+          "after": "o‘z manfaatlariga nisbatan ehtiyotkor",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "O‘z manfaatlariga nisbatan ehtiyotkor accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "o‘z manfaatini o‘ylaydigan, ehtiyotkor",
+              "translation_id": "a846bf27-a5b5-5e2b-9242-02f4902f7e6d"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "o‘z manfaatini o‘ylaydigan, ehtiyotkor",
+              "translation_id": "a846bf27-a5b5-5e2b-9242-02f4902f7e6d"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Existing cautious-self-interest translation retained without adding greed."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "No exact prudence/self-interest sense label documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Prudent/careful contextual group considered; no frozen target IDs independently verified, so no edge guessed."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "No verified exact frozen opposite target selected; no guessed ID or redundant negated form added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/english/provident",
+            "https://www.collinsdictionary.com/dictionary/english/provident",
+            "https://www.collinsdictionary.com/us/dictionary/english-thesaurus/provident"
+          ],
+          "reasoning": "Financial provident-fund title not indiscriminately attached to this broader prudence meaning."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65974bad-1db2-5d40-8355-df2d08a15c44",
+      "sense_id": "6d88dc0d-6b69-5c75-ab46-9f293b315a17",
+      "lemma": "dropkick",
+      "meaning_sha": "8bbf4c16ebf206e5e51c9db32520304edab7440afa812e6f7b71db13c1c2574b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "(football) kicking (as for a field goal) in which the football is dropped and kicked as it touches the ground",
+          "after": "A kick made by dropping a ball onto the ground and kicking it as it rises from its first bounce.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "Clarify kicking as ball rises from first bounce, matching sport governing-body definition rather than before ground contact."
+        },
+        "definition_uz": {
+          "before": "Futbol va regbida to'pni qo'ldan yerga tashlab, u yerga tegib sakragan zahoti oyoq bilan tepish usuli.",
+          "after": "To‘pni qo‘ldan yerga tashlab, birinchi marta sapchib ko‘tarilayotgan paytda tepish usuli.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "Specify first bounce rising phase; preserve kick technique, not wrestling movement or informal person insult."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "sakragan to'pga tepish (drop-kik)",
+              "translation_id": "b0517374-1088-5f46-a639-a1c51a7bd824"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "sakragan to'pga tepish (drop-kik)",
+              "translation_id": "b0517374-1088-5f46-a639-a1c51a7bd824"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "Existing parenthetical drop-kik identifies the technique, clarified by definition."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "Explicit C2 noun sport-technique label retained. Open/closed spelling identifies same independently corroborated noun; unrelated B2 footer excluded."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "Punt kicks before the ball hits ground, so is not an exact equivalent. No independently verified target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "No verified exact frozen opposite target selected; no guessed ID or redundant negated form added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/drop-kick_1",
+            "https://www.merriam-webster.com/dictionary/dropkick",
+            "https://passport.world.rugby/laws-of-the-game/definitions/"
+          ],
+          "reasoning": "Drop goal names a score, not every dropkick. No unverified combination promoted to this kick-technique sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Six selected earlier source senses, not a contiguous completion claim.",
+  "reference_access_notes": [
+    "Exact cached primary bodies used where direct opens failed.",
+    "Source offsets reused from archived Supabase readback; cached complete R2 shard authenticates members. Fresh database content_sha comparison was not performed."
+  ],
+  "example_asset_changed": false,
+  "connector_limitations": "Live connector unavailable; no target relations added or changed in this selected group.",
+  "local_validation": {
+    "initial_before_added_boundary_tests": {
+      "passed": 217,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "final_run": {
+      "passed": 220,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}

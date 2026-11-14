@@ -1,5 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": {
+      "fix/dictionary-audit-phase-01-20261112": false
+    }
+  },
   "regions": [
     "sin1"
   ],

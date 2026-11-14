@@ -1,0 +1,764 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-source-enrichment-selected-0104-0122.json",
+  "prior_candidate_commit": "c1b8ccfda4051aff0418ff48dd9b492069c7f42d",
+  "scope": {
+    "lexemes": 6,
+    "senses": 7,
+    "field_decisions": 49,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "senses": [
+    {
+      "lexeme_id": "65d5a111-0dc0-53d8-baa4-fa0a2cb45f95",
+      "sense_id": "d765bedd-55b7-5f55-bf80-d5918662efa7",
+      "lemma": "bailiffship",
+      "meaning_sha": "3732b4006f6c0de40f9aab68da6bd59b81b07069eea5e3eca842b6c16dc516cc",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "the office of bailiff",
+          "after": "the office of bailiff",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "Direct primary noun entry exactly confirms office of a bailiff; retained. Jurisdiction-specific bailiff duties are not made universal legal powers."
+        },
+        "definition_uz": {
+          "before": "beylifning xizmat lavozimi yoki mansabi",
+          "after": "beylifning xizmat lavozimi yoki mansabi",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "Existing description correctly denotes the official position, not the officer as a person; retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "beylif lavozimi",
+              "translation_id": "4696069a-246d-5ccd-9afa-3770a1f13ad1"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "beylif lavozimi",
+              "translation_id": "4696069a-246d-5ccd-9afa-3770a1f13ad1"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "Beylif lavozimi expresses the office sense rather than a guessed modern Uzbek jurisdiction equivalent."
+        },
+        "cefr": {
+          "before": null,
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "Original unassigned level retained; no exact rare office-noun CEFR documented."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "Bailiwick can denote jurisdiction or area of expertise rather than this office; no unverified frozen equivalent selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/bailiffship",
+            "https://www.merriam-webster.com/dictionary/bailiff"
+          ],
+          "reasoning": "No independently documented reusable bailiffship combination selected; base-bailiff combinations not inherited."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65d84eb9-da60-533f-a37e-229eac06b897",
+      "sense_id": "8fc33ee8-a3b9-5021-9940-6e6a7788cae9",
+      "lemma": "implicitness",
+      "meaning_sha": "27d90e961900ce21ed897565f28e5dd05135aa6685ca18334763554b5ae3becc",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "inexplicitness as a consequence of being implied or indirect",
+          "after": "The quality of being suggested or understood without being stated directly.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "Primary implicit entry explicitly lists derived noun implicitness and separately defines implied/not directly stated. Replace circular inexplicitness wording without importing absolute-trust or mathematical-function senses."
+        },
+        "definition_uz": {
+          "before": "Ishora orqali yoki bevosita aytilmay anglashilishi sabab noochiqlik.",
+          "after": "Ma’noning bevosita aytilmay, ishora yoki kontekstdan anglashilish xususiyati.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "Clarify that meaning is inferred indirectly from context, not that it is secret or absolute certainty."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "bilvositalik",
+              "translation_id": "0d92239d-5fcc-5c14-9ca5-6a8bc447f383"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "bilvositalik",
+              "translation_id": "0d92239d-5fcc-5c14-9ca5-6a8bc447f383"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "Bilvositalik retained in context of indirect expression."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "No exact noun CEFR documented; original C2 cleared. No adjective/adverb level transfer."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "Vagueness may mean ambiguity and inexplicitness can have other causes; no exact verified frozen target selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "Explicitness is a plausible conceptual contrast, but exact frozen target/meaning not authenticated; no guessed graph ID."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/dictionary/english/implicit",
+            "https://www.merriam-webster.com/dictionary/implicitness"
+          ],
+          "reasoning": "Implicit trust belongs to another adjective sense, not an implicitness collocation; no extra noun phrase selected."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65dc9669-8102-5cec-bbc3-394d12e76651",
+      "sense_id": "5685fd47-543e-4f6d-bf01-3be39539de21",
+      "lemma": "freely",
+      "meaning_sha": "d75d0ff00e16314080f136b4c24083b18cb5f5d12fc09afc3430875f734194ee",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "in a free manner",
+          "after": "Without restriction or interference.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "Source Uzbek already indicates unrestricted manner. Replace circular in-a-free-manner gloss with restrictions/interference meaning supported under NOT CONTROLLED/NOT LIMITED."
+        },
+        "definition_uz": {
+          "before": "Cheklovsiz yoki erkin usulda.",
+          "after": "Cheklov yoki to‘sqinliksiz, erkin ravishda.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "Natural unrestricted/unobstructed manner retained and clarified."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "erkin tarzda",
+              "translation_id": "57b15dc4-9800-57a7-8185-8bc078cea0d3"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "erkin tarzda",
+              "translation_id": "57b15dc4-9800-57a7-8185-8bc078cea0d3"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "Erkin tarzda retained, not translated free of charge."
+        },
+        "cefr": {
+          "before": "B1",
+          "after": "B2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "Explicit B2 under exact freely adverb NOT CONTROLLED/NOT LIMITED in primary cached learner and general entries; original B1 corrected. Direct pages returned403, so evidence is the actually read primary cached body, not a claimed successful direct fetch."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "Liberally can mean generously or nonliteral translation, and willingly is another adverb use; no automatic synonym link."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "move freely"
+            },
+            {
+              "text": "travel freely"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://dictionary.cambridge.org/dictionary/learner-english/freely",
+            "https://dictionary.cambridge.org/dictionary/english/freely?q=freely",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/freely"
+          ],
+          "reasoning": "Move freely and travel freely directly attested in exact unrestricted-manner contexts; freely admit and free-of-charge constructions not imported."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65dda6da-3dd8-53c2-bd52-892ed13d808a",
+      "sense_id": "3dce79e3-53b3-429a-a5dc-055d5c5a4914",
+      "lemma": "bunting",
+      "meaning_sha": "5292410ef4e8661c6b1ba5b1f0a1a52361e5427a11099d287deed524cceb3f1e",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a loosely woven fabric used for flags, etc.",
+          "after": "a loosely woven fabric used for flags, etc.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Primary definition specifically attests light loosely woven fabric used for flags/decorations. Retain stored fabric meaning; finished decorative flag strings are another use and not substituted."
+        },
+        "definition_uz": {
+          "before": "Bayroq va shunga o‘xshash buyumlar tayyorlashda ishlatiladigan siyrak to‘qilgan mato.",
+          "after": "Bayroq va shunga o‘xshash buyumlar tayyorlashda ishlatiladigan siyrak to‘qilgan mato.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Siyrak to‘qilgan bayroq matosi is accurate for raw fabric sense; retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "bayroq matosi",
+              "translation_id": "39339e9b-6327-5483-a876-64c9e68a68bf"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "bayroq matosi",
+              "translation_id": "39339e9b-6327-5483-a876-64c9e68a68bf"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Bayroq matosi retained, not translated as the bird or baseball action."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "No exact raw-fabric CEFR documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Flag is a finished object, not the fabric. No exact frozen fabric equivalent verified."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Festive bunting describes finished decorative flags in learner entry, not necessarily raw cloth. No transfer into this stored fabric sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65dda6da-3dd8-53c2-bd52-892ed13d808a",
+      "sense_id": "778febde-913c-4b64-941b-1d9a2d4ed7b2",
+      "lemma": "bunting",
+      "meaning_sha": "46a713d6e5ca46ebeee4ee2d9990c5eae4442e93c6378dc716eeb98ad6ef4df6",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "any of numerous seed-eating songbirds of Europe or North America",
+          "after": "Any of various small, stout-billed songbirds, often feeding on seeds.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Primary bird definitions include Eurasian/African and American birds in more than one family. Remove misleading Europe-or-North-America geographic restriction; short stout bill and songbird character retained. Seed feeding qualified as typical, not every species exclusively."
+        },
+        "definition_uz": {
+          "before": "Yevropa yoki Shimoliy Amerikada yashaydigan urug'xo'r sayroqi qushlardan biri.",
+          "after": "Kalta va yo‘g‘on tumshuqli, ko‘pincha urug‘ bilan oziqlanadigan turli mayda sayroqi qushlarning umumiy nomi.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Describe common bird features and qualified seed feeding without obsolete geographic exclusion or one-family taxonomic claim."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "dehqonchumchuq",
+              "translation_id": "8b54928d-c2c0-598c-96ee-11352eebffb9"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "dehqonchumchuq",
+              "translation_id": "8b54928d-c2c0-598c-96ee-11352eebffb9"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Dehqonchumchuq retained as the established bird-name rendering in this entry, with broader common-name explanation in definition; not a fabric rendering."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "No exact bird-sense CEFR documented; original C2 cleared independently of fabric sense."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Finch/sparrow family comparisons do not establish synonymy. No unverified frozen target linked."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "reed bunting"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/bunting",
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/bunting",
+            "https://dictionary.cambridge.org/us/dictionary/english/bunting",
+            "https://www.rspb.org.uk/helping-nature/what-we-do/influence-government-and-business/farming/advice-for-farmers-helping-bird-species/reed-bunting-advice-for-farmers"
+          ],
+          "reasoning": "Reed bunting directly attested under primary bird sense; not attached to fabric sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65de6e8c-6544-5c90-9e40-490842ed02ba",
+      "sense_id": "2f08b514-3171-587e-a8ab-4b6999a2d798",
+      "lemma": "stridulation",
+      "meaning_sha": "8c4616bf22fc2cd8484c1ed69dc747d99bc91871e4a6c4a48061e1829fd9e5ae",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a shrill grating or chirping noise made by some insects by rubbing body parts together",
+          "after": "a shrill grating or chirping noise made by some insects by rubbing body parts together",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "Exact primary first noun sense confirms high-pitched creaking/chirping produced by rubbing modified body parts. Existing sound definition retained, distinct from the separate act-of-producing sense."
+        },
+        "definition_uz": {
+          "before": "Ayrim hasharotlar tana qismlarini ishqalab chiqaradigan o‘tkir g‘ijirlash yoki chirillash tovushi.",
+          "after": "Ayrim hasharotlar tana qismlarini ishqalab chiqaradigan o‘tkir g‘ijirlash yoki chirillash tovushi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "Existing insect rubbing and resulting sound explanation accurately retained."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "stridulyatsiya; ishqalanish tovushi",
+              "translation_id": "bd92396a-6852-5876-b9a2-943a705b82ca"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "stridulyatsiya; hasharotning ishqalanishdan hosil qilgan chirillashi",
+              "translation_id": "bd92396a-6852-5876-b9a2-943a705b82ca"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "Replace overbroad generic friction-sound equivalent with insect-produced chirring; not machinery noise."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "No exact sound-noun CEFR documented; original C2 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "Chirp alone includes bird/electronic sounds and does not imply friction mechanism; no unverified equivalent."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "No independently verified exact frozen opposite selected; no guessed target added."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.merriam-webster.com/dictionary/stridulation"
+          ],
+          "reasoning": "No independently attested extra reusable collocation selected; insect examples in definition do not mandate a new combination."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "65e1e652-870f-518b-be64-74ce23277f4e",
+      "sense_id": "9e434077-d137-4d6e-846d-569ba7688e6a",
+      "lemma": "redistribution",
+      "meaning_sha": "85550667f126c3453d2fee62ba3020080b0818eaaca56f479fe128446a00af4d",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "distributing again",
+          "after": "The act of distributing something again, often changing how it is shared or allocated.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "Primary sharing-out-again/differently meaning supports an explanatory definition instead of circular distributing again. Wealth is an example, not a mandatory political restriction."
+        },
+        "definition_uz": {
+          "before": "Narsalarni yoki resurslarni yana taqsimlash.",
+          "after": "Biror narsani qaytadan, ko‘pincha boshqacha ulushlarda taqsimlash.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "State repeated allocation and typical changed shares naturally; retained broad noun scope."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "qayta taqsimlash",
+              "translation_id": "154f9997-da46-5cb8-ba79-2582008accc4"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "qayta taqsimlash",
+              "translation_id": "154f9997-da46-5cb8-ba79-2582008accc4"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "Qayta taqsimlash accurately retained."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "Exact noun body has no level badge. C1 in direct page belongs to Word-of-Day heritage at lines121–135; original unsupported C1 cleared."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "Reallocation overlaps but no independently read frozen target meaning selected."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "Distribution is not automatically an antonym merely because re- is absent; no invented opposite."
+        },
+        "collocations": {
+          "before": [],
+          "after": [
+            {
+              "text": "redistribution of wealth"
+            }
+          ],
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/us/definition/english/redistribution"
+          ],
+          "reasoning": "Redistribution of wealth directly attested under exact noun, no base-verb argument pattern transferred."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against exact English meaning and primary references; not independent bilingual dictionary certification.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false,
+  "readback_deduplication": "Seven earlier senses selected from one compact authenticated packet; no contiguous-interval or new-source-coverage claim.",
+  "reference_access_notes": [
+    "Freely B2 read under exact NOT CONTROLLED/NOT LIMITED in primary cached English bodies; direct403 not claimed as success.",
+    "Bailiffship direct primary noun definition read, not inferred solely from base word.",
+    "Implicitness explicitly listed as derived noun; no inherited adjective CEFR.",
+    "Redistribution page footer heritage C1 excluded.",
+    "Source and targets are served by authenticated audit-only SQLite cache; fresh database comparison not rerun."
+  ],
+  "example_asset_changed": false,
+  "local_validation": {
+    "final_run": {
+      "passed": 264,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 1,
+      "status": "PASS"
+    },
+    "compile": "PASS",
+    "dom_final_run": {
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS"
+    },
+    "dom_final_log_sha256": "73d40362bfeefcac1b77017022455424eecfc23e30f5c9651721d5dff438305f",
+    "example_asset_unchanged": true,
+    "example_asset_sha256": "baf3603e6d1229cb03c6d854a268eceb1e085a7af57298ca64c7920beb08df2d",
+    "fresh_source_readback_counted": false
+  }
+}

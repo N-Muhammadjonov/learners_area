@@ -1,0 +1,397 @@
+{
+  "schema": 1,
+  "source_release": "rel-v1-1fa06d8d41d8ff701632573e",
+  "visibility": "audit_only_not_dictionary_content",
+  "source_readback_receipt": "content/dictionary/audit-20261113-phase09-lexemes-1701-1730.json",
+  "scope": {
+    "lexemes": 2,
+    "senses": 4,
+    "field_decisions": 28,
+    "new_source_readback_lexemes": 0,
+    "new_source_readback_senses": 0
+  },
+  "review_standard": "Seven lexical fields assessed separately with original values, candidate values, reference URLs and semantic rationale. Empty optional relations are intentional, not a claim of universal absence. CEFR may remain null. Uzbek review is explicitly editorial unless a bilingual reference is listed.",
+  "senses": [
+    {
+      "lexeme_id": "6c38dae1-0602-5770-81c5-c4ae23eee1c2",
+      "sense_id": "26b7ca51-2502-53b0-b350-127cc1202bef",
+      "lemma": "mottle",
+      "meaning_sha": "1f007b5275b7c3bdbf7851fa20ec99576a4386233bf3627488ea10ddbb617632",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "an irregular arrangement of patches of color",
+          "after": "an irregular arrangement of patches of color",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle"
+          ],
+          "reasoning": "Reference distinguishes a coloured-pattern noun from the colouring verb; source describes the noun accurately."
+        },
+        "definition_uz": {
+          "before": "Rang dog‘larining tartibsiz joylashuvi.",
+          "after": "Rang dog‘larining tartibsiz joylashuvi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle",
+            "https://izoh.uz/word/ola-bula"
+          ],
+          "reasoning": "Rang dog‘larining tartibsiz joylashuvi English pattern ma’nosiga mos; harakat fe’liga aylantirilmagan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "ola-bula naqsh",
+              "translation_id": "f977918f-0be3-56c4-96d4-bb521f760b50"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "ola-bula naqsh",
+              "translation_id": "f977918f-0be3-56c4-96d4-bb521f760b50"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle",
+            "https://izoh.uz/word/ola-bula"
+          ],
+          "reasoning": "Ola-bula naqsh ranglar aralashmasini ot birikmasi bilan beradi; Izoh.uz rangga oid ola-bula ma’nosini tasdiqlaydi."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle"
+          ],
+          "reasoning": "Reviewed noun reference has no CEFR assignment. Unsupported inherited C2 cleared to null; no alternative level guessed."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle"
+          ],
+          "reasoning": "Frozen canonical and public presentation have no links for this meaning. Reviewed references supplied no verified exact target sense to add; a definition or unit conversion is not itself a synonym edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle"
+          ],
+          "reasoning": "No conventional exact lexical opposite is attested in the reviewed references. No relation invented from a conceptual contrast."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.collinsdictionary.com/us/dictionary/english/mottle"
+          ],
+          "reasoning": "No independently attested combination was selected for this exact noun/region-specific unit meaning in this review. Keep the empty list rather than attach a phrase to a guessed unit sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the cited English sense and dimensional facts; Uzbek colour terminology additionally checked in Izoh.uz. This is not a claim that a bilingual dictionary lists each translation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3948e3-57fa-56bb-86bf-690673a20406",
+      "sense_id": "11e70d5b-274a-42ec-aaff-de64838e111e",
+      "lemma": "quart",
+      "meaning_sha": "5cd7481b9d9984b0133c9f59c6ba0327afaeb9ab6daf9ab1516027f28b95c6af",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a United States liquid unit equal to 32 fluid ounces; four quarts equal one gallon",
+          "after": "a United States liquid unit equal to 32 fluid ounces; four quarts equal one gallon",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/owm/metric-household",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "US liquid quart equals 32 US fluid ounces and a quarter gallon; do not conflate with US dry volume."
+        },
+        "definition_uz": {
+          "before": "AQSh suyuqlik hajmi birligi bo‘lib, 32 suyuq unsiyaga teng; to‘rt kvarta bir gallon bo‘ladi.",
+          "after": "AQSh suyuqlik hajmi birligi bo‘lib, 32 suyuq unsiyaga teng; to‘rt kvarta bir gallon bo‘ladi.",
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/owm/metric-household",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Ta’rif AQSh suyuqlik birligi, 32 suyuq unsiya va to‘rtta kvarta nisbatini saqlaydi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "kvarta",
+              "translation_id": "84c9c82d-5a76-53e6-a436-e8784daf4018"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "kvarta",
+              "translation_id": "84c9c82d-5a76-53e6-a436-e8784daf4018"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/owm/metric-household",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Kvarta volume-unit translation is appropriate; US liquid qualification is explicit in the adjacent English and Uzbek definitions."
+        },
+        "cefr": {
+          "before": "C1",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Explicit Maths and measurement C2 label describes liquid capacity including the US amount. Previous C1→C2 repair is retained; not counted as a new CEFR edit here."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/owm/metric-household",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Frozen canonical and public presentation have no links for this meaning. Reviewed references supplied no verified exact target sense to add; a definition or unit conversion is not itself a synonym edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/owm/metric-household",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "No conventional exact lexical opposite is attested in the reviewed references. No relation invented from a conceptual contrast."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/owm/metric-household",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "No independently attested combination was selected for this exact noun/region-specific unit meaning in this review. Keep the empty list rather than attach a phrase to a guessed unit sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the cited English sense and dimensional facts; Uzbek colour terminology additionally checked in Izoh.uz. This is not a claim that a bilingual dictionary lists each translation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3948e3-57fa-56bb-86bf-690673a20406",
+      "sense_id": "62e0a647-d75f-42fc-8d02-5f116a32b9ec",
+      "lemma": "quart",
+      "meaning_sha": "2cc050dceed38e3b5753d757d688f756a655cfc5c7cb1dd514650a0c60268bd8",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a United States dry unit equal to 2 pints or 67.2 cubic inches",
+          "after": "a US dry-volume unit equal to two dry pints, approximately 1.101 litres or 67.2 cubic inches",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "US dry quart is about 1.101221 L, distinct from US liquid capacity; dry pints now explicit."
+        },
+        "definition_uz": {
+          "before": "AQShning quruq hajm birligi bo‘lib, 2 pint yoki 67,2 kub dyuymga teng",
+          "after": "AQShda sochiluvchan mahsulotlar hajmini o‘lchash birligi: ikki quruq pintga, taxminan 1,101 litr yoki 67,2 kub dyuymga teng.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Sochiluvchan mahsulot, quruq pint, taxminiy litr va kub dyuym qiymatlari mos ravishda berilgan."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "quruq kvarta",
+              "translation_id": "7c72a12a-f4c1-5fb6-afc4-0872d02133b6"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "quruq kvarta",
+              "translation_id": "7c72a12a-f4c1-5fb6-afc4-0872d02133b6"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Quruq kvarta distinguishes the US dry unit from the liquid and imperial senses."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": null,
+          "decision": "unassigned_no_reliable_sense_level_evidence",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Reviewed learner reference labels liquid capacity, not this distinct US dry unit; C2 not transferred. No trustworthy dry-sense level found in reviewed evidence, so null."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Frozen canonical and public presentation have no links for this meaning. Reviewed references supplied no verified exact target sense to add; a definition or unit conversion is not itself a synonym edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "No conventional exact lexical opposite is attested in the reviewed references. No relation invented from a conceptual contrast."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "No independently attested combination was selected for this exact noun/region-specific unit meaning in this review. Keep the empty list rather than attach a phrase to a guessed unit sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the cited English sense and dimensional facts; Uzbek colour terminology additionally checked in Izoh.uz. This is not a claim that a bilingual dictionary lists each translation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    },
+    {
+      "lexeme_id": "6c3948e3-57fa-56bb-86bf-690673a20406",
+      "sense_id": "981a5175-47af-445c-9ca2-651373deebfd",
+      "lemma": "quart",
+      "meaning_sha": "ff9a552dd3a54d004bfc74099c8c78d5a5c324dd792e26d4091094ed51f01e0b",
+      "reviewed_by": "Codex",
+      "review_date": "2026-11-13",
+      "fields": {
+        "definition_en": {
+          "before": "a British imperial capacity measure (liquid or dry) equal to 2 pints or 1.136 liters",
+          "after": "a British imperial volume unit equal to two imperial pints, approximately 1.137 litres",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Imperial gallon is 4.54609 L; one quarter is 1.1365225 L. Definition explicitly rounds to approximately 1.137 L."
+        },
+        "definition_uz": {
+          "before": "Britaniya imperiya o'lchov tizimidagi suyuq yoki sochiluvchan hajm birligi; ikki pintga yoki 1,136 litrga teng.",
+          "after": "Britaniya imperiya tizimidagi suyuqlik yoki sochiluvchan mahsulotlar hajmini o‘lchash birligi: ikki imperiya pintiga, taxminan 1,137 litrga teng.",
+          "decision": "corrected",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Imperiya pinti aniqlashtirildi; 1,137 litr qiymati taxminiy deb belgilandi, aynan tenglik deb ko‘rsatilmaydi."
+        },
+        "translation_uz": {
+          "before": [
+            {
+              "order": 0,
+              "text": "Britaniya kvartasi",
+              "translation_id": "6cccd3df-762b-502f-8735-b40b6d804e18"
+            }
+          ],
+          "after": [
+            {
+              "order": 0,
+              "text": "Britaniya kvartasi",
+              "translation_id": "6cccd3df-762b-502f-8735-b40b6d804e18"
+            }
+          ],
+          "decision": "retained_editorial_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Britaniya kvartasi clearly identifies imperial capacity. The imperial unit is used for either commodity type, unlike the distinct US dry and liquid measures."
+        },
+        "cefr": {
+          "before": "C2",
+          "after": "C2",
+          "decision": "verified_explicit_sense_level_label",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "C2 liquid-capacity reference includes the same imperial quart unit. UK dry/liquid use does not define different unit magnitudes, unlike the two US units; retained C2 applies to the documented unit meaning."
+        },
+        "synonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "Frozen canonical and public presentation have no links for this meaning. Reviewed references supplied no verified exact target sense to add; a definition or unit conversion is not itself a synonym edge."
+        },
+        "antonyms": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "No conventional exact lexical opposite is attested in the reviewed references. No relation invented from a conceptual contrast."
+        },
+        "collocations": {
+          "before": [],
+          "after": [],
+          "decision": "empty_after_reference_and_semantic_check",
+          "evidence_urls": [
+            "https://www.oxfordlearnersdictionaries.com/definition/english/quart",
+            "https://www.nist.gov/pml/special-publication-811/nist-guide-si-appendix-b-conversion-factors/nist-guide-si-appendix-b8"
+          ],
+          "reasoning": "No independently attested combination was selected for this exact noun/region-specific unit meaning in this review. Keep the empty list rather than attach a phrase to a guessed unit sense."
+        }
+      },
+      "lexical_field_review_complete": true,
+      "independent_uzbek_bilingual_dictionary_certification": false,
+      "uzbek_review_method": "Editorial semantic equivalence against the cited English sense and dimensional facts; Uzbek colour terminology additionally checked in Izoh.uz. This is not a claim that a bilingual dictionary lists each translation.",
+      "examples": "deferred_until_all_lexical_field_reviews_complete",
+      "full_pipeline_signoff": false
+    }
+  ],
+  "examples_started": false,
+  "phase_complete": false,
+  "complete_global_linguistic_audit": false,
+  "production_mutation": false
+}

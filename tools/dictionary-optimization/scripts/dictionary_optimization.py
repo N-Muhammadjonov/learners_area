@@ -347,6 +347,23 @@ def parser():
     r2.add_argument('--repo', required=True)
     r2.add_argument('--inventory', required=True)
     r2.add_argument('--out', required=True)
+    local = commands.add_parser('offline-index', help='Authenticate cached shards and build an audit-only SQLite index')
+    local.add_argument('--repo', required=True)
+    local.add_argument('--cache-dir', required=True)
+    local.add_argument('--database', required=True)
+    local.add_argument('--release', required=True)
+    local.add_argument('--out', required=True)
+    pack = commands.add_parser('sense-pack', help='Prepare unrepeated source/candidate/target contexts without editorial signoff')
+    pack.add_argument('--repo', required=True)
+    pack.add_argument('--database', required=True)
+    pack.add_argument('--index-receipt', required=True)
+    pack.add_argument('--source-receipt', required=True)
+    pack.add_argument('--limit', type=int, default=250)
+    pack.add_argument('--compact', action='store_true', help='Omit repeated originals and all examples from lexical context')
+    pack.add_argument('--out', required=True)
+    projection = commands.add_parser('verify-offline-projection', help='Compare all cached source identities and packed offsets with a captured read-only database projection')
+    for flag in ('repo', 'database', 'index-receipt', 'projection', 'cache-dir', 'out'):
+        projection.add_argument('--' + flag, required=True)
     return p
 
 
@@ -362,9 +379,18 @@ def main():
     elif args.command == 'benchmark':
         require(args.requests >= 100, 'insufficient_benchmark_samples')
         result = asyncio.run(benchmark(args))
+    elif args.command == 'offline-index':
+        from audit_accelerator import build_index
+        result = build_index(args.repo, args.cache_dir, args.database, args.release)
+    elif args.command == 'sense-pack':
+        from audit_accelerator import export_pack
+        result = export_pack(args.repo, args.database, args.index_receipt, args.source_receipt, args.out, args.limit, args.compact)
+    elif args.command == 'verify-offline-projection':
+        from audit_accelerator import verify_projection
+        result = verify_projection(args.repo, args.database, args.index_receipt, args.projection, args.cache_dir)
     else:
         result = asyncio.run(verify_r2(args))
-    if args.command not in ('benchmark', 'verify-r2'):
+    if args.command not in ('benchmark', 'verify-r2', 'sense-pack'):
         save(args.out, result)
     print(json.dumps(result, ensure_ascii=False))
     return 2 if result.get('status') == 'BLOCKED' else 0
