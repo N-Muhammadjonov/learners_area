@@ -101,7 +101,6 @@ export function mount(context,dependencies={}){
    if(!append)removeRecording(id);
    const previous=recordings.get(id);
    recordings.set(id,{question:recordedQuestion,level:recordedLevel,urls:[...(previous?.urls||[]),URL.createObjectURL(blob)]});
-   while(recordings.size>20)removeRecording(recordings.keys().next().value);
    paintRecordings();
   }).catch(()=>{if(!signal.aborted)text(status,context.locale==='uz'?'Audio yozuvni saqlab bo‘lmadi. Shu savolga qayta urinib ko‘ring.':'Recording could not be saved. Retry this question.');});
  }

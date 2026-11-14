@@ -1,5 +1,6 @@
 /** Exam colours are independent of the surrounding dashboard theme. */
 export const MOCK_EXAM_CSS = `
+.mock-preview-review{position:absolute;z-index:2;inset:100px 22px 80px;background:#fff;color:#111827;border:1px solid #cad3dd;padding:24px;overflow:auto}.mock-preview-review[hidden]{display:none}
 .mock-speaking-flow{padding:22px;flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:16px}.mock-speaking-topic-actions{display:flex;justify-content:space-between;gap:12px;margin-top:auto}
 .mock-writing{display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden}
 .mock-writing-instruction{margin:16px 22px;padding:14px 16px;border:1px solid #d0d2d5;border-radius:4px;background:#f1f1ed;flex:none}.mock-writing-instruction strong{font-size:20px}.mock-writing-instruction p{margin:2px 0 0}
@@ -25,7 +26,7 @@ export const MOCK_EXAM_CSS = `
 @media(max-width:760px){.mock-exam-header{padding:8px 12px;gap:8px}.mock-native-footer{align-items:flex-start;flex-direction:column}.mock-exam-footer{padding:8px 12px}[data-mock-stage] .mock-native-grid{display:flex;flex-direction:column;overflow:auto}[data-mock-stage] .mock-native-pane{height:auto;flex:none;overflow:visible}}
 [data-mock-runner]{--paper:255 255 255;--paper-raised:255 255 255;--paper-sunken:246 247 249;--ink-950:17 24 39;--ink-900:17 24 39;--ink-700:30 41 59;--ink-500:71 85 105;--ink-300:100 116 139;--ink-100:210 215 222;color-scheme:light;color:#111827;background:#fff;font:16px/1.5 Arial,sans-serif}
 html[data-theme] #root [data-mock-runner] :is(.panel,.card,.input,.badge,.tab,.chip){background:#fff!important;color:#111827!important;border-color:#cbd5e1!important;box-shadow:none!important}
-html[data-theme] #root [data-mock-runner] :is(input,select,textarea){color-scheme:light!important;background:#fff!important;color:#111827!important;border-color:#8c9eaf!important;caret-color:#111827!important;box-shadow:none!important}
+html[data-theme] #root :is([data-mock-runner],[data-mock-native]) :is(input,select,textarea){color-scheme:light!important;background:#fff!important;color:#111827!important;border-color:#8c9eaf!important;caret-color:#111827!important;box-shadow:none!important}
 html[data-theme] #root [data-mock-runner] :is(input,textarea)::placeholder{color:#64748b!important;opacity:1}
 html[data-theme] #root [data-mock-runner] :is(h1,h2,h3,h4,p,span,strong,label,li,div){color:inherit}
 html[data-theme] #root [data-mock-runner] :is(.text-ink-900,.text-ink-700,.body-text,.field-label){color:#111827!important}
