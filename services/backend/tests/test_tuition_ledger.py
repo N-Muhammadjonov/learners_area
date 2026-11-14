@@ -21,7 +21,7 @@ from app import tuition_ledger as ledger
 from app.tuition_ledger import LedgerError
 
 DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
-TODAY = datetime.now(timezone.utc).date()
+TODAY = ledger.business_date(datetime.now(timezone.utc))
 PERIOD = ledger.period_key(TODAY)
 
 
@@ -1594,3 +1594,191 @@ async def test_floats_are_rejected_for_money(database):
                                     student_user_id=people['student'], amount_minor=250_000.5)
     assert refused.value.code == 'amount_must_be_integer_minor_units'
     assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 0
+
+
+# ──────────────────── Accounting invariant regressions ────────────────────
+@pytest.mark.asyncio
+async def test_credit_note_reduces_allocation_and_preserves_overpayment(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=600_000)
+    charge = await posted_charge(con, people, gross=600_000, contract=contract)
+    note = await ledger.create_credit_note(
+        con, actor_user_id=people['admin'], charge_id=charge['id'],
+        amount_minor=100_000, reason='Approved tuition relief')
+    await ledger.approve_credit_note(
+        con, actor_user_id=people['owner'], credit_note_id=note['id'])
+    await ledger.post_credit_note(
+        con, actor_user_id=people['owner'], credit_note_id=note['id'])
+
+    payment, allocations, duplicate = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=550_000)
+    assert not duplicate
+    assert [row['amount_minor'] for row in allocations] == [500_000]
+    assert payment['amount_minor'] == 550_000
+
+    position = await ledger.student_position(con, people['student'])
+    assert position['balanceDueMinor'] == 0
+    assert position['advanceMinor'] == 50_000
+    assert position['creditedMinor'] == 100_000
+    assert await balances(con, 'accounts_receivable') == 0
+    assert await balances(con, 'customer_advance') == -50_000
+    assert (await ledger.journal_is_balanced(con))['balanced']
+    recon = await ledger.reconcile_summary(
+        con, start=TODAY - timedelta(days=1), end=TODAY + timedelta(days=1))
+    assert recon['ok'], recon
+
+
+@pytest.mark.asyncio
+async def test_credit_note_after_allocation_requires_obligation_correction(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=600_000)
+    charge = await posted_charge(con, people, gross=600_000, contract=contract)
+    await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=550_000)
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_credit_note(
+            con, actor_user_id=people['admin'], charge_id=charge['id'],
+            amount_minor=100_000, reason='Late tuition relief')
+    assert exc.value.code == 'credit_exceeds_unallocated_charge'
+    assert exc.value.details['unallocatedMinor'] == 50_000
+
+    # A draft entered before payment cannot evade the cap when it is finally posted.
+    # A separate charge is used because the existing one is already mostly paid.
+    second_charge = await posted_charge(
+        con, people, student=people['other_student'], gross=600_000)
+    draft = await ledger.create_credit_note(
+        con, actor_user_id=people['admin'], charge_id=second_charge['id'],
+        amount_minor=200_000, reason='Relief drafted before collection')
+    await ledger.approve_credit_note(
+        con, actor_user_id=people['owner'], credit_note_id=draft['id'])
+    await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['other_student'],
+        amount_minor=500_000)
+    with pytest.raises(LedgerError) as exc:
+        await ledger.post_credit_note(
+            con, actor_user_id=people['owner'], credit_note_id=draft['id'])
+    assert exc.value.code == 'credit_note_conflicts_with_allocations'
+    assert await balances(con, 'accounts_receivable') == 150_000
+
+
+@pytest.mark.asyncio
+async def test_pending_failed_and_rejected_refunds_leave_settled_position_unchanged(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people)
+    initial = await ledger.student_position(con, people['student'])
+    assert initial['advanceMinor'] == 700_000
+    refund, _ = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'],
+        amount_minor=100_000, reason='Pending withdrawal')
+
+    for status in ('requested', 'approved', 'failed'):
+        if status == 'approved':
+            await ledger.approve_refund(
+                con, actor_user_id=people['owner'], refund_id=refund['id'])
+        if status == 'failed':
+            await ledger.fail_refund(
+                con, actor_user_id=people['admin'], refund_id=refund['id'],
+                reason='Bank refused transfer')
+        position = await ledger.student_position(con, people['student'])
+        assert position['advanceMinor'] == 700_000
+        assert position['refundedMinor'] == 0
+
+    rejected, _ = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'],
+        amount_minor=100_000, reason='Second request')
+    await ledger.reject_refund(
+        con, actor_user_id=people['owner'], refund_id=rejected['id'],
+        reason='Insufficient verification')
+    position = await ledger.student_position(con, people['student'])
+    assert position['advanceMinor'] == 700_000
+    assert position['refundedMinor'] == 0
+    assert await balances(con, 'cash_on_hand') == 700_000
+
+
+@pytest.mark.asyncio
+async def test_partial_then_full_refund_tracks_net_settled_funds(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people)
+    for amount, expected_status, expected_advance in (
+        (100_000, 'partially_refunded', 600_000),
+        (600_000, 'refunded', 0),
+    ):
+        refund, _ = await ledger.request_refund(
+            con, actor_user_id=people['admin'], payment_id=payment['id'],
+            amount_minor=amount, reason='Authorized withdrawal')
+        await ledger.approve_refund(
+            con, actor_user_id=people['owner'], refund_id=refund['id'])
+        await ledger.settle_refund(
+            con, actor_user_id=people['admin'], refund_id=refund['id'])
+        status = await con.fetchval(
+            'SELECT status FROM tuition_payments WHERE id=$1', payment['id'])
+        assert status == expected_status
+        position = await ledger.student_position(con, people['student'])
+        assert position['advanceMinor'] == expected_advance
+        assert position['refundedMinor'] == 700_000 - expected_advance
+        assert await balances(con, 'cash_on_hand') == expected_advance
+    with pytest.raises(LedgerError) as exc:
+        await ledger.settle_refund(
+            con, actor_user_id=people['admin'], refund_id=refund['id'])
+    assert exc.value.code == 'refund_already_settled'
+    assert (await ledger.journal_is_balanced(con))['balanced']
+
+
+@pytest.mark.asyncio
+async def test_business_date_and_cash_close_ignore_database_session_timezone(database):
+    con, schema, people = database
+    instant = datetime(2026, 10, 31, 20, 15, tzinfo=timezone.utc)
+    assert ledger.business_date(instant) == date(2026, 11, 1)
+    assert ledger.period_key(instant) == '2026-11'
+    await con.execute("SET TIME ZONE 'America/New_York'")
+    try:
+        payment, allocations, _ = await ledger.record_payment(
+            con, actor_user_id=people['admin'], student_user_id=people['student'],
+            amount_minor=100_000, occurred_at=instant)
+        assert allocations == []
+        assert payment['receipt_no'].startswith('RC-202611')
+        summary = await ledger.finance_summary(
+            con, start=date(2026, 11, 1), end=date(2026, 11, 1))
+        assert summary['collectedCashMinor'] == 100_000
+        closed = await ledger.close_day(
+            con, actor_user_id=people['owner'],
+            business_date=date(2026, 11, 1), counted_minor=100_000)
+        assert closed['receipts_minor'] == 100_000
+        assert closed['expected_minor'] == 100_000
+    finally:
+        await con.execute("SET TIME ZONE 'UTC'")
+
+
+@pytest.mark.asyncio
+async def test_credit_note_and_payment_race_preserves_nonnegative_receivable(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=600_000)
+    charge = await posted_charge(con, people, gross=600_000, contract=contract)
+    note = await ledger.create_credit_note(
+        con, actor_user_id=people['admin'], charge_id=charge['id'],
+        amount_minor=100_000, reason='Race correction')
+    await ledger.approve_credit_note(
+        con, actor_user_id=people['owner'], credit_note_id=note['id'])
+    other = await asyncpg.connect(
+        DSN, server_settings={'search_path': f'"{schema}", public'})
+    try:
+        posting, payment = await asyncio.gather(
+            ledger.post_credit_note(
+                con, actor_user_id=people['owner'], credit_note_id=note['id']),
+            ledger.record_payment(
+                other, actor_user_id=people['admin'],
+                student_user_id=people['student'], amount_minor=550_000),
+            return_exceptions=True)
+        assert not isinstance(payment, Exception), payment
+        if isinstance(posting, Exception):
+            assert isinstance(posting, LedgerError)
+            assert posting.code == 'credit_note_conflicts_with_allocations'
+        position = await ledger.student_position(con, people['student'])
+        assert position['receivableMinor'] >= 0
+        assert position['advanceMinor'] >= 0
+        assert position['allocatedMinor'] + position['creditedMinor'] <= 600_000
+        assert (await ledger.journal_is_balanced(con))['balanced']
+    finally:
+        await other.close()
