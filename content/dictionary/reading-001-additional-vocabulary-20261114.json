@@ -1,0 +1,652 @@
+{
+  "version": 1,
+  "release": "reading-001-additional-vocabulary-20261114",
+  "repository": "N-Muhammadjonov/learners_area",
+  "passages": {
+    "1-1": "400a46244f6309060b50c44d8cade0cf48c1aeaa920db936817eec7e42618ce8"
+  },
+  "terms": [
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "canning",
+      "partOfSpeech": "noun",
+      "translationUz": "konservalash",
+      "definitionEn": "the process of preserving food in sealed containers"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "canned",
+      "partOfSpeech": "adjective",
+      "translationUz": "konservalangan",
+      "definitionEn": "preserved and sealed inside a container"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "companies",
+      "partOfSpeech": "noun",
+      "translationUz": "kompaniyalar",
+      "definitionEn": "commercial organisations"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "cans",
+      "partOfSpeech": "noun",
+      "translationUz": "konserva bankalari",
+      "definitionEn": "metal containers used for preserved food"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "color",
+      "partOfSpeech": "noun",
+      "translationUz": "rang",
+      "definitionEn": "the appearance of an object depending on reflected light"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "still",
+      "partOfSpeech": "adverb",
+      "translationUz": "hanuz",
+      "definitionEn": "continuing to happen or remain true"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "used",
+      "partOfSpeech": "verb",
+      "translationUz": "qo‘llanilgan",
+      "definitionEn": "employed for a particular purpose"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "aseptic",
+      "partOfSpeech": "adjective",
+      "translationUz": "mikroblardan xoli",
+      "definitionEn": "free from disease-causing microorganisms"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "container",
+      "partOfSpeech": "noun",
+      "translationUz": "idish",
+      "definitionEn": "a vessel for holding or storing food"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "flavor",
+      "partOfSpeech": "noun",
+      "translationUz": "ta’m",
+      "definitionEn": "the taste of food"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "glass",
+      "partOfSpeech": "noun",
+      "translationUz": "shisha",
+      "definitionEn": "a transparent material used for jars"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "high",
+      "partOfSpeech": "adjective",
+      "translationUz": "yuqori",
+      "definitionEn": "at an elevated level of intensity"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "hot",
+      "partOfSpeech": "adjective",
+      "translationUz": "issiq",
+      "definitionEn": "having a high temperature"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "kettle",
+      "partOfSpeech": "noun",
+      "translationUz": "qozon",
+      "definitionEn": "a vessel used for cooking"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "long",
+      "partOfSpeech": "adjective",
+      "translationUz": "uzoq",
+      "definitionEn": "lasting for a considerable period"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "made",
+      "partOfSpeech": "verb",
+      "translationUz": "tayyorlangan",
+      "definitionEn": "produced or prepared"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "make",
+      "partOfSpeech": "verb",
+      "translationUz": "qilmoq",
+      "definitionEn": "bring about an intended result"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "precise",
+      "partOfSpeech": "adjective",
+      "translationUz": "aniq",
+      "definitionEn": "exact and carefully controlled"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "spoiled",
+      "partOfSpeech": "adjective",
+      "translationUz": "aynigan",
+      "definitionEn": "no longer safe or pleasant to eat"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "time",
+      "partOfSpeech": "noun",
+      "translationUz": "vaqt",
+      "definitionEn": "a duration in which something happens"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "workers",
+      "partOfSpeech": "noun",
+      "translationUz": "ishchilar",
+      "definitionEn": "people employed at a workplace"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "addition",
+      "partOfSpeech": "noun",
+      "translationUz": "qo‘shish",
+      "definitionEn": "the act of adding something"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "adopted",
+      "partOfSpeech": "verb",
+      "translationUz": "joriy etilgan",
+      "definitionEn": "introduced and put into regular practice"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "advanced",
+      "partOfSpeech": "adjective",
+      "translationUz": "ilg‘or",
+      "definitionEn": "using sophisticated modern technology"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "also",
+      "partOfSpeech": "adverb",
+      "translationUz": "shuningdek",
+      "definitionEn": "in addition"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "alternatives",
+      "partOfSpeech": "noun",
+      "translationUz": "muqobil variantlar",
+      "definitionEn": "other choices that could be used instead"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "appeal",
+      "partOfSpeech": "noun",
+      "translationUz": "joziba",
+      "definitionEn": "the quality of being attractive"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "applied",
+      "partOfSpeech": "verb",
+      "translationUz": "ariza bergan",
+      "definitionEn": "formally submitted a request"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "art",
+      "partOfSpeech": "noun",
+      "translationUz": "san’at",
+      "definitionEn": "creative skill or craft"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "bean",
+      "partOfSpeech": "noun",
+      "translationUz": "loviya",
+      "definitionEn": "an edible legume"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "beans",
+      "partOfSpeech": "noun",
+      "translationUz": "loviyalar",
+      "definitionEn": "edible legume seeds or pods"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "benzoate",
+      "partOfSpeech": "noun",
+      "translationUz": "benzoat",
+      "definitionEn": "a salt of benzoic acid"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "cancer",
+      "partOfSpeech": "noun",
+      "translationUz": "saraton",
+      "definitionEn": "a disease involving uncontrolled cell growth"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "cases",
+      "partOfSpeech": "noun",
+      "translationUz": "holatlar",
+      "definitionEn": "individual instances of an event"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "change",
+      "partOfSpeech": "verb",
+      "translationUz": "almashtirmoq",
+      "definitionEn": "replace one item with another"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "chemical",
+      "partOfSpeech": "adjective",
+      "translationUz": "kimyoviy",
+      "definitionEn": "relating to chemical substances"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "consistent",
+      "partOfSpeech": "adjective",
+      "translationUz": "barqaror",
+      "definitionEn": "showing the same results over time"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "continued",
+      "partOfSpeech": "verb",
+      "translationUz": "davom etdi",
+      "definitionEn": "carried on doing something"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "cooked",
+      "partOfSpeech": "verb",
+      "translationUz": "pishirilgan",
+      "definitionEn": "prepared by heating"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "covered",
+      "partOfSpeech": "adjective",
+      "translationUz": "yopiq",
+      "definitionEn": "having a lid or covering"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "creating",
+      "partOfSpeech": "verb",
+      "translationUz": "hosil qilib",
+      "definitionEn": "bringing something into existence"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "decades",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘n yilliklar",
+      "definitionEn": "periods of ten years"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "developed",
+      "partOfSpeech": "verb",
+      "translationUz": "ishlab chiqilgan",
+      "definitionEn": "produced through research and innovation"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "discover",
+      "partOfSpeech": "verb",
+      "translationUz": "aniqlamoq",
+      "definitionEn": "find out something through research"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "discovered",
+      "partOfSpeech": "verb",
+      "translationUz": "aniqlagan",
+      "definitionEn": "found something previously unknown"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "early",
+      "partOfSpeech": "adjective",
+      "translationUz": "dastlabki",
+      "definitionEn": "belonging to the beginning of a period"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "eating",
+      "partOfSpeech": "verb",
+      "translationUz": "iste’mol qilish",
+      "definitionEn": "taking food into the body"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "employees",
+      "partOfSpeech": "noun",
+      "translationUz": "xodimlar",
+      "definitionEn": "people working for an employer"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "engines",
+      "partOfSpeech": "noun",
+      "translationUz": "dvigatellar",
+      "definitionEn": "machines converting energy into motion"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "enough",
+      "partOfSpeech": "adverb",
+      "translationUz": "yetarli darajada",
+      "definitionEn": "sufficiently to achieve a result"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "error",
+      "partOfSpeech": "noun",
+      "translationUz": "xato",
+      "definitionEn": "a mistake in a method"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "explains",
+      "partOfSpeech": "verb",
+      "translationUz": "tushuntiradi",
+      "definitionEn": "gives a clear account"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "fatal",
+      "partOfSpeech": "adjective",
+      "translationUz": "o‘limga olib keluvchi",
+      "definitionEn": "causing death"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "fingernails",
+      "partOfSpeech": "noun",
+      "translationUz": "tirnoqlar",
+      "definitionEn": "hard coverings at the ends of fingers"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "followed",
+      "partOfSpeech": "verb",
+      "translationUz": "keyingi",
+      "definitionEn": "came after a previous event"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "franc",
+      "partOfSpeech": "noun",
+      "translationUz": "frank",
+      "definitionEn": "a historical French unit of currency"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "happening",
+      "partOfSpeech": "verb",
+      "translationUz": "sodir bo‘lish",
+      "definitionEn": "taking place"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "helped",
+      "partOfSpeech": "verb",
+      "translationUz": "yordam berdi",
+      "definitionEn": "made a result possible"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "improved",
+      "partOfSpeech": "adjective",
+      "translationUz": "yaxshilangan",
+      "definitionEn": "made better in quality"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "industrial",
+      "partOfSpeech": "adjective",
+      "translationUz": "sanoatga oid",
+      "definitionEn": "related to large-scale production"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "known",
+      "partOfSpeech": "adjective",
+      "translationUz": "ma’lum",
+      "definitionEn": "recognised as a fact"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "late",
+      "partOfSpeech": "adjective",
+      "translationUz": "oxirgi",
+      "definitionEn": "occurring near the end of a period"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "later",
+      "partOfSpeech": "adverb",
+      "translationUz": "keyinroq",
+      "definitionEn": "at a subsequent time"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "least",
+      "partOfSpeech": "noun",
+      "translationUz": "hech bo‘lmasa",
+      "definitionEn": "the smallest acceptable amount"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "like",
+      "partOfSpeech": "preposition",
+      "translationUz": "singari",
+      "definitionEn": "similar to something"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "months",
+      "partOfSpeech": "noun",
+      "translationUz": "oylar",
+      "definitionEn": "periods of several months"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "more",
+      "partOfSpeech": "adverb",
+      "translationUz": "ko‘proq",
+      "definitionEn": "to a greater extent"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "now",
+      "partOfSpeech": "adverb",
+      "translationUz": "hozir",
+      "definitionEn": "at the present time"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "periods",
+      "partOfSpeech": "noun",
+      "translationUz": "davrlar",
+      "definitionEn": "lengths of time"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "principles",
+      "partOfSpeech": "noun",
+      "translationUz": "tamoyillar",
+      "definitionEn": "fundamental rules of a field"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "reason",
+      "partOfSpeech": "noun",
+      "translationUz": "sabab",
+      "definitionEn": "an explanation for an event"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "results",
+      "partOfSpeech": "noun",
+      "translationUz": "natijalar",
+      "definitionEn": "outcomes of an activity"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "safe",
+      "partOfSpeech": "adjective",
+      "translationUz": "xavfsiz",
+      "definitionEn": "not likely to cause harm"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "small",
+      "partOfSpeech": "adjective",
+      "translationUz": "kichik",
+      "definitionEn": "of limited size"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "technique",
+      "partOfSpeech": "noun",
+      "translationUz": "usul",
+      "definitionEn": "a procedure for achieving an outcome"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "times",
+      "partOfSpeech": "noun",
+      "translationUz": "muddatlar",
+      "definitionEn": "lengths of time"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "trial",
+      "partOfSpeech": "noun",
+      "translationUz": "sinov",
+      "definitionEn": "a test of a method"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "visual",
+      "partOfSpeech": "adjective",
+      "translationUz": "ko‘rishga oid",
+      "definitionEn": "relating to appearance"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "water",
+      "partOfSpeech": "noun",
+      "translationUz": "suv",
+      "definitionEn": "a common liquid essential to life"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "well",
+      "partOfSpeech": "adverb",
+      "translationUz": "yaxshi",
+      "definitionEn": "in a satisfactory way"
+    }
+  ],
+  "corrections": [],
+  "offsetRepairs": []
+}
