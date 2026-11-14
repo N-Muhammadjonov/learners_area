@@ -88,7 +88,7 @@ test('Listening 12–16 Script word lookup uses an exact source span and the exi
   assert.match(bridge,/mode:'script'/);
   assert.match(bridge,/startChar:begin,endChar:end/);
   assert.match(bridge,/occurrences\.filter/);
-  assert.match(bridge,/if\\(matches\\.length!==1\\)return;/);
+  assert.match(bridge,/if\(matches\.length!==1\)return;/);
   new Function(bridge);
   const script=originalScriptAccessibility('test-token');
   assert.match(script,/la-script-lexical-word/);
