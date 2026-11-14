@@ -203,6 +203,12 @@ async def answer_game(req:Request):
         return core.j({'ok':True,'correct':bool(correct),'verified':verified,'awarded':1 if awarded else 0,'srsUntouched':True})
 
 
+def attempt_deck_limit(game_id):
+    # Cards use source-authored groups (up to 33 in the Art pack).
+    # Exact group membership is checked separately for every supplied card.
+    return 500 if game_id=='cards' else 24
+
+
 def attempt_scope(data):
     if not isinstance(data,dict):return None
     game=data.get('gameId');key=data.get('set')
@@ -265,7 +271,9 @@ async def update_game_attempt(req:Request,body):
             latest=await latest_attempt(con,user['id'],scope['scope'])
             if body['action']=='start':
                 deck=body.get('deck')
-                max_words=10 if scope['gameId']=='cards' else 24
+                # Authored flashcard batches can contain 24–33 words; the exact
+                # batch membership is verified below before any attempt is inserted.
+                max_words=attempt_deck_limit(scope['gameId'])
                 if (not isinstance(deck,list) or not 1<=len(deck)<=max_words
                     or len(set(map(str,deck)))!=len(deck)
                     or any(not isinstance(v,str) or not core.uuid_value(v) for v in deck)):
