@@ -19,3 +19,15 @@ test('server failures retain the hint for a later session and malformed hints ar
  await consumePublicLevelHint({request:async()=>{throw{status:503};}},store);assert(store.value);
  await consumePublicLevelHint({request:async()=>{throw{status:400};}},store);assert.equal(store.value,null);
 });
+test('optional unauthorized imports never broadcast an auth failure or remove the hint',async()=>{
+ const previousFetch=globalThis.fetch,previousWindow=globalThis.window;
+ let events=0;
+ try{
+  globalThis.window={dispatchEvent(){events++;}};
+  globalThis.fetch=async()=>new Response('{"error":"unauthenticated"}',{status:401,headers:{'Content-Type':'application/json'}});
+  const isolated=await import('../js/public-level-hint.js?quiet-import');
+  const store=storage(JSON.stringify(valid()));
+  await isolated.consumePublicLevelHint(undefined,store);
+  assert.equal(events,0);assert(store.value);
+ }finally{globalThis.fetch=previousFetch;globalThis.window=previousWindow;}
+});

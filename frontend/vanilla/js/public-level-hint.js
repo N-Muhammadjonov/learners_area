@@ -1,9 +1,11 @@
-import {api} from './api-client.js';
+import {createApi} from './api-client.js';
 export const PUBLIC_LEVEL_KEY='la:level-check:v1';
 const TTL=24*60*60*1000;
 let pending;
+// An optional hint must never broadcast an authentication failure or navigate.
+const hintApi=createApi();
 /** Optional one-time guidance. Storage and import failures never delay navigation. */
-export function consumePublicLevelHint(client=api,storage){
+export function consumePublicLevelHint(client=hintApi,storage){
  if(pending)return pending;
  pending=(async()=>{
   try{
