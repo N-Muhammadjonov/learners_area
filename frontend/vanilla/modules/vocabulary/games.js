@@ -82,7 +82,7 @@ export function mountGames(ctx,host,id=null){
     if(roundSignal.aborted)return null;privateScope.invalidate('vocabulary:');if(result.awarded>0)notifyLedger();return result;
    }catch{return null;}};
    const props={id,words,source:source(),marks:data.selfAssessments??{},answer,batches:data.batches,batchIndex:data.batchIndex,
-    progress:attempt.state??{},save,onBatch:next=>{batch=next;address();void load();}};
+    progress:attempt.state??{},save,onRetry:restartAttempt,onBatch:next=>{batch=next;address();void load();}};
    if(id==='cards')flashcards(gameCtx,game,props);
    else if(id==='race')typingRace(gameCtx,game,props);
    else if(id==='match')matchingGame(gameCtx,game,props);
