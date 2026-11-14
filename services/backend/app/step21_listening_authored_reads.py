@@ -140,11 +140,11 @@ async def authored(req:Request,id:str):
                 if not isinstance(row,dict):continue
                 part=row.get('part');start=row.get('start');end=row.get('end')
                 surface=row.get('surface');occurrence=row.get('occurrenceId')
-                definition=row.get('definitionEn');translation=row.get('translationUz')
+                sense_definition=row.get('definitionEn');translation=row.get('translationUz')
                 if (type(part) is not int or not 1<=part<=len(sections) or
                     type(start) is not int or type(end) is not int or
                     not isinstance(surface,str) or not isinstance(occurrence,str) or
-                    not isinstance(definition,str) or not definition.strip() or
+                    not isinstance(sense_definition,str) or not sense_definition.strip() or
                     not isinstance(translation,str) or not translation.strip()):
                     continue
                 transcript=sections[part-1].get('transcript','')
@@ -156,7 +156,7 @@ async def authored(req:Request,id:str):
                     continue
                 spans.append({'part':part,'start':start,'end':end,
                     'surface':surface,'occurrenceId':occurrence,
-                    'definitionEn':definition,'translationUz':translation,
+                    'definitionEn':sense_definition,'translationUz':translation,
                     'partOfSpeech':row.get('partOfSpeech')})
             out['contextualOccurrences']=spans
             suffix=source.rsplit('-',1)[-1]
