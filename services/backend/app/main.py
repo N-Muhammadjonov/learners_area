@@ -912,5 +912,7 @@ _install_plan_level_check()
 
 from .guardian_port import install as _install_guardian
 _install_guardian()
+from .tuition_port import install as _install_tuition
+_install_tuition()
 from .study_plan_staff_port import install as _install_study_plan_staff
 _install_study_plan_staff()

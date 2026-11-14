@@ -16,7 +16,14 @@ from app import coin_rewards as rewards
 from app.coin_policy import advance_playback
 
 DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
-MIGRATION = Path(__file__).resolve().parents[1] / "migrations/0084_coin_economy.sql"
+MIGRATION_DIR = Path(__file__).resolve().parents[1] / "migrations"
+# coin_rewards.wallet() reads coin_gift_refunds, which 0092 adds. Applying only 0084 made the
+# fixture schema older than the code under test: wallet() swallowed the missing-table error and
+# reported an all-zero balance, so four assertions failed for a reason that was not the wallet.
+MIGRATIONS = [MIGRATION_DIR / name for name in (
+    "0084_coin_economy.sql", "0091_coin_daily_referrals_gifts.sql",
+    "0092_coin_gift_fulfillment.sql")]
+MIGRATION = MIGRATIONS[0]
 
 
 @pytest_asyncio.fixture
@@ -40,8 +47,9 @@ async def database():
     await con.execute("""CREATE TABLE video_lessons(id uuid PRIMARY KEY,lesson_id uuid,
         provider text,media_kind text,duration_seconds integer,is_active boolean,
         publication_state text,publish_at timestamptz)""")
-    async with con.transaction():
-        await con.execute(MIGRATION.read_text())
+    for migration in MIGRATIONS:
+        async with con.transaction():
+            await con.execute(migration.read_text())
     rewards.reset_cache()
     user = uuid4()
     await con.execute("INSERT INTO users(id) VALUES($1)", user)
@@ -69,7 +77,7 @@ async def test_migration_is_idempotent_and_private(database):
         FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
         WHERE n.nspname=$1 AND c.relkind='r' AND c.relname<>'users'
         AND c.relname<>'video_lessons'""", schema)
-    assert len(rows) == 7 and all(row["relrowsecurity"] for row in rows)
+    assert len(rows) == 13 and all(row["relrowsecurity"] for row in rows)
     assert all("anon=" not in (row["acl"] or "") and "authenticated=" not in (row["acl"] or "")
                and "service_role=" not in (row["acl"] or "") for row in rows)
 
