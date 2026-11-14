@@ -221,10 +221,10 @@
     {
       "testNo": 4,
       "passageNo": 1,
-      "surface": "predatory wasps",
-      "partOfSpeech": "noun phrase",
-      "translationUz": "yirtqich arilar",
-      "definitionEn": "wasps that hunt other insects"
+      "surface": "predatory",
+      "partOfSpeech": "adjective",
+      "translationUz": "yirtqich",
+      "definitionEn": "hunting and feeding on other insects"
     },
     {
       "testNo": 4,
