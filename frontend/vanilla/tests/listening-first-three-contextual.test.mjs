@@ -77,10 +77,10 @@ test('Script Completion source spans align with original source and retain every
 
 test('All transcript words have an offset-preserving contextual fallback and save markers',()=>{
  const script=paintedBridge('fixture',{},'Notes','storage',null,false,[]);
- assert.match(script,/mode:'script-context'/);
+ assert.match(script,/mode:'script'/);
  assert.match(script,/startChar:begin,endChar:end/);
  assert.match(script,/occurrences\.filter/);
- assert.match(script,/matches\.length===0/);
+ assert.match(script,/if\(matches\.length!==1\)return;/);
  new Function(script);
  const parent=readFileSync(new URL('../modules/listening/authored.js',import.meta.url),'utf8');
  assert.match(parent,/contextualScriptWord\(d\)/);

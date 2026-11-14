@@ -61,7 +61,8 @@ test('Listening 17–20 all retain 40 graded questions and source-exact Script C
 
 test('Listening Script dictionary interactions preserve offsets and Vocabulary saved markers',()=>{
   const script=paintedBridge('fixture',{},'Notes','storage',null,false,[]);
-  assert.match(script,/mode:'script-context'/);
+  assert.match(script,/mode:'script'/);
+  assert.doesNotMatch(script,/mode:'script-context'/);
   assert.match(script,/startChar:begin,endChar:end/);
   assert.match(script,/occurrences\.filter/);
   new Function(script);

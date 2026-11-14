@@ -19,7 +19,7 @@ function occurrenceIdIsValid(id,meaning){
 }
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose,inlineContext:authoredContext}=props,t=dict.vocabulary;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose,sourceTitle,localMeaning,inlineContext:authoredContext}=props,t=dict.vocabulary;
  const inlineContext=sourceType==='reading'&&occurrenceIdIsValid(initialOccurrenceId,authoredContext)?authoredContext:null;
  let occurrenceId=initialOccurrenceId,alternatives=[],contextual=inlineContext,unresolved=false,known=null,loading=!inlineContext,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
@@ -43,6 +43,8 @@ export function contextualWordPopover(context,props){
    ?`/api/vocabulary/lookup?sourceType=${enc(sourceType)}&sourceId=${enc(sourceId)}&occurrenceId=${enc(occurrenceId)}`
    :contextualUrl;
   const lookupRequest=async()=>{
+   if(sourceType==='listening'&&occurrenceId&&localMeaning?.definitionEn&&localMeaning?.translationUz)
+    return {status:'resolved',contextual:localMeaning,occurrenceId,known:null};
    try{return await api.request(url,{signal:localSignal});}
    catch(e){
     if(!inlineContext&&occurrenceId&&e?.status===404&&Number.isInteger(startChar)&&Number.isInteger(endChar))
@@ -57,17 +59,18 @@ export function contextualWordPopover(context,props){
    else{
     let data=lookupResult.value;
     if(inlineContext){
-     // Reading word senses are source-authored; a lookup can only report saved
-     // state, not replace the passage's meaning with catalogue alternatives.
+     // Display only the sense supplied by the current Reading passage.
      contextual=inlineContext;alternatives=[];unresolved=false;
      if(data?.known)known={...data.known,...inlineContext};
      onSavedStatus?.(Boolean(data?.known));
-    }else if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
-    if(!inlineContext)alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
-    if(!inlineContext&&data?.status==='unresolved')unresolved=true;
-    else if(!inlineContext&&typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
-    else if(!inlineContext&&data?.contextual===null)unresolved=true;
-    else if(!inlineContext)error=dict.auth.errorServer;
+    }else{
+     if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+     alternatives=sourceType==='listening'?[]:Array.isArray(data?.alternatives)?data.alternatives:[];
+     if(data?.status==='unresolved')unresolved=true;
+     else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};if(data.known)onSavedStatus?.(true);else if(!localMeaning)onSavedStatus?.(false);}
+     else if(data?.contextual===null)unresolved=true;
+     else error=dict.auth.errorServer;
+    }
    }
    if(folderResult.status==='fulfilled'&&Array.isArray(folderResult.value?.folders))folders=folderResult.value.folders.filter(f=>typeof f?.id==='string'&&typeof f.name==='string');
    else error=folderResult.status==='rejected'?failure(folderResult.reason,dict):dict.auth.errorServer;
@@ -108,7 +111,7 @@ export function contextualWordPopover(context,props){
    contextual.translationUz?[el('hr',{class:'dictionary-translation-divider'}),el('p',{},contextual.translationUz)]:null);
  }
  function folderAndSave(){
-  const select=el('select',{class:'input mt-1',value:folderId},el('option',{value:''},sourceType==='listening'?'Listening':sourceType==='reading'?'Passage nomi bilan avtomatik':sourceType==='retention'?'Retention':t.folders.unassigned),...folders.map(f=>el('option',{value:f.id},f.name)));
+  const select=el('select',{class:'input mt-1',value:folderId},el('option',{value:''},sourceType==='listening'?(sourceTitle||'Listening Test'):sourceType==='reading'?'Passage nomi bilan avtomatik':sourceType==='retention'?'Retention':t.folders.unassigned),...folders.map(f=>el('option',{value:f.id},f.name)));
   select.value=folderId;select.addEventListener('change',()=>{folderId=select.value;});
   return [el('label',{class:'text-xs text-ink-500'},t.games.set.folder,select),
    el('div',{class:'flex items-center gap-2'},button('btn-primary text-xs',{disabled:busy?true:null,'data-word-save':true},busy?dict.common.saving:t.add.button,()=>void save()))];
@@ -137,19 +140,16 @@ export function contextualWordPopover(context,props){
    saved?el('p',{class:'mt-2 text-xs text-band-good','data-word-saved':true},`${t.add.added} · ${t.tab.words}`):null,
    needsMeaning?el('p',{class:'mt-2 text-xs text-band-warn','data-word-needs-meaning':true},t.add.needsMeaning):null);
  }
+ const dismiss=event=>{if(event.type==='keydown'){if(event.key==='Escape'){event.preventDefault();stop();onClose?.();}return;}if(popup&&!popup.contains(event.target)&&event.target!==anchor&&!anchor?.contains(event.target)){stop();onClose?.();}};
+ document.addEventListener('pointerdown',dismiss,true);document.addEventListener('keydown',dismiss,true);
  function stop(){
-  if(stopped)return;stopped=true;controller.abort();observer?.disconnect();
+  if(stopped)return;stopped=true;document.removeEventListener('pointerdown',dismiss,true);document.removeEventListener('keydown',dismiss,true);controller.abort();observer?.disconnect();
   window.removeEventListener('resize',place);window.removeEventListener('scroll',place,true);
   popup?.remove();popup=null;signal.removeEventListener('abort',stop);
  }
  observer=typeof ResizeObserver==='function'?new ResizeObserver(place):null;
  window.addEventListener('resize',place);window.addEventListener('scroll',place,true);
  signal.addEventListener('abort',stop,{once:true});
- const closeOutside=e=>{
-  if(stopped||!popup||popup.contains(e.target)||anchor?.contains(e.target))return;
-  stop();onClose?.();
- };
- document.addEventListener('pointerdown',closeOutside,{signal:localSignal});
  if(inlineContext)draw();
  void lookup();
  return {stop};

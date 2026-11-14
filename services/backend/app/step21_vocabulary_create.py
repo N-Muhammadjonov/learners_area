@@ -164,6 +164,19 @@ async def create_vocabulary(req:Request):
         if not storable:return core.j({'ok':False,'error':'needs_definition','needsDefinition':unresolved},422)
         async with con.transaction():
             folder_id=core.uuid_value(body.get('folderId'))
+            if source=='listening' and not folder_id:
+                # A saved transcript word belongs to this exact Listening Test
+                # unless the learner explicitly selected an existing folder.
+                title=await con.fetchval(
+                    'SELECT title FROM listening_tests WHERE id=$1',
+                    core.uuid_value(sid))
+                if not isinstance(title,str) or not title.strip():
+                    return core.j({'error':'source_not_found'},404,PRIVATE)
+                await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user['id'])
+                folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name)
+                    VALUES($1,$2) ON CONFLICT(user_id,name)
+                    DO UPDATE SET name=excluded.name RETURNING id''',
+                    user['id'],title.strip()[:200])
             if source=='article' and body.get('folderName'):
                 await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',user['id'])
                 folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)

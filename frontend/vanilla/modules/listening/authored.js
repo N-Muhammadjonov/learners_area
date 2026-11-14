@@ -186,7 +186,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  // Native page already has a single accessible parent Back control.
  // Hide the redundant authored activity strip (Activities + Telegram brand).
  if(content.nativePersistence){html=html.replace(/<\/head>/i,'<style id="la-listening-parent-navigation">.activity-top{display:none!important}.exam-header{top:0!important;z-index:1000!important}.exam-interface{min-height:100vh!important}.part-header{scroll-margin-top:65px!important}.questions-section{scroll-margin-top:65px!important}html{scroll-padding-top:65px!important}</style></head>');}
- const progressive=content.sharedMedia,doc=isolateAuthoredDocument(html,(progressive?authoredMediaBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:String(index),path:item.path})),path):rangeBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:'la-pending:'+index,path:item.path})),path))+paintedBridge(token,stored,dict.fullListeningHub.examScreen.noteTaking,content.storageKey,content.course,progressive,content.contextualOccurrences??[])+(content.nativePersistence?originalExamPolicy(content.storageKey)+originalExamWorkflow()+authoredHeader()+checkpointNotice(token)+examTools()+originalReview()+originalReviewV16(token)+reviewNavigationBridge(token)+originalPracticeState()+originalScriptAccessibility(token)+originalRetryPolicy(token):''));
+ const progressive=content.sharedMedia,doc=isolateAuthoredDocument(html,(progressive?authoredMediaBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:String(index),path:item.path})),path):rangeBridge(token,[{path:content.audioPath},...(content.additionalAudio??[])].map((item,index)=>({id:'la-pending:'+index,path:item.path})),path))+paintedBridge(token,stored,dict.fullListeningHub.examScreen.noteTaking,content.storageKey,content.course,progressive,content.contextualOccurrences??[])+(content.nativePersistence?originalExamPolicy(content.storageKey)+originalExamWorkflow()+authoredHeader()+checkpointNotice(token)+examTools()+originalReview()+originalReviewV16(token)+reviewNavigationBridge(token)+originalPracticeState()+originalScriptAccessibility(token,content.contextualOccurrences??[])+originalRetryPolicy(token):''));
  frame?.remove();frame=el('iframe',{title:dict.nav.listening,sandbox:AUTHORED_SANDBOX,referrerpolicy:'no-referrer',src:`/api/listening/full/${encodeURIComponent(id)}/sandbox${content.nativePersistence?(location.hash.startsWith('#review')?'':location.hash):''}`,class:'h-[calc(100dvh-10rem)] min-h-[600px] w-full rounded-2xl border-0',allow:'autoplay; fullscreen'});const owner=frame;owner.addEventListener('load',()=>{if(frame!==owner||!owner.isConnected)return;post('learners-area-sandbox-init',{html:doc,assets:blobs});},{once:true,signal:anySignal([liveSignal,frameAbort.signal])});owner.addEventListener('error',()=>{if(frame===owner)frameFailure();},{once:true,signal:anySignal([liveSignal,frameAbort.signal])});loading.remove();host.append(frame);frameReadyTimer=setTimeout(()=>{if(frame===owner&&!hubReady)frameFailure();},12000);}
  async function load(){try{const response=await request(`/api/listening/full/${id}/authored`);if(liveSignal.aborted)return;if(response?.kind==='exam_required'){host.replaceChildren(secureExamGate(context,response,id));return;}const data=authoredContent(response);if(liveSignal.aborted)return;if(!data.runtime?.files||typeof data.runtime.entryPath!=='string'||!Array.isArray(data.vocabulary))throw Error('Invalid authored DTO');vocabulary=data.vocabulary;hydratedCourse=data.course??null;content=data;data.sharedMedia=!!data.nativePersistence||Object.values(data.runtime.files).some(html=>/id=["']sharedAudio["']/.test(html));
  {for(const [index,item]of [{path:data.audioPath,url:data.audioUrl},...(data.additionalAudio??[])].entries())assets[item.path]=(data.sharedMedia?'la-media:':'la-pending:')+index;if(data.imagePath)assets[data.imagePath]='la-image:0';
@@ -202,37 +202,38 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  // Native legacy modes share the SAME server gate: child mode cannot route around Review permission.
  async function exactScriptWord(d){
   if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;
-  const word=reviewTerm(d.word);
-  if(!word||typeof d.occurrenceId!=='string')return;
+  const clicked=reviewTerm(d.word);
+  if(!clicked||!Number.isInteger(d.part)||!Number.isSafeInteger(d.startChar)||
+     !Number.isSafeInteger(d.endChar)||typeof d.occurrenceId!=='string')return;
+  const row=content.contextualOccurrences?.find(item=>item.occurrenceId===d.occurrenceId&&
+   item.part===d.part&&item.start<=d.startChar&&item.end>=d.endChar&&
+   item.surface.slice(d.startChar-item.start,d.endChar-item.start).toLowerCase()===clicked.toLowerCase()&&
+   typeof item.definitionEn==='string'&&typeof item.translationUz==='string');
+  if(!row)return;
   selectionClose();
   const controller=new AbortController();reviewLexicalController=controller;
   const signal=anySignal([liveSignal,controller.signal]);
   anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
   host.append(anchor);
   popup=contextualWordPopover({...context,signal},{
-   anchor,dict,word,sourceType:'listening',sourceId:id,occurrenceId:d.occurrenceId,
-   section:d.part,startChar:d.startChar,endChar:d.endChar,
-   onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
+   anchor,dict,word:row.surface,sourceType:'listening',sourceId:id,
+   sourceTitle:content.testTitle,occurrenceId:row.occurrenceId,
+   section:row.part,startChar:row.start,endChar:row.end,
+   localMeaning:{term:row.surface,definitionEn:row.definitionEn,
+    translationUz:row.translationUz,partOfSpeech:row.partOfSpeech},
+   onSavedStatus:saved=>{post('learners-area-script-save-status',
+    {part:row.part,start:row.start,end:row.end,saved});if(saved)void refreshScriptSaved();},
    onClose:selectionClose
   });
  }
  async function contextualScriptWord(d){
-  if(navigationExpired||authorityBlocked||examLock||!stateReady||!content?.nativePersistence)return;
-  const word=reviewTerm(d.word);
-  if(!word||!Number.isInteger(d.part)||d.part<1||d.part>4||
-     !Number.isSafeInteger(d.startChar)||!Number.isSafeInteger(d.endChar)||
-     d.startChar<0||d.endChar<=d.startChar||d.endChar-d.startChar>120)return;
-  selectionClose();
-  const controller=new AbortController();reviewLexicalController=controller;
-  const signal=anySignal([liveSignal,controller.signal]);
-  anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
-  host.append(anchor);
-  popup=contextualWordPopover({...context,signal},{
-   anchor,dict,word,sourceType:'listening',sourceId:id,
-   section:d.part,startChar:d.startChar,endChar:d.endChar,
-    onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
-    onClose:selectionClose
-  });
+  if(!Number.isInteger(d.part)||!Number.isSafeInteger(d.startChar)||
+     !Number.isSafeInteger(d.endChar))return;
+  const row=content?.contextualOccurrences?.find(item=>item.part===d.part&&
+   item.start<=d.startChar&&item.end>=d.endChar&&
+   item.surface.slice(d.startChar-item.start,d.endChar-item.start).toLowerCase()===
+    String(d.word||'').toLowerCase());
+  if(row)await exactScriptWord({...d,occurrenceId:row.occurrenceId});
  }
  async function guardedWord(d){if(!content?.nativePersistence)return word(d);if(navigationExpired||authorityBlocked||examLock||!stateReady)return;const term=reviewTerm(d.word);if(!term)return;selectionClose();const generation=reviewLexicalVersion,owner=frame,controller=new AbortController();reviewLexicalController=controller;const lexicalSignal=anySignal([liveSignal,controller.signal]);try{const access=await request(`/api/vocabulary/meaning?sourceId=${encodeURIComponent(id)}&q=${encodeURIComponent(term)}`,{signal:lexicalSignal});if(lexicalSignal.aborted||generation!==reviewLexicalVersion||owner!==frame||authorityBlocked||examLock||!stateReady)return;if(access?.status!=='unresolved'||access.contextual!==null)throw Error('Invalid spelling permission response');await word(d);}catch(cause){if(lexicalSignal.aborted||generation!==reviewLexicalVersion)return;reviewLexicalNotice.textContent=checkpointMessage(cause,document.documentElement.lang);if(!reviewLexicalNotice.isConnected)host.prepend(reviewLexicalNotice);if([401,403,404].includes(cause.status))checkpointFailure(cause);}}
  async function word(d){if(navigationExpired||authorityBlocked||examLock||!stateReady)return;const owner=frame,generation=reviewLexicalVersion;if(!vocabularyRead){const reading=request(`/api/listening/full/${id}/authored?vocabulary=1`,{signal:reviewLexicalController?.signal}).then(result=>{if(!liveSignal.aborted&&!authorityBlocked&&frame===owner&&generation===reviewLexicalVersion&&Array.isArray(result.vocabulary))vocabulary=result.vocabulary;}).catch(()=>{if(vocabularyRead===reading)vocabularyRead=null;});vocabularyRead=reading;}await vocabularyRead;if(liveSignal.aborted||authorityBlocked||!stateReady||frame!==owner||examLock||generation!==reviewLexicalVersion)return;selectionClose();const controller=new AbortController();reviewLexicalController=controller;const wordSignal=anySignal([liveSignal,controller.signal]),wordVersion=reviewLexicalVersion,wordCurrent=()=>!wordSignal.aborted&&!authorityBlocked&&!examLock&&stateReady&&frame===owner&&wordVersion===reviewLexicalVersion;const matches=vocabulary.filter(row=>row.term.toLowerCase()===d.word.trim().toLowerCase()&&(d.mode==='vocab'||(row.example&&typeof d.context==='string'&&d.context.includes(row.example)))),v=matches.length===1?matches[0]:null,x=Math.max(0,Math.min(d.x,frame?.clientWidth??0)),y=Math.max(0,Math.min(d.y,frame?.clientHeight??0));anchor=el('span',{class:'fixed h-px w-px',style:{left:'calc(100vw - 16px)',top:'128px'}});host.append(anchor);
@@ -268,6 +269,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  if(d.op==='course'&&content?.nativePersistence&&typeof d.activity==='string'&&d.answers&&typeof d.answers==='object'&&JSON.stringify(d.answers).length<=50000){queue(async()=>{const status=await request(`/api/listening/full/${id}/progress`,{method:'POST',body:{activity:d.activity,answers:d.answers}});post('learners-area-course-progress',{status});});return;}
  if(d.op==='storage'&&d.values&&typeof d.values==='object'&&JSON.stringify(d.values).length<=100000){if(content?.nativePersistence){try{const own=JSON.parse(d.values[content.storageKey]||'{}');if(own.attemptStatus==='in_progress'){examLock=true;selectionClose();if(own.attemptKey&&own.attemptKey!==canonicalAttempt&&!JSON.parse(draftStorage.getItem(stateKey+':start')||'{}').attemptKey)draftStorage.setItem(stateKey+':start',JSON.stringify({attemptKey:own.attemptKey,previousKey:canonicalAttempt,baseStamp:serverBaseline}));}}catch{}}if(d.retryOnly===true){if(content?.nativePersistence)checkpointWriter.retry();return;}stored=hydration=d.values;try{draftStorage.setItem(stateKey,JSON.stringify(d.values));}catch{}if(content?.nativePersistence){if(checkpointWriter.saved===JSON.stringify(d.values)&&!checkpointWriter.active&&!checkpointWriter.barrier&&!checkpointWriter.failed){checkpointWriter.save(d.values);return;}pending=d.values;try{draftStorage.setItem(stateKey+':pending',JSON.stringify(d.values));}catch{}checkpointWriter.stage(d.values);if(d.draftOnly!==true)checkpointWriter.save(d.values);}return;}
 
+ if(d.op==='dismiss-word'){if(popup||dialog)selectionClose();return;}
  if(d.op==='word'){if(d.mode==='script-context'&&wantedLocation?.activity==='script'){void contextualScriptWord(d);return;}if(d.mode==='script'&&wantedLocation?.activity==='script'&&stateReady&&!authorityBlocked&&!examLock&&typeof d.word==='string'&&reviewTerm(d.word)&&Number.isFinite(d.x)&&Number.isFinite(d.y)&&content?.contextualOccurrences?.some(o=>o.occurrenceId===d.occurrenceId&&o.surface.toLowerCase().includes(d.word.toLowerCase())))void exactScriptWord(d);return;}
  },liveSignal);
  function stop(){if(abort.signal.aborted)return;clearTimeout(navigationTimer);clearTimeout(frameReadyTimer);authorityBarrier.dispose();recoveryAbort.abort();frameAbort?.abort();abort.abort();rangeCache=null;checkpointWriter.dispose();reviewWriter.dispose();cancelRetries();earlyMedia=[];rangeCache=null;rangeMedia?.dispose();media?.dispose();media=null;selectionClose();frame?.remove();host.replaceChildren();urls.forEach(url=>URL.revokeObjectURL(url));release();signal.removeEventListener('abort',stop);}

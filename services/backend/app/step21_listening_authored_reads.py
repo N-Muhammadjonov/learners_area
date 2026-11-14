@@ -111,24 +111,56 @@ async def authored(req:Request,id:str):
             out={'course':None,'runtime':runtime,'audioUrl':f'/api/resources/{audio_key}?download=1',
                  'nativePersistence':original,'additionalAudio':[{'path':m['path'],'url':f'/api/resources/{m["objectKey"]}?download=1'} for m in definition['media'][1:] if m['contentType'].startswith('audio/')] if definition else [],
                  'imageUrl':f'/api/resources/{image_key}?download=1' if image_key else None,'vocabulary':[]}
-            # Only editor-resolved, source-exact lexical occurrences.
-            # Never choose a sense by search rank, spelling, or proximity.
-            # Project authorized, editor-verified transcript senses for all authored tests.
+            # Test-local meanings are authored into this specific package by
+            # migration 0102. Never perform a dictionary lookup at display time.
+            from .js_text import slice as js_slice, length as js_length
+            import re
             sections=content.get('sections',[])
-            rows=await con.fetch("""SELECT id,section_number,start_char,end_char,surface_form
-              FROM lexical_occurrences WHERE listening_test_id=$1
-                AND source_type='listening' AND segment_key IN ('s1','s2','s3','s4')
-                AND resolution_status='resolved' AND lexeme_id IS NOT NULL
-              ORDER BY section_number,start_char,end_char""",core.uuid_value(id))
+            entries=content.get('contextualMeanings',[])
+            if not isinstance(entries,list):entries=[]
+            name_spans={}
+            for index, section in enumerate(sections,1):
+                transcript=section.get('transcript','') if isinstance(section,dict) else ''
+                named_entities=re.finditer(
+                    r'\b[A-Z][a-z]+(?:[ \t]+[A-Z][a-z]+)+\b',transcript
+                )
+                speaker_labels=re.finditer(
+                    r'(?m)^[ \t]*([A-Za-z][A-Za-z \t]{0,38}):',
+                    transcript
+                )
+                name_spans[index]=[
+                    (js_length(transcript[:m.start()]),js_length(transcript[:m.end()]))
+                    for m in named_entities
+                ]+[
+                    (js_length(transcript[:m.start(1)]),js_length(transcript[:m.end(1)]))
+                    for m in speaker_labels
+                ]
             spans=[]
-            for row in rows:
-                part=row['section_number'];start=row['start_char'];end=row['end_char']
-                if not isinstance(part,int) or not 1<=part<=4 or len(sections)<part:continue
+            for row in entries:
+                if not isinstance(row,dict):continue
+                part=row.get('part');start=row.get('start');end=row.get('end')
+                surface=row.get('surface');occurrence=row.get('occurrenceId')
+                sense_definition=row.get('definitionEn');translation=row.get('translationUz')
+                if (type(part) is not int or not 1<=part<=len(sections) or
+                    type(start) is not int or type(end) is not int or
+                    not isinstance(surface,str) or not isinstance(occurrence,str) or
+                    not isinstance(sense_definition,str) or not sense_definition.strip() or
+                    not isinstance(translation,str) or not translation.strip()):
+                    continue
                 transcript=sections[part-1].get('transcript','')
-                if not isinstance(transcript,str) or not isinstance(start,int) or not isinstance(end,int) or not 0<=start<end<=len(transcript):continue
-                if transcript[start:end]!=row['surface_form']:continue
-                spans.append({'part':part,'start':start,'end':end,'surface':row['surface_form'],'occurrenceId':str(row['id'])})
+                if (not isinstance(transcript,str) or not 0<=start<end<=js_length(transcript)
+                    or js_slice(transcript,start,end)!=surface):
+                    continue
+                if any(start<name_end and end>name_start
+                       for name_start,name_end in name_spans.get(part,())):
+                    continue
+                spans.append({'part':part,'start':start,'end':end,
+                    'surface':surface,'occurrenceId':occurrence,
+                    'definitionEn':sense_definition,'translationUz':translation,
+                    'partOfSpeech':row.get('partOfSpeech')})
             out['contextualOccurrences']=spans
+            suffix=source.rsplit('-',1)[-1]
+            out['testTitle']='Listening Test '+str(int(suffix)) if suffix.isdigit() else 'Listening Test'
             if definition:out['storageKey']=definition['storageKey']
             if definition and definition['media']:out['audioPath']=definition['media'][0]['path']
             elif 'path' in audio:out['audioPath']=audio['path']
