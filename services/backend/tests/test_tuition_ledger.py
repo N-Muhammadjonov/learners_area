@@ -214,6 +214,83 @@ async def test_charge_correction_uses_reversing_documents_and_history_is_immutab
 
 
 @pytest.mark.asyncio
+async def test_reversal_leaves_every_receivable_projection_at_zero(database):
+    """FIN-01: a reversal must zero the receivable in EVERY projection, not just the journal.
+
+    The original document and its reversing document are both posted accounting events; the
+    `reversed` lifecycle marker is for display and must not remove the original from the
+    money maths. Clamping a negative balance to zero would hide this, so the raw
+    `receivableMinor` is asserted directly.
+    """
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    charge = await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    await ledger.reverse_charge(con, actor_user_id=people['owner'], charge_id=charge['id'],
+                                reason='Issued against the wrong cohort')
+
+    assert await balances(con, 'accounts_receivable') == 0
+    assert await balances(con, 'deferred_tuition_revenue') == 0
+
+    position = await ledger.student_position(con, people['student'])
+    assert position['chargedMinor'] == 0, 'the two posted documents must cancel out'
+    assert position['receivableMinor'] == 0
+    assert position['balanceDueMinor'] == 0
+    assert position['overdueMinor'] == 0
+
+    summary = await ledger.finance_summary(con, start=TODAY - timedelta(days=60),
+                                           end=TODAY + timedelta(days=60))
+    assert summary['outstandingReceivableMinor'] == 0
+    assert summary['overdueReceivableMinor'] == 0
+
+    # Both source documents survive intact; nothing was edited away.
+    original = await con.fetchrow('SELECT status, net_amount_minor FROM tuition_charges WHERE id=$1',
+                                  charge['id'])
+    assert original['status'] == 'reversed' and original['net_amount_minor'] == 600_000
+    assert await con.fetchval('SELECT count(*) FROM tuition_charges') == 2
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
+
+
+@pytest.mark.asyncio
+async def test_reversal_and_reissue_reconcile_for_two_students(database):
+    """FIN-01: per-student isolation holds after reversal, and a re-issued charge is additive."""
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    mine = await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    theirs = await posted_charge(con, people, student=people['other_student'], gross=500_000)
+    await ledger.reverse_charge(con, actor_user_id=people['owner'], charge_id=mine['id'],
+                                reason='Wrong cohort')
+    reissued = await posted_charge(con, people, gross=400_000, due=TODAY + timedelta(days=10))
+
+    mine_position = await ledger.student_position(con, people['student'])
+    assert mine_position['receivableMinor'] == 400_000 and mine_position['balanceDueMinor'] == 400_000
+    theirs_position = await ledger.student_position(con, people['other_student'])
+    assert theirs_position['receivableMinor'] == 500_000
+    summary = await ledger.finance_summary(con, start=TODAY - timedelta(days=60),
+                                           end=TODAY + timedelta(days=60))
+    assert summary['outstandingReceivableMinor'] == 900_000
+    assert reissued['net_amount_minor'] == 400_000
+
+
+@pytest.mark.asyncio
+async def test_a_reversal_cannot_be_reversed_twice(database):
+    """FIN-01: no accidental double reversal through the reversing document."""
+    con, schema, people = database
+    contract = await approved_contract(con, people)
+    charge = await posted_charge(con, people, gross=800_000, discount=200_000, contract=contract)
+    reversal = await ledger.reverse_charge(con, actor_user_id=people['owner'],
+                                           charge_id=charge['id'], reason='Wrong cohort')
+    with pytest.raises(LedgerError) as refused:
+        await ledger.reverse_charge(con, actor_user_id=people['owner'],
+                                    charge_id=reversal['id'], reason='Try again')
+    assert refused.value.code == 'reversal_cannot_be_reversed'
+    with pytest.raises(LedgerError) as again:
+        await ledger.reverse_charge(con, actor_user_id=people['owner'], charge_id=charge['id'],
+                                    reason='Already reversed')
+    assert again.value.code == 'invalid_state'
+    assert await con.fetchval('SELECT count(*) FROM tuition_charges') == 2
+
+
+@pytest.mark.asyncio
 async def test_reversal_is_refused_while_a_payment_is_allocated(database):
     con, schema, people = database
     contract = await approved_contract(con, people)

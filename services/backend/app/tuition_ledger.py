@@ -59,6 +59,23 @@ PAYMENT_STATES = ('initiated', 'pending_provider', 'confirmed', 'rejected', 'exp
 SETTLED_PAYMENT_STATES = ('confirmed', 'partially_refunded', 'refunded')
 CASH_METHODS = {'cash': 'cash_on_hand', 'bank': 'bank_clearing', 'provider': 'bank_clearing'}
 
+# ---------------------------------------------------------------------------
+# Two predicates decide which documents take part in money maths. They are
+# defined here once so every projection agrees (FIN-01, FIN-10).
+#
+# POSTED_EVENT — the document has been posted, so it is an accounting fact.
+#   Both an original charge and its reversing document satisfy this, which is
+#   what makes a reversal net the receivable to zero instead of inverting it.
+#   A `reversed`/`credited` marker is a display lifecycle state, not a licence
+#   to drop the original out of the sum.
+#
+# OPEN_DOCUMENT — the document still represents a live obligation. A superseded
+#   original is excluded here, so aging, overdue and payment allocation never
+#   chase a charge that has already been corrected.
+# ---------------------------------------------------------------------------
+POSTED_EVENT = "posted_at IS NOT NULL"
+OPEN_DOCUMENT = "status = 'posted'"
+
 
 class LedgerError(Exception):
     """A domain rule refused the command. `code` is stable and safe to return to a client."""
@@ -298,6 +315,8 @@ async def reverse_charge(conn, *, actor_user_id, charge_id, reason):
         charge_id) or 0
     _require(applied == 0, 'charge_has_allocations', 409, appliedMinor=applied)
     today = datetime.now(timezone.utc).date()
+    # period_key is the accounting period of the correction (today); due_date is inherited
+    # from the original so aging and overdue windows see the pair cancel wherever they look.
     reversing = await conn.fetchrow(
         '''INSERT INTO tuition_charges
              (contract_id, student_user_id, period_key, currency_code, gross_amount_minor,
@@ -306,7 +325,7 @@ async def reverse_charge(conn, *, actor_user_id, charge_id, reason):
            VALUES ($1,$2,$3,$4,$5,0,$6,'posted',true,$7,$8,$9,now(),$10,$10) RETURNING *''',
         charge['contract_id'], charge['student_user_id'], period_key(today), CURRENCY,
         -charge['net_amount_minor'], -charge['net_amount_minor'], charge['id'],
-        reason.strip()[:200], today, actor_user_id)
+        reason.strip()[:200], charge['due_date'], actor_user_id)
     if charge['net_amount_minor']:
         await _post_journal(
             conn, source_type='charge_reversal', source_id=reversing['id'],
@@ -530,8 +549,8 @@ async def student_position(conn, student_user_id) -> dict:
     ``balance_due = max(receivable, 0)`` and the surplus stays visible as an advance.
     """
     charged = await conn.fetchval(
-        "SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges"
-        " WHERE student_user_id=$1 AND status='posted'", student_user_id) or 0
+        f"SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges"
+        f" WHERE student_user_id=$1 AND {POSTED_EVENT}", student_user_id) or 0
     # LATERAL, not a grouped join over the whole allocations table: a per-student read must
     # touch this student's rows only, or it degrades linearly with total centre history.
     allocated = await conn.fetchval(
@@ -546,13 +565,17 @@ async def student_position(conn, student_user_id) -> dict:
     refunded = await conn.fetchval(
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds WHERE student_user_id=$1',
         student_user_id) or 0
+    # Net across every posted document in the window: an original and its reversal carry the
+    # same due_date, so they cancel here. Per-document values are never negative for a normal
+    # charge (allocation is capped at the open amount), so the positive part belongs at the
+    # aggregate, not on each row.
     overdue = await conn.fetchval(
-        '''SELECT coalesce(sum(c.net_amount_minor - coalesce(a.applied,0)),0)
+        f'''SELECT greatest(coalesce(sum(c.net_amount_minor - a.applied),0), 0)
              FROM tuition_charges c
              JOIN LATERAL (SELECT coalesce(sum(x.amount_minor),0) AS applied
                              FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
-            WHERE c.student_user_id=$1 AND c.status='posted' AND c.due_date < CURRENT_DATE
-              AND c.net_amount_minor - a.applied > 0''', student_user_id) or 0
+            WHERE c.student_user_id=$1 AND c.{POSTED_EVENT} AND c.due_date < CURRENT_DATE''',
+        student_user_id) or 0
     receivable = charged - allocated
     return {
         'studentUserId': str(student_user_id),
@@ -600,10 +623,11 @@ async def finance_summary(conn, *, start: date, end: date) -> dict:
         '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
             WHERE status = ANY($3::varchar[]) AND occurred_at::date BETWEEN $1 AND $2''',
         start, end, list(SETTLED_PAYMENT_STATES)) or 0
+    # Net accrual in the window: a charge and its reversal cancel when both fall inside it,
+    # and a reversal dated in a later window correctly moves the accrual there.
     invoiced = await conn.fetchval(
-        '''SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges
-            WHERE status='posted' AND NOT is_reversal AND due_date BETWEEN $1 AND $2''',
-        start, end) or 0
+        f'''SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges
+            WHERE {POSTED_EVENT} AND due_date BETWEEN $1 AND $2''', start, end) or 0
     recognized = await conn.fetchval(
         '''SELECT coalesce(sum(amount_minor),0) FROM finance_journal_lines l
              JOIN finance_journal_entries e ON e.transaction_id = l.transaction_id
@@ -614,23 +638,25 @@ async def finance_summary(conn, *, start: date, end: date) -> dict:
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds WHERE created_at::date BETWEEN $1 AND $2',
         start, end) or 0
     outstanding = await conn.fetchval(
-        '''SELECT coalesce(sum(balance),0) FROM (
+        f'''SELECT coalesce(sum(balance),0) FROM (
              SELECT c.student_user_id,
                     sum(c.net_amount_minor) - coalesce(sum(a.applied),0) AS balance
                FROM tuition_charges c
                LEFT JOIN (SELECT charge_id, sum(amount_minor) AS applied
                             FROM tuition_payment_allocations GROUP BY charge_id) a
                  ON a.charge_id = c.id
-              WHERE c.status='posted'
+              WHERE c.{POSTED_EVENT}
               GROUP BY c.student_user_id) t WHERE balance > 0''') or 0
     overdue = await conn.fetchval(
-        '''SELECT coalesce(sum(c.net_amount_minor - coalesce(a.applied,0)),0)
-             FROM tuition_charges c
-             LEFT JOIN (SELECT charge_id, sum(amount_minor) AS applied
-                          FROM tuition_payment_allocations GROUP BY charge_id) a
-               ON a.charge_id = c.id
-            WHERE c.status='posted' AND c.due_date < CURRENT_DATE
-              AND c.net_amount_minor - coalesce(a.applied,0) > 0''') or 0
+        f'''SELECT coalesce(sum(balance),0) FROM (
+             SELECT c.student_user_id,
+                    sum(c.net_amount_minor - coalesce(a.applied,0)) AS balance
+               FROM tuition_charges c
+               LEFT JOIN (SELECT charge_id, sum(amount_minor) AS applied
+                            FROM tuition_payment_allocations GROUP BY charge_id) a
+                 ON a.charge_id = c.id
+              WHERE c.{POSTED_EVENT} AND c.due_date < CURRENT_DATE
+              GROUP BY c.student_user_id) t WHERE balance > 0''') or 0
     advances = await conn.fetchval(
         '''SELECT coalesce(sum(balance),0) FROM (
              SELECT p.student_user_id, sum(p.amount_minor)
