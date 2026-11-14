@@ -34,7 +34,7 @@ export async function mount(context){
    entranceAudio?.pause();
    const doc=frame.contentDocument;
    const audio=doc.createElement('audio');
-   audio.src='/brand/landing-next-level.m4a';
+   audio.src='/brand/landing-next-level.m4a?v=original-6943452';
    audio.preload='auto';
    audio.autoplay=true;
    audio.volume=1;
