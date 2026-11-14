@@ -17,6 +17,21 @@ _READING_PRONOUNS: frozenset[str] = frozenset({
     "noone",
 })
 
+
+def is_reading_pronoun(surface: str, part_of_speech: object = None) -> bool:
+    """Use authored POS where available; country US is not object pronoun us."""
+    pos = str(part_of_speech or '').casefold().strip()
+    if pos in {'proper noun', 'proper noun phrase'}:
+        return False
+    if 'pronoun' in pos:
+        return True
+    if surface == 'US':
+        return False
+    normalized = surface.casefold().replace('’', "'")
+    return normalized in _READING_PRONOUNS or normalized == "one's" or bool(re.fullmatch(
+        r"(?:i|you|he|she|it|we|they)'(?:m|re|s|ve|ll|d)", normalized
+    ))
+
 def is_verified_reading_gloss(body: str, row: Mapping[str, object]) -> bool:
     """Return True only for one source-positioned lexical sense with Uzbek text."""
     surface = row.get("surface_form")
@@ -39,7 +54,7 @@ def is_verified_reading_gloss(body: str, row: Mapping[str, object]) -> bool:
         or end > len(body)
     ):
         return False
-    if surface.casefold().strip() in _READING_PRONOUNS:
+    if is_reading_pronoun(surface.strip(), row.get('part_of_speech')):
         return False
     if body[start:end].casefold() != surface.casefold():
         return False
