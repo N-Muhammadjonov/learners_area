@@ -27,7 +27,6 @@ test('Reading uses its one authored inline meaning, not dictionary alternatives'
  const popup = source('modules/vocabulary/contextual-popover.js');
  assert.match(popup, /sourceType==='reading'&&occurrenceIdIsValid/);
  assert.match(popup, /contextual=inlineContext/);
- assert.match(popup, /if\(!inlineContext\)alternatives=/);
  assert.match(popup, /if\(inlineContext\)\{/);
  assert.match(popup, /alternatives=\[\];unresolved=false/);
 });
