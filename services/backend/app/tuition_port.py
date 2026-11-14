@@ -33,6 +33,8 @@ PRIVATE = {'Cache-Control': 'private, no-store'}
 # FIN-11: a billing period is always the seven-character form YYYY-MM.
 PERIOD_PATTERN = re.compile(r'\d{4}-(0[1-9]|1[0-2])')
 WRITE_ROLES = ('owner', 'admin')
+#: Approvals are an owner act: separation of duties is enforced in the ledger too.
+OWNER_ONLY = ('owner',)
 READ_ROLES = ('owner', 'admin', 'teacher')
 MAX_NOTE = 300
 
@@ -302,6 +304,81 @@ async def reverse_charge(req: Request, chargeId: str):
 
 
 # ─────────────────────────────── payments ───────────────────────────────
+@router.post('/api/staff/finance/credit-notes')
+async def create_credit_note(req: Request):
+    """Draft relief against an already-posted charge (FIN-05).
+
+    A discount can no longer be added once a period is posted; this is the sanctioned
+    replacement. It changes nothing until an owner approves and someone posts it.
+    """
+    user, denied = await actor(req, WRITE_ROLES)
+    if denied:
+        return denied
+    body = await payload(req)
+    if body is None:
+        return err('invalid_payload')
+    charge_id = uuid_val(body.get('chargeId'))
+    if not charge_id or not isinstance(body.get('amountMinor'), int):
+        return err('invalid_payload')
+    if not str(body.get('reason') or '').strip():
+        return err('reason_required')
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            note = await ledger.create_credit_note(
+                conn, actor_user_id=user['id'], charge_id=charge_id,
+                amount_minor=body['amountMinor'], reason=str(body['reason']))
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'creditNote': serialize(note)}, headers=PRIVATE)
+
+
+@router.post('/api/staff/finance/credit-notes/{creditNoteId}/approve')
+async def approve_credit_note(req: Request, creditNoteId: str):
+    """Owner-only approval. The ledger also refuses self-approval by the drafter."""
+    user, denied = await actor(req, OWNER_ONLY)
+    if denied:
+        return denied
+    ident = uuid_val(creditNoteId)
+    if not ident:
+        return err('credit_note_not_found', 404)
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            note = await ledger.approve_credit_note(conn, actor_user_id=user['id'],
+                                                    credit_note_id=ident)
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'creditNote': serialize(note)}, headers=PRIVATE)
+
+
+@router.post('/api/staff/finance/credit-notes/{creditNoteId}/post')
+async def post_credit_note(req: Request, creditNoteId: str):
+    user, denied = await actor(req, WRITE_ROLES)
+    if denied:
+        return denied
+    ident = uuid_val(creditNoteId)
+    if not ident:
+        return err('credit_note_not_found', 404)
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            note = await ledger.post_credit_note(conn, actor_user_id=user['id'],
+                                                 credit_note_id=ident)
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'creditNote': serialize(note)}, headers=PRIVATE)
+
+
 @router.post('/api/staff/finance/payments')
 async def record_payment(req: Request):
     """Record money in. `idempotencyKey` makes a retried submit produce one payment."""

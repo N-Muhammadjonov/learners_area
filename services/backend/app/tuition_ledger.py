@@ -240,6 +240,13 @@ async def add_discount(conn, *, actor_user_id, contract_id, period, amount_minor
     _require(contract['status'] in ('approved', 'active'), 'invalid_state', 409,
              status=contract['status'])
     _require(amount <= contract['monthly_amount_minor'], 'discount_exceeds_fee')
+    posted = await conn.fetchval(
+        'SELECT count(*) FROM tuition_charges WHERE contract_id=$1 AND period_key=$2'
+        " AND is_reversal=false AND status='posted'", contract_id, period)
+    # FIN-05: the posted net IS the obligation. A discount added after posting would
+    # understate a receivable that is already in the journal with no entry explaining the
+    # difference. Relief after posting is a credit note.
+    _require(not posted, 'charge_already_posted', 409, period=period, remedy='credit_note')
     try:
         row = await conn.fetchrow(
             '''INSERT INTO tuition_contract_discounts
@@ -347,8 +354,101 @@ async def post_charge(conn, *, actor_user_id, charge_id):
             lines=[('accounts_receivable', 'debit', net),
                    ('deferred_tuition_revenue', 'credit', net)])
     updated = await conn.fetchrow(
-        "UPDATE tuition_charges SET status='posted', posted_at=now(), posted_by=$2"
+        "UPDATE tuition_charges SET status='posted', posted_at=now(), posted_by=$2,"
+        ' discount_locked_at=now(), discount_locked_minor=discount_amount_minor'
         ' WHERE id=$1 RETURNING *', charge_id, actor_user_id)
+    return dict(updated)
+
+
+async def _actor_role(conn, user_id) -> str | None:
+    """The role of an actor, for separation-of-duties checks that must hold in the ledger.
+
+    `tuition_port.py` authorizes *who may call a route*; this answers a narrower question
+    that has to be true no matter which client called: relief of a posted obligation needs a
+    different person than the one who drafted it.
+    """
+    if user_id is None:
+        return None
+    return await conn.fetchval('SELECT role FROM users WHERE id=$1', user_id)
+
+
+@transactional
+async def create_credit_note(conn, *, actor_user_id, charge_id, amount_minor, reason):
+    """Draft relief against a charge that is already posted.
+
+    A credit note is its own document: it never edits the charge, and it only touches the
+    ledger once it has been approved by an owner and posted. One live note per charge and
+    period, so a repeated request cannot stack relief.
+    """
+    amount = _minor(amount_minor)
+    _require(amount > 0, 'amount_must_be_positive')
+    _require(bool(reason and reason.strip()), 'reason_required')
+    charge = await conn.fetchrow('SELECT * FROM tuition_charges WHERE id=$1 FOR UPDATE', charge_id)
+    _require(charge is not None, 'charge_not_found', 404)
+    _require(charge['status'] == 'posted', 'invalid_state', 409, status=charge['status'])
+    _require(not charge['is_reversal'], 'reversal_cannot_be_credited')
+    already = await conn.fetchval(
+        'SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes'
+        " WHERE charge_id=$1 AND status NOT IN ('reversed')", charge_id)
+    _require(already + amount <= charge['net_amount_minor'], 'credit_exceeds_charge', 409,
+             netMinor=charge['net_amount_minor'], alreadyCreditedMinor=already,
+             requestedMinor=amount)
+    try:
+        row = await conn.fetchrow(
+            'INSERT INTO tuition_credit_notes (charge_id, contract_id, student_user_id,'
+            ' period_key, currency_code, amount_minor, reason, requested_by)'
+            ' VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+            charge['id'], charge['contract_id'], charge['student_user_id'], charge['period_key'],
+            charge['currency_code'], amount, reason.strip()[:300], actor_user_id)
+    except asyncpg.UniqueViolationError as exc:
+        raise LedgerError('credit_note_already_exists', 409, chargeId=str(charge['id']),
+                          period=charge['period_key']) from exc
+    return dict(row)
+
+
+@transactional
+async def approve_credit_note(conn, *, actor_user_id, credit_note_id):
+    """Owner approval. The drafter cannot approve their own note."""
+    note = await conn.fetchrow('SELECT * FROM tuition_credit_notes WHERE id=$1 FOR UPDATE',
+                               credit_note_id)
+    _require(note is not None, 'credit_note_not_found', 404)
+    _require(note['status'] == 'draft', 'invalid_state', 409, status=note['status'])
+    _require(await _actor_role(conn, actor_user_id) == 'owner', 'approval_requires_owner', 403)
+    _require(str(actor_user_id) != str(note['requested_by']), 'approver_must_differ_from_drafter',
+             403)
+    updated = await conn.fetchrow(
+        "UPDATE tuition_credit_notes SET status='approved', approved_by=$2, approved_at=now()"
+        ' WHERE id=$1 RETURNING *', credit_note_id, actor_user_id)
+    return dict(updated)
+
+
+@transactional
+async def post_credit_note(conn, *, actor_user_id, credit_note_id):
+    """Post approved relief: debit scholarship discounts, credit accounts receivable.
+
+    The charge document is untouched, so the audit trail reads "billed 800000, relieved
+    200000" instead of a receivable that quietly changed shape.
+    """
+    note = await conn.fetchrow('SELECT * FROM tuition_credit_notes WHERE id=$1 FOR UPDATE',
+                               credit_note_id)
+    _require(note is not None, 'credit_note_not_found', 404)
+    _require(note['status'] == 'approved', 'credit_note_not_approved', 409, status=note['status'])
+    await _assert_period_open(conn, note['period_key'])
+    charge = await conn.fetchrow('SELECT * FROM tuition_charges WHERE id=$1', note['charge_id'])
+    credited = await conn.fetchval(
+        'SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes'
+        " WHERE charge_id=$1 AND status='posted'", note['charge_id'])
+    _require(credited + note['amount_minor'] <= charge['net_amount_minor'],
+             'credit_exceeds_charge', 409, netMinor=charge['net_amount_minor'])
+    await _post_journal(
+        conn, source_type='credit_note', source_id=note['id'],
+        student_user_id=note['student_user_id'], actor_user_id=actor_user_id,
+        memo=note['reason'], period=note['period_key'],
+        lines=[('scholarship_discounts', 'debit', note['amount_minor']),
+               ('accounts_receivable', 'credit', note['amount_minor'])])
+    updated = await conn.fetchrow(
+        "UPDATE tuition_credit_notes SET status='posted', posted_at=now() WHERE id=$1 RETURNING *",
+        credit_note_id)
     return dict(updated)
 
 
@@ -692,6 +792,11 @@ async def student_position(conn, student_user_id) -> dict:
              JOIN LATERAL (SELECT sum(x.amount_minor) AS applied
                              FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
             WHERE c.student_user_id=$1''', student_user_id) or 0
+    # Approved relief posted after billing (FIN-05). It reduces the receivable, but as its
+    # own line item: the charge document still shows what was billed.
+    credited = await conn.fetchval(
+        "SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes"
+        " WHERE student_user_id=$1 AND status='posted'", student_user_id) or 0
     collected = await conn.fetchval(
         '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
             WHERE student_user_id=$1 AND status = ANY($2::varchar[])''',
@@ -704,17 +809,22 @@ async def student_position(conn, student_user_id) -> dict:
     # charge (allocation is capped at the open amount), so the positive part belongs at the
     # aggregate, not on each row.
     overdue = await conn.fetchval(
-        f'''SELECT greatest(coalesce(sum(c.net_amount_minor - a.applied),0), 0)
+        f'''SELECT greatest(coalesce(sum(c.net_amount_minor
+                                          - coalesce(n.credited,0) - a.applied),0), 0)
              FROM tuition_charges c
              JOIN LATERAL (SELECT coalesce(sum(x.amount_minor),0) AS applied
                              FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
+             LEFT JOIN LATERAL (SELECT sum(y.amount_minor) AS credited
+                                  FROM tuition_credit_notes y
+                                 WHERE y.charge_id = c.id AND y.status='posted') n ON true
             WHERE c.student_user_id=$1 AND c.{POSTED_EVENT} AND c.due_date < CURRENT_DATE''',
         student_user_id) or 0
-    receivable = charged - allocated
+    receivable = charged - credited - allocated
     return {
         'studentUserId': str(student_user_id),
         'currency': CURRENCY,
         'chargedMinor': int(charged),
+        'creditedMinor': int(credited),
         'allocatedMinor': int(allocated),
         'receivableMinor': int(receivable),
         'balanceDueMinor': int(max(receivable, 0)),
@@ -771,24 +881,37 @@ async def finance_summary(conn, *, start: date, end: date) -> dict:
     refunds = await conn.fetchval(
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds WHERE created_at::date BETWEEN $1 AND $2',
         start, end) or 0
+    credited = await conn.fetchval(
+        "SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes"
+        " WHERE status='posted'", ) or 0
     outstanding = await conn.fetchval(
         f'''SELECT coalesce(sum(balance),0) FROM (
              SELECT c.student_user_id,
-                    sum(c.net_amount_minor) - coalesce(sum(a.applied),0) AS balance
+                    sum(c.net_amount_minor - coalesce(n.credited,0))
+                      - coalesce(sum(a.applied),0) AS balance
                FROM tuition_charges c
                LEFT JOIN (SELECT charge_id, sum(amount_minor) AS applied
                             FROM tuition_payment_allocations GROUP BY charge_id) a
                  ON a.charge_id = c.id
+               LEFT JOIN (SELECT charge_id, sum(amount_minor) AS credited
+                            FROM tuition_credit_notes WHERE status='posted'
+                           GROUP BY charge_id) n
+                 ON n.charge_id = c.id
               WHERE c.{POSTED_EVENT}
               GROUP BY c.student_user_id) t WHERE balance > 0''') or 0
     overdue = await conn.fetchval(
         f'''SELECT coalesce(sum(balance),0) FROM (
              SELECT c.student_user_id,
-                    sum(c.net_amount_minor - coalesce(a.applied,0)) AS balance
+                    sum(c.net_amount_minor - coalesce(n.credited,0)
+                        - coalesce(a.applied,0)) AS balance
                FROM tuition_charges c
                LEFT JOIN (SELECT charge_id, sum(amount_minor) AS applied
                             FROM tuition_payment_allocations GROUP BY charge_id) a
                  ON a.charge_id = c.id
+               LEFT JOIN (SELECT charge_id, sum(amount_minor) AS credited
+                            FROM tuition_credit_notes WHERE status='posted'
+                           GROUP BY charge_id) n
+                 ON n.charge_id = c.id
               WHERE c.{POSTED_EVENT} AND c.due_date < CURRENT_DATE
               GROUP BY c.student_user_id) t WHERE balance > 0''') or 0
     advances = await conn.fetchval(
@@ -810,6 +933,7 @@ async def finance_summary(conn, *, start: date, end: date) -> dict:
         'range': {'start': start.isoformat(), 'end': end.isoformat()},
         'collectedCashMinor': int(collected),
         'invoicedTuitionMinor': int(invoiced),
+        'creditedTuitionMinor': int(credited),
         'recognizedRevenueMinor': int(recognized),
         'outstandingReceivableMinor': int(outstanding),
         'overdueReceivableMinor': int(overdue),

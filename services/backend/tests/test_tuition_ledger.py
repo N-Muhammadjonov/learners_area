@@ -775,6 +775,130 @@ async def test_reversal_frees_the_period_for_a_corrected_reissue(database):
         " WHERE is_reversal=false AND status NOT IN ('reversed','credited')") == 1
 
 
+# ───────── FIN-05: posted terms are frozen; later relief is a credit note ─────────
+@pytest.mark.asyncio
+async def test_posting_freezes_the_discount_and_the_commercial_terms(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await ledger.add_discount(con, actor_user_id=people['owner'], contract_id=contract['id'],
+                              period=PERIOD, amount_minor=200_000, reason='Sibling discount')
+    charge = await posted_charge(con, people, contract=contract)
+    assert charge['discount_locked_minor'] == 200_000
+    assert charge['discount_locked_at'] is not None
+
+
+@pytest.mark.asyncio
+async def test_a_discount_cannot_be_added_after_the_period_is_posted(database):
+    """A late discount would silently understate an obligation that is already on the books."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    with pytest.raises(LedgerError) as exc:
+        await ledger.add_discount(con, actor_user_id=people['owner'], contract_id=contract['id'],
+                                  period=PERIOD, amount_minor=100_000, reason='Late goodwill')
+    assert exc.value.code == 'charge_already_posted'
+    assert exc.value.status == 409
+    assert exc.value.details['remedy'] == 'credit_note'
+    # Nothing was written behind the refusal.
+    assert await con.fetchval('SELECT count(*) FROM tuition_contract_discounts') == 0
+    position = await ledger.student_position(con, people['student'])
+    assert position['balanceDueMinor'] == 800_000
+
+
+@pytest.mark.asyncio
+async def test_credit_note_relieves_a_posted_charge_with_a_balanced_journal(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await posted_charge(con, people, contract=contract)
+
+    note = await ledger.create_credit_note(con, actor_user_id=people['admin'],
+                                           charge_id=charge['id'], amount_minor=200_000,
+                                           reason='Scholarship agreed after billing')
+    assert note['status'] == 'draft'
+    # An unapproved note relieves nothing.
+    assert (await ledger.student_position(con, people['student']))['balanceDueMinor'] == 800_000
+    note = await ledger.approve_credit_note(con, actor_user_id=people['owner'],
+                                            credit_note_id=note['id'])
+    assert note['status'] == 'approved'
+    note = await ledger.post_credit_note(conn=con, actor_user_id=people['owner'],
+                                         credit_note_id=note['id'])
+    assert note['status'] == 'posted'
+
+    position = await ledger.student_position(con, people['student'])
+    assert position['balanceDueMinor'] == 600_000, 'a posted credit note must reduce the debt'
+    assert position['receivableMinor'] == 600_000
+    # The billed figure stays what was billed; the relief is reported next to it, not folded
+    # into it, so a statement reads "billed 800000, relieved 200000, due 600000".
+    assert position['chargedMinor'] == 800_000
+    assert position['creditedMinor'] == 200_000
+    # The original charge document is immutable: only the credit note records the relief.
+    assert await con.fetchval('SELECT net_amount_minor FROM tuition_charges WHERE id=$1',
+                              charge['id']) == 800_000
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
+    ar = await balances(con, 'accounts_receivable')
+    assert ar == 600_000
+    assert await balances(con, 'scholarship_discounts') == 200_000
+
+
+@pytest.mark.asyncio
+async def test_credit_note_requires_approval_and_cannot_exceed_the_charge(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await posted_charge(con, people, contract=contract)
+
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_credit_note(con, actor_user_id=people['admin'],
+                                        charge_id=charge['id'], amount_minor=900_000,
+                                        reason='Too generous')
+    assert exc.value.code == 'credit_exceeds_charge'
+
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_credit_note(con, actor_user_id=people['admin'],
+                                        charge_id=charge['id'], amount_minor=100_000, reason='')
+    assert exc.value.code == 'reason_required'
+
+    note = await ledger.create_credit_note(con, actor_user_id=people['admin'],
+                                           charge_id=charge['id'], amount_minor=100_000,
+                                           reason='Goodwill')
+    with pytest.raises(LedgerError) as exc:
+        await ledger.post_credit_note(conn=con, actor_user_id=people['admin'],
+                                      credit_note_id=note['id'])
+    assert exc.value.code == 'credit_note_not_approved'
+    # An admin cannot self-approve: approval is an owner act.
+    with pytest.raises(LedgerError) as exc:
+        await ledger.approve_credit_note(con, actor_user_id=people['admin'],
+                                         credit_note_id=note['id'])
+    assert exc.value.code == 'approval_requires_owner'
+
+
+@pytest.mark.asyncio
+async def test_only_one_live_credit_note_per_charge_and_period(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await posted_charge(con, people, contract=contract)
+    await ledger.create_credit_note(con, actor_user_id=people['admin'], charge_id=charge['id'],
+                                    amount_minor=100_000, reason='First relief')
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_credit_note(con, actor_user_id=people['admin'],
+                                        charge_id=charge['id'], amount_minor=50_000,
+                                        reason='Second relief')
+    assert exc.value.code == 'credit_note_already_exists'
+
+
+@pytest.mark.asyncio
+async def test_multiple_pre_post_discounts_are_still_one_document_per_period(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await ledger.add_discount(con, actor_user_id=people['owner'], contract_id=contract['id'],
+                              period=PERIOD, amount_minor=100_000, reason='Sibling discount')
+    with pytest.raises(LedgerError) as exc:
+        await ledger.add_discount(con, actor_user_id=people['owner'], contract_id=contract['id'],
+                                  period=PERIOD, amount_minor=50_000, reason='Another one')
+    assert exc.value.code == 'discount_already_approved_for_period'
+    charge = await posted_charge(con, people, contract=contract)
+    assert charge['net_amount_minor'] == 700_000
+
+
 @pytest.mark.asyncio
 async def test_floats_are_rejected_for_money(database):
     con, schema, people = database

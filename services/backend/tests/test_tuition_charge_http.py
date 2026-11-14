@@ -87,3 +87,68 @@ async def test_retrying_the_monthly_job_does_not_bill_twice(http):
     assert retry.json()['created'] is False
     assert retry.json()['charge']['id'] == first.json()['charge']['id']
     assert await http.con.fetchval('SELECT count(*) FROM tuition_charges') == 1
+
+
+# ─────────── FIN-05: relief after posting is a credit note, not an edit ───────────
+@pytest.mark.asyncio
+async def test_discount_after_posting_is_refused_over_http_and_points_to_a_credit_note(http):
+    contract = await approved_contract(http)
+    created = await staff(http, 'admin', 'POST', '/api/staff/finance/charges',
+                          json_body=charge_payload(contract))
+    assert created.status_code == 200, created.text
+    charge_id = created.json()['charge']['id']
+    assert (await staff(http, 'admin', 'POST', f'/api/staff/finance/charges/{charge_id}/post',
+                        json_body={})).status_code == 200
+
+    late = await staff(http, 'owner', 'POST', f'/api/staff/finance/contracts/{contract["id"]}/discounts',
+                       json_body={'periodKey': PERIOD, 'amountMinor': 100_000,
+                                  'reason': 'Late goodwill'})
+    assert late.status_code == 409, late.text
+    assert late.json()['error'] == 'charge_already_posted'
+    assert late.json()['remedy'] == 'credit_note'
+
+
+@pytest.mark.asyncio
+async def test_credit_note_flow_over_http_reduces_the_debt_once(http):
+    contract = await approved_contract(http)
+    created = await staff(http, 'admin', 'POST', '/api/staff/finance/charges',
+                          json_body=charge_payload(contract))
+    charge_id = created.json()['charge']['id']
+    await staff(http, 'admin', 'POST', f'/api/staff/finance/charges/{charge_id}/post',
+                json_body={})
+
+    drafted = await staff(http, 'admin', 'POST', '/api/staff/finance/credit-notes',
+                          json_body={'chargeId': charge_id, 'amountMinor': 200_000,
+                                     'reason': 'Scholarship agreed after billing'})
+    assert drafted.status_code == 200, drafted.text
+    note_id = drafted.json()['creditNote']['id']
+    assert (await ledger.student_position(http.con,
+                                          http.people['student']))['balanceDueMinor'] == 800_000
+
+    # Two independent layers: the route only accepts an owner (so an admin is refused before
+    # the ledger is reached), and the ledger separately refuses self-approval. A client that
+    # somehow reaches the ledger as a non-owner still cannot approve relief.
+    self_approve = await staff(http, 'admin', 'POST',
+                               f'/api/staff/finance/credit-notes/{note_id}/approve', json_body={})
+    assert self_approve.status_code == 403
+    assert self_approve.json()['error'] == 'forbidden'
+    assert await http.con.fetchval(
+        "SELECT count(*) FROM tuition_credit_notes WHERE status != 'draft'") == 0
+
+    approved = await staff(http, 'owner', 'POST',
+                           f'/api/staff/finance/credit-notes/{note_id}/approve', json_body={})
+    assert approved.status_code == 200, approved.text
+    posted = await staff(http, 'admin', 'POST',
+                         f'/api/staff/finance/credit-notes/{note_id}/post', json_body={})
+    assert posted.status_code == 200, posted.text
+
+    position = await ledger.student_position(http.con, http.people['student'])
+    assert position['balanceDueMinor'] == 600_000
+    assert position['creditedMinor'] == 200_000
+    # Posting twice must not relieve twice.
+    again = await staff(http, 'admin', 'POST',
+                        f'/api/staff/finance/credit-notes/{note_id}/post', json_body={})
+    assert again.status_code == 409
+    assert (await ledger.student_position(http.con,
+                                          http.people['student']))['balanceDueMinor'] == 600_000
+    assert (await ledger.journal_is_balanced(http.con))['balanced'] is True

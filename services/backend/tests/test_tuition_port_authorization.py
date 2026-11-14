@@ -107,8 +107,12 @@ WRITE_ROUTES = (
     ('POST', f'/api/staff/finance/contracts/{uuid4()}/activate'),
     ('POST', f'/api/staff/finance/contracts/{uuid4()}/discounts'),
     ('POST', '/api/staff/finance/charges'),
+    ('POST', f'/api/staff/finance/contracts/{uuid4()}/installment'),
     ('POST', f'/api/staff/finance/charges/{uuid4()}/post'),
     ('POST', f'/api/staff/finance/charges/{uuid4()}/reverse'),
+    ('POST', '/api/staff/finance/credit-notes'),
+    ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/approve'),
+    ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/post'),
     ('POST', '/api/staff/finance/payments'),
     ('POST', f'/api/staff/finance/payments/{uuid4()}/refund'),
     ('POST', '/api/staff/finance/revenue/recognize'),
@@ -138,6 +142,20 @@ async def test_centre_wide_money_reports_are_owner_and_admin_only(as_role, metho
     for role in ('owner', 'admin'):
         response = await as_role(role, method, path)
         assert response.status_code == 200
+
+
+APPROVAL_ROUTES = (
+    ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/approve'),
+)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('method,path', APPROVAL_ROUTES)
+async def test_only_the_owner_can_approve_relief(as_role, method, path):
+    """FIN-05/FIN-06: approval is an owner act, so an admin cannot self-approve relief."""
+    for role in ('admin', 'teacher', 'student'):
+        response = await as_role(role, method, path, b'{}')
+        assert response.status_code == 403, f'{role} approved {path}'
 
 
 @pytest.mark.asyncio

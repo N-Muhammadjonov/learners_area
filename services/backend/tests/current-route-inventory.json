@@ -1566,6 +1566,21 @@
  },
  {
   "method": "POST",
+  "path": "/api/staff/finance/credit-notes",
+  "name": "create_credit_note"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/credit-notes/{creditNoteId}/approve",
+  "name": "approve_credit_note"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/credit-notes/{creditNoteId}/post",
+  "name": "post_credit_note"
+ },
+ {
+  "method": "POST",
   "path": "/api/staff/finance/days/close",
   "name": "close_day"
  },
