@@ -2,24 +2,26 @@ import {h,shuffle,gameButton,gameFrame,gameTimers} from './game-common.js';
 const time=value=>Math.max(0,value).toFixed(1)+' s';
 
 /** One clock per item, one verified submission and a record for every outcome. */
-export function typingRace(ctx,host,{words,answer}){
+export function typingRace(ctx,host,{words,answer,progress={},save=async()=>true}){
  const g=ctx.dict.vocabulary.games,timers=gameTimers(ctx),eligible=[...new Map(words.filter(w=>w.term.trim()&&w.definitionEn.trim()).map(w=>[w.id,w])).values()],now=ctx.gameNow??Date.now;
  let deck,index,value,startedAt,status,elapsed,lit,records,stats,finished,input,clock,counter,boxes,submitButton;
  const accuracy=()=>stats.correct+stats.incorrect?Math.round(stats.correct/(stats.correct+stats.incorrect)*100):null;
  const duration=()=>startedAt===null?0:Math.max(0,Math.round((now()-startedAt)/100)/10);
  function resetItem(){value='';startedAt=null;status=null;elapsed=0;lit=0;}
- function restart(){timers.cancel();deck=shuffle(eligible).slice(0,10);index=0;records=[];stats={correct:0,incorrect:0,skipped:0,unverified:0,characters:0,seconds:0};finished=false;resetItem();paint();}
+ function restart(){timers.cancel();deck=shuffle(eligible).slice(0,10);index=0;records=[];stats={correct:0,incorrect:0,skipped:0,unverified:0,characters:0,seconds:0};finished=false;resetItem();void save(snapshot());paint();}
+ function snapshot(){return {deck:deck.map(w=>w.id),index,records,stats,finished};}
+ function restore(){if(!Array.isArray(progress.deck)||!progress.deck.length)return false;const lookup=new Map(eligible.map(w=>[w.id,w]));deck=progress.deck.map(k=>lookup.get(k)).filter(Boolean);if(deck.length!==progress.deck.length)return false;index=Number.isSafeInteger(progress.index)?Math.max(0,Math.min(progress.index,deck.length-1)):0;records=Array.isArray(progress.records)?progress.records.slice(0,deck.length):[];stats={correct:0,incorrect:0,skipped:0,unverified:0,characters:0,seconds:0,...progress.stats};finished=progress.finished===true;resetItem();return true;}
  function clockTick(){if(status!==null||startedAt===null||ctx.signal.aborted)return;clock.textContent=time(duration());counter.textContent=`${g.raceProgress} ${index+1} / ${deck.length} · ${g.itemTime}: ${time(duration())}`;timers.later(clockTick,100);}
- function advance(){if(status===null||status==='checking')return;timers.cancel();if(index+1>=deck.length)finished=true;else{index++;resetItem();}paint();}
+ function advance(){if(status===null||status==='checking')return;timers.cancel();if(index+1>=deck.length)finished=true;else{index++;resetItem();}void save(snapshot());paint();}
  function showBoxes(){if(!boxes)return;const w=deck[index],typed=[...value.replace(/\s/g,'')],expected=[...w.term.replace(/\s/g,'')];let offset=0;
   boxes.replaceChildren(...w.term.split(/\s+/).filter(Boolean).map(group=>{const row=h('span',{class:'flex flex-wrap justify-center gap-1'});for(const _ of group){const i=offset++,litNow=i<lit,color=litNow&&status==='correct'?' race-answer-box--correct':litNow&&status==='incorrect'?' race-answer-box--incorrect':'';row.append(h('span',{class:'race-answer-box'+color,'data-race-lit':String(litNow)},typed[i]??(['skipped','unverified'].includes(status)?expected[i]:'')));}return row;}),...typed.slice(expected.length).map((letter,i)=>h('span',{class:'race-answer-box'+(status==='incorrect'&&expected.length+i<lit?' race-answer-box--incorrect':''),'data-race-lit':String(expected.length+i<lit)},letter)));
  }
- function record(outcome){status=outcome;stats[outcome]++;stats.characters+=value.length;stats.seconds+=elapsed;records.push({term:deck[index].term,seconds:elapsed,outcome});paint();
+ async function record(outcome){status=outcome;stats[outcome]++;stats.characters+=value.length;stats.seconds+=elapsed;records.push({term:deck[index].term,seconds:elapsed,outcome});const saved=await save({...snapshot(),index:index+1>=deck.length?index:index+1,finished:index+1>=deck.length});if(ctx.signal.aborted)return;if(!saved){status='unverified';paint();return;}paint();
   const length=Math.max([...deck[index].term.replace(/\s/g,'')].length,[...value.replace(/\s/g,'')].length,1),step=Math.max(16,Math.min(65,Math.floor(650/length)));
   const light=()=>{lit++;showBoxes();if(lit<length)timers.later(light,step);};timers.later(light,step);timers.later(advance,length*step+(outcome==='correct'?750:1400));
  }
- async function submit(){if(status!==null||!value.trim())return;elapsed=duration();timers.cancel();status='checking';paint();const result=await answer(deck[index].id,{kind:'spelling',text:value});if(ctx.signal.aborted)return;record(result?.verified===true?(result.correct===true?'correct':'incorrect'):'unverified');}
- function skip(){if(status!==null)return;elapsed=duration();timers.cancel();record('skipped');}
+ async function submit(){if(status!==null||!value.trim())return;elapsed=duration();timers.cancel();status='checking';paint();const result=await answer(deck[index].id,{kind:'spelling',text:value});if(ctx.signal.aborted)return;void record(result?.verified===true?(result.correct===true?'correct':'incorrect'):'unverified');}
+ function skip(){if(status!==null)return;elapsed=duration();timers.cancel();void record('skipped');}
  const metric=(label,val)=>h('div',{class:'rounded-sm bg-paper-sunken p-3 text-center'},h('dt',{class:'text-[11px] uppercase tracking-wide text-ink-300'},label),h('dd',{class:'mt-1 text-sm font-medium text-ink-900'},String(val)));
  function paint(){if(ctx.signal.aborted)return;
   if(!deck.length){host.replaceChildren(gameFrame(ctx,'race','0 / 0',h('p',{class:'text-sm text-ink-500'},g.noEligible),true));return;}
@@ -36,5 +38,5 @@ export function typingRace(ctx,host,{words,answer}){
   const frame=gameFrame(ctx,'race',`${g.raceProgress} ${index+1} / ${deck.length} · ${g.itemTime}: ${time(status===null?duration():elapsed)}`,[h('div',{class:'flex flex-wrap items-center justify-between gap-2 text-xs text-ink-500'},h('span',{},g.score+': '+stats.correct),h('span',{},g.accuracy+': '+(acc===null?'—':acc+'%')),h('span',{},g.elapsedThisItem+': ',clock)),h('section',{class:'rounded-md bg-paper-sunken p-4 text-center','aria-labelledby':'race-meaning-label','data-race-prompt':''},h('p',{id:'race-meaning-label',class:'text-xs uppercase tracking-wide text-ink-300'},g.meaning),w.translationUz?h('p',{class:'mt-2 text-lg text-ink-900'},w.translationUz):null,h('p',{class:'mt-1 text-sm text-ink-700'},w.definitionEn),source?h('p',{class:'mt-2 text-xs text-ink-300'},g.source+': '+source):null),boxes,feedback,h('label',{class:'sr-only',for:'typing-race-answer'},g.raceInputLabel),input,h('p',{id:'race-answer-help',class:'text-xs text-ink-500'},g.raceKeyboardHint),status===null?h('div',{class:'flex flex-wrap gap-2'},submitButton,gameButton(g.skip,skip,{'data-race-skip':''})):null],true);
   host.replaceChildren(frame);counter=frame.firstElementChild.lastElementChild;showBoxes();if(status===null)input.focus({preventScroll:true});
  }
- restart();
+ if(!restore())restart();else paint();
 }
