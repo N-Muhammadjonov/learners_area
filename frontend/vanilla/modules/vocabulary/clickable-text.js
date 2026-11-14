@@ -14,6 +14,11 @@ import {contextualWordPopover} from './contextual-popover.js';
 /** Reading and Retention places follow the current original contextual rules (see ./contextual-popover.js). */
 const CONTEXTUAL_SOURCES=new Set(['reading','retention','listening']);
 const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
+const READING_PRONOUNS=new Set(['i','me','my','mine','myself','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','we','us','our','ours','ourselves','they','them','their','theirs','themselves','who','whom','whose','someone','somebody','everyone','everybody','anyone','anybody','nobody','noone']);
+function isExcludedLexicalWord(token,sourceType,verifiedOnly){
+ const normalized=token.clean.toLowerCase();
+ return sourceType==='reading'&&verifiedOnly?READING_PRONOUNS.has(normalized):BASIC_WORDS.has(normalized);
+}
 const savedSources=new WeakMap();
 const HIGHLIGHT_PALETTE=Object.freeze({
  blue:{backgroundColor:'#9bd5ff',color:'#102f57'},
@@ -38,14 +43,14 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
  const host=el(tag,{class:className});if(!lexicalAssistance&&!onHighlightRange&&!highlights.length){host.className=`whitespace-pre-line ${className}`;host.setAttribute('data-plain-text','');host.textContent=text;return {node:host,stop:()=>own.abort()};}
- const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
+ const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord&&!isExcludedLexicalWord(t,sourceType,verifiedOnly)&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
  let active=null,cursor=null,popup,gesture=null,pending=null,hold=null,selection,control;
  // Word spans by token index: a lookup or cursor move touches two nodes, never the whole passage.
  const wordNodes=new Map();let lit=new Set();
  const hint=el('span',{id:hintId,class:'sr-only'},doubleClickLookup?dict.vocabulary.textLookupDoubleHint:dict.vocabulary.textLookupHint),status=el('span',{id:cursorId,role:'status',class:'sr-only'}),region=el(tag,{class:'relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600',...(lexicalAssistance?{'data-clickable-text':'true','aria-describedby':hintId}:{'data-highlight-text':'true'}),...(onHighlightRange?{'data-highlight-surface':'true'}:{}),role:'group',...(words.length||onHighlightRange?{tabindex:0}:{}),'aria-label':lexicalAssistance?dict.vocabulary.textLookup:dict.listening.general.highlight});
  if(lexicalAssistance)host.append(hint);host.append(region,status);
  const fragment=document.createDocumentFragment();
- for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,'data-highlight-color':p.color??'blue',class:'rounded-sm',style:highlightStyle(p.color)}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word',...(verifiedOnly?{style:{cursor:'text'}}:{})},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
+ for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,'data-highlight-color':p.color??'blue',class:'rounded-sm',style:highlightStyle(p.color)}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!isExcludedLexicalWord(t,sourceType,verifiedOnly)&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word',...(verifiedOnly?{style:{cursor:'text'}}:{})},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
  region.append(fragment);
  if(lexicalAssistance&&(sourceType==='reading'||sourceType==='listening')&&sourceId){
   void sourceSaved(context,sourceType,sourceId).then(saved=>{
