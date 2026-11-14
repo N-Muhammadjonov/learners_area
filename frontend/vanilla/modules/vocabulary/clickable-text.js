@@ -96,13 +96,13 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
    hideControl();s.removeAllRanges();onHighlightRange(selected);
   }
   const palettes=[
-   ['blue','#5ab2ff','#0b315b'],['yellow','#ffe080','#513a00'],['grey','#b8c0cc','#273244']
+   ['blue','#5ab2ff'],['yellow','#ffe080'],['grey','#b8c0cc']
   ];
-  for(const [color,bg,fg] of palettes){
+  for(const [color,bg] of palettes){
    const option=el('button',{type:'button','data-highlight-color-option':color,
     'aria-label':color, title:color,
-    class:'min-h-9 min-w-9 rounded-md border border-ink-100 px-2 text-xs font-semibold',
-    style:{backgroundColor:bg,color:fg}},color);
+    class:'h-9 w-9 shrink-0 rounded-full border-2 border-ink-100 p-0 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-600',
+    style:{backgroundColor:bg}});
    wrap.append(option);
    listen(option,'pointerdown',e=>e.preventDefault(),signal);
    listen(option,'click',()=>applyHighlight(color),signal);
