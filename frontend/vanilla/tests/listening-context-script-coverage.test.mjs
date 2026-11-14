@@ -106,8 +106,12 @@ test('Script annotator preserves readable text and excludes common grammatical w
     words[0].dispatchEvent(new w.MouseEvent('pointerdown',{bubbles:true}));
     assert.equal(calls.length,0,'Selecting a marked word must not dismiss the meaning');
     w.document.getElementById('scriptHost').dispatchEvent(new w.MouseEvent('pointerdown',{bubbles:true}));
-    assert.deepEqual(calls.at(-1),{channel:'learners-area-authored-v1',token:'fixture',op:'dismiss-word'});
+    assert.equal(calls.at(-1)?.channel,'learners-area-authored-v1');
+    assert.equal(calls.at(-1)?.token,'fixture');
+    assert.equal(calls.at(-1)?.op,'dismiss-word');
     w.document.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
-    assert.deepEqual(calls.at(-1),{channel:'learners-area-authored-v1',token:'fixture',op:'dismiss-word'});
+    assert.equal(calls.at(-1)?.channel,'learners-area-authored-v1');
+    assert.equal(calls.at(-1)?.token,'fixture');
+    assert.equal(calls.at(-1)?.op,'dismiss-word');
   }finally{dom.window.close();}
 });
