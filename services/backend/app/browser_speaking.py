@@ -1,4 +1,4 @@
-"""Speaking entry projections, preserving retired shadowing and own history."""
+"""Speaking entry projections for supported materials and own history."""
 import os
 from fastapi import HTTPException
 from . import main as core
@@ -7,7 +7,8 @@ from .browser_writing import evaluation, evaluation_result
 
 
 async def materials(con, user, management=False):
-    where = "TRUE" if management else live('m') + " AND m.category<>'shadowing'"
+    supported = "m.category IN ('part1','part2','part3','general','top_structures')"
+    where = supported if management else live('m') + " AND " + supported
     rows = await con.fetch(f'SELECT m.*,u.name author_name FROM speaking_materials m JOIN users u ON u.id=m.created_by_user_id WHERE {where} ORDER BY m.category,m.created_at DESC')
     ids=[row['id'] for row in rows]
     block_rows=await con.fetch('SELECT * FROM material_blocks WHERE material_id=ANY($1::uuid[]) ORDER BY material_id,position',ids) if ids else []

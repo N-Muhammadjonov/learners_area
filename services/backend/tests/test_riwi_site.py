@@ -155,3 +155,14 @@ def test_riwi_guide_knows_speaking_writing_books_and_leaderboard():
     assert {'href': '/app/study-plan/leaderboard', 'label': 'Reyting'} in ranking['navigationLinks']
     assert not any(link['href'] == '/app/study-plan/leaderboard' for link in
                    s.safe_navigation('teacher', [{'href': '/app/study-plan/leaderboard', 'label': 'Reyting'}]))
+
+
+@pytest.mark.parametrize('role', ['student', 'teacher', 'admin', 'owner'])
+@pytest.mark.parametrize('locale', ['uz', 'en'])
+def test_speaking_guide_only_describes_existing_routes(role, locale):
+    result=s.site_response(role, 'Speaking bo‘limi qanday ishlaydi?', locale)
+    assert result and 'shadowing' not in result['answer'].lower()
+    assert all('shadowing' not in link['href'] for link in result['navigationLinks'])
+    assert 'Practice Alone' in result['answer'] and 'Live Partner' in result['answer']
+    assert s.route('/app/speaking/shadowing') is None
+    assert s.safe_navigation(role, [{'href':'/app/speaking/shadowing','label':'Old activity'}]) == []

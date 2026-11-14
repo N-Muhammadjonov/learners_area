@@ -154,7 +154,7 @@ async def category(con,kind,like,user_id):
         return [hit('writing',excerpt(r['prompt']),'Task 1' if r['task_type']=='task1' else 'Task 2',f"/app/writing/prompts/{r['id']}") for r in rows]
     if kind==7:
         rows=await con.fetch(f'''SELECT s.id,s.title,s.category FROM speaking_materials s WHERE {pub('s')}
-        AND s.category<>'shadowing' AND s.title ILIKE $1 ORDER BY s.title,s.id LIMIT 5''',like)
+        AND s.category IN ('part1','part2','part3','general','top_structures') AND s.title ILIKE $1 ORDER BY s.title,s.id LIMIT 5''',like)
         return [hit('speaking',r['title'],r['category'],f"/app/speaking/lessons#material-{r['id']}") for r in rows]
     if kind==8:
         rows=await con.fetch(f'''SELECT p.id,p.prompt_text,p.part,p.topic FROM speaking_prompts p

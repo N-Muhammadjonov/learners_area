@@ -3,7 +3,6 @@ import {viewData} from '../../js/adapters/frontend.js';
 import {materialPlayer,blockRenderer,stopMedia} from './media.js';
 import {RegionFailureNotice,BackLink} from '../shared/presentation.js';
 /** Source: src/app/app/(shell)/speaking/lessons/page.tsx.
- * Shadowing is RETIRED and never exposed to learners, even if historical rows exist.
  * The projected view is an existing frontend boundary, not a request for a new API. */
 const ORDER=['part1','part2','part3','general','top_structures'];
 function requirePayload(value){
@@ -22,7 +21,7 @@ export function mount(context){
    el('header',{},el('h1',{class:'font-display text-2xl text-ink-900'},dict.speakingHub.lessonsTitle),el('p',{class:'mt-1 text-base text-ink-500'},dict.speakingHub.lessonsBody)),skeleton());
   try{
    const payload=requirePayload(await viewData(url.pathname+url.search,signal));if(signal.aborted)return;
-   const rows=payload.rows.filter(x=>x.material.category!=='shadowing');const groups=new Map();
+   const rows=payload.rows.filter(x=>ORDER.includes(x.material.category));const groups=new Map();
    for(const entry of rows){const cat=entry.material.category;if(!ORDER.includes(cat))continue;const list=groups.get(cat)??[];list.push(entry);groups.set(cat,list);}
    const region=el('div',{'data-speaking-materials':'','data-async-content':'speaking-materials'});
    if(rows.length===0)region.append(el('section',{class:'card flex flex-col gap-2 p-6'},el('p',{},'🎙'),el('h2',{class:'font-display text-lg'},dict.speakingHub.lessonsEmptyTitle),el('p',{class:'text-ink-500'},dict.speakingHub.lessonsEmptyBody)));

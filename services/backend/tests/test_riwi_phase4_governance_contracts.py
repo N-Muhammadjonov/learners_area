@@ -172,10 +172,11 @@ class FakeGovernanceConn:
 
 
 class RiwiPhase4GovernanceContractsTest(unittest.TestCase):
-    def test_all_105_assessment_contracts_and_hard_core_invariants(self) -> None:
-        self.assertEqual(len(LEGACY_ASSESSMENT_CONTRACT_KEYS), 68)
-        self.assertEqual(len(ASSESSMENT_CONTRACT_KEYS), 105)
-        self.assertEqual(len(ASSESSMENT_CONTRACTS), 105)
+    def test_all_104_assessment_contracts_and_hard_core_invariants(self) -> None:
+        self.assertEqual(len(LEGACY_ASSESSMENT_CONTRACT_KEYS), 67)
+        self.assertEqual(len(ASSESSMENT_CONTRACT_KEYS), 104)
+        self.assertEqual(len(ASSESSMENT_CONTRACTS), 104)
+        self.assertIsNone(get_assessment_contract('speaking.shadowing'))
 
         for key in ASSESSMENT_CONTRACT_KEYS:
             c = get_assessment_contract(key)

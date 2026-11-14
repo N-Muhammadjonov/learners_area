@@ -190,7 +190,7 @@ add('exam-boundary','base:177,197,206,237,240,248,249,451,452,455,456,457,458,45
 add('listening-format','base:202,203,204,205,215,216,217,246',
  'Listening to‘rt qism va jami 40 savoldan iborat. Dastlabki ikki qism kundalik vaziyatlar, keyingi ikkitasi o‘qish yoki ta’lim mavzularidir. Rasmiy test yozuvi bir marta eshittiriladi; saytdagi practice qayta tinglash qoidasi player va rejimga bog‘liq. Mashqda avval mustaqil tinglang, keyin xato joyini qayta eshitib sababini toping.',
  'Listening has four parts and 40 questions. The first two concern everyday settings; the last two concern education or training. Official recordings are played once. Replay in site practice depends on its mode and player. Attempt independently first, then replay difficult sections to identify the cause of an error.')
-add('listening-method','base:218,220,221,224,225,226,227,228,229,231,244,245 extra:46,204,209,214,217,277',
+add('listening-method','base:220,221,224,225,226,227,228,229,231,244,245 extra:46,204,209,214,217,277',
  'Audio oldidan bo‘sh joy uchun qanday ma’no va so‘z turkumi kerakligini taxmin qiling. Tinglaganda o‘zgartirilgan fikrni ushlang: «Tuesday — sorry, Thursday» desa oxirgi tuzatish muhim. O‘tkazib yuborgan bitta javobda qolib ketmang. Mashqdan keyin: 1) xato qismini qayta eshiting; 2) ruxsatli transkript bilan solishtiring; 3) qiyin iborani aytib, yangi gapda ishlating.',
  'Before the audio, predict the meaning and word class needed. Listen for corrections: in Tuesday—sorry, Thursday, the final correction matters. Move on after a missed answer. After practice, replay the difficult section, compare an available transcript, then say the difficult phrase and use it in a new sentence.')
 add('band-conversion','base:230,465,469,470,471',
@@ -707,7 +707,7 @@ add('outdoor-plan','',
 
 def compile_pack():
     corpus=json.loads((ROOT/'services/backend/contracts/riwi_question_corpus_v1.json').read_text())
-    assert len(corpus['entries'])==1640
+    assert len(corpus['entries'])==1639
     assert not set(LESSONS)&set(ASSIGNMENTS)
     ids={e['id'] for e in corpus['entries']}
     assert set(LESSONS)|set(ASSIGNMENTS)==ids,ids-(set(LESSONS)|set(ASSIGNMENTS))

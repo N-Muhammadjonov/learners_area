@@ -48,7 +48,6 @@ LEGACY_ASSESSMENT_CONTRACT_KEYS: Final[tuple[str, ...]] = (
     "speaking.part3",
     "speaking.general",
     "speaking.mock",
-    "speaking.shadowing",
     "speaking.top-structures",
     "grammar.correct-it",
     "grammar.translate-it",
@@ -261,7 +260,7 @@ def _build_contract(key: str) -> AssessmentContractDefinition:
         execution = "coach_evaluation"
         scoring_mode = "verdict" if key.startswith("writing.check.") else "writing_band_estimate"
     elif domain == "speaking":
-        if key in ("speaking.shadowing", "speaking.top-structures"):
+        if key == "speaking.top-structures":
             execution = "instruction_catalog"
             scoring_mode = "instruction_only"
         else:

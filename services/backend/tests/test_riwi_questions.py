@@ -14,10 +14,12 @@ ROOT=Path(__file__).resolve().parents[3]
 ACTOR=RiwiActor('11111111-1111-4111-8111-111111111111','student')
 
 
-def test_all_three_files_preserved_and_compilation_is_reproducible():
+def test_source_receipts_preserved_and_active_compilation_is_reproducible():
     corpus=json.loads((ROOT/'services/backend/contracts/riwi_question_corpus_v1.json').read_text())
     pack=q.library()
     assert [s['count'] for s in pack['sources']]==[1000,320,320]
+    assert pack['retiredQuestionIds']==['base.0218']
+    assert len(pack['entries'])==1639
     assert [(e['id'],e['question'],e['category'],e['decision']) for e in corpus['entries']]==[(e['id'],e['question'],e['category'],e['decision']) for e in pack['entries']]
     compiled=runpy.run_path(str(ROOT/'scripts/riwi/build_question_answers.py'))['compile_pack']()
     assert compiled==pack
@@ -59,6 +61,11 @@ def test_no_nearest_sentence_guess_changes_numbers_or_negation():
     assert q.match_question('201 ning 15 foizi qancha?') is None
     assert q.match_question('200 ning 16 foizi qancha?') is None
     assert q.match_question('Ovoz vakuumda tarqalmaydimi?') is None
+
+
+def test_deleted_activity_is_not_in_active_question_knowledge():
+    assert 'shadowing' not in json.dumps(q.library(), ensure_ascii=False).lower()
+    assert q.match_question('Listening uchun shadowing foydalimi?') is None
 
 
 @pytest.mark.parametrize('message,profile',[

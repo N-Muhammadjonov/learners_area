@@ -1759,14 +1759,6 @@
       "responseId": "listening-format"
     },
     {
-      "id": "base.0218",
-      "category": "05",
-      "categoryTitle": "IELTS Listening",
-      "question": "Listening uchun shadowing foydalimi?",
-      "decision": "answer",
-      "responseId": "listening-method"
-    },
-    {
       "id": "base.0219",
       "category": "05",
       "categoryTitle": "IELTS Listening",
@@ -13142,6 +13134,9 @@
       "decision": "conditional",
       "responseId": "conditional-practice"
     }
+  ],
+  "retiredQuestionIds": [
+    "base.0218"
   ],
   "responses": {
     "platform": {

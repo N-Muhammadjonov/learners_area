@@ -8,7 +8,7 @@ let previous=null,scope=null;
 export function siteQuestion(text){
  if(/sayt|website|web\s*site|tugma|button|sahifa|bo[‘'’ʻ]?lim|navigation|navigats|interfeys|interface|qidiruv|search|yuklash|upload|menu|menyu|architecture|arxitektur|\/app\b/i.test(text))return true;
  const q=String(text).toLowerCase().replace(/[‘'’ʻ`]/g,'');
- return /\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|shadowing|mock|progress|live class)\w*/.test(q)&&/(?:qanday|qanaqa).{0,30}(?:ishla|foydalan|och|kir)|qayer|nima qil|nima uchun kerak|tizim|system|how.{0,30}(?:work|use|open|access)|where|ochish|ishlat|foydalan/.test(q);
+ return /\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|mock|progress|live class)\w*/.test(q)&&/(?:qanday|qanaqa).{0,30}(?:ishla|foydalan|och|kir)|qayer|nima qil|nima uchun kerak|tizim|system|how.{0,30}(?:work|use|open|access)|where|ochish|ishlat|foydalan/.test(q);
 }
 export function routePattern(path){return patterns.find(x=>x.match.test(path))?.path??null;}
 export function safeNavigation(values){

@@ -57,7 +57,7 @@ GROUPS = [
         ('Retention qanday ishlaydi?', 'How does Retention work?'),
         'Matnni o‘qing, so‘ng yopiq matn bilan eslash bosqichini mustaqil bajaring. Asosiy g‘oya, sabab va tafsilotlarni xotiradan qaytaring; bilmaganini taxminiy fakt bilan to‘ldirmang. Ruxsatli reviewda xotirangizni matn bilan solishtiring. Faol recallning javoblarini RIWI ochib bermaydi.',
         'Read the text, then complete closed-text recall independently. Retrieve the main idea, reasons and details without inventing uncertain facts. Compare against the text during permitted review. RIWI does not reveal answers during active recall.', (64, 65, 46)),
-    group('podcast', ('podcast', 'podkast', 'ted', 'transcript', 'shadowing'), LEARNING,
+    group('podcast', ('podcast', 'podkast', 'ted', 'transcript'), LEARNING,
         ('Podcast yoki TED bilan qanday mashq qilaman?', 'How do I practise with Podcasts or TED?'),
         'Avval qisqa bo‘lakni transkriptsiz tinglab asosiy fikrni ayting. Keyin mavjud ruxsatli transkript bilan eshitilmagan joyni tekshiring. Qisqa iborani takrorlab, yangi so‘zning kontekstini lug‘atdan aniqlang. Faqat playerni ochiq qoldirish tushunish yoki reward dalili emas.',
         'Listen to a short section without the transcript and state its main idea. Then use an available permitted transcript to check missed parts. Repeat a short phrase and verify vocabulary in context. An open player alone does not prove comprehension or a reward.', (27, 29, 184)),

@@ -9,7 +9,6 @@ function css(){if(stylesLoaded)return;stylesLoaded=true;
 export async function mount(context){
  if(context.signal.aborted)return;
  const path=context.url.pathname.replace(/\/+$/,'');css();
- if(path==='/app/speaking/shadowing')return context.navigate('/app/speaking/lessons',{replace:true});
  const pages={
   '/app/speaking':'./hub.js',
   '/app/speaking/lessons':'./lessons.js',

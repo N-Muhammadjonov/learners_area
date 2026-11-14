@@ -666,7 +666,6 @@ node scripts/verify-a11y.mjs                           # 40 accessibility, local
 DATABASE_URL=... node scripts/verify-video-lessons.mjs # 17 video-lesson checks
 node scripts/verify-uploads.mjs                        # 44 HTTP-level checks of the upload lifecycle
 DATABASE_URL=... node scripts/verify-coach.mjs         # 21 checks of the Coach subsystem
-DATABASE_URL=... node scripts/verify-shadowing.mjs     # 15 speech-shadowing checks
 DATABASE_URL=... node scripts/verify-writing.mjs       # 18 writing checks
 DATABASE_URL=... node scripts/verify-listening.mjs     # 45 listening checks
 DATABASE_URL=... node scripts/verify-reading.mjs       # 32 reading checks

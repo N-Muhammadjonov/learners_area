@@ -133,7 +133,7 @@ const ITEMS = [
     what: "shadowing studio: a source recording plus the learner's own local take",
     classification: "RETIRED",
     reason:
-      "RETIRED BY OWNER DECISION — Shadowing is not part of the Learners Area product. The component is deleted and the route is a redirect issued from middleware (308 → /app/speaking/lessons) so the status is honest in front of the (shell) Suspense boundary. Nothing is destructively removed underneath it: the `shadowing` database enum value and every historical `speaking_materials` row are preserved, and `scripts/verify-shadowing.mjs` is now an ABSENCE suite that fails if any of this regresses. Previously classified KEEP, which was wrong the moment the feature was retired.",
+      "DELETED BY OWNER DECISION — the studio, route, redirect, seed material and RIWI feature knowledge are removed. The old URL returns 404. Production speaking_materials contained zero rows in the historical category on 2026-11-14. Applied SQL migrations and the compatibility enum are not rewritten; neither exposes an activity. Absence is checked by the native route, HTTP and RIWI tests.",
   },
   {
     path: "src/lib/speaking/manage-topic.ts (+ src/lib/speaking/topic-draft.ts)",

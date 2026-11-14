@@ -56,6 +56,17 @@ def test_home_is_indexable_without_javascript_or_session_queries(monkeypatch):
         assert 'nonce=' in html and 'Content-Security-Policy' in response.headers
 
 
+@pytest.mark.parametrize('path', ['/app/speaking/shadowing', '/app/speaking/shadowing?from=old', '/app/speaking/shadowing/'])
+def test_deleted_speaking_activity_is_a_real_404_without_login_or_redirect(monkeypatch, path):
+    async def forbidden(*args, **kwargs):
+        raise AssertionError('deleted route must not read sessions or data')
+    monkeypatch.setattr(core, 'current_user', forbidden)
+    monkeypatch.setattr(core, 'pool', forbidden)
+    response = client.get(path, follow_redirects=False)
+    assert response.status_code == 404
+    assert 'location' not in response.headers
+
+
 def test_discovery_documents_only_list_the_public_canonical_home():
     robots = client.get('/robots.txt')
     assert robots.status_code == 200 and robots.headers['content-type'].startswith('text/plain')

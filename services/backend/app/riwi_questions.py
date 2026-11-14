@@ -29,7 +29,7 @@ def key(text):
 @lru_cache(maxsize=1)
 def library():
     data=json.loads((Path(__file__).resolve().parents[1]/'contracts/riwi_question_answers_v1.json').read_text())
-    if data.get('version')!='riwi-question-answers-v1' or len(data.get('entries',[]))!=1640:
+    if data.get('version')!='riwi-question-answers-v1' or len(data.get('entries',[]))!=1639:
         raise ValueError('invalid_question_library')
     from .riwi_curriculum import library as curriculum
     for entry in data['entries']:

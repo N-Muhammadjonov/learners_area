@@ -645,35 +645,6 @@ async function main() {
     ]);
   }
 
-  // --- LEGACY shadowing material -------------------------------------------
-  // Shadowing is a RETIRED product feature (owner decision). This row is seeded on
-  // purpose and must NOT be removed: it is the positive control for the absence
-  // regressions. A centre's database can still hold rows in the historical
-  // `shadowing` category, and the product has to keep them out of every learner
-  // surface. Without a real legacy row present, "shadowing is absent" would pass
-  // vacuously because there would be nothing that could leak.
-  // scripts/verify-shadowing.mjs asserts this row exists AND never reaches a learner.
-  const [shadowingMaterial] = await db
-    .insert(speakingMaterials)
-    .values({
-      createdByUserId: teacher.id,
-      category: "shadowing",
-      title: "Shadowing: a model Part 1 answer, sentence by sentence",
-      primaryType: "audio",
-    })
-    .returning();
-
-  if (shadowingMaterial) {
-    await db.insert(materialBlocks).values([
-      {
-        materialId: shadowingMaterial.id,
-        position: 1,
-        type: "text",
-        textContent: "Play one sentence, pause, repeat it out loud with the same rhythm, then play the next. Do not read the transcript while you shadow — listen first, speak second.",
-      },
-    ]);
-  }
-
   const [part1Audio] = await db
     .insert(speakingMaterials)
     .values({

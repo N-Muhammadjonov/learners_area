@@ -82,9 +82,9 @@ TOPICS = [
     _topic('writing','writing yozish insho essay language stealing translation', ['/app/writing','/app/writing/history'],
         'Writing’da topshiriq tanlab matn yoziladi. Language Stealing foydali til birliklari bilan ishlaydi, Translation tarjima mashqiga xizmat qiladi, Submissions/History oldingi ishlarni ochadi. Saqlash va topshirish alohida holatlar: topshirilgan ish baholash jarayoniga kiradi. RIWI biriktirilgan matn yoki ruxsat etilgan o‘quv materiali bilan yordam beradi.',
         'Writing lets you select a task and write a response. Language Stealing works with useful language; Translation provides translation practice; Submissions/History opens earlier work. Saving and submitting are distinct: submission enters assessment. RIWI can assist with supplied text or permitted study material.'),
-    _topic('speaking','speaking gapirish shadowing talaffuz recorder recording mikrofon', ['/app/speaking','/app/speaking/practice','/app/speaking/shadowing','/app/speaking/history'],
-        'Speaking’da dars, mustaqil mashq, shadowing va oldingi urinishlar yo‘llari bor. Practice ichida qism, keyin mavzu tanlanadi. Mikrofon yozuvi uchun brauzer ruxsati kerak; yozuvni boshlash, to‘xtatish va topshirish alohida amallar. Ruxsat/yozuv xatosini RIWI natija sifatida ko‘rsatmaydi.',
-        'Speaking has lessons, practice, shadowing and history. Practice selects a part and then a topic. Recording requires browser microphone permission; start, stop and submit are separate actions. A permission/recording failure is not a completed assessment.'),
+    _topic('speaking','speaking gapirish talaffuz recorder recording mikrofon', ['/app/speaking','/app/speaking/lessons','/app/speaking/practice','/app/speaking/ai','/app/speaking/speak-or-die','/app/speaking/live-partner','/app/speaking/history'],
+        'Speaking’da Lessons — darslar, Practice Alone — mustaqil mashq, AI — baholash yo‘li, Speak or Die — ravonlik mashqi, Live Partner — sherik bilan mashq va History — oldingi urinishlar bor. Practice ichida qism, keyin mavzu tanlanadi. Mikrofon yozuvi uchun brauzer ruxsati kerak; yozuvni boshlash, to‘xtatish va topshirish alohida amallar. AI baholashi tashqi xizmat sozlamalariga bog‘liq; xizmat tayyor bo‘lmasa baho uydirilmaydi. Ruxsat/yozuv xatosini RIWI natija sifatida ko‘rsatmaydi.',
+        'Speaking has Lessons, Practice Alone, AI evaluation, Speak or Die fluency practice, Live Partner and History. Practice selects a part and then a topic. Recording requires browser microphone permission; start, stop and submit are separate actions. AI evaluation depends on configured external services; an unavailable service never produces an invented score. A permission/recording failure is not a completed assessment.'),
     _topic('grammar','grammar grammatika dars lesson author', ['/app/grammar','/app/grammar/lessons'],
         'Grammar Lessons asosiy grammatika kutubxonasi. Grammar for Speaking sahifasida 77 ta, Grammar for Writing sahifasida 120 ta dars bor; Speaking va Writing uchun Grammar sahifasidagi tegishli tabni tanlang. Har bir dars to‘rt bosqichli mashqlarni ochadi, day/night rejimi saytga mos. Writing Academic Task 1 mavzularida diagrammalar mavjud. Darsni ochish to‘g‘ridan-to‘g‘ri coin yoki baho bermaydi; o‘quv natijalari server qoidalariga bog‘liq. Mualliflik va nashr xodim vakolatini talab qiladi.',
         'Grammar Lessons is the core grammar library. Grammar for Speaking contains 77 units and Grammar for Writing contains 120 units, selectable from the relevant tabs on the Grammar page. Lessons use four exercise stages and follow the site theme; Academic Writing Task 1 includes diagrams. Opening a lesson does not award coins or grades; verified outcomes follow server rules. Authoring and publishing require staff permission.'),
@@ -131,7 +131,7 @@ CONTROLS = [
 def is_site_question(message):
     if re.search(r'sayt|website|web\s*site|tugma|button|sahifa|bo[‘\x27’ʻ]?lim|navigation|navigats|interfeys|interface|qidiruv|search|yuklash|upload|menu|menyu|architecture|arxitektur|/app\b',message,re.I): return True
     q=_normal(message)
-    module=re.search(r'\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|shadowing|mock|progress|live class|leaderboard|reyting|coin|tanga)\w*',q)
+    module=re.search(r'\b(?:vocabulary|vocab|lugat|dictionary|reading|listening|writing|speaking|grammar|retention|podcast|dashboard|riwi|assignment|homework|mock|progress|live class|leaderboard|reyting|coin|tanga)\w*',q)
     return bool(module and re.search(r'(?:qanday|qanaqa).{0,30}(?:ishla|foydalan|och|kir)|qayer|nima qil|nima uchun kerak|tizim|system|how.{0,30}(?:work|use|open|access)|where|ochish|ishlat|foydalan',q))
 
 
@@ -144,7 +144,7 @@ def _normal(text):
 _LABELS={'app':'Main','dashboard':'Dashboard','reading':'Reading','listening':'Listening',
     'writing':'Writing','speaking':'Speaking','grammar':'Grammar','vocabulary':'Vocabulary',
     'games':'Games','lessons':'Lessons','academic':'Academic','general':'General','retention':'Retention',
-    'history':'History','tests':'Tests','mcq':'MCQ','practice':'Practice','shadowing':'Shadowing',
+    'history':'History','tests':'Tests','mcq':'MCQ','practice':'Practice',
     'ielts':'IELTS course','video-lessons':'Video lessons','mocks':'Mock tests','assignments':'Assignments',
     'coach':'Coach','progress':'Progress','leaderboard':'Reyting','live-classes':'Live Classes','support':'Support','reports':'Reports',
     'profile':'Profile','notifications':'Notifications','management':'Management','people':'People',
@@ -257,7 +257,7 @@ def answer_site_question(role, message, locale, context=(), *, _navigation=None)
         for path in dict.fromkeys(link_paths):
             segments=path.split('/');leaf=segments[-1]
             label=_LABELS.get(leaf,leaf.replace('-',' ').title())
-            if leaf in ('lessons','history','academic','general','retention','tests','mcq','practice','shadowing','games') and len(segments)>3:
+            if leaf in ('lessons','history','academic','general','retention','tests','mcq','practice','games') and len(segments)>3:
                 label=_LABELS.get(segments[-2],segments[-2].title())+' · '+label
             _navigation.append({'href':path,'label':label})
     return '\n\n'.join(parts)[:6000]

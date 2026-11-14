@@ -6,7 +6,6 @@ export function canonicalPath(url){
  let destination;
  if(APP_HOME_ALIASES.includes(url.pathname))destination='/app';
  else destination=APP_LEGACY_ALIASES.find(a=>a.source===url.pathname)?.destination;
- if(url.pathname==='/app/speaking/shadowing')destination='/app/speaking/lessons';
  if(!destination){const module=PRIVATE_MODULES.find(m=>url.pathname==='/'+m.segment||url.pathname.startsWith('/'+m.segment+'/'));if(module)destination=module.destination+url.pathname.slice(module.segment.length+1);}
  if(!destination&&!['/app/listening','/app/reading','/app/grammar'].includes(url.pathname))return null;destination??=url.pathname;
  let to=new URL(destination,url.origin);for(const [k,v] of url.searchParams)if(!to.searchParams.has(k))to.searchParams.append(k,v);to.hash=url.hash;
