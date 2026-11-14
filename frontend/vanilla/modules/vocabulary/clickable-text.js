@@ -15,6 +15,14 @@ import {contextualWordPopover} from './contextual-popover.js';
 const CONTEXTUAL_SOURCES=new Set(['reading','retention','listening']);
 const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
 const savedSources=new WeakMap();
+const HIGHLIGHT_PALETTE=Object.freeze({
+ blue:{backgroundColor:'#9bd5ff',color:'#102f57'},
+ yellow:{backgroundColor:'#ffe58a',color:'#382900'},
+ grey:{backgroundColor:'#c4cad3',color:'#1f2937'}
+});
+function highlightStyle(color){
+ return HIGHLIGHT_PALETTE[color]??HIGHLIGHT_PALETTE.blue;
+}
 function sourceSaved(context,sourceType,sourceId){
  let cache=savedSources.get(context.signal);
  if(!cache){cache=new Map();savedSources.set(context.signal,cache);}
@@ -37,7 +45,7 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  const hint=el('span',{id:hintId,class:'sr-only'},doubleClickLookup?dict.vocabulary.textLookupDoubleHint:dict.vocabulary.textLookupHint),status=el('span',{id:cursorId,role:'status',class:'sr-only'}),region=el(tag,{class:'relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600',...(lexicalAssistance?{'data-clickable-text':'true','aria-describedby':hintId}:{'data-highlight-text':'true'}),...(onHighlightRange?{'data-highlight-surface':'true'}:{}),role:'group',...(words.length||onHighlightRange?{tabindex:0}:{}),'aria-label':lexicalAssistance?dict.vocabulary.textLookup:dict.listening.general.highlight});
  if(lexicalAssistance)host.append(hint);host.append(region,status);
  const fragment=document.createDocumentFragment();
- for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,class:'rounded-sm bg-signal-100 text-ink-900'}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word',...(verifiedOnly?{style:{cursor:'text'}}:{})},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
+ for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,'data-highlight-color':p.color??'blue',class:'rounded-sm',style:highlightStyle(p.color)}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!BASIC_WORDS.has(t.clean.toLowerCase())&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word',...(verifiedOnly?{style:{cursor:'text'}}:{})},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
  region.append(fragment);
  if(lexicalAssistance&&(sourceType==='reading'||sourceType==='listening')&&sourceId){
   void sourceSaved(context,sourceType,sourceId).then(saved=>{
@@ -77,7 +85,39 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  listen(region,'dblclick',e=>{cancelHold();if(!lexicalAssistance||!doubleClickLookup||e.button!==0||gesture?.cancelled)return;const n=e.target.closest?.('[data-token]');if(n&&region.contains(n)){clearTimeout(pending);hideControl();open(Number(n.dataset.token));}},signal);
  function hideControl(){control?.remove();control=null;selection=null;}
  function capture(){if(!onHighlightRange)return;const s=window.getSelection();if(!s||s.isCollapsed||!s.rangeCount){hideControl();return;}const range=s.getRangeAt(0);if(!region.contains(range.startContainer)||!region.contains(range.endContainer)){hideControl();return;}const boundary=(node,offset)=>{const exact=offsetWithin(region,node,offset);if(exact!==null)return exact;try{const r=document.createRange();r.selectNodeContents(region);r.setEnd(node,offset);return r.toString().length;}catch{return null;}};const a=boundary(range.startContainer,range.startOffset),b=boundary(range.endContainer,range.endOffset);if(a==null||b==null||Math.abs(a-b)<1||Math.max(a,b)>text.length)return;hideControl();selection={start:Math.min(a,b),end:Math.max(a,b)};let left=8,top=8;try{const rect=range.getBoundingClientRect();left=rect.left+rect.width/2;top=rect.top;}catch{}
-  const existing=highlights.find(h=>selection.start<h.end&&selection.end>h.start),button=el('button',{type:'button',class:'btn-secondary min-h-9'},existing&&onRemoveHighlight?dict.listening.general.clearHighlight:dict.listening.general.highlight);control=el('span',{'data-highlight-control':'',role:'group','aria-label':lexicalAssistance?dict.vocabulary.textLookup:dict.listening.general.highlight,class:'fixed z-50 flex -translate-x-1/2 items-center gap-1 rounded-lg border border-ink-100 bg-paper px-2 py-1 shadow-lg',style:{left:left+'px',top:Math.max(8,top-44)+'px'}},button);host.append(control);listen(button,'pointerdown',e=>e.preventDefault(),signal);listen(button,'click',()=>{const range={...selection};hideControl();s.removeAllRanges();if(existing&&onRemoveHighlight)onRemoveHighlight(existing.id);else onHighlightRange(range);},signal);}
+  const existing=highlights.find(h=>selection.start<h.end&&selection.end>h.start);
+  const wrap=el('span',{'data-highlight-control':'',role:'group',
+   'aria-label':lexicalAssistance?dict.vocabulary.textLookup:dict.listening.general.highlight,
+   class:'fixed z-50 flex -translate-x-1/2 items-center gap-1 rounded-lg border border-ink-100 bg-paper px-2 py-1 shadow-lg',
+   style:{left:left+'px',top:Math.max(8,top-44)+'px'}});
+  control=wrap;host.append(control);
+  function applyHighlight(color){
+   const selected={...selection,color};
+   hideControl();s.removeAllRanges();onHighlightRange(selected);
+  }
+  const palettes=[
+   ['blue','#5ab2ff','#0b315b'],['yellow','#ffe080','#513a00'],['grey','#b8c0cc','#273244']
+  ];
+  for(const [color,bg,fg] of palettes){
+   const option=el('button',{type:'button','data-highlight-color-option':color,
+    'aria-label':color, title:color,
+    class:'min-h-9 min-w-9 rounded-md border border-ink-100 px-2 text-xs font-semibold',
+    style:{backgroundColor:bg,color:fg}},color);
+   wrap.append(option);
+   listen(option,'pointerdown',e=>e.preventDefault(),signal);
+   listen(option,'click',()=>applyHighlight(color),signal);
+  }
+  if(existing&&onRemoveHighlight){
+   const remove=el('button',{type:'button','data-highlight-remove':true,
+    class:'btn-primary min-h-9 px-3 text-xs'},dict.listening.general.clearHighlight);
+   wrap.append(remove);
+   listen(remove,'pointerdown',e=>e.preventDefault(),signal);
+   listen(remove,'click',()=>{
+    const id=existing.id;
+    hideControl();s.removeAllRanges();onRemoveHighlight(id);
+   },signal);
+  }
+ }
  listen(region,'mouseup',capture,signal);listen(region,'keyup',capture,signal);
  listen(region,'keydown',e=>{if(e.key==='Escape'){if(selection)hideControl();else close(true);return;}if(!lexicalAssistance||e.target!==region||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)return;if(['ArrowRight','ArrowLeft','Home','End'].includes(e.key)){e.preventDefault();const previous=cursor===null?-1:words.indexOf(cursor),next=e.key==='Home'?0:e.key==='End'?words.length-1:e.key==='ArrowRight'?Math.min(words.length-1,previous+1):Math.max(0,previous-1);if(words[next]!=null){cursor=words[next];paint();wordNodes.get(cursor)?.scrollIntoView?.({block:'nearest',inline:'nearest'});}}else if(e.key==='Enter'&&words.length){e.preventDefault();open(cursor??words[0]);}},signal);
  listen(document,'keydown',e=>{if(e.key==='Escape'&&active!==null)close(true);},signal);listen(document,'pointerdown',e=>{if(e.target instanceof Element&&!region.contains(e.target)&&!e.target.closest('[data-word-popover]'))close();},signal);

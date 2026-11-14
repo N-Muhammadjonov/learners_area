@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "release": "reading-collocations-20261114",
+  "repository": "N-Muhammadjonov/learners_area",
+  "passages": {
+    "5-2": "86c59557f74d9bca757ecaa5998788e3c069884e8645976bd4746c5d97656018"
+  },
+  "terms": [
+    {
+      "testNo": 5,
+      "passageNo": 2,
+      "surface": "find out",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "aniqlab bilmoq",
+      "definitionEn": "discover information or learn the facts about something"
+    }
+  ],
+  "corrections": [],
+  "offsetRepairs": []
+}

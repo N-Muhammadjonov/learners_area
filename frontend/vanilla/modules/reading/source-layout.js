@@ -1,8 +1,8 @@
 import {el} from '../../js/dom.js';
-import {clickableText} from '../vocabulary/clickable-text.js';
+import {readingHighlighted} from './lesson-text.js';
 const allowed=new Set('div p span strong b em i u sup sub br table thead tbody tfoot tr td th ul ol li h2 h3 h4 img label input select option fieldset legend'.split(' '));
 /** Source HTML supplies layout only. No script, event, URL grant or answer key executes here. */
-export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceId=null,sourceBody='',occurrences=[]}={}){
+export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceId=null,sourceBody='',occurrences=[],highlightScope=null}={}){
  const root=el('div',{'data-reading-source':''});const doc=new DOMParser().parseFromString(html,'text/html');
  for(const node of [...doc.body.querySelectorAll('*')]){
   if(!allowed.has(node.localName)){if(['script','style','iframe','object','embed','form','link'].includes(node.localName))node.remove();else node.replaceWith(...node.childNodes);continue;}
@@ -22,14 +22,14 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
    let at=sourceBody.indexOf(value,cursor);
    if(at<0)at=sourceBody.indexOf(value.trim(),cursor);
    if(at<0)continue;
-   const item=clickableText(lexicalContext,{
-    text:value,sourceType:'reading',sourceId,inline:true,
-    lexicalAssistance:true,doubleClickLookup:true,phraseAware:true,
+   const item=readingHighlighted(lexicalContext,{
+    text:value,scope:highlightScope??sourceId,textKey:`html-fragment:${at}:${value.length}`,
+    sourceId,inline:true,className:'',lexicalAssistance:true,
     verifiedOnly:true,offsetBase:at,sourceOffsetExact:true,
     occurrences:occurrences.filter(row=>row.startChar>=at&&row.endChar<=at+value.length)
      .map(row=>({...row,startChar:row.startChar-at,endChar:row.endChar-at}))
    });
-   textNode.replaceWith(item.node);
+   textNode.replaceWith(item);
    cursor=Math.max(cursor,at+value.length);
   }
  }
