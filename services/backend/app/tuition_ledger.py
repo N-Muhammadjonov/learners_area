@@ -29,6 +29,8 @@ configuration decision, not a silent behaviour change.
 """
 from __future__ import annotations
 
+import asyncpg
+
 from datetime import date, datetime, timezone
 from functools import wraps
 from uuid import UUID, uuid4
@@ -269,14 +271,62 @@ async def create_charge(conn, *, actor_user_id, student_user_id, period, due_dat
             'SELECT coalesce(sum(amount_minor),0) FROM tuition_contract_discounts'
             ' WHERE contract_id=$1 AND period_key=$2', contract_id, period) or 0
     _require(gross - discount >= 0, 'discount_exceeds_fee')
-    row = await conn.fetchrow(
-        '''INSERT INTO tuition_charges
-             (contract_id, student_user_id, period_key, currency_code, gross_amount_minor,
-              discount_amount_minor, net_amount_minor, due_date, created_by)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *''',
-        contract_id, student_user_id, period, CURRENCY, gross, discount, gross - discount, due_date,
-        actor_user_id)
+    try:
+        row = await conn.fetchrow(
+            '''INSERT INTO tuition_charges
+                 (contract_id, student_user_id, period_key, currency_code, gross_amount_minor,
+                  discount_amount_minor, net_amount_minor, due_date, created_by)
+               VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *''',
+            contract_id, student_user_id, period, CURRENCY, gross, discount, gross - discount,
+            due_date, actor_user_id)
+    except asyncpg.UniqueViolationError:
+        # The partial unique index on (contract_id, period_key) is the real guard: two
+        # schedulers racing the same monthly job cannot both insert. Reporting it as a
+        # duplicate rather than a 500 keeps the scheduler retry-safe.
+        raise LedgerError('charge_already_exists_for_period', 409, contractId=str(contract_id),
+                          period=period)
     return dict(row)
+
+
+@transactional
+async def generate_installment(conn, *, actor_user_id, contract_id, period, due_date):
+    """Idempotently produce the ONE tuition installment for a contract and billing period.
+
+    Returns ``(charge, created)``. A retry of the monthly job returns the existing charge
+    instead of billing the family twice; the price comes from the approved contract, not from
+    the caller. A charge that already exists with a different gross is a conflict, because it
+    means either the contract changed after billing or someone hand-edited a draft - both
+    need an explicit, authorized adjustment rather than a silent second document.
+    """
+    contract = await conn.fetchrow('SELECT * FROM tuition_contracts WHERE id=$1', contract_id)
+    _require(contract is not None, 'contract_not_found', 404)
+    _require(contract['status'] in ('approved', 'active'), 'invalid_state', 409,
+             status=contract['status'])
+    monthly = contract['monthly_amount_minor']
+    existing = await conn.fetchrow(
+        'SELECT * FROM tuition_charges WHERE contract_id=$1 AND period_key=$2'
+        " AND is_reversal=false AND status NOT IN ('reversed','credited')"
+        ' LIMIT 1 FOR UPDATE', contract_id, period)
+    if existing is not None:
+        _require(existing['gross_amount_minor'] == monthly, 'installment_amount_mismatch', 409,
+                 contractMinor=monthly, chargeMinor=existing['gross_amount_minor'])
+        return dict(existing), False
+    try:
+        charge = await create_charge(conn, actor_user_id=actor_user_id,
+                                     student_user_id=contract['student_user_id'], period=period,
+                                     due_date=due_date, gross_amount_minor=monthly,
+                                     contract_id=contract_id)
+    except LedgerError as exc:
+        if exc.code != 'charge_already_exists_for_period':
+            raise
+        # Lost the race with a concurrent generator: the winner's row is the answer.
+        winner = await conn.fetchrow(
+            'SELECT * FROM tuition_charges WHERE contract_id=$1 AND period_key=$2'
+            " AND is_reversal=false AND status NOT IN ('reversed','credited') LIMIT 1",
+            contract_id, period)
+        _require(winner is not None, 'charge_already_exists_for_period', 409, period=period)
+        return dict(winner), False
+    return charge, True
 
 
 @transactional

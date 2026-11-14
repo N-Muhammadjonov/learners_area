@@ -1561,6 +1561,11 @@
  },
  {
   "method": "POST",
+  "path": "/api/staff/finance/contracts/{contractId}/installment",
+  "name": "generate_installment"
+ },
+ {
+  "method": "POST",
   "path": "/api/staff/finance/days/close",
   "name": "close_day"
  },

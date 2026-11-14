@@ -14,80 +14,28 @@ import asyncio
 import json
 import os
 from datetime import datetime, timezone
-from pathlib import Path
 from uuid import uuid4
 
-import asyncpg
 import httpx
 import pytest
 import pytest_asyncio
-from httpx import ASGITransport
 
-from app import main as core
+from _finance_schema import http  # noqa: F401  (shared finance ASGI + Postgres fixture)
+from _finance_schema import staff
 from app import payments_sandbox as sandbox
 from app import tuition_ledger as ledger
 
-DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
-MIGRATION = Path(__file__).resolve().parents[1] / "migrations/1115_tuition_finance.sql"
 CALLBACK = '/api/internal/payments/sandbox/callback'
 SECRET = 'sandbox-hmac-key-for-tests-only'
 TODAY = datetime.now(timezone.utc).date()
 
 
-@pytest_asyncio.fixture
-async def http(monkeypatch):
-    """Real ASGI app + real Postgres pool + sandbox adapter switched on."""
-    try:
-        con = await asyncpg.connect(DSN)
-    except OSError as exc:
-        if os.getenv('CI'):
-            raise
-        pytest.xfail(f'Disposable Postgres at 127.0.0.1:55439 unavailable: {type(exc).__name__}')
-    schema = 'provider_http_' + uuid4().hex
-    await con.execute(f'CREATE SCHEMA "{schema}"')
-    await con.execute(f'SET search_path TO "{schema}", public')
-    for role in ('anon', 'authenticated', 'service_role'):
-        if not await con.fetchval('SELECT EXISTS(SELECT 1 FROM pg_roles WHERE rolname=$1)', role):
-            await con.execute(f'CREATE ROLE "{role}"')
-    await con.execute(f'ALTER DEFAULT PRIVILEGES IN SCHEMA "{schema}"'
-                      ' GRANT ALL ON TABLES TO anon,authenticated,service_role')
-    await con.execute("""CREATE TABLE users(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-        name text, email text, role text DEFAULT 'student', account_status text DEFAULT 'active',
-        locale text DEFAULT 'uz', onboarding_completed_at timestamptz, status_reason text,
-        auth_version integer DEFAULT 0)""")
-    await con.execute('CREATE TABLE courses(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),'
-                      ' title text)')
-    for statement in MIGRATION.read_text().split('--> statement-breakpoint'):
-        if statement.strip():
-            await con.execute(statement)
-
-    async def make(role):
-        return await con.fetchval('INSERT INTO users(role) VALUES($1) RETURNING id', role)
-
-    people = {'owner': await make('owner'), 'admin': await make('admin'),
-              'student': await make('student')}
-
-    pool = await asyncpg.create_pool(DSN, min_size=1, max_size=4,
-                                     server_settings={'search_path': f'"{schema}", public'})
-
-    async def app_pool():
-        return pool
-
-    monkeypatch.setattr(core, 'pool', app_pool)
+@pytest.fixture(autouse=True)
+def sandbox_adapter_enabled(monkeypatch):
+    """The sandbox provider is switched on for these tests and off everywhere else."""
     monkeypatch.setenv('TUITION_SANDBOX_SECRET', SECRET)
     monkeypatch.setenv('TUITION_PROVIDER_SANDBOX', '1')
 
-    transport = ASGITransport(app=core.app)
-    async with httpx.AsyncClient(transport=transport, base_url='https://t.test') as client:
-        client.con = con
-        client.people = people
-        client.schema = schema
-        yield client
-
-    await pool.close()
-    await con.execute('SET search_path TO public')
-    await con.execute(f'DROP SCHEMA "{schema}" CASCADE')
-    await con.close()
 
 
 async def open_receivable(client, *, gross=800_000, discount=200_000):
@@ -268,22 +216,10 @@ async def test_callback_route_is_absent_unless_the_sandbox_is_enabled(http, monk
 
 
 @pytest.mark.asyncio
-async def test_staff_cannot_confirm_provider_money_from_the_payments_api(http, monkeypatch):
+async def test_staff_cannot_confirm_provider_money_from_the_payments_api(http):
     """FIN-03 over HTTP: `confirm: true` on provider money is refused, not honoured."""
     await open_receivable(http)
-    user = {'id': http.people['admin'], 'role': 'admin', 'account_status': 'active'}
-
-    async def current_user(_req, active=False):
-        return user
-
-    async def no_limit(req, usr, rule='finance_write'):
-        return None
-
-    from app import tuition_port as port
-    monkeypatch.setattr(core, 'current_user', current_user)
-    monkeypatch.setattr(port, '_write_gate', no_limit)
-
-    response = await http.post('/api/staff/finance/payments', json={
+    response = await staff(http, 'admin', 'POST', '/api/staff/finance/payments', json_body={
         'studentUserId': str(http.people['student']), 'amountMinor': 600_000,
         'method': 'provider', 'provider': 'payme', 'providerTransactionId': 'PAYME-ATTACK',
         'confirm': True})

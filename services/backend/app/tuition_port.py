@@ -14,6 +14,8 @@ invariants hold no matter which client called.
 """
 from __future__ import annotations
 
+import re
+
 from datetime import date, datetime, timedelta, timezone
 from uuid import UUID
 
@@ -28,6 +30,8 @@ from .tuition_ledger import LedgerError
 
 router = APIRouter()
 PRIVATE = {'Cache-Control': 'private, no-store'}
+# FIN-11: a billing period is always the seven-character form YYYY-MM.
+PERIOD_PATTERN = re.compile(r'\d{4}-(0[1-9]|1[0-2])')
 WRITE_ROLES = ('owner', 'admin')
 READ_ROLES = ('owner', 'admin', 'teacher')
 MAX_NOTE = 300
@@ -216,6 +220,43 @@ async def create_charge(req: Request):
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'charge': serialize(charge)}, headers=PRIVATE)
+
+
+@router.post('/api/staff/finance/contracts/{contractId}/installment')
+async def generate_installment(req: Request, contractId: str):
+    """Idempotently bill the ONE tuition installment for a contract and billing period.
+
+    This is the route a monthly scheduler (or a double-clicking admin) calls. A retry returns
+    the charge that already exists instead of creating a second receivable, and the amount
+    comes from the approved contract rather than from the request body.
+    """
+    user, denied = await actor(req, WRITE_ROLES)
+    if denied:
+        return denied
+    contract_id = uuid_val(contractId)
+    if not contract_id:
+        return err('contract_not_found', 404)
+    body = await payload(req)
+    if body is None:
+        return err('invalid_payload')
+    period = str(body.get('periodKey') or ledger.period_key(datetime.now(timezone.utc).date()))[:7]
+    if not PERIOD_PATTERN.fullmatch(period):
+        return err('invalid_period', expectedFormat='YYYY-MM', period=period)
+    due = as_date(body.get('dueDate'))
+    if not due:
+        return err('invalid_due_date')
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            charge, created = await ledger.generate_installment(
+                conn, actor_user_id=user['id'], contract_id=contract_id, period=period,
+                due_date=due)
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'created': created, 'charge': serialize(charge)}, headers=PRIVATE)
 
 
 @router.post('/api/staff/finance/charges/{chargeId}/post')

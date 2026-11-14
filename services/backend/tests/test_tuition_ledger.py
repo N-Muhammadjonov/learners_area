@@ -10,18 +10,17 @@ from __future__ import annotations
 import asyncio
 import os
 from datetime import date, datetime, timedelta, timezone
-from pathlib import Path
 from uuid import uuid4
 
 import asyncpg
 import pytest
 import pytest_asyncio
 
+from _finance_schema import apply_finance_migrations, create_disposable_schema
 from app import tuition_ledger as ledger
 from app.tuition_ledger import LedgerError
 
 DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
-MIGRATION = Path(__file__).resolve().parents[1] / "migrations/1115_tuition_finance.sql"
 TODAY = datetime.now(timezone.utc).date()
 PERIOD = ledger.period_key(TODAY)
 
@@ -34,22 +33,9 @@ async def database():
         if os.getenv('CI'):
             raise
         pytest.xfail(f'Disposable Postgres at 127.0.0.1:55439 unavailable: {type(exc).__name__}')
-    schema = "tuition_test_" + uuid4().hex
-    await con.execute(f'CREATE SCHEMA "{schema}"')
-    await con.execute(f'SET search_path TO "{schema}", public')
-    for role in ("anon", "authenticated", "service_role"):
-        if not await con.fetchval("SELECT EXISTS(SELECT 1 FROM pg_roles WHERE rolname=$1)", role):
-            await con.execute(f'CREATE ROLE "{role}"')
-    await con.execute(f'ALTER DEFAULT PRIVILEGES IN SCHEMA "{schema}"'
-                      ' GRANT ALL ON TABLES TO anon,authenticated,service_role')
-    await con.execute("""CREATE TABLE users(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-        name text, email text, role text DEFAULT 'student', account_status text DEFAULT 'active',
-        locale text DEFAULT 'uz', onboarding_completed_at timestamptz, status_reason text,
-        auth_version integer DEFAULT 0)""")
-    await con.execute("CREATE TABLE courses(id uuid PRIMARY KEY DEFAULT gen_random_uuid(), title text)")
-    for statement in MIGRATION.read_text().split('--> statement-breakpoint'):
-        if statement.strip():
-            await con.execute(statement)
+    schema = 'tuition_test_' + uuid4().hex
+    await create_disposable_schema(con, schema)
+    await apply_finance_migrations(con)
 
     async def make(role):
         return await con.fetchval("INSERT INTO users(role) VALUES($1) RETURNING id", role)
@@ -697,6 +683,96 @@ async def test_cancelled_and_expired_intents_cannot_settle(database):
                                                   provider_transaction_id=txn, proof=proof)
         assert refused.value.code == 'intent_not_settleable'
     assert await con.fetchval('SELECT count(*) FROM finance_journal_entries') == 0
+
+
+# ────────────── FIN-04: one tuition installment per contract and period ──────────────
+@pytest.mark.asyncio
+async def test_one_installment_per_contract_and_period(database):
+    """A second normal charge for the same contract/period is a duplicate, not a document."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await ledger.create_charge(con, actor_user_id=people['admin'],
+                               student_user_id=people['student'], period=PERIOD,
+                               due_date=TODAY, gross_amount_minor=800_000,
+                               contract_id=contract['id'])
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_charge(con, actor_user_id=people['admin'],
+                                   student_user_id=people['student'], period=PERIOD,
+                                   due_date=TODAY, gross_amount_minor=800_000,
+                                   contract_id=contract['id'])
+    assert exc.value.code == 'charge_already_exists_for_period'
+    assert exc.value.status == 409
+    assert await con.fetchval('SELECT count(*) FROM tuition_charges') == 1
+
+
+@pytest.mark.asyncio
+async def test_concurrent_monthly_charge_generation_creates_one_charge(database):
+    """Two schedulers running the same monthly job at the same instant cannot double-bill."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    next_period = ledger.period_key(TODAY.replace(day=1) + timedelta(days=32))
+
+    async def generate():
+        other = await asyncpg.connect(DSN)
+        try:
+            await other.execute(f'SET search_path TO "{schema}", public')
+            async with other.transaction():
+                charge, created = await ledger.generate_installment(
+                    other, actor_user_id=people['admin'], contract_id=contract['id'],
+                    period=next_period, due_date=TODAY.replace(day=1))
+                return charge['id'], created
+        finally:
+            await other.close()
+
+    results = await asyncio.gather(*(generate() for _ in range(6)), return_exceptions=True)
+    ids = {row[0] for row in results if not isinstance(row, Exception)}
+    assert len(ids) == 1, f'concurrent generation produced {len(ids)} charges'
+    assert await con.fetchval('SELECT count(*) FROM tuition_charges') == 1
+
+
+@pytest.mark.asyncio
+async def test_installment_generation_is_idempotent_on_retry(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    first, created = await ledger.generate_installment(
+        con, actor_user_id=people['admin'], contract_id=contract['id'], period=PERIOD,
+        due_date=TODAY)
+    assert created is True
+    second, created = await ledger.generate_installment(
+        con, actor_user_id=people['admin'], contract_id=contract['id'], period=PERIOD,
+        due_date=TODAY)
+    assert created is False and second['id'] == first['id']
+    assert first['gross_amount_minor'] == 800_000, 'installment must price from the contract'
+    assert await con.fetchval('SELECT count(*) FROM tuition_charges') == 1
+
+
+@pytest.mark.asyncio
+async def test_reversal_frees_the_period_for_a_corrected_reissue(database):
+    """Corrections are separate documents, but only one of them may remain live."""
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    charge = await posted_charge(con, people, contract=contract)
+    await ledger.reverse_charge(con, actor_user_id=people['owner'], charge_id=charge['id'],
+                                reason='Wrong month billed')
+    reissued, created = await ledger.generate_installment(
+        con, actor_user_id=people['admin'], contract_id=contract['id'], period=PERIOD,
+        due_date=TODAY)
+    assert created is True and reissued['id'] != charge['id']
+    # The reissued installment now occupies the period: the generator is idempotent and
+    # create_charge, which does not pretend to be a scheduler, refuses a second document.
+    again, created = await ledger.generate_installment(
+        con, actor_user_id=people['admin'], contract_id=contract['id'], period=PERIOD,
+        due_date=TODAY)
+    assert created is False and again['id'] == reissued['id']
+    with pytest.raises(LedgerError) as exc:
+        await ledger.create_charge(con, actor_user_id=people['admin'],
+                                   student_user_id=people['student'], period=PERIOD,
+                                   due_date=TODAY, gross_amount_minor=800_000,
+                                   contract_id=contract['id'])
+    assert exc.value.code == 'charge_already_exists_for_period'
+    assert await con.fetchval(
+        'SELECT count(*) FROM tuition_charges'
+        " WHERE is_reversal=false AND status NOT IN ('reversed','credited')") == 1
 
 
 @pytest.mark.asyncio
