@@ -18,7 +18,9 @@ const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her
 const READING_PRONOUNS=new Set(['i','me','my','mine','myself','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','we','us','our','ours','ourselves','they','them','their','theirs','themselves','who','whom','whose','someone','somebody','everyone','everybody','anyone','anybody','nobody','noone']);
 function isExcludedLexicalWord(token,sourceType,verifiedOnly){
  const normalized=token.clean.toLowerCase();
- return sourceType==='reading'&&verifiedOnly?READING_PRONOUNS.has(normalized):BASIC_WORDS.has(normalized);
+ return sourceType==='reading'&&verifiedOnly
+  ?token.clean!=='US'&&(READING_PRONOUNS.has(normalized)||normalized.replaceAll('’',"'")==="one's"||/^(?:i|you|he|she|it|we|they)['’](?:m|re|s|ve|ll|d)$/.test(normalized))
+  :BASIC_WORDS.has(normalized);
 }
 const savedSources=new WeakMap();
 const HIGHLIGHT_PALETTE=Object.freeze({
