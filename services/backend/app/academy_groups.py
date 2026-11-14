@@ -290,8 +290,8 @@ async def record_member(conn: Connection, group: Record, student_id: UUID, state
                         day: date, predecessor: UUID | None = None) -> Record:
     result = await conn.fetchrow(
         """INSERT INTO academy_group_memberships
-                (group_id,course_id,student_user_id,starts_on,status,transferred_from_id)
-           VALUES($1,$2,$3,$4,$5,$6) RETURNING *""",
+                (group_id,course_id,student_user_id,starts_on,status,transferred_from_id,activated_on)
+           VALUES($1,$2,$3,$4,$5,$6,CASE WHEN $5::varchar IN ('active','paused') THEN $4::date ELSE NULL END) RETURNING *""",
         group['id'], group['course_id'], student_id, day, state, predecessor)
     if state == 'active':
         await grant_curriculum(conn, student_id, group['course_id'])
@@ -349,9 +349,10 @@ async def set_membership(conn: Connection, actor: UUID, group_id: UUID, member_i
             else:
                 await available(conn, group, command.status, day)
         result = await conn.fetchrow(
-            """UPDATE academy_group_memberships SET status=$2,ends_on=$3,revision=revision+1
+            """UPDATE academy_group_memberships SET status=$2,ends_on=$3,revision=revision+1,
+                   activated_on=CASE WHEN $2::varchar='active' THEN coalesce(activated_on,$4::date) ELSE activated_on END
                 WHERE id=$1 RETURNING *""",
-            member_id, command.status, None if command.status in CURRENT else day)
+            member_id, command.status, None if command.status in CURRENT else day, day)
         if command.status == 'active':
             await grant_curriculum(conn, row['student_user_id'], row['course_id'])
         await audit(conn, actor, 'membership_updated', group_id,

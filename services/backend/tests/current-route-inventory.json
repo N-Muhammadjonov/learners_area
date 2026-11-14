@@ -471,6 +471,11 @@
  },
  {
   "method": "GET",
+  "path": "/api/guardian/children/{student_id}/attendance",
+  "name": "academy_guardian_attendance"
+ },
+ {
+  "method": "GET",
   "path": "/api/guardian/children/{student_id}/leaderboard",
   "name": "guardian_leaderboard"
  },
@@ -1575,6 +1580,16 @@
   "name": "academy_session_update"
  },
  {
+  "method": "GET",
+  "path": "/api/staff/academy/groups/{group_id}/sessions/{session_id}/attendance",
+  "name": "academy_attendance_read"
+ },
+ {
+  "method": "PUT",
+  "path": "/api/staff/academy/groups/{group_id}/sessions/{session_id}/attendance",
+  "name": "academy_attendance_save"
+ },
+ {
   "method": "POST",
   "path": "/api/staff/academy/groups/{group_id}/sessions/{session_id}/reschedule",
   "name": "academy_session_reschedule"
@@ -1583,6 +1598,11 @@
   "method": "GET",
   "path": "/api/staff/academy/lookups/{kind}",
   "name": "academy_group_lookup"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/students/{student_id}/attendance",
+  "name": "academy_student_attendance"
  },
  {
   "method": "GET",

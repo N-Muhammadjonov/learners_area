@@ -22,7 +22,7 @@ const FINANCE_TABLES = [
 ];
 const ACADEMY_TABLES = [
   'academy_groups', 'academy_group_teachers', 'academy_group_memberships',
-  'academy_sessions', 'academy_session_teachers', 'academy_session_reservations',
+  'academy_sessions', 'academy_session_teachers', 'academy_session_reservations', 'academy_attendance',
 ];
 
 async function tableExists(db, name) {

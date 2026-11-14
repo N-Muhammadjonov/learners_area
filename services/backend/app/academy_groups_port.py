@@ -9,11 +9,13 @@ from fastapi import APIRouter, Query, Request
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
+from . import academy_attendance as attendance
 from . import academy_groups as groups
 from . import academy_sessions as sessions
 from . import main as core
 from .rate_limit import RULES, async_counter, too_many
 
+guardian_router = APIRouter()
 router = APIRouter(prefix='/api/staff/academy')
 PRIVATE = {'Cache-Control': 'private, no-store'}
 STAFF = (*groups.GROUP_STAFF, 'teacher')
@@ -21,6 +23,7 @@ PAGE = Annotated[int, Query(ge=1, le=4000)]
 SEARCH = Annotated[str, Query(max_length=120)]
 Model = TypeVar('Model', bound=groups.Command)
 RULES.setdefault('academy_groups_write', (90, 60))
+RULES.setdefault('academy_attendance_write', (90, 60))
 
 
 def error(code: str, status: int) -> JSONResponse:
@@ -166,5 +169,76 @@ async def academy_session_reschedule(req: Request, group_id: UUID, session_id: U
     return await write(req, sessions.Reschedule, sessions.reschedule, group_id, session_id, status=201)
 
 
+@router.get('/groups/{group_id}/sessions/{session_id}/attendance')
+async def academy_attendance_read(req: Request, group_id: UUID, session_id: UUID, page: PAGE = 1) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        try:
+            data = await attendance.read(conn, user['id'], user['role'], group_id, session_id, page)
+        except groups.GroupError as exc:
+            return error(exc.code, exc.status)
+    return core.j(data, headers=PRIVATE)
+
+
+@router.put('/groups/{group_id}/sessions/{session_id}/attendance')
+async def academy_attendance_save(req: Request, group_id: UUID, session_id: UUID) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    try:
+        data = attendance.BulkMarks.model_validate(await core.payload(req))
+    except ValidationError:
+        return error('invalid_input', 422)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        delay = await async_counter('academy_attendance_write', str(user['id']), consume=True, connection=conn)
+        if delay:
+            response = too_many(delay)
+            response.headers.update(PRIVATE)
+            return response
+        try:
+            result = await attendance.save(conn, user['id'], user['role'], group_id, session_id, data)
+        except groups.GroupError as exc:
+            return error(exc.code, exc.status)
+    return core.j(result, headers=PRIVATE)
+
+
+@router.get('/students/{student_id}/attendance')
+async def academy_student_attendance(req: Request, student_id: UUID) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read', readonly=True):
+        permitted = await conn.fetchval(
+            """SELECT EXISTS(SELECT 1 FROM users u WHERE u.id=$1 AND u.role='student'
+                AND ($2::boolean OR EXISTS(SELECT 1 FROM teacher_student_links t
+                     WHERE t.teacher_user_id=$3 AND t.student_user_id=u.id)))""",
+            student_id, user['role'] in groups.GROUP_STAFF, user['id'])
+        if not permitted:
+            return error('student_not_found', 404)
+        return core.j(await attendance.student_summary(conn, student_id), headers=PRIVATE)
+
+
+@guardian_router.get('/api/guardian/children/{student_id}/attendance')
+async def academy_guardian_attendance(req: Request, student_id: str) -> JSONResponse:
+    from .guardian_port import child_user, guardian_actor
+
+    _, profile, denied = await guardian_actor(req)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read', readonly=True):
+        child = await child_user(conn, profile['id'], student_id)
+        if not child:
+            return error('forbidden', 403)
+        result = await attendance.student_summary(conn, child['id'])
+    return core.j(result, headers=PRIVATE)
+
+
 def install() -> None:
     core.app.include_router(router)
+    core.app.include_router(guardian_router)

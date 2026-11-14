@@ -1,6 +1,7 @@
 import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
 import {BackLink} from './kit.js';
+import {attendanceRoster} from './academy-attendance.js';
 
 const PATH = '/app/management/groups';
 const API = '/api/staff/academy';
@@ -419,6 +420,7 @@ function sessionPanel(ctx, group, teachers, canManage) {
     el('p',{class:'font-medium'},clock.format(new Date(row.starts_at))+' · '+row.room),
     el('p',{class:'text-sm'},[row.status==='held'?t.delivered:t[row.status],
      row.teacher_names.join(', '),row.reason==='holiday'?t.holiday:row.reason].filter(Boolean).join(' · ')),
+    row.status==='held'?attendanceRoster(ctx,group.id,row.id):null,
     canManage&&row.status==='scheduled'?el('details',{class:'space-y-2'},
      el('summary',{class:'cursor-pointer'},words(ctx).edit),stateForm(row,'cancelled'),
      new Date(row.ends_at) <= new Date()?stateForm(row,'held'):null,slotForm(row)):null));

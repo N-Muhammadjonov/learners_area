@@ -4213,6 +4213,7 @@ export const academyGroupMemberships = pgTable("academy_group_memberships", {
   startsOn: date("starts_on").notNull(),
   endsOn: date("ends_on"),
   status: varchar("status", { length: 12 }).notNull(),
+  activatedOn: date("activated_on"),
   transferredFromId: uuid("transferred_from_id").unique()
     .references((): AnyPgColumn => academyGroupMemberships.id, { onDelete: "set null" }),
   revision: integer("revision").notNull().default(1),
@@ -4272,4 +4273,21 @@ export const academySessionReservations = pgTable("academy_session_reservations"
   primaryKey({ name: "academy_session_reservations_pkey", columns: [t.sessionId, t.resourceKey] }),
   index("academy_session_reservations_overlap_idx").on(t.resourceKey, t.startsAt, t.endsAt),
   check("academy_session_reservations_ends_at_check", sql`${t.endsAt} > ${t.startsAt}`),
+]).enableRLS();
+
+export const academyAttendance = pgTable("academy_attendance", {
+  sessionId: uuid("session_id").notNull().references(() => academySessions.id),
+  membershipId: uuid("membership_id").notNull()
+    .references(() => academyGroupMemberships.id, { onDelete: "cascade" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  status: varchar("status", { length: 12 }).notNull().default("not_marked"),
+  revision: integer("revision").notNull().default(1),
+  markedBy: uuid("marked_by").references(() => users.id, { onDelete: "set null" }),
+  markedAt: timestamp("marked_at", { withTimezone: true }),
+}, t => [
+  primaryKey({ name: "academy_attendance_pkey", columns: [t.sessionId, t.studentUserId] }),
+  index("academy_attendance_student_idx").on(t.studentUserId, t.sessionId),
+  check("academy_attendance_status_check", sql`${t.status} IN ('not_marked','present','late','absent','excused')`),
+  check("academy_attendance_revision_check", sql`${t.revision} > 0`),
+  check("academy_attendance_check", sql`(${t.markedAt} IS NULL) = (${t.status} = 'not_marked')`),
 ]).enableRLS();

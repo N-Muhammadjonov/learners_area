@@ -39,7 +39,7 @@ async def academy(monkeypatch):
     try:
         await create_disposable_schema(conn, schema)
         await conn.execute(BASE)
-        for filename in ('0035_teacher_student_links.sql', MIGRATION, '1123_academy_sessions.sql'):
+        for filename in ('0035_teacher_student_links.sql', MIGRATION, '1123_academy_sessions.sql', '1124_academy_attendance.sql'):
             await conn.execute((MIGRATIONS / filename).read_text())
         actors = {}
         for key, role in [('owner', 'owner'), ('admin', 'admin'), ('teacher', 'teacher'),
@@ -290,3 +290,76 @@ async def test_recurrence_preserves_holiday_and_reschedule_releases_original_boo
     roster = await send(client, 'GET', path, 'teacher')
     assert {row['status'] for row in roster.json()['sessions']} == {'rescheduled', 'cancelled'}
     assert await conn.fetchval("SELECT count(*) FROM audit_log WHERE action='academy.session.rescheduled'") == 1
+
+
+@pytest.mark.asyncio
+async def test_held_roster_bulk_marks_are_atomic_and_guardian_can_read_only_linked_child(academy, monkeypatch):
+    from app import guardian_port
+
+    conn, _, actors, course, client = academy
+    group, _ = await create(client, course, actors, capacity=3)
+    path = '/groups/' + group['id']
+    for student in ('student', 'second'):
+        enrolled = await send(client, 'POST', path + '/memberships', json={'studentId': str(actors[student])})
+        assert enrolled.status_code == 201, enrolled.text
+    series = await send(client, 'POST', path + '/sessions', json=booking())
+    row = series.json()['sessions'][0]
+    session_path = path + '/sessions/' + row['id']
+    await conn.execute(
+        """UPDATE academy_sessions SET starts_at=now()-interval '2 hours',
+                   ends_at=now()-interval '1 hour' WHERE id=$1""", row['id'])
+    # A deterministic fixture moves the session to the past while keeping the effective roster.
+    await conn.execute("UPDATE academy_group_memberships SET activated_on=starts_on-1")
+    held = await send(client, 'PUT', session_path, json={'revision': 1, 'status': 'held'})
+    assert held.status_code == 200, held.text
+    attendance_path = session_path + '/attendance'
+    roster = await send(client, 'GET', attendance_path, 'teacher')
+    assert [r['status'] for r in roster.json()['attendance']] == ['not_marked', 'not_marked']
+    unauthorized = await send(client, 'GET', attendance_path, 'other_teacher')
+    assert unauthorized.status_code == 403
+    mark = {'studentId': str(actors['student']), 'revision': 1, 'status': 'present'}
+    wrong = {'studentId': str(actors['third']), 'revision': 1, 'status': 'present'}
+    bad = await send(client, 'PUT', attendance_path, 'teacher',
+                     json={'id': str(uuid4()), 'marks': [mark, wrong]})
+    assert bad.json() == {'error': 'student_not_on_session_roster'}
+    assert await conn.fetchval("SELECT count(*) FROM academy_attendance WHERE status='present'") == 0
+    submitted = {'id': str(uuid4()), 'marks': [mark]}
+    saved, stale = await asyncio.gather(
+        send(client, 'PUT', attendance_path, 'teacher', json=submitted),
+        send(client, 'PUT', attendance_path, 'teacher',
+             json={'id': str(uuid4()), 'marks': [{**mark, 'status': 'absent'}]}),
+    )
+    winner, loser = sorted((saved, stale), key=lambda response: response.status_code)
+    assert winner.status_code == 200 and loser.json() == {'error': 'attendance_revision_conflict'}
+    previous = await conn.fetchval('SELECT status FROM academy_attendance WHERE student_user_id=$1', actors['student'])
+    if saved.status_code == 200:
+        assert (await send(client, 'PUT', attendance_path, 'teacher', json=submitted)).json() == saved.json()
+    correction = {'id': str(uuid4()), 'marks': [{**mark, 'revision': 2, 'status': 'late'}]}
+    assert (await send(client, 'PUT', attendance_path, 'teacher', json=correction)).json() == {
+        'error': 'attendance_reason_required',
+    }
+    corrected = await send(client, 'PUT', attendance_path, 'teacher',
+                           json={**correction, 'reason': 'Paper register verified'})
+    assert corrected.status_code == 200, corrected.text
+    assert await conn.fetchval(
+        "SELECT metadata->'changes'->0->>'old' FROM audit_log WHERE target_id=$1",
+        correction['id']) == previous
+    assert await conn.fetchval("SELECT count(*) FROM audit_log WHERE action='academy.attendance.saved'") == 2
+
+    async def approved_guardian(req):
+        return {'role': 'guardian'}, {'id': actors['guardian']}, None
+
+    await conn.execute('''
+        CREATE TABLE guardian_links (guardian_profile_id uuid, student_id uuid, status text, relationship text);
+        INSERT INTO guardian_links SELECT id,NULL,'unlinked','parent' FROM users WHERE role='guardian';
+    ''')
+    await conn.execute(
+        "INSERT INTO guardian_links VALUES($1,$2,'linked','parent')", actors['guardian'], actors['student'])
+    monkeypatch.setattr(guardian_port, 'guardian_actor', approved_guardian)
+    base = '/api/guardian/children/'
+    response = await client.get(base + str(actors['student']) + '/attendance')
+    assert response.status_code == 200, response.text
+    assert response.json()['counts']['eligible'] == 1
+    assert response.json()['history'][0]['status'] == 'late'
+    assert 'student_user_id' not in response.json()['history'][0]
+    assert (await client.get(base + str(actors['second']) + '/attendance')).status_code == 403

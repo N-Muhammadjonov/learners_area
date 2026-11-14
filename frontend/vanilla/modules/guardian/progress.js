@@ -1,4 +1,6 @@
 import {h} from '../../js/native.js';
+import {anySignal} from '../../js/signals.js';
+import {studentAttendance} from '../staff-final30/academy-attendance.js';
 import {progressSummaryDTO, progressStreakDTO, progressTrendsDTO, progressMocksDTO} from '../../js/adapters/progress-v54.js';
 import {loadingNode, failureNode} from '../progress/shared.js';
 import {skillCards} from '../progress/skills.js';
@@ -22,7 +24,11 @@ export async function mount(ctx) {
     return;
   }
   if (signal.aborted) return;
+  let childController;
   const draw = child => {
+    childController?.abort();
+    childController = new AbortController();
+    const childSignal = anySignal([signal,childController.signal]);
     const state = {streak: {state: 'loading'}, summary: {state: 'loading'}};
     const modulesHost = h('div'), trendsHost = h('div'), statsHost = h('div'), vocabHost = h('div'), courseHost = h('div'), mocksHost = h('section', {class: 'min-w-0'});
     const renderStats = () => statsHost.replaceChildren(statCards(state, dict, () => load('progressStreak')));
@@ -53,6 +59,7 @@ export async function mount(ctx) {
           h('p', {class: 'pc-muted'}, tr(ctx, 'Faqat tasdiqlangan farzandingizning natijalari', 'Results of your approved child only'))),
         marker(ctx)),
       childPicker(ctx, kids.children, child, c => { const u = new URL(location.href); u.searchParams.set('child', c.studentId); history.replaceState(null, '', u); draw(c); }),
+      studentAttendance(ctx,'/api/guardian/children/'+encodeURIComponent(child.studentId)+'/attendance',childSignal),
       mocksHost, h('div', {class: 'flex flex-col gap-4'}, modulesHost, trendsHost, statsHost, vocabHost, courseHost));
     for (const region of Object.keys(kinds)) { kinds[region].host.replaceChildren(loadingNode(dict, region)); void load(region); }
   };

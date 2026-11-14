@@ -114,3 +114,41 @@ test('timetable presents a locally formatted lesson and retains cancelled holida
   assert.equal(panel.querySelector('form'), null);
  } finally { h.dispose(); }
 });
+
+test('teacher marks a held lesson and supplies a reason only when correcting a saved mark', async () => {
+ const {attendanceRoster} = await import('../modules/staff-final30/academy-attendance.js');
+ const h=setup({path,role:'teacher'});
+ let status='not_marked',revision=1;
+ const source=endpoint+'/groups/'+group.id+'/sessions/'+ID(40)+'/attendance';
+ h.stub({[source]:(url,options)=>{
+  if(options.method==='PUT'){
+   status=options.body.marks[0].status;
+   revision++;
+   return {ok:true,updated:1};
+  }
+  return {attendance:[{student_user_id:member.student_user_id,status,revision,name:'Student 3'}],hasNext:false};
+ }});
+ try{
+  const panel=attendanceRoster(h.ctx,group.id,ID(40));
+  h.ctx.root.append(panel);
+  panel.open=true;
+  await tick();
+  const first=panel.querySelector('form');
+  first.querySelector('select').value='present';
+  h.submit(first);
+  h.submit(first);
+  await tick();
+  assert.equal(h.calls.filter(call=>call.method==='PUT').length,1);
+  const next=panel.querySelector('form');
+  next.querySelector('select').value='late';
+  h.submit(next);
+  assert.match(next.querySelector('[role=alert]').textContent,/Enter a reason/);
+  next.querySelector('input').value='Paper register verified';
+  h.submit(next);
+  await tick();
+  const updates=h.calls.filter(call=>call.method==='PUT');
+  assert.equal(updates.length,2);
+  assert.equal(updates[1].body.reason,'Paper register verified');
+  assert.equal(updates[1].body.marks[0].revision,2);
+ } finally {h.dispose();}
+});

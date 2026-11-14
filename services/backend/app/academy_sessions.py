@@ -209,6 +209,9 @@ async def transition(conn: Connection, actor: UUID, group_id: UUID, session_id: 
         result = await conn.fetchrow(
             """UPDATE academy_sessions SET status=$2,reason=$3,revision=revision+1
                 WHERE id=$1 RETURNING *""", session_id, command.status, command.reason)
+        if command.status == 'held':
+            from .academy_attendance import snapshot
+            await snapshot(conn, result)
         await audit(conn, actor, command.status, session_id, {'reason': command.reason})
         return public_row(result)
 
