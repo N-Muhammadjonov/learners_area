@@ -245,10 +245,10 @@
     {
       "testNo": 5,
       "passageNo": 3,
-      "surface": "different information",
+      "surface": "different or more information",
       "partOfSpeech": "noun phrase",
-      "translationUz": "boshqacha ma’lumot",
-      "definitionEn": "information that differs from what one person has"
+      "translationUz": "boshqacha yoki ko‘proq ma’lumot",
+      "definitionEn": "information different from or additional to what someone else has"
     },
     {
       "testNo": 5,
