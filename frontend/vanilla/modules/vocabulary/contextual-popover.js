@@ -55,7 +55,7 @@ export function contextualWordPopover(context,props){
     if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
     alternatives=sourceType==='listening'?[]:Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
-    else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
+    else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};if(data.known)onSavedStatus?.(true);else if(!localMeaning)onSavedStatus?.(false);}
     else if(data?.contextual===null)unresolved=true;
     else error=dict.auth.errorServer;
    }
