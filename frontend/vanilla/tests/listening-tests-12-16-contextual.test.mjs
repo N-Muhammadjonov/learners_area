@@ -85,10 +85,10 @@ test('Listening Tests 12–16 maintain canonical and runtime checksums independe
 
 test('Listening 12–16 Script word lookup uses an exact source span and the existing Vocabulary save bridge',()=>{
   const bridge=paintedBridge('test-token',{},'Notes','test-storage',null,false,[]);
-  assert.match(bridge,/mode:'script-context'/);
+  assert.match(bridge,/mode:'script'/);
   assert.match(bridge,/startChar:begin,endChar:end/);
   assert.match(bridge,/occurrences\.filter/);
-  assert.match(bridge,/matches\.length===0/);
+  assert.match(bridge,/if\\(matches\\.length!==1\\)return;/);
   new Function(bridge);
   const script=originalScriptAccessibility('test-token');
   assert.match(script,/la-script-lexical-word/);
