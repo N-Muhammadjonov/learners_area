@@ -1,0 +1,51 @@
+name: Listening exact-context regression
+on:
+  push:
+    branches:
+      - fix/listening-full-lexical-coverage-popover-20261114
+    paths:
+      - '.github/workflows/listening-exact-context-qa.yml'
+      - 'frontend/vanilla/modules/listening/**'
+      - 'frontend/vanilla/modules/vocabulary/contextual-popover.js'
+      - 'frontend/vanilla/tests/listening-**'
+      - 'services/backend/app/step21_listening_authored_reads.py'
+      - 'services/backend/migrations/0104_listening_1_8_verified_words.sql'
+      - 'services/backend/migrations/0105_listening_9_16_verified_words.sql'
+      - 'services/backend/migrations/0106_listening_17_24_verified_words.sql'
+      - 'services/backend/migrations/0107_listening_25_32_verified_words.sql'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/vanilla/package-lock.json
+      - run: npm ci --prefix frontend/vanilla --no-audit --no-fund
+      - name: Check Listening syntax and iframe dismissal
+        run: |
+          node --check frontend/vanilla/modules/listening/script-v37.js
+          node --check frontend/vanilla/modules/listening/authored.js
+          node --check frontend/vanilla/modules/listening/authored-progressive.js
+          node --check frontend/vanilla/tests/listening-context-script-coverage.test.mjs
+      - name: Verify Listening originals, source spans and popup behavior
+        working-directory: frontend/vanilla
+        run: node --test tests/listening-context-script-coverage.test.mjs tests/listening-local-contextual-meanings.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/listening-tests-1-20-context-audit.test.mjs tests/listening-tests-21-25-contextual.test.mjs tests/listening-tests-26-29-contextual.test.mjs tests/listening-tests-30-32-contextual.test.mjs
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
+      - name: Check Listening authored endpoint and source boundary
+        working-directory: services/backend
+        run: python -m pytest -q tests/test_phase3_listening_gate.py tests/test_phase3_listening_visuals.py tests/test_listening_local_meaning_runtime_regression.py
