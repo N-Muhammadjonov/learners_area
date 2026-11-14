@@ -1,6 +1,6 @@
 /** Decorate the owner's existing Script controls. No copied material, grading,
  * progress writer or media owner. Drafts remain in the existing source bridge. */
-export function originalScriptAccessibility(token){return `(()=>{const token=${JSON.stringify(token)};document.addEventListener('DOMContentLoaded',()=>{
+export function originalScriptAccessibility(token,occurrences=[]){return `(()=>{const token=${JSON.stringify(token)},linkedOccurrences=${JSON.stringify(occurrences)};document.addEventListener('DOMContentLoaded',()=>{
  if(typeof renderScript!=='function'||!document.getElementById('scriptTabs'))return;
  const tabs=document.getElementById('scriptTabs');let disposed=false;
  let savedOccurrences=[];
@@ -21,33 +21,37 @@ export function originalScriptAccessibility(token){return `(()=>{const token=${J
    style.textContent='.la-script-lexical-word{text-decoration-line:underline;text-decoration-style:dotted;text-decoration-thickness:1px;text-underline-offset:.2em;text-decoration-color:#4cafff;cursor:help}.la-script-lexical-word[data-lexical-saved="true"]{text-decoration-color:#f8ba36}';
    document.head.append(style);
   }
-  const skipped=new Set(['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','a','an','the','am','is','are','was','were','be','been','being','do','does','did','to','of','in','on','at','and','or','but','if','as','by','for','with']);
+  const sourceRows=linkedOccurrences.filter(row=>row.part===scriptPart&&
+    Number.isSafeInteger(row.start)&&Number.isSafeInteger(row.end)&&row.end>row.start&&
+    source.slice(row.start,row.end)===row.surface&&row.occurrenceId);
   const walker=document.createTreeWalker(host,NodeFilter.SHOW_TEXT),nodes=[];let node;
-  while((node=walker.nextNode()))if(!node.parentElement?.closest('.script-gap-wrap'))nodes.push(node);
+  while((node=walker.nextNode()))if(!node.parentElement?.closest('.script-gap-wrap,.la-script-lexical-word'))nodes.push(node);
   let cursor=0;
   for(const textNode of nodes){
    const raw=textNode.nodeValue||'';
-   if(!/[A-Za-z]{2}/.test(raw))continue;
+   if(!raw)continue;
    const segment=textNode.parentElement?.closest('[data-script-source-start]');
    const proposed=segment?Number(segment.dataset.scriptSourceStart):-1;
    const at=Number.isSafeInteger(proposed)&&proposed>=0&&source.slice(proposed,proposed+raw.length)===raw
     ?proposed:source.indexOf(raw,cursor);
    if(at<0||source.slice(at,at+raw.length)!==raw)continue;
-   const fragment=document.createDocumentFragment();let last=0,m;
-   const word=/[A-Za-z]+(?:['\u2019-][A-Za-z]+)*/g;
-   while((m=word.exec(raw))){
-    fragment.append(document.createTextNode(raw.slice(last,m.index)));
-    if(skipped.has(m[0].toLowerCase()))fragment.append(document.createTextNode(m[0]));
-    else{
-     const element=document.createElement('span');element.className='la-script-lexical-word';
-     element.dataset.scriptSourceStart=String(at+m.index);element.dataset.scriptPart=String(scriptPart);
-     element.dataset.lexicalSaved='false';element.textContent=m[0];fragment.append(element);
-    }
-    last=m.index+m[0].length;
+   const rows=sourceRows.filter(row=>row.start>=at&&row.end<=at+raw.length).sort((x,y)=>x.start-y.start||y.end-x.end);
+   if(!rows.length){cursor=at+raw.length;continue;}
+   const fragment=document.createDocumentFragment();let last=0;
+   for(const row of rows){
+    const begin=row.start-at,end=row.end-at;
+    if(begin<last||end>raw.length)continue;
+    fragment.append(document.createTextNode(raw.slice(last,begin)));
+    const word=document.createElement('span');word.className='la-script-lexical-word';
+    word.dataset.scriptSourceStart=String(row.start);word.dataset.scriptPart=String(scriptPart);
+    word.dataset.occurrenceId=row.occurrenceId;
+    word.dataset.lexicalSaved=String(savedOccurrences.some(saved=>
+      saved.section===scriptPart&&saved.startChar<=row.start&&saved.endChar>=row.end));
+    word.textContent=raw.slice(begin,end);
+    fragment.append(word);last=end;
    }
    fragment.append(document.createTextNode(raw.slice(last)));
-   textNode.replaceWith(fragment);
-   cursor=at+raw.length;
+   textNode.replaceWith(fragment);cursor=at+raw.length;
   }
   for(const element of host.querySelectorAll('.la-script-lexical-word')){
    const start=Number(element.dataset.scriptSourceStart);
@@ -118,4 +122,12 @@ export function originalScriptAccessibility(token){return `(()=>{const token=${J
   }
  };
  addEventListener('message',receive);
+ // A Script iframe cannot be observed by pointer listeners in its parent.
+ // Close the parent-side popover when the user clicks anywhere else in Script.
+ document.addEventListener('pointerdown',event=>{
+  if(!document.querySelector('#activity-script.active'))return;
+  const target=event.target instanceof Element?event.target:null;
+  if(target?.closest('.la-script-lexical-word'))return;
+  parent.postMessage({channel:'learners-area-authored-v1',token,op:'dismiss-word'},'*');
+ },true);
  tabs.addEventListener('keydown',key);decorate();decorateLexical();addEventListener('pagehide',()=>{disposed=true;removeEventListener('message',receive);tabs.removeEventListener('keydown',key);},{once:true});});})();`;}

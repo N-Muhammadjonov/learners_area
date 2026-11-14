@@ -101,7 +101,7 @@ test('Test 8 original Script Completion creates source-exact spans and 34 indepe
 
 test('source-specific dictionary lookup and Vocabulary save bridge remains wired for Test 7–11',()=>{
  const bridge=paintedBridge('fixture',{},'Notes','test-storage',null,false,[]);
- assert.match(bridge,/mode:'script-context'/);
+ assert.match(bridge,/mode:'script'/);
  assert.match(bridge,/startChar:begin,endChar:end/);
  assert.match(bridge,/occurrences\.filter/);
  new Function(bridge);

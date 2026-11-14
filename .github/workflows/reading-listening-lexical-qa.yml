@@ -11,6 +11,7 @@ on:
       - fix/listening-21-25-contextual-20261114
       - fix/listening-26-29-contextual-20261114
       - fix/listening-30-32-contextual-20261114
+      - fix/listening-script-context-meaning-ui-20261114
     paths:
       - '.github/workflows/reading-listening-lexical-qa.yml'
       - 'frontend/vanilla/**'
@@ -25,6 +26,8 @@ on:
       - 'services/backend/migrations/0099_listening_30_32_contextual.sql'
       - 'services/backend/migrations/0100_listening_30_32_expanded_context.sql'
       - 'services/backend/migrations/0101_listening_1_32_vocabulary_examples.sql'
+      - 'services/backend/migrations/0102_listening_test_local_meanings.sql'
+      - 'services/backend/migrations/0103_listening_context_sense_corrections.sql'
   workflow_dispatch:
 permissions:
   contents: read
@@ -73,11 +76,12 @@ jobs:
           node --check frontend/vanilla/tests/listening-first-three-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-tests-7-11-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-next-three-contextual.test.mjs
-          node --check frontend/vanilla/tests/listening-tests-12-16-contextual.test.mjs tests/listening-tests-1-20-context-audit.test.mjs tests/listening-tests-21-25-contextual.test.mjs tests/listening-tests-26-29-contextual.test.mjs tests/listening-tests-30-32-contextual.test.mjs
+          node --check frontend/vanilla/tests/listening-tests-12-16-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-tests-1-20-context-audit.test.mjs
           node --check frontend/vanilla/tests/listening-tests-21-25-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-tests-26-29-contextual.test.mjs
           node --check frontend/vanilla/tests/listening-tests-30-32-contextual.test.mjs
+          node --check frontend/vanilla/tests/listening-local-contextual-meanings.test.mjs
       - name: Run lexical and source layout regressions
         working-directory: frontend/vanilla
-        run: node --test tests/reading-source-cd.test.mjs tests/reading-interactions-v70.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/dictionary-interactions-v70.test.mjs tests/listening-context-script-coverage.test.mjs tests/reading-contextual-source.test.mjs tests/listening-test-10-source-review.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs
+        run: node --test tests/reading-source-cd.test.mjs tests/reading-interactions-v70.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/dictionary-interactions-v70.test.mjs tests/listening-context-script-coverage.test.mjs tests/reading-contextual-source.test.mjs tests/listening-test-10-source-review.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs tests/listening-local-contextual-meanings.test.mjs
