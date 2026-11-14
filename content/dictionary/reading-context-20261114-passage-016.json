@@ -1,0 +1,1134 @@
+{
+  "testNo": 6,
+  "passageNo": 1,
+  "terms": [
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "earth",
+      "partOfSpeech": "noun",
+      "translationUz": "tuproq",
+      "definitionEn": "soil or ground material"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "rock",
+      "partOfSpeech": "noun",
+      "translationUz": "tosh",
+      "definitionEn": "solid natural mineral material"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "mounds",
+      "partOfSpeech": "noun",
+      "translationUz": "tepaliklar",
+      "definitionEn": "large raised heaps of earth and stone"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "desert",
+      "partOfSpeech": "noun",
+      "translationUz": "sahro",
+      "definitionEn": "an extremely dry region"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "valley",
+      "partOfSpeech": "noun",
+      "translationUz": "vodiy",
+      "definitionEn": "low land between hills or mountains"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "coast",
+      "partOfSpeech": "noun",
+      "translationUz": "qirg‘oq",
+      "definitionEn": "land next to the sea"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "immense",
+      "partOfSpeech": "adjective",
+      "translationUz": "ulkan",
+      "definitionEn": "extremely large in size"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "geographical landscape",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tabiiy relyef",
+      "definitionEn": "the natural physical features of a region"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "region",
+      "partOfSpeech": "noun",
+      "translationUz": "hudud",
+      "definitionEn": "a defined geographic area"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "squeezed between",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "orasida siqilib joylashgan",
+      "definitionEn": "situated in a narrow area between two features"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "deceive",
+      "partOfSpeech": "verb",
+      "translationUz": "aldamoq",
+      "definitionEn": "give a false impression"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "human-made",
+      "partOfSpeech": "adjective",
+      "translationUz": "inson qo‘li bilan qurilgan",
+      "definitionEn": "created by people rather than nature"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "pyramids",
+      "partOfSpeech": "noun",
+      "translationUz": "piramidalar",
+      "definitionEn": "monumental structures with broad bases tapering upward"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "strong evidence",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qat’iy dalillar",
+      "definitionEn": "convincing facts that support a claim"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "indicates",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘rsatadi",
+      "definitionEn": "provides evidence of a fact"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "remains",
+      "partOfSpeech": "noun",
+      "translationUz": "qoldiqlar",
+      "definitionEn": "what survives from an ancient structure"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "ancient",
+      "partOfSpeech": "adjective",
+      "translationUz": "qadimiy",
+      "definitionEn": "belonging to the distant past"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "urban center",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar markazi",
+      "definitionEn": "an established settlement with urban activities"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "research",
+      "partOfSpeech": "noun",
+      "translationUz": "tadqiqot",
+      "definitionEn": "systematic study to find facts"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "undertaken",
+      "partOfSpeech": "verb",
+      "translationUz": "olib borilgan",
+      "definitionEn": "carried out as a research activity"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "archaeologist",
+      "partOfSpeech": "noun",
+      "translationUz": "arxeolog",
+      "definitionEn": "a researcher studying past societies through physical remains"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "complex",
+      "partOfSpeech": "noun",
+      "translationUz": "inshootlar majmuasi",
+      "definitionEn": "a connected group of buildings"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "plazas",
+      "partOfSpeech": "noun",
+      "translationUz": "maydonlar",
+      "definitionEn": "open public spaces within a city"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "residential buildings",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "turar-joy binolari",
+      "definitionEn": "buildings used for living"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "thriving",
+      "partOfSpeech": "adjective",
+      "translationUz": "gullab-yashnagan",
+      "definitionEn": "prosperous and active"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "discovered",
+      "partOfSpeech": "verb",
+      "translationUz": "kashf etilgan",
+      "definitionEn": "found for the first time"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "attracted little attention",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "jiddiy e’tibor tortmagan",
+      "definitionEn": "received very little interest"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "largely",
+      "partOfSpeech": "adverb",
+      "translationUz": "asosan",
+      "definitionEn": "mainly or mostly"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "structures",
+      "partOfSpeech": "noun",
+      "translationUz": "inshootlar",
+      "definitionEn": "built constructions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "fairly recent",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "nisbatan yangi",
+      "definitionEn": "belonging to a comparatively recent period"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "monumental scale",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mahobatli ko‘lam",
+      "definitionEn": "the enormous size of a construction"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "excavations",
+      "partOfSpeech": "noun",
+      "translationUz": "qazishmalar",
+      "definitionEn": "archaeological digging at an ancient site"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "site",
+      "partOfSpeech": "noun",
+      "translationUz": "arxeologik makon",
+      "definitionEn": "a location being studied for archaeological remains"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "crew",
+      "partOfSpeech": "noun",
+      "translationUz": "ishchi jamoa",
+      "definitionEn": "a group of people working together"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "searched",
+      "partOfSpeech": "verb",
+      "translationUz": "qidirdi",
+      "definitionEn": "looked carefully for objects"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "broken remains",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "singan qoldiqlar",
+      "definitionEn": "fragments of once whole objects"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "pots",
+      "partOfSpeech": "noun",
+      "translationUz": "sopol idishlar",
+      "definitionEn": "containers made from fired clay"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "containers",
+      "partOfSpeech": "noun",
+      "translationUz": "idishlar",
+      "definitionEn": "objects used for storing or holding substances"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "excited",
+      "partOfSpeech": "adjective",
+      "translationUz": "to‘lqinlangan",
+      "definitionEn": "strongly interested and eager"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "term",
+      "partOfSpeech": "verb",
+      "translationUz": "deb atamoq",
+      "definitionEn": "give something a technical name"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "pre-ceramic",
+      "partOfSpeech": "adjective",
+      "translationUz": "kulolchilikdan oldingi davrga oid",
+      "definitionEn": "existing before fired pottery was developed"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "existing",
+      "partOfSpeech": "adjective",
+      "translationUz": "mavjud bo‘lgan",
+      "definitionEn": "present at a particular time"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "advent",
+      "partOfSpeech": "noun",
+      "translationUz": "paydo bo‘lish",
+      "definitionEn": "the beginning or introduction of something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "pot-firing techniques",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sopol idish pishirish usullari",
+      "definitionEn": "methods of heating clay vessels in a kiln"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "undertook",
+      "partOfSpeech": "verb",
+      "translationUz": "ishga kirishdi",
+      "definitionEn": "began and took responsibility for a task"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "excavating",
+      "partOfSpeech": "verb",
+      "translationUz": "qazib o‘rganish",
+      "definitionEn": "uncovering buried historical objects"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "largest",
+      "partOfSpeech": "adjective",
+      "translationUz": "eng katta",
+      "definitionEn": "greater in size than the others"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "clearing away",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "tozalab olib tashlash",
+      "definitionEn": "removing layers of unwanted material"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "rubble",
+      "partOfSpeech": "noun",
+      "translationUz": "vayrona bo‘laklari",
+      "definitionEn": "pieces of broken stone and building debris"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "sand",
+      "partOfSpeech": "noun",
+      "translationUz": "qum",
+      "definitionEn": "fine grains of stone"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "identified",
+      "partOfSpeech": "verb",
+      "translationUz": "aniqladi",
+      "definitionEn": "recognised and established the identity of something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "staircases",
+      "partOfSpeech": "noun",
+      "translationUz": "zinapoyalar",
+      "definitionEn": "sets of steps connecting different levels"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "plaster",
+      "partOfSpeech": "noun",
+      "translationUz": "suvoq",
+      "definitionEn": "a coating applied to walls"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "foundations",
+      "partOfSpeech": "noun",
+      "translationUz": "poydevorlar",
+      "definitionEn": "lower structures supporting buildings"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "grass-like reeds",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qamishsimon o‘simliklar",
+      "definitionEn": "long-stemmed plants resembling grass"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "woven into bags",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "qoplarga to‘qilgan",
+      "definitionEn": "made into bags by interlacing plant fibres"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "original workers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qadimgi quruvchilar",
+      "definitionEn": "people who originally built the structures"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "surmised",
+      "partOfSpeech": "verb",
+      "translationUz": "taxmin qildi",
+      "definitionEn": "inferred something from available evidence"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "nearby quarry",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yaqin atrofdagi tosh koni",
+      "definitionEn": "a local site where stone is extracted"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "laid",
+      "partOfSpeech": "verb",
+      "translationUz": "terib joylashtirgan",
+      "definitionEn": "put items in a particular arrangement"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "atop one another",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "bir-birining ustiga",
+      "definitionEn": "one item positioned above another"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "gradually",
+      "partOfSpeech": "adverb",
+      "translationUz": "asta-sekin",
+      "definitionEn": "little by little over time"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "structure",
+      "partOfSpeech": "noun",
+      "translationUz": "tuzilma",
+      "definitionEn": "the arrangement of parts of a construction"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "samples",
+      "partOfSpeech": "noun",
+      "translationUz": "namunalar",
+      "definitionEn": "small pieces taken for examination"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "subjected to",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "tahlildan o‘tkazildi",
+      "definitionEn": "put through a scientific process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "radiocarbon dating",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "radiokarbon tahlili",
+      "definitionEn": "dating organic material using its radioactive carbon"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "previously",
+      "partOfSpeech": "adverb",
+      "translationUz": "ilgari",
+      "definitionEn": "before the time described"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "complexity",
+      "partOfSpeech": "noun",
+      "translationUz": "murakkablik",
+      "definitionEn": "the quality of having many different parts"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "scope",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘lam",
+      "definitionEn": "the extent and size of a project"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "covers an area",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "hududni egallaydi",
+      "definitionEn": "occupies a specified amount of land"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "circular plaza",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "aylanma maydon",
+      "definitionEn": "an open public space shaped as a circle"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "staircase",
+      "partOfSpeech": "noun",
+      "translationUz": "zinapoya",
+      "definitionEn": "steps connecting different levels"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "terraced levels",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "terassali qatlamlar",
+      "definitionEn": "flat platforms arranged at different heights"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "manual laborers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "jismoniy ishchilar",
+      "definitionEn": "people employed for physical construction work"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "architects",
+      "partOfSpeech": "noun",
+      "translationUz": "me’morlar",
+      "definitionEn": "people who design buildings"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "craftsmen",
+      "partOfSpeech": "noun",
+      "translationUz": "usta hunarmandlar",
+      "definitionEn": "skilled workers who make things by hand"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "managers",
+      "partOfSpeech": "noun",
+      "translationUz": "boshqaruvchilar",
+      "definitionEn": "people supervising a project"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "musical instruments",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "musiqa asboblari",
+      "definitionEn": "devices used to produce music"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "deer bones",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kiyik suyaklari",
+      "definitionEn": "bones taken from deer"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "society",
+      "partOfSpeech": "noun",
+      "translationUz": "jamiyat",
+      "definitionEn": "a community of people living together"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "various buildings",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "turli binolar",
+      "definitionEn": "different kinds of constructed structures"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "hierarchy",
+      "partOfSpeech": "noun",
+      "translationUz": "ijtimoiy tabaqalanish",
+      "definitionEn": "an arrangement of people by rank or social status"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "living arrangements",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yashash sharoiti",
+      "definitionEn": "the ways and places in which people live"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "well-kept",
+      "partOfSpeech": "adjective",
+      "translationUz": "sarishta",
+      "definitionEn": "maintained in clean good condition"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "elite",
+      "partOfSpeech": "noun",
+      "translationUz": "elita tabaqasi",
+      "definitionEn": "the most powerful or privileged social group"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "ground-level quarters",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yer sathidagi turar-joylar",
+      "definitionEn": "living spaces at ground level"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "shabbier",
+      "partOfSpeech": "adjective",
+      "translationUz": "xarobaroq",
+      "definitionEn": "in a poorer and more worn condition"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "outlying",
+      "partOfSpeech": "adjective",
+      "translationUz": "chekkadagi",
+      "definitionEn": "situated far from the centre"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "dwellings",
+      "partOfSpeech": "noun",
+      "translationUz": "boshpanalar",
+      "definitionEn": "places where people live"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "served as",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "vazifasini bajargan",
+      "definitionEn": "functioned as something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "trade center",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "savdo markazi",
+      "definitionEn": "a place where goods are exchanged"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "extends",
+      "partOfSpeech": "verb",
+      "translationUz": "cho‘zilgan",
+      "definitionEn": "reaches across a wide area"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "rainforests",
+      "partOfSpeech": "noun",
+      "translationUz": "yomg‘ir o‘rmonlari",
+      "definitionEn": "forests with heavy rainfall"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "trading environment",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "savdo aloqalari muhiti",
+      "definitionEn": "the conditions that support exchange of goods"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "cocoa bush",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kakao butasi",
+      "definitionEn": "a plant producing cocoa seeds"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "necklaces",
+      "partOfSpeech": "noun",
+      "translationUz": "marjonlar",
+      "definitionEn": "decorative strings worn around the neck"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "shells",
+      "partOfSpeech": "noun",
+      "translationUz": "dengiz chig‘anoqlari",
+      "definitionEn": "hard protective outer coverings of sea animals"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "native",
+      "partOfSpeech": "adjective",
+      "translationUz": "mahalliy",
+      "definitionEn": "naturally found in a particular place"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "Caral area",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Karal hududi",
+      "definitionEn": "the area directly surrounding the ancient city"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "production of food",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "oziq-ovqat yetishtirish",
+      "definitionEn": "growing or obtaining food"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "priests",
+      "partOfSpeech": "noun",
+      "translationUz": "ruhoniylar",
+      "definitionEn": "people leading religious rituals"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "planners",
+      "partOfSpeech": "noun",
+      "translationUz": "rejalashtiruvchilar",
+      "definitionEn": "people organising future construction or activity"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "designers",
+      "partOfSpeech": "noun",
+      "translationUz": "loyihachilar",
+      "definitionEn": "people planning the form of objects or buildings"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "occupational specialization",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kasbiy ixtisoslashuv",
+      "definitionEn": "different people carrying out distinct professional roles"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "elemental",
+      "partOfSpeech": "adjective",
+      "translationUz": "eng muhim",
+      "definitionEn": "fundamental or essential"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "emerged",
+      "partOfSpeech": "verb",
+      "translationUz": "vujudga keldi",
+      "definitionEn": "appeared or developed"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "sustained",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’minlagan",
+      "definitionEn": "supported continued functioning"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "travelers",
+      "partOfSpeech": "noun",
+      "translationUz": "sayohatchilar",
+      "definitionEn": "people travelling from one location to another"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "edible fish",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "iste’molbop baliqlar",
+      "definitionEn": "fish suitable to eat"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "squash",
+      "partOfSpeech": "noun",
+      "translationUz": "oshqovoq",
+      "definitionEn": "an edible gourd crop"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "sweet potatoes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "batat",
+      "definitionEn": "sweet-tasting starchy tubers"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "beans",
+      "partOfSpeech": "noun",
+      "translationUz": "dukkakli ekinlar",
+      "definitionEn": "edible seeds from leguminous plants"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "grown locally",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "shu hududda yetishtirilgan",
+      "definitionEn": "cultivated in the surrounding area"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "theorized",
+      "partOfSpeech": "verb",
+      "translationUz": "nazariya ilgari surdi",
+      "definitionEn": "suggested a theoretical explanation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "canals",
+      "partOfSpeech": "noun",
+      "translationUz": "kanallar",
+      "definitionEn": "artificial waterways"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "irrigate",
+      "partOfSpeech": "verb",
+      "translationUz": "sug‘ormoq",
+      "definitionEn": "supply water to agricultural fields"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "fields",
+      "partOfSpeech": "noun",
+      "translationUz": "dalalar",
+      "definitionEn": "land used to grow crops"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "traces",
+      "partOfSpeech": "noun",
+      "translationUz": "izlar",
+      "definitionEn": "small remaining evidence of something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "maize",
+      "partOfSpeech": "noun",
+      "translationUz": "makkajo‘xori",
+      "definitionEn": "a cultivated cereal crop"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "crop failure",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "hosilsizlik",
+      "definitionEn": "a season when crops do not grow successfully"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "concluded",
+      "partOfSpeech": "verb",
+      "translationUz": "xulosaga keldi",
+      "definitionEn": "reached a conclusion"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "trade leverage",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "savdodagi ustunlik",
+      "definitionEn": "a commercial advantage in negotiations or exchange"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "food supplies",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "oziq-ovqat zaxiralari",
+      "definitionEn": "stocks of food available for use"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "crop",
+      "partOfSpeech": "noun",
+      "translationUz": "ekin turi",
+      "definitionEn": "an agricultural plant cultivated for food or fibre"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "clue",
+      "partOfSpeech": "noun",
+      "translationUz": "asosiy kalit",
+      "definitionEn": "evidence helping to explain a mystery"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "cotton",
+      "partOfSpeech": "noun",
+      "translationUz": "paxta",
+      "definitionEn": "plant fibres used to make thread and nets"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "fibers",
+      "partOfSpeech": "noun",
+      "translationUz": "tolalar",
+      "definitionEn": "thin strands from plants"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "textiles",
+      "partOfSpeech": "noun",
+      "translationUz": "gazlamalar",
+      "definitionEn": "materials made by weaving fibres"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "fishing net",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "baliq ovi to‘ri",
+      "definitionEn": "a mesh used to catch fish"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "unrelated dig",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "boshqa mustaqil qazishma",
+      "definitionEn": "a separate archaeological excavation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "fell into place",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "o‘z tasdig‘ini topdi",
+      "definitionEn": "became clear and coherent"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "fishermen",
+      "partOfSpeech": "noun",
+      "translationUz": "baliqchilar",
+      "definitionEn": "people who catch fish"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "speculates",
+      "partOfSpeech": "verb",
+      "translationUz": "taxmin qiladi",
+      "definitionEn": "offers an explanation without complete proof"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "shellfish",
+      "partOfSpeech": "noun",
+      "translationUz": "chig‘anoqli dengiz jonivorlari",
+      "definitionEn": "edible marine animals with shells"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "dried fish",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "quritilgan baliq",
+      "definitionEn": "fish preserved by removing water"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "in exchange for",
+      "partOfSpeech": "phrase",
+      "translationUz": "evaziga",
+      "definitionEn": "given in return for something else"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "in essence",
+      "partOfSpeech": "phrase",
+      "translationUz": "mohiyatan",
+      "definitionEn": "in the most important sense"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "enabled",
+      "partOfSpeech": "verb",
+      "translationUz": "imkon yaratgan",
+      "definitionEn": "made something possible"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "resources of the sea",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "dengiz boyliklari",
+      "definitionEn": "food and other valuable materials from the ocean"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "readily available",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "oson topiladigan",
+      "definitionEn": "accessible with little difficulty"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 1,
+      "surface": "flotation devices",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "suvda qalqovuchlar",
+      "definitionEn": "objects that keep fishing nets afloat"
+    }
+  ]
+}
