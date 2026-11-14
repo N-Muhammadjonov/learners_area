@@ -73,7 +73,8 @@ test('Listening 21–25 keep source-exact Script Completion, unmodified audio ma
 
 test('Listening 21–25 Script meanings preserve contextual span offsets and Vocabulary saving',()=>{
   const bridge=paintedBridge('fixture',{},'Notes','storage',null,false,[]);
-  assert.match(bridge,/mode:'script-context'/);
+  assert.match(bridge,/mode:'script'/);
+  assert.doesNotMatch(bridge,/mode:'script-context'/);
   assert.match(bridge,/startChar:begin,endChar:end/);
   assert.match(bridge,/occurrences\.filter/);
   assert.match(bridge,/matches\.length===0/);
