@@ -210,7 +210,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
   anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
   host.append(anchor);
   popup=contextualWordPopover({...context,signal},{
-   anchor,dict,word,sourceType:'listening',sourceId:id,occurrenceId:d.occurrenceId,
+   anchor,dict,word,sourceType:'listening',sourceId:id,sourceTitle:content.testTitle,occurrenceId:d.occurrenceId,
    section:d.part,startChar:d.startChar,endChar:d.endChar,
    onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
    onClose:selectionClose
@@ -228,7 +228,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
   anchor=el('span',{class:'fixed h-px w-px',style:{right:'16px',top:'128px'}});
   host.append(anchor);
   popup=contextualWordPopover({...context,signal},{
-   anchor,dict,word,sourceType:'listening',sourceId:id,
+   anchor,dict,word,sourceType:'listening',sourceId:id,sourceTitle:content.testTitle,
    section:d.part,startChar:d.startChar,endChar:d.endChar,
     onSavedStatus:saved=>{post('learners-area-script-save-status',{part:d.part,start:d.startChar,end:d.endChar,saved});if(saved)void refreshScriptSaved();},
     onClose:selectionClose
@@ -268,6 +268,7 @@ function authoredSession(context,{id}){const {dict,session,signal}=context,host=
  if(d.op==='course'&&content?.nativePersistence&&typeof d.activity==='string'&&d.answers&&typeof d.answers==='object'&&JSON.stringify(d.answers).length<=50000){queue(async()=>{const status=await request(`/api/listening/full/${id}/progress`,{method:'POST',body:{activity:d.activity,answers:d.answers}});post('learners-area-course-progress',{status});});return;}
  if(d.op==='storage'&&d.values&&typeof d.values==='object'&&JSON.stringify(d.values).length<=100000){if(content?.nativePersistence){try{const own=JSON.parse(d.values[content.storageKey]||'{}');if(own.attemptStatus==='in_progress'){examLock=true;selectionClose();if(own.attemptKey&&own.attemptKey!==canonicalAttempt&&!JSON.parse(draftStorage.getItem(stateKey+':start')||'{}').attemptKey)draftStorage.setItem(stateKey+':start',JSON.stringify({attemptKey:own.attemptKey,previousKey:canonicalAttempt,baseStamp:serverBaseline}));}}catch{}}if(d.retryOnly===true){if(content?.nativePersistence)checkpointWriter.retry();return;}stored=hydration=d.values;try{draftStorage.setItem(stateKey,JSON.stringify(d.values));}catch{}if(content?.nativePersistence){if(checkpointWriter.saved===JSON.stringify(d.values)&&!checkpointWriter.active&&!checkpointWriter.barrier&&!checkpointWriter.failed){checkpointWriter.save(d.values);return;}pending=d.values;try{draftStorage.setItem(stateKey+':pending',JSON.stringify(d.values));}catch{}checkpointWriter.stage(d.values);if(d.draftOnly!==true)checkpointWriter.save(d.values);}return;}
 
+ if(d.op==='dismiss-word'){if(popup||dialog)selectionClose();return;}
  if(d.op==='word'){if(d.mode==='script-context'&&wantedLocation?.activity==='script'){void contextualScriptWord(d);return;}if(d.mode==='script'&&wantedLocation?.activity==='script'&&stateReady&&!authorityBlocked&&!examLock&&typeof d.word==='string'&&reviewTerm(d.word)&&Number.isFinite(d.x)&&Number.isFinite(d.y)&&content?.contextualOccurrences?.some(o=>o.occurrenceId===d.occurrenceId&&o.surface.toLowerCase().includes(d.word.toLowerCase())))void exactScriptWord(d);return;}
  },liveSignal);
  function stop(){if(abort.signal.aborted)return;clearTimeout(navigationTimer);clearTimeout(frameReadyTimer);authorityBarrier.dispose();recoveryAbort.abort();frameAbort?.abort();abort.abort();rangeCache=null;checkpointWriter.dispose();reviewWriter.dispose();cancelRetries();earlyMedia=[];rangeCache=null;rangeMedia?.dispose();media?.dispose();media=null;selectionClose();frame?.remove();host.replaceChildren();urls.forEach(url=>URL.revokeObjectURL(url));release();signal.removeEventListener('abort',stop);}
