@@ -1,0 +1,990 @@
+{
+  "testNo": 5,
+  "passageNo": 1,
+  "terms": [
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "thrilling",
+      "partOfSpeech": "adjective",
+      "translationUz": "hayajonli",
+      "definitionEn": "causing excitement and strong interest"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "readable",
+      "partOfSpeech": "adjective",
+      "translationUz": "o‘qishga qulay",
+      "definitionEn": "easy and enjoyable to read"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "hymn of praise",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "madhiyadek maqtov",
+      "definitionEn": "an enthusiastic expression of admiration"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "invention",
+      "partOfSpeech": "noun",
+      "translationUz": "ixtiro",
+      "definitionEn": "a human creation or new development"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "vast",
+      "partOfSpeech": "adjective",
+      "translationUz": "ulkan",
+      "definitionEn": "extremely large in scale"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "effective",
+      "partOfSpeech": "adjective",
+      "translationUz": "samarali",
+      "definitionEn": "achieving its intended effect"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "generally",
+      "partOfSpeech": "adverb",
+      "translationUz": "odatda",
+      "definitionEn": "in most cases"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "global population",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "jahon aholisi",
+      "definitionEn": "all people living across the world"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "urban areas",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar hududlari",
+      "definitionEn": "towns and cities where people live"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "flood into",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "yopirilib kelmoq",
+      "definitionEn": "arrive in very large numbers"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "developed",
+      "partOfSpeech": "adjective",
+      "translationUz": "rivojlangan",
+      "definitionEn": "economically advanced"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "developing",
+      "partOfSpeech": "adjective",
+      "translationUz": "rivojlanayotgan",
+      "definitionEn": "undergoing economic development"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "crowds",
+      "partOfSpeech": "noun",
+      "translationUz": "odamlar tirbandligi",
+      "definitionEn": "large numbers of people in one place"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "poverty",
+      "partOfSpeech": "noun",
+      "translationUz": "qashshoqlik",
+      "definitionEn": "the condition of having insufficient money"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "horrify",
+      "partOfSpeech": "verb",
+      "translationUz": "dahshatga solmoq",
+      "definitionEn": "cause fear or alarm"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "growth",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘sish",
+      "definitionEn": "an increase in economic or social scale"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "energy",
+      "partOfSpeech": "noun",
+      "translationUz": "jo‘shqinlik",
+      "definitionEn": "lively activity and vitality"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "brightest",
+      "partOfSpeech": "adjective",
+      "translationUz": "eng porloq",
+      "definitionEn": "most hopeful and promising"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "resistance",
+      "partOfSpeech": "noun",
+      "translationUz": "qarshilik",
+      "definitionEn": "opposition to an idea"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "Industrial Revolution",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Sanoat inqilobi",
+      "definitionEn": "the historical transition to industrial production"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "Romantic poets",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "romantik shoirlar",
+      "definitionEn": "poets associated with romanticism"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "turned away from",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "yuz o‘girgan",
+      "definitionEn": "rejected in favour of something else"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "smoke",
+      "partOfSpeech": "noun",
+      "translationUz": "tutun",
+      "definitionEn": "smoky emissions from factories"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "factories",
+      "partOfSpeech": "noun",
+      "translationUz": "fabrikalar",
+      "definitionEn": "places where goods are manufactured"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "celebrate",
+      "partOfSpeech": "verb",
+      "translationUz": "ulug‘lamoq",
+      "definitionEn": "praise with enthusiasm"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "untouched nature",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "bokira tabiat",
+      "definitionEn": "natural land not changed by people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "writer",
+      "partOfSpeech": "noun",
+      "translationUz": "yozuvchi",
+      "definitionEn": "an author of written works"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "solitary",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yolg‘iz",
+      "definitionEn": "living without company"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "convinced",
+      "partOfSpeech": "verb",
+      "translationUz": "ishontirdi",
+      "definitionEn": "persuaded someone to believe something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "generations",
+      "partOfSpeech": "noun",
+      "translationUz": "avlodlar",
+      "definitionEn": "successive groups born at different times"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "admits",
+      "partOfSpeech": "verb",
+      "translationUz": "tan oladi",
+      "definitionEn": "acknowledges an opposing point as true"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "industrial cities",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sanoat shaharlari",
+      "definitionEn": "urban centres built around factories"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "dirty",
+      "partOfSpeech": "adjective",
+      "translationUz": "iflos",
+      "definitionEn": "unclean or polluted"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "lacked",
+      "partOfSpeech": "verb",
+      "translationUz": "yetishmas edi",
+      "definitionEn": "did not have something needed"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "efficient",
+      "partOfSpeech": "adjective",
+      "translationUz": "samarali",
+      "definitionEn": "working well with little waste"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "disposal systems",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "chiqindilarni yo‘qotish tizimlari",
+      "definitionEn": "systems for removing waste"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "disease",
+      "partOfSpeech": "noun",
+      "translationUz": "kasallik",
+      "definitionEn": "an illness or harmful medical condition"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "spread rapidly",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "tez tarqaldi",
+      "definitionEn": "moved quickly among many people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "population",
+      "partOfSpeech": "noun",
+      "translationUz": "aholi",
+      "definitionEn": "the people living in an area"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "profitable",
+      "partOfSpeech": "adjective",
+      "translationUz": "daromadli",
+      "definitionEn": "producing financial profit"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "enormous",
+      "partOfSpeech": "adjective",
+      "translationUz": "ulkan",
+      "definitionEn": "extremely large"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "commercial incentives",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tijoriy rag‘batlar",
+      "definitionEn": "financial reasons to pursue improvement"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "political",
+      "partOfSpeech": "adjective",
+      "translationUz": "siyosiy",
+      "definitionEn": "related to government decisions"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "transformation",
+      "partOfSpeech": "noun",
+      "translationUz": "tub o‘zgarish",
+      "definitionEn": "a significant change in form or condition"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "achieved",
+      "partOfSpeech": "verb",
+      "translationUz": "amalga oshirilgan",
+      "definitionEn": "successfully brought about"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "unrestricted power",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "cheksiz vakolat",
+      "definitionEn": "authority without important limits"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "wonders",
+      "partOfSpeech": "noun",
+      "translationUz": "mo‘jizalar",
+      "definitionEn": "remarkable impressive achievements"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "delights",
+      "partOfSpeech": "noun",
+      "translationUz": "havas uyg‘otuvchi maskanlar",
+      "definitionEn": "things that cause pleasure"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "brilliant account",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mahoratli tasvir",
+      "definitionEn": "an exceptionally clear and impressive explanation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "stop-start progression",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "uzilib-davom etgan rivojlanish",
+      "definitionEn": "advancement interrupted by setbacks"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "cultural",
+      "partOfSpeech": "adjective",
+      "translationUz": "madaniy",
+      "definitionEn": "relating to arts and collective society"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "economic centre",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "iqtisodiy markaz",
+      "definitionEn": "a leading centre of economic activity"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "markets of ideas",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "g‘oyalar almashinuvi maydonlari",
+      "definitionEn": "places where ideas are exchanged and developed"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "innovation",
+      "partOfSpeech": "noun",
+      "translationUz": "innovatsiya",
+      "definitionEn": "the introduction of new ideas and methods"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "upset",
+      "partOfSpeech": "adjective",
+      "translationUz": "tushkun",
+      "definitionEn": "unhappy or distressed"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "spectacle",
+      "partOfSpeech": "noun",
+      "translationUz": "manzara",
+      "definitionEn": "a striking public scene"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "urban poverty",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar qashshoqligi",
+      "definitionEn": "lack of wealth among city residents"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "poor",
+      "partOfSpeech": "noun",
+      "translationUz": "kambag‘allar",
+      "definitionEn": "people with very little money"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "becoming richer",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "boyib ketish",
+      "definitionEn": "increasing one's wealth"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "by and large",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "umuman olganda",
+      "definitionEn": "on the whole"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "economy",
+      "partOfSpeech": "noun",
+      "translationUz": "iqtisodiyot",
+      "definitionEn": "the system of production and trade"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "forcing",
+      "partOfSpeech": "verb",
+      "translationUz": "majburan oshirish",
+      "definitionEn": "causing something to happen through pressure"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "property prices",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ko‘chmas mulk narxlari",
+      "definitionEn": "costs of buying homes or other property"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "unreasonable",
+      "partOfSpeech": "adjective",
+      "translationUz": "asossiz",
+      "definitionEn": "not fair or justified"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "planning regulations",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shaharsozlik cheklovlari",
+      "definitionEn": "rules controlling building and land use"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "instead",
+      "partOfSpeech": "adverb",
+      "translationUz": "buning o‘rniga",
+      "definitionEn": "as an alternative"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "thereby",
+      "partOfSpeech": "adverb",
+      "translationUz": "shu yo‘l bilan",
+      "definitionEn": "as a result of doing something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "primarily",
+      "partOfSpeech": "adverb",
+      "translationUz": "asosan",
+      "definitionEn": "mainly"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "principal virtues",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "asosiy afzalliklar",
+      "definitionEn": "the most important beneficial qualities"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "heart of Paris",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Parijning qoq markazi",
+      "definitionEn": "the central area of Paris"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "desire",
+      "partOfSpeech": "noun",
+      "translationUz": "istak",
+      "definitionEn": "a strong wish for something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "boulevards",
+      "partOfSpeech": "noun",
+      "translationUz": "xiyobonlar",
+      "definitionEn": "broad city streets"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "defends",
+      "partOfSpeech": "verb",
+      "translationUz": "himoya qiladi",
+      "definitionEn": "speaks in favour of an idea"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "argues",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’kidlaydi",
+      "definitionEn": "supports a claim with reasoning"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "high-rise",
+      "partOfSpeech": "adjective",
+      "translationUz": "baland qavatli",
+      "definitionEn": "having many storeys"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "commercial development",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tijorat majmuasi",
+      "definitionEn": "buildings developed for business activity"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "central area",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "markaziy hudud",
+      "definitionEn": "the district near a city's centre"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "commercial district",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "biznes mavzesi",
+      "definitionEn": "an area dominated by commercial offices and trade"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "city centre",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar markazi",
+      "definitionEn": "the central part of a city"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "destroying",
+      "partOfSpeech": "verb",
+      "translationUz": "buzib tashlash",
+      "definitionEn": "causing something to be lost or damaged"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "fabric",
+      "partOfSpeech": "noun",
+      "translationUz": "shaharning asl qiyofasi",
+      "definitionEn": "the underlying physical structure and character of a city"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "inefficient",
+      "partOfSpeech": "adjective",
+      "translationUz": "samarasiz",
+      "definitionEn": "producing results with unnecessary effort or cost"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "surrounding area",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "atrofdagi hudud",
+      "definitionEn": "land located around a centre"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "relaxing",
+      "partOfSpeech": "verb",
+      "translationUz": "yumshatish",
+      "definitionEn": "making rules less strict"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "rules",
+      "partOfSpeech": "noun",
+      "translationUz": "qoidalar",
+      "definitionEn": "regulations governing activity"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "presently imposed",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "hozir joriy etilgan",
+      "definitionEn": "currently applied as a restriction"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "height",
+      "partOfSpeech": "noun",
+      "translationUz": "balandlik",
+      "definitionEn": "vertical measurement from bottom to top"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "constructions",
+      "partOfSpeech": "noun",
+      "translationUz": "qurilishlar",
+      "definitionEn": "newly constructed buildings"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "suburbs",
+      "partOfSpeech": "noun",
+      "translationUz": "shahar chekkalari",
+      "definitionEn": "residential districts outside a city centre"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "disaster",
+      "partOfSpeech": "noun",
+      "translationUz": "kulfat",
+      "definitionEn": "an event with very harmful consequences"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "children",
+      "partOfSpeech": "noun",
+      "translationUz": "farzandlar",
+      "definitionEn": "young sons or daughters"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "entirely",
+      "partOfSpeech": "adverb",
+      "translationUz": "butunlay",
+      "definitionEn": "completely"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "excuse",
+      "partOfSpeech": "noun",
+      "translationUz": "bahona",
+      "definitionEn": "a reason offered to justify a decision"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "under-taxing",
+      "partOfSpeech": "verb",
+      "translationUz": "kam soliq solish",
+      "definitionEn": "charging a tax below an appropriate level"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "petrol",
+      "partOfSpeech": "noun",
+      "translationUz": "benzin",
+      "definitionEn": "fuel used in many cars"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "tight planning restrictions",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qat’iy shaharsozlik cheklovlari",
+      "definitionEn": "strict rules limiting urban construction"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "inner cities",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar ichki hududlari",
+      "definitionEn": "central urban districts"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "drove up",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "oshirib yubordi",
+      "definitionEn": "caused prices to rise"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "cost of property",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ko‘chmas mulk narxi",
+      "definitionEn": "the price of buildings or land"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "flight to the suburbs",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar chetiga ko‘chish",
+      "definitionEn": "people moving from the city centre to outer residential areas"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "middle classes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "o‘rta sinf",
+      "definitionEn": "social group with moderate incomes"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "suburb",
+      "partOfSpeech": "noun",
+      "translationUz": "shahar atrofi",
+      "definitionEn": "a residential area at a city's outskirts"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "suburbanites",
+      "partOfSpeech": "noun",
+      "translationUz": "shahar chetida yashovchilar",
+      "definitionEn": "people who live in suburbs"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "face-to-face contact",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yuzma-yuz muloqot",
+      "definitionEn": "direct personal interaction"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "urbanite",
+      "partOfSpeech": "noun",
+      "translationUz": "shaharlik",
+      "definitionEn": "a person who lives in a city"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "creative",
+      "partOfSpeech": "adjective",
+      "translationUz": "ijodkor",
+      "definitionEn": "able to produce original ideas"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "moreover",
+      "partOfSpeech": "adverb",
+      "translationUz": "bundan tashqari",
+      "definitionEn": "in addition"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "costlier",
+      "partOfSpeech": "adjective",
+      "translationUz": "qimmatroq",
+      "definitionEn": "more expensive"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "flats",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘p qavatli uydagi xonadonlar",
+      "definitionEn": "apartments in residential buildings"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "city dwellers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shahar aholisi",
+      "definitionEn": "people who live in urban areas"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "aspect",
+      "partOfSpeech": "noun",
+      "translationUz": "jihat",
+      "definitionEn": "one feature of an activity"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "consumption",
+      "partOfSpeech": "noun",
+      "translationUz": "iste’mol",
+      "definitionEn": "the use of goods and resources"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "in favour of",
+      "partOfSpeech": "phrase",
+      "translationUz": "foydasiga",
+      "definitionEn": "expressing support for an option"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "environment",
+      "partOfSpeech": "noun",
+      "translationUz": "atrof-muhit",
+      "definitionEn": "the natural world surrounding people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "vastly larger",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "ancha kattaroq",
+      "definitionEn": "much greater in extent"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "characters",
+      "partOfSpeech": "noun",
+      "translationUz": "qahramonlar",
+      "definitionEn": "people described in a work"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "accessible information",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tushunarli ma’lumotlar",
+      "definitionEn": "information easy for readers to understand"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "tremendous",
+      "partOfSpeech": "adjective",
+      "translationUz": "ajoyib",
+      "definitionEn": "extremely good or impressive"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "constantly",
+      "partOfSpeech": "adverb",
+      "translationUz": "doimo",
+      "definitionEn": "continually"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "seeking",
+      "partOfSpeech": "verb",
+      "translationUz": "izlash",
+      "definitionEn": "trying to find something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "disagree",
+      "partOfSpeech": "verb",
+      "translationUz": "e’tiroz bildirmoq",
+      "definitionEn": "hold a different opinion"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "moist-eyed",
+      "partOfSpeech": "adjective",
+      "translationUz": "ko‘zlari namlangan",
+      "definitionEn": "becoming tearful with emotion"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 1,
+      "surface": "take on",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "bahslashmoq",
+      "definitionEn": "challenge someone in an argument"
+    }
+  ]
+}

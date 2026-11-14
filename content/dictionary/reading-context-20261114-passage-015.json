@@ -1,0 +1,1222 @@
+{
+  "testNo": 5,
+  "passageNo": 3,
+  "terms": [
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "communication style",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muloqot uslubi",
+      "definitionEn": "an individual's habitual way of exchanging information"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "mix of styles",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "turli uslublarning uyg‘unligi",
+      "definitionEn": "a combination of different ways of communicating"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "positive force",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ijobiy omil",
+      "definitionEn": "a beneficial influence that helps solve problems"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "resolving conflict",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "nizolarni bartaraf etish",
+      "definitionEn": "settling disagreements between people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "as far back as",
+      "partOfSpeech": "phrase",
+      "translationUz": "... davridayoq",
+      "definitionEn": "as early as a past historical period"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "characterizing",
+      "partOfSpeech": "verb",
+      "translationUz": "toifalarga ajratish",
+      "definitionEn": "describing people according to certain traits"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "personality type",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shaxsiyat turi",
+      "definitionEn": "a group defined by shared personality features"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "temperament",
+      "partOfSpeech": "noun",
+      "translationUz": "fe’l-atvor",
+      "definitionEn": "a person's characteristic emotional nature"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "believed",
+      "partOfSpeech": "verb",
+      "translationUz": "ishongan",
+      "definitionEn": "accepted something as true"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "body fluids",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tana suyuqliklari",
+      "definitionEn": "liquids within the human body"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "influenced",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’sir qilgan",
+      "definitionEn": "affected how something developed"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "basic types",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "asosiy turlar",
+      "definitionEn": "fundamental categories"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "further developed",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "yanada rivojlantirilgan",
+      "definitionEn": "expanded or refined an existing theory"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "these days",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "hozirgi kunda",
+      "definitionEn": "at the present time"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "number",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘p son",
+      "definitionEn": "the quantity of available items"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "tools",
+      "partOfSpeech": "noun",
+      "translationUz": "usullar",
+      "definitionEn": "methods used to assess something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "relate to",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "asoslanmoq",
+      "definitionEn": "have a connection to"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "descriptions",
+      "partOfSpeech": "noun",
+      "translationUz": "tavsiflar",
+      "definitionEn": "accounts of particular characteristics"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "source",
+      "partOfSpeech": "noun",
+      "translationUz": "manba",
+      "definitionEn": "the origin from which something comes"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "dominate",
+      "partOfSpeech": "verb",
+      "translationUz": "ustunlik qilmoq",
+      "definitionEn": "exert the strongest influence"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "systems",
+      "partOfSpeech": "noun",
+      "translationUz": "tizimlar",
+      "definitionEn": "sets of interconnected components"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "values",
+      "partOfSpeech": "noun",
+      "translationUz": "foydali jihatlar",
+      "definitionEn": "benefits provided by a method"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "determine",
+      "partOfSpeech": "verb",
+      "translationUz": "aniqlamoq",
+      "definitionEn": "find out or establish something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "personality style",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shaxsiyat uslubi",
+      "definitionEn": "a characteristic pattern of personal behaviour"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "learning styles",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "o‘rganish uslublari",
+      "definitionEn": "different ways people prefer to learn"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "conflict-handling styles",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "nizoni hal qilish uslublari",
+      "definitionEn": "approaches used to handle disagreements"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "aspects",
+      "partOfSpeech": "noun",
+      "translationUz": "jihatlar",
+      "definitionEn": "particular features of a person or situation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "individuals",
+      "partOfSpeech": "noun",
+      "translationUz": "shaxslar",
+      "definitionEn": "separate people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "depersonalization",
+      "partOfSpeech": "noun",
+      "translationUz": "nizoni shaxsiylashtirmaslik",
+      "definitionEn": "treating a disagreement as unrelated to personal hostility"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "realize",
+      "partOfSpeech": "verb",
+      "translationUz": "anglab yetmoq",
+      "definitionEn": "understand a situation correctly"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "different or more information",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "boshqacha yoki ko‘proq ma’lumot",
+      "definitionEn": "information different from or additional to what someone else has"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "intending",
+      "partOfSpeech": "verb",
+      "translationUz": "maqsad qilayotgan",
+      "definitionEn": "planning or meaning to do something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "rude",
+      "partOfSpeech": "adjective",
+      "translationUz": "qo‘pol",
+      "definitionEn": "impolite or disrespectful"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "focused",
+      "partOfSpeech": "adjective",
+      "translationUz": "diqqati qaratilgan",
+      "definitionEn": "concentrating attention on a task"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "task",
+      "partOfSpeech": "noun",
+      "translationUz": "vazifa",
+      "definitionEn": "a piece of work to complete"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "greeting",
+      "partOfSpeech": "verb",
+      "translationUz": "salomlashish",
+      "definitionEn": "welcoming someone with words or gestures"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "risk",
+      "partOfSpeech": "noun",
+      "translationUz": "xavf",
+      "definitionEn": "the possibility of damage"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "damaging",
+      "partOfSpeech": "verb",
+      "translationUz": "putur yetkazish",
+      "definitionEn": "harming a relationship or condition"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "relationships",
+      "partOfSpeech": "noun",
+      "translationUz": "munosabatlar",
+      "definitionEn": "connections between people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "get the job done",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "ishni bitirmoq",
+      "definitionEn": "complete the necessary work"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "appropriate information",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "zarur va mos ma’lumot",
+      "definitionEn": "information needed for the task"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "collect",
+      "partOfSpeech": "verb",
+      "translationUz": "to‘plamoq",
+      "definitionEn": "gather information"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "appropriately",
+      "partOfSpeech": "adverb",
+      "translationUz": "to‘g‘ri tarzda",
+      "definitionEn": "in a suitable manner"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "understanding",
+      "partOfSpeech": "noun",
+      "translationUz": "tushunish",
+      "definitionEn": "knowledge of how something works"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "resolve",
+      "partOfSpeech": "verb",
+      "translationUz": "hal qilmoq",
+      "definitionEn": "settle or solve a problem"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "conflicts",
+      "partOfSpeech": "noun",
+      "translationUz": "nizolar",
+      "definitionEn": "disagreements between people"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "rarely",
+      "partOfSpeech": "adverb",
+      "translationUz": "kamdan-kam",
+      "definitionEn": "not often"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "issues",
+      "partOfSpeech": "noun",
+      "translationUz": "muammolar",
+      "definitionEn": "matters needing attention"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "information needs",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "axborotga ehtiyojlar",
+      "definitionEn": "different requirements for information"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "focus",
+      "partOfSpeech": "noun",
+      "translationUz": "diqqat yo‘nalishi",
+      "definitionEn": "the main subject receiving attention"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "determined",
+      "partOfSpeech": "verb",
+      "translationUz": "aniqlagan",
+      "definitionEn": "established through analysis"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "centuries ago",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "asrlar muqaddam",
+      "definitionEn": "hundreds of years in the past"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "somewhat",
+      "partOfSpeech": "adverb",
+      "translationUz": "ma’lum darajada",
+      "definitionEn": "to a limited extent"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "apt",
+      "partOfSpeech": "adjective",
+      "translationUz": "o‘rinli",
+      "definitionEn": "suited to the situation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "update",
+      "partOfSpeech": "verb",
+      "translationUz": "zamonaviylashtirmoq",
+      "definitionEn": "revise to suit current use"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "wording",
+      "partOfSpeech": "noun",
+      "translationUz": "ifodalar",
+      "definitionEn": "the words used to describe an idea"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "translate into",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "mos kelmoq",
+      "definitionEn": "correspond to another classification"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "fairly common",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "keng tarqalgan",
+      "definitionEn": "relatively widespread"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "expressive",
+      "partOfSpeech": "adjective",
+      "translationUz": "hissiy ifodali",
+      "definitionEn": "showing feelings openly in communication"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "pictures",
+      "partOfSpeech": "noun",
+      "translationUz": "jonli tasvirlar",
+      "definitionEn": "visual images used to describe ideas"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "invest",
+      "partOfSpeech": "verb",
+      "translationUz": "bag‘ishlamoq",
+      "definitionEn": "put emotional energy into an action"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "emotion",
+      "partOfSpeech": "noun",
+      "translationUz": "his-tuyg‘u",
+      "definitionEn": "a feeling such as joy or anger"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "energy",
+      "partOfSpeech": "noun",
+      "translationUz": "quvvat",
+      "definitionEn": "lively strength and enthusiasm"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "quickly",
+      "partOfSpeech": "adverb",
+      "translationUz": "tez",
+      "definitionEn": "at high speed"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "whole body",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "butun gavda",
+      "definitionEn": "the entire physical body"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "illustrate",
+      "partOfSpeech": "verb",
+      "translationUz": "misol bilan tushuntirmoq",
+      "definitionEn": "make something clear through an example"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "point",
+      "partOfSpeech": "noun",
+      "translationUz": "asosiy fikr",
+      "definitionEn": "the main idea being communicated"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "enthusiasm",
+      "partOfSpeech": "noun",
+      "translationUz": "g‘ayrat",
+      "definitionEn": "strong interest and excitement"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "team motivators",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "jamoani ruhlantiruvchilar",
+      "definitionEn": "people who inspire a team"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "concerned",
+      "partOfSpeech": "adjective",
+      "translationUz": "e’tibor beradigan",
+      "definitionEn": "carefully interested in others' needs"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "come on strong",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "boshqalarga og‘irlik qilmoq",
+      "definitionEn": "make an overly forceful impression"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "bigger picture",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "umumiy manzara",
+      "definitionEn": "the wider context of a situation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "details",
+      "partOfSpeech": "noun",
+      "translationUz": "mayda tafsilotlar",
+      "definitionEn": "small elements of an activity"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "proper order",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "to‘g‘ri tartib",
+      "definitionEn": "the correct sequence"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "differences of opinion",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "fikrlar xilma-xilligi",
+      "definitionEn": "disagreement between viewpoints"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "engage in",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "ishtirok etmoq",
+      "definitionEn": "take part in an activity"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "spirited discussion",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qizg‘in muhokama",
+      "definitionEn": "a lively enthusiastic discussion"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "change",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘zgarish",
+      "definitionEn": "a process of becoming different"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "constantly",
+      "partOfSpeech": "adverb",
+      "translationUz": "doimo",
+      "definitionEn": "on an ongoing basis"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "exciting adventures",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "hayajonli sarguzashtlar",
+      "definitionEn": "new and stimulating experiences"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "cool",
+      "partOfSpeech": "adjective",
+      "translationUz": "vazmin",
+      "definitionEn": "calm and not easily upset"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "technical",
+      "partOfSpeech": "adjective",
+      "translationUz": "texnik",
+      "definitionEn": "concerned with practical details"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "systematic",
+      "partOfSpeech": "adjective",
+      "translationUz": "tizimli",
+      "definitionEn": "organised in a consistent method"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "facts",
+      "partOfSpeech": "noun",
+      "translationUz": "aniq dalillar",
+      "definitionEn": "pieces of information accepted as true"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "orderly",
+      "partOfSpeech": "adjective",
+      "translationUz": "tartibli",
+      "definitionEn": "well arranged"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "approaching",
+      "partOfSpeech": "verb",
+      "translationUz": "yondashish",
+      "definitionEn": "dealing with a task in a particular manner"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "emotions",
+      "partOfSpeech": "noun",
+      "translationUz": "hissiyotlar",
+      "definitionEn": "personal feelings"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "concerns",
+      "partOfSpeech": "noun",
+      "translationUz": "xavotirlar",
+      "definitionEn": "worries about a possible result"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "accomplish",
+      "partOfSpeech": "verb",
+      "translationUz": "bajarmoq",
+      "definitionEn": "complete a task successfully"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "overwhelm",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘zdan qochirishga sabab bo‘lmoq",
+      "definitionEn": "make the details seem too large to manage"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "context of the task",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "vazifaning keng konteksti",
+      "definitionEn": "the surrounding circumstances of a task"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "speak for themselves",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "o‘z-o‘zidan dalolat bermoq",
+      "definitionEn": "be sufficiently clear without explanation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "comfortable",
+      "partOfSpeech": "adjective",
+      "translationUz": "o‘zini qulay his qiladigan",
+      "definitionEn": "feeling at ease"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "adapt to",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "moslashmoq",
+      "definitionEn": "change in response to something new"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "logic",
+      "partOfSpeech": "noun",
+      "translationUz": "mantiq",
+      "definitionEn": "reasoned connections between ideas"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "steps involved",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "zarur bosqichlar",
+      "definitionEn": "stages required to complete a change"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "softhearted",
+      "partOfSpeech": "adjective",
+      "translationUz": "ko‘ngli bo‘sh va samimiy",
+      "definitionEn": "kind and sympathetic toward others"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "oriented toward",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "...ga intiladigan",
+      "definitionEn": "directed toward a particular goal"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "considerate",
+      "partOfSpeech": "adjective",
+      "translationUz": "g‘amxo‘r",
+      "definitionEn": "aware of other people's feelings"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "sympathetic",
+      "partOfSpeech": "adjective",
+      "translationUz": "hamdard",
+      "definitionEn": "showing understanding of others' feelings"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "listeners",
+      "partOfSpeech": "noun",
+      "translationUz": "tinglovchilar",
+      "definitionEn": "people who listen attentively"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "detriment",
+      "partOfSpeech": "noun",
+      "translationUz": "zarar",
+      "definitionEn": "harm caused to someone"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "solicit everyone's opinion",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "hammaning fikrini so‘ramoq",
+      "definitionEn": "actively request the views of every person"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "make sure",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "ishonch hosil qilmoq",
+      "definitionEn": "ensure something is true"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "required",
+      "partOfSpeech": "adjective",
+      "translationUz": "zarur",
+      "definitionEn": "needed to complete a task"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "at times",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "ba’zan",
+      "definitionEn": "on some occasions"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "distract",
+      "partOfSpeech": "verb",
+      "translationUz": "chalg‘itmoq",
+      "definitionEn": "divert someone's attention"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "task at hand",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ayni damdagi vazifa",
+      "definitionEn": "the task currently being worked on"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "needs of others",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "boshqalarning ehtiyojlari",
+      "definitionEn": "things other people require"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "threatens",
+      "partOfSpeech": "verb",
+      "translationUz": "xavf soladi",
+      "definitionEn": "creates a possible danger"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "status quo",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mavjud tartib",
+      "definitionEn": "the present established situation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "uneasy",
+      "partOfSpeech": "adjective",
+      "translationUz": "bezovta",
+      "definitionEn": "feeling uncomfortable or worried"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "consider",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘ylab ko‘rmoq",
+      "definitionEn": "think carefully about a possibility"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "bold",
+      "partOfSpeech": "adjective",
+      "translationUz": "qat’iy",
+      "definitionEn": "confident and direct"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "direct",
+      "partOfSpeech": "adjective",
+      "translationUz": "to‘g‘ridan-to‘g‘ri",
+      "definitionEn": "speaking without unnecessary words"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "brief",
+      "partOfSpeech": "adjective",
+      "translationUz": "lo‘nda",
+      "definitionEn": "using only a few words"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "fewer words",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kamroq so‘zlar",
+      "definitionEn": "a smaller number of spoken words"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "big-picture thinkers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "global miqyosda fikrlovchilar",
+      "definitionEn": "people focusing on broad goals rather than detail"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "involved",
+      "partOfSpeech": "adjective",
+      "translationUz": "band",
+      "definitionEn": "participating in activities"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "outcomes",
+      "partOfSpeech": "noun",
+      "translationUz": "natijalar",
+      "definitionEn": "results of activities"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "carrying out",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "bajarish",
+      "definitionEn": "performing a planned task"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "detail work",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "mayda tafsilotli ishlar",
+      "definitionEn": "tasks requiring attention to small elements"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "as a result",
+      "partOfSpeech": "adverb phrase",
+      "translationUz": "oqibatda",
+      "definitionEn": "because of the earlier circumstance"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "achieve",
+      "partOfSpeech": "verb",
+      "translationUz": "erishmoq",
+      "definitionEn": "successfully attain a goal"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "seem",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘rinmoq",
+      "definitionEn": "appear to be a certain way"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "welcome",
+      "partOfSpeech": "verb",
+      "translationUz": "mamnuniyat bilan qabul qilmoq",
+      "definitionEn": "accept positively"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "challenging",
+      "partOfSpeech": "verb",
+      "translationUz": "qarshi chiqish",
+      "definitionEn": "question someone's position or decision"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "afraid",
+      "partOfSpeech": "adjective",
+      "translationUz": "hayiqadigan",
+      "definitionEn": "fearful of an action"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "effectiveness",
+      "partOfSpeech": "noun",
+      "translationUz": "samaradorlik",
+      "definitionEn": "ability to achieve desired results"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "take care of",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "asrab-avaylamoq",
+      "definitionEn": "give attention to preserving relationships"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "perspective",
+      "partOfSpeech": "noun",
+      "translationUz": "nuqtai nazar",
+      "definitionEn": "the way a person views something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "identified",
+      "partOfSpeech": "verb",
+      "translationUz": "aniqlangan",
+      "definitionEn": "recognised clearly"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "easily",
+      "partOfSpeech": "adverb",
+      "translationUz": "osonlik bilan",
+      "definitionEn": "without much difficulty"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "situation at hand",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "hozirgi vaziyat",
+      "definitionEn": "the current circumstances"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "dominant",
+      "partOfSpeech": "adjective",
+      "translationUz": "ustunlik qiluvchi",
+      "definitionEn": "having the strongest influence"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "evident",
+      "partOfSpeech": "adjective",
+      "translationUz": "yaqqol",
+      "definitionEn": "clearly apparent"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "work environment",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ish muhiti",
+      "definitionEn": "the circumstances in which people work"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "influence",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’sir ko‘rsatmoq",
+      "definitionEn": "affect how someone behaves"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "predominance",
+      "partOfSpeech": "noun",
+      "translationUz": "ustuvorlik",
+      "definitionEn": "the state of being most common or influential"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "reflected",
+      "partOfSpeech": "verb",
+      "translationUz": "aks etgan",
+      "definitionEn": "shown in the situation"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "good news",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "quvonarli jihat",
+      "definitionEn": "a positive development"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "ability",
+      "partOfSpeech": "noun",
+      "translationUz": "qobiliyat",
+      "definitionEn": "capacity to accomplish something"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "develop",
+      "partOfSpeech": "verb",
+      "translationUz": "shakllantirmoq",
+      "definitionEn": "improve a skill over time"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "skilled",
+      "partOfSpeech": "adjective",
+      "translationUz": "mahoratli",
+      "definitionEn": "having strong practical abilities"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "handling",
+      "partOfSpeech": "verb",
+      "translationUz": "bartaraf etish",
+      "definitionEn": "dealing effectively with problems"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "possible",
+      "partOfSpeech": "adjective",
+      "translationUz": "ehtimoliy",
+      "definitionEn": "capable of happening"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "actual",
+      "partOfSpeech": "adjective",
+      "translationUz": "mavjud",
+      "definitionEn": "currently real"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "relevant",
+      "partOfSpeech": "adjective",
+      "translationUz": "ahamiyatli",
+      "definitionEn": "important to the circumstances"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "incentives",
+      "partOfSpeech": "noun",
+      "translationUz": "rag‘batlar",
+      "definitionEn": "reasons encouraging action"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "encourage",
+      "partOfSpeech": "verb",
+      "translationUz": "undamoq",
+      "definitionEn": "motivate someone to act"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "key",
+      "partOfSpeech": "noun",
+      "translationUz": "eng muhim jihat",
+      "definitionEn": "the essential factor"
+    },
+    {
+      "testNo": 5,
+      "passageNo": 3,
+      "surface": "flexible",
+      "partOfSpeech": "adjective",
+      "translationUz": "moslashuvchan",
+      "definitionEn": "able to adjust to changing needs"
+    }
+  ]
+}
