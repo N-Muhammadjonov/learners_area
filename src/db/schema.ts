@@ -3929,7 +3929,7 @@ export const financeJournalLines = pgTable("finance_journal_lines", {
   entryId: uuid("entry_id").notNull().references(() => financeJournalEntries.id, { onDelete: "restrict" }),
   accountId: uuid("account_id").notNull().references(() => financeAccounts.id, { onDelete: "restrict" }),
   direction: varchar("direction", { length: 6 }).notNull(),
-  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
   currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, table => [
@@ -3944,7 +3944,7 @@ export const tuitionContracts = pgTable("tuition_contracts", {
   courseId: uuid("course_id").references(() => courses.id, { onDelete: "set null" }),
   status: varchar("status", { length: 12 }).notNull().default("draft"),
   currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
-  monthlyAmountMinor: bigint("monthly_amount_minor", { mode: "number" }).notNull(),
+  monthlyAmountMinor: bigint("monthly_amount_minor", { mode: "bigint" }).notNull(),
   termMonths: integer("term_months").notNull().default(1),
   startsOn: date("starts_on").notNull(),
   endsOn: date("ends_on"),
@@ -3962,7 +3962,7 @@ export const tuitionContractDiscounts = pgTable("tuition_contract_discounts", {
   id: uuid("id").defaultRandom().primaryKey(),
   contractId: uuid("contract_id").notNull().references(() => tuitionContracts.id, { onDelete: "cascade" }),
   periodKey: varchar("period_key", { length: 7 }).notNull(),
-  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
   reason: varchar("reason", { length: 200 }).notNull(),
   approvedBy: uuid("approved_by").notNull().references(() => users.id, { onDelete: "restrict" }),
   approvedAt: timestamp("approved_at", { withTimezone: true }).defaultNow().notNull(),
@@ -3975,9 +3975,13 @@ export const tuitionCharges = pgTable("tuition_charges", {
   studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
   periodKey: varchar("period_key", { length: 7 }).notNull(),
   currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
-  grossAmountMinor: bigint("gross_amount_minor", { mode: "number" }).notNull(),
-  discountAmountMinor: bigint("discount_amount_minor", { mode: "number" }).notNull().default(0),
-  netAmountMinor: bigint("net_amount_minor", { mode: "number" }).notNull(),
+  grossAmountMinor: bigint("gross_amount_minor", { mode: "bigint" }).notNull(),
+  discountAmountMinor: bigint("discount_amount_minor", { mode: "bigint" }).notNull().default(0n),
+  netAmountMinor: bigint("net_amount_minor", { mode: "bigint" }).notNull(),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  discountLockedAt: timestamp("discount_locked_at", { withTimezone: true }),
+  discountLockedMinor: bigint("discount_locked_minor", { mode: "bigint" }),
   status: varchar("status", { length: 10 }).notNull().default("draft"),
   isReversal: boolean("is_reversal").notNull().default(false),
   originalChargeId: uuid("original_charge_id"),
@@ -3996,7 +4000,7 @@ export const tuitionPayments = pgTable("tuition_payments", {
   id: uuid("id").defaultRandom().primaryKey(),
   studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
   currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
-  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
   method: varchar("method", { length: 12 }).notNull().default("cash"),
   provider: varchar("provider", { length: 20 }),
   providerTransactionId: varchar("provider_transaction_id", { length: 80 }),
@@ -4006,6 +4010,7 @@ export const tuitionPayments = pgTable("tuition_payments", {
   receiptPurpose: varchar("receipt_purpose", { length: 120 }),
   operatorUserId: uuid("operator_user_id").references(() => users.id, { onDelete: "set null" }),
   payerName: varchar("payer_name", { length: 160 }),
+  identityFingerprint: varchar("identity_fingerprint", { length: 64 }),
   occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
   confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -4020,7 +4025,7 @@ export const tuitionPaymentAllocations = pgTable("tuition_payment_allocations", 
   id: uuid("id").defaultRandom().primaryKey(),
   paymentId: uuid("payment_id").notNull().references(() => tuitionPayments.id, { onDelete: "restrict" }),
   chargeId: uuid("charge_id").notNull().references(() => tuitionCharges.id, { onDelete: "restrict" }),
-  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
   isReversal: boolean("is_reversal").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, table => [
@@ -4033,29 +4038,41 @@ export const tuitionRefunds = pgTable("tuition_refunds", {
   paymentId: uuid("payment_id").notNull().references(() => tuitionPayments.id, { onDelete: "restrict" }),
   studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
   currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
-  amountMinor: bigint("amount_minor", { mode: "number" }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
   method: varchar("method", { length: 12 }).notNull().default("cash"),
   reason: varchar("reason", { length: 200 }).notNull(),
   authorizedBy: uuid("authorized_by").notNull().references(() => users.id, { onDelete: "restrict" }),
   providerRefundId: varchar("provider_refund_id", { length: 80 }),
   providerRefundState: varchar("provider_refund_state", { length: 20 }).notNull().default("internal"),
+  status: varchar("status", { length: 12 }).notNull().default("settled"),
+  effectiveOn: date("effective_on").notNull().defaultNow(),
+  effectivePeriod: varchar("effective_period", { length: 7 }),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  settledAt: timestamp("settled_at", { withTimezone: true }),
+  failureReason: varchar("failure_reason", { length: 300 }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 }, table => [
   uniqueIndex("tuition_refunds_provider_uidx").on(table.providerRefundId),
   index("tuition_refunds_payment_idx").on(table.paymentId, table.createdAt),
+  index("tuition_refunds_settled_effective_idx").on(table.effectiveOn),
 ]);
 
 export const cashReceiptSequences = pgTable("cash_receipt_sequences", {
   periodKey: varchar("period_key", { length: 7 }).primaryKey(),
-  nextValue: bigint("next_value", { mode: "number" }).notNull().default(1),
+  nextValue: bigint("next_value", { mode: "bigint" }).notNull().default(1n),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const cashDayCloses = pgTable("cash_day_closes", {
   businessDate: date("business_date").primaryKey(),
-  expectedMinor: bigint("expected_minor", { mode: "number" }).notNull(),
-  countedMinor: bigint("counted_minor", { mode: "number" }).notNull(),
-  varianceMinor: bigint("variance_minor", { mode: "number" }).notNull(),
+  expectedMinor: bigint("expected_minor", { mode: "bigint" }).notNull(),
+  countedMinor: bigint("counted_minor", { mode: "bigint" }).notNull(),
+  varianceMinor: bigint("variance_minor", { mode: "bigint" }).notNull(),
+  openingMinor: bigint("opening_minor", { mode: "bigint" }).notNull().default(0n),
+  receiptsMinor: bigint("receipts_minor", { mode: "bigint" }).notNull().default(0n),
+  refundsMinor: bigint("refunds_minor", { mode: "bigint" }).notNull().default(0n),
+  adjustmentsMinor: bigint("adjustments_minor", { mode: "bigint" }).notNull().default(0n),
   reason: varchar("reason", { length: 300 }),
   closedBy: uuid("closed_by").notNull().references(() => users.id, { onDelete: "restrict" }),
   closedAt: timestamp("closed_at", { withTimezone: true }).defaultNow().notNull(),
@@ -4067,3 +4084,79 @@ export const financeClosedPeriods = pgTable("finance_closed_periods", {
   closedAt: timestamp("closed_at", { withTimezone: true }).defaultNow().notNull(),
   reason: varchar("reason", { length: 300 }),
 });
+
+// ---------------------------------------------------------------------------
+// Tuition finance: relief, audit and outbox (migrations 1116-1118)
+//
+// Money columns are BigInt, never `number`: a JS double is exact only to 2^53 and a bigint
+// column holds far more, so `mode: "number"` would silently round a balance.
+// ---------------------------------------------------------------------------
+
+/** Relief against a charge that is already posted. Its own document, its own approval. */
+export const tuitionCreditNotes = pgTable("tuition_credit_notes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  chargeId: uuid("charge_id").notNull().references(() => tuitionCharges.id, { onDelete: "restrict" }),
+  contractId: uuid("contract_id").references(() => tuitionContracts.id, { onDelete: "set null" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  status: varchar("status", { length: 10 }).notNull().default("draft"),
+  reason: varchar("reason", { length: 300 }).notNull(),
+  requestedBy: uuid("requested_by").references(() => users.id, { onDelete: "set null" }),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  postedAt: timestamp("posted_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("tuition_credit_notes_charge_idx").on(table.chargeId),
+  uniqueIndex("tuition_credit_notes_one_live_per_charge_period").on(table.chargeId, table.periodKey),
+]);
+
+/** An approved intraday cash movement that is neither a receipt nor a refund. */
+export const cashDayAdjustments = pgTable("cash_day_adjustments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  businessDate: date("business_date").notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  reason: varchar("reason", { length: 300 }).notNull(),
+  requestedBy: uuid("requested_by").references(() => users.id, { onDelete: "set null" }),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("cash_day_adjustments_date_idx").on(table.businessDate),
+]);
+
+/** Immutable record of every sensitive financial action: who, why, when, from which request. */
+export const financeAuditEvents = pgTable("finance_audit_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  action: varchar("action", { length: 60 }).notNull(),
+  subjectType: varchar("subject_type", { length: 40 }).notNull(),
+  subjectId: uuid("subject_id"),
+  periodKey: varchar("period_key", { length: 7 }),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  reason: varchar("reason", { length: 300 }),
+  requestId: varchar("request_id", { length: 80 }),
+  detail: jsonb("detail").notNull().default(sql`'{}'::jsonb`),
+}, table => [
+  index("finance_audit_events_subject_idx").on(table.subjectType, table.subjectId),
+  index("finance_audit_events_period_idx").on(table.periodKey),
+]);
+
+/** External side effects published from the same transaction that wrote the money. */
+export const financeOutboxEvents = pgTable("finance_outbox_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  topic: varchar("topic", { length: 60 }).notNull(),
+  aggregateType: varchar("aggregate_type", { length: 40 }).notNull(),
+  aggregateId: uuid("aggregate_id"),
+  payload: jsonb("payload").notNull().default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+  attempts: integer("attempts").notNull().default(0),
+  lastError: varchar("last_error", { length: 500 }),
+}, table => [
+  index("finance_outbox_events_unpublished_idx").on(table.createdAt),
+]);

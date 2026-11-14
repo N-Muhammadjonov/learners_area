@@ -39,6 +39,9 @@ WRITE_ROLES = ('owner', 'admin')
 #: Approvals are an owner act: separation of duties is enforced in the ledger too.
 OWNER_ONLY = ('owner',)
 READ_ROLES = ('owner', 'admin', 'teacher')
+#: Who may see actual money: amounts, payers, receipts, refunds. A teaching link is not on
+#: this list (FIN-12) - see `student_tuition_status` for what a teacher may see instead.
+MONEY_READ_ROLES = ('owner', 'admin')
 MAX_NOTE = 300
 
 
@@ -683,6 +686,34 @@ async def reconciliation(req: Request):
 
 @router.get('/api/staff/finance/students/{studentId}/statement')
 async def student_statement(req: Request, studentId: str):
+    """A full financial statement: charges, payments, receipts, refunds, balances.
+
+    FIN-12: default-deny for teachers. Being assigned to teach a student is not authority
+    over that family's finances, and the buyer has not granted it, so a linked student's
+    payer details are refused rather than narrowed. The coarse indicator route below is the
+    only financial fact a teacher may see.
+    """
+    user, denied = await actor(req, MONEY_READ_ROLES)
+    if denied:
+        return denied
+    student_id = uuid_val(studentId)
+    if not student_id:
+        return err('student_not_found', 404)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        statement = await ledger.student_statement(conn, student_id)
+    return core.j(serialize(statement), headers=PRIVATE)
+
+
+@router.get('/api/staff/finance/students/{studentId}/tuition-status')
+async def student_tuition_status(req: Request, studentId: str):
+    """The minimum financial indicator a teacher needs: is there an unpaid balance?
+
+    Amount-free and payer-free on purpose. It answers the one question with a pedagogical
+    consequence - a student who has stopped paying may also have stopped attending - without
+    turning a teaching link into financial access. Scope is still enforced: an unlinked
+    student is indistinguishable from a student who does not exist.
+    """
     user, denied = await actor(req, READ_ROLES)
     if denied:
         return denied
@@ -691,11 +722,18 @@ async def student_statement(req: Request, studentId: str):
         return err('student_not_found', 404)
     db = await core.pool()
     async with db.acquire() as conn:
-        if user['role'] == 'teacher' and not await _teacher_may_read(conn, user['id'], student_id):
+        if user['role'] not in MONEY_READ_ROLES and not await _teacher_may_read(
+                conn, user['id'], student_id):
             # Same shape as a missing student: no cross-scope information disclosure.
             return core.j({'error': 'student_not_found'}, 404, PRIVATE)
-        statement = await ledger.student_statement(conn, student_id)
-    return core.j(serialize(statement), headers=PRIVATE)
+        position = await ledger.student_position(conn, student_id)
+    if position['overdueMinor'] > 0:
+        status = 'overdue'
+    elif position['balanceDueMinor'] > 0:
+        status = 'outstanding'
+    else:
+        status = 'clear'
+    return core.j({'studentUserId': studentId, 'balanceStatus': status}, headers=PRIVATE)
 
 
 @router.get('/api/finance/me')

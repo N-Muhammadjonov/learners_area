@@ -339,6 +339,11 @@ async def create_contract(conn, *, actor_user_id, student_user_id, monthly_amoun
            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *''',
         student_user_id, course_id, amount, CURRENCY, term_months, starts_on, ends_on, note,
         actor_user_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='contract_created',
+                 subject_type='tuition_contract', subject_id=row['id'], amount_minor=amount,
+                 reason=note, detail={'studentUserId': str(student_user_id),
+                                      'termMonths': term_months,
+                                      'startsOn': str(starts_on)})
     return dict(row)
 
 
@@ -350,6 +355,10 @@ async def approve_contract(conn, *, actor_user_id, contract_id):
     updated = await conn.fetchrow(
         '''UPDATE tuition_contracts SET status='approved', approved_by=$2, approved_at=now(),
              updated_at=now() WHERE id=$1 RETURNING *''', contract_id, actor_user_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='contract_approved',
+                 subject_type='tuition_contract', subject_id=contract_id,
+                 amount_minor=updated['monthly_amount_minor'],
+                 detail={'studentUserId': str(updated['student_user_id'])})
     return dict(updated)
 
 
@@ -361,6 +370,9 @@ async def activate_contract(conn, *, actor_user_id, contract_id):
     updated = await conn.fetchrow(
         "UPDATE tuition_contracts SET status='active', updated_at=now() WHERE id=$1 RETURNING *",
         contract_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='contract_activated',
+                 subject_type='tuition_contract', subject_id=contract_id,
+                 amount_minor=updated['monthly_amount_minor'])
     return dict(updated)
 
 
@@ -388,6 +400,10 @@ async def add_discount(conn, *, actor_user_id, contract_id, period, amount_minor
                  (contract_id, period_key, amount_minor, reason, approved_by)
                VALUES ($1,$2,$3,$4,$5) RETURNING *''',
             contract_id, period, amount, reason.strip()[:200], actor_user_id)
+        await _audit(conn, actor_user_id=actor_user_id, action='discount_added',
+                     subject_type='tuition_contract_discount', subject_id=row['id'],
+                     period=period, amount_minor=amount, reason=reason.strip()[:300],
+                     detail={'contractId': str(contract_id)})
     except Exception as exc:  # UNIQUE (contract_id, period_key)
         if getattr(exc, 'sqlstate', None) == '23505':
             raise LedgerError('discount_already_approved_for_period', 409, periodKey=period) from exc
@@ -437,6 +453,12 @@ async def create_charge(conn, *, actor_user_id, student_user_id, period, due_dat
                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *''',
             contract_id, student_user_id, period, CURRENCY, gross, discount, gross - discount,
             due_date, actor_user_id)
+        await _audit(conn, actor_user_id=actor_user_id, action='charge_created',
+                     subject_type='tuition_charge', subject_id=row['id'], period=period,
+                     amount_minor=gross - discount,
+                     detail={'grossMinor': gross, 'discountMinor': discount,
+                             'contractId': str(contract_id) if contract_id else None,
+                             'dueDate': str(due_date)})
     except asyncpg.UniqueViolationError:
         # The partial unique index on (contract_id, period_key) is the real guard: two
         # schedulers racing the same monthly job cannot both insert. Reporting it as a
@@ -505,6 +527,10 @@ async def approve_charge(conn, *, actor_user_id, charge_id):
     updated = await conn.fetchrow(
         "UPDATE tuition_charges SET status='approved', approved_by=$2, approved_at=now()"
         ' WHERE id=$1 RETURNING *', charge_id, actor_user_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='charge_approved',
+                 subject_type='tuition_charge', subject_id=charge_id,
+                 period=updated['period_key'], amount_minor=updated['net_amount_minor'],
+                 detail={'draftedBy': str(charge['created_by']) if charge['created_by'] else None})
     return dict(updated)
 
 
@@ -533,6 +559,10 @@ async def post_charge(conn, *, actor_user_id, charge_id):
         "UPDATE tuition_charges SET status='posted', posted_at=now(), posted_by=$2,"
         ' discount_locked_at=now(), discount_locked_minor=discount_amount_minor'
         ' WHERE id=$1 RETURNING *', charge_id, actor_user_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='charge_posted',
+                 subject_type='tuition_charge', subject_id=charge_id,
+                 period=updated['period_key'], amount_minor=updated['net_amount_minor'],
+                 detail={'approvedBy': str(charge['approved_by']) if charge['approved_by'] else None})
     return dict(updated)
 
 
@@ -750,6 +780,13 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
             raise
         return dict(winner), [], True
 
+    await _audit(conn, actor_user_id=actor_user_id, action='payment_recorded',
+                 subject_type='tuition_payment', subject_id=payment['id'],
+                 period=period_key(moment), amount_minor=amount, reason=receipt_purpose,
+                 detail={'method': method, 'provider': provider,
+                         'providerTransactionId': provider_transaction_id,
+                         'status': payment['status'],
+                         'idempotencyKey': idempotency_key})
     if not confirm:
         # Unconfirmed provider intent: no allocation, no journal. A redirect is not money.
         return dict(payment), [], False
@@ -838,6 +875,22 @@ async def confirm_provider_payment(conn, *, provider, provider_transaction_id, p
         memo=f'{provider} settlement {provider_transaction_id}',
         period=period_key(settled['confirmed_at']), lines=lines,
         occurred_at=settled['confirmed_at'])
+    # The money is real now, so anything that must happen outside this process is queued in
+    # the same transaction. Delivery is a separate worker's job and is never reported as done
+    # here: an unverified provider job must not look like a success.
+    await _publish_outbox(conn, topic='provider.settled', aggregate_type='tuition_payment',
+                          aggregate_id=settled['id'],
+                          payload={'studentUserId': str(settled['student_user_id']),
+                                   'amountMinor': settled['amount_minor'],
+                                   'currency': settled['currency_code'], 'provider': provider,
+                                   'providerTransactionId': provider_transaction_id,
+                                   'settledAt': str(settled['confirmed_at'])})
+    await _audit(conn, actor_user_id=actor_user_id, action='provider_payment_settled',
+                 subject_type='tuition_payment', subject_id=settled['id'],
+                 period=period_key(settled['confirmed_at']),
+                 amount_minor=settled['amount_minor'],
+                 detail={'provider': provider,
+                         'providerTransactionId': provider_transaction_id})
     return dict(settled), [dict(row) for row in allocations], False
 
 
@@ -950,6 +1003,10 @@ async def request_refund(conn, *, actor_user_id, payment_id, amount_minor, reaso
         payment_id, payment['student_user_id'], payment['currency_code'], amount,
         method or payment['method'], reason.strip()[:200], actor_user_id, provider_refund_id,
         'internal', 'requested', moment.date(), period_key(moment))
+    await _audit(conn, actor_user_id=actor_user_id, action='refund_requested',
+                 subject_type='tuition_refund', subject_id=row['id'],
+                 period=period_key(moment), amount_minor=amount, reason=reason.strip()[:300],
+                 detail={'paymentId': str(payment_id), 'effectiveOn': str(moment.date())})
     return dict(row), False
 
 
@@ -965,6 +1022,10 @@ async def approve_refund(conn, *, actor_user_id, refund_id):
     updated = await conn.fetchrow(
         "UPDATE tuition_refunds SET status='approved', approved_by=$2, approved_at=now()"
         ' WHERE id=$1 RETURNING *', refund_id, actor_user_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='refund_approved',
+                 subject_type='tuition_refund', subject_id=refund_id,
+                 amount_minor=updated['amount_minor'], reason=updated['reason'],
+                 detail={'requestedBy': str(row['authorized_by'])})
     return dict(updated)
 
 
@@ -999,6 +1060,11 @@ async def settle_refund(conn, *, actor_user_id, refund_id):
     updated = await conn.fetchrow(
         "UPDATE tuition_refunds SET status='settled', settled_at=now() WHERE id=$1 RETURNING *",
         refund_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='refund_settled',
+                 subject_type='tuition_refund', subject_id=refund_id,
+                 period=row['effective_period'], amount_minor=row['amount_minor'],
+                 reason=row['reason'], detail={'method': row['method'],
+                                               'effectiveOn': str(row['effective_on'])})
     remaining = refunded - row['amount_minor']
     await conn.execute(
         'UPDATE tuition_payments SET status=$2 WHERE id=$1', row['payment_id'],
@@ -1048,6 +1114,10 @@ async def add_cash_adjustment(conn, *, actor_user_id, business_date, amount_mino
         'INSERT INTO cash_day_adjustments (business_date, amount_minor, reason, requested_by,'
         ' approved_by, approved_at) VALUES ($1,$2,$3,$4,$4,now()) RETURNING *',
         business_date, amount, reason.strip()[:300], actor_user_id)
+    await _audit(conn, actor_user_id=actor_user_id, action='cash_adjustment_added',
+                 subject_type='cash_day_adjustment', subject_id=row['id'],
+                 amount_minor=amount, reason=reason.strip()[:300],
+                 detail={'businessDate': str(business_date)})
     return dict(row)
 
 
@@ -1429,6 +1499,13 @@ async def close_day(conn, *, actor_user_id, business_date, counted_minor, reason
            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *''',
         business_date, expected, counted, counted - expected, reason, actor_user_id,
         opening, receipts, refunds, adjustments)
+    await _audit(conn, actor_user_id=actor_user_id, action='day_closed',
+                 subject_type='cash_day_close', subject_id=None,
+                 period=period_key(business_date), amount_minor=expected, reason=reason,
+                 detail={'countedMinor': counted, 'openingMinor': opening,
+                         'receiptsMinor': receipts, 'refundsMinor': refunds,
+                         'adjustmentsMinor': adjustments,
+                         'varianceMinor': counted - expected})
     return dict(row)
 
 
@@ -1439,16 +1516,72 @@ async def close_period(conn, *, actor_user_id, period, reason=None):
     row = await conn.fetchrow(
         'INSERT INTO finance_closed_periods(period_key, closed_by, reason) VALUES ($1,$2,$3) RETURNING *',
         period, actor_user_id, reason)
+    await _audit(conn, actor_user_id=actor_user_id, action='period_closed',
+                 subject_type='finance_closed_period', subject_id=None, period=period,
+                 reason=reason)
     return dict(row)
 
 
 async def journal_is_balanced(conn) -> dict:
-    """Reconciliation receipt: every journal transaction balances, across all history."""
+    """Reconciliation receipt: every journal transaction balances, within each currency.
+
+    Three things that a mixed-currency sum would hide are reported explicitly, because
+    "the totals matched" is not evidence that anything was recorded correctly:
+
+    * a transaction whose debits and credits only agree once different currencies are added
+      together;
+    * an entry with no lines at all - a posted document that recorded nothing;
+    * a line whose ``transaction_id`` does not match the entry it hangs off, so it is not part
+      of any reconcilable group.
+    """
     rows = await conn.fetch(
-        '''SELECT transaction_id,
-                  sum(amount_minor) FILTER (WHERE direction='debit')  AS debits,
-                  sum(amount_minor) FILTER (WHERE direction='credit') AS credits
-             FROM finance_journal_lines GROUP BY transaction_id''')
-    unbalanced = [str(row['transaction_id']) for row in rows
-                  if row['debits'] != row['credits']]
-    return {'transactions': len(rows), 'unbalanced': unbalanced, 'balanced': not unbalanced}
+        '''SELECT e.id AS entry_id, e.transaction_id AS entry_txn, l.transaction_id AS line_txn,
+                  l.currency_code, l.direction, l.amount_minor
+             FROM finance_journal_entries e
+             LEFT JOIN finance_journal_lines l ON l.entry_id = e.id''')
+    totals: dict = {}
+    detail = []
+    seen = set()
+    for row in rows:
+        if row['entry_id'] in seen:
+            pass
+        seen.add(row['entry_id'])
+        if row['line_txn'] is None:
+            detail.append({'transactionId': str(row['entry_txn']), 'currency': None,
+                           'reason': 'no_lines'})
+            continue
+        if row['line_txn'] != row['entry_txn']:
+            detail.append({'transactionId': str(row['entry_txn']), 'currency': None,
+                           'reason': 'line_transaction_mismatch'})
+            continue
+        bucket = totals.setdefault((row['entry_txn'], row['currency_code']),
+                                   {'debit': 0, 'credit': 0})
+        bucket[row['direction']] += int(row['amount_minor'])
+    unbalanced = []
+    for (transaction_id, currency), sides in sorted(totals.items(), key=str):
+        if sides['debit'] != sides['credit']:
+            unbalanced.append(str(transaction_id))
+            detail.append({'transactionId': str(transaction_id), 'currency': currency,
+                           'reason': 'currency_not_balanced', 'debits': sides['debit'],
+                           'credits': sides['credit']})
+    # A transaction can also be unbalanced because one currency balances and another does
+    # not; report the transaction once per offending currency, and list it once overall.
+    unbalanced = sorted(set(unbalanced) | {item['transactionId'] for item in detail})
+    return {'transactions': len({txn for txn, _ in totals} | {row['entry_txn'] for row in rows}),
+            'currencies': sorted({currency for _, currency in totals}),
+            'unbalanced': unbalanced, 'balanced': not unbalanced and not detail,
+            'detail': detail}
+
+
+async def _publish_outbox(conn, *, topic, aggregate_type, aggregate_id=None, payload=None):
+    """Queue an external side effect in the SAME transaction as the money it describes.
+
+    A provider settlement that has to notify a parent, update a projection or reconcile with
+    the vendor is published here rather than fired from the request handler: if the money
+    commits the event exists, and if it rolls back the event never existed. Delivery is a
+    separate concern and must never be reported as done from inside this call.
+    """
+    await conn.execute(
+        'INSERT INTO finance_outbox_events (topic, aggregate_type, aggregate_id, payload)'
+        ' VALUES ($1,$2,$3,$4::jsonb)', topic, aggregate_type, aggregate_id,
+        json.dumps(payload or {}, sort_keys=True, default=str))

@@ -7,6 +7,7 @@ boundaries are not discoverable by probing ids.
 """
 from __future__ import annotations
 
+import json
 import re
 from datetime import date
 from contextlib import asynccontextmanager
@@ -180,19 +181,45 @@ async def test_unauthenticated_callers_are_refused(as_role, monkeypatch):
 
 
 @pytest.mark.asyncio
-async def test_teacher_statement_is_scoped_to_linked_students(as_role):
+async def test_a_teacher_cannot_read_a_linked_students_financial_statement(as_role):
+    """FIN-12: default-deny. A teaching link is not authority over a family's finances.
+
+    The buyer has not granted staff financial access, so a linked student's payer details,
+    payments and refunds are refused - not merely narrowed. What a teacher may see is a
+    coarse, amount-free indicator, on a separate route, for the one pedagogically relevant
+    question: does this student have an unpaid balance that might explain an absence.
+    """
     linked = await as_role('teacher', 'GET', f'/api/staff/finance/students/{LINKED}/statement')
-    assert linked.status_code == 200
+    assert linked.status_code == 403, 'a teacher reached a financial statement'
+    for fragment in (b'amount', b'payment', b'refund', b'receipt'):
+        assert fragment not in linked.body.lower(), f'leaked {fragment!r}'
+
     unlinked = await as_role('teacher', 'GET', f'/api/staff/finance/students/{UNLINKED}/statement')
+    assert unlinked.status_code == 403, 'a teacher reached an unlinked student statement'
+
+    indicator = await as_role('teacher', 'GET',
+                              f'/api/staff/finance/students/{LINKED}/tuition-status')
+    assert indicator.status_code == 200
+    body = json.loads(indicator.body)
+    assert set(body) == {'studentUserId', 'balanceStatus'}, body
+    assert body['balanceStatus'] in ('clear', 'outstanding', 'overdue', 'unknown')
+
+    other = await as_role('teacher', 'GET',
+                          f'/api/staff/finance/students/{UNLINKED}/tuition-status')
     # Indistinguishable from a missing student: no hint that the id exists.
-    assert unlinked.status_code == 404
-    assert b'student_not_found' in unlinked.body
-    missing = await as_role('teacher', 'GET', '/api/staff/finance/students/not-a-uuid/statement')
-    assert missing.status_code == 404
+    assert other.status_code == 404
+    assert b'student_not_found' in other.body
 
 
 @pytest.mark.asyncio
-async def test_owner_and_admin_can_read_any_statement(as_role):
+async def test_owner_and_admin_keep_the_full_statement(as_role):
+    for role in ('owner', 'admin'):
+        full = await as_role(role, 'GET', f'/api/staff/finance/students/{LINKED}/statement')
+        assert full.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_owner_and_admin_can_read_any_statement(as_role):  # noqa: F811
     for role in ('owner', 'admin'):
         response = await as_role(role, 'GET', f'/api/staff/finance/students/{UNLINKED}/statement')
         assert response.status_code == 200

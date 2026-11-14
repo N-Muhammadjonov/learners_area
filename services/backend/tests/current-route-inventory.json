@@ -1646,6 +1646,11 @@
  },
  {
   "method": "GET",
+  "path": "/api/staff/finance/students/{studentId}/tuition-status",
+  "name": "student_tuition_status"
+ },
+ {
+  "method": "GET",
   "path": "/api/staff/finance/summary",
   "name": "finance_summary"
  },

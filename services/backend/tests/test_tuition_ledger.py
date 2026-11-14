@@ -1438,6 +1438,153 @@ async def test_approved_contract_terms_are_immutable(database):
                               draft['id']) == 550_000
 
 
+# ───── FIN-12: balance is per currency, and an empty entry is not balanced activity ─────
+async def _raw_lines(con, entry, lines, transaction_id=None):
+    """Insert journal lines as ONE transaction.
+
+    The 1115 balance guard is a DEFERRABLE constraint trigger, so it fires at COMMIT: an
+    intermediate half-written entry is legal inside a transaction and illegal outside one.
+    Posted lines can never be edited afterwards (append-only trigger), so any broken state a
+    test wants to examine has to be created here, at insert time.
+    """
+    async with con.transaction():
+        for account, direction, amount, currency in lines:
+            await con.execute(
+                'INSERT INTO finance_journal_lines (transaction_id, entry_id, account_id,'
+                ' direction, amount_minor, currency_code) VALUES ($1,$2,(SELECT id FROM'
+                " finance_accounts WHERE code=$3),$4,$5,$6)",
+                transaction_id or entry['transaction_id'], entry['id'], account, direction,
+                amount, currency)
+
+
+async def _raw_entry(con, source_type='manual'):
+    # source_id is NOT NULL: a journal entry always names the document behind it, which is
+    # itself part of what makes an entry auditable.
+    return await con.fetchrow(
+        'INSERT INTO finance_journal_entries (transaction_id, source_type, source_id, memo)'
+        ' VALUES (gen_random_uuid(),$1,gen_random_uuid(),$2) RETURNING id, transaction_id',
+        source_type, 'injected for a balance test')
+
+
+@pytest.mark.asyncio
+async def test_a_journal_entry_must_balance_within_each_currency(database):
+    """A USD debit and a UZS credit sum to the same total and are still nonsense."""
+    con, schema, people = database
+    entry = await _raw_entry(con)
+    # The 1115 guard only compares debit and credit TOTALS, so this commits: it is exactly the
+    # mixed-currency case that a summed check waves through and a per-currency check catches.
+    await _raw_lines(con, entry, [('accounts_receivable', 'debit', 100_000, 'USD'),
+                                  ('tuition_revenue', 'credit', 100_000, 'UZS')])
+    result = await ledger.journal_is_balanced(con)
+    assert result['balanced'] is False, 'mixed-currency totals were treated as balanced'
+    assert str(entry['transaction_id']) in result['unbalanced']
+    assert any(item['currency'] == 'USD' for item in result['detail']
+               if item['transactionId'] == str(entry['transaction_id']))
+
+
+@pytest.mark.asyncio
+async def test_an_empty_or_underlinked_entry_is_not_balanced_business_activity(database):
+    con, schema, people = database
+    empty = await _raw_entry(con)
+    underlinked = await _raw_entry(con)
+    # A balanced pair hanging off `underlinked`'s entry but stamped with a transaction id
+    # that belongs to no entry: the database guard sees a balanced group and passes it, while
+    # the entry itself is not part of any reconcilable transaction.
+    await _raw_lines(con, underlinked,
+                     [('accounts_receivable', 'debit', 50_000, 'UZS'),
+                      ('tuition_revenue', 'credit', 50_000, 'UZS')],
+                     transaction_id=uuid4())
+
+    result = await ledger.journal_is_balanced(con)
+    assert result['balanced'] is False
+    assert str(empty['transaction_id']) in result['unbalanced']
+    assert str(underlinked['transaction_id']) in result['unbalanced']
+    assert {item['reason'] for item in result['detail']} & {'no_lines', 'line_transaction_mismatch'}
+
+
+@pytest.mark.asyncio
+async def test_a_clean_ledger_reports_zero_unbalanced_and_says_what_it_checked(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    await ledger.record_payment(con, actor_user_id=people['admin'],
+                                student_user_id=people['student'], amount_minor=800_000)
+    result = await ledger.journal_is_balanced(con)
+    assert result['balanced'] is True and result['unbalanced'] == []
+    assert result['transactions'] == 2 and result['currencies'] == ['UZS']
+    assert result['detail'] == []
+
+
+# ──────────── FIN-12: every sensitive money action leaves an audit record ────────────
+@pytest.mark.asyncio
+async def test_each_sensitive_financial_action_is_audited(database):
+    con, schema, people = database
+    contract = await ledger.create_contract(con, actor_user_id=people['owner'],
+                                            student_user_id=people['student'],
+                                            monthly_amount_minor=800_000, starts_on=TODAY)
+    # A discount attaches to an approved contract, so approval comes first.
+    contract = await ledger.approve_contract(con, actor_user_id=people['owner'],
+                                             contract_id=contract['id'])
+    await ledger.activate_contract(con, actor_user_id=people['owner'], contract_id=contract['id'])
+    await ledger.add_discount(con, actor_user_id=people['owner'], contract_id=contract['id'],
+                              period=PERIOD, amount_minor=100_000, reason='Sibling discount')
+    charge = await ledger.create_charge(con, actor_user_id=people['admin'],
+                                        student_user_id=people['student'], period=PERIOD,
+                                        due_date=TODAY, gross_amount_minor=800_000,
+                                        contract_id=contract['id'])
+    await ledger.approve_charge(con, actor_user_id=people['owner'], charge_id=charge['id'])
+    await ledger.post_charge(con, actor_user_id=people['admin'], charge_id=charge['id'])
+    payment, _, _ = await ledger.record_payment(con, actor_user_id=people['admin'],
+                                                student_user_id=people['student'],
+                                                amount_minor=900_000)
+    refund, _ = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                            payment_id=payment['id'], amount_minor=100_000,
+                                            reason='Family withdrew')
+    await ledger.approve_refund(con, actor_user_id=people['owner'], refund_id=refund['id'])
+    await ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    await ledger.add_cash_adjustment(con, actor_user_id=people['owner'], business_date=TODAY,
+                                     amount_minor=-5_000, reason='Till correction')
+    await ledger.close_day(con, actor_user_id=people['owner'], business_date=TODAY,
+                           counted_minor=795_000)
+    await ledger.close_period(con, actor_user_id=people['owner'], period=PERIOD,
+                              reason='Month closed')
+
+    audited = {row['action'] for row in await con.fetch('SELECT action FROM finance_audit_events')}
+    for action in ('contract_created', 'discount_added', 'contract_approved', 'charge_created',
+                   'charge_approved', 'charge_posted', 'payment_recorded', 'refund_requested',
+                   'refund_approved', 'refund_settled', 'cash_adjustment_added', 'day_closed',
+                   'period_closed'):
+        assert action in audited, f'{action} was not audited; audited={sorted(audited)}'
+    # Every audit row names the actor that did it.
+    assert await con.fetchval(
+        'SELECT count(*) FROM finance_audit_events WHERE actor_user_id IS NULL') == 0
+
+
+@pytest.mark.asyncio
+async def test_settling_provider_money_publishes_an_outbox_event_in_the_same_transaction(database):
+    con, schema, people = database
+    contract = await approved_contract(con, people, monthly=800_000)
+    await posted_charge(con, people, contract=contract)
+    payment, _, _ = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=800_000, method='provider', provider='payme',
+        provider_transaction_id='PAYME-OUTBOX', idempotency_key='order-outbox')
+    proof = ledger.provider_proof(amount_minor=800_000, currency='UZS', status='paid',
+                                  order_ref='order-outbox', student_user_id=people['student'])
+    await ledger.confirm_provider_payment(con, provider='payme',
+                                          provider_transaction_id='PAYME-OUTBOX', proof=proof)
+    events = await con.fetch('SELECT topic, aggregate_type, payload, published_at'
+                             ' FROM finance_outbox_events')
+    assert len(events) == 1, 'a settled provider payment published no external event'
+    assert events[0]['topic'] == 'provider.settled'
+    assert events[0]['aggregate_type'] == 'tuition_payment'
+    assert events[0]['published_at'] is None, 'nothing has been delivered yet'
+    # A replay must not publish a second event.
+    await ledger.confirm_provider_payment(con, provider='payme',
+                                          provider_transaction_id='PAYME-OUTBOX', proof=proof)
+    assert await con.fetchval('SELECT count(*) FROM finance_outbox_events') == 1
+
+
 @pytest.mark.asyncio
 async def test_floats_are_rejected_for_money(database):
     con, schema, people = database
