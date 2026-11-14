@@ -25,7 +25,7 @@ export function mountGames(ctx,host,id=null){
   const button=head.querySelector('[data-game-restart]');if(button)button.disabled=true;
   try{
    const old=attempt;
-   const newAttempt=await request('/api/vocabulary/games/attempt',{method:'POST',body:{...scope(),action:'start',deck:old.deck,state:{}},signal:roundLife.signal});
+   const newAttempt=await request('/api/vocabulary/games',{method:'POST',body:{...scope(),action:'start',deck:old.deck,state:{}},signal:roundLife.signal});
    if(roundLife.signal.aborted)return;
    attempt=newAttempt.attempt;
    await load();
@@ -44,7 +44,7 @@ export function mountGames(ctx,host,id=null){
    if(roundSignal.aborted||current!==sequence)return;
    if(id==='cards'&&Number.isSafeInteger(data.batchIndex)){batch=data.batchIndex;address();}
    if(id){
-    const saved=await request('/api/vocabulary/games/attempt?'+params(scope()),{signal:roundSignal,timeoutMs:12000});
+    const saved=await request('/api/vocabulary/games?'+params({...scope(),attempt:1}),{signal:roundSignal,timeoutMs:12000});
     if(roundSignal.aborted||current!==sequence)return;
     attempt=saved.attempt??null;
     if(attempt&&id!=='cards'){
@@ -61,7 +61,7 @@ export function mountGames(ctx,host,id=null){
    }
    if(!words.length){renderHead(data);game.replaceChildren(h('p',{class:'card p-4 text-sm text-ink-500',role:'status','data-game-empty':''},data.total?g.noEligible:g.noWordsInSet));return;}
    if(!attempt){
-    const created=await request('/api/vocabulary/games/attempt',{method:'POST',body:{...scope(),action:'start',deck:words.map(w=>w.id),state:{}},signal:roundSignal,timeoutMs:12000});
+    const created=await request('/api/vocabulary/games',{method:'POST',body:{...scope(),action:'start',deck:words.map(w=>w.id),state:{}},signal:roundSignal,timeoutMs:12000});
     if(roundSignal.aborted||current!==sequence)return;
     attempt=created.attempt;
    }
@@ -71,7 +71,7 @@ export function mountGames(ctx,host,id=null){
    const save=state=>{
     saveQueue=saveQueue.catch(()=>null).then(async()=>{
      if(roundSignal.aborted||current!==sequence)return false;
-     const payload=await request('/api/vocabulary/games/attempt',{method:'POST',body:{...scope(),action:'save',attemptId:attempt.attemptId,revision:attempt.revision,state},signal:roundSignal,timeoutMs:12000});
+     const payload=await request('/api/vocabulary/games',{method:'POST',body:{...scope(),action:'save',attemptId:attempt.attemptId,revision:attempt.revision,state},signal:roundSignal,timeoutMs:12000});
      if(roundSignal.aborted||current!==sequence)return false;
      attempt=payload.attempt;return true;
     });
