@@ -1,5 +1,6 @@
 """Reading catalogue, owned attempts and explicit learning-check hydration."""
 from .reading_presentation import for_passage
+from .reading_lexical_policy import is_verified_reading_gloss
 from .reading_draft import draft_hash
 import hashlib
 import math
@@ -63,13 +64,26 @@ def public_question(row, reveal=False):
     return r if reveal else {k:v for k,v in r.items() if k not in SECRET}
 
 
-async def section(con, passage_id, reveal=False):
+async def section(con, passage_id, reveal=False, inline_glosses=False):
     passage = await con.fetchrow('SELECT * FROM reading_passages WHERE id=$1',passage_id)
     if not passage: raise HTTPException(404,'not_found')
     questions = await con.fetch('SELECT * FROM reading_questions WHERE passage_id=$1 ORDER BY "order",id',passage_id)
     groups = await con.fetch('SELECT * FROM reading_question_groups WHERE passage_id=$1 ORDER BY position,id',passage_id)
     paragraphs = await con.fetch('SELECT * FROM reading_passage_paragraphs WHERE passage_id=$1 ORDER BY position,id',passage_id)
-    occurrences = await con.fetch('SELECT id,start_char,end_char,surface_form FROM lexical_occurrences WHERE passage_id=$1',passage_id)
+    if inline_glosses:
+        occurrence_rows = await con.fetch('''SELECT o.id,o.start_char,o.end_char,o.surface_form,
+           l.definition_en,l.translation_uz,l.part_of_speech
+           FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
+           WHERE o.passage_id=$1 AND o.resolution_status='resolved'
+           ORDER BY o.start_char,o.end_char,o.id''', passage_id)
+        occurrences = [
+            {'id':row['id'],'start_char':row['start_char'],'end_char':row['end_char'],
+             'surface_form':row['surface_form'],'definition_en':row['definition_en'],
+             'translation_uz':row['translation_uz'],'part_of_speech':row['part_of_speech']}
+            for row in occurrence_rows if is_verified_reading_gloss(passage['body_text'],row)
+        ]
+    else:
+        occurrences = await con.fetch('SELECT id,start_char,end_char,surface_form FROM lexical_occurrences WHERE passage_id=$1',passage_id)
     layout=for_passage(passage_id)
     group_rows=[{**camel(r),**({'sourceHtml':layout['groups'][str(r['id'])]} if str(r['id']) in layout.get('groups',{}) else {})} for r in groups]
     return {'passage':{**camel(passage),**({'sourceHtml':layout['passageHtml']} if layout.get('passageHtml') else {})},'questions':[public_question(r,reveal) for r in questions],'groups':group_rows,'paragraphs':[camel(r) for r in paragraphs],'occurrences':[camel(r) for r in occurrences]}
@@ -225,7 +239,7 @@ async def read(req, user, path, q):
                 return {'set':camel({k:row[k] for k in ('id','title','description')}),'passages':[{'passageNo':s['passage_no'],'title':await con.fetchval('SELECT title FROM reading_passages WHERE id=$1',s['passage_id'])} for s in slots]}
             passages, progress = [], {}
             for slot in slots:
-                s = await section(con,slot['passage_id'])
+                s = await section(con,slot['passage_id'],inline_glosses=True)
                 p = s['passage']; pid = p['id']
                 saved = await con.fetchrow('SELECT * FROM general_reading_progress WHERE user_id=$1 AND passage_id=$2',uid,pid)
                 if saved:

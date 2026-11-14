@@ -40,6 +40,16 @@ async def add_batch(con,user_id,items,*,topic_pack=None,source_type='manual',sou
            ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id''',user_id,'TED : '+title)
     if not folder_id and source_type in ('reading','listening','retention'):
         name=source_type.capitalize()
+        if source_type == 'reading':
+            # Obtain the canonical passage title on the server. No client-side
+            # folder name is trusted, and existing named folders are reused.
+            title=await con.fetchval('SELECT title FROM reading_passages WHERE id=$1',source_id)
+            if not title:
+                title=await con.fetchval('''SELECT p.title FROM reading_attempts a
+                    JOIN reading_passages p ON p.id=a.passage_id
+                    WHERE a.id=$1 AND a.user_id=$2''',source_id,user_id)
+            if not title:return {'ok':False,'error':'source_not_found'}
+            name=title[:200]
         folder_id=await con.fetchval('''INSERT INTO vocab_folders(user_id,name) VALUES($1,$2)
            ON CONFLICT(user_id,name) DO UPDATE SET name=excluded.name RETURNING id''',user_id,name)
     collapsed={}
