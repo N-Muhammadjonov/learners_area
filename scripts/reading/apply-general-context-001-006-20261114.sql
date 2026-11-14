@@ -135,7 +135,7 @@ BEGIN
       (language,lemma,lemma_norm,part_of_speech,lexical_type,
        is_function_word,provenance)
       VALUES('en',v_item.surface,v_word,v_part,v_lexical_type,false,
-             'general_reading_context')
+             'reading_context')
       ON CONFLICT(language,lemma_norm,part_of_speech,lexical_type) DO NOTHING;
     SELECT id INTO STRICT v_unit_id FROM lexical_units
       WHERE language='en' AND lemma_norm=v_word
@@ -163,7 +163,7 @@ BEGIN
         (term,part_of_speech,definition_en,translation_uz,example_sentence,
          lexical_unit_id,sense_key,provenance,verification_status,import_batch)
         VALUES(v_item.surface,v_item.pos,v_item.definition,v_item.uz,
-               NULL,v_unit_id,v_sense_key,'general_reading_context',
+               NULL,v_unit_id,v_sense_key,'reading_context',
                'context_checked','20261114-passages-001-006')
         ON CONFLICT(sense_key) DO NOTHING
         RETURNING id INTO v_lexeme_id;
