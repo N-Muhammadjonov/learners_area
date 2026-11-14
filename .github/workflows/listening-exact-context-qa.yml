@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - fix/listening-full-lexical-coverage-popover-20261114
+      - fix/listening-lexical-root-cause-20261114
     paths:
       - '.github/workflows/listening-exact-context-qa.yml'
       - 'frontend/vanilla/modules/listening/**'
@@ -13,6 +14,12 @@ on:
       - 'services/backend/migrations/0105_listening_9_16_verified_words.sql'
       - 'services/backend/migrations/0106_listening_17_24_verified_words.sql'
       - 'services/backend/migrations/0107_listening_25_32_verified_words.sql'
+      - 'services/backend/migrations/1110_listening_1_8_morphology.sql'
+      - 'services/backend/migrations/1111_listening_9_16_morphology.sql'
+      - 'services/backend/migrations/1112_listening_17_24_morphology.sql'
+      - 'services/backend/migrations/1113_listening_25_32_morphology.sql'
+      - 'services/backend/migrations/0108_listening_test1_missing_contextual_words.sql'
+      - 'services/backend/migrations/1114_listening_grammar_and_once_context.sql'
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,10 +40,11 @@ jobs:
           node --check frontend/vanilla/modules/listening/script-v37.js
           node --check frontend/vanilla/modules/listening/authored.js
           node --check frontend/vanilla/modules/listening/authored-progressive.js
+          node --check frontend/vanilla/tests/listening-screenshot-root-coverage.test.mjs
           node --check frontend/vanilla/tests/listening-context-script-coverage.test.mjs
       - name: Verify Listening originals, source spans and popup behavior
         working-directory: frontend/vanilla
-        run: node --test tests/listening-context-script-coverage.test.mjs tests/listening-local-contextual-meanings.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs
+        run: node --test tests/listening-context-script-coverage.test.mjs tests/listening-local-contextual-meanings.test.mjs tests/listening-first-three-contextual.test.mjs tests/listening-next-three-contextual.test.mjs tests/listening-tests-7-11-contextual.test.mjs tests/listening-tests-12-16-contextual.test.mjs tests/listening-script-occurrence-v44.test.mjs tests/listening-original-entry.test.mjs tests/listening-all-source-layouts.test.mjs tests/listening-screenshot-root-coverage.test.mjs
   backend:
     runs-on: ubuntu-latest
     timeout-minutes: 15

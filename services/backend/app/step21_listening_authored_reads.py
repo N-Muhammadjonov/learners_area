@@ -151,6 +151,17 @@ async def authored(req:Request,id:str):
                 if (not isinstance(transcript,str) or not 0<=start<end<=js_length(transcript)
                     or js_slice(transcript,start,end)!=surface):
                     continue
+                # Determiners, conjunctions, numerals and discourse fillers
+                # are grammar, not contextual vocabulary, even when an older
+                # lexical snapshot has tagged them as adjectives or adverbs.
+                function_tokens={
+                    'all','some','any','each','every','few','many','several',
+                    'both','either','neither','another','other','these','those',
+                    'before','after','until','since','therefore','however',
+                    'first','second','third','fourth','fifth',
+                }
+                if is_function(surface) or surface.lower() in function_tokens:
+                    continue
                 if any(start<name_end and end>name_start
                        for name_start,name_end in name_spans.get(part,())):
                     continue
