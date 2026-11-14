@@ -131,3 +131,34 @@ cd services/backend
 
 Expected: 44 passed. If PostgreSQL is not reachable at `127.0.0.1:55439`, the 18 database tests
 report `xfail` with `Disposable Postgres … unavailable` — that is a skipped proof, **not** a pass.
+
+## 8. CI state — red on `main` before this branch
+
+The full `ci.yml` ("Full stability regression") is **already failing on the base commit**, so
+this PR does not introduce the failure:
+
+| Run | Ref | Jobs | Conclusion |
+|---|---|---|---|
+| `43602692235` | `main` @ `344e538` (the base of this branch) | `backend`, `frontend` | **failure** (both, exit code 1) |
+| PR #189 run `43609593263` | `arena/c9f21950-learners-area` | `backend`, `frontend` | failure — same two jobs |
+| PR #189 run `43609593183` | same | `backend`, `frontend` (subset workflows) | **pass** |
+| PR #189 run `43609593180` | same | `backend-coin`, `bot`, `browser` | **pass** |
+
+Verified with:
+
+```bash
+gh api "repos/N-Muhammadjonov/learners_area/actions/workflows/ci.yml/runs?branch=main&per_page=3"
+# → {"conclusion":"failure","created_at":"2026-11-14T14:01:37Z","head_sha":"344e538"}
+gh api "repos/N-Muhammadjonov/learners_area/actions/runs/43602692235/jobs"
+# → backend: failure (job 132470647662) · frontend: failure (job 132470648061)
+```
+
+Check-run annotations only report `Process completed with exit code 1`; the log archive host
+(`results-receiver.actions.githubusercontent.com`) is not reachable from this sandbox, so the CI
+failure list could not be read directly. The locally reproduced failures in §3 are the same
+content/asset defects and are the most likely cause; that inference is labelled as inference,
+not as a verified match.
+
+**Consequence for the merge gate:** `main` is red today. Fixing the five content/asset defects
+in §3 is the cheapest path to a green gate, and it is engineering work (not an owner action),
+so it belongs in the next slice rather than in `docs/SALE_READY_MANUAL_ACTIONS.md`.
