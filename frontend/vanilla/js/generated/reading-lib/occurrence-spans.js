@@ -3,9 +3,11 @@
  * Old imports with unknown segment-relative offsets fail closed instead of
  * silently attaching a meaning to a different occurrence of the same spelling.
  */
-export function occurrenceSpans(body, renderedText, rows) {
-    const base = body === renderedText ? 0 : body.indexOf(renderedText);
-    if (base < 0 || (body !== renderedText && body.indexOf(renderedText, base + 1) >= 0))
+export function occurrenceSpans(body, renderedText, rows, sourceStart) {
+    const positioned = Number.isSafeInteger(sourceStart) && sourceStart >= 0;
+    const base = positioned ? sourceStart : body === renderedText ? 0 : body.indexOf(renderedText);
+    if (base < 0 || body.slice(base, base + renderedText.length) !== renderedText
+        || (!positioned && body !== renderedText && body.indexOf(renderedText, base + 1) >= 0))
         return [];
     return rows.filter((row) => row.startChar >= base && row.endChar <= base + renderedText.length && row.endChar > row.startChar
         && body.slice(row.startChar, row.endChar).toLowerCase() === row.surfaceForm.toLowerCase())

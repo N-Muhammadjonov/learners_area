@@ -16,6 +16,6 @@ test('only pronouns are excluded from verified Reading word candidates',()=>{
  assert.match(source,/const READING_PRONOUNS=new Set/);
  assert.match(source,/sourceType==='reading'&&verifiedOnly\?READING_PRONOUNS\.has\(normalized\):BASIC_WORDS\.has\(normalized\)/);
  assert.match(source,/!isExcludedLexicalWord\(t,sourceType,verifiedOnly\)/);
- assert.match(source,/!verifiedOnly\|\|phraseTarget\(text,t,occurrences\)\.occurrence/);
+ assert.match(source,/!verifiedOnly\|\|target\(i\)\.occurrence/);
  assert.match(source,/if\(verifiedOnly&&!occurrence\)return/);
 });
