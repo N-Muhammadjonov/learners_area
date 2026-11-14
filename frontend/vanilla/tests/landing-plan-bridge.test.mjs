@@ -21,7 +21,8 @@ test('current public landing no longer depends on the deleted premium entry',()=
   const source=readFileSync(new URL('../modules/landing-inline.js',import.meta.url),'utf8');
   const publicAuth=readFileSync(new URL('../modules/auth/public.js',import.meta.url),'utf8');
   assert(source.includes('LANDING_HTML'));
-  assert(publicAuth.includes("import {LANDING_HTML} from '../landing-inline.js'"));
+  assert(publicAuth.includes("await import('../landing-inline.js')"));
+  assert(!/^import .*landing-inline/m.test(publicAuth));
   assert(LANDING_HTML.includes('href="/register"'));
   assert.equal(LANDING_PLAN_DESTINATION,'/app/assignments#study-plan-30');
 });

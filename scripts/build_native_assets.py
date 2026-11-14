@@ -271,6 +271,19 @@ def build(base=BASE):
         if feature_bundles['enabled']:
             report = json.loads((Path(os.environ['LA_BROWSER_BUNDLES'])/'bundle-report.json').read_text())
             bundled_paths = {row['path'] for row in report['chunks']}
+        if (base / 'modules/landing-inline.js').is_file():
+            fallback = landing_fallback(base).split('<script type="application/ld+json">', 1)[0]
+            for name in files:
+                if not name.endswith(('.js', '.mjs')):
+                    continue
+                target = temporary / name
+                text = target.read_text()
+                if '<!--la-public-fallback-->' in text:
+                    text = re.sub(r'''(['"])<!--la-public-fallback-->\1''',
+                                  lambda _: json.dumps(fallback, ensure_ascii=False), text)
+                    target.write_text(text)
+                    files[name] = {'sha256': hashlib.sha256(target.read_bytes()).hexdigest(),
+                                   'bytes': target.stat().st_size}
         revision,stats=optimize(temporary,files,bundled_paths)
         stats['featureBundles'] = feature_bundles
         manifest={'version':1,'revision':revision,'files':files,'routes':routes['routes'],'redirects':routes['redirects'],'optimization':stats}

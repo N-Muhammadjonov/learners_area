@@ -35,6 +35,22 @@ test('scroll reveal uses its original observer and missing-observer fallback',()
   callback([{isIntersecting:true,target:node}]);assert(shown.has('in'));
  }
 });
+test('static fallback survives until iframe load and then gives the iframe its original display',async()=>{
+ const dom=new JSDOM('<div id="root"><main data-public-landing-fallback>Visible fallback</main></div><script nonce="fixture-nonce"></script>',{url:'https://fixture.invalid/'});
+ const previous={window:globalThis.window,document:globalThis.document};
+ globalThis.window=dom.window;globalThis.document=dom.window.document;
+ const controller=new dom.window.AbortController(),root=document.createElement('div');
+ try{
+  const {mount}=await import('../modules/auth/public.js');
+  await mount({root,url:new URL(window.location),signal:controller.signal,navigate:async()=>{}});
+  const frame=root.querySelector('iframe');assert(frame);
+  assert(root.querySelector('[data-public-landing-fallback]'));
+  assert.equal(frame.style.display,'none');
+  frame.dispatchEvent(new dom.window.Event('load'));
+  assert.equal(root.querySelector('[data-public-landing-fallback]'),null);
+  assert.equal(frame.style.display,'block');
+ }finally{controller.abort();dom.window.close();Object.assign(globalThis,previous);}
+});
 test('computed animation styles match both browser preferences',{skip:!process.env.VISUAL_EVIDENCE&&'Chrome launch and local TCP listeners are denied in this sandbox'},()=>{
  const evidence=JSON.parse(readFileSync(process.env.VISUAL_EVIDENCE,'utf8'));
  for(const width of [390,768,1440]){const rows=evidence.filter(x=>x.path==='/'&&x.width===width);assert.equal(rows.length,2);assert.deepEqual(rows[0].animations,rows[1].animations);}

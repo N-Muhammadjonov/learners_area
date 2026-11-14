@@ -10,6 +10,8 @@ import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
 import {telegram} from './telegram.js';
+// Replaced from LANDING_HTML by the Python asset builder, including bundled chunks.
+const LANDING_FALLBACK_HTML='<!--la-public-fallback-->';
 /** Public policy loads inside the stable source AuthShell, not a blank route.
  * Retrying bootstrap never remounts controls or replays an account mutation. */
 export async function mount(context){
@@ -17,7 +19,9 @@ export async function mount(context){
  // srcdoc isolates the original typography, CSS and animations from AuthShell.
  if(context.url.pathname==='/'||context.url.pathname==='/landing'){
   const {root,signal,navigate}=context;
-  const fallback=document.querySelector('[data-public-landing-fallback]')?.cloneNode(true);
+  const template=document.createElement('template');
+  template.innerHTML=LANDING_FALLBACK_HTML;
+  const fallback=document.querySelector('[data-public-landing-fallback]')?.cloneNode(true)??template.content.firstElementChild;
   if(fallback)root.append(fallback);
   let LANDING_HTML;
   try{({LANDING_HTML}=await import('../landing-inline.js'));}catch{return;}
