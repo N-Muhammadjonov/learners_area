@@ -51,7 +51,7 @@ test('people: sanitizes URL filters, locks self/owner rows, Admin does not open 
  assert.equal(row(ID(1)).querySelector('select'),null,'own role locked');assert(row(ID(1)).textContent.includes(dicts.en.people.you));assert(row(ID(1)).textContent.includes(dicts.en.people.cannotChangeSelf));
  assert.equal(row(ID(4)).querySelector('select'),null,'owner locked');
  assert.deepEqual([...row(ID(2)).querySelectorAll('option')].map(o=>o.value),['student','teacher']);
- assert.equal(row(ID(2)).querySelector('a[href="/app/admin/people/'+ID(2)+'"]'),null,'Admin cannot open student results');
+ assert(row(ID(2)).querySelector('a[href="/app/admin/people/'+ID(2)+'"]'),'Admin opens the authorized plan-only entry');
  assert.equal(row(ID(3)).querySelector('a[href="/app/admin/people/'+ID(3)+'"]'),null,'Admin cannot open staff academic records');
  assert(row(ID(5)).textContent.includes('spam'));assert.equal(h.qa('[data-person-id]').length,10,'table + mobile cards');
 });
