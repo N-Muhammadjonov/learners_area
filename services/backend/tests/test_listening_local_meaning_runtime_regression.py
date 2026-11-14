@@ -4,6 +4,7 @@ import json
 from uuid import UUID
 
 from starlette.requests import Request
+from app import main as _bootstrap  # Ensure the registered app is imported before its route.
 from app import step21_listening_authored_reads as route
 from app import listening_review_access, listening_runtime
 
