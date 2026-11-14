@@ -50,3 +50,15 @@ For Academic Task 1, upload the original chart/image as PNG or JPEG in the separ
 Only assigned management roles (`teacher` for own drafts, `owner` globally) may create material. Existing student attempts and other practice materials are not modified. A material is versioned when uploaded; Mock publication still performs complete server-side integrity validation. Media must be stored successfully before the material version is created. The browser never receives official answer keys before submission.
 
 For question-level recordings and the question → audio → transcript export contract, see [Speaking question exports](SPEAKING_QUESTION_EXPORT.md).
+
+## Native IELTS layout and Reading feedback
+
+Set `layout` to `ielts-native-v1` for passage/part tabs, independent passage and question panes, radio choices, matching selects and inline completion fields. Each question has `part`, `groupId`, its original `type` and `options` (`label`, `text`). A group contains `id`, `part`, `title`, `instructions` and `questionIds`. Completion groups use `stimulusText` with `{{1}}` markers matching their question IDs. Heading groups can supply `sharedChoices`. Choose-two groups use `type: "multiple_choice_multi"`, `selectionCount: 2`, shared `options`, and two question IDs; both questions retain their shared `pair` numbers for grading in either order.
+
+Reading questions may include `explanation`, `evidenceQuote` and `evidence` (`passageId`, `passageNo`, `paragraph`, `quote`). Quotes must occur exactly in the passage. These fields and answer keys are removed from exam payloads. Objective review appears only after the attempt and all four skills have been submitted.
+
+## Locked publication and staff preview
+
+New publication defaults to locked and writes `provenance.accessLocked` in the same update as publication. Locked catalog entries cannot start an attempt; direct start requests return `403 mock_locked`. Existing tests without this metadata retain their previous availability.
+
+Management → Mock Tests → Create Mock lists Preview and Lock/Unlock controls. Owner can manage all tests; a teacher can manage only their own. Staff preview does not create an attempt or change learner access. `GET /api/staff/mocks/{testId}/preview` returns staff-only frozen materials, and `PATCH /api/staff/mocks/{testId}/access` accepts `{"locked":true}` or `{"locked":false}`. Lock changes do not edit the published material or existing submissions.
