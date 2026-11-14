@@ -1,3 +1,4 @@
+import {consumePublicLevelHint} from '../../js/public-level-hint.js';
 import {enableDiagnostics} from '../../js/diagnostics.js';
 import {api} from '../../js/api-client.js';
 import {publishSessionEvent} from '../../js/session-events.js';
@@ -75,6 +76,7 @@ export async function mount(context){
      method:'POST',body:{...intent,...registration},signal
     });
     if(signal.aborted)return;
+    void consumePublicLevelHint();
     publishSessionEvent('refresh');
     context.invalidateSession?.();
     const destination=result.accountStatus==='active'?
