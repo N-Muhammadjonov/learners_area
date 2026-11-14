@@ -62,7 +62,7 @@ async def authoring_index(req: Request):
     async with db.acquire() as con:
         rows = await con.fetch(
             """SELECT t.id, t.title, t.track, t.kind, t.publication_state, t.version,
-                      t.created_by_user_id, t.updated_at
+                      t.created_by_user_id, t.updated_at, t.provenance
                FROM mock_tests t JOIN courses c ON c.id = t.course_id
                WHERE c.slug = 'ielts' AND ($1::bool OR t.created_by_user_id = $2)
                ORDER BY t.updated_at DESC LIMIT 100""",
@@ -106,6 +106,7 @@ async def authoring_index(req: Request):
     return core.j({'ok': True,
         'tests': [{'id': str(t['id']), 'title': t['title'], 'track': t['track'],
                    'status': t['publication_state'], 'version': t['version'],
+                   'locked': mock._mock_access_locked(t),
                    'sections': by_test.get(str(t['id']), {}),
                    'speakingTopics': speaking_topic_map.get(by_test.get(str(t['id']), {}).get('speaking',''), {}),
                    'speakingMode': speaking_mode_map.get(by_test.get(str(t['id']), {}).get('speaking',''), 'fixed')} for t in rows],
@@ -426,6 +427,9 @@ async def save_mock_draft(req: Request):
     speaking_mode=body.get('speakingMode','fixed')
     if speaking_mode not in ('fixed','auto'):
         return mock._err('invalid_speaking_mode','Unknown Speaking assignment mode.',422)
+    locked = body.get('locked', True)
+    if not isinstance(locked, bool):
+        return mock._err('invalid_access', 'locked must be a boolean.', 422)
     if publish and any(not selected.get(key) for key in SLOT_BY_KEY if key!='speaking'):
         return mock._err('missing_sections', 'All four Mock materials are required.', 422)
     if publish and speaking_mode=='fixed' and not selected.get('speaking') and not all(speaking_topics.get(k) for k in ('P1','P2','P3')):
@@ -541,8 +545,65 @@ async def save_mock_draft(req: Request):
                 )
             if publish:
                 await con.execute(
-                    "UPDATE mock_tests SET publication_state = 'published', updated_at = NOW() WHERE id = $1", test_id)
+                    """UPDATE mock_tests SET publication_state = 'published',
+                           provenance = COALESCE(provenance, '{}'::jsonb) || jsonb_build_object('accessLocked', $2::bool),
+                           updated_at = NOW() WHERE id = $1""", test_id, locked)
     return core.j({'ok': True, 'testId': str(test_id),
                    'speakingMode': speaking_mode,
                    'speakingVersionId': str(bindings.get('speaking')) if bindings.get('speaking') else None,
-                   'status': 'published' if publish else 'draft'}, headers=mock.PRIVATE_HEADERS)
+                   'status': 'published' if publish else 'draft', 'locked': locked}, headers=mock.PRIVATE_HEADERS)
+
+
+@router.patch('/api/staff/mocks/{testId}/access')
+async def set_mock_access(req: Request, testId: str):
+    from . import main as core, mock_system_port as mock
+    user, err = await _session(req)
+    if err:
+        return err
+    tid = _uuid(testId)
+    try:
+        body = await req.json()
+    except (ValueError, TypeError):
+        return mock._err('invalid_access', 'Expected JSON.', 422)
+    if not tid or not isinstance(body, dict) or not isinstance(body.get('locked'), bool):
+        return mock._err('invalid_access', 'A test ID and boolean locked value are required.', 422)
+    db = await core.pool()
+    async with db.acquire() as con:
+        async with con.transaction():
+            row = await con.fetchrow('SELECT created_by_user_id, publication_state FROM mock_tests WHERE id=$1 FOR UPDATE', tid)
+            if not row:
+                return mock._err('not_found', 'Mock test not found.', 404)
+            if user['role'] != 'owner' and row['created_by_user_id'] != user['id']:
+                return mock._err('forbidden', 'Only your own Mock access can be changed.', 403)
+            if row['publication_state'] != 'published':
+                return mock._err('not_published', 'Publish and validate the Mock before changing access.', 409)
+            await con.execute("""UPDATE mock_tests SET provenance = COALESCE(provenance, '{}'::jsonb)
+                || jsonb_build_object('accessLocked', $2::bool), updated_at=NOW() WHERE id=$1""", tid, body['locked'])
+    return core.j({'ok': True, 'testId': str(tid), 'locked': body['locked']}, headers=mock.PRIVATE_HEADERS)
+
+
+@router.get('/api/staff/mocks/{testId}/preview')
+async def preview_mock_materials(req: Request, testId: str):
+    from . import main as core, mock_system_port as mock
+    user, err = await _session(req)
+    if err:
+        return err
+    tid = _uuid(testId)
+    if not tid:
+        return mock._err('not_found', 'Mock test not found.', 404)
+    db = await core.pool()
+    async with db.acquire() as con:
+        row = await con.fetchrow('SELECT id,title,track,created_by_user_id,provenance FROM mock_tests WHERE id=$1', tid)
+        if not row:
+            return mock._err('not_found', 'Mock test not found.', 404)
+        if user['role'] != 'owner' and row['created_by_user_id'] != user['id']:
+            return mock._err('forbidden', 'Only your own Mock can be previewed.', 403)
+        sections = await con.fetch('SELECT skill,content_type,content_version_id,source_ref FROM mock_sections WHERE mock_test_id=$1 ORDER BY position', tid)
+        materials = {}
+        for section in sections:
+            if section['skill'] == 'speaking':
+                continue
+            slot = 'writingTask1' if section['content_type'] == 'task1' else ('writingTask2' if section['content_type'] == 'task2' else section['skill'])
+            materials[slot] = await mock._load_section_questions_from_version(con, dict(section), reveal_keys=True)
+    return core.j({'ok': True, 'testId': str(tid), 'title': row['title'], 'track': row['track'],
+                   'locked': mock._mock_access_locked(row), 'materials': materials}, headers=mock.PRIVATE_HEADERS)

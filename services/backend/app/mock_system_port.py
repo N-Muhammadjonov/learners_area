@@ -75,6 +75,7 @@ from .mock_scoring_engine import (
     count_words,
     current_weekly_slot,
     grade_mock_section,
+    build_objective_review,
     sanitize_section_payload_for_exam,
     sha256_hex,
 )
@@ -278,6 +279,17 @@ def _iso(dt: datetime | str | None) -> str | None:
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
     return dt.astimezone(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z')
+
+
+def _mock_access_locked(row: dict[str, Any]) -> bool:
+    """Read server-owned access metadata; legacy tests remain available."""
+    metadata = row.get('provenance') or {}
+    if isinstance(metadata, str):
+        try:
+            metadata = json.loads(metadata)
+        except (ValueError, TypeError):
+            metadata = {}
+    return isinstance(metadata, dict) and metadata.get('accessLocked') is True
 
 
 def _require_student(user: dict[str, Any] | None):
@@ -492,7 +504,7 @@ async def get_mocks_catalog(req: Request):
     async with db.acquire() as con:
         tests = await con.fetch(
             """SELECT t.id, t.title, t.description, t.skill, t.track, t.kind,
-                      t.timing_policy_id, t.publication_state, t.publish_at, t.version,
+                      t.timing_policy_id, t.publication_state, t.publish_at, t.version, t.provenance,
                       (SELECT count(*)::int FROM mock_sections ms WHERE ms.mock_test_id = t.id) AS section_count
                FROM mock_tests t
                JOIN courses c ON c.id = t.course_id
@@ -539,6 +551,7 @@ async def get_mocks_catalog(req: Request):
     catalog_items = []
     for t in tests:
         is_published = t['publication_state'] == 'published'
+        access_locked = _mock_access_locked(t)
         tid = str(t['id'])
         resumable = next(
             (a for a in attempts if str(a['mock_test_id']) == tid and a['status'] == 'in_progress'),
@@ -552,11 +565,12 @@ async def get_mocks_catalog(req: Request):
             'track': t['track'],
             'kind': t['kind'],
             'version': t['version'],
-            'status': 'available' if is_published else 'scheduled',
+            'status': 'locked' if access_locked else ('available' if is_published else 'scheduled'),
+            'locked': access_locked,
             'publishAt': _iso(t['publish_at']),
             'sectionCount': int(t['section_count'] or 0),
             'resumableAttemptId': str(resumable['id']) if resumable else None,
-            'canStart': bool(is_published and (resumable is not None or active_weekly_attempt is None or t['kind'] != 'full')),
+            'canStart': bool(is_published and not access_locked and (resumable is not None or active_weekly_attempt is None or t['kind'] != 'full')),
         })
 
     attempt_items = []
@@ -615,12 +629,14 @@ async def start_or_resume_mock_attempt(req: Request, testId: str):
     async with db.acquire() as con:
         async with con.transaction():
             mock_row = await con.fetchrow(
-                """SELECT id, title, track, kind, timing_policy_id, score_policies, publication_state, version
+                """SELECT id, title, track, kind, timing_policy_id, score_policies, publication_state, version, provenance
                    FROM mock_tests WHERE id = $1 FOR SHARE""",
                 tid,
             )
             if not mock_row or mock_row['publication_state'] != 'published':
                 return _err('mock_not_published', 'This mock test is not currently available.', 404)
+            if _mock_access_locked(mock_row):
+                return _err('mock_locked', 'This mock test is locked by its author.', 403)
 
             existing_open = await con.fetchrow(
                 """SELECT id, mock_version, started_at, deadline_at, active_section_position, section_deadlines
@@ -1850,6 +1866,7 @@ async def get_mock_attempt_results(req: Request, id: str):
     if not aid:
         return _err('not_found', 'Attempt not found.', 404)
 
+    reviews: dict[str, Any] = {}
     db = await core.pool()
     async with db.acquire() as con:
         attempt = await con.fetchrow('SELECT * FROM mock_attempts WHERE id = $1', aid)
@@ -1879,6 +1896,24 @@ async def get_mock_attempt_results(req: Request, id: str):
             aid,
         )
 
+        # Feedback must not reveal answers while any part of this full exam is active.
+        submitted = {s['skill'] for s in subs if s['submitted_at'] is not None}
+        if attempt['submitted_at'] is not None and all(sk in submitted for sk in FULL_MOCK_SKILLS):
+            snapshot = attempt['mock_snapshot']
+            snapshot = json.loads(snapshot) if isinstance(snapshot, str) else (snapshot or {})
+            for sk in ('listening', 'reading'):
+                definition = next((s for s in snapshot.get('sections', []) if s.get('skill') == sk), None)
+                submission = next((s for s in subs if s['skill'] == sk), None)
+                if not definition or not submission:
+                    continue
+                material = await _load_section_questions_from_version(con, {
+                    'skill': sk, 'source_ref': definition.get('sourceRef'),
+                    'content_version_id': submission.get('content_version_id') or core.uuid_value(definition.get('contentVersionId')),
+                }, reveal_keys=True)
+                answers = submission['answers_json'] or {}
+                answers = json.loads(answers) if isinstance(answers, str) else dict(answers)
+                reviews[sk] = build_objective_review(material, answers, sk, snapshot.get('track') or 'academic')
+
     rev_by_sec = {r['section']: dict(r) for r in revisions}
     section_bands: dict[str, float | None] = {}
     sections_out: dict[str, Any] = {}
@@ -1896,6 +1931,7 @@ async def get_mock_attempt_results(req: Request, id: str):
                 'band': b_val,
                 'submittedAt': _iso(s['submitted_at']),
                 'feedback': None,
+                **({'review': reviews[sk]} if sk in reviews else {}),
             }
         else:
             pub_rev = rev_by_sec.get(sk)

@@ -8,12 +8,14 @@
 import {el, listen} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {createLocalTranscriptCapture} from './local-transcript.js';
+import {renderObjectiveMaterial,renderObjectiveReview} from './objective-material.js';
 
 const STRINGS = {
   en: {
     weeklyBadge: 'Weekly IELTS Mock · Academic / General',
     available: 'Available',
     scheduled: 'Scheduled',
+    locked: 'Locked',
     unavailable: 'Content unavailable',
     startMock: 'Start mock',
     continueMock: 'Continue mock',
@@ -79,6 +81,7 @@ const STRINGS = {
     weeklyBadge: 'Haftalik IELTS Mock · Academic / General',
     available: 'Mavjud',
     scheduled: 'Rejalashtirilgan',
+    locked: 'Qulflangan',
     unavailable: 'Material mavjud emas',
     startMock: 'Mockni boshlash',
     continueMock: 'Mockni davom ettirish',
@@ -1106,14 +1109,14 @@ export function renderEnhancedCatalogue(context, host, catalog) {
       ? L.unavailable
       : isAvailable
         ? L.available
-        : L.scheduled;
+        : test.locked ? L.locked : L.scheduled;
     const badgeNode = el('span', {
       class: isAvailable ? 'badge badge-done' : 'badge badge-locked',
       'data-mock-test-status': test.materialReady === false ? 'unavailable' : test.status,
     }, statusLabel);
 
     let actionBtn = null;
-    if (test.resumableAttemptId) {
+    if (test.resumableAttemptId && !test.locked) {
       actionBtn = el('button', {
         type: 'button',
         class: 'btn-primary btn-sm',
@@ -1584,7 +1587,13 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         ...qItems,
       );
 
-      bodyNode = el('div', {class: 'grid grid-cols-1 gap-4 lg:grid-cols-2'}, leftPane, rightPane);
+      bodyNode = mat.layout === 'ielts-native-v1'
+        ? renderObjectiveMaterial({material:mat,skill:sec.skill,answers:answersState[sec.skill],signal,audioWidget,
+            onAnswer:(qid,value)=>{
+              answersState[sec.skill][qid]=value;
+              void autosave.queueChange(sec.skill,{answers:{...answersState[sec.skill]}});
+            }})
+        : el('div', {class: 'grid grid-cols-1 gap-4 lg:grid-cols-2'}, leftPane, rightPane);
     } else if (sec.skill === 'writing') {
       const task1Meta = attempt.writingTasks.find(t => t.taskType === 'task1');
       const task2Meta = attempt.writingTasks.find(t => t.taskType === 'task2');
@@ -1971,6 +1980,7 @@ export async function renderResultsScreen(context, host, attemptId) {
     const rawStr = s.rawScore != null && s.scoreMax != null ? `${L.rawScoreLabel}: ${s.rawScore} / ${s.scoreMax}` : null;
 
     const detailsNodes = [];
+    if (Array.isArray(s.review) && s.review.length) detailsNodes.push(renderObjectiveReview(s.review,context.locale));
     if (s.feedback && typeof s.feedback === 'object') {
       if (s.feedback.overall_feedback) {
         detailsNodes.push(

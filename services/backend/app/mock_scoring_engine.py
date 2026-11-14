@@ -405,6 +405,34 @@ def grade_mock_section(
     }
 
 
+def build_objective_review(material: dict[str, Any], answers: dict[str, str], skill: str,
+                           track: str = 'academic') -> list[dict[str, Any]]:
+    """Build answer feedback from the immutable material after an attempt ends."""
+    questions = material.get('questions') or []
+    groups = {str(g['id']): g for g in material.get('groups', []) if isinstance(g, dict) and g.get('id')}
+    graded = grade_mock_section(skill, questions, answers, track=track, groups_by_id=groups)
+    items = {str(item['questionId']): item for item in graded['items']}
+    result: list[dict[str, Any]] = []
+    for index, question in enumerate(questions, 1):
+        qid = str(question.get('id') or index)
+        group = groups.get(str(question.get('groupId') or question.get('group_id') or ''), {})
+        prompt = group.get('stimulusText') or question.get('questionText') or question.get('question_text') or ''
+        prompt = re.sub(r'\{\{(\d+)\}\}', r'\1. ______', str(prompt))
+        key = question.get('correctAnswer', question.get('correct_answer', question.get('key', '')))
+        accepted = question.get('acceptedAnswers') or question.get('accepted_answers') or []
+        result.append({
+            'questionId': qid, 'number': question.get('order') or index,
+            'questionText': prompt,
+            'studentAnswer': answers.get(qid, ''), 'correctAnswer': key,
+            'acceptedAnswers': accepted if isinstance(accepted, list) else [],
+            'isCorrect': bool(items.get(qid, {}).get('isCorrect')),
+            'explanation': question.get('explanation') or '',
+            'evidenceQuote': question.get('evidenceQuote') or question.get('evidence_quote') or '',
+            'evidence': question.get('evidence') if isinstance(question.get('evidence'), dict) else {},
+        })
+    return result
+
+
 def sanitize_question_for_exam(question: dict[str, Any]) -> dict[str, Any]:
     """Strip answer keys, explanations, and evidence quotes from exam runner payloads."""
     return {k: v for k, v in question.items() if k not in SECRET_QUESTION_KEYS}

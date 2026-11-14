@@ -3,6 +3,7 @@
  */
 import {el, listen, mountStaff, heading} from './kit.js';
 import {api} from '../../js/api-client.js';
+import {renderMockPreview} from '../mocks/preview.js';
 
 const UPLOAD_SLOTS = [
   ['listening','Listening — 40 questions','Listening — 40 savol','listening'],
@@ -14,7 +15,8 @@ const LANG = {
   uz:{title:'Mock yaratish',sub:'Listening, Reading va Writing uchun yangi Mock materiallarini yuklang. Speaking savollarini mavjud bankdan tanlang.',
     testName:'Imtihon nomi',track:'Yo‘nalish',academic:'Academic',general:'General Training',
     blank:'Mock materiali tanlanmagan',noVersions:'Hali Mock uchun yuklangan material yo‘q.',
-    save:'Draft saqlash',publish:'Tekshirish va nashr qilish',drafts:'Mock testlar',
+    save:'Draft saqlash',publish:'Tekshirish va qulflab saqlash',drafts:'Mock testlar',
+    locked:'Qulflangan',open:'Ochiq',lock:'Qulflash',unlock:'Qulfni ochish',preview:'Ko‘rish',accessSaved:'Kirish holati saqlandi.',
     noMocks:'Hozircha Mock test yaratilmagan.',edit:'Tahrirlash',newMock:'Yangi Mock',
     draft:'Qoralama',published:'Nashr qilingan',saved:'Draft saqlandi.',publishedNotice:'Mock nashr qilindi.',
     error:'Saqlash amalga oshmadi.',note:'Listening/Reading: 40 ta haqiqiy savol va answer key mavjud JSON. Listening uchun audio, Task 1 uchun rasm yuklang. Speaking Part 1–3 mavzularini tanlang.',
@@ -27,7 +29,8 @@ const LANG = {
   en:{title:'Create Mock',sub:'Upload new Mock-only Listening, Reading and Writing material. Select Speaking topics from the existing bank.',
     testName:'Exam title',track:'Track',academic:'Academic',general:'General Training',
     blank:'No Mock material selected',noVersions:'No dedicated Mock material uploaded yet.',
-    save:'Save draft',publish:'Validate & publish',drafts:'Mock tests',
+    save:'Save draft',publish:'Validate & save locked',drafts:'Mock tests',
+    locked:'Locked',open:'Open',lock:'Lock',unlock:'Unlock',preview:'Preview',accessSaved:'Access updated.',
     noMocks:'No Mock tests created yet.',edit:'Edit',newMock:'New Mock',
     draft:'Draft',published:'Published',saved:'Draft saved.',publishedNotice:'Mock published.',
     error:'Unable to save.',note:'Listening/Reading require JSON with 40 real questions and answer keys. Listening needs audio; Task 1 needs an image. Select Speaking Part 1–3 topics.',
@@ -46,6 +49,7 @@ export const mockCreateMount=mountStaff({
     const L=LANG[ctx.locale==='uz'?'uz':'en'];
     const {signal}=ctx;
     const state=ctx.state.mockComposer??={id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',sourceModes:{},busy:false,message:'',error:false};
+    if(state.preview)return renderMockPreview(state.preview,{signal,locale:ctx.locale,onClose:()=>{state.preview=null;view.rerender();}});
     const notify=(text,error=false)=>{state.message=text;state.error=error;view.rerender();};
     const newButton=el('button',{type:'button',class:'btn-secondary','data-mock-author-new':''},L.newMock);
     listen(newButton,'click',()=>{Object.assign(state,{id:null,title:'',track:'academic',sections:{},speakingTopics:{},speakingMode:'fixed',sourceModes:{},message:'',error:false});view.rerender();},signal);
@@ -145,7 +149,7 @@ export const mockCreateMount=mountStaff({
         try{
           const result=await api.request('/api/staff/mocks/authoring',{
             method:'POST',signal,body:{id:state.id,title:state.title.trim(),track:state.track,
-              sections:state.sections,speakingTopics:state.speakingTopics,speakingMode:state.speakingMode,publish},
+              sections:state.sections,speakingTopics:state.speakingTopics,speakingMode:state.speakingMode,publish,locked:true},
           });
           if(signal.aborted)return;
           state.id=publish?null:result.testId;
@@ -159,7 +163,20 @@ export const mockCreateMount=mountStaff({
     };
     const testList=(data.tests||[]).map(test=>el('div',{class:'panel flex flex-wrap items-center justify-between gap-3','data-mock-author-test':test.id},
       el('div',{class:'flex flex-col gap-1'},el('strong',{class:'text-sm text-ink-900'},test.title),
-        el('span',{class:'text-xs text-ink-500'},`${test.track} · ${test.status==='published'?L.published:L.draft}`)),
+        el('span',{class:'text-xs text-ink-500'},`${test.track} · ${test.status==='published'?L.published:L.draft} · ${test.status==='published'?(test.locked?L.locked:L.open):L.locked}`)),
+      el('div',{class:'flex flex-wrap gap-2'},
+        (()=>{const b=el('button',{type:'button',class:'btn-secondary btn-sm','data-mock-author-preview':test.id},L.preview);
+          listen(b,'click',async()=>{if(state.busy||signal.aborted)return;state.busy=true;b.disabled=true;
+            try{const result=await api.request(`/api/staff/mocks/${encodeURIComponent(test.id)}/preview`,{signal,fresh:true});
+              if(!signal.aborted){state.preview=result;view.rerender();}}
+            catch(e){if(!signal.aborted)notify(`${L.error} (${e.code||'preview_failed'})`,true);}
+            finally{state.busy=false;b.disabled=false;}},signal);return b;})(),
+        test.status==='published'?(()=>{const b=el('button',{type:'button',class:'btn-secondary btn-sm','data-mock-author-access':test.id,'aria-pressed':String(test.locked)},test.locked?L.unlock:L.lock);
+          listen(b,'click',async()=>{if(state.busy||signal.aborted)return;state.busy=true;b.disabled=true;
+            try{await api.request(`/api/staff/mocks/${encodeURIComponent(test.id)}/access`,{method:'PATCH',body:{locked:!test.locked},signal});
+              if(!signal.aborted){state.message=L.accessSaved;state.error=false;await view.reload();}}
+            catch(e){if(!signal.aborted)notify(`${L.error} (${e.code||'access_failed'})`,true);}
+            finally{state.busy=false;b.disabled=false;}},signal);return b;})():null),
       test.status==='draft'?(()=>{const b=el('button',{type:'button',class:'btn-secondary btn-sm','data-mock-author-edit':test.id},L.edit);
         listen(b,'click',()=>{Object.assign(state,{id:test.id,title:test.title,track:test.track,
           sections:{...test.sections},speakingTopics:{...(test.speakingTopics||{})},
