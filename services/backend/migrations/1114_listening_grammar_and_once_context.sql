@@ -33,7 +33,7 @@ WITH occurrences AS (
 ),meaning AS (
  SELECT c.id,
  CASE
- WHEN c.following ~ '^ again\b' THEN 'again, for another occurrence'
+ WHEN c.following LIKE ' again%' THEN 'again, for another occurrence'
  WHEN c.following ~ '^ (only|a |or |more|twice)' OR c.before ~ 'more than |like that |escaped |at least '
  THEN 'on one occasion; a single time'
  WHEN c.before ~ '\m(was|were|had|have|has)\s+$' THEN NULL
