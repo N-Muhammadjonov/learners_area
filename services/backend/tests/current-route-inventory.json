@@ -1591,6 +1591,11 @@
  },
  {
   "method": "POST",
+  "path": "/api/staff/finance/days/{businessDate}/adjustments",
+  "name": "add_cash_adjustment"
+ },
+ {
+  "method": "POST",
   "path": "/api/staff/finance/payments",
   "name": "record_payment"
  },
@@ -1608,6 +1613,26 @@
   "method": "GET",
   "path": "/api/staff/finance/reconciliation",
   "name": "reconciliation"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/refunds/{refundId}/approve",
+  "name": "approve_refund"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/refunds/{refundId}/fail",
+  "name": "fail_refund"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/refunds/{refundId}/reject",
+  "name": "reject_refund"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/refunds/{refundId}/settle",
+  "name": "settle_refund"
  },
  {
   "method": "POST",

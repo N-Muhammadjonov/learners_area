@@ -462,14 +462,96 @@ async def refund_payment(req: Request, paymentId: str):
     db = await core.pool()
     async with db.acquire() as conn, conn.transaction():
         try:
-            refund, duplicate = await ledger.refund_payment(
+            # FIN-08: this OPENS a refund request. Money leaves only after an owner approves
+            # and a cashier settles it, and it leaves in today's period - the closed cash day
+            # the original receipt belongs to is never reopened or rewritten.
+            refund, duplicate = await ledger.request_refund(
                 conn, actor_user_id=user['id'], payment_id=ident,
                 amount_minor=body['amountMinor'], reason=str(body.get('reason') or ''),
-                method=body.get('method'), provider_refund_id=body.get('providerRefundId'),
-                provider_refund_state=str(body.get('providerRefundState') or 'internal'))
+                method=body.get('method'), provider_refund_id=body.get('providerRefundId'))
         except LedgerError as exc:
             return failure(exc)
-    return core.j({'ok': True, 'duplicate': duplicate, 'refund': serialize(refund)}, headers=PRIVATE)
+    return core.j({'ok': True, 'duplicate': duplicate, 'refund': serialize(refund)},
+                  status=202 if not duplicate else 200, headers=PRIVATE)
+
+
+async def _refund_transition(req, refund_id, action, roles):
+    user, denied = await actor(req, roles)
+    if denied:
+        return denied
+    ident = uuid_val(refund_id)
+    if not ident:
+        return err('refund_not_found', 404)
+    body = await payload(req) or {}
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            if action == 'approve':
+                refund = await ledger.approve_refund(conn, actor_user_id=user['id'],
+                                                     refund_id=ident)
+            elif action == 'settle':
+                refund = await ledger.settle_refund(conn, actor_user_id=user['id'],
+                                                    refund_id=ident)
+            else:
+                reason = str(body.get('reason') or '')
+                refund = await (ledger.reject_refund if action == 'reject' else ledger.fail_refund)(
+                    conn, actor_user_id=user['id'], refund_id=ident, reason=reason)
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'refund': serialize(refund)}, headers=PRIVATE)
+
+
+@router.post('/api/staff/finance/refunds/{refundId}/approve')
+async def approve_refund(req: Request, refundId: str):
+    """Owner authorization of a refund request (FIN-08). The requester cannot self-approve."""
+    return await _refund_transition(req, refundId, 'approve', OWNER_ONLY)
+
+
+@router.post('/api/staff/finance/refunds/{refundId}/settle')
+async def settle_refund(req: Request, refundId: str):
+    """Pay an approved refund out, in today's open period."""
+    return await _refund_transition(req, refundId, 'settle', WRITE_ROLES)
+
+
+@router.post('/api/staff/finance/refunds/{refundId}/reject')
+async def reject_refund(req: Request, refundId: str):
+    """Owner declines a request. Kept on the record; no money moves."""
+    return await _refund_transition(req, refundId, 'reject', OWNER_ONLY)
+
+
+@router.post('/api/staff/finance/refunds/{refundId}/fail')
+async def fail_refund(req: Request, refundId: str):
+    """Record that an authorized refund could not be paid (e.g. provider declined)."""
+    return await _refund_transition(req, refundId, 'fail', WRITE_ROLES)
+
+
+@router.post('/api/staff/finance/days/{businessDate}/adjustments')
+async def add_cash_adjustment(req: Request, businessDate: str):
+    """An approved intraday cash movement that is neither a receipt nor a refund."""
+    user, denied = await actor(req, OWNER_ONLY)
+    if denied:
+        return denied
+    day = as_date(businessDate)
+    body = await payload(req)
+    if not day or body is None or not isinstance(body.get('amountMinor'), int):
+        return err('invalid_payload')
+    if not str(body.get('reason') or '').strip():
+        return err('reason_required')
+    limited = await _write_gate(req, user)
+    if limited:
+        return limited
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction():
+        try:
+            adjustment = await ledger.add_cash_adjustment(
+                conn, actor_user_id=user['id'], business_date=day,
+                amount_minor=body['amountMinor'], reason=str(body['reason']))
+        except LedgerError as exc:
+            return failure(exc)
+    return core.j({'ok': True, 'adjustment': serialize(adjustment)}, headers=PRIVATE)
 
 
 @router.post('/api/staff/finance/revenue/recognize')
@@ -506,7 +588,9 @@ async def close_day(req: Request):
         return denied
     body = await payload(req)
     business_date = as_date((body or {}).get('businessDate'))
-    if not business_date or not isinstance((body or {}).get('countedMinor'), int):
+    opening = (body or {}).get('openingMinor', 0)
+    if not business_date or not isinstance((body or {}).get('countedMinor'), int) \
+            or not isinstance(opening, int):
         return err('invalid_payload')
     limited = await _write_gate(req, user)
     if limited:
@@ -517,7 +601,8 @@ async def close_day(req: Request):
             close = await ledger.close_day(conn, actor_user_id=user['id'],
                                            business_date=business_date,
                                            counted_minor=body['countedMinor'],
-                                           reason=str(body.get('reason') or '')[:300] or None)
+                                           reason=str(body.get('reason') or '')[:300] or None,
+                                           opening_minor=opening)
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'close': serialize(close)}, headers=PRIVATE)

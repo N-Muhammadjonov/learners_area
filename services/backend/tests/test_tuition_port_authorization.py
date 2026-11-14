@@ -8,6 +8,7 @@ boundaries are not discoverable by probing ids.
 from __future__ import annotations
 
 import re
+from datetime import date
 from contextlib import asynccontextmanager
 from uuid import uuid4
 
@@ -116,6 +117,11 @@ WRITE_ROUTES = (
     ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/post'),
     ('POST', '/api/staff/finance/payments'),
     ('POST', f'/api/staff/finance/payments/{uuid4()}/refund'),
+    ('POST', f'/api/staff/finance/refunds/{uuid4()}/approve'),
+    ('POST', f'/api/staff/finance/refunds/{uuid4()}/settle'),
+    ('POST', f'/api/staff/finance/refunds/{uuid4()}/reject'),
+    ('POST', f'/api/staff/finance/refunds/{uuid4()}/fail'),
+    ('POST', f'/api/staff/finance/days/{date.today().isoformat()}/adjustments'),
     ('POST', '/api/staff/finance/revenue/recognize'),
     ('POST', '/api/staff/finance/days/close'),
     ('POST', '/api/staff/finance/periods/close'),
@@ -148,6 +154,9 @@ async def test_centre_wide_money_reports_are_owner_and_admin_only(as_role, metho
 APPROVAL_ROUTES = (
     ('POST', f'/api/staff/finance/charges/{uuid4()}/approve'),
     ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/approve'),
+    ('POST', f'/api/staff/finance/refunds/{uuid4()}/approve'),
+    ('POST', f'/api/staff/finance/refunds/{uuid4()}/reject'),
+    ('POST', f'/api/staff/finance/days/{date.today().isoformat()}/adjustments'),
 )
 
 

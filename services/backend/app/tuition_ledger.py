@@ -736,14 +736,27 @@ async def _allocate(conn, payment):
     return written
 
 
-@transactional
-async def refund_payment(conn, *, actor_user_id, payment_id, amount_minor, reason, method=None,
-                         provider_refund_id=None, provider_refund_state='internal'):
-    """Refund unallocated (advance) funds with an authorised reversal document.
+async def _refund_available(conn, payment_id) -> tuple[int, int, int]:
+    """(allocated, refunded_so_far, still_refundable) for one payment."""
+    allocated = await conn.fetchval(
+        'SELECT coalesce(sum(amount_minor),0) FROM tuition_payment_allocations'
+        ' WHERE payment_id=$1', payment_id) or 0
+    refunded = await conn.fetchval(
+        'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds WHERE payment_id=$1'
+        " AND status IN ('requested','approved','settled')", payment_id) or 0
+    amount = await conn.fetchval('SELECT amount_minor FROM tuition_payments WHERE id=$1',
+                                 payment_id)
+    return int(allocated), int(refunded), int(amount) - allocated - refunded
 
-    Refunds are limited to money that is still unallocated. Refunding an amount that is
-    already applied to a charge requires reversing that charge first, which is a documented
-    correction rather than an automatic side effect here.
+
+@transactional
+async def request_refund(conn, *, actor_user_id, payment_id, amount_minor, reason, method=None,
+                         provider_refund_id=None):
+    """Open a refund request. Money has not moved and the old cash day is not touched.
+
+    FIN-08: a refund is a NEW outgoing payment dated today, in today's open period. It never
+    reopens or rewrites the day the original receipt was taken, so a 45-day-old receipt can be
+    refunded after that day was closed and the history still reconciles.
     """
     amount = _minor(amount_minor)
     _require(amount > 0, 'amount_must_be_positive')
@@ -757,35 +770,117 @@ async def refund_payment(conn, *, actor_user_id, payment_id, amount_minor, reaso
             'SELECT * FROM tuition_refunds WHERE provider_refund_id=$1', provider_refund_id)
         if existing is not None:
             return dict(existing), True
-    await _assert_day_open(conn, payment['occurred_at'].date())
-    allocated = await conn.fetchval(
-        '''SELECT coalesce(sum(a.amount_minor),0) FROM tuition_payment_allocations a
-           WHERE a.payment_id=$1''', payment_id) or 0
-    refunded = await conn.fetchval(
-        'SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds WHERE payment_id=$1',
-        payment_id) or 0
-    available = payment['amount_minor'] - allocated - refunded
-    _require(amount <= available, 'refund_exceeds_available_funds', 409,
-             availableMinor=available, requestedMinor=amount)
-    refund = await conn.fetchrow(
-        '''INSERT INTO tuition_refunds
-             (payment_id, student_user_id, currency_code, amount_minor, method, reason,
-              authorized_by, provider_refund_id, provider_refund_state)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *''',
+    moment = datetime.now(timezone.utc)
+    _, _, available = await _refund_available(conn, payment_id)
+    _require(amount <= available, 'refund_exceeds_available_funds', 409, availableMinor=available,
+             requestedMinor=amount)
+    row = await conn.fetchrow(
+        'INSERT INTO tuition_refunds (payment_id, student_user_id, currency_code, amount_minor,'
+        ' method, reason, authorized_by, provider_refund_id, provider_refund_state, status,'
+        ' effective_on, effective_period) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)'
+        ' RETURNING *',
         payment_id, payment['student_user_id'], payment['currency_code'], amount,
         method or payment['method'], reason.strip()[:200], actor_user_id, provider_refund_id,
-        provider_refund_state)
+        'internal', 'requested', moment.date(), period_key(moment))
+    return dict(row), False
+
+
+@transactional
+async def approve_refund(conn, *, actor_user_id, refund_id):
+    """Owner authorization. The requester cannot authorize their own refund."""
+    row = await conn.fetchrow('SELECT * FROM tuition_refunds WHERE id=$1 FOR UPDATE', refund_id)
+    _require(row is not None, 'refund_not_found', 404)
+    _require(row['status'] == 'requested', 'invalid_state', 409, status=row['status'])
+    _require(await _actor_role(conn, actor_user_id) == 'owner', 'approval_requires_owner', 403)
+    _require(str(actor_user_id) != str(row['authorized_by']),
+             'approver_must_differ_from_requester', 403)
+    updated = await conn.fetchrow(
+        "UPDATE tuition_refunds SET status='approved', approved_by=$2, approved_at=now()"
+        ' WHERE id=$1 RETURNING *', refund_id, actor_user_id)
+    return dict(updated)
+
+
+@transactional
+async def settle_refund(conn, *, actor_user_id, refund_id):
+    """Move the money, in the refund's OWN period, never in the original receipt's day.
+
+    The only gate on timing is that TODAY is open: the historical day the receipt belongs to
+    stays closed and unchanged.
+    """
+    row = await conn.fetchrow('SELECT * FROM tuition_refunds WHERE id=$1 FOR UPDATE', refund_id)
+    _require(row is not None, 'refund_not_found', 404)
+    # An already-settled refund says so plainly: "not approved" would send the cashier
+    # looking for a missing signature when the money has in fact already left.
+    _require(row['status'] != 'settled', 'refund_already_settled', 409,
+             settledAt=str(row['settled_at']))
+    _require(row['status'] == 'approved', 'refund_not_approved', 409, status=row['status'])
+    await _assert_day_open(conn, row['effective_on'])
+    await _assert_period_open(conn, row['effective_period'])
+    _, _, available = await _refund_available(conn, row['payment_id'])
+    _require(row['amount_minor'] <= available + row['amount_minor'],
+             'refund_exceeds_available_funds', 409)
     await _post_journal(
-        conn, source_type='refund', source_id=refund['id'],
-        student_user_id=payment['student_user_id'], actor_user_id=actor_user_id,
-        memo=f'Refund {reason.strip()[:120]}', period=period_key(refund['created_at']),
-        lines=[('customer_advance', 'debit', amount),
-               (CASH_METHODS[payment['method']], 'credit', amount)])
-    remaining_advance = available - amount
+        conn, source_type='refund', source_id=row['id'],
+        student_user_id=row['student_user_id'], actor_user_id=actor_user_id,
+        memo=f'Refund {row["reason"][:120]}', period=row['effective_period'],
+        occurred_at=datetime.combine(row['effective_on'], datetime.min.time(),
+                                     tzinfo=timezone.utc),
+        lines=[('customer_advance', 'debit', row['amount_minor']),
+               (CASH_METHODS[row['method']], 'credit', row['amount_minor'])])
+    allocated, refunded, _ = await _refund_available(conn, row['payment_id'])
+    updated = await conn.fetchrow(
+        "UPDATE tuition_refunds SET status='settled', settled_at=now() WHERE id=$1 RETURNING *",
+        refund_id)
+    remaining = refunded - row['amount_minor']
     await conn.execute(
-        'UPDATE tuition_payments SET status=$2 WHERE id=$1', payment_id,
-        'refunded' if remaining_advance == 0 and allocated == 0 else 'partially_refunded')
-    return dict(refund), False
+        'UPDATE tuition_payments SET status=$2 WHERE id=$1', row['payment_id'],
+        'refunded' if remaining == 0 and allocated == 0 else 'partially_refunded')
+    return dict(updated)
+
+
+@transactional
+async def reject_refund(conn, *, actor_user_id, refund_id, reason):
+    """Owner declines a request. No money moves and the request stays on the record."""
+    _require(bool(reason and reason.strip()), 'reason_required')
+    row = await conn.fetchrow('SELECT * FROM tuition_refunds WHERE id=$1 FOR UPDATE', refund_id)
+    _require(row is not None, 'refund_not_found', 404)
+    _require(row['status'] == 'requested', 'invalid_state', 409, status=row['status'])
+    _require(await _actor_role(conn, actor_user_id) == 'owner', 'approval_requires_owner', 403)
+    updated = await conn.fetchrow(
+        "UPDATE tuition_refunds SET status='rejected', failure_reason=$2 WHERE id=$1 RETURNING *",
+        refund_id, reason.strip()[:300])
+    return dict(updated)
+
+
+@transactional
+async def fail_refund(conn, *, actor_user_id, refund_id, reason):
+    """Record that an authorized refund could not be paid (e.g. the provider declined).
+
+    Distinct from rejection and from settlement: the authorization stands, the money did not
+    move, and the reason is kept so the next attempt is explainable.
+    """
+    _require(bool(reason and reason.strip()), 'reason_required')
+    row = await conn.fetchrow('SELECT * FROM tuition_refunds WHERE id=$1 FOR UPDATE', refund_id)
+    _require(row is not None, 'refund_not_found', 404)
+    _require(row['status'] == 'approved', 'invalid_state', 409, status=row['status'])
+    updated = await conn.fetchrow(
+        "UPDATE tuition_refunds SET status='failed', failure_reason=$2 WHERE id=$1 RETURNING *",
+        refund_id, reason.strip()[:300])
+    return dict(updated)
+
+
+@transactional
+async def add_cash_adjustment(conn, *, actor_user_id, business_date, amount_minor, reason):
+    """An approved intraday cash movement that is neither a receipt nor a refund."""
+    amount = _minor(amount_minor)
+    _require(amount != 0, 'amount_must_be_non_zero')
+    _require(bool(reason and reason.strip()), 'reason_required')
+    await _assert_day_open(conn, business_date)
+    row = await conn.fetchrow(
+        'INSERT INTO cash_day_adjustments (business_date, amount_minor, reason, requested_by,'
+        ' approved_by, approved_at) VALUES ($1,$2,$3,$4,$4,now()) RETURNING *',
+        business_date, amount, reason.strip()[:300], actor_user_id)
+    return dict(row)
 
 
 # ─────────────────────────── revenue recognition ───────────────────────────
@@ -987,21 +1082,36 @@ async def finance_summary(conn, *, start: date, end: date) -> dict:
 
 # ─────────────────────────────── cash controls ───────────────────────────────
 @transactional
-async def close_day(conn, *, actor_user_id, business_date, counted_minor, reason=None):
+async def close_day(conn, *, actor_user_id, business_date, counted_minor, reason=None,
+                    opening_minor=0):
     """Lock a cash day: expected vs counted, variance with a reason, no later postings."""
     counted = _minor(counted_minor)
+    opening = _minor(opening_minor)
     _require(counted >= 0, 'amount_must_be_non_negative')
-    expected = await conn.fetchval(
+    _require(opening >= 0, 'amount_must_be_non_negative')
+    receipts = await conn.fetchval(
         '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
             WHERE method='cash' AND status = ANY($2::varchar[]) AND occurred_at::date = $1''',
         business_date, list(SETTLED_PAYMENT_STATES)) or 0
+    # FIN-08: a day closes against what the drawer should hold, not against gross receipts.
+    # Refunds are matched by THEIR effective date, so a refund of last month's receipt lands
+    # in the day the cash actually left - and only settled ones count.
+    refunds = await conn.fetchval(
+        "SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds"
+        " WHERE method='cash' AND status='settled' AND effective_on = $1", business_date) or 0
+    adjustments = await conn.fetchval(
+        'SELECT coalesce(sum(amount_minor),0) FROM cash_day_adjustments'
+        ' WHERE business_date=$1 AND approved_by IS NOT NULL', business_date) or 0
+    expected = opening + receipts - refunds + adjustments
     already = await conn.fetchval('SELECT 1 FROM cash_day_closes WHERE business_date=$1', business_date)
     _require(not already, 'day_already_closed', 409)
     row = await conn.fetchrow(
         '''INSERT INTO cash_day_closes
-             (business_date, expected_minor, counted_minor, variance_minor, reason, closed_by)
-           VALUES ($1,$2,$3,$4,$5,$6) RETURNING *''',
-        business_date, expected, counted, counted - expected, reason, actor_user_id)
+             (business_date, expected_minor, counted_minor, variance_minor, reason, closed_by,
+              opening_minor, receipts_minor, refunds_minor, adjustments_minor)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *''',
+        business_date, expected, counted, counted - expected, reason, actor_user_id,
+        opening, receipts, refunds, adjustments)
     return dict(row)
 
 

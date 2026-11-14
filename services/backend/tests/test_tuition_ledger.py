@@ -155,10 +155,13 @@ async def test_refund_is_an_authorized_reversal_that_never_erases_the_receipt(da
         con, actor_user_id=people['admin'], student_user_id=people['student'], amount_minor=700_000,
         provider='click', provider_transaction_id='CLICK-1')
 
-    refund, duplicate = await ledger.refund_payment(
-        con, actor_user_id=people['owner'], payment_id=payment['id'], amount_minor=100_000,
+    refund, duplicate = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'], amount_minor=100_000,
         reason='Overpayment returned to family', provider_refund_id='CLICK-R1')
     assert not duplicate and refund['amount_minor'] == 100_000
+    await ledger.approve_refund(con, actor_user_id=people['owner'], refund_id=refund['id'])
+    refund = await ledger.settle_refund(con, actor_user_id=people['admin'],
+                                        refund_id=refund['id'])
     # The original receipt is still there, unchanged, and the cash leg moved out.
     assert await con.fetchval('SELECT amount_minor FROM tuition_payments WHERE id=$1',
                               payment['id']) == 700_000
@@ -166,15 +169,15 @@ async def test_refund_is_an_authorized_reversal_that_never_erases_the_receipt(da
     assert await balances(con, 'customer_advance') == 0
 
     # A repeated provider refund callback produces no second refund.
-    _, duplicate = await ledger.refund_payment(
-        con, actor_user_id=people['owner'], payment_id=payment['id'], amount_minor=100_000,
+    _, duplicate = await ledger.request_refund(
+        con, actor_user_id=people['admin'], payment_id=payment['id'], amount_minor=100_000,
         reason='Overpayment returned to family', provider_refund_id='CLICK-R1')
     assert duplicate is True
     assert await con.fetchval('SELECT count(*) FROM tuition_refunds') == 1
 
     # Refunding money that is already applied to a charge is refused, not silently done.
     with pytest.raises(LedgerError) as refused:
-        await ledger.refund_payment(con, actor_user_id=people['owner'], payment_id=payment['id'],
+        await ledger.request_refund(con, actor_user_id=people['admin'], payment_id=payment['id'],
                                     amount_minor=600_000, reason='Refund allocated money')
     assert refused.value.code == 'refund_exceeds_available_funds'
 
@@ -1030,6 +1033,137 @@ async def test_a_payment_cannot_be_recorded_against_a_staff_account(database):
                                     student_user_id=people['admin'], amount_minor=100_000)
     assert exc.value.code == 'student_not_found'
     assert await con.fetchval('SELECT count(*) FROM tuition_payments') == 0
+
+
+# ──── FIN-08: a refund is a new current-period outgoing payment, never an old edit ────
+async def advance_payment(con, people, *, amount=700_000, days_ago=0, method='cash'):
+    """A pure customer advance: no open charge, so the whole amount is refundable."""
+    moment = datetime.now(timezone.utc) - timedelta(days=days_ago)
+    kwargs = {}
+    if method == 'provider':
+        # A provider payment carries its vendor references, and settles on proof (FIN-02/03).
+        kwargs = {'provider': 'payme', 'provider_transaction_id': f'PAYME-{days_ago}-{amount}'}
+    payment, _, _ = await ledger.record_payment(
+        con, actor_user_id=people['admin'], student_user_id=people['student'],
+        amount_minor=amount, method=method, occurred_at=moment, **kwargs)
+    if method == 'provider':
+        payment, _, _ = await ledger.confirm_provider_payment(
+            con, provider=kwargs['provider'],
+            provider_transaction_id=kwargs['provider_transaction_id'],
+            proof=ledger.provider_proof(amount_minor=amount, currency='UZS', status='paid',
+                                        order_ref=payment['idempotency_key'],
+                                        student_user_id=people['student']))
+    return payment
+
+
+@pytest.mark.asyncio
+async def test_a_45_day_old_payment_can_be_refunded_after_its_cash_day_closed(database):
+    """The headline case: history is closed, the refund still happens - in TODAY's period."""
+    con, schema, people = database
+    payment = await advance_payment(con, people, amount=700_000, days_ago=45)
+    old_day = payment['occurred_at'].date()
+
+    # The cashier closed that day weeks ago. It must stay closed and unchanged.
+    closed = await ledger.close_day(con, actor_user_id=people['owner'], business_date=old_day,
+                                    counted_minor=700_000)
+    assert closed['expected_minor'] == 700_000
+
+    refund, duplicate = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                                    payment_id=payment['id'], amount_minor=200_000,
+                                                    reason='Family withdrew, cash returned')
+    assert duplicate is False and refund['status'] == 'requested'
+    assert refund['effective_on'] == TODAY, 'a refund belongs to today, not to the old receipt'
+    assert refund['effective_period'] == PERIOD
+    refund = await ledger.approve_refund(con, actor_user_id=people['owner'],
+                                         refund_id=refund['id'])
+    assert refund['status'] == 'approved'
+    refund = await ledger.settle_refund(con, actor_user_id=people['admin'],
+                                        refund_id=refund['id'])
+    assert refund['status'] == 'settled' and refund['settled_at'] is not None
+
+    # The old cash day was NOT rewritten: its expectation is still 700,000.
+    assert await con.fetchval('SELECT expected_minor FROM cash_day_closes WHERE business_date=$1',
+                              old_day) == 700_000
+    assert await con.fetchval('SELECT count(*) FROM cash_day_closes') == 1
+    assert await balances(con, 'cash_on_hand') == 500_000
+    assert (await ledger.journal_is_balanced(con))['balanced'] is True
+
+
+@pytest.mark.asyncio
+async def test_an_unapproved_or_unsettled_refund_moves_no_money(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people, amount=700_000)
+
+    refund, _ = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                            payment_id=payment['id'], amount_minor=100_000,
+                                            reason='Withdrawal')
+    assert await balances(con, 'cash_on_hand') == 700_000, 'a request is not money out'
+    with pytest.raises(LedgerError) as exc:
+        await ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    assert exc.value.code == 'refund_not_approved'
+    with pytest.raises(LedgerError) as exc:
+        await ledger.approve_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    assert exc.value.code == 'approval_requires_owner'
+
+    await ledger.approve_refund(con, actor_user_id=people['owner'], refund_id=refund['id'])
+    assert await balances(con, 'cash_on_hand') == 700_000, 'approval is not money out either'
+    await ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    assert await balances(con, 'cash_on_hand') == 600_000
+    # Settling twice is refused, so the drawer cannot be drained by a double click.
+    with pytest.raises(LedgerError) as exc:
+        await ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    assert exc.value.code == 'refund_already_settled'
+
+
+@pytest.mark.asyncio
+async def test_a_failed_or_rejected_refund_leaves_the_cash_in_the_drawer(database):
+    con, schema, people = database
+    payment = await advance_payment(con, people, amount=700_000, method='provider')
+
+    rejected, _ = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                              payment_id=payment['id'], amount_minor=100_000,
+                                              reason='Withdrawal')
+    rejected = await ledger.reject_refund(con, actor_user_id=people['owner'],
+                                          refund_id=rejected['id'], reason='Policy: no refunds')
+    assert rejected['status'] == 'rejected'
+
+    failed, _ = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                            payment_id=payment['id'], amount_minor=50_000,
+                                            reason='Card reversal')
+    await ledger.approve_refund(con, actor_user_id=people['owner'], refund_id=failed['id'])
+    failed = await ledger.fail_refund(con, actor_user_id=people['admin'], refund_id=failed['id'],
+                                      reason='Provider declined the reversal')
+    assert failed['status'] == 'failed'
+    assert failed['failure_reason'] == 'Provider declined the reversal'
+    assert await con.fetchval(
+        "SELECT count(*) FROM finance_journal_entries WHERE source_type='refund'") == 0
+    # The only journal activity is the original receipt: two lines, cash in and advance up.
+    assert await con.fetchval('SELECT count(*) FROM finance_journal_lines') == 2
+    assert await balances(con, 'bank_clearing') == 700_000
+
+
+@pytest.mark.asyncio
+async def test_cash_day_close_reconciles_opening_receipts_refunds_and_adjustments(database):
+    con, schema, people = database
+    await advance_payment(con, people, amount=500_000)          # cash receipt today
+    payment2 = await advance_payment(con, people, amount=300_000)
+    refund, _ = await ledger.request_refund(con, actor_user_id=people['admin'],
+                                            payment_id=payment2['id'], amount_minor=200_000,
+                                            reason='Returned to family')
+    await ledger.approve_refund(con, actor_user_id=people['owner'], refund_id=refund['id'])
+    await ledger.settle_refund(con, actor_user_id=people['admin'], refund_id=refund['id'])
+    await ledger.add_cash_adjustment(con, actor_user_id=people['owner'], business_date=TODAY,
+                                     amount_minor=-50_000, reason='Till correction, short count')
+
+    # opening 100000 + receipts 800000 - refunds 200000 + adjustments (-50000) = 650000
+    close = await ledger.close_day(con, actor_user_id=people['owner'], business_date=TODAY,
+                                   counted_minor=650_000, opening_minor=100_000)
+    assert close['opening_minor'] == 100_000
+    assert close['receipts_minor'] == 800_000
+    assert close['refunds_minor'] == 200_000
+    assert close['adjustments_minor'] == -50_000
+    assert close['expected_minor'] == 650_000
+    assert close['variance_minor'] == 0
 
 
 @pytest.mark.asyncio
