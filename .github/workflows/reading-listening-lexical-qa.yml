@@ -27,6 +27,7 @@ on:
       - 'services/backend/migrations/0100_listening_30_32_expanded_context.sql'
       - 'services/backend/migrations/0101_listening_1_32_vocabulary_examples.sql'
       - 'services/backend/migrations/0102_listening_test_local_meanings.sql'
+      - 'services/backend/migrations/0103_listening_context_sense_corrections.sql'
   workflow_dispatch:
 permissions:
   contents: read
