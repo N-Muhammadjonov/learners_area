@@ -35,7 +35,7 @@ def test_refuses_ambiguous_or_missing_passage_definition() -> None:
 
 
 def test_person_and_place_names_are_not_vocabulary_targets() -> None:
-    assert not is_verified_reading_gloss(BODY, gloss("Caral area", 20))
+    assert not is_verified_reading_gloss("The Caral area is old.", gloss("Caral area", 4))
     assert not is_verified_reading_gloss("The Roman Empire expanded", gloss("Roman Empire", 4))
     assert not is_verified_reading_gloss("A city near the Mediterranean",
         gloss("Mediterranean", 16))
