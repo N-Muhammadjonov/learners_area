@@ -1,27 +1,20 @@
-"""Scope the General Reading inline dictionary to verified, source-exact meanings.
+"""Only source-exact Reading meanings with translations are displayed.
 
-Names of people, places, historical entities and named programmes are not
-vocabulary targets.  This policy changes only the General Reading learning
-projection; it never deletes a shared lexeme or a learner's saved vocabulary.
+Pronouns are excluded from Reading vocabulary targets. This projection never
+changes a stored meaning or any learner-owned vocabulary state.
 """
 from __future__ import annotations
 
 from collections.abc import Mapping
 
-_NON_VOCABULARY_NAMES: frozenset[str] = frozenset({
-    "roman empire",
-    "mediterranean",
-    "european capital of culture",
-    "caribbean",
-    "portuguese",
-    "heart of paris",
-    "caral area",
-    "arctic",
-    "industrial revolution",
-    "gordian knot",
-    "gordian solution",
+_READING_PRONOUNS: frozenset[str] = frozenset({
+    "i","me","my","mine","myself","you","your","yours","yourself",
+    "yourselves","he","him","his","himself","she","her","hers","herself",
+    "it","its","itself","we","us","our","ours","ourselves","they","them",
+    "their","theirs","themselves","who","whom","whose","someone",
+    "somebody","everyone","everybody","anyone","anybody","nobody",
+    "noone",
 })
-
 
 def is_verified_reading_gloss(body: str, row: Mapping[str, object]) -> bool:
     """Return True only for one source-positioned lexical sense with Uzbek text."""
@@ -30,7 +23,6 @@ def is_verified_reading_gloss(body: str, row: Mapping[str, object]) -> bool:
     translation = row.get("translation_uz")
     start = row.get("start_char")
     end = row.get("end_char")
-    pos = row.get("part_of_speech")
     if (
         not isinstance(body, str)
         or not isinstance(surface, str)
@@ -44,9 +36,8 @@ def is_verified_reading_gloss(body: str, row: Mapping[str, object]) -> bool:
         or start < 0
         or end <= start
         or end > len(body)
-        or str(pos or "").strip().lower() == "proper noun"
     ):
         return False
-    if surface.casefold().strip() in _NON_VOCABULARY_NAMES:
+    if surface.casefold().strip() in _READING_PRONOUNS:
         return False
     return body[start:end].casefold() == surface.casefold()
