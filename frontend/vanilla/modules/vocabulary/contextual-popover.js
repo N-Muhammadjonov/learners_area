@@ -47,7 +47,7 @@ export function contextualWordPopover(context,props){
     return {status:'resolved',contextual:localMeaning,occurrenceId,known:null};
    try{return await api.request(url,{signal:localSignal});}
    catch(e){
-    if(!inlineContext&&occurrenceId&&e?.status===404&&Number.isInteger(startChar)&&Number.isInteger(endChar))
+    if(sourceType!=='reading'&&!inlineContext&&occurrenceId&&e?.status===404&&Number.isInteger(startChar)&&Number.isInteger(endChar))
      return api.request(contextualUrl,{signal:localSignal});
     throw e;
    }
@@ -64,8 +64,8 @@ export function contextualWordPopover(context,props){
      if(data?.known)known={...data.known,...inlineContext};
      onSavedStatus?.(Boolean(data?.known));
     }else{
-     if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
-     alternatives=sourceType==='listening'?[]:Array.isArray(data?.alternatives)?data.alternatives:[];
+     if(sourceType!=='reading'&&data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
+     alternatives=sourceType==='listening'?[]:sourceType==='reading'?[]:Array.isArray(data?.alternatives)?data.alternatives:[];
      if(data?.status==='unresolved')unresolved=true;
      else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};if(data.known)onSavedStatus?.(true);else if(!localMeaning)onSavedStatus?.(false);}
      else if(data?.contextual===null)unresolved=true;
