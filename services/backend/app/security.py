@@ -32,6 +32,10 @@ def warn_deployment_settings() -> None:
     """One warning per process and concern, without logging configuration values."""
     mode = environment()
     log = logging.getLogger('uvicorn.error')
+    if mode in ('production', 'preview') and len(os.getenv('AUTH_SECRET', '')) < 32:
+        if 'auth_secret' not in _startup_warnings:
+            _startup_warnings.add('auth_secret')
+            log.warning('AUTH_SECRET is shorter than 32 characters; generate at least 32 random characters for a planned future rotation. The 16-character minimum is unchanged.')
     origin_secret = os.getenv('CLOUDFLARE_ORIGIN_SECRET', '')
     verified_edge = (32 <= len(origin_secret) <= 256 and origin_secret.isascii()
                      and not any(char.isspace() for char in origin_secret))

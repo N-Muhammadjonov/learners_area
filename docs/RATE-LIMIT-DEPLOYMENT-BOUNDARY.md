@@ -29,3 +29,14 @@ host/protoni oladi; aks holda so'rov originini saqlaydi. `PUBLIC_BASE_URL`
 `check_origin()`dagi ruxsat etilgan originlar ro'yxatiga kiradi, lekin amaldagi
 `request_origin()` uning qiymatini qaytarish uchun ishlatmaydi. Bu trust mantiqi
 ushbu tuzatishda o'zgartirilmagan.
+
+AUTH_SECRET kamida 16 belgilik avvalgi minimumni saqlaydi. Yangi sozlashda kamida
+32 tasodifiy belgi yarating: `openssl rand -base64 48`. 16–31 belgilik qiymat
+production/preview startupida faqat ogohlantirish beradi. Secret rotatsiyasi
+mavjud sessiyalarni bekor qiladi; bu branch rotatsiya qilmaydi.
+
+`is_https()` o'zgartirilmagan. Hozirgi kod forwarded HTTPS belgisi orqali Secure
+cookie qo'yadi. Jonli Railway sozlamalari tekshirilmagani va ularni o'qish scope
+tashqarisida bo'lgani uchun bu himoyani toraytirish tasdiqlanmadi.
+Srcdoc `postMessage('*')` ham saqlangan: bu muhitda haqiqiy brauzer tekshiruvi
+bloklandi. Parent tomonidagi source/origin/path tekshiruvlari saqlanadi.
