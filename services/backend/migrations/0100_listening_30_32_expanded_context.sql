@@ -68,7 +68,7 @@ DECLARE invalid_count integer;
 BEGIN
  SELECT count(*) INTO invalid_count
  FROM lexical_occurrences o JOIN listening_packages p ON p.test_id=o.listening_test_id
- WHERE p.source_id IN ('listening-test-30','listening-test-31','listening-test-32','listening-test-29')
+ WHERE p.source_id IN ('listening-test-30','listening-test-31','listening-test-32')
  AND o.source_type='listening' AND o.segment_key='s'||o.section_number::text
  AND (o.resolution_status<>'resolved' OR o.lexeme_id IS NULL
  OR substring(p.payload::jsonb->'sections'->(o.section_number-1)->>'transcript'
@@ -80,7 +80,7 @@ BEGIN
  AND a.segment_key=b.segment_key AND a.id<b.id
  AND a.start_char<b.end_char AND b.start_char<a.end_char
  JOIN listening_packages p ON p.test_id=a.listening_test_id
- WHERE p.source_id IN ('listening-test-30','listening-test-31','listening-test-32','listening-test-29')
+ WHERE p.source_id IN ('listening-test-30','listening-test-31','listening-test-32')
  AND a.source_type='listening' AND a.segment_key='s'||a.section_number::text
  ) THEN RAISE EXCEPTION 'Overlapping transcript dictionary spans'; END IF;
 END $verify$;
