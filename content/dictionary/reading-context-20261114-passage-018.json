@@ -1,0 +1,1494 @@
+{
+  "testNo": 6,
+  "passageNo": 3,
+  "terms": [
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "widely recognised",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "keng tarqalgan",
+      "definitionEn": "accepted or known by many people"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "legend",
+      "partOfSpeech": "noun",
+      "translationUz": "afsona",
+      "definitionEn": "a traditional story about past events"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "fourth century BC",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "miloddan avvalgi to‘rtinchi asr",
+      "definitionEn": "the years 400 to 301 before the common era"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "oxcart",
+      "partOfSpeech": "noun",
+      "translationUz": "ho‘kiz aravasi",
+      "definitionEn": "a cart pulled by oxen"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "roped",
+      "partOfSpeech": "verb",
+      "translationUz": "arqon bilan bog‘langan",
+      "definitionEn": "fastened with a rope"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "pole",
+      "partOfSpeech": "noun",
+      "translationUz": "yog‘och ustun",
+      "definitionEn": "a long upright support"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "complex knot",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "chigal tugun",
+      "definitionEn": "a knot difficult to undo"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "untie",
+      "partOfSpeech": "verb",
+      "translationUz": "yechmoq",
+      "definitionEn": "loosen a knot or fastening"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "proved impossible",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "imkonsizligi ma’lum bo‘ldi",
+      "definitionEn": "turned out not to be possible"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "confronted with",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "duch kelgan",
+      "definitionEn": "faced with a problem"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "problem",
+      "partOfSpeech": "noun",
+      "translationUz": "muammo",
+      "definitionEn": "a difficult matter requiring a solution"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "deliberating",
+      "partOfSpeech": "verb",
+      "translationUz": "bafurja mulohaza yuritish",
+      "definitionEn": "considering alternatives carefully"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "Gordian knot",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Gordiy tuguni",
+      "definitionEn": "a legendary knot representing a difficult problem"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "ruler",
+      "partOfSpeech": "noun",
+      "translationUz": "hukmdor",
+      "definitionEn": "a person governing a kingdom"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "ancient world",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qadimgi dunyo",
+      "definitionEn": "societies of distant historical periods"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "sword",
+      "partOfSpeech": "noun",
+      "translationUz": "shamshir",
+      "definitionEn": "a weapon with a long blade"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "cut it in two",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "ikkiga bo‘lib tashladi",
+      "definitionEn": "divided an object into two pieces by cutting"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "conquer",
+      "partOfSpeech": "verb",
+      "translationUz": "zabt etmoq",
+      "definitionEn": "take control of a territory by force"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "ever since",
+      "partOfSpeech": "phrase",
+      "translationUz": "o‘shandan buyon",
+      "definitionEn": "continuously from that time onward"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "notion",
+      "partOfSpeech": "noun",
+      "translationUz": "tushuncha",
+      "definitionEn": "an idea or concept"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "Gordian solution",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Gordiycha yechim",
+      "definitionEn": "a bold simple solution to an intricate problem"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "referred to",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "anglatgan",
+      "definitionEn": "stood for a particular idea"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "attractiveness",
+      "partOfSpeech": "noun",
+      "translationUz": "jozibadorlik",
+      "definitionEn": "the quality of being appealing"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "simple answer",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "oddiy javob",
+      "definitionEn": "a straightforward solution"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "otherwise",
+      "partOfSpeech": "adverb",
+      "translationUz": "aks holda",
+      "definitionEn": "under different circumstances"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "intractable",
+      "partOfSpeech": "adjective",
+      "translationUz": "yechimi o‘ta qiyin",
+      "definitionEn": "very difficult to manage or resolve"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "researchers",
+      "partOfSpeech": "noun",
+      "translationUz": "tadqiqotchilar",
+      "definitionEn": "people conducting studies"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "psychology",
+      "partOfSpeech": "noun",
+      "translationUz": "psixologiya",
+      "definitionEn": "the scientific study of behaviour and thinking"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "decision making",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qaror qabul qilish",
+      "definitionEn": "the process of selecting among alternatives"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "traditionally",
+      "partOfSpeech": "adverb",
+      "translationUz": "an’anaviy tarzda",
+      "definitionEn": "according to long-established practice"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "held little appeal",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "unchalik xush ko‘rilmagan",
+      "definitionEn": "not considered particularly attractive"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "in particular",
+      "partOfSpeech": "phrase",
+      "translationUz": "xususan",
+      "definitionEn": "especially"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "conflict model",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "nizo modeli",
+      "definitionEn": "a theory of how conflict affects decision making"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "proposed",
+      "partOfSpeech": "verb",
+      "translationUz": "ilgari surilgan",
+      "definitionEn": "suggested for consideration"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "psychologists",
+      "partOfSpeech": "noun",
+      "translationUz": "psixologlar",
+      "definitionEn": "scientists studying the mind and behaviour"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "argued",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’kidlagan",
+      "definitionEn": "presented a case in support of a claim"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "complex decision-making process",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "murakkab qaror qabul qilish jarayoni",
+      "definitionEn": "an elaborate method for making choices"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "essential",
+      "partOfSpeech": "adjective",
+      "translationUz": "nihoyatda muhim",
+      "definitionEn": "absolutely necessary"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "guarding",
+      "partOfSpeech": "verb",
+      "translationUz": "himoya qilish",
+      "definitionEn": "protecting against a risk"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "individuals",
+      "partOfSpeech": "noun",
+      "translationUz": "shaxslar",
+      "definitionEn": "separate people"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "groups",
+      "partOfSpeech": "noun",
+      "translationUz": "guruhlar",
+      "definitionEn": "collections of people"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "peril",
+      "partOfSpeech": "noun",
+      "translationUz": "xavf",
+      "definitionEn": "serious danger"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "group-think",
+      "partOfSpeech": "noun",
+      "translationUz": "guruhbozlik tafakkuri",
+      "definitionEn": "a group tendency to suppress independent criticism"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "decisions",
+      "partOfSpeech": "noun",
+      "translationUz": "qarorlar",
+      "definitionEn": "choices reached after consideration"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "thorough",
+      "partOfSpeech": "adjective",
+      "translationUz": "sinchkov",
+      "definitionEn": "careful and complete"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "canvassing",
+      "partOfSpeech": "verb",
+      "translationUz": "variantlarni batafsil o‘rganish",
+      "definitionEn": "seeking and examining multiple viewpoints"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "surveying",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘rib chiqish",
+      "definitionEn": "systematically examining options"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "weighing",
+      "partOfSpeech": "verb",
+      "translationUz": "tosh-taroziga solish",
+      "definitionEn": "assessing competing advantages and disadvantages"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "examining",
+      "partOfSpeech": "verb",
+      "translationUz": "tekshirish",
+      "definitionEn": "inspecting information carefully"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "reexamining",
+      "partOfSpeech": "verb",
+      "translationUz": "qayta tekshirish",
+      "definitionEn": "checking information again"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "relevant information",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tegishli ma’lumotlar",
+      "definitionEn": "facts related to the decision"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "options",
+      "partOfSpeech": "noun",
+      "translationUz": "variantlar",
+      "definitionEn": "possible choices"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "suboptimal",
+      "partOfSpeech": "adjective",
+      "translationUz": "nomaqbul",
+      "definitionEn": "not achieving the best possible outcome"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "disastrous",
+      "partOfSpeech": "adjective",
+      "translationUz": "halokatli",
+      "definitionEn": "causing severe damage"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "foreign affair decision",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tashqi siyosat qarori",
+      "definitionEn": "a decision involving relations between countries"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "political leader",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "siyosiy yetakchi",
+      "definitionEn": "a person leading political affairs"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "typically",
+      "partOfSpeech": "adverb",
+      "translationUz": "odatda",
+      "definitionEn": "in most cases"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "example",
+      "partOfSpeech": "noun",
+      "translationUz": "misol",
+      "definitionEn": "an instance illustrating a claim"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "perils",
+      "partOfSpeech": "noun",
+      "translationUz": "xatarlar",
+      "definitionEn": "serious risks"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "inadequate thought",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yetarlicha o‘ylanmagan qaror",
+      "definitionEn": "a failure to consider something properly"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "successful handling",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muvaffaqiyatli hal etish",
+      "definitionEn": "managing a problem effectively"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "crisis",
+      "partOfSpeech": "noun",
+      "translationUz": "inqiroz",
+      "definitionEn": "a period of serious difficulty"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "cited",
+      "partOfSpeech": "verb",
+      "translationUz": "misol qilib keltirilgan",
+      "definitionEn": "mentioned as supporting evidence"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "advantages",
+      "partOfSpeech": "noun",
+      "translationUz": "afzalliklar",
+      "definitionEn": "positive qualities"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "careful deliberation",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "puxta mulohaza",
+      "definitionEn": "a detailed and cautious consideration"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "examination",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘rganish",
+      "definitionEn": "careful investigation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "historical events",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tarixiy voqealar",
+      "definitionEn": "events that occurred in the past"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "difference",
+      "partOfSpeech": "noun",
+      "translationUz": "farq",
+      "definitionEn": "a distinction between two things"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "consideration",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘rib chiqish",
+      "definitionEn": "careful thought about a matter"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "political administration",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "siyosiy ma’muriyat",
+      "definitionEn": "a group governing a country"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "deemed",
+      "partOfSpeech": "verb",
+      "translationUz": "deb hisoblangan",
+      "definitionEn": "judged to have a particular quality"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "effective",
+      "partOfSpeech": "adjective",
+      "translationUz": "samarali",
+      "definitionEn": "achieving the desired result"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "organizational",
+      "partOfSpeech": "adjective",
+      "translationUz": "tashkiliy",
+      "definitionEn": "relating to the structure of organisations"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "political science",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "siyosatshunoslik",
+      "definitionEn": "the study of politics and governance"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "evidence",
+      "partOfSpeech": "noun",
+      "translationUz": "dalillar",
+      "definitionEn": "facts supporting a conclusion"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "fare better",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "yaxshiroq natija bermoq",
+      "definitionEn": "achieve a better outcome"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "growing body of work",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ko‘payib borayotgan tadqiqotlar",
+      "definitionEn": "an increasing amount of research"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "situations",
+      "partOfSpeech": "noun",
+      "translationUz": "vaziyatlar",
+      "definitionEn": "sets of circumstances"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "snap decisions",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tezkor qarorlar",
+      "definitionEn": "choices made almost instantly"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "routinely",
+      "partOfSpeech": "adverb",
+      "translationUz": "muntazam ravishda",
+      "definitionEn": "as a regular occurrence"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "superior",
+      "partOfSpeech": "adjective",
+      "translationUz": "ustun",
+      "definitionEn": "better than another option"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "widespread public appeal",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ommaviy shuhrat",
+      "definitionEn": "popularity among many people"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "best-selling book",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "bestseller kitob",
+      "definitionEn": "a book sold in very high numbers"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "article",
+      "partOfSpeech": "noun",
+      "translationUz": "maqola",
+      "definitionEn": "a published piece of writing"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "colleagues",
+      "partOfSpeech": "noun",
+      "translationUz": "hamkasblar",
+      "definitionEn": "people working in the same profession"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "right choice",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "to‘g‘ri tanlov",
+      "definitionEn": "an appropriate decision"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "deliberation-without-attention effect",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "e’tiborsiz mulohaza samarasi",
+      "definitionEn": "the proposed benefit of unconscious thought for complex decisions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "in the spirit of",
+      "partOfSpeech": "phrase",
+      "translationUz": "ruhiyatiga yaqin",
+      "definitionEn": "having the same general approach"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "influential text",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ta’sirli asar",
+      "definitionEn": "writing that strongly affects ideas"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "core argument",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "asosiy dalil",
+      "definitionEn": "the central claim supporting an argument"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "conscious",
+      "partOfSpeech": "adjective",
+      "translationUz": "ongli",
+      "definitionEn": "involving awareness and deliberate thought"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "deliberative",
+      "partOfSpeech": "adjective",
+      "translationUz": "bafurja mulohazali",
+      "definitionEn": "based on careful consideration"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "cognitive resources",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "aqliy resurslar",
+      "definitionEn": "mental capacity available for processing information"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "increasingly complex",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "tobora murakkablashib borayotgan",
+      "definitionEn": "growing more difficult and complicated"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "strain",
+      "partOfSpeech": "noun",
+      "translationUz": "og‘ir yuk",
+      "definitionEn": "pressure that exceeds comfortable capacity"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "quality",
+      "partOfSpeech": "noun",
+      "translationUz": "sifat",
+      "definitionEn": "the degree of excellence"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "declines",
+      "partOfSpeech": "verb",
+      "translationUz": "pasayadi",
+      "definitionEn": "decreases gradually"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "complexity",
+      "partOfSpeech": "noun",
+      "translationUz": "murakkablik",
+      "definitionEn": "having many interconnected elements"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "overrun",
+      "partOfSpeech": "verb",
+      "translationUz": "imkoniyatdan oshib ketmoq",
+      "definitionEn": "exceed available capacity"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "cognitive powers",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "aqliy imkoniyatlar",
+      "definitionEn": "abilities used for reasoning"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "unconscious",
+      "partOfSpeech": "adjective",
+      "translationUz": "ongsiz",
+      "definitionEn": "without conscious awareness"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "task complexity",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "vazifaning murakkabligi",
+      "definitionEn": "how difficult and complicated a task is"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "seemingly",
+      "partOfSpeech": "adverb",
+      "translationUz": "bir qarashda",
+      "definitionEn": "apparently"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "counterintuitive",
+      "partOfSpeech": "adjective",
+      "translationUz": "mantiqqa zid ko‘ringan",
+      "definitionEn": "contrary to what one would normally expect"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "conclusion",
+      "partOfSpeech": "noun",
+      "translationUz": "xulosa",
+      "definitionEn": "a judgment reached by reasoning"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "conscious thought",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ongli fikrlash",
+      "definitionEn": "thinking carried out with awareness"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "enhances",
+      "partOfSpeech": "verb",
+      "translationUz": "yaxshilaydi",
+      "definitionEn": "improves effectiveness"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "opposite",
+      "partOfSpeech": "noun",
+      "translationUz": "aksi",
+      "definitionEn": "a contrary result"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "holds true",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "to‘g‘ri bo‘lib chiqadi",
+      "definitionEn": "is valid in the described case"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "elegant studies",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "puxta va sodda tadqiqotlar",
+      "definitionEn": "studies with simple convincing design"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "participants",
+      "partOfSpeech": "noun",
+      "translationUz": "ishtirokchilar",
+      "definitionEn": "people taking part in a study"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "assessed",
+      "partOfSpeech": "verb",
+      "translationUz": "baholadilar",
+      "definitionEn": "evaluated a quality"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "hypothetical cars",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "shartli avtomobillar",
+      "definitionEn": "imaginary cars used in a test"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "considering",
+      "partOfSpeech": "verb",
+      "translationUz": "hisobga olgan holda",
+      "definitionEn": "taking information into account"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "attributes",
+      "partOfSpeech": "noun",
+      "translationUz": "xususiyatlar",
+      "definitionEn": "individual features"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "engage in",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "shug‘ullanmoq",
+      "definitionEn": "participate in a process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "undistracted",
+      "partOfSpeech": "adjective",
+      "translationUz": "chalg‘imagan",
+      "definitionEn": "not interrupted by external distractions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "discriminating between",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "farqlay olish",
+      "definitionEn": "telling different options apart"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "distracted",
+      "partOfSpeech": "adjective",
+      "translationUz": "chalg‘itilgan",
+      "definitionEn": "having attention diverted"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "unable",
+      "partOfSpeech": "adjective",
+      "translationUz": "qodir emas",
+      "definitionEn": "not able to do something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "rely on",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "tayanmoq",
+      "definitionEn": "depend on something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "pattern",
+      "partOfSpeech": "noun",
+      "translationUz": "qonuniyat",
+      "definitionEn": "a recurring arrangement"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "emerged",
+      "partOfSpeech": "verb",
+      "translationUz": "yuzaga keldi",
+      "definitionEn": "appeared or became evident"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "criteria",
+      "partOfSpeech": "noun",
+      "translationUz": "mezonlar",
+      "definitionEn": "standards used for evaluation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "inferior",
+      "partOfSpeech": "adjective",
+      "translationUz": "sifati past",
+      "definitionEn": "worse than other alternatives"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "surveyed",
+      "partOfSpeech": "verb",
+      "translationUz": "so‘rov o‘tkazdi",
+      "definitionEn": "asked people structured questions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "shopping",
+      "partOfSpeech": "verb",
+      "translationUz": "xarid qilayotgan",
+      "definitionEn": "buying goods"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "clothes",
+      "partOfSpeech": "noun",
+      "translationUz": "kiyim-kechak",
+      "definitionEn": "items worn on the body"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "furniture",
+      "partOfSpeech": "noun",
+      "translationUz": "mebel",
+      "definitionEn": "movable household equipment"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "compared with",
+      "partOfSpeech": "phrase",
+      "translationUz": "solishtirganda",
+      "definitionEn": "in comparison with"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "deliberated",
+      "partOfSpeech": "verb",
+      "translationUz": "bafurja o‘ylagan",
+      "definitionEn": "considered carefully"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "shoppers",
+      "partOfSpeech": "noun",
+      "translationUz": "xaridorlar",
+      "definitionEn": "people buying goods"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "purchase",
+      "partOfSpeech": "noun",
+      "translationUz": "xarid",
+      "definitionEn": "an act of buying goods"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "happier",
+      "partOfSpeech": "adjective",
+      "translationUz": "mamnunroq",
+      "definitionEn": "more satisfied"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "produced better results",
+      "partOfSpeech": "verb phrase",
+      "translationUz": "yaxshiroq natija berdi",
+      "definitionEn": "caused more successful outcomes"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "big leap",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "katta xulosa sari qadam",
+      "definitionEn": "a major extension of an argument"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "assume",
+      "partOfSpeech": "verb",
+      "translationUz": "faraz qilmoq",
+      "definitionEn": "take something to be true"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "generalize",
+      "partOfSpeech": "verb",
+      "translationUz": "umumlashtirmoq",
+      "definitionEn": "apply a claim to more cases"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "types of choices",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tanlov turlari",
+      "definitionEn": "different categories of decisions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "political",
+      "partOfSpeech": "adjective",
+      "translationUz": "siyosiy",
+      "definitionEn": "relating to government"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "managerial",
+      "partOfSpeech": "adjective",
+      "translationUz": "boshqaruvga oid",
+      "definitionEn": "relating to management"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "benefit",
+      "partOfSpeech": "verb",
+      "translationUz": "foyda keltirmoq",
+      "definitionEn": "produce a positive outcome"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "individual",
+      "partOfSpeech": "noun",
+      "translationUz": "shaxs",
+      "definitionEn": "one particular person"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "delegate",
+      "partOfSpeech": "verb",
+      "translationUz": "topshirmoq",
+      "definitionEn": "give a task to another process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "complicated",
+      "partOfSpeech": "adjective",
+      "translationUz": "chigal",
+      "definitionEn": "difficult to understand"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "radical inference",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "keskin xulosa",
+      "definitionEn": "a far-reaching interpretation"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "contradicts",
+      "partOfSpeech": "verb",
+      "translationUz": "zid keladi",
+      "definitionEn": "conflicts with established claims"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "standard theory",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "an’anaviy nazariya",
+      "definitionEn": "a widely accepted explanatory framework"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "doubtless",
+      "partOfSpeech": "adverb",
+      "translationUz": "shubhasiz",
+      "definitionEn": "without doubt"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "comforts",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘ngliga xush yoqadi",
+      "definitionEn": "provides reassurance"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "attractive proposition",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "jozibali taklif",
+      "definitionEn": "an appealing suggested approach"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "suspects",
+      "partOfSpeech": "verb",
+      "translationUz": "taxmin qiladi",
+      "definitionEn": "believes something may be true"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "embrace",
+      "partOfSpeech": "verb",
+      "translationUz": "o‘zlashtirib olmoq",
+      "definitionEn": "accept an approach"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "wisdom",
+      "partOfSpeech": "noun",
+      "translationUz": "donishmandlik",
+      "definitionEn": "practical understanding"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "realms",
+      "partOfSpeech": "noun",
+      "translationUz": "sohalar",
+      "definitionEn": "areas of activity"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "society",
+      "partOfSpeech": "noun",
+      "translationUz": "jamiyat",
+      "definitionEn": "a community of people"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "governance",
+      "partOfSpeech": "noun",
+      "translationUz": "boshqaruv",
+      "definitionEn": "the process of governing"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "problematic implications",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "bahsli oqibatlar",
+      "definitionEn": "consequences that raise difficulties"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "surface",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘zga tashlanmoq",
+      "definitionEn": "become apparent"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "variables",
+      "partOfSpeech": "noun",
+      "translationUz": "omillar",
+      "definitionEn": "factors that may change"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "neatly circumscribed",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "aniq chegaralangan",
+      "definitionEn": "clearly defined within boundaries"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "clarity",
+      "partOfSpeech": "noun",
+      "translationUz": "ravshanlik",
+      "definitionEn": "the state of being clear"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "group dynamics",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "guruh dinamikasi",
+      "definitionEn": "patterns of interaction within groups"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "social interaction",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ijtimoiy munosabatlar",
+      "definitionEn": "communication and behaviour between people"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "pertinent",
+      "partOfSpeech": "adjective",
+      "translationUz": "o‘rinli",
+      "definitionEn": "directly relevant"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "arise",
+      "partOfSpeech": "verb",
+      "translationUz": "paydo bo‘lmoq",
+      "definitionEn": "become apparent"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "counts as",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "deb hisoblanadi",
+      "definitionEn": "qualifies as something"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "outcome",
+      "partOfSpeech": "noun",
+      "translationUz": "natija",
+      "definitionEn": "the final result"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "social psychologist",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ijtimoiy psixolog",
+      "definitionEn": "a psychologist who studies social behaviour"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "respects",
+      "partOfSpeech": "verb",
+      "translationUz": "hurmat qiladi",
+      "definitionEn": "regards as legitimate"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "classic studies",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "klassik tadqiqotlar",
+      "definitionEn": "well-established influential research"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "participating",
+      "partOfSpeech": "verb",
+      "translationUz": "ishtirok etish",
+      "definitionEn": "taking part in a process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "abide by",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "rioya qilmoq",
+      "definitionEn": "follow accepted rules or outcomes"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "results",
+      "partOfSpeech": "noun",
+      "translationUz": "natijalar",
+      "definitionEn": "outcomes of a process"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "decision-makers",
+      "partOfSpeech": "noun",
+      "translationUz": "qaror qabul qiluvchilar",
+      "definitionEn": "people responsible for making decisions"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "at fault",
+      "partOfSpeech": "phrase",
+      "translationUz": "aybdor",
+      "definitionEn": "responsible for a mistake"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "invaluable",
+      "partOfSpeech": "adjective",
+      "translationUz": "beqiyos ahamiyatli",
+      "definitionEn": "extremely valuable"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "limitations",
+      "partOfSpeech": "noun",
+      "translationUz": "cheklovlar",
+      "definitionEn": "restrictions in what can be achieved"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "conventional wisdom",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "umumiy qabul qilingan qarash",
+      "definitionEn": "a commonly accepted belief"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "decision quality",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qaror sifati",
+      "definitionEn": "how good the outcome of a decision is"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "rises",
+      "partOfSpeech": "verb",
+      "translationUz": "oshadi",
+      "definitionEn": "increases"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "tempts",
+      "partOfSpeech": "verb",
+      "translationUz": "xomxayolga yetaklaydi",
+      "definitionEn": "encourages someone to believe an oversimplification"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "ideology",
+      "partOfSpeech": "noun",
+      "translationUz": "mafkura",
+      "definitionEn": "a system of political or social beliefs"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "group membership",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "guruhga mansublik",
+      "definitionEn": "belonging to a group"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "social considerations",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ijtimoiy omillar",
+      "definitionEn": "social factors relevant to an issue"
+    },
+    {
+      "testNo": 6,
+      "passageNo": 3,
+      "surface": "general appeal",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "umumiy jozibadorlik",
+      "definitionEn": "a quality that attracts broad support"
+    }
+  ]
+}
