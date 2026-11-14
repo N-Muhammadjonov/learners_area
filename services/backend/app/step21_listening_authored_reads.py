@@ -147,6 +147,8 @@ async def authored(req:Request,id:str):
                        for name_start,name_end in name_spans.get(part,())):continue
                 spans.append({'part':part,'start':start,'end':end,'surface':row['surface_form'],'occurrenceId':str(row['id'])})
             out['contextualOccurrences']=spans
+            suffix=source.rsplit('-',1)[-1]
+            out['testTitle']='Listening Test '+str(int(suffix)) if suffix.isdigit() else 'Listening Test'
             if definition:out['storageKey']=definition['storageKey']
             if definition and definition['media']:out['audioPath']=definition['media'][0]['path']
             elif 'path' in audio:out['audioPath']=audio['path']
