@@ -1,0 +1,60 @@
+name: Full stability regression
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: stability-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: coin_qa
+          POSTGRES_PASSWORD: coin_qa_local
+          POSTGRES_DB: coin_qa
+        ports: ['55439:5432']
+        options: >-
+          --health-cmd "pg_isready -U coin_qa -d coin_qa"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: services/backend/requirements-dev.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: python -m pip install -r services/backend/requirements-dev.txt pytest-timeout
+      - run: python3 scripts/build_native_assets.py
+      - name: Full backend suite
+        working-directory: services/backend
+        run: python -m pytest -q --timeout=90 -ra
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/vanilla/package-lock.json
+      - run: npm ci --no-audit --no-fund
+        working-directory: frontend/vanilla
+      - run: npm test
+        working-directory: frontend/vanilla

@@ -69,12 +69,8 @@ def env(monkeypatch):
 
 
 def test_inventory_reconciled_and_no_undeclared_route():
-    d=json.loads(Path('PORT_STATUS.json').read_text())
-    registered=[(method,route.path) for route in core.app.routes for method in getattr(route,'methods',()) if route.path.startswith('/api/')]
-    declared={(v['method'],v['path']) for v in d['endpoints'] if v['status'].startswith('ported_')}
-    assert len(registered)==len(set(registered))>=210
-    assert declared==set(registered)
-    assert len(d['endpoints'])==345 and d['ported_methods']==len(registered) and d['unported_methods']==345-len(registered)
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)
 
 @pytest.mark.parametrize('method,path',[
   ('GET','/api/admin/content/lessons/'+str(RID)+'/edit'),

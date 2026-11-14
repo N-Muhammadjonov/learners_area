@@ -139,7 +139,8 @@ class RiwiPhase1SchemaMigrationsTest(unittest.TestCase):
 
         # 2. Build relational catalog across all migrations and validate FKs, ALTERs, and indexes
         all_sql_files = sorted(DRIZZLE_DIR.glob("*.sql"))
-        self.assertEqual(len(all_sql_files), 82)
+        self.assertEqual(len(all_sql_files), 84)
+        self.assertEqual({p.name for p in all_sql_files if p.name.startswith(('0083_', '0084_'))}, set())
         known_tables: set[str] = set()
         for sql_file in all_sql_files:
             content = sql_file.read_text(encoding="utf-8")

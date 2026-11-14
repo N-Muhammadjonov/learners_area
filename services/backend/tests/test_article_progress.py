@@ -11,7 +11,10 @@ from test_migration_phase2 import FakePool
 
 USER = UUID(int=1)
 OTHER = UUID(int=2)
-REQUEST = Request({'type': 'http', 'method': 'GET', 'path': '/', 'headers': []})
+async def receive():
+    return {'type':'http.request','body':b'{"answers":["fixture answer"]}','more_body':False}
+
+REQUEST = Request({'type': 'http', 'method': 'POST', 'path': '/', 'headers': []}, receive)
 
 
 class Connection:
@@ -38,6 +41,9 @@ def test_completion_is_account_scoped_validated_and_idempotently_merged(monkeypa
     monkeypatch.setattr(core, 'current_user', AsyncMock(return_value={'id': USER}))
     monkeypatch.setattr(core, 'pool', AsyncMock(return_value=FakePool(con)))
     monkeypatch.setattr(progress, 'article_ids', lambda: {'plastic-bags', 'dreams'})
+    from app import coin_rewards
+    monkeypatch.setattr(coin_rewards, 'article_question_count', lambda _: 1)
+    monkeypatch.setattr(coin_rewards, 'award_answers', AsyncMock(return_value=False))
     result = asyncio.run(progress.complete_article(REQUEST, 'dreams'))
     assert result.status_code == 200
     sql, args = con.calls[-1]

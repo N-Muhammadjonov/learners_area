@@ -209,6 +209,7 @@ def test_riwi_outputs_have_native_schema():
 
 
 def test_three_new_routes_registered_once():
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)
     required={('POST','/api/grammar/exercises/{id}/produce'),('POST','/api/speaking/attempts/{id}/transcript'),('POST','/api/vocabulary/{id}/use')}
-    actual=[(m,r.path) for r in core.app.routes if r.path.startswith('/api/') for m in getattr(r,'methods',())]
-    assert required<=set(actual) and len(actual)==len(set(actual))==345
+    assert required <= current

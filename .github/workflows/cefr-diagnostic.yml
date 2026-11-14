@@ -9,7 +9,7 @@ on:
       - services/backend/app/study_plan_level_port.py
       - services/backend/app/data/plan_level_bank.json
       - services/backend/tests/test_study_plan_level.py
-      - frontend/vanilla/modules/premium-landing.js
+      - frontend/vanilla/modules/landing-inline.js
       - frontend/vanilla/modules/study-plan/level-check.js
       - frontend/vanilla/tests/study-plan-level-check.test.mjs
       - .github/workflows/cefr-diagnostic.yml
@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.14'
       - name: Install backend test dependencies
         run: python -m pip install -r services/backend/requirements.txt pytest pytest-asyncio
       - name: Check Python syntax
@@ -51,7 +51,7 @@ jobs:
         run: npm ci --prefix frontend/vanilla --no-audit --no-fund
       - name: Validate JS syntax
         run: |
-          node --check frontend/vanilla/modules/premium-landing.js
+          node --check frontend/vanilla/modules/landing-inline.js
           node --check frontend/vanilla/modules/study-plan/level-check.js
           node --check frontend/vanilla/tests/study-plan-level-check.test.mjs
       - name: Run level check and landing plan tests

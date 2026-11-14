@@ -19,13 +19,9 @@ NEW={('GET','/api/vocabulary/lookup'),('GET','/api/admin/content/versions/{id}/p
 ('POST','/api/writing/stealing/practice'),('POST','/api/writing/activation/check')}
 
 def test_inventory_exact():
-    state=json.loads(Path('PORT_STATUS.json').read_text())
-    actual=[(m,r.path) for r in core.app.routes for m in getattr(r,'methods',()) if r.path.startswith('/api/')]
-    found=set(actual)
-    assert len(actual)==len(found)==345
-    assert state['ported_methods']==345 and state['unported_methods']==0
-    ported={(r['method'],r['path']) for r in state['endpoints'] if r['status'].startswith('ported_')}
-    assert ported==found and NEW<=ported
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)
+    assert NEW <= current
 
 @pytest.mark.parametrize('endpoint',[
  '/api/writing/grade','/api/writing/grade/'+str(uuid4()),'/api/writing/translation/'+str(uuid4())+'/answer',

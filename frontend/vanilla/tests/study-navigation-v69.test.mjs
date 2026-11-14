@@ -12,9 +12,9 @@ const study={currentLevel:'B2',currentBand:6.5,targetBand:8,examDate:'2027-03-04
 test('profile shows stored IELTS details, saves the exact PATCH contract and keeps the success state',async()=>{
  const h=setup({path:'/app/profile',role:'student'});let refreshed=0;h.ctx.refresh=async()=>refreshed++;
  try{h.stub({'/api/frontend/view':{version:1,route:'/app/profile',data:{profile:{telegramIntentEnabled:false,botUsername:null,study}}},'/api/profile/study':{ok:true}});await mount(h.ctx);
-  const form=h.q('[data-study-form]');assert(form);assert.equal(form.querySelector('#currentBand').value,'6.5');assert.equal(form.querySelector('#examDate').value,'2027-03-04');
+  const form=h.q('[data-study-form]');assert(form);assert.equal(form.querySelector('#currentBand'),null);assert.equal(form.querySelector('#examDate').value,'2027-03-04');
   h.input(form.querySelector('#targetBand'),'8.5');h.submit(form);await tick();
-  const call=h.calls.find(c=>c.path==='/api/profile/study');assert.equal(call.method,'PATCH');assert.deepEqual(call.body,{preferredLanguage:'en',currentLevel:'B2',currentBand:'6.5',targetBand:'8.5',examDate:'2027-03-04',dailyStudyMinutes:'90',strongestSkill:'listening',weakestSkill:'writing'});assert.equal(refreshed,1);
+  const call=h.calls.find(c=>c.path==='/api/profile/study');assert.equal(call.method,'PATCH');assert.deepEqual(call.body,{preferredLanguage:'en',currentLevel:'B2',targetBand:'8.5',examDate:'2027-03-04',dailyStudyMinutes:'90',strongestSkill:'listening',weakestSkill:'writing'});assert.equal(refreshed,1);
   assert.equal(form.querySelector('[role=status]').textContent,h.ctx.dict.profile.studySaved);assert(h.ctx.state.profileStudy.saved);
  }finally{h.dispose();}
 });

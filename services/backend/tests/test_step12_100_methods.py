@@ -141,7 +141,7 @@ def test_broadcast_status_and_cancel_guards(monkeypatch):
 def test_directory_search_and_detail_obscure_private_email(monkeypatch):
     db=setup(monkeypatch)
     db.many['SELECT u.id,u.name']=[{'id':U,'name':'Example','email':'e@example.com','role':'student',
-        'account_status':'active','telegram_id':'811','created_at':NOW}]
+        'account_status':'active','telegram_id':'811','username':None,'created_at':NOW}]
     db.values['SELECT count(*)::int FROM users']=1
     r=C.get('/api/internal/telegram/directory?actorTelegramId=100&role=student',headers=H)
     assert r.status_code==200 and r.json()['items'][0]['entryType']=='website_user'

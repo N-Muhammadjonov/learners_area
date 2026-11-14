@@ -70,7 +70,7 @@ test('both participants request ICE recovery and a peer creation failure stops t
  };
  const answerer=new LivePartnerCall('recovery',base);
  try{
-  await answerer.start();await answerer.restartIce();
+  await answerer.start();await answerer.onMessage(JSON.stringify({type:'ready',peerPresent:false}));await answerer.restartIce();
   assert.equal(sent.at(-1).kind,'restart');
  }finally{answerer.destroy();}
  const failed=new LivePartnerCall('unsupported',{...base,createPeer(){throw Error('unsupported');}});

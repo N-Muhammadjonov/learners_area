@@ -15,19 +15,22 @@ from app.study_plan_level import (
 
 
 def test_in_app_bank_stays_identical_to_landing_reference():
-    source = Path(__file__).resolve().parents[3] / "frontend/vanilla/modules/premium-landing.js"
-    content = source.read_text(encoding="utf-8")
-    start = content.index("const LA_V5_BANK=") + len("const LA_V5_BANK=")
-    end = content.index(";\n/* All diagnostic data", start)
-    original = json.loads(content[start:end])
+    import re
+    source = Path(__file__).resolve().parents[3] / 'frontend/vanilla/modules/landing-inline.js'
+    content = json.JSONDecoder().raw_decode(re.split(r'export const LANDING_HTML\s*=', source.read_text(), maxsplit=1)[1].lstrip())[0]
+    original = json.loads(re.search(r'const Q=(\[.*?\]);', content, re.S)[1])
     imported = read_bank()
-    assert len(imported) == 150
-    for level in LEVELS:
-        for skill in SKILLS:
-            questions = original[level][skill]
-            assert len(questions) == 5
-            for question in questions:
-                assert imported[question["id"]] == question
+    assert len(imported) == 150 and len(original) == 45
+    skills = dict(g='grammar', v='vocabulary', r='reading', l='listening', u='use')
+    counters = {}
+    for question in original:
+        level, skill = LEVELS[question['l']], skills[question['s']]
+        counters[level, skill] = counters.get((level, skill), 0) + 1
+        canonical = imported[f'{level}-{skill}-{counters[level, skill]}']
+        assert (canonical['q'], canonical['options'], canonical['answer']) == (question['q'], question['opts'], question['answer'])
+        assert canonical.get('audio', canonical.get('passage', '')) == question['x']
+    assert len(counters) == 30
+    assert all(count == (1 if LEVELS.index(level) < 3 else 2) for (level, skill), count in counters.items())
 
 
 @pytest.mark.parametrize("level", LEVELS)

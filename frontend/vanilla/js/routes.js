@@ -172,4 +172,4 @@ if(route.pattern==='/app/listening')return {...route,protected:true,redirectOnly
  ? {...route,progressiveMount:true} : route);
 
 // Parent Connect owner route; enforced on server too.
-export default [...mapped,{pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')}];
+export default [...mapped,{...staffRoutes.find(route=>route.pattern==='/app/management/study-plans'),protected:true},{pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')}];

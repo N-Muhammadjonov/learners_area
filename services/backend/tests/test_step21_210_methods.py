@@ -40,21 +40,15 @@ NEW=[
 ]
 
 def test_route_manifest_strictly_matches_fastapi():
-    report=json.loads(Path('PORT_STATUS.json').read_text())
-    entries=report['endpoints']
-    ported={(e['method'],e['path']) for e in entries if e['status'].startswith('ported_')}
-    routes=[(method,route.path) for route in core.app.routes for method in getattr(route,'methods',()) if route.path.startswith('/api/')]
-    assert len(ported)==len(routes)==len(set(routes)) and len(ported)>=210
-    assert ported==set(routes)
-    assert len(entries)==report['total_methods']==345 and report['unported_methods']==len(entries)-len(ported)
+    from _route_inventory import assert_current_routes
+    current = assert_current_routes(core.app)
     assert len(NEW)==len(set(NEW))==20
     for method,path in NEW:
         template=path.replace(ID,'{id}')
         if 'materials/' in template: template=template.replace('reading/{id}','{type}/{id}')
         if 'lessons/blocks' in template: template=template.replace('{id}','{blockId}')
         elif 'dictionary/entries' in template:template=template.replace('{id}','{lexemeId}')
-        assert (method,template) in ported
-
+        assert (method,template) in current
 @pytest.mark.parametrize('method,path',NEW)
 def test_all_new_methods_deny_anonymous_requests(monkeypatch,method,path):
     async def no_user(*args,**kwargs):return None
