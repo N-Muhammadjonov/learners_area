@@ -38,3 +38,8 @@ test('Reading folder defaults to the authenticated source passage title', () => 
  assert.match(backend, /name=title\[:200\]/);
  assert.match(backend, /ON CONFLICT\(user_id,name\)/);
 });
+
+test('verified Reading vocabulary uses I-beam text cursor instead of help cursor', () => {
+ const clickable = source('modules/vocabulary/clickable-text.js');
+ assert.match(clickable, /verifiedOnly\?\{style:\{cursor:'text'\}\}/);
+});
