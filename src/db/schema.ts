@@ -4234,3 +4234,42 @@ export const academyGroupMemberships = pgTable("academy_group_memberships", {
   check("academy_group_memberships_check",
     sql`(${t.endsOn} IS NULL) = (${t.status} IN ('pending','active','paused'))`),
 ]).enableRLS();
+
+export const academySessions = pgTable("academy_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  groupId: uuid("group_id").notNull().references(() => academyGroups.id),
+  seriesId: uuid("series_id").notNull(),
+  branch: varchar("branch", { length: 120 }).notNull(),
+  room: varchar("room", { length: 120 }).notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+  status: varchar("status", { length: 12 }).notNull().default("scheduled"),
+  replacesId: uuid("replaces_id").unique().references((): AnyPgColumn => academySessions.id),
+  reason: varchar("reason", { length: 300 }),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  unique("academy_sessions_series_id_starts_at_key").on(t.seriesId, t.startsAt),
+  index("academy_sessions_group_start_idx").on(t.groupId, t.startsAt, t.id),
+  check("academy_sessions_ends_at_check", sql`${t.endsAt} > ${t.startsAt}`),
+  check("academy_sessions_status_check", sql`${t.status} IN ('scheduled','held','cancelled','rescheduled')`),
+  check("academy_sessions_revision_check", sql`${t.revision} > 0`),
+]).enableRLS();
+
+export const academySessionTeachers = pgTable("academy_session_teachers", {
+  sessionId: uuid("session_id").notNull().references(() => academySessions.id),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id),
+}, t => [
+  primaryKey({ name: "academy_session_teachers_pkey", columns: [t.sessionId, t.teacherUserId] }),
+  index("academy_session_teachers_scope_idx").on(t.teacherUserId, t.sessionId),
+]).enableRLS();
+
+export const academySessionReservations = pgTable("academy_session_reservations", {
+  sessionId: uuid("session_id").notNull().references(() => academySessions.id),
+  resourceKey: text("resource_key").notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+}, t => [
+  primaryKey({ name: "academy_session_reservations_pkey", columns: [t.sessionId, t.resourceKey] }),
+  index("academy_session_reservations_overlap_idx").on(t.resourceKey, t.startsAt, t.endsAt),
+  check("academy_session_reservations_ends_at_check", sql`${t.endsAt} > ${t.startsAt}`),
+]).enableRLS();

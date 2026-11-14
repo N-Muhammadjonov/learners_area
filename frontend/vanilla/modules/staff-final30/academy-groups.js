@@ -31,6 +31,10 @@ const en = {
  capacity_below_occupied: 'Capacity cannot be lower than the number of reserved seats.',
  invalid_teachers: 'Select at least one active teacher.', invalid_input: 'Check the form and try again.',
  invalid_group_transition: 'This group cannot change to that status.',
+ schedule_overlap: 'This room, group or teacher is already booked at that time.',
+ invalid_session_window: 'Choose a date within the active group dates and scheduling horizon.',
+ session_revision_conflict: 'This session changed. Reload the timetable before editing.',
+ session_not_ended: 'This session has not ended yet.',
 };
 const uz = {
  heading: 'Akademiya guruhlari', create: 'Guruh yaratish', edit: 'Guruhni tahrirlash', search: 'Qidirish',
@@ -51,6 +55,10 @@ const uz = {
  capacity_below_occupied: 'Sig‘im band joylar sonidan kam bo‘la olmaydi.',
  invalid_teachers: 'Kamida bitta faol o‘qituvchini tanlang.', invalid_input: 'Maydonlarni tekshirib, qayta urining.',
  invalid_group_transition: 'Guruhni bu holatga o‘tkazib bo‘lmaydi.',
+ schedule_overlap: 'Xona, guruh yoki o‘qituvchi shu vaqtda band.',
+ invalid_session_window: 'Guruh faol bo‘lgan oraliqdagi ruxsat etilgan sanani tanlang.',
+ session_revision_conflict: 'Dars o‘zgargan. Tahrirlashdan oldin jadvalni yangilang.',
+ session_not_ended: 'Bu dars hali tugamagan.',
 };
 
 const words = ctx => ctx.locale === 'uz' ? uz : en;
@@ -290,7 +298,7 @@ export async function mount(ctx) {
      el('p', {}, data.teachers.map(person => person.name || person.id).join(', ')),
      canManage && group.status !== 'archived' ? groupForm(ctx, data) : null,
      canManage && group.status === 'active' ? enrolForm(ctx, group) : null,
-     roster(ctx, data, page, query, canManage));
+     roster(ctx, data, page, query, canManage),sessionPanel(ctx,group,data.teachers,canManage));
     return;
    }
    const href = (partial = {}) => PATH + '?' + new URLSearchParams({q: query, ...(filter ? {status: filter} : {}), page, ...partial});
@@ -341,4 +349,92 @@ export function studentGroupHistory(ctx, studentId) {
  }
  listen(host, 'toggle', () => { if (host.open && !body.childNodes.length) void load(1); }, ctx.signal);
  return host;
+}
+
+function sessionPanel(ctx, group, teachers, canManage) {
+ const local = ctx.locale === 'uz';
+ const t = local ? {
+  title:'Dars jadvali', book:'Dars qo‘shish', reschedule:'Ko‘chirish', cancel:'Bekor qilish',
+  held:'O‘tgan deb belgilash', room:'Xona', date:'Sana', time:'Boshlanish vaqti', duration:'Davomiylik (daqiqa)',
+  weeks:'Haftalar', holidays:'Bayram sanalari (har qatorda YYYY-MM-DD)', reason:'Sabab',
+  noSessions:'Darslar hali belgilanmagan.', scheduled:'Rejalangan', cancelled:'Bekor qilingan',
+  rescheduled:'Ko‘chirilgan', delivered:'O‘tgan', substitute:'Boshqa o‘qituvchilar', holiday:'Bayram',
+ } : {
+  title:'Lesson timetable', book:'Schedule lessons', reschedule:'Reschedule', cancel:'Cancel session',
+  held:'Mark as held', room:'Room', date:'Date', time:'Start time', duration:'Duration (minutes)',
+  weeks:'Weeks', holidays:'Holiday dates (one YYYY-MM-DD per line)', reason:'Reason',
+  noSessions:'No lessons scheduled yet.', scheduled:'Scheduled', cancelled:'Cancelled',
+  rescheduled:'Rescheduled', delivered:'Held', substitute:'Substitute teachers', holiday:'Holiday',
+ };
+ const body = el('div', {class:'space-y-3'});
+ const panel = el('details', {class:'card space-y-3 p-4', 'data-academy-sessions':''},
+  el('summary', {class:'cursor-pointer font-semibold'}, t.title), body);
+ const endpoint = '/groups/' + group.id + '/sessions';
+ const timeZone = 'Asia/Tashkent';
+ const clock = new Intl.DateTimeFormat(local?'uz-UZ':'en-GB', {dateStyle:'medium', timeStyle:'short', timeZone});
+ function slotForm(row) {
+  const ident = crypto.randomUUID();
+  const room = el('input',{class:'input',required:true,maxlength:120,value:row?.room??group.room});
+  const date = el('input',{class:'input',type:'date',required:true});
+  const time = el('input',{class:'input',type:'time',required:true});
+  const duration = el('input',{class:'input',type:'number',min:15,max:360,required:true,value:60});
+  const weeks = el('input',{class:'input',type:'number',min:1,max:16,required:true,value:1});
+  const holidays = el('textarea',{class:'input',maxlength:220,rows:2});
+  const reason = el('input',{class:'input',required:true,minlength:3,maxlength:300});
+  const substitutes = options(ctx,'teacher',t.substitute,true);
+  const form = el('form',{class:'space-y-3','data-academy-session-form':''},
+   el('div',{class:'grid gap-2 sm:grid-cols-2'},field(t.room,room),field(t.date,date),field(t.time,time),
+    field(t.duration,duration),row?field(t.reason,reason):field(t.weeks,weeks),row?null:field(t.holidays,holidays)),
+   el('details',{},el('summary',{class:'cursor-pointer'},t.substitute),substitutes.node));
+  return submit(ctx,form,row?t.reschedule:t.book,async()=>{
+   const selected = substitutes.ids();
+   const fields = {room:room.value.trim(),localDate:date.value,localStart:time.value,
+    durationMinutes:duration.valueAsNumber,...(selected.length?{teacherIds:selected}:{})};
+   const path = row ? endpoint+'/'+row.id+'/reschedule':endpoint;
+   const data = row ? {...fields,reason:reason.value,revision:row.revision,replacementId:ident} :
+    {...fields,seriesId:ident,weeks:weeks.valueAsNumber,holidayDates:holidays.value.split(/\s+/).filter(Boolean)};
+   await request(ctx,path,{method:'POST',body:data});
+   if (!ctx.signal.aborted) await load(1);
+  });
+ }
+ function stateForm(row,status) {
+  const cancel = status==='cancelled';
+  const reason = el('input',{class:'input',required:true,minlength:3,maxlength:300});
+  const form = el('form',{class:'space-y-2'},cancel?field(t.reason,reason):null);
+  return submit(ctx,form,cancel?t.cancel:t.held,async()=>{
+   await request(ctx,endpoint+'/'+row.id,{method:'PUT',body:{status,revision:row.revision,...(cancel?{reason:reason.value}:{})}});
+   if (!ctx.signal.aborted) await load(1);
+  });
+ }
+ async function load(page) {
+  body.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
+  try {
+   const data = await request(ctx,endpoint+'?page='+page);
+   if (ctx.signal.aborted) return;
+   const previous = button(words(ctx).previous,{disabled:page===1});
+   const next = button(words(ctx).next,{disabled:!data.hasNext});
+   listen(previous,'click',()=>void load(page-1),ctx.signal);
+   listen(next,'click',()=>void load(page+1),ctx.signal);
+   const items = data.sessions.map(row=>el('li',{class:'space-y-2 py-3','data-academy-session':row.id},
+    el('p',{class:'font-medium'},clock.format(new Date(row.starts_at))+' · '+row.room),
+    el('p',{class:'text-sm'},[row.status==='held'?t.delivered:t[row.status],
+     row.teacher_names.join(', '),row.reason==='holiday'?t.holiday:row.reason].filter(Boolean).join(' · ')),
+    canManage&&row.status==='scheduled'?el('details',{class:'space-y-2'},
+     el('summary',{class:'cursor-pointer'},words(ctx).edit),stateForm(row,'cancelled'),
+     new Date(row.ends_at) <= new Date()?stateForm(row,'held'):null,slotForm(row)):null));
+   replace(body, el('p',{class:'text-sm'},timeZone),
+    canManage&&group.status==='active'?el('details',{class:'space-y-2'},
+     el('summary',{class:'cursor-pointer'},t.book),
+     el('p',{class:'text-sm'},teachers.map(row=>row.name||row.id).join(', ')),slotForm()):null,
+    items.length?el('ul',{class:'divide-y divide-ink-100'},items):el('p',{},t.noSessions),
+    el('div',{class:'flex gap-2'},previous,next));
+  } catch (error) {
+   if (ctx.signal.aborted) return;
+   const retry=button(ctx.dict.common.retry||words(ctx).search);
+   listen(retry,'click',()=>void load(page),ctx.signal);
+   body.replaceChildren(el('p',{role:'alert'},errorText(ctx,error)),retry);
+  }
+ }
+ listen(panel,'toggle',()=>{if(panel.open&&!body.childNodes.length)void load(1);},ctx.signal);
+ return panel;
 }

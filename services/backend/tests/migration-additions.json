@@ -52,5 +52,6 @@
  "1119_provider_clearing_account.sql": "c5ff471a35bea2cff93a59920115415cbd60f1fa530754a7df52bc4700a73ac5",
  "1120_freeze_contract_terms.sql": "e5cbb74ddad6d09e174dd8fe8ebf2fb232c33ccceb3c9d70a702f9961622917e",
  "1121_finance_outbox_dispatch.sql": "98ee97d027dd1288f772798dfa5d749b972fa5b22d099639f65a22014effee45",
- "1122_academy_groups.sql": "c53f19f00f32e5ecf8a4379ea08f7c853547d0cd6ade7eb7b352cb91e11d4456"
+ "1122_academy_groups.sql": "c53f19f00f32e5ecf8a4379ea08f7c853547d0cd6ade7eb7b352cb91e11d4456",
+ "1123_academy_sessions.sql": "b7cd103b1b2fd777a8a17c246b9b2abd2d26478d860147e5cb3fc67e9532b030"
 }

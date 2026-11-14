@@ -10,6 +10,7 @@ from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 
 from . import academy_groups as groups
+from . import academy_sessions as sessions
 from . import main as core
 from .rate_limit import RULES, async_counter, too_many
 
@@ -134,6 +135,35 @@ async def academy_student_group_history(req: Request, student_id: UUID, page: PA
             return error('student_not_found', 404)
         data = await groups.student_groups(conn, student_id, page)
     return core.j(data, headers=PRIVATE)
+
+
+@router.get('/groups/{group_id}/sessions')
+async def academy_session_list(req: Request, group_id: UUID, page: PAGE = 1) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        try:
+            data = await sessions.list_sessions(conn, group_id, user['id'], user['role'], page)
+        except groups.GroupError as exc:
+            return error(exc.code, exc.status)
+    return core.j(data, headers=PRIVATE)
+
+
+@router.post('/groups/{group_id}/sessions')
+async def academy_session_book(req: Request, group_id: UUID) -> JSONResponse:
+    return await write(req, sessions.Book, sessions.book, group_id, status=201)
+
+
+@router.put('/groups/{group_id}/sessions/{session_id}')
+async def academy_session_update(req: Request, group_id: UUID, session_id: UUID) -> JSONResponse:
+    return await write(req, sessions.Transition, sessions.transition, group_id, session_id)
+
+
+@router.post('/groups/{group_id}/sessions/{session_id}/reschedule')
+async def academy_session_reschedule(req: Request, group_id: UUID, session_id: UUID) -> JSONResponse:
+    return await write(req, sessions.Reschedule, sessions.reschedule, group_id, session_id, status=201)
 
 
 def install() -> None:

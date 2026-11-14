@@ -1561,6 +1561,26 @@
  },
  {
   "method": "GET",
+  "path": "/api/staff/academy/groups/{group_id}/sessions",
+  "name": "academy_session_list"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/groups/{group_id}/sessions",
+  "name": "academy_session_book"
+ },
+ {
+  "method": "PUT",
+  "path": "/api/staff/academy/groups/{group_id}/sessions/{session_id}",
+  "name": "academy_session_update"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/groups/{group_id}/sessions/{session_id}/reschedule",
+  "name": "academy_session_reschedule"
+ },
+ {
+  "method": "GET",
   "path": "/api/staff/academy/lookups/{kind}",
   "name": "academy_group_lookup"
  },

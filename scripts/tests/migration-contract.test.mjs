@@ -20,7 +20,10 @@ const FINANCE_TABLES = [
   'tuition_credit_notes', 'finance_journal_entries', 'finance_journal_lines',
   'finance_audit_events', 'finance_outbox_events', 'cash_day_adjustments',
 ];
-const ACADEMY_TABLES = ['academy_groups', 'academy_group_teachers', 'academy_group_memberships'];
+const ACADEMY_TABLES = [
+  'academy_groups', 'academy_group_teachers', 'academy_group_memberships',
+  'academy_sessions', 'academy_session_teachers', 'academy_session_reservations',
+];
 
 async function tableExists(db, name) {
   const { rows } = await db.query(

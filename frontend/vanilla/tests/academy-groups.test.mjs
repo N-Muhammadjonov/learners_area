@@ -93,3 +93,24 @@ test('roster read errors can be retried and profile history loads only when open
   assert.equal(h.calls.length, 3);
  } finally { h.dispose(); }
 });
+
+test('timetable presents a locally formatted lesson and retains cancelled holiday entries', async () => {
+ const h = setup({path: path + '?group=' + group.id, role: 'teacher'});
+ const base = endpoint + '/groups/' + group.id;
+ h.stub({
+  [base]: detail,
+  [base + '/sessions']: {sessions: [{id:ID(40),starts_at:'2026-11-20T05:00:00Z',
+   ends_at:'2026-11-20T06:00:00Z',room:'203',status:'cancelled',reason:'holiday',teacher_names:['Teacher']}],hasNext:false},
+ });
+ try {
+  await mount(h.ctx);
+  const panel = h.q('[data-academy-sessions]');
+  assert.equal(h.calls.length,1);
+  panel.open = true;
+  await tick();
+  const row = panel.querySelector('[data-academy-session]');
+  assert.match(row.textContent, /10:00/);
+  assert.match(row.textContent, /Cancelled.*Holiday/);
+  assert.equal(panel.querySelector('form'), null);
+ } finally { h.dispose(); }
+});

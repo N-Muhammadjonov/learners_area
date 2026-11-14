@@ -25,7 +25,8 @@ CREATE TABLE enrollments (
     enrolled_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE TABLE audit_log (
-    actor_user_id uuid, action text, target_type text, target_id text, metadata jsonb
+    actor_user_id uuid, action text, target_type text, target_id text, metadata jsonb,
+    created_at timestamptz NOT NULL DEFAULT now()
 );
 """
 
@@ -38,7 +39,7 @@ async def academy(monkeypatch):
     try:
         await create_disposable_schema(conn, schema)
         await conn.execute(BASE)
-        for filename in ('0035_teacher_student_links.sql', MIGRATION):
+        for filename in ('0035_teacher_student_links.sql', MIGRATION, '1123_academy_sessions.sql'):
             await conn.execute((MIGRATIONS / filename).read_text())
         actors = {}
         for key, role in [('owner', 'owner'), ('admin', 'admin'), ('teacher', 'teacher'),
@@ -224,3 +225,68 @@ async def test_future_group_accepts_pending_enrollment_but_cannot_activate_it(ac
                         json={'revision': 1, 'status': 'active'})
     assert denied.json() == {'error': 'group_not_accepting'}
     assert await conn.fetchval('SELECT count(*) FROM enrollments') == 0
+
+
+def booking(**overrides):
+    from datetime import timedelta
+    return {'seriesId': str(uuid4()), 'room': '203',
+            'localDate': (groups.today() + timedelta(days=1)).isoformat(),
+            'localStart': '10:00', 'durationMinutes': 60, **overrides}
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('factor', ['room', 'teacher', 'group'])
+async def test_concurrent_scheduling_prevents_overlapping_resources(academy, factor):
+    conn, _, actors, course, client = academy
+    first, _ = await create(client, course, actors)
+    other, _ = await create(client, course, actors, name='Group B')
+    target = first if factor == 'group' else other
+    path_a = '/groups/' + first['id'] + '/sessions'
+    path_b = '/groups/' + target['id'] + '/sessions'
+    one, two = await asyncio.gather(
+        send(client, 'POST', path_a, json=booking()),
+        send(client, 'POST', path_b, json=booking(
+            room=' 203 ' if factor == 'room' else '204',
+            teacherIds=[str(actors['teacher' if factor == 'teacher' else 'other_teacher'])])),
+    )
+    assert sorted(r.status_code for r in (one, two)) == [201, 409]
+    failed = next(r for r in (one, two) if r.status_code == 409)
+    assert failed.json() == {'error': 'schedule_overlap'}
+    assert await conn.fetchval('SELECT count(*) FROM academy_sessions') == 1
+    assert await conn.fetchval('SELECT count(*) FROM academy_session_reservations') == 3
+
+
+@pytest.mark.asyncio
+async def test_recurrence_preserves_holiday_and_reschedule_releases_original_booking(academy):
+    from datetime import date, datetime, timedelta
+
+    conn, _, actors, course, client = academy
+    group, _ = await create(client, course, actors)
+    path = '/groups/' + group['id'] + '/sessions'
+    data = booking(weeks=2)
+    data['holidayDates'] = [(date.fromisoformat(data['localDate']) + timedelta(days=7)).isoformat()]
+    scheduled = await send(client, 'POST', path, json=data)
+    assert scheduled.status_code == 201, scheduled.text
+    first, holiday = scheduled.json()['sessions']
+    assert holiday['status'] == 'cancelled' and holiday['reason'] == 'holiday'
+    assert datetime.fromisoformat(first['starts_at']).hour == 5  # 10:00 Asia/Tashkent
+    assert (await send(client, 'POST', path, json=data)).json() == scheduled.json()
+    assert (await send(client, 'POST', path, 'teacher', json=data)).status_code == 403
+    assert (await send(client, 'GET', path, 'other_teacher')).status_code == 404
+    command = {key: data[key] for key in ('room', 'localDate', 'durationMinutes')}
+    command.update(localStart='11:00', replacementId=str(uuid4()), revision=1, reason='Room availability')
+    change_path = path + '/' + first['id'] + '/reschedule'
+    moved = await send(client, 'POST', change_path, json=command)
+    assert moved.status_code == 201, moved.text
+    assert moved.json()['replaces_id'] == first['id']
+    assert (await send(client, 'POST', change_path, json=command)).json() == moved.json()
+    held = await send(client, 'PUT', path + '/' + moved.json()['id'],
+                      json={'status': 'held', 'revision': 1})
+    assert held.json() == {'error': 'session_not_ended'}
+    cancel = await send(client, 'PUT', path + '/' + moved.json()['id'],
+                        json={'status': 'cancelled', 'revision': 1, 'reason': 'Weather'})
+    assert cancel.status_code == 200, cancel.text
+    assert await conn.fetchval('SELECT count(*) FROM academy_session_reservations') == 0
+    roster = await send(client, 'GET', path, 'teacher')
+    assert {row['status'] for row in roster.json()['sessions']} == {'rescheduled', 'cancelled'}
+    assert await conn.fetchval("SELECT count(*) FROM audit_log WHERE action='academy.session.rescheduled'") == 1
