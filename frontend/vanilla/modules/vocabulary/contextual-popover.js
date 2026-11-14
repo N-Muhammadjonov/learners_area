@@ -14,7 +14,7 @@ import {privateScope} from '../../js/private-scope.js';
 const enc=encodeURIComponent;
 function speak(word){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(word);u.lang='en-GB';speechSynthesis.cancel();speechSynthesis.speak(u);}
 export function contextualWordPopover(context,props){
- const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose}=props,t=dict.vocabulary;
+ const {dict,signal}=context,{word,anchor,sourceType,sourceId,occurrenceId:initialOccurrenceId,startChar,endChar,section,onSavedStatus,onClose,sourceTitle}=props,t=dict.vocabulary;
  let occurrenceId=initialOccurrenceId,alternatives=[],contextual=null,unresolved=false,known=null,loading=true,saved=false,needsMeaning=false,busy=false,error=null,folders=[],folderId='',position=null,popup=null,version=0,stopped=false,focused=false;
  const controller=new AbortController(),localSignal=anySignal([signal,controller.signal]);
  let observer=null;
@@ -51,7 +51,7 @@ export function contextualWordPopover(context,props){
    else{
     let data=lookupResult.value;
     if(data?.status==='unresolved'&&occurrenceId&&Number.isInteger(startChar)&&Number.isInteger(endChar)){data=await api.request(contextualUrl,{signal:localSignal});if(localSignal.aborted||current!==version)return;}
-    alternatives=Array.isArray(data?.alternatives)?data.alternatives:[];
+    alternatives=sourceType==='listening'?[]:Array.isArray(data?.alternatives)?data.alternatives:[];
     if(data?.status==='unresolved')unresolved=true;
     else if(typeof data?.contextual?.definitionEn==='string'){contextual=data.contextual;if(data.occurrenceId)occurrenceId=data.occurrenceId;if(data.known)known={...data.known,...data.contextual};onSavedStatus?.(Boolean(data.known));}
     else if(data?.contextual===null)unresolved=true;
@@ -96,7 +96,7 @@ export function contextualWordPopover(context,props){
    contextual.translationUz?[el('hr',{class:'dictionary-translation-divider'}),el('p',{},contextual.translationUz)]:null);
  }
  function folderAndSave(){
-  const select=el('select',{class:'input mt-1',value:folderId},el('option',{value:''},sourceType==='listening'?'Listening':sourceType==='reading'?'Reading':sourceType==='retention'?'Retention':t.folders.unassigned),...folders.map(f=>el('option',{value:f.id},f.name)));
+  const select=el('select',{class:'input mt-1',value:folderId},el('option',{value:''},sourceType==='listening'?(sourceTitle||'Listening Test'):sourceType==='reading'?'Reading':sourceType==='retention'?'Retention':t.folders.unassigned),...folders.map(f=>el('option',{value:f.id},f.name)));
   select.value=folderId;select.addEventListener('change',()=>{folderId=select.value;});
   return [el('label',{class:'text-xs text-ink-500'},t.games.set.folder,select),
    el('div',{class:'flex items-center gap-2'},button('btn-primary text-xs',{disabled:busy?true:null,'data-word-save':true},busy?dict.common.saving:t.add.button,()=>void save()))];
@@ -125,8 +125,10 @@ export function contextualWordPopover(context,props){
    saved?el('p',{class:'mt-2 text-xs text-band-good','data-word-saved':true},`${t.add.added} · ${t.tab.words}`):null,
    needsMeaning?el('p',{class:'mt-2 text-xs text-band-warn','data-word-needs-meaning':true},t.add.needsMeaning):null);
  }
+ const dismiss=event=>{if(event.type==='keydown'){if(event.key==='Escape'){event.preventDefault();stop();onClose?.();}return;}if(popup&&!popup.contains(event.target)&&event.target!==anchor&&!anchor?.contains(event.target)){stop();onClose?.();}};
+ document.addEventListener('pointerdown',dismiss,true);document.addEventListener('keydown',dismiss,true);
  function stop(){
-  if(stopped)return;stopped=true;controller.abort();observer?.disconnect();
+  if(stopped)return;stopped=true;document.removeEventListener('pointerdown',dismiss,true);document.removeEventListener('keydown',dismiss,true);controller.abort();observer?.disconnect();
   window.removeEventListener('resize',place);window.removeEventListener('scroll',place,true);
   popup?.remove();popup=null;signal.removeEventListener('abort',stop);
  }
