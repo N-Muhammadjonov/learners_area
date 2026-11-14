@@ -33,6 +33,42 @@ try{
  page.on('requestfailed',request=>{errors+='Request failed: '+request.url()+' '+JSON.stringify(request.failure())+'\n';});
  page.on('response',async response=>{if(response.url().includes('/api/')||response.status()>=400)requests.push({url:response.url(),status:response.status(),...(response.status()>=400?{body:(await response.text().catch(()=>'')).slice(0,1200)}:{})});});
  const responses=[];page.on('response',response=>{if(response.url().includes('/api/vocabulary'))responses.push({url:response.url(),status:response.status()});});
+ if(process.env.READING_BROWSER_PAIR_SOURCE){
+  const passages=JSON.parse(fs.readFileSync(process.env.READING_BROWSER_PAIR_SOURCE,'utf8'));
+  let clicked=0,visibleSpans=0;
+  for(const [index,p]of passages.entries()){
+   const sid=index===0?'33333333-3333-4333-8333-333333333333':'66666666-6666-4666-8666-666666666666';
+   await page.goto(base+'/app/reading/general/'+sid+'?passage=1');
+   await page.locator('[data-occurrence-id]').first().waitFor({timeout:30000});
+   const projectedIds=await page.locator('[data-occurrence-id]').evaluateAll(nodes=>[...new Set(nodes.map(n=>n.dataset.occurrenceId))]);
+   const expected=p.projectedIds;
+   assert(expected?.length,'Expected backend-projected occurrence IDs are required');
+   assert.deepEqual([...projectedIds].sort(),[...expected].sort(),'every source-projected span renders');
+   visibleSpans+=projectedIds.length;
+   assert.equal(await page.locator('[data-word="you"],[data-word="You"],[data-word="he"],[data-word="they"]').count(),0);
+   for(const [caseIndex,c]of p.browserCases.entries()){
+    const token=page.locator('[data-occurrence-id="'+c.id+'"]').first();
+    await token.scrollIntoViewIfNeeded();
+    assert.equal(await token.evaluate(n=>getComputedStyle(n).cursor),'text');
+    await token.dblclick();
+    const popup=page.locator('[data-word-popover]');await popup.waitFor();
+    assert.equal(await popup.getAttribute('aria-label'),c.surface_form);
+    await popup.getByText(c.translation_uz,{exact:true}).waitFor();
+    assert.equal(await popup.locator('[data-context-alternative]').count(),0);
+    if(caseIndex===0){
+     await popup.locator('[data-word-save]').click();await popup.locator('[data-word-saved]').waitFor();
+     const saved=(await db.query('SELECT u.*,f.name folder_name FROM user_vocabulary u JOIN vocab_folders f ON f.id=u.folder_id WHERE u.lexeme_id=$1',[c.lexeme_id])).rows;
+     assert.equal(saved.length,1);assert.equal(saved[0].folder_name,p.title);
+     assert.equal(saved[0].source_snapshot.occurrenceId,c.id);
+    }
+    clicked++;await page.keyboard.press('Escape');
+   }
+  }
+  assert.deepEqual(pageErrors,[]);assert(responses.every(r=>r.status<400),JSON.stringify(responses));
+  const report={result:'passed',engine:process.env.READING_BROWSER_ENGINE??'chromium',scope:'two reviewed source passages; actual local ASGI + isolated PostgreSQL; synthetic learner',passages:2,visibleSourceSpans:visibleSpans,lookupCases:clicked,saveFlowFailures:0,sourceSensePreserved:true,defaultPassageFolders:true,pageErrors};
+  fs.writeFileSync(process.env.READING_BROWSER_OUTPUT??resolve(root,'../reading-pair-browser-verification.json'),JSON.stringify(report,null,2));
+  console.log(JSON.stringify(report));
+ }else{
  await page.goto(base+'/app/reading/general/33333333-3333-4333-8333-333333333333?passage=1');
  await page.locator('[data-word="find"]').first().waitFor({timeout:20000});
  assert.equal(await page.locator('[data-word="They"]').count(),0);
@@ -67,5 +103,6 @@ try{
  fs.writeFileSync(output,JSON.stringify(report,null,2));
  if(process.env.READING_BROWSER_SCREENSHOT)await page.screenshot({path:process.env.READING_BROWSER_SCREENSHOT,fullPage:true});
  console.log(JSON.stringify(report));
+ }
 }catch(error){console.error(errors);if(page)console.error(JSON.stringify({url:page.url(),text:(await page.locator('body').innerText()).slice(0,6000),pageErrors,requests}));throw error;}
 finally{await browser?.close();if(child&&!child.killed)child.kill('SIGTERM');await db.close();}

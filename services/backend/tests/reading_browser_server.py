@@ -3,7 +3,9 @@
 Never connects to production and never impersonates an existing learner.
 """
 import asyncio
+import json
 import os
+from pathlib import Path
 from uuid import UUID
 import uvicorn
 from stdio_postgres import Connection
@@ -27,6 +29,21 @@ OID=UUID('55555555-5555-4555-8555-555555555555')
 
 async def seed():
     await con.execute("INSERT INTO users(id,name,email,role,account_status,locale,onboarding_completed_at) VALUES($1,'Isolated reading learner','browser-reading@example.test','student','active','uz',NOW())",UID)
+    if os.environ.get('READING_BROWSER_PAIR_SOURCE'):
+        passages=json.loads(Path(os.environ['READING_BROWSER_PAIR_SOURCE']).read_text())
+        assert len(passages)==2
+        for index,p in enumerate(passages):
+            pid=UUID(p['id'])
+            sid=SID if index==0 else UUID('66666666-6666-4666-8666-666666666666')
+            await con.execute("INSERT INTO reading_passages(id,title,body_text,is_active,publication_state) VALUES($1,$2,$3,true,'published')",pid,p['title'],p['body_text'])
+            await con.execute("INSERT INTO general_reading_sets(id,title,publication_state) VALUES($1,$2,'published')",sid,p['title'])
+            await con.execute('INSERT INTO general_reading_passages(passage_id,set_id,passage_no) VALUES($1,$2,1)',pid,sid)
+            for position,text in enumerate(p['body_text'].split('\n\n')):
+                await con.execute('INSERT INTO reading_passage_paragraphs(passage_id,position,text) VALUES($1,$2,$3)',pid,position,text)
+            for r in p['occurrences']:
+                await con.execute('INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,provenance,verification_status) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(id) DO NOTHING',UUID(r['lexeme_id']),r['term'],r['part_of_speech'],r['definition_en'],r['translation_uz'],r['sense_key'],r['provenance'],r['verification_status'])
+                await con.execute("INSERT INTO lexical_occurrences(id,passage_id,lexeme_id,start_char,end_char,surface_form,source_type,resolution_status,is_target_vocabulary) VALUES($1,$2,$3,$4,$5,$6,'reading','resolved',$7)",UUID(r['id']),pid,UUID(r['lexeme_id']),r['start_char'],r['end_char'],r['surface_form'],r['is_target_vocabulary'])
+        return
     await con.execute("INSERT INTO reading_passages(id,title,body_text,is_active,publication_state) VALUES($1,'Browser passage title','They find out a fact.',true,'published')",PID)
     await con.execute("INSERT INTO general_reading_sets(id,title,publication_state) VALUES($1,'Browser reading set','published')",SID)
     await con.execute('INSERT INTO general_reading_passages(passage_id,set_id,passage_no) VALUES($1,$2,1)',PID,SID)

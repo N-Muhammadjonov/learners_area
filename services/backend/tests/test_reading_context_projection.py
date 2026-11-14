@@ -1,4 +1,4 @@
-from app.reading_lexical_policy import paragraph_offsets, reading_glosses, is_verified_reading_gloss
+from app.reading_lexical_policy import paragraph_offsets, reading_glosses, is_verified_reading_gloss, is_reading_pronoun
 
 
 def row(id, start, surface, translation='bilib olmoq'):
@@ -32,3 +32,12 @@ def test_ordered_repeated_paragraphs_keep_distinct_absolute_offsets():
     rows=[{'id':'first','text':'Clan'},{'id':'middle','text':'A clan'},{'id':'last','text':'Clan'}]
     assert [r['start_char'] for r in paragraph_offsets(body,rows)]==[0,6,14]
     assert 'start_char' not in rows[0]
+
+
+def test_country_us_and_contextual_determiners_are_not_personal_pronouns():
+    assert not is_reading_pronoun('US','proper noun')
+    assert is_reading_pronoun('us')
+    assert is_reading_pronoun("It's")
+    assert is_reading_pronoun('which','relative pronoun')
+    assert not is_reading_pronoun('which','determiner')
+    assert not is_reading_pronoun('A','proper noun')

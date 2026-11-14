@@ -14,7 +14,7 @@ import re
 import sys
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'services/backend'))
-from app.reading_lexical_policy import reading_glosses, _READING_PRONOUNS
+from app.reading_lexical_policy import reading_glosses, is_reading_pronoun
 
 OCCURRENCE_COLUMNS='id passage_id lexeme_id start_char end_char surface_form resolution_status resolution_source term definition_en translation_uz verification_status provenance sense_key occurrence_type segment_key part_of_speech'.split()
 WORDS=re.compile(r"[A-Za-z]+(?:['’\u2011-][A-Za-z]+)*")
@@ -46,7 +46,11 @@ def audit(passages, occurrences):
                 if left['start_char']<right['end_char']:overlaps.append([left['id'],right['id']])
         missing=[];covered=0;pronouns=0
         for word in WORDS.finditer(body):
-            if word.group().casefold() in _READING_PRONOUNS:
+            if is_reading_pronoun(word.group()) or any(
+                row.get('start_char') == word.start() and row.get('end_char') == word.end()
+                and body[word.start():word.end()].casefold() == str(row.get('surface_form','')).casefold()
+                and is_reading_pronoun(row['surface_form'],row.get('part_of_speech')) for row in rows
+            ):
                 pronouns+=1;continue
             if any(row['start_char']<=word.start() and row['end_char']>=word.end() for row in projected):covered+=1
             else:missing.append({'word':word.group(),'start':word.start(),'end':word.end(),'context':body[max(0,word.start()-90):word.end()+90]})
