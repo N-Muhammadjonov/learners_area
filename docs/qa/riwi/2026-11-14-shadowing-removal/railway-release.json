@@ -1,0 +1,78 @@
+{
+  "date": "2026-11-14",
+  "host": "Railway",
+  "environment": "production",
+  "domain": "learnersarea.uz",
+  "branch": "main",
+  "testedApplicationCommit": "64479c47ab47e8fd2253aa4f5e857b8eeeb4b07b",
+  "deployment": {
+    "id": "edd51e81-639d-4d9a-983d-f1a17b939077",
+    "status": "SUCCESS",
+    "createdAt": "2026-11-14T02:17:38.640Z",
+    "readyAt": "2026-11-14T02:18:46.467Z"
+  },
+  "http": {
+    "versionMatchesTestedCommit": true,
+    "healthzStatus": 200,
+    "healthzOk": true,
+    "deletedRoute": "/app/speaking/shadowing",
+    "deletedRouteStatus": 404,
+    "deletedRouteBody": {
+      "error": "not_found"
+    }
+  },
+  "productionDatabaseReadOnly": {
+    "speakingMaterialsInDeletedCategory": 0,
+    "riwiKnowledgeUnitsMatchedByContentHeadingOrSourceTitle": 0,
+    "databaseWrites": false,
+    "schemaChanges": false
+  },
+  "nativeSafari": {
+    "connectedToExistingOwnerSession": true,
+    "speakingHubRenders": true,
+    "hubLinks": [
+      "/app/speaking/lessons",
+      "/app/speaking/live-partner",
+      "/app/speaking/practice",
+      "/app/speaking/speak-or-die"
+    ],
+    "question": "Speaking bo‘limida qanday yo‘llar bor va qanday ishlaydi?",
+    "replyDoesNotAdvertiseDeletedFeature": true,
+    "replyDoesNotLinkDeletedRoute": true,
+    "replyLinks": [
+      "/app/speaking",
+      "/app/speaking/lessons",
+      "/app/speaking/practice",
+      "/app/speaking/ai",
+      "/app/speaking/speak-or-die",
+      "/app/speaking/live-partner",
+      "/app/speaking/history"
+    ],
+    "dictionaryMeaningVerified": "write (v): yozmoq",
+    "dictionaryExamples": [
+      "I wrote a letter.",
+      "She wrote a letter.",
+      "They wrote a letter."
+    ],
+    "accuracyNotice": "RIWI is AI and can make mistakes, please double check important info!",
+    "restoredUrl": "https://learnersarea.uz/app",
+    "restoredTheme": "night",
+    "restoredUiLocale": "uz",
+    "userTabsClosed": false,
+    "screenshotsKeptLocalOnly": true
+  },
+  "automated": {
+    "riwiBackendPassed": 3671,
+    "httpSeoMaterialChecksPassed": 43,
+    "backendTotalPassed": 3714,
+    "backendSubtestsPassed": 282,
+    "nativeBuildPassed": 6,
+    "focusedFrontendPassed": 111,
+    "broaderFrontendKnownFailure": "Live Partner ICE recovery test; reproduced on the earlier untouched baseline. Not fixed or reported passing."
+  },
+  "limits": [
+    "No physical microphone or iPhone acceptance was rerun.",
+    "No external AI or speech service was enabled.",
+    "Historical applied migrations and compatibility enum were preserved; no active feature or route uses them."
+  ]
+}

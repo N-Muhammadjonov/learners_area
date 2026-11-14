@@ -133,7 +133,7 @@ const ITEMS = [
     what: "shadowing studio: a source recording plus the learner's own local take",
     classification: "RETIRED",
     reason:
-      "DELETED BY OWNER DECISION — the studio, route, redirect, seed material and RIWI feature knowledge are removed. The old URL returns 404. Production speaking_materials contained zero rows in the historical category on 2026-11-14. Applied SQL migrations and the compatibility enum are not rewritten; neither exposes an activity. Absence is checked by the native route, HTTP and RIWI tests.",
+      "DELETED BY OWNER DECISION — the studio, route, redirect, seed material and RIWI feature knowledge are removed. The old URL returns 404. Production speaking_materials contained zero rows in the historical category on 2026-11-14. Applied SQL migration history and the compatibility enum are preserved; neither exposes an activity. Absence is checked by the native route, HTTP and RIWI tests.",
   },
   {
     path: "src/lib/speaking/manage-topic.ts (+ src/lib/speaking/topic-draft.ts)",

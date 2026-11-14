@@ -41,5 +41,17 @@ and dictionary work. The Owner's main/Railway production release approval applie
   baseline, as recorded in the 2026-11-13 baseline comparison. It is not presented
   as passing or fixed by this deletion.
 
-Railway deployment and native Safari production acceptance are recorded separately
-in the release receipt after the code has been deployed.
+## Production acceptance
+
+`railway-release.json` records the successful Railway application deployment at
+`64479c47ab47e8fd2253aa4f5e857b8eeeb4b07b`. `/api/version` returned that SHA;
+`/healthz` passed and the deleted URL returned HTTP 404 with no redirect.
+Native Safari connected to the existing Owner session. Speaking rendered normally,
+and RIWI's actual reply listed supported paths without the deleted feature/link.
+The earlier dictionary fix was also accepted live: write — yozmoq with three new
+past-simple examples. The original night/UZ Main page was restored; no user tab
+was closed. Owner-profile screenshots remain outside Git in the local workspace.
+
+Any following QA-only checkpoint commit changes no deployed application source;
+the final deployment receipt is saved in the workspace checkpoint to avoid a
+self-referential deployment/receipt loop.
