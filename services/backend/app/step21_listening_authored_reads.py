@@ -133,7 +133,7 @@ async def authored(req:Request,id:str):
                     (js_length(transcript[:match.start()]),
                      js_length(transcript[:match.end()]))
                     for match in re.finditer(
-                        r'\\b[A-Z][a-z]+(?:[ \\t]+[A-Z][a-z]+)+\\b',
+                        r'\b[A-Z][a-z]+(?:[ \t]+[A-Z][a-z]+)+\b',
                         transcript
                     )
                 ]
