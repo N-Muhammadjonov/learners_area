@@ -1397,6 +1397,30 @@ async def record_provider_fee(conn, *, actor_user_id, amount_minor, provider=Non
     return {'transactionId': str(entry), 'amountMinor': amount, 'provider': provider}
 
 
+async def receivable_aging(conn, *, as_of: date) -> dict:
+    """Age each outstanding obligation by its current contractual due date."""
+    rows = await conn.fetch(
+        f"""SELECT bucket, sum(balance) AS amount FROM (
+               SELECT CASE WHEN $1::date-c.due_date<=0 THEN 'current'
+                           WHEN $1::date-c.due_date<=30 THEN 'days1To30'
+                           WHEN $1::date-c.due_date<=60 THEN 'days31To60'
+                           WHEN $1::date-c.due_date<=90 THEN 'days61To90'
+                           ELSE 'over90' END AS bucket,
+                      c.net_amount_minor-coalesce(a.allocated,0)-coalesce(n.credited,0) AS balance
+                 FROM tuition_charges c
+                 LEFT JOIN (SELECT charge_id,sum(amount_minor) AS allocated
+                            FROM tuition_payment_allocations GROUP BY charge_id) a ON a.charge_id=c.id
+                 LEFT JOIN (SELECT charge_id,sum(amount_minor) AS credited
+                            FROM tuition_credit_notes WHERE status='posted' GROUP BY charge_id) n
+                      ON n.charge_id=c.id
+                WHERE c.{OPEN_DOCUMENT} AND c.posted_at IS NOT NULL AND NOT c.is_reversal
+              ) balances WHERE balance>0 GROUP BY bucket""", as_of)
+    totals = dict.fromkeys(('current', 'days1To30', 'days31To60', 'days61To90', 'over90'), 0)
+    for row in rows:
+        totals[row['bucket']] = int(row['amount'])
+    return {'asOf': as_of.isoformat(), 'bucketsMinor': totals}
+
+
 #: Owner dashboard metrics. These are DIFFERENT numbers and must never be conflated.
 async def finance_summary(conn, *, start: date, end: date) -> dict:
     """Collection split by method, accrual, recognition and point-in-time balances.

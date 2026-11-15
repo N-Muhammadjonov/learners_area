@@ -730,6 +730,18 @@ async def reconciliation(req: Request):
                       headers=PRIVATE)
 
 
+@router.get('/api/staff/finance/aging')
+async def finance_aging(req: Request):
+    _, denied = await actor(req, MONEY_READ_ROLES)
+    if denied:
+        return denied
+    day = ledger.business_date(datetime.now(timezone.utc))
+    db = await core.pool()
+    async with db.acquire() as conn:
+        report = await ledger.receivable_aging(conn, as_of=day)
+    return core.j(report, headers=PRIVATE)
+
+
 @router.get('/api/staff/finance/journal.csv')
 async def export_finance_journal(req: Request):
     _, denied = await actor(req, MONEY_READ_ROLES)

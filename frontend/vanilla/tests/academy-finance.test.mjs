@@ -29,6 +29,31 @@ test('finance management requires owner or admin and shows reconciliation from b
  }finally{h.dispose();}
 });
 
+test('receivables aging loads only when opened and can retry a failure',async()=>{
+ const h=setup({path,role:'admin'});
+ let attempts=0;
+ h.stub({
+  [api+'/summary']:{collectedTotalMinor:0},
+  [api+'/aging']:()=>++attempts===1?new ApiError(503,'unavailable'):{
+   asOf:'2026-11-15',
+   bucketsMinor:{current:200000,days1To30:300000,days31To60:350000,days61To90:0,over90:0},
+  },
+ });
+ try{
+  await mount(h.ctx);
+  assert.equal(attempts,0);
+  const panel=h.q('[data-finance-aging]');
+  panel.open=true;
+  await tick();await tick();
+  assert(panel.querySelector('[role="alert"]'));
+  h.click(panel.querySelector('button'));
+  await tick();
+  assert.match(panel.textContent,/2026-11-15/);
+  assert.match(panel.textContent,/350,000 UZS/);
+  assert.equal(attempts,2);
+ }finally{h.dispose();}
+});
+
 test('staff records cash only after confirmation and keeps the same idempotency key on retry',async()=>{
  const h=setup({path,role:'admin'});
  let writes=0;

@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import csv
 import io
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 import pytest
@@ -181,3 +181,35 @@ async def test_existing_payment_can_be_replayed_after_cash_close(http):
     rejected = await post(http, '/payments', {**payload, 'idempotencyKey': str(uuid4())})
     assert rejected.status_code == 409 and rejected.json()['error'] == 'day_closed'
     assert await http.con.fetchval('SELECT count(*) FROM tuition_payments') == 1
+
+
+@pytest.mark.asyncio
+async def test_receivables_age_by_due_date_after_partial_payment_and_credit(http):
+    now = ledger.business_date(datetime.now(timezone.utc))
+    period = ledger.period_key(now)
+    student = http.people['student']
+    for days, amount in ((10, 300_000), (35, 500_000), (-5, 200_000), (75, 150_000)):
+        charge = await ledger.create_charge(
+            http.con, actor_user_id=http.people['admin'], student_user_id=student,
+            period=period, due_date=now-timedelta(days=days), gross_amount_minor=amount)
+        await ledger.approve_charge(http.con, actor_user_id=http.people['owner'], charge_id=charge['id'])
+        await ledger.post_charge(http.con, actor_user_id=http.people['admin'], charge_id=charge['id'])
+        if days == 75:
+            await ledger.reverse_charge(http.con, actor_user_id=http.people['admin'],
+                                        charge_id=charge['id'], reason='Incorrect bill')
+        if days == 35:
+            note = await ledger.create_credit_note(http.con, actor_user_id=http.people['admin'],
+                                                   charge_id=charge['id'], amount_minor=50_000, reason='Relief')
+            await ledger.approve_credit_note(http.con, actor_user_id=http.people['owner'], credit_note_id=note['id'])
+            await ledger.post_credit_note(http.con, actor_user_id=http.people['admin'], credit_note_id=note['id'])
+    settled = await post(http, '/payments', {'studentUserId': str(student), 'amountMinor': 100_000})
+    assert settled.status_code == 200
+    response = await staff(http, 'admin', 'GET', BASE+'/aging')
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert result['bucketsMinor'] == {'current': 200_000, 'days1To30': 300_000,
+                                     'days31To60': 350_000, 'days61To90': 0, 'over90': 0}
+    summary = await ledger.finance_summary(http.con, start=now, end=now)
+    assert sum(result['bucketsMinor'].values()) == summary['outstandingReceivableMinor']
+    denied = await staff(http, 'teacher', 'GET', BASE+'/aging')
+    assert denied.status_code == 403

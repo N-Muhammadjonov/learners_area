@@ -1640,6 +1640,11 @@
   "name": "academy_student_group_history"
  },
  {
+  "method": "GET",
+  "path": "/api/staff/finance/aging",
+  "name": "finance_aging"
+ },
+ {
   "method": "POST",
   "path": "/api/staff/finance/charges",
   "name": "create_charge"

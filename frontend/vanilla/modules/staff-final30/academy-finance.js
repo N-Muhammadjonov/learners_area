@@ -21,6 +21,7 @@ function translations(ctx){
   pending_provider:'Provider tasdig‘i kutilmoqda',confirmed:'Tasdiqlangan',partially_refunded:'Qisman qaytarilgan',
   refunded:'Qaytarilgan',provider:'To‘lov provayderi',reconcile:'Hisoblarni solishtirish',match:'Hisoblar mos',
   mismatch:'Hisoblar o‘rtasida farq bor',invalid_amount:'Butun so‘m miqdorini kiriting.',
+  aging:'Qarzning muddati',current:'Muddati kelmagan',agingDay:'Hisob sanasi',
   day_closed:'Kassa kuni yopilgan.',finance_period_locked:'Moliya davri yopilgan.',
   closeDay:'Kassa kunini yopish', day:'Kassa sanasi', opening:'Boshlang‘ich qoldiq', counted:'Sanalgan mablag‘',
   expected:'Hisob bo‘yicha qoldiq', variance:'Farq', closeConfirm:'Sanalgan mablag‘ni tekshirdim va kassani yopishga tayyorman',
@@ -37,6 +38,7 @@ function translations(ctx){
   pending_provider:'Awaiting provider confirmation',confirmed:'Confirmed',partially_refunded:'Partially refunded',
   refunded:'Refunded',provider:'Payment provider',reconcile:'Reconcile accounts',match:'Accounts agree',
   mismatch:'Accounts differ',invalid_amount:'Enter a whole UZS amount.',
+  aging:'Receivables aging',current:'Current',agingDay:'As of',
   day_closed:'The cash day is closed.',finance_period_locked:'The financial period is locked.',
   closeDay:'Close cash day', day:'Business date', opening:'Opening cash', counted:'Counted cash',
   expected:'Expected cash', variance:'Variance', closeConfirm:'I checked the cash count and am ready to close the day',
@@ -233,7 +235,7 @@ export async function mount(ctx){
  const studentHost=el('div',{class:'space-y-3'});
  const host=el('div',{class:'mx-auto max-w-6xl space-y-4','data-academy-finance':''},
   BackLink({fallbackHref:'/app/management',label:ctx.dict.common.back}),el('h1',{class:'font-display text-3xl'},t.title),
-  form,summary,recon,journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost);
+  form,summary,recon,agingReport(ctx),journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost);
  ctx.root.append(host);
  let selectedController;
  async function report(){
@@ -327,4 +329,27 @@ function journalExport(ctx,today){
   else link.removeAttribute('href');
  },ctx.signal);
  return el('div',{class:'flex flex-wrap items-end gap-3'},label(t.period,period),link);
+}
+
+function agingReport(ctx){
+ const t=translations(ctx),fmt=amounts(ctx),body=el('div',{class:'space-y-3'});
+ const panel=el('details',{class:'card space-y-3 p-4','data-finance-aging':''},
+  el('summary',{class:'cursor-pointer font-semibold'},t.aging),body);
+ async function load(){
+  body.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
+  try{
+   const data=await api.request(STAFF_API+'/aging',{signal:ctx.signal,fresh:true});
+   if(ctx.signal.aborted)return;
+   const keys={current:t.current,days1To30:'1–30',days31To60:'31–60',days61To90:'61–90',over90:'90+'};
+   body.replaceChildren(el('p',{class:'text-sm'},t.agingDay+' · '+data.asOf),
+    totals(Object.entries(keys).map(([key,label])=>[label,fmt(data.bucketsMinor[key])])));
+  }catch{
+   if(ctx.signal.aborted)return;
+   const retry=button(t.retry);
+   listen(retry,'click',load,ctx.signal);
+   body.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error),retry);
+  }
+ }
+ listen(panel,'toggle',()=>{if(panel.open)void load();},ctx.signal);
+ return panel;
 }
