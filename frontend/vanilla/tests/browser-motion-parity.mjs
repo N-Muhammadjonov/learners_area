@@ -19,7 +19,7 @@ const sequence={state:'active',totalDays:30,currentDay:1,completedDays:0,today:'
 
 const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||undefined});
 async function compareState(theme,width,preference){
- const context=await browser.newContext({viewport:{width,height:900},hasTouch:width===390,reducedMotion:preference,
+ const context=await browser.newContext({viewport:{width,height:900},isMobile:width===390,hasTouch:width===390,reducedMotion:preference,
   serviceWorkers:'block'});
  try{
   await context.addCookies([{name:'la_locale',value:'en',url:origin},{name:'la_theme',value:theme,url:origin}]);
@@ -77,8 +77,7 @@ async function compareState(theme,width,preference){
   if(width===390)assert(scrollable);
   if(width===390)await dockListening.tap();else await dockListening.click();
   await page.waitForURL(origin+catalog);
-  await dockListening.waitFor({state:'visible'});
-  assert.equal(await dockListening.getAttribute('aria-current'),'page');
+  await dock.locator('[data-dock-module="listening"][aria-current="page"]').waitFor();
   await page.keyboard.press('f');
   await dock.waitFor({state:'hidden'});
   assert.equal(await page.locator('html').getAttribute('data-study-focus'),'on');
@@ -96,6 +95,7 @@ async function compareState(theme,width,preference){
   await page.goto(origin+testUrl);
   const back=page.locator('[data-listening-parent-back]');
   await back.waitFor();
+  await page.locator('[data-listening-sequence-locked]').waitFor();
   await dock.waitFor({state:'hidden'});
   await page.keyboard.press('f');
   await dock.waitFor({state:'hidden'});
@@ -109,6 +109,7 @@ async function compareState(theme,width,preference){
 
 try{
  for(const theme of ['day','night'])for(const width of [1440,390]){
+  console.log(`Comparing ${theme} at ${width}px`);
   const normal=await compareState(theme,width,'no-preference');
   const reduced=await compareState(theme,width,'reduce');
   assert.deepEqual(reduced,normal,`${theme} ${width}px`);
