@@ -2,7 +2,7 @@
 import { PGlite } from '@electric-sql/pglite';
 import { spawn } from 'node:child_process';
 import { createInterface } from 'node:readline';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { is } from 'drizzle-orm';
@@ -12,10 +12,29 @@ import {applyTestMigrations} from './apply-test-migrations.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const db = new PGlite();
-const python = resolve(root, process.env.BACKEND_PYTHON || 'services/backend/.venv/bin/python');
+// Locally the backend lives in a venv; in CI `pip install` puts it on PATH and there is no
+// venv at all, so falling back to the ambient interpreter keeps this runnable in both.
+function resolvePython(){
+  if(process.env.BACKEND_PYTHON)return resolve(root, process.env.BACKEND_PYTHON);
+  const venv=join(root,'services/backend/.venv/bin/python');
+  return existsSync(venv)?venv:'python3';
+}
+const python = resolvePython();
 let applied = 0;
+let deferredMigrations = [];
+let migrationMode = process.env.MIGRATION_MODE || 'fresh';
 try {
-  applied=await applyTestMigrations(db,root);
+  // FIN-13: an empty database is a fresh install, not an upgrade. Content migrations are
+  // deferred (and reported) on that path; MIGRATION_MODE=upgrade applies everything, content
+  // assertions included, against a database that actually holds the content.
+  const migrationReport=await applyTestMigrations(db,root,{mode:migrationMode});
+  if(migrationMode==='fresh'){
+    applied=migrationReport.applied;
+    deferredMigrations=migrationReport.deferred.map(entry=>entry.file);
+    if(deferredMigrations.length)console.error(`fresh install: ${applied} schema migrations applied, ${deferredMigrations.length} content migrations deferred`);
+  }else{
+    applied=migrationReport;
+  }
   // The UI's typed selectors must agree with the actual migrated database.
   const columns = (await db.query("SELECT table_name,column_name FROM information_schema.columns WHERE table_schema='public'")).rows;
   const actual = new Set(columns.map(row => `${row.table_name}.${row.column_name}`));
@@ -66,7 +85,7 @@ try {
   const checkKinds=report.probeKind==='read_model'?{readModelChecks:checks}:
     report.probeKind==='riwi_assignments'?{integrationChecks:checks}:
     ['riwi_policy','riwi_domain','riwi_contracts','riwi_grammar_lookup'].includes(report.probeKind)?{storeChecks:report.storeChecks,httpChecks:report.httpChecks}:{httpChecks:checks};
-  console.log(JSON.stringify({ migrations: applied, typedTables, ...checkKinds, replicas, admitted:replicas===2?reports.reduce((n,r)=>n+r.allowed,0):undefined, measurements:report.measurements, database: 'embedded PostgreSQL', result: 'passed' }));
+  console.log(JSON.stringify({ migrations: applied, migrationMode, deferredMigrations, typedTables, ...checkKinds, replicas, admitted:replicas===2?reports.reduce((n,r)=>n+r.allowed,0):undefined, measurements:report.measurements, database: 'embedded PostgreSQL', result: 'passed' }));
   if (process.env.FASTAPI_WIRE_FIXTURE) {
     const { writeFileSync } = await import('node:fs');
     writeFileSync(process.env.FASTAPI_WIRE_FIXTURE, JSON.stringify(report.wire));

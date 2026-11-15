@@ -1,5 +1,6 @@
 import {el} from '../../js/dom.js';
 import {readingHighlighted} from './lesson-text.js';
+import {sourceTextRange} from './source-text.js';
 const allowed=new Set('div p span strong b em i u sup sub br table thead tbody tfoot tr td th ul ol li h2 h3 h4 img label input select option fieldset legend'.split(' '));
 /** Source HTML supplies layout only. No script, event, URL grant or answer key executes here. */
 export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceId=null,sourceBody='',occurrences=[],highlightScope=null}={}){
@@ -15,22 +16,28 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
   const walker=root.ownerDocument.createTreeWalker(root,root.ownerDocument.defaultView.NodeFilter.SHOW_TEXT);
   const textNodes=[];let node;
   while((node=walker.nextNode()))textNodes.push(node);
-  let cursor=0;
+  const groups=new Set();
   for(const textNode of textNodes){
-   const value=textNode.nodeValue??'',parent=textNode.parentElement;
-   if(!/[A-Za-z]{2}/.test(value)||!parent||parent.closest('input,select,option,button,label,[data-clickable-text]'))continue;
-   let at=sourceBody.indexOf(value,cursor);
-   if(at<0)at=sourceBody.indexOf(value.trim(),cursor);
-   if(at<0)continue;
+   const parent=textNode.parentElement;
+   if(!/[A-Za-z]/.test(textNode.nodeValue??'')||!parent||parent.closest('input,select,option,button,label,[data-clickable-text]'))continue;
+   const block=parent.closest('p,li,td,th,h2,h3,h4,.pass-sub');
+   groups.add(block&&!block.querySelector('p,li,td,th,h2,h3,h4,input,select')?block:textNode);
+  }
+  let cursor=0;
+  for(const group of groups){
+   const value=group.textContent??'',range=sourceTextRange(sourceBody,value,cursor);
+   if(!range)continue;
+   const at=range.start;
    const item=readingHighlighted(lexicalContext,{
     text:value,scope:highlightScope??sourceId,textKey:`html-fragment:${at}:${value.length}`,
     sourceId,inline:true,className:'',lexicalAssistance:true,
     verifiedOnly:true,offsetBase:at,sourceOffsetExact:true,
-    occurrences:occurrences.filter(row=>row.startChar>=at&&row.endChar<=at+value.length)
-     .map(row=>({...row,startChar:row.startChar-at,endChar:row.endChar-at}))
+    sourceText:sourceBody,sourceMap:range.map,
+    markupRoot:group.nodeType===1?group.cloneNode(true):null,
+    occurrences:occurrences.filter(row=>row.startChar<range.end&&row.endChar>range.start)
    });
-   textNode.replaceWith(item);
-   cursor=Math.max(cursor,at+value.length);
+   if(group.nodeType===1)group.replaceChildren(item);else group.replaceWith(item);
+   cursor=Math.max(cursor,range.end);
   }
  }
  return root;

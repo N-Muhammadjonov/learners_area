@@ -5,7 +5,7 @@ import {clickableText} from '../vocabulary/clickable-text.js';
  * colorless ranges continue to render with the original blue highlight.
  */
 const HIGHLIGHT_COLORS = new Set(['blue','yellow','grey']);
-export function readingHighlighted(context,{scope,textKey,text,className='whitespace-pre-line text-sm leading-relaxed text-ink-700',lexicalAssistance=false,occurrences=[],sourceId=scope,verifiedOnly=false,inline=false,offsetBase=0,sourceOffsetExact=false}){
+export function readingHighlighted(context,{scope,textKey,text,className='whitespace-pre-line text-sm leading-relaxed text-ink-700',lexicalAssistance=false,occurrences=[],sourceId=scope,verifiedOnly=false,inline=false,offsetBase=0,sourceOffsetExact=false,sourceText=null,sourceMap=null,markupRoot=null}){
  const host=document.createElement(inline?'span':'div');
  host.className=inline?'':'min-w-0 flex-1';
  host.dataset.highlightHost='';
@@ -33,7 +33,7 @@ export function readingHighlighted(context,{scope,textKey,text,className='whites
  function draw(){
   current?.stop();
   current=clickableText(context,{text,sourceType:'reading',sourceId,lexicalAssistance,phraseAware:true,
-   doubleClickLookup:true,occurrences,verifiedOnly,inline,offsetBase,sourceOffsetExact,
+   doubleClickLookup:true,occurrences,verifiedOnly,inline,offsetBase,sourceOffsetExact,sourceText,sourceMap,markupRoot,
    className,highlights:rows(),onHighlightRange,onRemoveHighlight});
   host.replaceChildren(current.node);
  }

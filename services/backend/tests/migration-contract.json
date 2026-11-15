@@ -1,0 +1,48 @@
+{
+ "_comment": [
+  "Migration contract (FIN-13). Derived from the migration bytes by",
+  "tests/test_tuition_migration_contract.py - do not hand-edit; the test re-derives",
+  "this list and fails if it drifts.",
+  "",
+  "A CONTENT migration repairs or enriches imported curriculum content. It creates no",
+  "table of its own, so on a fresh database - where no content has been imported yet -",
+  "it has nothing to act on, and several of them assert absolute content counts that an",
+  "empty database can never satisfy. 0094 raised 'Listening 1-20 must contain 80",
+  "transcript Parts' and aborted the chain before 1115 was ever reached.",
+  "",
+  "These are NOT skipped. scripts/apply-test-migrations.mjs applies them on the upgrade",
+  "path, where the content exists and the assertions must hold, and reports them as",
+  "deferred on the fresh-install path so nothing disappears silently."
+ ],
+ "detectedBy": {
+  "contentTables": [
+   "listening_packages",
+   "lexical_occurrences",
+   "lexemes"
+  ],
+  "rule": "references a content table AND declares no DDL of its own"
+ },
+ "contentMigrations": [
+  "0093_listening_12_16_contextual_occurrences.sql",
+  "0094_listening_1_20_context_audit.sql",
+  "0095_listening_21_25_contextual.sql",
+  "0096_listening_21_25_expanded_context.sql",
+  "0097_listening_26_29_contextual.sql",
+  "0098_listening_26_29_expanded_context.sql",
+  "0099_listening_30_32_contextual.sql",
+  "0100_listening_30_32_expanded_context.sql",
+  "0101_listening_1_32_vocabulary_examples.sql",
+  "0102_listening_test_local_meanings.sql",
+  "0103_listening_context_sense_corrections.sql",
+  "0104_listening_1_8_verified_words.sql",
+  "0105_listening_9_16_verified_words.sql",
+  "0106_listening_17_24_verified_words.sql",
+  "0107_listening_25_32_verified_words.sql",
+  "0108_listening_test1_missing_contextual_words.sql",
+  "1110_listening_1_8_morphology.sql",
+  "1111_listening_9_16_morphology.sql",
+  "1112_listening_17_24_morphology.sql",
+  "1113_listening_25_32_morphology.sql",
+  "1114_listening_grammar_and_once_context.sql"
+ ]
+}

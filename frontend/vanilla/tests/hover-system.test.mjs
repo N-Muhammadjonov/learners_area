@@ -119,7 +119,7 @@ test('shared interaction travel and timing are independent of screen width',()=>
  assert(!css.includes('will-change'));assert(!css.includes('transition-delay'));
 });
 
-test('first-party site assets do not branch on the system motion preference',()=>{
+test('first-party source never branches on system reduced-motion preference',()=>{
  const base=new URL('../',import.meta.url);
  const assets=['index.html'];
  for(const folder of ['css','js','modules','campus/v2/src']){
@@ -129,6 +129,6 @@ test('first-party site assets do not branch on the system motion preference',()=
  }
  for(const name of assets){
   const source=readFileSync(new URL(name,base),'utf8');
-  assert.doesNotMatch(source,/prefers-reduced-motion|motion-(?:reduce|safe):/i,name);
+  assert.doesNotMatch(source,/prefers-reduced-motion|motion-(?:reduce|safe):/i,`OS motion branch in ${name}`);
  }
 });

@@ -10,12 +10,15 @@ import {
   boolean,
   jsonb,
   real,
+  bigint,
+  date,
   index,
   uniqueIndex,
   smallint,
   primaryKey,
   unique,
   check,
+  foreignKey,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
@@ -1156,7 +1159,10 @@ export const readingAttempts = pgTable("reading_attempts", {
   totalQuestions: integer("total_questions"),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
-});
+}, t => [
+  index("reading_attempts_completed_user_submitted_idx").on(t.userId, t.submittedAt)
+    .where(sql`${t.status} = 'completed' AND ${t.submittedAt} IS NOT NULL`),
+]);
 
 export const readingAnswers = pgTable("reading_answers", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -1286,7 +1292,10 @@ export const listeningAttempts = pgTable("listening_attempts", {
   totalQuestions: integer("total_questions"),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
-});
+}, t => [
+  index("listening_attempts_completed_user_submitted_idx").on(t.userId, t.submittedAt)
+    .where(sql`${t.status} = 'completed' AND ${t.submittedAt} IS NOT NULL`),
+]);
 
 export const listeningAnswers = pgTable("listening_answers", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -3875,3 +3884,614 @@ export const apiRateBuckets = pgTable("api_rate_buckets", {
 }, table => [index("api_rate_buckets_expiry_idx").on(table.resetAt),
   check("api_rate_buckets_used_check", sql`${table.used} >= 0`),
   check("api_rate_buckets_bucket_key_check", sql`${table.bucketKey} ~ '^[a-f0-9]{64}$'`)]);
+
+// ---------------------------------------------------------------------------
+// Tuition finance — the operational accounts-receivable subledger and the
+// append-only double-entry journal behind it (migration 1115).
+//
+// Every money column is `bigint` in the currency's smallest unit; for UZS that
+// unit is 1 som, so 800000 means 800,000 UZS. These tables are typed here so the
+// staff UI can read them safely, but all writes go through
+// `services/backend/app/tuition_ledger.py`, which owns the invariants:
+//   * journal lines are append-only (database trigger blocks UPDATE/DELETE);
+//   * every journal transaction balances (deferred constraint trigger at COMMIT);
+//   * a provider confirmation produces at most one payment (unique indexes).
+// ---------------------------------------------------------------------------
+
+/** Illustrative operating chart of accounts. `statutory_code` is filled only from a
+ *  buyer's own approved chart; no statutory number is invented here. */
+export const financeAccounts = pgTable("finance_accounts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  code: varchar("code", { length: 40 }).notNull().unique(),
+  name: varchar("name", { length: 120 }).notNull(),
+  kind: varchar("kind", { length: 20 }).notNull(),
+  normalSide: varchar("normal_side", { length: 6 }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  statutoryCode: varchar("statutory_code", { length: 40 }),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const financeJournalEntries = pgTable("finance_journal_entries", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  transactionId: uuid("transaction_id").notNull(),
+  sourceType: varchar("source_type", { length: 30 }).notNull(),
+  sourceId: uuid("source_id").notNull(),
+  studentUserId: uuid("student_user_id").references(() => users.id, { onDelete: "set null" }),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  memo: varchar("memo", { length: 200 }),
+  periodKey: varchar("period_key", { length: 7 }),
+  occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("finance_journal_entries_transaction_idx").on(table.transactionId),
+  index("finance_journal_entries_source_idx").on(table.sourceType, table.sourceId),
+  index("finance_journal_entries_period_idx").on(table.periodKey, table.occurredAt),
+]);
+
+export const financeJournalLines = pgTable("finance_journal_lines", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  transactionId: uuid("transaction_id").notNull(),
+  entryId: uuid("entry_id").notNull().references(() => financeJournalEntries.id, { onDelete: "restrict" }),
+  accountId: uuid("account_id").notNull().references(() => financeAccounts.id, { onDelete: "restrict" }),
+  direction: varchar("direction", { length: 6 }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("finance_journal_lines_transaction_idx").on(table.transactionId),
+  index("finance_journal_lines_account_idx").on(table.accountId, table.createdAt),
+  check("finance_journal_lines_amount_check", sql`${table.amountMinor} > 0`),
+]);
+
+export const tuitionContracts = pgTable("tuition_contracts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  courseId: uuid("course_id").references(() => courses.id, { onDelete: "set null" }),
+  status: varchar("status", { length: 12 }).notNull().default("draft"),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  monthlyAmountMinor: bigint("monthly_amount_minor", { mode: "bigint" }).notNull(),
+  termMonths: integer("term_months").notNull().default(1),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  version: integer("version").notNull().default(1),
+  supersedesContractId: uuid("supersedes_contract_id"),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  note: varchar("note", { length: 300 }),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [index("tuition_contracts_student_idx").on(table.studentUserId, table.status)]);
+
+export const tuitionContractDiscounts = pgTable("tuition_contract_discounts", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  contractId: uuid("contract_id").notNull().references(() => tuitionContracts.id, { onDelete: "cascade" }),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  reason: varchar("reason", { length: 200 }).notNull(),
+  approvedBy: uuid("approved_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [uniqueIndex("tuition_contract_discounts_contract_period_uidx").on(table.contractId, table.periodKey)]);
+
+export const tuitionCharges = pgTable("tuition_charges", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  contractId: uuid("contract_id").references(() => tuitionContracts.id, { onDelete: "set null" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  grossAmountMinor: bigint("gross_amount_minor", { mode: "bigint" }).notNull(),
+  discountAmountMinor: bigint("discount_amount_minor", { mode: "bigint" }).notNull().default(0n),
+  netAmountMinor: bigint("net_amount_minor", { mode: "bigint" }).notNull(),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  discountLockedAt: timestamp("discount_locked_at", { withTimezone: true }),
+  discountLockedMinor: bigint("discount_locked_minor", { mode: "bigint" }),
+  status: varchar("status", { length: 10 }).notNull().default("draft"),
+  isReversal: boolean("is_reversal").notNull().default(false),
+  originalChargeId: uuid("original_charge_id"),
+  reversalReason: varchar("reversal_reason", { length: 200 }),
+  dueDate: date("due_date").notNull(),
+  postedAt: timestamp("posted_at", { withTimezone: true }),
+  postedBy: uuid("posted_by").references(() => users.id, { onDelete: "set null" }),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("tuition_charges_student_period_idx").on(table.studentUserId, table.periodKey),
+  index("tuition_charges_open_idx").on(table.studentUserId, table.dueDate),
+]);
+
+export const tuitionPayments = pgTable("tuition_payments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  method: varchar("method", { length: 12 }).notNull().default("cash"),
+  provider: varchar("provider", { length: 20 }),
+  providerTransactionId: varchar("provider_transaction_id", { length: 80 }),
+  idempotencyKey: varchar("idempotency_key", { length: 120 }),
+  status: varchar("status", { length: 18 }).notNull().default("initiated"),
+  receiptNo: varchar("receipt_no", { length: 24 }),
+  receiptPurpose: varchar("receipt_purpose", { length: 120 }),
+  operatorUserId: uuid("operator_user_id").references(() => users.id, { onDelete: "set null" }),
+  payerName: varchar("payer_name", { length: 160 }),
+  identityFingerprint: varchar("identity_fingerprint", { length: 64 }),
+  occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
+  confirmedAt: timestamp("confirmed_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("tuition_payments_provider_txn_uidx").on(table.provider, table.providerTransactionId),
+  uniqueIndex("tuition_payments_idempotency_uidx").on(table.idempotencyKey),
+  uniqueIndex("tuition_payments_receipt_uidx").on(table.receiptNo),
+  index("tuition_payments_student_idx").on(table.studentUserId, table.occurredAt),
+]);
+
+export const tuitionPaymentAllocations = pgTable("tuition_payment_allocations", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  paymentId: uuid("payment_id").notNull().references(() => tuitionPayments.id, { onDelete: "restrict" }),
+  chargeId: uuid("charge_id").notNull().references(() => tuitionCharges.id, { onDelete: "restrict" }),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  isReversal: boolean("is_reversal").notNull().default(false),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("tuition_payment_allocations_charge_idx").on(table.chargeId),
+  uniqueIndex("tuition_payment_allocations_uidx").on(table.paymentId, table.chargeId, table.isReversal),
+]);
+
+export const tuitionRefunds = pgTable("tuition_refunds", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  paymentId: uuid("payment_id").notNull().references(() => tuitionPayments.id, { onDelete: "restrict" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  method: varchar("method", { length: 12 }).notNull().default("cash"),
+  reason: varchar("reason", { length: 200 }).notNull(),
+  authorizedBy: uuid("authorized_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  providerRefundId: varchar("provider_refund_id", { length: 80 }),
+  providerRefundState: varchar("provider_refund_state", { length: 20 }).notNull().default("internal"),
+  status: varchar("status", { length: 12 }).notNull().default("settled"),
+  effectiveOn: date("effective_on").notNull().defaultNow(),
+  effectivePeriod: varchar("effective_period", { length: 7 }),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  settledAt: timestamp("settled_at", { withTimezone: true }),
+  failureReason: varchar("failure_reason", { length: 300 }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  uniqueIndex("tuition_refunds_provider_uidx").on(table.providerRefundId),
+  index("tuition_refunds_payment_idx").on(table.paymentId, table.createdAt),
+  index("tuition_refunds_settled_effective_idx").on(table.effectiveOn),
+]);
+
+export const cashReceiptSequences = pgTable("cash_receipt_sequences", {
+  periodKey: varchar("period_key", { length: 7 }).primaryKey(),
+  nextValue: bigint("next_value", { mode: "bigint" }).notNull().default(1n),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const cashDayCloses = pgTable("cash_day_closes", {
+  businessDate: date("business_date").primaryKey(),
+  expectedMinor: bigint("expected_minor", { mode: "bigint" }).notNull(),
+  countedMinor: bigint("counted_minor", { mode: "bigint" }).notNull(),
+  varianceMinor: bigint("variance_minor", { mode: "bigint" }).notNull(),
+  openingMinor: bigint("opening_minor", { mode: "bigint" }).notNull().default(0n),
+  receiptsMinor: bigint("receipts_minor", { mode: "bigint" }).notNull().default(0n),
+  refundsMinor: bigint("refunds_minor", { mode: "bigint" }).notNull().default(0n),
+  adjustmentsMinor: bigint("adjustments_minor", { mode: "bigint" }).notNull().default(0n),
+  reason: varchar("reason", { length: 300 }),
+  closedBy: uuid("closed_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  closedAt: timestamp("closed_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const financeClosedPeriods = pgTable("finance_closed_periods", {
+  periodKey: varchar("period_key", { length: 7 }).primaryKey(),
+  closedBy: uuid("closed_by").notNull().references(() => users.id, { onDelete: "restrict" }),
+  closedAt: timestamp("closed_at", { withTimezone: true }).defaultNow().notNull(),
+  reason: varchar("reason", { length: 300 }),
+});
+
+// ---------------------------------------------------------------------------
+// Tuition finance: relief, audit and outbox (migrations 1116-1118)
+//
+// Money columns are BigInt, never `number`: a JS double is exact only to 2^53 and a bigint
+// column holds far more, so `mode: "number"` would silently round a balance.
+// ---------------------------------------------------------------------------
+
+/** Relief against a charge that is already posted. Its own document, its own approval. */
+export const tuitionCreditNotes = pgTable("tuition_credit_notes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  chargeId: uuid("charge_id").notNull().references(() => tuitionCharges.id, { onDelete: "restrict" }),
+  contractId: uuid("contract_id").references(() => tuitionContracts.id, { onDelete: "set null" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  status: varchar("status", { length: 10 }).notNull().default("draft"),
+  reason: varchar("reason", { length: 300 }).notNull(),
+  requestedBy: uuid("requested_by").references(() => users.id, { onDelete: "set null" }),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  postedAt: timestamp("posted_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("tuition_credit_notes_charge_idx").on(table.chargeId),
+  uniqueIndex("tuition_credit_notes_one_live_per_charge_period").on(table.chargeId, table.periodKey),
+]);
+
+/** An approved intraday cash movement that is neither a receipt nor a refund. */
+export const cashDayAdjustments = pgTable("cash_day_adjustments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  businessDate: date("business_date").notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  reason: varchar("reason", { length: 300 }).notNull(),
+  requestedBy: uuid("requested_by").references(() => users.id, { onDelete: "set null" }),
+  approvedBy: uuid("approved_by").references(() => users.id, { onDelete: "set null" }),
+  approvedAt: timestamp("approved_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+}, table => [
+  index("cash_day_adjustments_date_idx").on(table.businessDate),
+]);
+
+/** Immutable record of every sensitive financial action: who, why, when, from which request. */
+export const financeAuditEvents = pgTable("finance_audit_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  occurredAt: timestamp("occurred_at", { withTimezone: true }).defaultNow().notNull(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  action: varchar("action", { length: 60 }).notNull(),
+  subjectType: varchar("subject_type", { length: 40 }).notNull(),
+  subjectId: uuid("subject_id"),
+  periodKey: varchar("period_key", { length: 7 }),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }),
+  currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
+  reason: varchar("reason", { length: 300 }),
+  requestId: varchar("request_id", { length: 80 }),
+  detail: jsonb("detail").notNull().default(sql`'{}'::jsonb`),
+}, table => [
+  index("finance_audit_events_subject_idx").on(table.subjectType, table.subjectId),
+  index("finance_audit_events_period_idx").on(table.periodKey),
+]);
+
+/** External side effects published from the same transaction that wrote the money. */
+export const financeOutboxEvents = pgTable("finance_outbox_events", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  topic: varchar("topic", { length: 60 }).notNull(),
+  aggregateType: varchar("aggregate_type", { length: 40 }).notNull(),
+  aggregateId: uuid("aggregate_id"),
+  payload: jsonb("payload").notNull().default(sql`'{}'::jsonb`),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  publishedAt: timestamp("published_at", { withTimezone: true }),
+  attempts: integer("attempts").notNull().default(0),
+  lastError: varchar("last_error", { length: 500 }),
+  nextAttemptAt: timestamp("next_attempt_at", { withTimezone: true }).defaultNow().notNull(),
+  leaseToken: uuid("lease_token"),
+  leaseExpiresAt: timestamp("lease_expires_at", { withTimezone: true }),
+  deadLetteredAt: timestamp("dead_lettered_at", { withTimezone: true }),
+}, table => [
+  index("finance_outbox_events_unpublished_idx").on(table.createdAt),
+  index("finance_outbox_dispatch_idx").on(table.topic, table.nextAttemptAt, table.createdAt, table.id)
+    .where(sql`${table.publishedAt} IS NULL AND ${table.deadLetteredAt} IS NULL`),
+]);
+
+export const financeOutboxSandboxReceipts = pgTable("finance_outbox_sandbox_receipts", {
+  eventId: uuid("event_id").primaryKey().references(() => financeOutboxEvents.id),
+  deliveredAt: timestamp("delivered_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export const academyGroups = pgTable("academy_groups", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  courseId: uuid("course_id").notNull().references(() => courses.id),
+  name: varchar("name", { length: 120 }).notNull(),
+  branch: varchar("branch", { length: 120 }).notNull(),
+  room: varchar("room", { length: 120 }),
+  feePlanLabel: varchar("fee_plan_label", { length: 120 }),
+  capacity: integer("capacity").notNull(),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  status: varchar("status", { length: 12 }).notNull().default("active"),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  unique("academy_groups_id_course_id_key").on(t.id, t.courseId),
+  index("academy_groups_course_idx").on(t.courseId),
+  index("academy_groups_status_name_idx").on(t.status, sql`lower(${t.name})`, t.id),
+  check("academy_groups_name_check", sql`btrim(${t.name}) <> ''`),
+  check("academy_groups_branch_check", sql`btrim(${t.branch}) <> ''`),
+  check("academy_groups_capacity_check", sql`${t.capacity} BETWEEN 1 AND 1000`),
+  check("academy_groups_ends_on_check", sql`${t.endsOn} >= ${t.startsOn}`),
+  check("academy_groups_status_check", sql`${t.status} IN ('active','paused','completed','archived')`),
+  check("academy_groups_revision_check", sql`${t.revision} > 0`),
+]).enableRLS();
+
+export const academyGroupTeachers = pgTable("academy_group_teachers", {
+  groupId: uuid("group_id").notNull().references(() => academyGroups.id, { onDelete: "cascade" }),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+}, t => [
+  primaryKey({ name: "academy_group_teachers_pkey", columns: [t.groupId, t.teacherUserId] }),
+  index("academy_group_teachers_scope_idx").on(t.teacherUserId, t.groupId),
+]).enableRLS();
+
+export const academyGroupMemberships = pgTable("academy_group_memberships", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  groupId: uuid("group_id").notNull(),
+  courseId: uuid("course_id").notNull(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  status: varchar("status", { length: 12 }).notNull(),
+  activatedOn: date("activated_on"),
+  transferredFromId: uuid("transferred_from_id").unique()
+    .references((): AnyPgColumn => academyGroupMemberships.id, { onDelete: "set null" }),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  index("academy_group_memberships_activated_student_idx").on(t.studentUserId)
+    .where(sql`${t.activatedOn} IS NOT NULL`),
+  foreignKey({
+    name: "academy_group_memberships_group_id_course_id_fkey",
+    columns: [t.groupId, t.courseId],
+    foreignColumns: [academyGroups.id, academyGroups.courseId],
+  }),
+  uniqueIndex("academy_group_memberships_current_idx").on(t.studentUserId, t.courseId)
+    .where(sql`${t.endsOn} IS NULL`),
+  index("academy_group_memberships_roster_idx").on(t.groupId, t.startsOn.desc(), t.id.desc()),
+  index("academy_group_memberships_seat_idx").on(t.groupId)
+    .where(sql`${t.status} IN ('active','paused')`),
+  check("academy_group_memberships_ends_on_check", sql`${t.endsOn} >= ${t.startsOn}`),
+  check("academy_group_memberships_status_check",
+    sql`${t.status} IN ('pending','active','paused','completed','withdrawn','transferred')`),
+  check("academy_group_memberships_revision_check", sql`${t.revision} > 0`),
+  check("academy_group_memberships_check",
+    sql`(${t.endsOn} IS NULL) = (${t.status} IN ('pending','active','paused'))`),
+]).enableRLS();
+
+export const academySessions = pgTable("academy_sessions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  groupId: uuid("group_id").notNull().references(() => academyGroups.id),
+  seriesId: uuid("series_id").notNull(),
+  branch: varchar("branch", { length: 120 }).notNull(),
+  room: varchar("room", { length: 120 }).notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+  status: varchar("status", { length: 12 }).notNull().default("scheduled"),
+  replacesId: uuid("replaces_id").unique().references((): AnyPgColumn => academySessions.id),
+  reason: varchar("reason", { length: 300 }),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  unique("academy_sessions_series_id_starts_at_key").on(t.seriesId, t.startsAt),
+  index("academy_sessions_group_start_idx").on(t.groupId, t.startsAt, t.id),
+  check("academy_sessions_ends_at_check", sql`${t.endsAt} > ${t.startsAt}`),
+  check("academy_sessions_status_check", sql`${t.status} IN ('scheduled','held','cancelled','rescheduled')`),
+  check("academy_sessions_revision_check", sql`${t.revision} > 0`),
+]).enableRLS();
+
+export const academySessionTeachers = pgTable("academy_session_teachers", {
+  sessionId: uuid("session_id").notNull().references(() => academySessions.id),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id),
+}, t => [
+  primaryKey({ name: "academy_session_teachers_pkey", columns: [t.sessionId, t.teacherUserId] }),
+  index("academy_session_teachers_scope_idx").on(t.teacherUserId, t.sessionId),
+]).enableRLS();
+
+export const academySessionReservations = pgTable("academy_session_reservations", {
+  sessionId: uuid("session_id").notNull().references(() => academySessions.id),
+  resourceKey: text("resource_key").notNull(),
+  startsAt: timestamp("starts_at", { withTimezone: true }).notNull(),
+  endsAt: timestamp("ends_at", { withTimezone: true }).notNull(),
+}, t => [
+  primaryKey({ name: "academy_session_reservations_pkey", columns: [t.sessionId, t.resourceKey] }),
+  index("academy_session_reservations_overlap_idx").on(t.resourceKey, t.startsAt, t.endsAt),
+  check("academy_session_reservations_ends_at_check", sql`${t.endsAt} > ${t.startsAt}`),
+]).enableRLS();
+
+export const academyAttendance = pgTable("academy_attendance", {
+  sessionId: uuid("session_id").notNull().references(() => academySessions.id),
+  membershipId: uuid("membership_id").notNull()
+    .references(() => academyGroupMemberships.id, { onDelete: "cascade" }),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  status: varchar("status", { length: 12 }).notNull().default("not_marked"),
+  revision: integer("revision").notNull().default(1),
+  markedBy: uuid("marked_by").references(() => users.id, { onDelete: "set null" }),
+  markedAt: timestamp("marked_at", { withTimezone: true }),
+}, t => [
+  primaryKey({ name: "academy_attendance_pkey", columns: [t.sessionId, t.studentUserId] }),
+  index("academy_attendance_student_idx").on(t.studentUserId, t.sessionId),
+  check("academy_attendance_status_check", sql`${t.status} IN ('not_marked','present','late','absent','excused')`),
+  check("academy_attendance_revision_check", sql`${t.revision} > 0`),
+  check("academy_attendance_check", sql`(${t.markedAt} IS NULL) = (${t.status} = 'not_marked')`),
+]).enableRLS();
+
+export const academyLeads = pgTable("academy_leads", {
+  id: uuid("id").primaryKey(),
+  name: varchar("name", { length: 120 }).notNull(),
+  email: varchar("email", { length: 254 }),
+  phone: varchar("phone", { length: 16 }),
+  source: varchar("source", { length: 120 }).notNull(),
+  courseId: uuid("course_id").references(() => courses.id),
+  assignedTo: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
+  stage: varchar("stage", { length: 20 }).notNull().default("new"),
+  followUpAt: timestamp("follow_up_at", { withTimezone: true }),
+  trialAt: timestamp("trial_at", { withTimezone: true }),
+  lostReason: varchar("lost_reason", { length: 300 }),
+  studentUserId: uuid("student_user_id").references(() => users.id, { onDelete: "set null" }),
+  membershipId: uuid("membership_id").unique().references(() => academyGroupMemberships.id, { onDelete: "set null" }),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createFingerprint: varchar("create_fingerprint", { length: 64 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  uniqueIndex("academy_leads_open_email_idx").on(t.email).where(sql`${t.email} IS NOT NULL AND ${t.stage} NOT IN ('enrolled','lost')`),
+  uniqueIndex("academy_leads_open_phone_idx").on(t.phone).where(sql`${t.phone} IS NOT NULL AND ${t.stage} NOT IN ('enrolled','lost')`),
+  index("academy_leads_stage_idx").on(t.stage, t.updatedAt.desc(), t.id),
+  index("academy_leads_assignee_idx").on(t.assignedTo, t.followUpAt).where(sql`${t.stage} NOT IN ('enrolled','lost')`),
+  check("academy_leads_name_check", sql`btrim(${t.name}) <> ''`),
+  check("academy_leads_source_check", sql`btrim(${t.source}) <> ''`),
+  check("academy_leads_stage_check", sql`${t.stage} IN ('new','contacted','trial_scheduled','trial_completed','enrolled','lost')`),
+  check("academy_leads_revision_check", sql`${t.revision} > 0`),
+  check("academy_leads_check", sql`${t.email} IS NOT NULL OR ${t.phone} IS NOT NULL`),
+  check("academy_leads_check1", sql`${t.stage} <> 'lost' OR ${t.lostReason} IS NOT NULL`),
+  check("academy_leads_check2", sql`${t.stage} NOT IN ('trial_scheduled','trial_completed') OR ${t.trialAt} IS NOT NULL`),
+]).enableRLS();
+
+export const academyLeadNotes = pgTable("academy_lead_notes", {
+  id: uuid("id").primaryKey(),
+  leadId: uuid("lead_id").notNull().references(() => academyLeads.id, { onDelete: "restrict" }),
+  authorId: uuid("author_id").references(() => users.id, { onDelete: "set null" }),
+  body: varchar("body", { length: 1200 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  index("academy_lead_notes_lead_idx").on(t.leadId, t.createdAt.desc(), t.id),
+  check("academy_lead_notes_body_check", sql`btrim(${t.body}) <> ''`),
+]).enableRLS();
+
+export const academyPayrollRules = pgTable("academy_payroll_rules", {
+  id: uuid("id").primaryKey(),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  monthlyMinor: bigint("monthly_minor", { mode: "bigint" }).notNull(),
+  sessionMinor: bigint("session_minor", { mode: "bigint" }).notNull(),
+  hourlyMinor: bigint("hourly_minor", { mode: "bigint" }).notNull(),
+  revenueBps: integer("revenue_bps").notNull(),
+  createFingerprint: varchar("create_fingerprint", { length: 64 }).notNull(),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  unique("academy_payroll_rules_teacher_user_id_starts_on_key").on(t.teacherUserId, t.startsOn),
+  check("academy_payroll_rules_monthly_minor_check", sql`${t.monthlyMinor} >= 0`),
+  check("academy_payroll_rules_session_minor_check", sql`${t.sessionMinor} >= 0`),
+  check("academy_payroll_rules_hourly_minor_check", sql`${t.hourlyMinor} >= 0`),
+  check("academy_payroll_rules_revenue_bps_check", sql`${t.revenueBps} BETWEEN 0 AND 10000`),
+  check("academy_payroll_rules_check", sql`${t.endsOn} IS NULL OR ${t.endsOn} >= ${t.startsOn}`),
+  check("academy_payroll_rules_check1", sql`${t.monthlyMinor} > 0 OR ${t.sessionMinor} > 0 OR ${t.hourlyMinor} > 0 OR ${t.revenueBps} > 0`),
+  check("academy_payroll_rules_check2", sql`${t.sessionMinor} = 0 OR ${t.hourlyMinor} = 0`),
+]).enableRLS();
+
+export const academyPayrollRevenue = pgTable("academy_payroll_revenue", {
+  journalTransactionId: uuid("journal_transaction_id").primaryKey().references(() => financeJournalEntries.transactionId),
+  sessionId: uuid("session_id").notNull(),
+  teacherUserId: uuid("teacher_user_id").notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  assignedBy: uuid("assigned_by").references(() => users.id, { onDelete: "set null" }),
+  assignedAt: timestamp("assigned_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  foreignKey({ name: "academy_payroll_revenue_session_id_teacher_user_id_fkey",
+    columns: [t.sessionId, t.teacherUserId],
+    foreignColumns: [academySessionTeachers.sessionId, academySessionTeachers.teacherUserId] }),
+  index("academy_payroll_revenue_teacher_session_idx").on(t.teacherUserId, t.sessionId),
+  check("academy_payroll_revenue_amount_minor_check", sql`${t.amountMinor} > 0`),
+]).enableRLS();
+
+export const academyPayrollRuns = pgTable("academy_payroll_runs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  accruedMinor: bigint("accrued_minor", { mode: "bigint" }).notNull(),
+  calculation: jsonb("calculation").notNull(),
+  accrualTransactionId: uuid("accrual_transaction_id").notNull().references(() => financeJournalEntries.transactionId),
+  finalizedBy: uuid("finalized_by").references(() => users.id, { onDelete: "set null" }),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  unique("academy_payroll_runs_teacher_user_id_period_key_key").on(t.teacherUserId, t.periodKey),
+  check("academy_payroll_runs_accrued_minor_check", sql`${t.accruedMinor} > 0`),
+]).enableRLS();
+
+export const academyPayrollEvents = pgTable("academy_payroll_events", {
+  id: uuid("id").primaryKey(),
+  runId: uuid("run_id").notNull().references(() => academyPayrollRuns.id),
+  kind: varchar("kind", { length: 12 }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  transactionId: uuid("transaction_id").notNull().references(() => financeJournalEntries.transactionId),
+  reference: varchar("reference", { length: 160 }).notNull(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  index("academy_payroll_events_run_idx").on(t.runId, t.createdAt, t.id),
+  uniqueIndex("academy_payroll_bank_reference_idx").on(sql`lower(${t.reference})`).where(sql`${t.kind} = 'payout'`),
+  check("academy_payroll_events_kind_check", sql`${t.kind} IN ('adjustment','payout')`),
+  check("academy_payroll_events_amount_minor_check", sql`${t.amountMinor} <> 0`),
+  check("academy_payroll_events_reference_check", sql`btrim(${t.reference}) <> ''`),
+  check("academy_payroll_events_check", sql`${t.kind} = 'adjustment' OR ${t.amountMinor} > 0`),
+]).enableRLS();
+
+export const academyDirectoryImports = pgTable("academy_directory_imports", {
+  id: uuid("id").primaryKey(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  source: varchar("source", { length: 80 }).notNull(),
+  fingerprint: varchar("fingerprint", { length: 64 }).notNull(),
+  fileSha256: varchar("file_sha256", { length: 64 }).notNull(),
+  report: jsonb("report").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+export const academyDirectoryRecords = pgTable("academy_directory_records", {
+  source: varchar("source", { length: 80 }).notNull(),
+  externalId: varchar("external_id", { length: 120 }).notNull(),
+  name: varchar("name", { length: 200 }).notNull(),
+  email: varchar("email", { length: 320 }),
+  role: varchar("role", { length: 12 }).notNull(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  createdIn: uuid("created_in").notNull().references(() => academyDirectoryImports.id),
+  linkedIn: uuid("linked_in").references(() => academyDirectoryImports.id),
+}, t => [
+  primaryKey({ name: "academy_directory_records_pkey", columns: [t.source, t.externalId] }),
+  uniqueIndex("academy_directory_records_source_email_idx").on(t.source, t.email).where(sql`${t.email} IS NOT NULL`),
+  uniqueIndex("academy_directory_records_source_user_idx").on(t.source, t.userId).where(sql`${t.userId} IS NOT NULL`),
+  index("academy_directory_records_user_idx").on(t.userId).where(sql`${t.userId} IS NOT NULL`),
+  check("academy_directory_records_role_check", sql`${t.role} IN ('student','teacher')`),
+  check("academy_directory_records_check", sql`${t.linkedIn} IS NULL OR ${t.userId} IS NOT NULL`),
+  check("academy_directory_records_check1", sql`${t.email} IS NOT NULL OR ${t.userId} IS NOT NULL`),
+]).enableRLS();
+
+export const academyRescueThresholds = pgTable("academy_rescue_thresholds", {
+  id: smallint("id").primaryKey(),
+  revision: integer("revision").notNull().default(1),
+  windowDays: integer("window_days").notNull().default(28),
+  attendancePercent: integer("attendance_percent").notNull().default(75),
+  minimumMarkedSessions: integer("minimum_marked_sessions").notNull().default(3),
+  overdueStreak: integer("overdue_streak").notNull().default(2),
+  scoreDropPoints: integer("score_drop_points").notNull().default(15),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  check("academy_rescue_thresholds_id_check", sql`${t.id} = 1`),
+  check("academy_rescue_thresholds_revision_check", sql`${t.revision} > 0`),
+  check("academy_rescue_thresholds_window_days_check", sql`${t.windowDays} BETWEEN 7 AND 90`),
+  check("academy_rescue_thresholds_attendance_percent_check", sql`${t.attendancePercent} BETWEEN 1 AND 100`),
+  check("academy_rescue_thresholds_minimum_marked_sessions_check", sql`${t.minimumMarkedSessions} BETWEEN 2 AND 20`),
+  check("academy_rescue_thresholds_overdue_streak_check", sql`${t.overdueStreak} BETWEEN 1 AND 10`),
+  check("academy_rescue_thresholds_score_drop_points_check", sql`${t.scoreDropPoints} BETWEEN 1 AND 100`),
+]).enableRLS();
+
+export const academyRescueCases = pgTable("academy_rescue_cases", {
+  groupId: uuid("group_id").notNull().references(() => academyGroups.id),
+  studentId: uuid("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  revision: integer("revision").notNull(),
+  status: varchar("status", { length: 12 }).notNull(),
+  assignedTo: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
+  followUpOn: date("follow_up_on"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  primaryKey({ name: "academy_rescue_cases_pkey", columns: [t.groupId, t.studentId] }),
+  check("academy_rescue_cases_revision_check", sql`${t.revision} > 0`),
+  check("academy_rescue_cases_status_check", sql`${t.status} IN ('open','claimed','follow_up','resolved','dismissed')`),
+]).enableRLS();
+
+export const academyRescueActions = pgTable("academy_rescue_actions", {
+  id: uuid("id").primaryKey(),
+  groupId: uuid("group_id").notNull(),
+  studentId: uuid("student_id").notNull(),
+  actorId: uuid("actor_id").notNull().references(() => users.id),
+  revision: integer("revision").notNull(),
+  action: varchar("action", { length: 12 }).notNull(),
+  reason: text("reason").notNull(),
+  bodyHash: varchar("body_hash", { length: 64 }).notNull(),
+  result: jsonb("result").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  foreignKey({ columns: [t.groupId, t.studentId], foreignColumns: [academyRescueCases.groupId, academyRescueCases.studentId] }).onDelete("cascade"),
+  unique("academy_rescue_actions_group_id_student_id_revision_key").on(t.groupId, t.studentId, t.revision),
+  check("academy_rescue_actions_revision_check", sql`${t.revision} > 0`),
+  check("academy_rescue_actions_action_check", sql`${t.action} IN ('claim','assign','note','plan','follow_up','resolve','dismiss','reopen')`),
+  check("academy_rescue_actions_reason_check", sql`char_length(btrim(${t.reason})) BETWEEN 3 AND 300`),
+]).enableRLS();

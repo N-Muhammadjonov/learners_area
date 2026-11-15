@@ -4,6 +4,7 @@ import {tokenise,splitByHighlights,offsetWithin} from '../../js/generated/lexica
 import {phraseTarget} from '../../js/generated/reading-lib/phrase-target.js';
 import {wordPopover} from './word-popover.js';
 import {contextualWordPopover} from './contextual-popover.js';
+import {markedMarkup,readingTokens} from './text-markup.js';
 /** Native source-selectable text. No lexical requests without the server-projected permission.
  *
  * Reading surfaces opt in to two original ClickableText behaviours (src/components/vocabulary/ClickableText.tsx):
@@ -17,7 +18,9 @@ const BASIC_WORDS=new Set(['i','you','he','she','it','we','they','me','him','her
 const READING_PRONOUNS=new Set(['i','me','my','mine','myself','you','your','yours','yourself','yourselves','he','him','his','himself','she','her','hers','herself','it','its','itself','we','us','our','ours','ourselves','they','them','their','theirs','themselves','who','whom','whose','someone','somebody','everyone','everybody','anyone','anybody','nobody','noone']);
 function isExcludedLexicalWord(token,sourceType,verifiedOnly){
  const normalized=token.clean.toLowerCase();
- return sourceType==='reading'&&verifiedOnly?READING_PRONOUNS.has(normalized):BASIC_WORDS.has(normalized);
+ return sourceType==='reading'&&verifiedOnly
+  ?token.clean!=='US'&&(READING_PRONOUNS.has(normalized)||normalized.replaceAll('’',"'")==="one's"||/^(?:i|you|he|she|it|we|they)['’](?:m|re|s|ve|ll|d)$/.test(normalized))
+  :BASIC_WORDS.has(normalized);
 }
 const savedSources=new WeakMap();
 const HIGHLIGHT_PALETTE=Object.freeze({
@@ -39,19 +42,27 @@ function sourceSaved(context,sourceType,sourceId){
  return cache.get(key);
 }
 
-export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,sourceOffsetExact=false,verifiedOnly=false,highlights=[],onHighlightRange,onRemoveHighlight}){
+export function clickableText(context,{text,sourceType='listening',sourceId,inline=false,className='',occurrences=[],catalogueLookup=false,lexicalAssistance=true,phraseAware=false,doubleClickLookup=false,offsetBase=0,sourceOffsetExact=false,verifiedOnly=false,highlights=[],onHighlightRange,onRemoveHighlight,sourceText=null,sourceMap=null,markupRoot=null}){
  const {dict}=context,own=new (document.defaultView?.AbortController??AbortController)(),signal=own.signal,tag=inline?'span':'div';
  const abort=()=>own.abort();context.signal.addEventListener('abort',abort,{once:true});signal.addEventListener('abort',()=>context.signal.removeEventListener('abort',abort),{once:true});if(context.signal.aborted)own.abort();
  const host=el(tag,{class:className});if(!lexicalAssistance&&!onHighlightRange&&!highlights.length){host.className=`whitespace-pre-line ${className}`;host.setAttribute('data-plain-text','');host.textContent=text;return {node:host,stop:()=>own.abort()};}
- const tokens=tokenise(text),words=tokens.flatMap((t,i)=>t.isWord&&!isExcludedLexicalWord(t,sourceType,verifiedOnly)&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
+ const tokens=sourceType==='reading'&&verifiedOnly?readingTokens(text):tokenise(text);
+ const words=tokens.flatMap((t,i)=>t.isWord&&!isExcludedLexicalWord(t,sourceType,verifiedOnly)&&(!verifiedOnly||target(i).occurrence)?[i]:[]),hintId='lookup-'+crypto.randomUUID(),cursorId='cursor-'+crypto.randomUUID();
  let active=null,cursor=null,popup,gesture=null,pending=null,hold=null,selection,control;
  // Word spans by token index: a lookup or cursor move touches two nodes, never the whole passage.
- const wordNodes=new Map();let lit=new Set();
+ const wordNodes=new Map(),wordParts=new Map();let lit=new Set();
+ const nodesFor=index=>wordParts.get(index)??(wordNodes.has(index)?[wordNodes.get(index)]:[]);
+ const markSaved=(index,saved)=>{for(const node of nodesFor(index))node.dataset.lexicalSaved=saved?'true':'false';};
  const hint=el('span',{id:hintId,class:'sr-only'},doubleClickLookup?dict.vocabulary.textLookupDoubleHint:dict.vocabulary.textLookupHint),status=el('span',{id:cursorId,role:'status',class:'sr-only'}),region=el(tag,{class:'relative whitespace-pre-line outline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-600',...(lexicalAssistance?{'data-clickable-text':'true','aria-describedby':hintId}:{'data-highlight-text':'true'}),...(onHighlightRange?{'data-highlight-surface':'true'}:{}),role:'group',...(words.length||onHighlightRange?{tabindex:0}:{}),'aria-label':lexicalAssistance?dict.vocabulary.textLookup:dict.listening.general.highlight});
  if(lexicalAssistance)host.append(hint);host.append(region,status);
  const fragment=document.createDocumentFragment();
- for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,'data-highlight-color':p.color??'blue',class:'rounded-sm',style:highlightStyle(p.color)}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!isExcludedLexicalWord(t,sourceType,verifiedOnly)&&(!verifiedOnly||phraseTarget(text,t,occurrences).occurrence)){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',class:'lexical-dotted-word',...(verifiedOnly?{style:{cursor:'text'}}:{})},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
- region.append(fragment);
+ for(const [i,t]of tokens.entries()){const pieces=splitByHighlights(t,highlights),body=pieces?pieces.map(p=>el(p.highlightId?'mark':'span',p.highlightId?{'data-highlight-id':p.highlightId,'data-highlight-color':p.color??'blue',class:'rounded-sm',style:highlightStyle(p.color)}:{},p.value)):t.value;if(lexicalAssistance&&t.isWord&&!isExcludedLexicalWord(t,sourceType,verifiedOnly)&&(!verifiedOnly||target(i).occurrence)){const node=el('span',{'data-word':t.clean,'data-token':i,'data-lexical-saved':'false',...(verifiedOnly?{'data-occurrence-id':target(i).occurrence.id}:{}),class:'lexical-dotted-word',...(verifiedOnly?{style:{cursor:'text'}}:{})},body);wordNodes.set(i,node);fragment.append(node);}else fragment.append(...(Array.isArray(body)?body:[document.createTextNode(body)]));}
+ if(markupRoot&&markupRoot.textContent===text){
+  const marked=markedMarkup(markupRoot,tokens,index=>wordNodes.has(index),highlights,highlightStyle);
+  wordNodes.clear();
+  for(const [index,nodes]of marked.wordNodes){wordNodes.set(index,nodes[0]);wordParts.set(index,nodes);const id=target(index).occurrence?.id;if(id)for(const node of nodes)node.dataset.occurrenceId=id;}
+  region.append(marked.fragment);
+ }else region.append(fragment);
  if(lexicalAssistance&&(sourceType==='reading'||sourceType==='listening')&&sourceId){
   void sourceSaved(context,sourceType,sourceId).then(saved=>{
    if(signal.aborted)return;
@@ -61,21 +72,26 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
      start=offsetBase+token.start,end=offsetBase+token.end;
     if(row&&ids.has(row.id)||
        sourceOffsetExact&&saved.some(item=>item.startChar<=start&&item.endChar>=end)){
-      node.dataset.lexicalSaved='true';
+      markSaved(index,true);
     }
    }
   });
  }
- function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i)){const n=wordNodes.get(i);if(n)n.classList.remove('rounded-sm','bg-signal-50','text-ink-900');}for(const i of next){const n=wordNodes.get(i);if(n)n.classList.add('rounded-sm','bg-signal-50','text-ink-900');}lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
+ function paint(){const next=new Set([active,cursor].filter(v=>v!=null));for(const i of lit)if(!next.has(i))for(const n of nodesFor(i))n.classList.remove('rounded-sm','bg-signal-50','text-ink-900');for(const i of next)for(const n of nodesFor(i))n.classList.add('rounded-sm','bg-signal-50','text-ink-900');lit=next;status.textContent=cursor==null?'':tokens[cursor].value;}
  function close(focus=false){popup?.stop();popup=null;active=null;paint();if(focus&&!signal.aborted)region.focus({preventScroll:true});}
  /** The lookup target of one word token: the phrase (when phrase-aware) or the single contextual hit. */
  function target(i){
   const selected=tokens[i];
+  if(typeof sourceText==='string'&&Array.isArray(sourceMap)){
+   const start=sourceMap[selected.start],last=sourceMap[selected.end-1];
+   if(!Number.isInteger(start)||!Number.isInteger(last))return {word:selected.clean,occurrence:undefined};
+   return phraseTarget(sourceText,{...selected,start,end:last+1},occurrences);
+  }
   if(phraseAware){const phrase=phraseTarget(text,selected,occurrences);return {word:phrase.word,occurrence:phrase.occurrence};}
   const hits=occurrences.filter(r=>r.startChar<=selected.start&&r.endChar>=selected.end),occurrence=hits.length===1?hits[0]:undefined;
   return {word:occurrence?.surfaceForm??selected.clean,occurrence};
  }
- function open(i){if(!lexicalAssistance||signal.aborted||!wordNodes.has(i))return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);if(verifiedOnly&&!occurrence)return;const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??offsetBase+tokens[i].start,endChar:occurrence?.endChar??offsetBase+tokens[i].end,catalogueLookup,inlineContext:verifiedOnly&&occurrence?{definitionEn:occurrence.definitionEn,translationUz:occurrence.translationUz,partOfSpeech:occurrence.partOfSpeech}:null,onSavedStatus:saved=>{anchor.dataset.lexicalSaved=saved?'true':'false';},onClose:()=>close(true)});}
+ function open(i){if(!lexicalAssistance||signal.aborted||!wordNodes.has(i))return;if(active===i){close();return;}close();const anchor=wordNodes.get(i);if(!anchor)return;active=i;paint();const {word,occurrence}=target(i);if(verifiedOnly&&!occurrence)return;const popover=CONTEXTUAL_SOURCES.has(sourceType)?contextualWordPopover:wordPopover;popup=popover({...context,signal},{anchor,dict,word,sourceType,sourceId,occurrenceId:occurrence?.id,startChar:occurrence?.startChar??offsetBase+tokens[i].start,endChar:occurrence?.endChar??offsetBase+tokens[i].end,catalogueLookup,inlineContext:verifiedOnly&&occurrence?{definitionEn:occurrence.definitionEn,translationUz:occurrence.translationUz,partOfSpeech:occurrence.partOfSpeech}:null,onSavedStatus:saved=>markSaved(i,saved),onClose:()=>close(true)});}
  function cancelHold(){clearTimeout(hold);hold=null;}
  listen(region,'pointerdown',e=>{clearTimeout(pending);cancelHold();close();gesture={x:e.clientX,y:e.clientY,started:Date.now(),cancelled:e.button!==0};
   const pressed=e.target instanceof Element?e.target.closest('[data-token]'):null;

@@ -20,7 +20,7 @@ def test_in_app_bank_stays_identical_to_landing_reference():
     content = json.JSONDecoder().raw_decode(re.split(r'export const LANDING_HTML\s*=', source.read_text(), maxsplit=1)[1].lstrip())[0]
     original = json.loads(re.search(r'const Q=(\[.*?\]);', content, re.S)[1])
     imported = read_bank()
-    assert len(original) == len(imported) == 150, 'Public landing bank has 45 questions; canonical in-app bank has 150. Complete bank equality is not satisfied.'
+    assert len(original) == len(imported) == 150, 'The landing and in-app diagnostic must share the complete canonical bank.'
     skills = dict(g='grammar', v='vocabulary', r='reading', l='listening', u='use')
     counters = {}
     for question in original:

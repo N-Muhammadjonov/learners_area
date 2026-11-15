@@ -1,0 +1,347 @@
+{
+  "branch": "arena/c9f21950-learners-area",
+  "pr": 189,
+  "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
+  "code_sha": "ade6227be1954e622945c8cc218e0793370e341e",
+  "latest_finished_full_ci": {
+    "sha": "ade6227be1954e622945c8cc218e0793370e341e",
+    "run_id": 43681952681,
+    "backend": {
+      "passed": 7490,
+      "failed": 0,
+      "skipped": 0,
+      "xfailed": 0,
+      "xpassed": 0,
+      "subtests_passed": 287,
+      "seconds": 136.35
+    },
+    "frontend": {
+      "passed": 1808,
+      "failed": 0,
+      "skipped": 12,
+      "xfailed": 0,
+      "xpassed": 0
+    },
+    "migration_contract": {
+      "passed": 4,
+      "failed": 0
+    },
+    "fresh_migration": {
+      "schema_migrations": 110,
+      "content_deferred": 21,
+      "typed_tables": 189,
+      "asgi_checks": 9
+    },
+    "chromium": {
+      "comparisons_passed": 4,
+      "failed": 0,
+      "fixture_modes": [
+        "day",
+        "night"
+      ],
+      "viewport_widths": [
+        1440,
+        390
+      ],
+      "rescue_and_capacity": "passed",
+      "roles": 5,
+      "rescue_paginated_students": 27,
+      "job_id": 132714328296
+    }
+  },
+  "code_ci": {
+    "status": "success",
+    "run_id": 43681952681,
+    "leaderboard_run_id": 43681952661,
+    "coin_run_id": 43681952663,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952681"
+  },
+  "tests": [
+    {
+      "area": "rescue_account_erasure_release_gate",
+      "code_sha": "55fdeacdd5821280cc89d7a1743442bbbbb0a323",
+      "postgres_version": "18.6",
+      "python_version": "3.12",
+      "node_version": "24.22.1",
+      "backend": {
+        "passed": 7488,
+        "failed": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0,
+        "subtests_passed": 287
+      },
+      "frontend": {
+        "passed": 1806,
+        "failed": 0,
+        "skipped": 12,
+        "xfailed": 0,
+        "xpassed": 0
+      }
+    },
+    {
+      "area": "learner_support_directory_coin_postgresql",
+      "passed": 35,
+      "failed": 0
+    },
+    {
+      "area": "learner_support_directory_journey_staff_frontend",
+      "passed": 11,
+      "failed": 0
+    },
+    {
+      "area": "motion_dock_listening_directory_journey",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "area": "coin_policy_integration_and_safety",
+      "postgres_version": "18.6",
+      "passed": 45,
+      "failed": 0,
+      "xfailed": 0
+    },
+    {
+      "area": "coin_directory_journey_and_proxy",
+      "postgres_version": "18.6",
+      "passed": 39,
+      "failed": 0,
+      "xfailed": 0
+    },
+    {
+      "area": "uvicorn_and_startup_warning_both_orders",
+      "passed_per_order": 6,
+      "failed": 0
+    },
+    {
+      "area": "directory_xlsx_10000_retest",
+      "postgres_version": "18.6",
+      "passed": 3,
+      "failed": 0,
+      "preview_ms": 1518.3,
+      "apply_ms": 1286.8,
+      "process_peak_rss_kib": 125944
+    },
+    {
+      "area": "directory_learning_academy_payroll_and_request_lifecycle",
+      "postgres_version": "18.6",
+      "passed": 56,
+      "failed": 0,
+      "seconds": 14.35
+    },
+    {
+      "area": "directory_journey_and_academy_frontend",
+      "passed": 24,
+      "failed": 0
+    },
+    {
+      "area": "final_academy_finance_payroll_and_backup_contract",
+      "postgres_version": "18.6",
+      "passed": 231,
+      "failed": 0,
+      "seconds": 24.7
+    },
+    {
+      "area": "academy_and_finance_with_payroll",
+      "postgres_version": "18.6",
+      "passed": 217,
+      "failed": 0,
+      "seconds": 22.84
+    },
+    {
+      "area": "payroll_journal_recognition_and_role_checks",
+      "postgres_version": "18.6",
+      "passed": 130,
+      "failed": 0,
+      "seconds": 14.63
+    },
+    {
+      "area": "payroll_and_tuition_with_application_postgres_codecs",
+      "postgres_version": "18.6",
+      "passed": 46,
+      "failed": 0,
+      "seconds": 8.72
+    },
+    {
+      "area": "academy_finance_crm_payroll_ui_and_static_routes",
+      "passed": 20,
+      "failed": 0,
+      "node_version": "24.22.1"
+    },
+    {
+      "area": "fresh_migration_contract",
+      "passed": 4,
+      "failed": 0
+    },
+    {
+      "area": "academy_and_finance",
+      "postgres_version": "18.6",
+      "command": "python -m pytest -q tests/test_academy_groups.py tests/test_tuition_ledger.py tests/test_tuition_refund_http.py tests/test_tuition_provider_http.py tests/test_tuition_charge_http.py tests/test_finance_outbox.py tests/test_tuition_database_policy.py tests/test_tuition_schema_parity.py",
+      "passed": 150,
+      "failed": 0,
+      "seconds": 21.77
+    },
+    {
+      "area": "academy_finance_ui_and_static_routes",
+      "paths": [
+        "frontend/vanilla/tests/academy-finance.test.mjs",
+        "frontend/vanilla/tests/python-build-v69.test.mjs"
+      ],
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "area": "finance",
+      "paths": [
+        "services/backend/tests/test_tuition_ledger.py",
+        "services/backend/tests/test_finance_outbox.py",
+        "services/backend/tests/test_tuition_schema_parity.py"
+      ],
+      "postgres_version": "18.6",
+      "passed": 90,
+      "failed": 0
+    },
+    {
+      "area": "listening",
+      "path": "frontend/vanilla/tests/listening-resume-source-repairs.test.mjs",
+      "passed": 2,
+      "failed": 0
+    }
+  ],
+  "migrations": {
+    "latest": "services/backend/migrations/1131_academy_attempt_lookup_indexes.sql",
+    "fresh": "verified",
+    "content_bearing_upgrade": "pending",
+    "staging": "pending",
+    "production": "pending",
+    "fresh_evidence": {
+      "schema_migrations": 110,
+      "content_deferred": 21,
+      "typed_tables": 189,
+      "asgi_checks": 9,
+      "command": "npm run backend:test:postgres"
+    },
+    "current_local_fresh": {
+      "schema_migrations": 110,
+      "typed_tables": 189,
+      "content_deferred": 21,
+      "asgi_checks": 9
+    },
+    "synthetic_forward_upgrade": {
+      "range": "1129 to 1131",
+      "status": "passed",
+      "reading_attempts": 10000,
+      "journal_lines": 20000,
+      "rescue_cases_preserved": 1,
+      "rescue_actions_preserved": 1,
+      "indexes": 3
+    }
+  },
+  "gates": {
+    "A": {
+      "status": "partial",
+      "remaining": [
+        "review remaining A6 probes",
+        "add live Click/Payme adapter receipts and production telemetry"
+      ]
+    },
+    "B": {
+      "status": "green_at_code_commit",
+      "remaining": [
+        "Run main-only Telegram and Parent Connect workflows after an authorized merge."
+      ]
+    },
+    "C": {
+      "status": "partial",
+      "implemented": [
+        "C1 groups, capacity, enrollment, transfer and staff profile history",
+        "C2 group timetable, recurrence, resource overlap, substitutions, holidays and rescheduling",
+        "C3 verified attendance, correction audit, staff and linked-child guardian views",
+        "C4 staff summary, reconciliation, statement, cash/bank entry, internal receipt and cash close, scoped student and teacher views",
+        "C4 contract, discount, charge, credit note, refund, AR aging, sandbox provider and journal CSV",
+        "C5 admissions pipeline with deduplication and atomic existing-student conversion",
+        "C6 effective-dated fixed, session, hourly, revenue-share and hybrid payroll, adjustment and recorded bank payout",
+        "C8 owner-only CSV/XLSX directory mapping, import dry-run, canonical identity matching, pending review, audit, exports and 10000-row isolated benchmark"
+      ],
+      "next": "Continue Gate D learning after C8. C7 remains conditional on a buyer-defined branch access scope.",
+      "remaining": [
+        "Student calendar and attendance aggregate reports",
+        "Buyer-dependent C7 branch authorization and scoped report drill-down",
+        "Real browser, integration demo and realistic sample data",
+        "Buyer payroll policy, tax/withholding and bank operation verification",
+        "Buyer-specific cohort/history import and opening balances require reviewed source mapping and accounting policy."
+      ]
+    },
+    "D": {
+      "status": "partial",
+      "next": "Extend D3 to multi-period scenarios and evidence-backed trial conversion, delivered sessions and dropout signals.",
+      "implemented": [
+        "Role-scoped Learner Journey with real attendance, study milestone events, scores and student goals",
+        "Native PostgreSQL/ASGI classroom-to-Writing flow with real roles and reviewer/guardian authorization",
+        "Reading, Listening and Speaking submission timeline and authorized simulated Telegram relay retries",
+        "D2 native learner support queue with live roster scope, auditable owner thresholds, attendance/overdue/comparable IELTS scores, claims and recorded follow-ups in isolated PostgreSQL/ASGI tests",
+        "Chromium Rescue Queue and Capacity Explorer through FastAPI and PostgreSQL, roles and Rescue pagination confirmed",
+        "Owner Capacity and Revenue Explorer, one lesson and forecast period, 3 scenarios over a read-only PostgreSQL snapshot"
+      ],
+      "remaining": [
+        "Multi-period capacity planning and leakage projections from historic trials and withdrawals",
+        "Real device and provider checks for audio, STT, WebRTC and Telegram"
+      ]
+    },
+    "E": {
+      "status": "partial",
+      "next": "Profile high-concurrency admission and pool limits and run staged mixed read/write and soak workloads.",
+      "verified": [
+        "10000 synthetic students over loopback HTTP",
+        "Rescue query indexes profiled before/after",
+        "Encrypted PostgreSQL plus local S3-compatible media restore"
+      ],
+      "remaining": [
+        "At 100 or more concurrent local requests the HTTP error target fails",
+        "Staged/production capacity and recovery",
+        "Full security controls and live external services"
+      ]
+    },
+    "F": {
+      "status": "partial",
+      "next": "Run a single browser buyer rehearsal with all modules, including authorized live integrations in isolated staging.",
+      "verified": [
+        "A connected PostgreSQL and ASGI synthetic lead, trial, roster, attendance, finance, Writing, guardian reply, payroll and CSV journey",
+        "Separate Chromium Rescue and Capacity proof, practice-flow tests, sandbox payment callbacks and a synthetic restore drill"
+      ],
+      "remaining": [
+        "Cross-module browser rehearsal, real audio and Telegram, merchant and staging acceptance",
+        "Customer pilot, measured task times and handover sign-off"
+      ]
+    }
+  },
+  "manual_actions": "docs/SALE_READY_MANUAL_ACTIONS.md",
+  "manual_action_count": {
+    "sale": 7,
+    "pilot": 3,
+    "handover": 1,
+    "optional": 1
+  },
+  "merge_authorized": false,
+  "production_rollout_authorized": false,
+  "same_environment_main_baseline": {
+    "sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
+    "postgres_version": "18.6",
+    "backend": {
+      "passed": 7248,
+      "failed": 8,
+      "xfailed": 1,
+      "skipped": 0,
+      "xpassed": 0,
+      "subtests_passed": 287
+    },
+    "frontend": {
+      "passed": 1758,
+      "failed": 18,
+      "skipped": 12,
+      "xfailed": 0,
+      "xpassed": 0
+    }
+  }
+}

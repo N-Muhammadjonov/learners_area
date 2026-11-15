@@ -39,8 +39,10 @@ test('Listening 30–32 keep 12 real transcript sections and 120 IELTS questions
     const {html,data}=sourceFor(number);
     assert.match(html,/function renderScript\(/);
     assert.equal(Object.keys(data.transcript).length,4);
-    assert.equal(data.questions.length,40);
-    questions+=data.questions.length;
+    const rows=Object.entries(data.questions);
+    assert.deepEqual(rows.map(([id])=>Number(id)),Array.from({length:40},(_,i)=>i+1));
+    for(const [id,question] of rows){assert.equal(question.q,Number(id));assert(question.answer);}
+    questions+=rows.length;
     for(let part=1;part<=4;part++){
       const body=data.transcript[String(part)];
       assert.equal(typeof body,'string');
@@ -77,7 +79,7 @@ test('Listening 30–32 Script meanings preserve contextual span offsets and Voc
   assert.doesNotMatch(bridge,/mode:'script-context'/);
   assert.match(bridge,/startChar:begin,endChar:end/);
   assert.match(bridge,/occurrences\.filter/);
-  assert.match(bridge,/matches\.length===0/);
+  assert.match(bridge,/if\(matches\.length!==1\)return;/);
   new Function(bridge);
   const original=originalScriptAccessibility('fixture');
   assert.match(original,/la-script-lexical-word/);

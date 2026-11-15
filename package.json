@@ -23,7 +23,8 @@
     "test:frontend": "cd frontend/vanilla && node --test tests/*.test.mjs tests/staff-final30/*.test.mjs",
     "test:integration": "node --import tsx scripts/verify-vanilla-fastapi.mjs",
     "build:browser": "node scripts/bundle_browser.mjs",
-    "test:bundles": "node --test scripts/tests/browser-bundles.test.mjs"
+    "test:bundles": "node --test scripts/tests/browser-bundles.test.mjs",
+    "test:migrations": "node --test scripts/tests/migration-contract.test.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",
