@@ -1159,7 +1159,10 @@ export const readingAttempts = pgTable("reading_attempts", {
   totalQuestions: integer("total_questions"),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
-});
+}, t => [
+  index("reading_attempts_completed_user_submitted_idx").on(t.userId, t.submittedAt)
+    .where(sql`${t.status} = 'completed' AND ${t.submittedAt} IS NOT NULL`),
+]);
 
 export const readingAnswers = pgTable("reading_answers", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -1289,7 +1292,10 @@ export const listeningAttempts = pgTable("listening_attempts", {
   totalQuestions: integer("total_questions"),
   startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
-});
+}, t => [
+  index("listening_attempts_completed_user_submitted_idx").on(t.userId, t.submittedAt)
+    .where(sql`${t.status} = 'completed' AND ${t.submittedAt} IS NOT NULL`),
+]);
 
 export const listeningAnswers = pgTable("listening_answers", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -4218,6 +4224,8 @@ export const academyGroupMemberships = pgTable("academy_group_memberships", {
     .references((): AnyPgColumn => academyGroupMemberships.id, { onDelete: "set null" }),
   revision: integer("revision").notNull().default(1),
 }, t => [
+  index("academy_group_memberships_activated_student_idx").on(t.studentUserId)
+    .where(sql`${t.activatedOn} IS NOT NULL`),
   foreignKey({
     name: "academy_group_memberships_group_id_course_id_fkey",
     columns: [t.groupId, t.courseId],

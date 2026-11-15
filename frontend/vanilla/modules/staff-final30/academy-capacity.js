@@ -4,15 +4,15 @@ import {BackLink, el, listen} from './kit.js';
 const route = '/api/staff/academy';
 const fields = [
   ['projectedStudents', 'Projected learners', 'Kutilgan o‘quvchilar', 1000],
-  ['tuitionMinor', 'Tuition per learner (tiyin)', 'Bir o‘quvchi to‘lovi (tiyin)', 'money'],
+  ['tuitionMinor', 'Tuition per learner (UZS)', 'Bir o‘quvchi to‘lovi (UZS)', 'money'],
   ['discountBps', 'Discount (%)', 'Chegirma (%)', 'percent'],
   ['collectionBps', 'Expected collection (%)', 'Kutilgan undirish (%)', 'percent'],
   ['cashWithinPeriodBps', 'Collection within the period (%)', 'Shu davrda tushadigan ulush (%)', 'percent'],
   ['deliveryBps', 'Earned portion of tuition (%)', 'Xizmati ko‘rsatilgan to‘lov ulushi (%)', 'percent'],
-  ['openingDebtMinor', 'Prior debt (tiyin)', 'Oldingi qarz (tiyin)', 'money'],
+  ['openingDebtMinor', 'Prior debt (UZS)', 'Oldingi qarz (UZS)', 'money'],
   ['debtRecoveryBps', 'Prior debt collected in the period (%)', 'Shu davrda undiriladigan oldingi qarz (%)', 'percent'],
-  ['teacherRateMinor', 'Teacher rate (tiyin)', 'O‘qituvchi tarifi (tiyin)', 'money'],
-  ['teacherFixedMinor', 'Hybrid fixed portion (tiyin)', 'Aralash usulning qat’iy qismi (tiyin)', 'money'],
+  ['teacherRateMinor', 'Teacher rate (UZS)', 'O‘qituvchi tarifi (UZS)', 'money'],
+  ['teacherFixedMinor', 'Hybrid fixed portion (UZS)', 'Aralash usulning qat’iy qismi (UZS)', 'money'],
   ['teacherRevenueBps', 'Teacher share of earned tuition (%)', 'O‘qituvchining ishlab topilgan to‘lovdagi ulushi (%)', 'percent'],
   ['teacherMinutesAvailable', 'Teacher minutes available', 'O‘qituvchilarning bo‘sh daqiqalari', 52560],
 ];
@@ -43,11 +43,7 @@ function percentage(value) {
 }
 
 function formatMinor(value, locale) {
-  const amount = BigInt(value);
-  const absolute = amount < 0n ? -amount : amount;
-  const whole = new Intl.NumberFormat(locale).format(absolute / 100n);
-  const fraction = (absolute % 100n).toString().padStart(2, '0');
-  return (amount < 0n ? '−' : '')+whole+(locale === 'uz-UZ' ? ',' : '.')+fraction+' UZS';
+  return new Intl.NumberFormat(locale).format(BigInt(value))+' UZS';
 }
 
 export async function mount(ctx) {

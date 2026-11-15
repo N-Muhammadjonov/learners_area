@@ -2,35 +2,34 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "55fdeacdd5821280cc89d7a1743442bbbbb0a323",
+  "code_sha": "001773a94600fee6d6a0061bcc07277ba2da3823",
   "latest_finished_full_ci": {
-    "sha": "58425623dff1d4ccb95fd5cb2b84a1c2f6ea1394",
-    "run_id": 43678118427,
+    "sha": "001773a94600fee6d6a0061bcc07277ba2da3823",
+    "run_id": 43681174596,
     "backend": {
-      "passed": 7487,
+      "passed": 7490,
       "failed": 0,
       "skipped": 0,
       "xfailed": 0,
       "xpassed": 0,
       "subtests_passed": 287,
-      "seconds": 154.31
+      "seconds": 95.64
     },
     "frontend": {
-      "passed": 1802,
+      "passed": 1808,
       "failed": 0,
       "skipped": 12,
       "xfailed": 0,
-      "xpassed": 0,
-      "seconds": null
+      "xpassed": 0
     },
     "migration_contract": {
       "passed": 4,
       "failed": 0
     },
     "fresh_migration": {
-      "schema_migrations": 106,
+      "schema_migrations": 109,
       "content_deferred": 21,
-      "typed_tables": 186,
+      "typed_tables": 189,
       "asgi_checks": 9
     },
     "chromium": {
@@ -44,15 +43,18 @@
         1440,
         390
       ],
-      "job_id": 132702691833
+      "rescue_and_capacity": "passed",
+      "roles": 5,
+      "rescue_paginated_students": 27,
+      "job_id": 132711925357
     }
   },
   "code_ci": {
-    "status": "in_progress",
-    "run_id": 43680377449,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43680377449",
-    "leaderboard_run_id": 43680377519,
-    "coin_run_id": 43680377469
+    "status": "success",
+    "run_id": 43681174596,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681174596",
+    "leaderboard_run_id": 43681174657,
+    "coin_run_id": 43681174599
   },
   "tests": [
     {
@@ -208,20 +210,20 @@
     }
   ],
   "migrations": {
-    "latest": "services/backend/migrations/1130_preserve_rescue_account_erasure.sql",
+    "latest": "services/backend/migrations/1131_academy_attempt_lookup_indexes.sql",
     "fresh": "verified",
     "content_bearing_upgrade": "pending",
     "staging": "pending",
     "production": "pending",
     "fresh_evidence": {
-      "schema_migrations": 106,
+      "schema_migrations": 109,
       "content_deferred": 21,
-      "typed_tables": 186,
+      "typed_tables": 189,
       "asgi_checks": 9,
       "command": "npm run backend:test:postgres"
     },
     "current_local_fresh": {
-      "schema_migrations": 109,
+      "schema_migrations": 110,
       "typed_tables": 189,
       "content_deferred": 21,
       "asgi_checks": 9
@@ -238,7 +240,7 @@
     "B": {
       "status": "green_at_code_commit",
       "remaining": [
-        "Verify GitHub Actions on the documentation-only head.",
+        "Verify Full stability regression on the final Arena tip.",
         "Run main-only Telegram and Parent Connect workflows after an authorized merge."
       ]
     },
@@ -265,22 +267,33 @@
     },
     "D": {
       "status": "partial",
-      "next": "Verify the CI Chromium Rescue browser/API/database journey; implement D3 with a read-only PostgreSQL snapshot and exact decimal scenario inputs.",
+      "next": "Extend D3 to multi-period scenarios and evidence-backed trial conversion, delivered sessions and dropout signals.",
       "implemented": [
         "Role-scoped Learner Journey with real attendance, study milestone events, scores and student goals",
         "Native PostgreSQL/ASGI classroom-to-Writing flow with real roles and reviewer/guardian authorization",
         "Reading, Listening and Speaking submission timeline and authorized simulated Telegram relay retries",
-        "D2 native learner support queue with live roster scope, auditable owner thresholds, attendance/overdue/comparable IELTS scores, claims and recorded follow-ups in isolated PostgreSQL/ASGI tests"
+        "D2 native learner support queue with live roster scope, auditable owner thresholds, attendance/overdue/comparable IELTS scores, claims and recorded follow-ups in isolated PostgreSQL/ASGI tests",
+        "Chromium Rescue Queue and Capacity Explorer through FastAPI and PostgreSQL, roles and Rescue pagination confirmed",
+        "Owner Capacity and Revenue Explorer, one lesson and forecast period, 3 scenarios over a read-only PostgreSQL snapshot"
       ],
       "remaining": [
-        "Real browser to database Rescue Queue journey",
-        "Academy Capacity & Revenue Explorer",
+        "Multi-period capacity planning and leakage projections from historic trials and withdrawals",
         "Real device and provider checks for audio, STT, WebRTC and Telegram"
       ]
     },
     "E": {
-      "status": "pending",
-      "next": "Run an isolated PostgreSQL and object-storage restore, then a staged HTTP benchmark with at least 10000 synthetic student records."
+      "status": "partial",
+      "next": "Profile high-concurrency admission and pool limits and run staged mixed read/write and soak workloads.",
+      "verified": [
+        "10000 synthetic students over loopback HTTP",
+        "Rescue query indexes profiled before/after",
+        "Encrypted PostgreSQL plus local S3-compatible media restore"
+      ],
+      "remaining": [
+        "At 100 or more concurrent local requests the HTTP error target fails",
+        "Staged/production capacity and recovery",
+        "Full security controls and live external services"
+      ]
     },
     "F": {
       "status": "pending",

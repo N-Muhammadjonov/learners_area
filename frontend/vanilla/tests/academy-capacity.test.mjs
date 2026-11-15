@@ -60,8 +60,8 @@ test('simulation preserves exact money, percentages and the read-only schedule s
     assert.equal(submission.body.tuitionMinor, '9007199254740993');
     assert.equal(submission.body.discountBps, 125);
     assert.deepEqual(submission.body.slot, {localDate:'2026-11-15',localStart:'11:30',durationMinutes:60,room:'North'});
-    assert(h.q('table').textContent.includes('90,071,992,547,409.93 UZS'));
-    assert(h.q('table').textContent.includes('−0.01 UZS'));
+    assert(h.q('table').textContent.includes('9,007,199,254,740,993 UZS'));
+    assert(h.q('table').textContent.includes('-1 UZS'));
     assert(h.ctx.root.textContent.includes('Schedule conflicts · Room'));
     assert.deepEqual(h.calls.map(item => item.method), ['GET','GET','POST']);
   } finally {

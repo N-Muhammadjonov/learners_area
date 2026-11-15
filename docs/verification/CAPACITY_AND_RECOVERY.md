@@ -2,11 +2,7 @@
 
 **Branch:** `arena/c9f21950-learners-area` · **Date:** 2026-11-14
 
-> **Uzbek xulosasi:** Bu hujjatda **haqiqiy o'lchovlar** bor: 10,000 talabalik sintetik
-> baza yaratildi va yangi moliya o'qish yo'llari `EXPLAIN (ANALYZE, BUFFERS)` bilan
-> o'lchandi. Lekin bu **HTTP konkurentlik testi emas**. Shuning uchun "10,000 foydalanuvchi
-> bir vaqtda ishlay oladi" degan da'vo **qilinmayapti** — bunday da'vo uchun load-test
-> retsepti kerak va u hali bajarilmagan.
+Lokal 10 000 o‘quvchili HTTP sinovi va sintetik PostgreSQL/S3 tiklash mashqi o‘tkazildi. 50 parallel so‘rov darajasi p95 maqsadiga yetdi. Yuqori darajalarda xato chegarasi oshdi. Quyida ish muhiti, so‘rovlar va tiklash natijalari keltirilgan.
 
 ## Katalog importi o‘lchovi (2026-11-15)
 
@@ -18,17 +14,35 @@
 
 Linux x86_64, Python 3.12.14, PostgreSQL 18.6. Har fayl sintetik. Preview vaqtiga faylni tayyorlash ham kiradi. RSS butun sinov jarayonining eng yuqori xotira sarfi. Katalog importi o‘lchovi [qabul dalillarida](SALE_READY_ACCEPTANCE.md) takrorlanadi. Parallel HTTP yuk va to‘liq zaxiradan tiklash uchun alohida dalil kutilmoqda.
 
-Xuddi shu PostgreSQL 18.6 konfiguratsiyasidagi takroriy XLSX o‘lchovi 10 000 qatorda 1 518 ms preview, 1 287 ms apply va 125 944 KiB process peak RSS berdi. 500, 5 000 va 10 000 qatorning uchta sinovi o‘tdi. HTTP yuk va tiklash bo‘yicha yangi o‘lchov olinmadi.
+Xuddi shu PostgreSQL 18.6 konfiguratsiyasidagi takroriy XLSX o‘lchovi 10 000 qatorda 1 518 ms preview, 1 287 ms apply va 125 944 KiB process peak RSS berdi. 500, 5 000 va 10 000 qatorning uchta sinovi o‘tdi. Katalog importi alohida o‘lchov. Parallel HTTP va tiklash natijalari quyida.
 
-## 1. The claim this document does **not** make
+## HTTP yuk sinovi va PostgreSQL indekslari (2026-11-15)
 
-* ❌ "Supports 10,000 concurrent users." No HTTP load test was executed in this pass.
-* ❌ Any p95 latency for the web application. Only database query times were measured.
-* ❌ 99.9% availability. There is no monitoring receipt.
+PostgreSQL 18.6, bitta FastAPI jarayoni, pool 5, oddiy parallel so‘rovlar budjeti 64. Lokal sintetik baza 10 000 o‘quvchi, 100 guruh, 1 000 guardian bog‘lanishi, 30 000 davomat, 10 000 Reading urinishlari va 10 000 posted charge bilan to‘ldirildi. Haqiqiy loopback HTTP’da student Journey, session, guardian davomat, teacher Rescue va owner finance summary o‘qildi. Har daraja besh soniya qabul qildi, qolgan so‘rovlar yakunigacha kutilgan. Natijalar bitta lokal bajarilishdan olingan.
 
-What **is** claimed, with receipts below: the new finance read paths were profiled on a
-10,000-student synthetic dataset, one inefficiency was found and fixed, and the resulting
-plans are recorded.
+| Parallel so‘rov | 200 | 503 | p50 (ms) | p95 (ms) | p99 (ms) |
+|---:|---:|---:|---:|---:|---:|
+| 50 | 1 621 | 0 | 142.97 | 295.36 | 397.23 |
+| 100 | 225 | 713 | 216.54 | 2 246.86 | 3 190.80 |
+| 250 | 223 | 936 | 870.98 | 3 231.22 | 4 422.74 |
+| 500 | 219 | 1 008 | 2 224.17 | 6 107.23 | 6 833.13 |
+| 1 000 | 258 | 1 291 | 4 608.09 | 9 114.83 | 9 590.87 |
+
+p95 va p99 barcha HTTP javoblarini qamrab oladi. 100–1 000 darajalari 0,5% xato chegarasidan oshdi. `busy` javoblari va pool kutishlari qayd etildi. Indekssiz birinchi sinovda 50 parallel darajada p95 458,84 ms va 198,43 so‘rov/s, indekslardan keyin 295,36 ms va 317,99 so‘rov/s bo‘ldi. Indekssiz pool 10 bilan yana o‘lchaganda 50 darajada p95 343,43 ms chiqdi, yuqori darajalarda 503 davom etdi. Yuklamadan so‘ng `/readyz` 200 qaytardi.
+
+`EXPLAIN (ANALYZE, BUFFERS)` joriy SQL’da Reading urinishlari har bir Rescue nomzodi uchun to‘liq qayta o‘qilganini ko‘rsatdi. `1131` yakunlangan Reading va Listening urinishlari hamda ishga tushgan guruh a’zoliklariga qisman indekslar qo‘shadi. O‘lchangan SQL vaqti Journey uchun 3,117 → 0,394 ms, o‘qituvchi Rescue ro‘yxati uchun 112,114 → 5,074 ms, butun akademiya Rescue ro‘yxati uchun 10 914,631 → 198,876 ms. 50 parallel darajasidan yuqorisida maqsadlar hali ochiq. Navbat, yozuvlarning aralash yuklamasi, bir soatlik sinov, ko‘p replika va staging infratuzilmasi bu o‘lchovdan tashqarida.
+
+Qayta ishlatish uchun faqat yangi, bo‘sh lokal `coin_qa` bazasini 55442 portda ishga tushiring. Sinov production manzillarini qabul qilmaydi.
+
+```bash
+APP_ENV=test LOAD_TEST_ONLY=1 RATE_LIMIT_BACKEND=memory DATABASE_POOL_MAX=5 \
+  REQUEST_BUDGET_ORDINARY=64 AUTH_SECRET=synthetic-local-academy-test-secret \
+  DATABASE_URL=postgresql://coin_qa:coin_qa_local@127.0.0.1:55442/coin_qa \
+  PYTHONPATH=services/backend services/backend/.venv/bin/python \
+  services/backend/tests/load_validation/academy_http.py
+```
+
+`ACADEMY_LOAD_EXPLAIN=1` bilan yangi bo‘sh fixture’da SQL rejalarini qayta tekshirish mumkin.
 
 ## 2. Target workload (for the next test run, not a result)
 
@@ -116,13 +130,13 @@ the finance routes.
 
 | Metric | Target | Status |
 |---|---|---|
-| Normal API read p95 | ≤ 300 ms | not measured |
+| Normal API read p95 | ≤ 300 ms | 295,36 ms at 50 local concurrent requests. Higher levels missed the target. |
 | API write p95 (attendance/attempt/finance) | ≤ 500 ms | not measured |
 | Server-side error rate | < 0.5% | not measured |
 | LCP / INP / CLS | ≤ 2.5 s / ≤ 200 ms / ≤ 0.1 | not measured |
 | Availability | ≥ 99.9% monthly | no monitoring yet |
 | Duplicate charges / lost saves / cross-role leaks | **0** | **enforced by tests**: 100 duplicate callbacks ⇒ 1 payment; 20-way race ⇒ 1 payment; 26 authorization tests |
-| RPO / RTO | ≤ 1 h / ≤ 4 h | **aspiration only** — no restore drill performed |
+| RPO / RTO | ≤ 1 h / ≤ 4 h | staging target, local restore measured separately |
 
 ## 6. Correctness under concurrency — what *is* proven
 
@@ -134,19 +148,21 @@ the finance routes.
 | Unbalanced journal | rejected at COMMIT by a deferred constraint trigger |
 | Rewrite of posted history | blocked by `BEFORE UPDATE OR DELETE` triggers |
 
-## 7. Recovery — status is UNKNOWN, deliberately
+## 7. Lokal zaxira va tiklash
 
-No backup or restore drill was performed: no production or staging database credentials were
-available in this environment, and none was requested. What exists:
+PostgreSQL 18.6 va `pg_dump` / `pg_restore` 18.6. Sintetik akademiya bazasi `tools/recovery_backup.py` orqali shifrlanib zaxiralandi. Manba baza o‘chirildi, ajratilgan PostgreSQL jarayoni qayta boshlandi va arxiv yangi `learners_recovery_arena` bazasiga tiklandi.
 
-* `docs/PLATFORM-RECOVERY-20261029.md` and `scripts/qa2-local-postgres.sh` document the
-  isolated-restore pattern used previously.
-* The new finance tables are ordinary PostgreSQL tables with no external state, so a
-  schema+data restore fully restores the ledger — but that has **not** been demonstrated.
+| Tekshiruv | Natija |
+|---|---|
+| Shifrlangan PostgreSQL arxivi | 6 370 120 bayt, 0,63 s |
+| PostgreSQL’ni tiklash va tekshirish | 1,59 s |
+| Tiklangan satr sonlari | 240 jadval bo‘yicha teng |
+| Himoya | 112 RLS jadvali, 12 trigger, guardian bog‘langan bola 200 va boshqa bola 403 |
+| Moliya | 20 000 jurnal qatori, 0 balans buzilishi |
+| Lokal S3 media | 3 obyekt, 56 364 bayt, 3 tiklangan DB manzili, MIME va SHA-256 teng |
+| Lokal media zaxira / tiklash | 0,12 s / 0,09 s |
 
-**Required before any sale claim:** restore a masked copy into an isolated environment and
-record schema counts, ledger balance (`GET /api/staff/finance/reconciliation` must return
-`balanced: true`) and R2 pointer validity, with timestamps.
+Lokal S3 emulyatorida manba bucket o‘chirilib, fayllar alohida bucketga yozildi. Ishlab turgan Cloudflare R2, ruxsatlar, staging, production RPO/RTO va real foydalanuvchi yuklamasi uchun alohida o‘lchov kerak.
 
 ## 8. Failure domains and expected behaviour (design, untested here)
 
