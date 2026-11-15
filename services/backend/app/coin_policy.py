@@ -5,7 +5,7 @@ not evidence. Callers pass server-observed facts.
 """
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from math import isfinite
 import re
 
@@ -20,7 +20,6 @@ DAILY_MEDIA_COINS = 20
 MEDIA_ITEM_DAILY_CAP = 6
 SPEAKING_SESSION_CAP = 6
 SPEAKING_DAILY_CAP = 12
-SHORT_MEDIA_RATIO = 0.80
 LEVELS = (0, 10, 25, 50, 100, 175, 275, 400, 550, 750)
 LEVEL_STEP = 250
 
@@ -87,13 +86,6 @@ def credit_timeline(coverage: dict, paid: set, start_ms: int, credit_ms: int) ->
     return newly
 
 
-def short_media_ready(duration_ms: int | None, credited_ms: int, position_ms: int) -> bool:
-    if not duration_ms or duration_ms <= 0 or duration_ms >= BUCKET_MS:
-        return False
-    needed = int(duration_ms * SHORT_MEDIA_RATIO)
-    return credited_ms >= needed and position_ms >= needed
-
-
 MEDIA_SLICE_MS = 5_000
 
 
@@ -110,6 +102,7 @@ def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
     length = end_ms - start_ms
     budget = min(int(wall_ms), int(length / rate))
     added = 0
+    fresh_ms = 0
     cursor = start_ms
     while cursor < end_ms:
         bucket = cursor // MEDIA_SLICE_MS
@@ -123,7 +116,9 @@ def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
         else:
             low, high = divmod(int(bounds), MEDIA_SLICE_MS + 1)
         fresh = span - max(0, min(right, high) - max(left, low))
-        candidate = int(budget * fresh / length)
+        # Carry fractional shares across slices so integer rounding happens once.
+        fresh_ms += fresh
+        candidate = budget * fresh_ms // length - added
         if candidate:
             coverage[bucket] = prior + candidate
             added += candidate
@@ -133,47 +128,45 @@ def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
 
 
 def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
-                     playback_rate: float, playing: bool, duration_ms: int | None = None) -> dict:
+                     playback_rate: float, playing: bool) -> dict:
     """Server clock only. Seeking, pauses and stale tabs credit nothing."""
     position_ms = max(0, int(position_ms))
     rate = float(playback_rate or 0)
     if state is None:
         return {"state": {"at": now, "position": position_ms, "coverage": {}, "seen": {},
                           "paid": set(), "credited": 0, "playing": playing, "rate": rate},
-                "credit_ms": 0, "buckets": [], "short": False}
-    wall = (now - state["at"]).total_seconds()
+                "credit_ms": 0, "buckets": []}
+    elapsed = now - state["at"]
+    if elapsed < timedelta(0):
+        return {"state": state, "credit_ms": 0, "buckets": []}
+    wall_ms = elapsed // timedelta(milliseconds=1)
     coverage = dict(state["coverage"])
     seen = dict(state.get("seen", {}))
     paid = set(state["paid"])
     credited = int(state["credited"])
     anchor = {"at": now, "position": position_ms, "coverage": coverage, "seen": seen,
               "paid": paid, "credited": credited, "playing": playing, "rate": rate}
-    if (wall < MIN_WALL_S or wall > MAX_WALL_S or not playing
+    if (elapsed < timedelta(seconds=MIN_WALL_S) or elapsed > timedelta(seconds=MAX_WALL_S)
+            or not playing
             or not state.get("playing", True) or not isfinite(rate)
             or rate < MIN_RATE or rate > MAX_RATE):
-        return {"state": anchor, "credit_ms": 0, "buckets": [], "short": False}
+        return {"state": anchor, "credit_ms": 0, "buckets": []}
     rate = max(rate, float(state.get("rate", rate)))
     delta = position_ms - int(state["position"])
-    ceiling = wall * rate * 1000 * JITTER + 750
+    ceiling = wall_ms * rate * JITTER + 750
     if delta <= 0 or delta > ceiling:
-        return {"state": anchor, "credit_ms": 0, "buckets": [], "short": False}
+        return {"state": anchor, "credit_ms": 0, "buckets": []}
     credit = add_unique_media_coverage(
-        coverage, int(state["position"]), position_ms, rate, int(wall * 1000), seen)
+        coverage, int(state["position"]), position_ms, rate, wall_ms, seen)
     credited += credit
     total_unique_wall_ms = sum(int(value) for value in coverage.values())
     buckets = [index for index in range(1, total_unique_wall_ms // BUCKET_MS + 1)
                if index not in paid]
     anchor.update(coverage=coverage, paid=paid, credited=credited)
-    short = (
-        short_media_ready(duration_ms, credited, position_ms)
-        and "short" not in paid
-    )
     # Returned state tracks pending milestones locally. Only the database ledger
     # makes a claim durable; the next request re-reads committed awards.
     paid.update(buckets)
-    if short:
-        paid.add("short")
-    return {"state": anchor, "credit_ms": credit, "buckets": buckets, "short": short}
+    return {"state": anchor, "credit_ms": credit, "buckets": buckets}
 
 
 def grammar_required(exercise: dict) -> tuple[str, int, int]:

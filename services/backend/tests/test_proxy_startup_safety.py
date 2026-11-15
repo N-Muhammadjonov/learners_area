@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from unittest.mock import AsyncMock
 from uuid import UUID
 
@@ -35,6 +36,12 @@ def test_cookie_secure_is_preserved_with_untrusted_proxy_headers(monkeypatch):
 
 def test_startup_warnings_once_without_changing_hard_minimum(monkeypatch, caplog):
     monkeypatch.setenv('APP_ENV', 'production')
+    monkeypatch.delenv('VERCEL_ENV', raising=False)
+    monkeypatch.delenv('RAILWAY_ENVIRONMENT_NAME', raising=False)
+    log = logging.getLogger('uvicorn.error')
+    monkeypatch.setattr(log, 'propagate', True)
+    monkeypatch.setattr(log, 'disabled', False)
+    caplog.set_level(logging.WARNING, logger=log.name)
     monkeypatch.delenv('CLOUDFLARE_ORIGIN_SECRET', raising=False)
     monkeypatch.setenv('AUTH_SECRET', 'x'*16)
     monkeypatch.setattr(security, '_startup_warnings', set())
@@ -51,6 +58,12 @@ def test_startup_warnings_once_without_changing_hard_minimum(monkeypatch, caplog
 
 def test_verified_origin_and_long_secret_need_no_warning(monkeypatch, caplog):
     monkeypatch.setenv('APP_ENV', 'production')
+    monkeypatch.delenv('VERCEL_ENV', raising=False)
+    monkeypatch.delenv('RAILWAY_ENVIRONMENT_NAME', raising=False)
+    log = logging.getLogger('uvicorn.error')
+    monkeypatch.setattr(log, 'propagate', True)
+    monkeypatch.setattr(log, 'disabled', False)
+    caplog.set_level(logging.WARNING, logger=log.name)
     monkeypatch.setenv('AUTH_SECRET', 'x'*32)
     monkeypatch.setenv('CLOUDFLARE_ORIGIN_SECRET', 'y'*32)
     monkeypatch.setattr(security, '_startup_warnings', set())

@@ -9,13 +9,23 @@ import {
  IconSettings,IconSpeaking,IconSupport,IconWriting
 } from '../../js/generated/icons.js';
 
-export function managementAreas(dict,role){
+export function managementAreas(dict,role,academyEnabled=true){
  const admin=role==='admin'||role==='owner',owner=role==='owner';
  const staff=['teacher','admin','owner'].includes(role);const areas=[];
  const stats=dict.managementStats??(dict.people.name==='Ism'?STATS_UZ:STATS_EN);
  const add=(href,title,body,icon)=>areas.push({href,title,body,icon});
  const addGuardians=()=>add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',
    dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
+ if(admin&&academyEnabled){
+  if(owner)add('/app/management/capacity',dict.people.name==='Ism'?'Sig‘im va daromad tahlili':'Capacity and revenue explorer',
+      dict.people.name==='Ism'?'Guruh sig‘imi, bo‘sh vaqt va kutiladigan tushumni hisoblang.':'Model group seats, timetable and forecast collections.',IconAudit);
+  if(owner)add('/app/management/directory-files',dict.people.name==='Ism'?'Katalog fayllari':'Directory files',
+      dict.people.name==='Ism'?'O‘quvchi va o‘qituvchi fayllarini tekshirish, import va eksport qilish.':'Review, import and export student and teacher spreadsheets.',IconPeople);
+  add('/app/management/leads',dict.people.name==='Ism'?'Qabul jarayoni':'Admissions pipeline',
+      dict.people.name==='Ism'?'Nomzodlar, sinov darslari va guruhga yozilish.':'Leads, trial lessons and enrollment.',IconPeople);
+  add('/app/management/finance',dict.people.name==='Ism'?'Akademiya moliyasi':'Academy finance',
+      dict.people.name==='Ism'?'To‘lovlar, qarzlar va ichki tasdiqnomalar.':'Payments, balances and payment acknowledgments.',IconAudit);
+ }
  if(admin){
   if(owner)add('/app/admin/statistics',dict.nav.statistics??stats.title,stats.scope,IconAudit);
   add('/app/admin/people',dict.nav.adminUsers,dict.management.peopleBody,IconPeople);
@@ -30,12 +40,17 @@ export function managementAreas(dict,role){
   add('/app/teacher/homework',academic.homework,academic.homeworkBody,IconWriting);
   add('/app/management?view=mocks',dict.people.name==='Ism'?'Mock testlar':'Mock Tests',dict.people.name==='Ism'?'Mock yaratish, materiallarni nashr qilish va natijalarni tekshirish.':'Create mocks, publish materials, review and grade results.',IconAudit);
  }
+ if(staff&&academyEnabled){
+  add('/app/management/rescue',dict.people.name==='Ism'?'O‘quvchiga yordam':'Learner support',
+      dict.people.name==='Ism'?'Davomat, topshiriq va mashq natijalarini ko‘rib chiqing.':'Review attendance, assignment and practice signals.',IconPeople);
+  add('/app/management/groups',dict.people.name==='Ism'?'Akademiya guruhlari':'Academy groups',
+      dict.people.name==='Ism'?'Guruhlar va o‘quvchilar ro‘yxati.':'Groups and student rosters.',IconPeople);
+ }
  if(staff){
   add('/app/management/study-plans',
       dict.people.name==='Ism'?'O‘quv rejasi natijalari':'Study plan progress',
       dict.people.name==='Ism'?'7/30 kunlik rejalardagi mashqlar va o‘quvchi progressini ko‘rish.':'View daily tasks and verified progress on 7/30-day plans.',
       IconPeople);
-  add('/app/teacher/support',dict.support.inbox,dict.management.supportBody,IconSupport);
   add('/app/teacher/live-classes',dict.liveClasses.manageTitle,dict.management.liveBody,IconLive);
   add('/app/teacher/speaking',dict.speaking.manageTitle,dict.management.speakingBody,IconSpeaking);
  }
@@ -53,7 +68,8 @@ export function managementAreas(dict,role){
   add('/app/admin/content',dict.nav.contentLibrary,dict.management.contentBody,IconContent);
  }
  add('/app/reports',dict.reporter.title,dict.reporter.managementBody,IconAudit);
- add('/app/support',dict.nav.support,dict.support.subtitle,IconSupport);
+ add('/app/support',dict.people.name==='Ism'?'Yordam / Muammo':'Support / Feedback',
+   dict.people.name==='Ism'?'Muammo, taklif va rag‘batlantirish xabarlarini yuborish va ko‘rib chiqish.':'Send and review problem reports, suggestions and encouragement.',IconSupport);
 
  if(owner){
   add('/app/management?view=coins',dict.people.name==='Ism'?'Sovg‘alar va xaridlar':'Gifts and purchases',dict.people.name==='Ism'?'Sovg‘alar, xarid cheklari va buyurtmalar.':'Manage gifts, receipts and orders.',IconSettings);
@@ -92,7 +108,7 @@ export async function mount(ctx){
   return;
  }
  const link=(href,classes,...children)=>el('a',{href,class:classes},...children);
- const areas=managementAreas(dict,role);
+ const areas=managementAreas(dict,role,session.academyEnabled);
  const cards=areas.map(({href,title,body,icon})=>{
   const a=link(href,'panel group flex min-h-[150px] flex-col gap-3 transition-colors hover:border-gold/45 hover:bg-paper-sunken',
    el('span',{'aria-hidden':'true',class:'flex h-11 w-11 items-center justify-center rounded-xl border border-ink-100 bg-paper-sunken text-[22px] text-gold'},icon({})),

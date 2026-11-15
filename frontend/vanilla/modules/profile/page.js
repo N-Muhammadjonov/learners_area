@@ -1,3 +1,4 @@
+import {financeInProfile} from '../staff-final30/academy-finance.js';
 import {studyForm} from '../auth/study-form.js';
 import {anySignal} from '../../js/signals.js';
 import {restoreWhenAttached,fieldSelection} from '../../js/focus-restore.js';
@@ -39,5 +40,10 @@ export async function mount(context){const {root,dict,signal}=context;const prof
    if(!linked||changing){if(linked)card.append(el('p',{class:'text-sm'},dict.profile.telegramChangeHint));card.append(telegram(widgetContext,{telegramConfigured:true,telegramIntentEnabled:true,botUsername:profile.botUsername},linked?'replace':'link'));if(changing){const cancel=el('button',{type:'button',class:'btn-secondary'},dict.common.cancel);listen(cancel,'click',()=>{changing=false;paint();},signal);card.append(cancel);}}
    else{const student=context.session.user.role==='student',change=el('button',{type:'button',class:'btn-secondary',disabled:!student},dict.profile.telegramChange);listen(change,'click',()=>{changing=true;paint();},signal);card.append(change);if(!student)card.append(el('p',{class:'text-sm'},dict.profile.telegramStaffChange));}
   }paint();page.append(card);
- }root.append(page);
+ }
+ if(context.session.user.role==='student'){
+  const tuition=financeInProfile(context,context.session.user.id);
+  if(tuition)page.append(tuition);
+ }
+ root.append(page);
 }

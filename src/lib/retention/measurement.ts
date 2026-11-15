@@ -49,26 +49,25 @@ const alternativeSchema = z
   .max(MEASUREMENT_LIMITS.maxAlternativeChars, "anyof_alternative_too_long");
 
 export const measurementGroupSchema = z
-  .object({
+  .strictObject({
     id: idSchema,
     points: z.number().int("group_points_integer").positive("group_points_positive").max(MEASUREMENT_MAX_SCORE),
     kind: z.enum(["concept", "entity", "number", "date"], {
-      errorMap: () => ({ message: "group_kind_unsupported" }),
+      error: "group_kind_unsupported",
     }),
     anyOf: z
       .array(alternativeSchema)
       .min(1, "anyof_empty")
       .max(MEASUREMENT_LIMITS.maxAnyOfPerGroup, "anyof_too_many"),
     critical: z.boolean().optional(),
-  })
-  .strict("group_unexpected_field");
+  }, {error: "group_unexpected_field"});
 
 export const measurementClaimSchema = z
-  .object({
+  .strictObject({
     id: idSchema,
     label: z.string().trim().min(3, "claim_label_too_short").max(MEASUREMENT_LIMITS.maxLabelChars, "claim_label_too_long"),
     points: z.number().int("claim_points_integer").positive("claim_points_positive").max(MEASUREMENT_MAX_SCORE),
-    scope: z.enum(["sentence", "answer"], { errorMap: () => ({ message: "claim_scope_unsupported" }) }),
+    scope: z.enum(["sentence", "answer"], { error: "claim_scope_unsupported" }),
     groups: z
       .array(measurementGroupSchema)
       .min(1, "claim_groups_empty")
@@ -81,21 +80,19 @@ export const measurementClaimSchema = z
       .array(z.string().trim().min(2).max(MEASUREMENT_LIMITS.maxPhraseChars))
       .max(MEASUREMENT_LIMITS.maxRejectPhrases, "reject_phrases_too_many")
       .optional(),
-  })
-  .strict("claim_unexpected_field");
+  }, {error: "claim_unexpected_field"});
 
 export const measurementStructureSchema = z
-  .object({
+  .strictObject({
     schemaVersion: z.literal(MEASUREMENT_SCHEMA_VERSION, {
-      errorMap: () => ({ message: "schema_version_unsupported" }),
+      error: "schema_version_unsupported",
     }),
-    maxScore: z.literal(MEASUREMENT_MAX_SCORE, { errorMap: () => ({ message: "max_score_not_100" }) }),
+    maxScore: z.literal(MEASUREMENT_MAX_SCORE, { error: "max_score_not_100" }),
     claims: z
       .array(measurementClaimSchema)
       .min(1, "claims_empty")
       .max(MEASUREMENT_LIMITS.maxClaims, "claims_too_many"),
-  })
-  .strict("root_unexpected_field")
+  }, {error: "root_unexpected_field"})
   .superRefine((structure, ctx) => {
     const claimIds = new Set<string>();
     let claimTotal = 0;

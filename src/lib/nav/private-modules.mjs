@@ -77,6 +77,7 @@ export const ACCOUNT_GATED_PATHS = ["/onboarding", "/pending"];
  */
 export const APP_LEGACY_ALIASES = [
   { source: "/app/vocabulary/review", destination: "/app/vocabulary?tab=revision" },
+  { source: "/app/teacher/support", destination: "/app/support" },
 ];
 
 /** Alias → canonical Home, so no second dashboard can exist. */

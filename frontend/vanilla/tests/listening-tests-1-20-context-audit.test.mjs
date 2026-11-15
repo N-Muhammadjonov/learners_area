@@ -46,8 +46,11 @@ test('Listening Tests 1–20 retain eighty original transcript sections',()=>{
 test('Listening 17–20 all retain 40 graded questions and source-exact Script Completion gaps',()=>{
   for(let n=17;n<=20;n++){
     const data=sourceData(n);
-    const questions=data.questions;
-    assert.equal(questions.length,40,'Test '+n+' question count');
+    assert.deepEqual(Object.keys(data.questions).map(Number),Array.from({length:40},(_,i)=>i+1),'Test '+n+' question numbers');
+    for(const [id,question] of Object.entries(data.questions)){
+      assert.equal(question.q,Number(id));
+      assert(question.answer);
+    }
     const gaps=data.script_completion;
     assert(Array.isArray(gaps)&&gaps.length>=20,'Test '+n+' Script gaps');
     for(const row of gaps){

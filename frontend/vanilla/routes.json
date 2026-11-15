@@ -2,6 +2,12 @@
   "version": 1,
   "routes": [
     "/app/management/study-plans",
+    "/app/management/groups",
+    "/app/management/capacity",
+    "/app/management/rescue",
+    "/app/management/leads",
+    "/app/management/directory-files",
+    "/app/management/finance",
     "/app/grammar/practice",
     "/app/plan/level-check",
     "/app/leaderboard",
@@ -364,6 +370,11 @@
     {
       "source": "/app/vocabulary/review",
       "destination": "/app/vocabulary?tab=revision",
+      "permanent": false
+    },
+    {
+      "source": "/app/teacher/support",
+      "destination": "/app/support",
       "permanent": false
     },
     {

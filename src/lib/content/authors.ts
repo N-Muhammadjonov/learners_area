@@ -102,7 +102,7 @@ export type ModuleAuthor = {
   /** `module:contentType:v1` shape of the payload, mirroring the import envelope. */
   payloadVersion: number;
   label: string;
-  payloadSchema: z.ZodType<unknown, z.ZodTypeDef, unknown>;
+  payloadSchema: z.ZodType<unknown, unknown>;
   persist: (tx: ImportTransaction, payload: unknown, context: AuthorContext) => Promise<AuthoredTarget>;
   /**
    * Move the CONTENT row's own visibility with its revision. Learner queries read

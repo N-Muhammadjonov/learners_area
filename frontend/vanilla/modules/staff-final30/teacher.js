@@ -3,6 +3,10 @@ import {students,studentDetail,sendFeedback,assignable,createAssignment,support,
 import {renderResults} from './people-detail.js';
 import {studentLearningPanel} from './learning-results.js';
 import {studentPlanInline} from './student-plan-inline.js';
+import {studentGroupHistory} from './academy-groups.js';
+import {studentAttendance} from './academy-attendance.js';
+import {learnerJourney} from '../shared/learner-journey.js';
+import {financeInProfile} from './academy-finance.js';
 import {learningExtras} from '../shared/student-learning.js';
 import {UUID} from '../../js/adapters/staff-final30/core.js';
 import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
@@ -39,7 +43,7 @@ export const studentsMount=mountStaff({name:'management-students',roles:STAFF,lo
     pager({label:t.title,page:data.page,totalPages:data.totalPages,href:n=>`/app/teacher/students?page=${n}`,pageOf:ctx.locale==='uz'?'{total} sahifadan {page}':'Page {page} of {total}',previous:dict.people.previousPage,next:dict.people.nextPage,attr:'data-students-pagination'})));
  }});
 /** Source: components/support/ResolveReportButton.tsx + teacher/support/page.tsx. */
-export const supportMount=mountStaff({name:'management-support',roles:STAFF,load:c=>support(c.signal),
+export const supportMount=mountStaff({name:'management-support',roles:['teacher','admin','owner'],load:c=>support(c.signal),
  render(ctx,data,view){const {dict,signal,locale}=ctx,t=dict.support,S=(ctx.state.support??={errors:{},busy:null});
   const card=r=>{const btn=el('button',{type:'button',class:'btn-secondary','data-report-resolve':r.id,disabled:S.busy===r.id},t.resolved);
    listen(btn,'click',async()=>{if(S.busy)return;S.busy=r.id;delete S.errors[r.id];view.rerender();try{await resolveReport(r.id,signal);if(signal.aborted)return;S.busy=null;await view.reload({quiet:true});}catch(e){if(signal.aborted)return;S.busy=null;if(e?.status===409||e?.status===404){await view.reload({quiet:true});}else{S.errors[r.id]=true;view.rerender();}}},signal);
@@ -131,6 +135,10 @@ export const studentMount=mountStaff({name:'management-student',roles:STAFF,notF
   return el('div',{class:'mx-auto flex max-w-6xl flex-col gap-6','data-student-full-review':''},BackLink({fallbackHref:ctx.url.pathname.startsWith('/app/admin/people/')?'/app/admin/people':'/app/teacher/students',label:dict.common.back}),
    el('div',{class:'flex flex-wrap items-start justify-between gap-3'},el('div',{},el('h1',{class:'font-display text-2xl text-ink-900'},d.student.name),el('p',{class:'text-sm text-ink-500'},d.student.email??'Telegram account')),assignmentForm(ctx,d.student.id,d.prompts,view)),
    studentPlanInline(ctx,d.student.id),
+   ctx.session.user.role==='owner'?studentGroupHistory(ctx,d.student.id):null,
+   studentAttendance(ctx,'/api/staff/academy/students/'+d.student.id+'/attendance'),
+   learnerJourney(ctx,'/api/staff/academy/students/'+d.student.id+'/journey'),
+   financeInProfile(ctx,d.student.id,d.student.name),
    renderResults(dict,d.results),
    weaknessPanel(ctx,d.weaknesses),
    studentLearningPanel(ctx,d.student.id,`/app/teacher/students/${d.student.id}`),

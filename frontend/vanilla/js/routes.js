@@ -170,5 +170,13 @@ if(route.pattern==='/app/listening')return {...route,protected:true,redirectOnly
  PROGRESSIVE_SAFE_ROUTES.has(route.pattern)&&route.protected&&!route.redirectOnly&&route.layout!=='focus'
  ? {...route,progressiveMount:true} : route);
 
-// Parent Connect owner route; enforced on server too.
-export default [...mapped,{...staffRoutes.find(route=>route.pattern==='/app/management/study-plans'),protected:true},{pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')}];
+// Management routes are also authorized by the server.
+export default [...mapped,
+ {...staffRoutes.find(route=>route.pattern==='/app/management/study-plans'),protected:true},
+ {...staffRoutes.find(route=>route.pattern==='/app/management/groups'),protected:true},
+ {pattern:'/app/management/capacity',protected:true,requiresAcademy:true,roles:['owner'],load:()=>import('../modules/staff-final30/academy-capacity.js')},
+ {pattern:'/app/management/rescue',protected:true,requiresAcademy:true,roles:['teacher','admin','owner'],load:()=>import('../modules/staff-final30/academy-rescue.js')},
+ {pattern:'/app/management/leads',protected:true,requiresAcademy:true,roles:['admin','owner'],load:()=>import('../modules/staff-final30/academy-leads.js')},
+ {pattern:'/app/management/directory-files',protected:true,requiresAcademy:true,roles:['owner'],load:()=>import('../modules/staff-final30/academy-directory.js')},
+ {pattern:'/app/management/finance',protected:true,requiresAcademy:true,roles:['admin','owner'],load:()=>import('../modules/staff-final30/academy-finance.js')},
+ {pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')}];

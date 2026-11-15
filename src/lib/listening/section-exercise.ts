@@ -7,11 +7,20 @@ import { listeningExamState } from "@/lib/data/full-listening";
 import { listeningQuestionsForAttempt } from "@/lib/listening/question-set";
 import { authoredSectionNumber, getOpenableSection } from "@/lib/data/listening-general";
 import { startListeningAttempt } from "@/lib/data/listening-attempt-write";
-import type { ListeningExamQuestion } from "@/components/listening/NativeListeningExam";
 import type { MapDiagram } from "@/lib/listening/map-diagram";
 import { listeningInputModeFor } from "@/lib/listening/question-control";
 import type { Dictionary } from "@/lib/i18n/en";
 import type { Role } from "@/lib/auth/roles";
+
+export type ListeningExamQuestion = {
+  id: string;
+  number: number;
+  section: number;
+  text: string;
+  instruction: string;
+  options: string[];
+  input: ReturnType<typeof listeningInputModeFor>;
+};
 
 /**
  * ONE standalone General Listening section, resolved for a learner.

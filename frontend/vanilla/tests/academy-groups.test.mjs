@@ -1,0 +1,190 @@
+import assert from 'node:assert/strict';
+import {test} from 'node:test';
+import {ApiError} from '../js/api-client.js';
+import routes from '../js/routes.js';
+import {managementAreas} from '../modules/staff-final30/management-hub.js';
+import {mount, studentGroupHistory} from '../modules/staff-final30/academy-groups.js';
+import {dicts, ID, setup, tick} from './staff-final30/harness.mjs';
+
+const path = '/app/management/groups';
+const endpoint = '/api/staff/academy';
+const group = {id: ID(10), name: 'IELTS morning', course_id: ID(2), course_title: 'IELTS',
+ branch: 'Tashkent', room: '203', seats: 1, capacity: 1, starts_on: '2026-11-01', status: 'active', revision: 1};
+const member = {id: ID(15), student_user_id: ID(3), student_name: 'Student 3', status: 'active',
+ starts_on: '2026-11-01', revision: 4, profile_allowed: false};
+const detail = {group, memberships: [member], teachers: [{id: ID(4), name: 'Teacher'}], hasNext: false};
+
+test('academy route and Management card are scoped to staff', () => {
+ const route = routes.find(entry => entry.pattern === path);
+ assert.deepEqual(route.roles, ['teacher', 'admin', 'owner']);
+ assert.equal(route.protected, true);
+ for (const role of ['teacher','admin','owner','student','guardian']) {
+  assert.equal(managementAreas(dicts.en, role).some(card => card.href === path), route.roles.includes(role));
+ }
+});
+
+test('teacher sees the roster and can only open a linked student profile', async () => {
+ const h = setup({path: path + '?group=' + group.id, role: 'teacher', locale: 'uz'});
+ h.stub({[endpoint + '/groups/' + group.id]: detail});
+ try {
+  await mount(h.ctx);
+  assert.equal(h.q('h1').textContent, 'Akademiya guruhlari');
+  assert.equal(h.q('[data-academy-group-form]'), null);
+  assert.equal(h.q('[data-academy-member] a'), null);
+  assert.match(h.q('[data-academy-member]').textContent, /Student 3/);
+  assert.equal(h.calls.length, 1);
+ } finally { h.dispose(); }
+});
+
+test('transfer uses the selected destination and current revision, with one write per pending save', async () => {
+ const h = setup({path: path + '?group=' + group.id, role: 'admin'});
+ const target = {...group, id: ID(11), name: 'IELTS afternoon'};
+ let finish, refreshes = 0;
+ h.ctx.refresh = async () => { refreshes++; };
+ const base = endpoint + '/groups/' + group.id;
+ h.stub({
+  [base]: detail,
+  [base + '/memberships/' + member.id + '/transfer']: () => new Promise(resolve => { finish = resolve; }),
+  [endpoint + '/groups']: {groups: [group, target], hasNext: false},
+ });
+ try {
+  await mount(h.ctx);
+  const form = h.qa('[data-academy-member] form')[1];
+  const [search, select, transfer] = form.querySelectorAll('button');
+  h.click(search);
+  await tick();
+  assert.equal(form.querySelector('select').value, target.id);
+  h.click(select);
+  h.submit(form);
+  h.submit(form);
+  await tick();
+  assert(transfer.disabled);
+  const writes = h.calls.filter(call => call.method === 'POST');
+  assert.equal(writes.length, 1);
+  assert.deepEqual(writes[0].body, {groupId: target.id, revision: 4});
+  assert(h.calls.some(call => new URL(call.path, h.ctx.url).searchParams.get('courseId') === group.course_id));
+  finish({id: ID(16)});
+  await tick();
+  assert.equal(refreshes, 1);
+ } finally { h.dispose(); }
+});
+
+test('roster read errors can be retried and profile history loads only when opened', async () => {
+ const h = setup({path, role: 'owner'});
+ let reads = 0;
+ h.stub({
+  [endpoint + '/groups']: () => ++reads === 1 ? new ApiError(503, 'database_unavailable') :
+   {groups: [group], hasNext: false},
+  [endpoint + '/students/' + member.student_user_id + '/groups']:
+   {memberships: [{group_id: group.id, name: group.name, status:'transferred'}], hasNext: false},
+ });
+ try {
+  await mount(h.ctx);
+  assert(h.q('[role="alert"]'));
+  h.click(h.q('[data-academy-groups] button'));
+  await tick();
+  assert(h.q('a[href="' + path + '?group=' + group.id + '"]'));
+  const history = studentGroupHistory(h.ctx, member.student_user_id);
+  h.ctx.root.append(history);
+  assert.equal(h.calls.length, 2);
+  history.open = true;
+  await tick();
+  assert.match(history.textContent, /Transferred/);
+  assert.equal(h.calls.length, 3);
+ } finally { h.dispose(); }
+});
+
+test('timetable presents a locally formatted lesson and retains cancelled holiday entries', async () => {
+ const h = setup({path: path + '?group=' + group.id, role: 'teacher'});
+ const base = endpoint + '/groups/' + group.id;
+ h.stub({
+  [base]: detail,
+  [base + '/sessions']: {sessions: [{id:ID(40),starts_at:'2026-11-20T05:00:00Z',
+   ends_at:'2026-11-20T06:00:00Z',room:'203',status:'cancelled',reason:'holiday',teacher_names:['Teacher']}],hasNext:false},
+ });
+ try {
+  await mount(h.ctx);
+  const panel = h.q('[data-academy-sessions]');
+  assert.equal(h.calls.length,1);
+  panel.open = true;
+  await tick();
+  const row = panel.querySelector('[data-academy-session]');
+  assert.match(row.textContent, /10:00/);
+  assert.match(row.textContent, /Cancelled.*Holiday/);
+  assert.equal(panel.querySelector('form'), null);
+ } finally { h.dispose(); }
+});
+
+test('teacher marks a held lesson and supplies a reason only when correcting a saved mark', async () => {
+ const {attendanceRoster} = await import('../modules/staff-final30/academy-attendance.js');
+ const h=setup({path,role:'teacher'});
+ let status='not_marked',revision=1;
+ const source=endpoint+'/groups/'+group.id+'/sessions/'+ID(40)+'/attendance';
+ h.stub({[source]:(url,options)=>{
+  if(options.method==='PUT'){
+   status=options.body.marks[0].status;
+   revision++;
+   return {ok:true,updated:1};
+  }
+  return {attendance:[{student_user_id:member.student_user_id,status,revision,name:'Student 3'}],hasNext:false};
+ }});
+ try{
+  const panel=attendanceRoster(h.ctx,group.id,ID(40));
+  h.ctx.root.append(panel);
+  panel.open=true;
+  await tick();
+  const first=panel.querySelector('form');
+  first.querySelector('select').value='present';
+  h.submit(first);
+  h.submit(first);
+  await tick();
+  assert.equal(h.calls.filter(call=>call.method==='PUT').length,1);
+  const next=panel.querySelector('form');
+  next.querySelector('select').value='late';
+  h.submit(next);
+  assert.match(next.querySelector('[role=alert]').textContent,/Enter a reason/);
+  next.querySelector('input').value='Paper register verified';
+  h.submit(next);
+  await tick();
+  const updates=h.calls.filter(call=>call.method==='PUT');
+  assert.equal(updates.length,2);
+  assert.equal(updates[1].body.reason,'Paper register verified');
+  assert.equal(updates[1].body.marks[0].revision,2);
+ } finally {h.dispose();}
+});
+
+
+test('branch-specific group list filter preserves query, status and pagination', async () => {
+ const h=setup({path:path+'?branch=Tashkent&status=active&page=2',role:'teacher',locale:'uz'});
+ h.stub({[endpoint+'/groups']:{groups:[group],hasNext:true}});
+ try {
+  await mount(h.ctx);
+  assert.equal(h.calls.length,1);
+  const requested=new URL(h.calls[0].path,'https://fixture.invalid');
+  assert.equal(requested.searchParams.get('branch'),'Tashkent');
+  assert.equal(requested.searchParams.get('status'),'active');
+  assert.equal(requested.searchParams.get('page'),'2');
+  const branchInput=h.q('[data-academy-branch-filter]');
+  assert(branchInput);
+  assert.match(branchInput.closest('label').textContent,/Filial/);
+  assert.equal(branchInput.value,'Tashkent');
+  const next=h.q('nav a[href*="page=3"]');
+  assert(next);
+  const nextUrl=new URL(next.href,'https://fixture.invalid');
+  assert.equal(nextUrl.searchParams.get('branch'),'Tashkent');
+  assert.equal(nextUrl.searchParams.get('status'),'active');
+  h.input(branchInput,'Namangan');
+  h.submit(branchInput.closest('form'));
+  await tick();
+  const updated=new URL(h.nav.at(-1).path,'https://fixture.invalid');
+  assert.equal(updated.searchParams.get('branch'),'Namangan');
+  assert.equal(updated.searchParams.get('status'),'active');
+  assert.equal(updated.searchParams.has('page'),false);
+  h.input(branchInput,'');
+  h.submit(branchInput.closest('form'));
+  await tick();
+  const cleared=new URL(h.nav.at(-1).path,'https://fixture.invalid');
+  assert.equal(cleared.searchParams.has('branch'),false);
+  assert.equal(cleared.searchParams.has('page'),false);
+ } finally {h.dispose();}
+});

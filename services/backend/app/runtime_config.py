@@ -17,3 +17,9 @@ def environment():
 
 def development():
     return environment() in ('development','test')
+
+
+def academy_enabled() -> bool:
+    """Managed deployments activate Academy after its database upgrade."""
+    setting = os.getenv('ACADEMY_FEATURES_ENABLED')
+    return development() if setting is None else setting == '1'

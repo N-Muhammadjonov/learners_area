@@ -7,6 +7,7 @@
 const t=(m,name)=>()=>import(`./${m}.js`).then(x=>name?{mount:x[name]}:x);
 export default [
  {pattern:'/app/management',roles:['teacher','admin','owner'],load:t('management-hub')},
+ {pattern:'/app/management/groups',requiresAcademy:true,roles:['teacher','admin','owner'],load:t('academy-groups')},
  {pattern:'/app/management/study-plans',roles:['teacher','admin','owner'],load:t('study-plans')},
  {pattern:'/app/admin/statistics',roles:['owner'],load:t('statistics')},
  {pattern:'/app/admin/admissions',roles:['admin','owner'],load:t('admissions')},
@@ -41,7 +42,7 @@ export default [
  {pattern:'/app/teacher/students/:id/assignments/:assignmentId',roles:['teacher','owner'],load:t('homework','assignmentMount')},
  {pattern:'/app/teacher/assessments/:studentId/:module/:attemptId',roles:['teacher','owner'],load:t('homework','assessmentMount')},
  {pattern:'/app/teacher/homework',roles:['teacher','owner'],load:t('homework','homeworkMount')},
- {pattern:'/app/teacher/support',roles:['teacher','admin','owner'],load:t('teacher','supportMount')},
+ {pattern:'/app/teacher/support',roles:['teacher','admin','owner'],load:async()=>({mount:ctx=>ctx.navigate('/app/support',{replace:true})})},
  {pattern:'/app/teacher/live-classes',roles:['teacher','admin','owner'],load:t('teacher-live','listMount')},
  {pattern:'/app/teacher/live-classes/:id',roles:['teacher','admin','owner'],load:t('teacher-live','detailMount')},
 ].map(r=>({...r,protected:true}));

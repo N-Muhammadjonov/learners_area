@@ -87,7 +87,7 @@ def read_bank(path: Path = BANK_FILE) -> dict[str, dict]:
         if ((level, skill) not in counts or
                 not isinstance(options, list) or len(options) not in ((3, 4) if skill == 'listening' else (4,)) or
                 not all(isinstance(option, str) and option.strip() for option in options) or
-                type(answer) is not int or answer not in range(4) or
+                type(answer) is not int or answer not in range(len(options)) or
                 not isinstance(question.get("q"), str)):
             raise ValueError("invalid_level_answer")
         bank[question["id"]] = question
