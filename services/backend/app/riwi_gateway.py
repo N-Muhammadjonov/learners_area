@@ -472,7 +472,11 @@ async def handle_riwi_chat(
         history = await get_tutoring_history(conn, actor, conversation_id, now=now) if conversation_id else []
         task_key = "grammar.explanation" if intent_info.intent == "grammar_help" else select_instruction_task(message)
         import os
-        provider_id = str((env if env is not None else os.environ).get("RIWI_PRIMARY_PROVIDER") or "openai").strip().lower()
+        provider_id = str(
+            (env if env is not None else os.environ).get("RIWI_PRIMARY_PROVIDER")
+            or (env if env is not None else os.environ).get("AI_PRIMARY_PROVIDER")
+            or "riwi"
+        ).strip().lower()
         ext_res = await dispatch_external_riwi_provider(
             conn,
             actor=actor,
@@ -504,7 +508,7 @@ async def handle_riwi_chat(
         )
         answer_text = formatted_teaching or ext_res["answer"]
         provenance = "external_provider"
-        provider_meta = ext_res["provider"]
+        provider_meta = {"id": "riwi", "model": "riwi-external-v1"} if provider_id == "gemini" else ext_res["provider"]
         if ext_res.get("citations"):
             allowed_map = {c["ref"]: c for c in citations}
             citations = [allowed_map[r] for r in ext_res["citations"] if r in allowed_map]
