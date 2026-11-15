@@ -132,7 +132,7 @@ async def get_conversation_transcript(
             "createdAt": created_at.isoformat() if isinstance(created_at, datetime) else str(created_at),
             "correlationId": meta.get("correlationId") if isinstance(meta.get("correlationId"), str) else None,
             "provenance": prov if prov in RIWI_PROVENANCE else None,
-            "provider": meta.get("provider") if isinstance(meta.get("provider"), dict) else None,
+            "provider": {"id": "riwi", "model": "riwi-external-v1"} if isinstance(meta.get("provider"), dict) and meta["provider"].get("id") == "gemini" else meta.get("provider") if isinstance(meta.get("provider"), dict) else None,
             "citations": meta.get("citations") if isinstance(meta.get("citations"), list) else [],
             "reportSnapshot": meta.get("reportSnapshot") if isinstance(meta.get("reportSnapshot"), dict) else None,
             "navigationLinks": safe_navigation(actor.role, meta.get("navigationLinks")),

@@ -41,6 +41,8 @@ async def provider_spec():
     s=await status();e=s['effective']
     if not e['ready'] or not e['providerIsExternal']:return None
     pid=e['providerId'];model=e['model']
+    if pid=='gemini':
+        return {'id':pid,'model':model,'url':None,'headers':{}}
     if pid=='openai':return {'id':pid,'model':model,'url':'https://api.openai.com/v1/responses','headers':{'Authorization':'Bearer '+os.environ['OPENAI_API_KEY']}}
     if pid=='anthropic':return {'id':pid,'model':model,'url':'https://api.anthropic.com/v1/messages','headers':{'x-api-key':os.environ['ANTHROPIC_API_KEY'],'anthropic-version':'2023-06-01'}}
     providers,_=registry()
@@ -57,6 +59,28 @@ async def evaluate(language,task,input_data,system,output_tokens=1500,*,user_id=
     if len(raw)>60000 or type(output_tokens) is not int or not 1<=output_tokens<=5000:return None,'failed'
     h={'content-type':'application/json',**cfg['headers']}
     pid=cfg['id']
+    if pid=='gemini':
+        from .gemini_adapter import request_gemini_json
+        from .riwi_outbound_guard import contains_secret_material, redact_external_text
+        if contains_secret_material(raw):
+            return None,'failed'
+        result=await request_gemini_json(
+            str(user_id) if user_id is not None else None,
+            cfg['model'],
+            system,
+            redact_external_text(raw,60000),
+            max_output_tokens=output_tokens,
+        )
+        if result is None or not valid_evaluation(result):
+            return None,'failed'
+        result['recommendedExercises']=[]
+        if contract is not None:
+            evidence=next((input_data.get(k) for k in ('essay','answer','content','studentAnswer') if isinstance(input_data.get(k),str)),'')
+            try:
+                result=validate_task_evaluation(contract,result,evidence)
+            except ValueError:
+                return None,'failed'
+        return {'data':result,'provider':cfg},None
     if pid=='openai':payload={'model':cfg['model'],'store':False,'instructions':system,'input':raw,'text':{'format':{'type':'json_object'}},'max_output_tokens':output_tokens}
     elif pid=='anthropic':payload={'model':cfg['model'],'max_tokens':output_tokens,'system':system,'messages':[{'role':'user','content':raw}]}
     else:payload={'model':cfg['model'],'messages':[{'role':'system','content':system},{'role':'user','content':raw}],'response_format':{'type':'json_object'},'max_tokens':output_tokens}

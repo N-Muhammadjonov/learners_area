@@ -66,9 +66,9 @@ async def run_grade(db,req_id,user_id,language):
                 overall_estimate,confidence,verdict,criteria,strengths,weaknesses,issues,next_actions,recommended_exercises,processed_in_ms,assessment_contract_key)
                 VALUES($1,'writing','writing_grade',$2,$3,$4,'external','1',$5,$13,$14,FALSE,'RIWI',
                 $6,$7,NULL,$8::jsonb,$9::jsonb,$10::jsonb,$11::jsonb,$12::jsonb,'[]'::jsonb,0,$15)
-                ON CONFLICT (source_type,source_id) DO NOTHING''',user_id,req_id,meta['id'],meta['id'].capitalize(),meta['model'],overall,data['confidence'],json.dumps(criterion),json.dumps(data['strengths']),json.dumps(data['weaknesses']),json.dumps(data['issues']),json.dumps(data['nextActions']),contract.version,contract.rubric_version,contract.key)
+                ON CONFLICT (source_type,source_id) DO NOTHING''',user_id,req_id,meta['id'],'RIWI' if meta['id']=='gemini' else meta['id'].capitalize(),meta['model'],overall,data['confidence'],json.dumps(criterion),json.dumps(data['strengths']),json.dumps(data['weaknesses']),json.dumps(data['issues']),json.dumps(data['nextActions']),contract.version,contract.rubric_version,contract.key)
             await con.execute('''UPDATE writing_grade_requests SET status='evaluated',claimed_at=NULL,evaluated_at=NOW(),last_error=NULL,analysis=$2::jsonb WHERE id=$1''',req_id,json.dumps(data['writingAnalysis']) if isinstance(data.get('writingAnalysis'),dict) else None)
-            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'sourceId':str(req_id),'providerId':meta['id'],'overallEstimate':overall,'evaluationType':'writing'}))
+            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'sourceId':str(req_id),'providerId':'riwi' if meta['id']=='gemini' else meta['id'],'overallEstimate':overall,'evaluationType':'writing'}))
         return {'ok':True}
     except Exception:
         if row is None:raise

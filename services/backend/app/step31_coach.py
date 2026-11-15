@@ -99,11 +99,46 @@ async def vendor(kind,params,language,provider,model,*,user_id=None,system_promp
         key=os.getenv('OPENAI_API_KEY');url='https://api.openai.com/v1/responses';headers={'Authorization':f'Bearer {key}'}
     elif pid=='anthropic':
         key=os.getenv('ANTHROPIC_API_KEY');url='https://api.anthropic.com/v1/messages';headers={'x-api-key':key or '', 'anthropic-version':'2023-06-01'}
-    else:
+    elif pid != 'gemini':
         entries,_=registry()
         choice=next((x for x in entries if x.get('id')==pid and x.get('_endpoint')),None)
         if not choice:return None
         key=os.getenv(choice['_secret_ref']);url=choice['_endpoint'];headers={'Authorization':f'Bearer {key}'}
+    if pid == 'gemini':
+        if not model:
+            return None
+        from .gemini_adapter import request_gemini_json
+        from .riwi_outbound_guard import contains_secret_material, redact_external_text
+        if contains_secret_material(json.dumps(params, ensure_ascii=False)):
+            return None
+        clean_params = {
+            k: redact_external_text(v, 30000) if isinstance(v, str) else v
+            for k, v in params.items()
+        }
+        structured = await request_gemini_json(
+            str(user_id) if user_id is not None else None,
+            model,
+            system_prompt or INSTRUCTIONS,
+            {'task': kind, 'language': language, 'input': clean_params},
+            max_output_tokens=4500,
+        )
+        if structured is None or not valid(structured):
+            return None
+        structured.pop('writingAnalysis', None)
+        structured['recommendedExercises'] = []
+        if kind == 'speaking':
+            structured['criteria'] = [
+                item for item in structured['criteria']
+                if 'pronunciation' not in (item['key'] + ' ' + item['label']).lower()
+            ][:11]
+            structured['criteria'].append({
+                'key': 'pronunciation',
+                'label': 'Pronunciation',
+                'band': None,
+                'limited': True,
+                'note': 'Audio pronunciation was not evaluated',
+            })
+        return structured
     if not key or not model:return None
     from .riwi_outbound_guard import contains_secret_material,redact_external_text
     if contains_secret_material(json.dumps(params,ensure_ascii=False)):return None
@@ -140,7 +175,7 @@ def meta(kind,provider=None,model=None,fallback=False,from_provider=None):
     if provider is None:
         return {'providerId':'riwi','providerDisplayName':os.getenv('AI_DISPLAY_NAME','RIWI'),'providerType':'internal','providerVersion':'1.0.0','model':None,
                 'promptVersion':'riwi-signals-v1','rubricVersion':'ielts-public-criteria-v1','fallbackUsed':fallback,'fallbackFrom':from_provider}
-    return {'providerId':provider['id'],'providerDisplayName':provider['displayName'],'providerType':'external','providerVersion':'1.0.0','model':model,
+    return {'providerId':provider['id'],'providerDisplayName':PUBLIC if provider['id']=='gemini' else provider['displayName'],'providerType':'external','providerVersion':'1.0.0','model':model,
             'promptVersion':'external-adapter-v1','rubricVersion':'ielts-public-criteria-v1','fallbackUsed':False,'fallbackFrom':None}
 
 async def resolve(kind,input,language,*,user_id=None,contract=None,overlay=None,policy_version=None):
@@ -190,11 +225,11 @@ def record(row):
     if not row:return None
     r=dict(row)
     return {'id':str(r['id']),'userId':str(r['user_id']),'evaluationType':r['evaluation_type'],
-       'sourceType':r['source_type'],'sourceId':str(r['source_id']),'providerId':r['provider_id'],
-       'providerDisplayName':r['provider_display_name'],'providerType':r['provider_type'],
-       'providerVersion':r['provider_version'],'model':r['model'],'promptVersion':r['prompt_version'],
-       'rubricVersion':r['rubric_version'],'fallbackUsed':r['fallback_used'],'fallbackFrom':r['fallback_from'],
-       'checkedByName':PUBLIC,'checkedBy':{'id':r['provider_id'],'displayName':r['provider_display_name'],'type':r['provider_type']},
+       'sourceType':r['source_type'],'sourceId':str(r['source_id']),'providerId':'riwi' if r['provider_id']=='gemini' else r['provider_id'],
+       'providerDisplayName':PUBLIC if r['provider_id']=='gemini' else r['provider_display_name'],'providerType':r['provider_type'],
+       'providerVersion':r['provider_version'],'model':None if r['provider_id']=='gemini' else r['model'],'promptVersion':r['prompt_version'],
+       'rubricVersion':r['rubric_version'],'fallbackUsed':r['fallback_used'],'fallbackFrom':'riwi' if r['fallback_from']=='gemini' else r['fallback_from'],
+       'checkedByName':PUBLIC,'checkedBy':{'id':'riwi' if r['provider_id']=='gemini' else r['provider_id'],'displayName':PUBLIC if r['provider_id']=='gemini' else r['provider_display_name'],'type':r['provider_type']},
        'overallEstimate':r['overall_estimate'],'confidence':r['confidence'],'verdict':r['verdict'],
        'criteria':decoded(r['criteria']),'strengths':decoded(r['strengths']),'weaknesses':decoded(r['weaknesses']),
        'issues':decoded(r['issues']),'nextActions':decoded(r['next_actions']),
@@ -239,7 +274,7 @@ async def persist(user_id,kind,source_type,source_id,data,info):
                      WHEN status='open' THEN 'improving'::weakness_status
                      WHEN status='improving' THEN 'resolved'::weakness_status ELSE status END,last_seen_at=now()
                   WHERE user_id=$1 AND category=ANY($2::text[]) AND occurrence_count>0''',user_id,clean)
-            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'COACH_EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'evaluationType':kind,'providerId':info['providerId'],'sourceId':str(source_id),'overallEstimate':data['overallEstimate']}))
+            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'COACH_EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'evaluationType':kind,'providerId':'riwi' if info['providerId']=='gemini' else info['providerId'],'sourceId':str(source_id),'overallEstimate':data['overallEstimate']}))
             if info['fallbackUsed'] and info['fallbackFrom']:
                 await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'COACH_PROVIDER_FALLBACK',$2::jsonb)''',user_id,json.dumps({'evaluationType':kind,'fallbackFrom':info['fallbackFrom'],'evaluatedBy':'riwi','sourceId':str(source_id)}))
     try:
