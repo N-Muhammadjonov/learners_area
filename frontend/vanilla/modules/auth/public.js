@@ -10,80 +10,14 @@ import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
 import {telegram} from './telegram.js';
-// Replaced from LANDING_HTML by the Python asset builder, including bundled chunks.
-const LANDING_FALLBACK_HTML='<!--la-public-fallback-->';
 /** Public policy loads inside the stable source AuthShell, not a blank route.
  * Retrying bootstrap never remounts controls or replays an account mutation. */
 export async function mount(context){
- // Load the standalone document only on its public routes.
- // srcdoc isolates the original typography, CSS and animations from AuthShell.
+ // Use the native landing route without a nested document or entrance audio.
  if(context.url.pathname==='/'||context.url.pathname==='/landing'){
-  const {root,signal,navigate}=context;
-  const template=document.createElement('template');
-  template.innerHTML=LANDING_FALLBACK_HTML;
-  const fallback=document.querySelector('[data-public-landing-fallback]')?.cloneNode(true)??template.content.firstElementChild;
-  if(fallback)root.append(fallback);
-  let LANDING_HTML;
-  try{({LANDING_HTML}=await import('../landing-inline.js'));}catch{return;}
-  if(signal.aborted)return;
-  const frame=document.createElement('iframe');
-  frame.title='Learners Area — platforma bilan tanishing';
-  frame.setAttribute('data-inline-landing','');
-  frame.setAttribute('loading','eager');
-  frame.style.cssText='display:block;width:100%;height:100dvh;min-height:100vh;border:0;background:#06101f';
-  // A srcdoc document inherits the site's nonce-based CSP.
-  // Reuse the nonce from the server-rendered module bootstrap.
-  const nonce=document.querySelector('script[nonce]')?.nonce;
-  if(!nonce)return;
-  frame.style.display='none';
-  frame.addEventListener('load',()=>{
-   if(signal.aborted)return;
-   fallback?.remove();
-   frame.style.display='block';
-  },{once:true,signal});
-  frame.addEventListener('error',()=>frame.remove(),{once:true,signal});
-  frame.setAttribute('allow','autoplay');
-  frame.srcdoc=LANDING_HTML.replace(/<script(?=[\s>])/g, '<script nonce="'+nonce+'"');
-  let entranceAudio=null;
-  frame.addEventListener('load',()=>{
-   if(signal.aborted||!frame.contentDocument?.body)return;
-   entranceAudio?.pause();
-   const doc=frame.contentDocument;
-   const audio=doc.createElement('audio');
-   audio.src='/brand/landing-next-level.m4a?v=original-6943452';
-   audio.preload='auto';
-   audio.autoplay=true;
-   audio.volume=1;
-   audio.setAttribute('playsinline','');
-   doc.body.append(audio);
-   entranceAudio=audio;
-   const start=()=>{
-    if(signal.aborted||entranceAudio!==audio||!audio.paused)return;
-    void audio.play().catch(()=>{});
-   };
-   start();
-   doc.addEventListener('pointerdown',start,{once:true});
-   doc.addEventListener('keydown',start,{once:true});
-  },{signal});
-  signal.addEventListener('abort',()=>{
-   if(!entranceAudio)return;
-   entranceAudio.pause();
-   entranceAudio.removeAttribute('src');
-   entranceAudio.load();
-   entranceAudio=null;
-  },{once:true});
-  const allowed=new Set(['/login','/register']);
-  const receive=event=>{
-   if(event.source!==frame.contentWindow||event.origin!==window.location.origin)return;
-   const message=event.data;
-   if(message?.type!=='la:landing:navigate'||typeof message.path!=='string')return;
-   const target=new URL(message.path,window.location.origin);
-   if(target.origin!==window.location.origin||!allowed.has(target.pathname))return;
-   void navigate(target.pathname+target.search+target.hash);
-  };
-  window.addEventListener('message',receive,{signal});
-  root.append(frame);
-  return;
+  const {mountLanding}=await import('../landing-page.js');
+  if(context.signal.aborted)return;
+  return mountLanding(context);
  }
  const {root,url,signal,navigate}=context,{locale}=readPreferences(),dict=await dictionary(locale);if(signal.aborted)return;
  const path=url.pathname,register=path==='/register',reset=path.startsWith('/reset-password'),confirm=path.endsWith('/confirm');

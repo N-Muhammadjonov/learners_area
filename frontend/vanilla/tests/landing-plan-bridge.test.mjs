@@ -1,7 +1,7 @@
 import {test,beforeEach,afterEach} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {LANDING_HTML} from '../modules/landing-inline.js';
+import {LANDING_MARKUP} from '../modules/landing-markup.js';
 import {markLandingPlanIntent,consumeLandingPlanIntent,clearLandingPlanIntent,
   LANDING_PLAN_DESTINATION} from '../js/plan-entry-intent.js';
 
@@ -18,12 +18,12 @@ beforeEach(()=>{
 afterEach(()=>{delete globalThis.sessionStorage;});
 
 test('current public landing no longer depends on the deleted premium entry',()=>{
-  const source=readFileSync(new URL('../modules/landing-inline.js',import.meta.url),'utf8');
+  const source=readFileSync(new URL('../modules/landing-page.js',import.meta.url),'utf8');
   const publicAuth=readFileSync(new URL('../modules/auth/public.js',import.meta.url),'utf8');
-  assert(source.includes('LANDING_HTML'));
-  assert(publicAuth.includes("await import('../landing-inline.js')"));
+  assert(source.includes('LANDING_MARKUP'));
+  assert(publicAuth.includes("await import('../landing-page.js')"));
   assert(!/^import .*landing-inline/m.test(publicAuth));
-  assert(LANDING_HTML.includes('href="/register"'));
+  assert(LANDING_MARKUP.includes('href="/register"'));
   assert.equal(LANDING_PLAN_DESTINATION,'/app/assignments#study-plan-30');
 });
 
