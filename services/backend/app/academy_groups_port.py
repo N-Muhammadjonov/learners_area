@@ -11,6 +11,7 @@ from pydantic import ValidationError
 
 from . import academy_attendance as attendance
 from . import academy_groups as groups
+from . import academy_leads as leads
 from . import academy_sessions as sessions
 from . import main as core
 from .rate_limit import RULES, async_counter, too_many
@@ -63,6 +64,52 @@ async def write(req: Request, model: type[Model],
     return core.j(row, status, PRIVATE)
 
 
+@router.get('/leads')
+async def academy_lead_list(req: Request, q: SEARCH = '', stage: leads.Stage | None = None,
+                            page: PAGE = 1, mine: bool = False) -> JSONResponse:
+    user, denied = await authorize(req, groups.GROUP_STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read', readonly=True):
+        data = await leads.lead_list(conn, q.strip(), stage, page, user['id'] if mine else None)
+    return core.j(data, headers=PRIVATE)
+
+
+@router.get('/leads/{lead_id}')
+async def academy_lead_detail(req: Request, lead_id: UUID, page: PAGE = 1) -> JSONResponse:
+    _, denied = await authorize(req, groups.GROUP_STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read', readonly=True):
+        try:
+            data = await leads.lead_detail(conn, lead_id, page)
+        except groups.GroupError as exc:
+            return error(exc.code, exc.status)
+    return core.j(data, headers=PRIVATE)
+
+
+@router.post('/leads')
+async def academy_lead_create(req: Request) -> JSONResponse:
+    return await write(req, leads.CreateLead, leads.create, status=201)
+
+
+@router.put('/leads/{lead_id}')
+async def academy_lead_update(req: Request, lead_id: UUID) -> JSONResponse:
+    return await write(req, leads.UpdateLead, leads.update, lead_id)
+
+
+@router.post('/leads/{lead_id}/notes')
+async def academy_lead_note(req: Request, lead_id: UUID) -> JSONResponse:
+    return await write(req, leads.LeadNote, leads.add_note, lead_id, status=201)
+
+
+@router.post('/leads/{lead_id}/convert')
+async def academy_lead_convert(req: Request, lead_id: UUID) -> JSONResponse:
+    return await write(req, leads.ConvertLead, leads.convert, lead_id)
+
+
 @router.get('/groups')
 async def academy_groups_list(req: Request, q: SEARCH = '', status: groups.GroupStatus | None = None,
                               page: PAGE = 1, courseId: UUID | None = None) -> JSONResponse:
@@ -94,11 +141,12 @@ async def academy_group_lookup(req: Request, kind: str, q: SEARCH = '') -> JSONR
     _, denied = await authorize(req, groups.GROUP_STAFF)
     if denied is not None:
         return denied
-    if kind not in ('courses', 'teacher', 'student'):
+    if kind not in ('courses', 'teacher', 'student', 'lead-assignees'):
         return error('not_found', 404)
     db = await core.pool()
     async with db.acquire() as conn:
-        options = await groups.lookup(conn, kind, q.strip())
+        options = (await leads.staff_choices(conn, q.strip()) if kind == 'lead-assignees'
+                   else await groups.lookup(conn, kind, q.strip()))
     return core.j({'options': options}, headers=PRIVATE)
 
 

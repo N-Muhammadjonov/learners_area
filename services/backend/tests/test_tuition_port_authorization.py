@@ -44,9 +44,17 @@ def request(method, path, body=None, query_string=b''):
 
 
 class Conn:
+    @asynccontextmanager
+    async def transaction(self, *, isolation, readonly):
+        assert isolation == 'repeatable_read'
+        assert readonly is True
+        yield
+
     async def fetchval(self, sql, *args):
         if 'teacher_student_links' in sql:
             return 1 if args[1] == LINKED else None
+        if "FROM users WHERE id=$1 AND role='student'" in sql:
+            return 1 if args[0] in (LINKED, UNLINKED, STUDENT) else None
         return None
 
     async def fetchrow(self, *args):
@@ -153,6 +161,7 @@ async def test_centre_wide_money_reports_are_owner_and_admin_only(as_role, metho
 
 
 APPROVAL_ROUTES = (
+    ('POST', f'/api/staff/finance/contracts/{uuid4()}/approve'),
     ('POST', f'/api/staff/finance/charges/{uuid4()}/approve'),
     ('POST', f'/api/staff/finance/credit-notes/{uuid4()}/approve'),
     ('POST', f'/api/staff/finance/refunds/{uuid4()}/approve'),
@@ -274,3 +283,9 @@ async def test_invalid_range_is_refused(as_role):
     response = await as_role('owner', 'GET', '/api/staff/finance/summary', None,
                              b'start=2026-11-30&end=2026-11-01')
     assert response.status_code == 400
+
+@pytest.mark.asyncio
+async def test_non_student_accounts_do_not_have_statements(as_role):
+    response = await as_role('owner', 'GET', f'/api/staff/finance/students/{ADMIN}/statement')
+    assert response.status_code == 404
+    assert json.loads(response.body) == {'error': 'student_not_found'}

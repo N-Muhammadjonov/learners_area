@@ -40,7 +40,7 @@ async def academy(monkeypatch):
     try:
         await create_disposable_schema(conn, schema)
         await conn.execute(BASE)
-        for filename in ('0035_teacher_student_links.sql', MIGRATION, '1123_academy_sessions.sql', '1124_academy_attendance.sql'):
+        for filename in ('0035_teacher_student_links.sql', MIGRATION, '1123_academy_sessions.sql', '1124_academy_attendance.sql', '1125_academy_leads.sql'):
             await conn.execute((MIGRATIONS / filename).read_text())
         actors = {}
         for key, role in [('owner', 'owner'), ('admin', 'admin'), ('teacher', 'teacher'),
@@ -376,3 +376,64 @@ def test_finance_entry_contracts_do_not_coerce_unsigned_money(invalid):
         with pytest.raises(finance_contracts.ValidationError) as caught:
             finance_contracts.parse(model, body)
         assert caught.value.fields[0]['field'] == 'amountMinor'
+
+
+@pytest.mark.asyncio
+async def test_lead_dedupes_and_converts_to_existing_student_with_group_capacity(academy):
+    from datetime import datetime, timedelta, timezone
+
+    conn, _, actors, course, client = academy
+    group, _ = await create(client, course, actors)
+    occupied = await send(client, 'POST', f"/groups/{group['id']}/memberships",
+                          json={'studentId': str(actors['second'])})
+    assert occupied.status_code == 201
+    stamp = datetime.now(timezone.utc)
+    fields = {'name': 'Demo applicant', 'email': ' LEAD@example.test ', 'source': 'Website',
+              'phone': '+998 (90) 123-45-67', 'courseId': str(course),
+              'assignedTo': str(actors['admin']), 'followUpAt': (stamp-timedelta(days=1)).isoformat()}
+    key = str(uuid4())
+    first = await send(client, 'POST', '/leads', json={**fields, 'id': key})
+    assert first.status_code == 201, first.text
+    assert first.json()['email'] == 'lead@example.test'
+    assert first.json()['phone'] == '+998901234567'
+    assert 'create_fingerprint' not in first.json()
+    repeat = await send(client, 'POST', '/leads', json={**fields, 'id': key})
+    assert repeat.json()['id'] == key
+    dup = await send(client, 'POST', '/leads', json={**fields, 'id': str(uuid4())})
+    assert dup.status_code == 409 and dup.json()['error'] == 'lead_already_exists'
+    assert (await send(client, 'GET', '/leads', 'teacher')).status_code == 403
+    assert (await send(client, 'GET', '/leads?mine=true', 'admin')).json()['followUpDue'] == 1
+    assert (await send(client, 'GET', '/leads?mine=true')).json()['leads'] == []
+    path = '/leads/' + key
+    note = {'id': str(uuid4()), 'body': 'Booked a placement conversation.'}
+    assert (await send(client, 'POST', path + '/notes', json=note)).status_code == 201
+    assert (await send(client, 'POST', path + '/notes', json=note)).status_code == 201
+    assert len((await send(client, 'GET', path)).json()['notes']) == 1
+
+    for revision, stage in enumerate(('contacted','trial_scheduled','trial_completed'), 1):
+        dated = {} if stage == 'contacted' else {'trialAt': (stamp-timedelta(minutes=5)).isoformat()}
+        r = await send(client, 'PUT', path, json={**fields, **dated, 'revision': revision, 'stage': stage})
+        assert r.status_code == 200, r.text
+    stale = await send(client, 'PUT', path, json={**fields, 'revision': 1, 'stage': 'contacted'})
+    assert stale.status_code == 409 and stale.json()['error'] == 'lead_revision_conflict'
+    body = {'revision': 4, 'groupId': group['id'], 'studentId': str(actors['student'])}
+    denied = await send(client, 'POST', path + '/convert', json=body)
+    assert denied.status_code == 409 and denied.json()['error'] == 'group_full'
+    assert (await send(client, 'GET', path)).json()['lead']['stage'] == 'trial_completed'
+    released = await send(client, 'PUT', f"/groups/{group['id']}/memberships/{occupied.json()['id']}",
+                          json={'revision': 1, 'status': 'withdrawn'})
+    assert released.status_code == 200, released.text
+    before = await conn.fetchval('SELECT count(*) FROM users')
+    converted = await send(client, 'POST', path + '/convert', json=body)
+    assert converted.status_code == 200, converted.text
+    assert converted.json()['stage'] == 'enrolled'
+    assert converted.json()['student_user_id'] == str(actors['student'])
+    assert converted.json()['follow_up_at'] is None
+    repeated = await send(client, 'POST', path + '/convert', json=body)
+    assert repeated.json()['membership_id'] == converted.json()['membership_id']
+    assert await conn.fetchval('SELECT count(*) FROM users') == before
+    assert await conn.fetchval("SELECT count(*) FROM academy_group_memberships WHERE status='active'") == 1
+    assert (await send(client, 'GET', '/leads')).json()['stages']['enrolled'] == 1
+    for relation in ('academy_leads', 'academy_lead_notes'):
+        assert await conn.fetchval("SELECT relrowsecurity FROM pg_class WHERE oid=$1::regclass", relation)
+        assert not await conn.fetchval("SELECT has_table_privilege('authenticated',$1,'SELECT')", relation)

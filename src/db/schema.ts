@@ -4291,3 +4291,47 @@ export const academyAttendance = pgTable("academy_attendance", {
   check("academy_attendance_revision_check", sql`${t.revision} > 0`),
   check("academy_attendance_check", sql`(${t.markedAt} IS NULL) = (${t.status} = 'not_marked')`),
 ]).enableRLS();
+
+export const academyLeads = pgTable("academy_leads", {
+  id: uuid("id").primaryKey(),
+  name: varchar("name", { length: 120 }).notNull(),
+  email: varchar("email", { length: 254 }),
+  phone: varchar("phone", { length: 16 }),
+  source: varchar("source", { length: 120 }).notNull(),
+  courseId: uuid("course_id").references(() => courses.id),
+  assignedTo: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
+  stage: varchar("stage", { length: 20 }).notNull().default("new"),
+  followUpAt: timestamp("follow_up_at", { withTimezone: true }),
+  trialAt: timestamp("trial_at", { withTimezone: true }),
+  lostReason: varchar("lost_reason", { length: 300 }),
+  studentUserId: uuid("student_user_id").references(() => users.id, { onDelete: "set null" }),
+  membershipId: uuid("membership_id").unique().references(() => academyGroupMemberships.id, { onDelete: "set null" }),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createFingerprint: varchar("create_fingerprint", { length: 64 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  revision: integer("revision").notNull().default(1),
+}, t => [
+  uniqueIndex("academy_leads_open_email_idx").on(t.email).where(sql`${t.email} IS NOT NULL AND ${t.stage} NOT IN ('enrolled','lost')`),
+  uniqueIndex("academy_leads_open_phone_idx").on(t.phone).where(sql`${t.phone} IS NOT NULL AND ${t.stage} NOT IN ('enrolled','lost')`),
+  index("academy_leads_stage_idx").on(t.stage, t.updatedAt.desc(), t.id),
+  index("academy_leads_assignee_idx").on(t.assignedTo, t.followUpAt).where(sql`${t.stage} NOT IN ('enrolled','lost')`),
+  check("academy_leads_name_check", sql`btrim(${t.name}) <> ''`),
+  check("academy_leads_source_check", sql`btrim(${t.source}) <> ''`),
+  check("academy_leads_stage_check", sql`${t.stage} IN ('new','contacted','trial_scheduled','trial_completed','enrolled','lost')`),
+  check("academy_leads_revision_check", sql`${t.revision} > 0`),
+  check("academy_leads_check", sql`${t.email} IS NOT NULL OR ${t.phone} IS NOT NULL`),
+  check("academy_leads_check1", sql`${t.stage} <> 'lost' OR ${t.lostReason} IS NOT NULL`),
+  check("academy_leads_check2", sql`${t.stage} NOT IN ('trial_scheduled','trial_completed') OR ${t.trialAt} IS NOT NULL`),
+]).enableRLS();
+
+export const academyLeadNotes = pgTable("academy_lead_notes", {
+  id: uuid("id").primaryKey(),
+  leadId: uuid("lead_id").notNull().references(() => academyLeads.id, { onDelete: "restrict" }),
+  authorId: uuid("author_id").references(() => users.id, { onDelete: "set null" }),
+  body: varchar("body", { length: 1200 }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  index("academy_lead_notes_lead_idx").on(t.leadId, t.createdAt.desc(), t.id),
+  check("academy_lead_notes_body_check", sql`btrim(${t.body}) <> ''`),
+]).enableRLS();

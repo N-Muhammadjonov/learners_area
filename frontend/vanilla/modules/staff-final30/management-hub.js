@@ -17,6 +17,8 @@ export function managementAreas(dict,role){
  const addGuardians=()=>add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',
    dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
  if(admin){
+  add('/app/management/leads',dict.people.name==='Ism'?'Qabul jarayoni':'Admissions pipeline',
+      dict.people.name==='Ism'?'Nomzodlar, sinov darslari va guruhga yozilish.':'Leads, trial lessons and enrollment.',IconPeople);
   add('/app/management/finance',dict.people.name==='Ism'?'Akademiya moliyasi':'Academy finance',
       dict.people.name==='Ism'?'To‘lovlar, qarzlar va ichki tasdiqnomalar.':'Payments, balances and payment acknowledgments.',IconAudit);
   if(owner)add('/app/admin/statistics',dict.nav.statistics??stats.title,stats.scope,IconAudit);

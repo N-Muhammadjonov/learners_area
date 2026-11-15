@@ -3,6 +3,7 @@
   "routes": [
     "/app/management/study-plans",
     "/app/management/groups",
+    "/app/management/leads",
     "/app/management/finance",
     "/app/grammar/practice",
     "/app/plan/level-check",

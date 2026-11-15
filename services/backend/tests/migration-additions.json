@@ -54,5 +54,6 @@
  "1121_finance_outbox_dispatch.sql": "98ee97d027dd1288f772798dfa5d749b972fa5b22d099639f65a22014effee45",
  "1122_academy_groups.sql": "c53f19f00f32e5ecf8a4379ea08f7c853547d0cd6ade7eb7b352cb91e11d4456",
  "1123_academy_sessions.sql": "b7cd103b1b2fd777a8a17c246b9b2abd2d26478d860147e5cb3fc67e9532b030",
- "1124_academy_attendance.sql": "061d6f36aab2f53fc7bd6250ab6fe47615a7a01658de69256c122238ada093fb"
+ "1124_academy_attendance.sql": "061d6f36aab2f53fc7bd6250ab6fe47615a7a01658de69256c122238ada093fb",
+ "1125_academy_leads.sql": "a75d3023dffbd092c442ae700ee7c4d1b87866c49baa5c28daa80b4fea2c3edf"
 }

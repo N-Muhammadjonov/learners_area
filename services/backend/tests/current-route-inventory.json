@@ -1596,6 +1596,36 @@
  },
  {
   "method": "GET",
+  "path": "/api/staff/academy/leads",
+  "name": "academy_lead_list"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/leads",
+  "name": "academy_lead_create"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/leads/{lead_id}",
+  "name": "academy_lead_detail"
+ },
+ {
+  "method": "PUT",
+  "path": "/api/staff/academy/leads/{lead_id}",
+  "name": "academy_lead_update"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/leads/{lead_id}/convert",
+  "name": "academy_lead_convert"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/leads/{lead_id}/notes",
+  "name": "academy_lead_note"
+ },
+ {
+  "method": "GET",
   "path": "/api/staff/academy/lookups/{kind}",
   "name": "academy_group_lookup"
  },

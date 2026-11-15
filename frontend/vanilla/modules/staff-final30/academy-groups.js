@@ -94,7 +94,7 @@ function searchBar(ctx, label, query, status, callback) {
  return form;
 }
 
-function lookup(ctx, label, find, multiple = false, initial = []) {
+export function academyLookup(ctx, label, find, multiple = false, initial = []) {
  const t = words(ctx);
  const picked = new Map(initial.map(item => [item.id, item.label]));
  const input = el('input', {class: 'input', type: 'search', maxlength: 120});
@@ -147,7 +147,7 @@ function lookup(ctx, label, find, multiple = false, initial = []) {
 }
 
 function options(ctx, kind, label, multiple, initial) {
- return lookup(ctx, label, async query =>
+ return academyLookup(ctx, label, async query =>
   (await request(ctx, '/lookups/' + kind + '?' + new URLSearchParams({q: query}))).options,
  multiple, initial);
 }
@@ -241,7 +241,7 @@ function memberActions(ctx, group, member) {
   () => request(ctx, endpoint, {method: 'PUT', body: {status: status.value, revision: member.revision}}), {reload: true});
  const canTransfer = member.status === 'active' || member.status === 'paused';
  if (!canTransfer) return statusForm;
- const target = lookup(ctx, t.transferTo, async query =>
+ const target = academyLookup(ctx, t.transferTo, async query =>
   (await request(ctx, '/groups?' + new URLSearchParams({q: query, status: 'active', courseId: group.course_id}))).groups
    .filter(item => item.id !== group.id).map(item => ({id: item.id, label: item.name + ' · ' + item.branch})));
  const transferForm = submit(ctx, el('form', {class: 'space-y-2'}, target.node), t.transfer,
