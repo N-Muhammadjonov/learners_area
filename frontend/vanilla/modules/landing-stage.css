@@ -147,9 +147,9 @@ h1,h2,h3,.q,.ring b{font-family:"Bricolage Grotesque",Geist,Inter,system-ui,sans
 @keyframes pu{to{box-shadow:0 0 0 9px transparent}}
 .hn i{box-shadow:0 0 0 0 rgba(50,222,208,.6)}
 .hc{display:inline-flex;align-items:center;gap:.9rem;height:60px;padding:0 .5rem 0 1.8rem;border-radius:99px;background:#f4f7fc;color:#06101f;font-weight:700;font-size:17px;text-decoration:none;transition:transform .25s,box-shadow .25s}
-.hc span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(100deg,var(--c),var(--b));transition:transform .25s}
+.hc:not(.la-roll-button)>span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(100deg,var(--c),var(--b));transition:transform .25s}
 .hc:hover{transform:translateY(-1px);box-shadow:0 14px 30px -12px rgba(57,112,255,.75)}
-.hc:hover span{transform:translateX(3px) rotate(-30deg)}
+.hc:not(.la-roll-button):hover>span{transform:translateX(3px) rotate(-30deg)}
 .hc.o{background:rgba(255,255,255,.06);color:var(--ink);border:1px solid var(--ln);padding:0 1.6rem;margin-left:10px}
 .sec{padding:84px 0}
 .sh{text-align:center;max-width:780px;margin:0 auto 44px}
@@ -897,5 +897,149 @@ body.intro-inverted .reversed-finale{
  body.intro-inverted #cinematicDunes>img,
  body.intro-inverted #cinematicDunes>video{
   inset:-15% -17%!important;width:134%!important;height:130%!important;
+ }
+}
+
+
+/* Cinematic opening: branded hierarchy, clean backdrop, and a lower 9.0 anchor. */
+body.intro-inverted::after{content:none!important;display:none!important;background:none!important}
+body.intro-inverted .band-journey-sticky::before,
+body.intro-inverted .band-journey-sticky::after,
+body.intro-inverted .band-journey::before,
+body.intro-inverted .band-journey::after{
+ content:none!important;background:none!important;
+}
+body.intro-inverted .big-band{
+ top:54%!important;
+}
+body.intro-inverted .intro-brandline{
+ position:absolute;left:50%;z-index:4;
+ width:max-content;max-width:calc(100vw - 32px);
+ transform:translateX(-50%);
+ pointer-events:none;user-select:none;
+ text-align:center;
+ font-family:"Bricolage Grotesque",Geist,Inter,system-ui,sans-serif;
+ -webkit-font-smoothing:antialiased;
+ text-shadow:0 3px 28px rgba(0,0,0,.45);
+ will-change:opacity;
+}
+body.intro-inverted .intro-brandline-top{
+ top:clamp(76px,11vh,142px);
+ font-size:clamp(18px,2.4vw,34px);
+ font-weight:750;letter-spacing:.21em;line-height:1.25;
+ color:#f7fbff;
+}
+body.intro-inverted .intro-brandline-top strong{
+ font-weight:850;
+ background:linear-gradient(112deg,#39efe0 0%,#44cfe9 38%,#528eff 100%);
+ -webkit-background-clip:text;background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+body.intro-inverted .intro-brandline-bottom{
+ bottom:clamp(94px,13.3vh,158px);
+ font-size:clamp(12px,1.38vw,18px);
+ font-weight:750;letter-spacing:.43em;line-height:1.45;
+ color:#d7e6f7;
+}
+/* The hero CTA must size to the entire text plus the arrow, never to a legacy circle span. */
+body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o){
+ display:inline-flex!important;
+ align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;
+ min-width:295px!important;width:max-content!important;max-width:calc(100vw - 24px)!important;
+ min-height:62px!important;
+ padding:8px 13px 8px 27px!important;
+ gap:16px!important;border-radius:999px!important;
+ white-space:nowrap!important;overflow:visible!important;
+}
+body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc .la-roll-clip{
+ display:block!important;flex:0 0 auto!important;
+ height:1.52em!important;width:max-content!important;min-width:max-content!important;
+ max-width:none!important;line-height:1.52em!important;
+ overflow:hidden!important;
+}
+body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc .la-roll-track{
+ display:block!important;width:max-content!important;min-width:max-content!important;
+ line-height:1.52em!important;height:3.04em!important;
+}
+body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc .la-roll-label{
+ display:block!important;width:max-content!important;min-width:max-content!important;
+ height:1.52em!important;line-height:1.52em!important;
+ white-space:nowrap!important;
+}
+body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc .la-roll-arrow{
+ display:grid!important;place-items:center!important;
+ width:44px!important;height:44px!important;
+ flex:0 0 44px!important;border-radius:50%!important;
+ color:#041625!important;
+ background:linear-gradient(110deg,#32ded0,#3970ff)!important;
+}
+body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o) .la-roll-label{
+ color:#041625!important;text-shadow:none!important;
+}
+/* Feature introduction: readable white prose, no dark strip/card behind it. */
+body.intro-inverted #imkon .sh>p:not(.ey){
+ background:transparent!important;border:0!important;
+ box-shadow:none!important;backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;
+ padding:0!important;border-radius:0!important;
+ color:#fff!important;opacity:1!important;
+ text-shadow:0 2px 13px rgba(1,13,35,.88),0 1px 3px rgba(0,0,0,.5)!important;
+ max-width:min(100%,790px)!important;
+}
+/* Four process steps: translucent blur cards with legible opaque lettering. */
+body.intro-inverted .stp .sp>div{
+ background:rgba(6,22,44,.70)!important;
+ border:1px solid rgba(202,228,255,.32)!important;
+ -webkit-backdrop-filter:blur(20px) saturate(1.18)!important;
+ backdrop-filter:blur(20px) saturate(1.18)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 14px 32px rgba(0,7,25,.24)!important;
+}
+body.intro-inverted .stp .sp h3{color:#fff!important;opacity:1!important;text-shadow:0 2px 8px rgba(0,0,0,.22)}
+body.intro-inverted .stp .sp p{
+ color:#edf5ff!important;opacity:1!important;
+ text-shadow:0 1px 5px rgba(0,0,0,.30)!important;
+}
+/* Final CTA: transparent cinematic glass, matching the other sections. */
+body.intro-inverted .reversed-finale .band-story-card{
+ background:rgba(9,22,45,.53)!important;
+ border:1px solid rgba(206,231,255,.28)!important;
+ -webkit-backdrop-filter:blur(23px) saturate(1.22)!important;
+ backdrop-filter:blur(23px) saturate(1.22)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 25px 80px rgba(0,7,20,.34)!important;
+}
+body.intro-inverted .reversed-finale .band-story-side{
+ background:rgba(8,21,41,.25)!important;
+ border-color:rgba(220,239,255,.23)!important;
+}
+body.intro-inverted .reversed-finale .band-story-side span,
+body.intro-inverted .reversed-finale .band-story-side small{color:#d1e4f5!important}
+body.intro-inverted .reversed-finale .band-story-main p:not(.ey){
+ color:#f7fbff!important;opacity:1!important;
+}
+@media(max-width:740px){
+ body.intro-inverted .intro-brandline-top{
+  top:clamp(83px,13vh,116px);font-size:clamp(17px,4.8vw,24px);
+  letter-spacing:.14em;
+ }
+ body.intro-inverted .intro-brandline-bottom{
+  bottom:clamp(98px,16vh,135px);
+  font-size:clamp(11px,2.8vw,14px);letter-spacing:.28em;
+ }
+ body.intro-inverted .big-band{top:52.5%!important}
+ body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o){
+  min-width:min(300px,calc(100vw - 36px))!important;
+  min-height:57px!important;padding:8px 12px 8px 18px!important;
+  gap:10px!important;max-width:calc(100vw - 32px)!important;
+ }
+ body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc .la-roll-arrow{
+  width:38px!important;height:38px!important;flex-basis:38px!important;
+ }
+}
+@media(max-width:350px){
+ body.intro-inverted .intro-brandline-top{letter-spacing:.1em}
+ body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o){
+  min-width:min(280px,calc(100vw - 28px))!important;
+  padding-left:13px!important;
  }
 }

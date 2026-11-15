@@ -9,6 +9,10 @@ test('portal, globe, sky and dunes remain a single scroll flow',()=>{
  const css=read('../modules/landing-stage.css');
  const runtime=read('../modules/landing-runtime.js');
  assert.match(LANDING_MARKUP,/id="bandJourney"/);
+ assert.match(LANDING_MARKUP,/id="introBrandTop"/);
+ assert.match(LANDING_MARKUP,/id="introBrandBottom"/);
+ assert(LANDING_MARKUP.includes('ROAD TO <strong>IELTS</strong>'));
+ assert.match(LANDING_MARKUP,/LEARNERS AREA/);
  assert.match(LANDING_MARKUP,/class="cinematic-hero-flow"/);
  assert.match(LANDING_MARKUP,/id="cinematicGlobeFrame"/);
  assert.match(LANDING_MARKUP,/id="cinematicSky"/);
@@ -23,6 +27,22 @@ test('portal, globe, sky and dunes remain a single scroll flow',()=>{
  assert.match(runtime,/ResizeObserver/);
  assert.match(css,/\.cinematic-hero-flow/);
  assert.match(css,/\.cinematic-backdrop/);
+});
+
+test('cinematic typography, button widths and glass panels are maintained',()=>{
+ const css=read('../modules/landing-stage.css');
+ const runtime=read('../modules/landing-runtime.js');
+ const index=read('../index.html');
+ assert(css.includes('body.intro-inverted::after{content:none!important'));
+ assert(css.includes('intro-brandline-top'));
+ assert(css.includes('intro-brandline-bottom'));
+ assert(css.includes('min-width:295px!important'));
+ assert(css.includes('body.intro-inverted #imkon .sh>p:not(.ey){'));
+ assert(css.includes('backdrop-filter:blur(20px)'));
+ assert(css.includes('body.intro-inverted .reversed-finale .band-story-card{'));
+ assert(runtime.includes('const cleanLabel=label.replace'));
+ assert(runtime.includes('introBrandTop.style.opacity'));
+ assert.doesNotMatch(index,/la-static-landing|data-public-landing-fallback|la-landing-loading/);
 });
 
 test('media files are lightweight and not embedded in landing code',()=>{

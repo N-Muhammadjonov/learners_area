@@ -238,6 +238,8 @@ const bigNumber=$('#bigBandNumber');
 const zero=bigNumber.querySelector('.band-zero');
 const introReveal=$('#introReveal');
 const introHint=$('#introHint');
+const introBrandTop=$('#introBrandTop');
+const introBrandBottom=$('#introBrandBottom');
 const hero=$('#openingHero');
 const siteNav=document.querySelector('nav');
 const panorama=$('#cinematicBackdrop');
@@ -282,6 +284,9 @@ function updateJourney(){
  siteNav.style.pointerEvents=navOpacity>.98?'auto':'none';
  siteNav.setAttribute('aria-hidden',navOpacity>.98?'false':'true');
  introHint.style.opacity=String(1-smoothstep((p-.06)/.18));
+ const brandOpacity=String(1-smoothstep((p-.055)/.14));
+ introBrandTop.style.opacity=brandOpacity;
+ introBrandBottom.style.opacity=brandOpacity;
 
  // One continuous virtual camera travels downward over Earth, into clear
  // daylight and finally over the original purple dunes; no night-sky layer.
@@ -353,13 +358,14 @@ updateJourney();
   if(button.classList.contains('la-roll-button'))continue;
   const label=Array.from(button.childNodes).filter(node=>node.nodeType===Node.TEXT_NODE).map(node=>node.textContent).join(' ').trim()
    ||button.textContent.replace(/[→↗]+/g,'').trim();
-  if(!label)continue;
+  const cleanLabel=label.replace(/[\s→↗]+$/gu,'').trim();
+  if(!cleanLabel)continue;
   button.classList.add('la-roll-button');
   button.replaceChildren();
   const clip=document.createElement('span');clip.className='la-roll-clip';
   const track=document.createElement('span');track.className='la-roll-track';
-  const a=document.createElement('span');a.className='la-roll-label';a.textContent=label;
-  const b=document.createElement('span');b.className='la-roll-label';b.textContent=label;b.setAttribute('aria-hidden','true');
+  const a=document.createElement('span');a.className='la-roll-label';a.textContent=cleanLabel;
+  const b=document.createElement('span');b.className='la-roll-label';b.textContent=cleanLabel;b.setAttribute('aria-hidden','true');
   const arrow=document.createElement('span');arrow.className='la-roll-arrow';arrow.textContent='↗';arrow.setAttribute('aria-hidden','true');
   track.append(a,b);clip.append(track);button.append(clip,arrow);
   const observer=new MutationObserver(()=>{if(b.textContent!==a.textContent)b.textContent=a.textContent});
