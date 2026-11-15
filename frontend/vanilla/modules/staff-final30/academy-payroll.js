@@ -3,7 +3,6 @@ import {el, listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
 
 const API='/api/staff/finance/payroll';
-const UUID='[0-9a-fA-F]{8}(?:-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}';
 
 const en={
  title:'Teacher payroll',search:'Search teachers',teacher:'Teacher',period:'Salary month',open:'View payroll',
@@ -12,7 +11,8 @@ const en={
  estimate:'Estimate',accrued:'Accrued',paid:'Paid',adjusted:'Adjustments',balance:'Payable balance',
  variable:'Class compensation',share:'Recognized revenue share',pending:'Classes awaiting a held status and complete attendance',
  finalize:'Finalize accrual',confirm:'I have reviewed this accounting action',
- assign:'Assign recognized revenue',sessionId:'Held session ID',journalId:'Recognition journal transaction ID',
+ assign:'Assign recognized revenue',sources:'Load eligible revenue',source:'Student and held class',
+ noSources:'No eligible unassigned revenue for this month.',moreSources:'More entries become visible as you assign these.',
  payout:'Record confirmed bank payout',adjust:'Post adjustment',amount:'Whole UZS',receipt:'Bank transaction reference',reason:'Reason',
  openEnded:'Open-ended',saved:'Saved',sensitive:'Payroll changed. Reload it and review the latest amounts.',
  unsafe:'Enter a whole number within the supported range.',
@@ -32,7 +32,8 @@ const uz={
  estimate:'Hisob-kitob',accrued:'Hisoblangan majburiyat',paid:'To‘langan',adjusted:'Tuzatishlar',balance:'To‘lanadigan qoldiq',
  variable:'Darslar uchun',share:'Tan olingan daromad ulushi',pending:'Holati yoki davomati yakunlanmagan darslar',
  finalize:'Ish haqini tasdiqlash',confirm:'Hisob yozuvini ko‘rib chiqdim',
- assign:'Tan olingan daromadni biriktirish',sessionId:'O‘tilgan dars IDsi',journalId:'Jurnaldagi daromad tranzaksiyasi IDsi',
+ assign:'Tan olingan daromadni biriktirish',sources:'Mos daromad yozuvlarini yuklash',source:'O‘quvchi va o‘tilgan dars',
+ noSources:'Bu oyda biriktirilishi mumkin bo‘lgan daromad topilmadi.',moreSources:'Biriktirgandan keyin qolgan yozuvlar ko‘rinadi.',
  payout:'Tasdiqlangan bank to‘lovini yozish',adjust:'Tuzatish kiritish',amount:'Butun so‘m',receipt:'Bank tranzaksiyasi raqami',reason:'Sabab',
  openEnded:'Muddatsiz',saved:'Saqlandi',sensitive:'Hisob o‘zgardi. Yangilab, yangi summani tekshiring.',
  unsafe:'Ruxsat etilgan oraliqda butun son kiriting.',
@@ -179,10 +180,7 @@ export function academyPayroll(ctx){
     body.append(command(t.finalize,[],'/finalize',()=>({...request,expectedAmountMinor:whole({value:summary.amountMinor}),
      expectedCalculation:data.calculationHash}),signal,{confirm:true}));
    }else if(!data.canFinalize||summary.pendingSessionIds.length)body.append(el('p',{},t.blocked));
-   const session=input('text',{required:true,pattern:UUID}),journal=input('text',{required:true,pattern:UUID});
-   body.append(command(t.assign,[field(t.sessionId,session),field(t.journalId,journal)],'/revenue',
-    ()=>({teacherUserId:request.teacherUserId,sessionId:session.value.trim(),
-     journalTransactionId:journal.value.trim()}),signal,{confirm:true}));
+   if(data.rules.some(rule=>rule.revenue_bps))body.append(revenuePicker(request,signal));
   }
   const start=input('date',{required:true}),end=input('date');
   const rates=[t.fixed,t.session,t.hourly,t.revenue].map(label=>[label,input('number',{value:0,min:0,step:1})]);
@@ -190,6 +188,31 @@ export function academyPayroll(ctx){
    ()=>({commandId:null,teacherUserId:request.teacherUserId,startsOn:start.value,endsOn:end.value||null,
     monthlyMinor:whole(rates[0][1]),sessionMinor:whole(rates[1][1]),hourlyMinor:whole(rates[2][1]),
     revenueBps:Number(whole(rates[3][1]))}),signal,{confirm:true}));
+ }
+ function revenuePicker(request,signal){
+  const loadButton=button(t.sources,{type:'button'}),options=el('div',{class:'space-y-2'});
+  listen(loadButton,'click',async()=>{
+   if(loadButton.disabled)return;
+   loadButton.disabled=true;
+   options.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
+   try{
+    const data=await api.request(API+'/revenue?'+new URLSearchParams(request),{signal,fresh:true});
+    if(signal.aborted)return;
+    const date=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',
+     {timeZone:'Asia/Tashkent',dateStyle:'short',timeStyle:'short'});
+    const select=el('select',{class:'input',required:true},data.options.map((row,index)=>
+     el('option',{value:index},[row.group_name,date.format(new Date(row.starts_at)),
+      row.student_name,money(row.amount_minor)].join(' · '))));
+    if(!data.options.length){options.replaceChildren(el('p',{},t.noSources));return;}
+    options.replaceChildren(command(t.assign,[field(t.source,select)],'/revenue',()=>{
+     const row=data.options[Number(select.value)];
+     return {teacherUserId:request.teacherUserId,sessionId:row.session_id,journalTransactionId:row.transaction_id};
+    },signal,{confirm:true}));
+    if(data.hasMore)options.append(el('p',{},t.moreSources));
+   }catch(error){if(!signal.aborted){options.replaceChildren();showError(error);}}
+   finally{loadButton.disabled=false;}
+  },signal);
+  return el('div',{class:'space-y-2'},loadButton,options);
  }
  return panel;
 }

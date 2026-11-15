@@ -4,7 +4,7 @@ from __future__ import annotations
 import asyncio
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import pytest
 import pytest_asyncio
@@ -84,18 +84,31 @@ async def test_payroll_hybrid_attendance_revenue_accrual_adjustment_and_payout(p
     session = await make_class(http, start)
     await make_class(http, start+timedelta(days=1), status='cancelled')
     incomplete = await make_class(http, start+timedelta(days=2), attendance='not_marked')
-    # Existing revenue recognition remains the only revenue input.
-    async with http.con.transaction():
-        txn = await ledger._post_journal(
-            http.con, source_type='revenue_recognition', source_id=uuid4(),
-            student_user_id=http.people['student'], actor_user_id=http.people['owner'], period=period,
-            lines=[('deferred_tuition_revenue','debit', 400_000), ('tuition_revenue','credit', 400_000)])
+    charge = await ledger.create_charge(
+        http.con, actor_user_id=http.people['admin'],student_user_id=http.people['student'],
+        period=period,due_date=start,gross_amount_minor=400_000)
+    await ledger.approve_charge(http.con,actor_user_id=http.people['owner'],charge_id=charge['id'])
+    await ledger.post_charge(http.con,actor_user_id=http.people['admin'],charge_id=charge['id'])
+    recognize = {'commandId':str(uuid4()),'studentUserId':str(http.people['student']),
+                 'amountMinor':400_000,'periodKey':period}
+    endpoint = '/api/staff/finance/revenue/recognize'
+    recognized = await staff(http, 'admin', 'POST', endpoint, json_body=recognize)
+    assert recognized.status_code == 200, recognized.text
+    txn = UUID(recognized.json()['transactionId'])
+    retry = await staff(http, 'admin', 'POST', endpoint, json_body=recognize)
+    assert retry.json()['transactionId'] == str(txn)
+    assert await http.con.fetchval("SELECT count(*) FROM finance_journal_entries WHERE source_type='revenue_recognition'") == 1
     source = {'teacherUserId': str(teacher),'sessionId': str(session),'journalTransactionId':str(txn)}
+    query = {'teacherUserId': str(teacher), 'periodKey': period}
+    options = await staff(http, 'owner', 'GET', API+'/revenue', params=query)
+    assert options.status_code == 200, options.text
+    assert len(options.json()['options']) == 1
+    assert options.json()['options'][0]['transaction_id'] == str(txn)
     assert (await post(http, '/revenue', source)).json()['amountMinor'] == 400_000
+    assert (await staff(http, 'owner', 'GET', API+'/revenue', params=query)).json()['options'] == []
     assert (await post(http, '/revenue', source)).status_code == 200
     assert (await post(http, '/revenue', {**source, 'sessionId': str(incomplete)})).status_code == 409
     assert (await post(http, '/revenue', {**source, 'journalTransactionId': str(uuid4())})).status_code == 422
-    query = {'teacherUserId': str(teacher), 'periodKey': period}
     forbidden = await staff(http, 'teacher', 'GET', API, params=query)
     assert forbidden.status_code == 403
     read = await staff(http, 'admin', 'GET', API, params=query)

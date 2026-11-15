@@ -76,6 +76,20 @@ class RetryableDocument(_Strict):
     commandId: UUID | None = None
 
 
+class RevenueRecognition(RetryableDocument):
+    studentUserId: UUID
+    amountMinor: MoneyMinor = Field(gt=0)
+    periodKey: str | None = Field(default=None, pattern=r'^[0-9]{4}-(0[1-9]|1[0-2])$')
+    memo: str | None = Field(default=None, max_length=200)
+
+    @field_validator('periodKey')
+    @classmethod
+    def _year_is_valid(cls, value):
+        if value and value.startswith('0000'):
+            raise ValueError('Period year must be positive')
+        return value
+
+
 class ContractCreate(RetryableDocument):
     studentUserId: UUID
     monthlyAmountMinor: MoneyMinor

@@ -336,6 +336,32 @@ async def teacher_choices(conn: Connection, query: str) -> list[dict]:
     return [{'id': str(row['id']), 'label': row['label']} for row in rows]
 
 
+async def revenue_options(conn: Connection, request: RunRequest) -> dict:
+    start, end = month(request.periodKey)
+    rows = await conn.fetch(
+        """SELECT s.id AS session_id,s.starts_at,g.name AS group_name,e.transaction_id,
+                  coalesce(u.name,u.id::text) AS student_name,l.amount_minor
+             FROM academy_session_teachers t JOIN academy_sessions s ON s.id=t.session_id
+             JOIN academy_groups g ON g.id=s.group_id
+             JOIN academy_attendance a ON a.session_id=s.id AND a.status IN ('present','late')
+             JOIN users u ON u.id=a.student_user_id
+             JOIN finance_journal_entries e ON e.student_user_id=a.student_user_id
+             JOIN finance_journal_lines l ON l.entry_id=e.id AND l.direction='credit'
+             JOIN finance_accounts account ON account.id=l.account_id AND account.code='tuition_revenue'
+            WHERE t.teacher_user_id=$1 AND s.status='held' AND e.period_key=$2
+              AND e.source_type='revenue_recognition'
+              AND s.starts_at >= ($3::date::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.starts_at < (($4::date+1)::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND NOT EXISTS (SELECT 1 FROM academy_payroll_revenue r WHERE r.journal_transaction_id=e.transaction_id)
+              AND EXISTS (SELECT 1 FROM academy_payroll_rules r
+                   WHERE r.teacher_user_id=t.teacher_user_id AND r.revenue_bps>0
+                     AND (s.starts_at AT TIME ZONE 'Asia/Tashkent')::date >= r.starts_on
+                     AND (r.ends_on IS NULL OR (s.starts_at AT TIME ZONE 'Asia/Tashkent')::date<=r.ends_on))
+            ORDER BY s.starts_at,s.id,e.occurred_at,e.transaction_id LIMIT 101""",
+        request.teacherUserId, request.periodKey, start, end)
+    return {'options': [dict(row) for row in rows[:100]], 'hasMore': len(rows)>100}
+
+
 async def position(conn: Connection, run: Record) -> dict:
     rows = await conn.fetch(
         'SELECT * FROM academy_payroll_events WHERE run_id=$1 ORDER BY created_at,id', run['id'])

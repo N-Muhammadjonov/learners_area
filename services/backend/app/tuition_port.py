@@ -621,22 +621,20 @@ async def recognize_revenue(req: Request):
     user, denied = await actor(req, WRITE_ROLES)
     if denied:
         return denied
-    body = await payload(req)
-    if body is None:
-        return err('invalid_payload')
-    student_id = uuid_val(body.get('studentUserId'))
-    if not student_id or not isinstance(body.get('amountMinor'), int):
-        return err('invalid_payload')
+    try:
+        body = typed(schemas.RevenueRecognition, await payload(req))
+    except ValidationError as exc:
+        return invalid(exc)
     limited = await _write_gate(req, user)
     if limited:
         return limited
     db = await core.pool()
     async with db.acquire() as conn, conn.transaction():
         try:
-            result = await ledger.recognize_revenue(
-                conn, actor_user_id=user['id'], student_user_id=student_id,
-                amount_minor=body['amountMinor'], period=body.get('periodKey'),
-                memo=str(body.get('memo') or '')[:200] or None)
+            result, _ = await _retryable_document(
+                conn, user['id'], 'recognize_revenue', body, lambda: ledger.recognize_revenue(
+                    conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
+                    amount_minor=body.amountMinor, period=body.periodKey, memo=body.memo))
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, **result}, headers=PRIVATE)
@@ -793,6 +791,12 @@ async def payroll_teachers(req: Request):
     async with db.acquire() as conn:
         rows = await payroll.teacher_choices(conn, query)
     return core.j({'options': rows}, headers=PRIVATE)
+
+
+@router.get('/api/staff/finance/payroll/revenue')
+async def payroll_revenue_options(req: Request):
+    return await payroll_response(req, MONEY_READ_ROLES, payroll.RunRequest,
+                                  lambda conn, _, command: payroll.revenue_options(conn, command), read=True)
 
 
 @router.post('/api/staff/finance/payroll/rules')

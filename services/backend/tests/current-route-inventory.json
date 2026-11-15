@@ -1740,6 +1740,11 @@
   "name": "payroll_finalize"
  },
  {
+  "method": "GET",
+  "path": "/api/staff/finance/payroll/revenue",
+  "name": "payroll_revenue_options"
+ },
+ {
   "method": "POST",
   "path": "/api/staff/finance/payroll/revenue",
   "name": "payroll_assign_revenue"

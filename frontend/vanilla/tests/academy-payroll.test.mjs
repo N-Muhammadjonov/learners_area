@@ -51,3 +51,25 @@ test('admin may view finalized payroll without changing accounting records',asyn
   assert.equal(h.qa('form').length,2);
  }finally{h.dispose();}
 });
+
+test('owner can assign eligible journal revenue from the held class and student picker',async()=>{
+ const h=setup({role:'owner'});
+ const source={session_id:ID(5),transaction_id:ID(6),starts_at:'2026-10-02T11:00:00Z',
+  group_name:'Morning IELTS',student_name:'Test Student',amount_minor:400000};
+ h.stub({
+  [api+'/teachers']:{options:[{id:teacher,label:'Test Teacher'}]},
+  [api]:{...data,rules:[{id:ID(4),starts_on:'2026-10-01',ends_on:null,
+   monthly_minor:0,session_minor:0,hourly_minor:0,revenue_bps:1200}]},
+  [api+'/revenue']:(_path,config)=>config.method==='POST'?{}:{options:[source],hasMore:false},
+ });
+ try{
+  const panel=await selectTeacher(h);
+  h.click(h.qa('button').find(n=>n.textContent==='Load eligible revenue'));await tick();
+  assert.match(panel.textContent,/Morning IELTS.*Test Student.*400,000 UZS/);
+  const assign=h.qa('button').find(n=>n.textContent==='Assign recognized revenue').form;
+  assign.querySelector('input[type=checkbox]').checked=true;
+  h.submit(assign);await tick();
+  const call=h.calls.find(item=>item.method==='POST');
+  assert.deepEqual(call.body,{teacherUserId:teacher,sessionId:ID(5),journalTransactionId:ID(6)});
+ }finally{h.dispose();}
+});

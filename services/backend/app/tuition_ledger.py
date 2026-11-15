@@ -1216,6 +1216,10 @@ async def recognize_revenue(conn, *, actor_user_id, student_user_id, amount_mino
     amount = _minor(amount_minor)
     _require(amount > 0, 'amount_must_be_positive')
     target_period = period or period_key(datetime.now(timezone.utc))
+    await conn.execute("SELECT 1 FROM users WHERE id=$1 AND role='student' FOR NO KEY UPDATE",
+                       student_user_id)
+    await _student_exists(conn, student_user_id)
+    await _lock_period(conn, target_period)
     await _assert_period_open(conn, target_period)
     deferred = await conn.fetchval(
         '''SELECT coalesce(sum(amount_minor) FILTER (WHERE direction='credit'),0)
@@ -1232,6 +1236,9 @@ async def recognize_revenue(conn, *, actor_user_id, student_user_id, amount_mino
         student_user_id=student_user_id, actor_user_id=actor_user_id,
         memo=memo or f'Tuition revenue recognised {target_period}', period=target_period,
         lines=[('deferred_tuition_revenue', 'debit', amount), ('tuition_revenue', 'credit', amount)])
+    await _audit(conn, actor_user_id=actor_user_id, action='revenue_recognized',
+                 subject_type='tuition_revenue', subject_id=document_id, period=target_period,
+                 amount_minor=amount, detail={'studentUserId': student_user_id})
     return {'documentId': str(document_id), 'transactionId': str(transaction_id),
             'amountMinor': amount, 'periodKey': target_period}
 
