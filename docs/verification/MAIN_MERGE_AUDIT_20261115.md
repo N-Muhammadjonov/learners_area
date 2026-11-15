@@ -30,6 +30,7 @@ Main’ga kod birlashtirish yangi modulning production’da ishlashini isbotlama
 | A-06 | TypeScript’da o‘chirilgan React komponent turlariga import, yo‘q overlay turi va takror `startedAt` bo‘lgan | Mavjud domen turlari, aniq overlay va Listening savol DTO; takror maydon olib tashlandi; `npm run typecheck` |
 | A-07 | RIWI katalogi manba xeshlariga mos kelmagan | Generator qayta ishlatildi: 144 route / 571 source; katalog drift tekshiruvi CI’da saqlangan |
 | A-08 | Capability matrix tarixiy “yo‘q”/“test yiqiladi” gaplarini joriy holat qilib ko‘rsatgan | Qatorlar kod va receipts bilan yangilandi; risk va priority ustunlari 15 ustunli kontraktga keltirildi |
+| A-09 | Faqat main’da ishlagan CEFR workflow’i o‘chirilgan inline landingni `node --check` bilan ochgan | Joriy landing page/runtime/markup tekshiriladi; ayni gate endi PR’da ham ishlaydi; scoring va UI assertionlari saqlangan |
 
 Yangi FastAPI 0.163.1 router inventari shaklini o‘zgartirgani uchun nomzod sifatida rad etildi.
 Inventar assertionlari qisqartirilmadi. Xavfsizlik tuzatishlari bilan mos kelgan 0.136.3 tanlandi.
@@ -157,3 +158,9 @@ Ushbu receipt commit’i faqat dalil/hujjatni yangilaydi; bajariladigan kod va d
 - [Rollup path traversal advisory](https://github.com/rollup/rollup/security/advisories/GHSA-mw96-cpmx-2vgc)
 - [Zod 4 migration guide](https://zod.dev/v4/changelog)
 - [Zod v3 collection-limit issue](https://github.com/colinhacks/zod/issues/6653): paket versiyasini almashtirib `/v3`da qolish haqiqiy tuzatish emas.
+
+## Main’dan keyingi workflow tekshiruvi
+
+`f1398961` merge’i Railway’da `0a4cfa3e-9234-4d32-91a2-ba05e9ce216a` deploymenti bilan SUCCESS bo‘ldi. Bu yangi modullar yoki real providerlarning E2E qabulini anglatmaydi.
+
+Main-only CEFR [43722184851](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43722184851) runida backend scoring/audio gate o‘tdi, frontend sintaksis qadami eski `landing-inline.js` manzili tufayli yiqildi. Joriy landing manzillari bilan sintaksis va ikki focused UI fayli lokal o‘tdi. `cefr-diagnostic.yml` endi ayni path-filter bilan `pull_request`da ham bajariladi; shunday qilib bu xato merge oldida ushlanadi. Ushbu keyingi tuzatish bajariladigan ilova kodini yoki dependency locklarini o‘zgartirmaydi.
