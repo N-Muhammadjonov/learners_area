@@ -1,6 +1,6 @@
 # Xaridor uchun demo va handover
 
-**Branch:** `arena/c9f21950-learners-area` · **Sana:** 2026-11-14
+**Branch:** `arena/c9f21950-learners-area` · **Sana:** 2026-11-15
 
 > Bu hujjat owner/xaridor uchun. Texnik tafsilotlar uchun `docs/architecture/` va
 > `docs/verification/` ga qarang. Egadan talab qilinadigan barcha qo'lda bajariladigan
@@ -18,7 +18,11 @@ Ajratilgan muhitda egasi, moliya admini, o‘qituvchi, o‘quvchi va ota-ona his
 6. O‘quvchi ota-ona bog‘lanishini tasdiqlaydi. Ota-ona o‘z farzandining natijasini ko‘radi. Boshqa farzandga ruxsat berilmaydi. Telegram javobini yuboruvchi o‘qituvchiga qaytarish lokal ishchi sinovida tasdiqlangan.
 7. `Academy finance → Teacher payroll` da tasdiqlangan davr ish haqini hisoblang. Qoldiq, tuzatish va tasdiqlangan bank chiqimini tekshiring.
 
-Ushbu amallar tegishli lokal testlarda tasdiqlangan. Rescue Queue, Capacity & Revenue Explorer, to‘liq tiklash va real parallel yuk dalillari kutilmoqda. Xaridor yakuniy demo sessiyasida ularni bitta stsenariy bo‘yicha o‘tkazing. [Dalillar](../verification/SALE_READY_ACCEPTANCE.md)
+8. `Management → Learner support` da davomat dalilini oching, ishni qabul qiling, hal qiling va audit tarixini tekshiring.
+9. `Management → Capacity and revenue explorer` da bitta dars va bitta to‘lov davriga uchta ssenariy hisoblang. Akademiya moliyasi va taxminiy tushumni solishtiring.
+10. PostgreSQL arxivi va sintetik media zaxirasini yangi ajratilgan muhitga tiklang. Jurnal, rollar va media manzillarini tekshiring.
+
+Bitta sintetik PostgreSQL/ASGI ssenariysida nomzod → trial → guruh → davomat → 800 000 so‘m kontrakt → 200 000 chegirma → 250 000 kvitansiya → 350 000 qarz → Writing → ota-ona → o‘qituvchi inbox’i → payroll → CSV va balans tekshirildi. Ish haqi bosqichi yopilgan oy chegarasini sinov soati bilan o‘tkazadi. Rescue va Capacity uchun Chromium, tiklash va yuk uchun alohida dalillar mavjud. Jonli xaridor sessiyasi, haqiqiy audio, STT, WebRTC, Telegram va merchant tasdiqlari ochiq. [Qabul dalillari](../verification/SALE_READY_ACCEPTANCE.md) · [Yuk va tiklash](../verification/CAPACITY_AND_RECOVERY.md)
 
 ## 2. Tashqi tasdiq va qolgan ishlar
 
@@ -28,7 +32,7 @@ Ushbu amallar tegishli lokal testlarda tasdiqlangan. Rescue Queue, Capacity & Re
 | Click/Payme | Imzolangan sandbox ishlaydi. Jonli merchant tasdig‘i kutilmoqda. |
 | Telegram, audio, STT va WebRTC | Jonli mijoz va qurilma sinovlari alohida bajariladi. |
 | Xaridor ma’lumotlari | Hisoblar katalogi import qilinadi. Guruh tarixi va ochilish qoldiqlari uchun manba xaritasi hamda hisob siyosati tasdiqlanadi. |
-| Production va tiklash | Kontentli upgrade, to‘liq restore, monitoring va real yuk dalillari kutilmoqda. |
+| Production va tiklash | Lokal PostgreSQL va S3 emulyatori tiklandi. Staging kontentli upgrade, jonli R2, monitoring va aralash yuk ochiq. |
 
 ## 3. Uch paket (tadqiqot diapazonlari — **va'da emas**)
 
@@ -82,12 +86,6 @@ kechikishi), va oxirida imzolangan qabul hujjati.
 - [ ] IP/litsenziya shartnomasi imzolandi (MA-12)
 - [ ] Hech qanday yetkazib beruvchi secret'i qolmadi
 
-## 7. Halol yakuniy gap
+## 7. Joriy qabul holati
 
-Hozirgi holat: **o'quv platformasi kuchli, moliya umurtqasi qurildi va testlandi, operatsion
-qatlam (guruhlar, davomat va import) lokal sinovdan o‘tdi. Production dalili kutilmoqda.**
-
-Shuning uchun "hammasi tayyor" deyish **mumkin emas**. To'g'ri gap:
-> "IELTS o'quv qismi ishlaydi; to'lov/qarzdorlik/jurnal qismi haqiqiy PostgreSQL'da
-> invariant testlar bilan isbotlandi; production deploy, live provayderlar va zaxira
-> tiklash owner harakatlarini kutmoqda; guruhlar va davomat — keyingi bosqich."
+Ajratilgan PostgreSQL’dagi moliya va o‘quv jarayoni isbotlari hamda lokal tiklash tayyor. 10 000 o‘quvchili baza bilan 50 parallel so‘rov darajasida p95 295,36 ms chiqdi. Keyingi darajalarda 503 davom etdi. Xaridor sessiyasi, staging yuklamasi va jonli integratsiyalar uchun tasdiq dalillari kerak.

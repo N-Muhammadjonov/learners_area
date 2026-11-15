@@ -296,8 +296,16 @@
       ]
     },
     "F": {
-      "status": "pending",
-      "next": "Run the integrated buyer demo and collect actual receipts."
+      "status": "partial",
+      "next": "Run a single browser buyer rehearsal with all modules, including authorized live integrations in isolated staging.",
+      "verified": [
+        "A connected PostgreSQL and ASGI synthetic lead, trial, roster, attendance, finance, Writing, guardian reply, payroll and CSV journey",
+        "Separate Chromium Rescue and Capacity proof, practice-flow tests, sandbox payment callbacks and a synthetic restore drill"
+      ],
+      "remaining": [
+        "Cross-module browser rehearsal, real audio and Telegram, merchant and staging acceptance",
+        "Customer pilot, measured task times and handover sign-off"
+      ]
     }
   },
   "manual_actions": "docs/SALE_READY_MANUAL_ACTIONS.md",

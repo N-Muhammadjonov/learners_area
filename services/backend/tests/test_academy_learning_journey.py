@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import csv
 import json
 import os
 from datetime import datetime, timedelta
@@ -16,7 +17,7 @@ import pytest
 import pytest_asyncio
 
 from _finance_schema import DSN
-from app import main
+from app import academy_payroll, academy_sessions, main
 from app.academy_groups import today
 from app.db import initialize_connection
 from app.security import SESSION_COOKIE, issue_token
@@ -105,9 +106,10 @@ async def bot_post(client, path, payload, expected=200):
 
 
 @pytest.mark.asyncio
-async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey):
+async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey, monkeypatch):
     conn,client=journey
     owner=await create_actor(conn,'Centre Owner','owner')
+    admin=await create_actor(conn,'Finance Admin','admin')
     teacher=await create_actor(conn,'Assigned Teacher','teacher','800002')
     outsider=await create_actor(conn,'Unassigned Teacher','teacher')
     learner=await create_actor(conn,'Writing Learner','student')
@@ -119,23 +121,72 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey)
           'startsOn':str(today()-timedelta(days=3)),'status':'active'}
     group=await request(client,owner,'POST',API+'/groups',201,json=body)
     path=API+'/groups/'+group['id']
-    await request(client,owner,'POST',path+'/memberships',201,json={'studentId':str(learner['id'])})
+    lead_id = str(uuid4())
+    lead_route = API+'/leads/'+lead_id
+    fields = {'name':'Synthetic IELTS applicant', 'email':'applicant@example.test', 'source':'Website',
+              'courseId':str(course), 'assignedTo':str(admin['id'])}
+    created = await request(client,admin,'POST',API+'/leads',201,json={**fields,'id':lead_id})
+    assert created['stage'] == 'new'
+    trial_at = (datetime.now(ZoneInfo('Asia/Tashkent'))-timedelta(minutes=10)).isoformat()
+    for revision, stage in enumerate(('contacted','trial_scheduled','trial_completed'), 1):
+        await request(client, admin, 'PUT', lead_route, json={
+            **fields, 'stage':stage, 'revision':revision,
+            **({'trialAt':trial_at} if stage != 'contacted' else {}),
+        })
+    enrolled = await request(client,admin,'POST',lead_route+'/convert',json={
+        'revision':4,'groupId':group['id'],'studentId':str(learner['id']),
+    })
+    assert enrolled['stage'] == 'enrolled' and enrolled['student_user_id'] == str(learner['id'])
     # This deliberate opt-in is the site's existing independent teaching authority.
     await request(client,owner,'POST','/api/admin/roster',303,
                   data={'action':'assign','teacherId':str(teacher['id']),'studentId':str(learner['id'])})
-    today_date=today()
-    now_tashkent=datetime.now(ZoneInfo('Asia/Tashkent'))
-    lesson_day=today_date if now_tashkent.hour>=2 else today_date-timedelta(days=1)
-    if lesson_day!=today_date:
-        await conn.execute('UPDATE academy_group_memberships SET starts_on=$1,activated_on=$1',lesson_day)
-    book={'seriesId':str(uuid4()),'room':'101','localDate':str(lesson_day),
-          'localStart':'00:00','durationMinutes':15}
-    lessons=await request(client,owner,'POST',path+'/sessions',201,json=book)
-    lesson=path+'/sessions/'+lessons['sessions'][0]['id']
-    await request(client,owner,'PUT',lesson,json={'status':'held','revision':1})
+    today_date = today()
+    lesson_day = today_date
+    book = {'seriesId':str(uuid4()), 'room':'101', 'localDate':str(lesson_day),
+            'localStart':'00:00', 'durationMinutes':15}
+    lessons = await request(client,owner,'POST',path+'/sessions',201,json=book)
+    lesson = path+'/sessions/'+lessons['sessions'][0]['id']
+
+    class HeldLessonClock(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return datetime(lesson_day.year, lesson_day.month, lesson_day.day, 0, 16, tzinfo=tz)
+
+    with monkeypatch.context() as clock:
+        clock.setattr(academy_sessions,'datetime',HeldLessonClock)
+        await request(client,owner,'PUT',lesson,json={'status':'held','revision':1})
     await request(client,outsider,'GET',lesson+'/attendance',403)
     await request(client,teacher,'PUT',lesson+'/attendance',json={
         'id':str(uuid4()),'marks':[{'studentId':str(learner['id']),'revision':1,'status':'present'}]})
+
+    finance = '/api/staff/finance'
+    learner_id = str(learner['id'])
+    period = today_date.strftime('%Y-%m')
+    contract = (await request(client,admin,'POST',finance+'/contracts',json={
+        'studentUserId':learner_id,'courseId':str(course),
+        'monthlyAmountMinor':800000,'startsOn':str(today_date),
+    }))['contract']
+    contract_path = finance+'/contracts/'+contract['id']
+    await request(client,owner,'POST',contract_path+'/approve')
+    await request(client,admin,'POST',contract_path+'/activate')
+    await request(client,owner,'POST',contract_path+'/discounts',json={
+        'periodKey':period,'amountMinor':200000,'reason':'Approved pilot discount',
+    })
+    created_charge = (await request(client,admin,'POST',contract_path+'/installment',json={
+        'periodKey':period,'dueDate':str(today_date),
+    }))['charge']
+    charge_path = finance+'/charges/'+created_charge['id']
+    await request(client,owner,'POST',charge_path+'/approve')
+    await request(client,admin,'POST',charge_path+'/post')
+    receipt_body = {'studentUserId':learner_id,'amountMinor':250000,'method':'cash',
+                    'idempotencyKey':str(uuid4())}
+    receipt = await request(client,admin,'POST',finance+'/payments',json=receipt_body)
+    repeated_receipt = await request(client,admin,'POST',finance+'/payments',json=receipt_body)
+    assert receipt['payment']['id'] == repeated_receipt['payment']['id']
+    assert await conn.fetchval('SELECT count(*) FROM tuition_payments WHERE student_user_id=$1',learner['id']) == 1
+    summary = await request(client,owner,'GET',finance+'/summary')
+    assert summary['outstandingReceivableMinor'] == 350000 and summary['collectedCashMinor'] == 250000
+    await request(client,teacher,'GET',finance+'/summary',403)
 
     prompt=await conn.fetchval("""INSERT INTO writing_prompts(task_type,category,prompt,target_word_count,publication_state)
         VALUES('task2','Opinion','Should cities invest in public transportation?',250,'published') RETURNING id""")
@@ -226,6 +277,40 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey)
     await request(client,parent,'GET',child+'/progress',403,params={'region':'progressSummary'})
     await request(client,parent,'GET',child+'/journey',403)
     await bot_post(client,'/replies',{**answer,'incomingMessageId':'9102'},409)
+
+    payroll = finance+'/payroll'
+    payroll_period = lesson_day.strftime('%Y-%m')
+    await request(client,owner,'POST',payroll+'/rules',json={
+        'commandId':str(uuid4()),'teacherUserId':str(teacher['id']),
+        'startsOn':str(lesson_day),'sessionMinor':100000,
+    })
+    parameters = {'teacherUserId':str(teacher['id']),'periodKey':payroll_period}
+    estimate = await request(client,owner,'GET',payroll,params=parameters)
+    assert estimate['estimate']['amountMinor'] == 100000
+    finalization = {
+        **parameters,'expectedAmountMinor':100000,'expectedCalculation':estimate['calculationHash'],
+    }
+    await request(client,owner,'POST',payroll+'/finalize',409,json=finalization)
+    next_period = (lesson_day.replace(day=28)+timedelta(days=4)).replace(day=1)
+
+    class ClosedPeriodClock(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return datetime(next_period.year,next_period.month,1,12,tzinfo=tz)
+
+    with monkeypatch.context() as clock:
+        clock.setattr(academy_payroll,'datetime',ClosedPeriodClock)
+        finalized = await request(client,owner,'POST',payroll+'/finalize',json=finalization)
+    assert finalized['accruedMinor'] == 100000
+    exported = await request(client,owner,'GET',finance+'/journal.csv',params={'period':period})
+    assert exported.headers['content-type'].startswith('text/csv')
+    lines = list(csv.DictReader(exported.text.splitlines()))
+    assert sum(int(line['amount_minor']) for line in lines if line['direction']=='debit') == sum(
+        int(line['amount_minor']) for line in lines if line['direction']=='credit'
+    )
+    assert any(line['source_id']==receipt['payment']['id'] for line in lines)
+    checks = await request(client,owner,'GET',finance+'/reconciliation')
+    assert checks['journal']['balanced'] and checks['summary']['ok']
 
 
 @pytest.mark.asyncio

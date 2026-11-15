@@ -132,7 +132,7 @@ the finance routes.
 |---|---|---|
 | Normal API read p95 | ≤ 300 ms | 295,36 ms at 50 local concurrent requests. Higher levels missed the target. |
 | API write p95 (attendance/attempt/finance) | ≤ 500 ms | not measured |
-| Server-side error rate | < 0.5% | not measured |
+| Server-side error rate | < 0.5% | 0% at 50 local concurrent requests. 100–1,000 missed the target. |
 | LCP / INP / CLS | ≤ 2.5 s / ≤ 200 ms / ≤ 0.1 | not measured |
 | Availability | ≥ 99.9% monthly | no monitoring yet |
 | Duplicate charges / lost saves / cross-role leaks | **0** | **enforced by tests**: 100 duplicate callbacks ⇒ 1 payment; 20-way race ⇒ 1 payment; 26 authorization tests |
