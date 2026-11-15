@@ -316,12 +316,12 @@ function updateJourney(){
   if(desertVideo.paused)desertVideo.play().catch(()=>{});
  }else if(!desertVideo.paused){desertVideo.pause();}
 }
-function queueJourney(){if(!journeyFrame)journeyFrame=requestAnimationFrame(updateJourney)}
+function queueJourney(){if(signal.aborted)return;if(!journeyFrame)journeyFrame=requestAnimationFrame(updateJourney)}
 onWindow('scroll',queueJourney,{passive:true});
 onWindow('resize',queueJourney,{passive:true});
 onWindow('pageshow',queueJourney);
-if(window.visualViewport)visualViewport.addEventListener('resize',queueJourney,{passive:true});
-if(document.fonts?.ready)document.fonts.ready.then(queueJourney).catch(()=>{});
+if(window.visualViewport)visualViewport.addEventListener('resize',queueJourney,{passive:true,signal});
+if(document.fonts?.ready)document.fonts.ready.then(()=>{if(!signal.aborted)queueJourney()}).catch(()=>{});
 if(window.ResizeObserver){
  const watch=new ResizeObserver(queueJourney);
  signal.addEventListener('abort',()=>watch.disconnect(),{once:true});
