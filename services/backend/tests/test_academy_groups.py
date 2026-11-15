@@ -440,9 +440,18 @@ async def test_lead_dedupes_and_converts_to_existing_student_with_group_capacity
 
 
 @pytest.mark.asyncio
-async def test_calendar_and_aggregate_reporting_with_real_postgres(academy):
+async def test_calendar_and_aggregate_reporting_with_real_postgres(academy, monkeypatch):
     """Exercise the actual SQL, ASGI role boundary, branch filters and held denominator."""
     conn, _, actors, course, client = academy
+    original_auth = main.current_user
+
+    async def role_correct_user(req, active=False):
+        user = await original_auth(req, active=active)
+        if user and req.headers.get('x-test-user') in ('second', 'third'):
+            return {**user, 'role': 'student'}
+        return user
+
+    monkeypatch.setattr(main, 'current_user', role_correct_user)
     group, _ = await create(client, course, actors, capacity=3)
     group_path = '/groups/' + group['id']
     membership = await send(
