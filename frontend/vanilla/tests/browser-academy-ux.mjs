@@ -25,7 +25,6 @@ try {
    const response=await page.goto(origin+path);
    assert.equal(response.status(),200);
    await page.waitForLoadState('networkidle');
-   await page.locator('main').waitFor();
    const filename=`${role}-${theme}-${width}.png`;
    await page.screenshot({path:resolve(directory,filename),fullPage:true});
    const metrics=await page.evaluate(()=>({title:document.querySelector('main h1')?.textContent,
@@ -36,7 +35,7 @@ try {
     const data=await (await context.request.get(origin+'/api/finance/me')).json();
     assert.equal(data.position.balanceDueMinor,800000);
    }
-   results.push({role,theme,width,path,screenshot:filename,errors,...metrics});
+   results.push({role,theme,width,path,actualPath:new URL(page.url()).pathname,screenshot:filename,errors,...metrics});
    await context.close();
   }
  }
