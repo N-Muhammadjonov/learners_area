@@ -8,7 +8,7 @@ export async function mountLanding({root,signal,navigate}){
  style.rel='stylesheet';style.href='/modules/landing-stage.css';
  style.dataset.landingStyles='';
  const font=document.createElement('link');
- font.rel='stylesheet';font.href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&display=swap';
+ font.rel='stylesheet';font.href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Grand+Hotel&display=swap';
  font.dataset.landingFont='';
  document.head.append(style,font);
  const container=document.createElement('div');

@@ -925,21 +925,27 @@ body.intro-inverted .intro-brandline{
 }
 body.intro-inverted .intro-brandline-top{
  top:clamp(76px,11vh,142px);
- font-size:clamp(18px,2.4vw,34px);
- font-weight:750;letter-spacing:.21em;line-height:1.25;
- color:#f7fbff;
+ font-size:clamp(30px,4.2vw,66px);
+ font-weight:850;letter-spacing:.035em;line-height:1.16;
+ color:#ffab43;
+ background:linear-gradient(108deg,#ffe2a0 0%,#ffb344 30%,#ff7b30 64%,#fa4129 100%);
+ -webkit-background-clip:text;background-clip:text;
+ -webkit-text-fill-color:transparent;
+ filter:drop-shadow(0 4px 17px rgba(241,91,28,.32));
 }
 body.intro-inverted .intro-brandline-top strong{
- font-weight:850;
- background:linear-gradient(112deg,#39efe0 0%,#44cfe9 38%,#528eff 100%);
+ font-weight:900;
+ background:linear-gradient(105deg,#ffd76b 0%,#ff9231 55%,#fa4825 100%);
  -webkit-background-clip:text;background-clip:text;
  -webkit-text-fill-color:transparent;
 }
 body.intro-inverted .intro-brandline-bottom{
  bottom:clamp(94px,13.3vh,158px);
- font-size:clamp(12px,1.38vw,18px);
- font-weight:750;letter-spacing:.43em;line-height:1.45;
- color:#d7e6f7;
+ font-family:"Grand Hotel","Brush Script MT",cursive;
+ font-size:clamp(40px,3.9vw,66px);
+ font-weight:400;letter-spacing:.005em;line-height:1.28;
+ color:#f7f8ff;
+ text-shadow:0 3px 25px rgba(5,15,42,.75),0 1px 4px rgba(0,0,0,.5);
 }
 /* The hero CTA must size to the entire text plus the arrow, never to a legacy circle span. */
 body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o){
@@ -1019,12 +1025,12 @@ body.intro-inverted .reversed-finale .band-story-main p:not(.ey){
 }
 @media(max-width:740px){
  body.intro-inverted .intro-brandline-top{
-  top:clamp(83px,13vh,116px);font-size:clamp(17px,4.8vw,24px);
-  letter-spacing:.14em;
+  top:clamp(83px,13vh,116px);
+  font-size:clamp(26px,7vw,38px);letter-spacing:.025em;
  }
  body.intro-inverted .intro-brandline-bottom{
   bottom:clamp(98px,16vh,135px);
-  font-size:clamp(11px,2.8vw,14px);letter-spacing:.28em;
+  font-size:clamp(34px,9vw,47px);letter-spacing:0;
  }
  body.intro-inverted .big-band{top:52.5%!important}
  body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o){
@@ -1037,7 +1043,7 @@ body.intro-inverted .reversed-finale .band-story-main p:not(.ey){
  }
 }
 @media(max-width:350px){
- body.intro-inverted .intro-brandline-top{letter-spacing:.1em}
+ body.intro-inverted .intro-brandline-top{font-size:25px;letter-spacing:0}
  body.intro-inverted .cinematic-hero-flow .hero .rv>a.la-roll-button.hc:not(.o){
   min-width:min(280px,calc(100vw - 28px))!important;
   padding-left:13px!important;

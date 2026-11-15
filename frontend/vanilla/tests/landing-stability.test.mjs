@@ -36,6 +36,11 @@ test('cinematic typography, button widths and glass panels are maintained',()=>{
  assert(css.includes('body.intro-inverted::after{content:none!important'));
  assert(css.includes('intro-brandline-top'));
  assert(css.includes('intro-brandline-bottom'));
+ assert(css.includes('font-size:clamp(30px,4.2vw,66px)'));
+ assert(css.includes('background:linear-gradient(108deg,#ffe2a0'));
+ assert(css.includes('font-family:"Grand Hotel","Brush Script MT",cursive'));
+ const landingEntry=read('../modules/landing-page.js');
+ assert(landingEntry.includes('family=Grand+Hotel'));
  assert(css.includes('min-width:295px!important'));
  assert(css.includes('body.intro-inverted #imkon .sh>p:not(.ey){'));
  assert(css.includes('backdrop-filter:blur(20px)'));
