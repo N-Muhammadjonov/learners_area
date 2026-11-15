@@ -500,7 +500,22 @@ async def handle_riwi_chat(
                             "version": int(u["version"]),
                         }
                         for u in knowledge_units[:4]
-                    ],
+                    ] + ([{
+                        "ref": "K5",
+                        "text": (
+                            "Learners Area Writing > Activation Lab is a vocabulary usage exercise. "
+                            "The learner chooses a target word or phrase and writes a complete English sentence using it. "
+                            "For the 'upgrade a simple sentence' mode, the original/simple sentence may omit the target phrase; "
+                            "the improved sentence must contain the complete target phrase and use it naturally. "
+                            "Example target 'performing arts': original 'I enjoy creative hobbies.'; "
+                            "improved 'I enjoy performing arts because theatre and dance help me express ideas.' "
+                            "In normal mode there is only one learner sentence. "
+                            "The system checks the target phrase before AI assessment. "
+                            "Feedback is an educational estimate, not an official IELTS grade."
+                        ),
+                        "authority": 90,
+                        "version": 1,
+                    }] if "activation lab" in message.casefold() else []),
                 },
                 correlation_id=correlation_id,
                 transport=external_runner,
