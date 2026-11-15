@@ -1,5 +1,18 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15 — learners-area-next va joriy main auditi
+
+[To‘liq prompt bo‘yicha hukm va dalil](MAIN_MERGE_AUDIT_20261115.md). Lokal backend
+7 502 test + 287 subtest, frontend 1 816 test o‘tdi; 0 fail. 11 mavjud frontend
+legacy-fixture skip ochiq qayd etildi. Bot 92, signalling 7, Worker kontrakti 101,
+Zod security 3 va migration contract 4 o‘tdi. TypeScript exit 0.
+
+Support aliasi, CEFR bank validatori, eski landingga bog‘liq test, TypeScript turlari,
+xavfsizlik dependency’lari va RIWI katalogi tuzatildi. Main’dagi yangi landing saqlandi.
+Prompt to‘liq bajarilgan deb baholanmaydi: vendor adapter, yuqori parallel yuk,
+jonli integratsiya/pilot, ASVS va content/cost dalillari ochiq. Ularning tafsiloti
+auditda; tashqi harakatlar faqat yagona manual-actions faylida.
+
 ## 2026-11-15, Toshkent — Main uchun release tekshiruvi
 
 - Eski PostgreSQL sxemasida mavjud sessiya endpointlari ishladi. Academy va Tuition boshqariladigan muhitda `ACADEMY_FEATURES_ENABLED=1` berilgandan keyin ochiladi. O‘chiq holatda yangi API 404 qaytaradi va yangi sahifalar Management’ga yo‘naltiriladi.

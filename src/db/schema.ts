@@ -23,6 +23,25 @@ import {
 import { sql } from "drizzle-orm";
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
 
+export type AssessmentOwnerOverlay = Partial<{
+  feedbackStyle: "concise" | "balanced" | "step_by_step";
+  explanationDepth: "simple" | "standard" | "detailed";
+  learnerTone: "encouraging" | "direct" | "coach_explanatory";
+  maxStrengths: number;
+  maxWeaknesses: number;
+  maxNextActions: number;
+  exampleCount: number;
+  useMiniIllustrations: boolean;
+  prioritizeBandLimitingIssues: boolean;
+  evidenceRequired: boolean;
+  includeCorrections: boolean;
+  includeReusableRule: boolean;
+  showPerAnswerScore: boolean;
+  topicSummary: boolean;
+  topicSummaryMaxWeaknesses: number;
+  feedbackUnit: "per_answer" | "per_topic";
+}>;
+
 // ---------------------------------------------------------------------------
 // Enums
 // ---------------------------------------------------------------------------
@@ -1608,7 +1627,6 @@ export const speakingAttempts = pgTable("speaking_attempts", {
   recordingSha256: varchar("recording_sha256", { length: 64 }),
   evaluationClaimToken: uuid("evaluation_claim_token"),
   evaluationClaimExpiresAt: timestamp("evaluation_claim_expires_at", { withTimezone: true }),
-  startedAt: timestamp("started_at", { withTimezone: true }).defaultNow().notNull(),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
 });

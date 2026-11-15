@@ -11,7 +11,7 @@ import { z } from "zod";
  * route and the importer, and a copy per route is how those three drift apart.
  */
 
-const scoringStructureField = z.union([z.string().max(200_000), z.record(z.unknown())]);
+const scoringStructureField = z.union([z.string().max(200_000), z.record(z.string(), z.unknown())]);
 
 export const createRetentionTextSchema = z.object({
   level: z.string().min(1).max(4),

@@ -1,4 +1,4 @@
-import type { GameSetKey } from "@/components/vocabulary/types";
+import type { GameSetKey } from "./engine";
 
 export const GAME_IDS = ["cards", "choice", "match", "gap", "race", "translation", "builder"] as const;
 export type GameId = (typeof GAME_IDS)[number];

@@ -24,7 +24,9 @@
     "test:integration": "node --import tsx scripts/verify-vanilla-fastapi.mjs",
     "build:browser": "node scripts/bundle_browser.mjs",
     "test:bundles": "node --test scripts/tests/browser-bundles.test.mjs",
-    "test:migrations": "node --test scripts/tests/migration-contract.test.mjs"
+    "test:migrations": "node --test scripts/tests/migration-contract.test.mjs",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test:validation": "node --conditions=react-server --import tsx --test scripts/tests/validation-security.test.mjs"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1136.0",
@@ -32,7 +34,7 @@
     "@pdf-lib/fontkit": "^1.1.1",
     "bcryptjs": "2.4.3",
     "drizzle-orm": "^0.45.3",
-    "fflate": "0.8.2",
+    "fflate": "0.8.3",
     "jose": "5.9.6",
     "nanoid": "6.0.1",
     "pdf-lib": "^1.17.1",
@@ -40,7 +42,7 @@
     "pg": "8.13.1",
     "sanitize-html": "^2.18.0",
     "server-only": "^0.0.1",
-    "zod": "3.23.8",
+    "zod": "4.6.7",
     "@electric-sql/pglite": "^0.5.8",
     "@types/bcryptjs": "2.4.6",
     "@types/jsdom": "^30.0.0",
@@ -55,6 +57,6 @@
     "tailwindcss": "3.4.14",
     "tsx": "^4.23.15",
     "typescript": "5.6.3",
-    "rollup": "4.52.5"
+    "rollup": "4.68.3"
   }
 }

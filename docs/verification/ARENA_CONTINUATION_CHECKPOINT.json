@@ -1,8 +1,8 @@
 {
-  "branch": "arena/c9f21950-learners-area",
+  "branch": "audit/learners-area-next-main-20261115",
   "pr": 189,
-  "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "ade6227be1954e622945c8cc218e0793370e341e",
+  "base_sha": "1231d6fa0db1ef283c3f97917d49a845cb8d581b",
+  "code_sha": "293d913f",
   "latest_finished_full_ci": {
     "sha": "ade6227be1954e622945c8cc218e0793370e341e",
     "run_id": 43681952681,
@@ -323,7 +323,7 @@
     "handover": 1,
     "optional": 1
   },
-  "merge_authorized": false,
+  "merge_authorized": true,
   "production_rollout_authorized": false,
   "same_environment_main_baseline": {
     "sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
@@ -343,5 +343,36 @@
       "xfailed": 0,
       "xpassed": 0
     }
-  }
+  },
+  "historical_source_checkpoint": {
+    "branch": "arena/c9f21950-learners-area",
+    "code_sha": "ade6227be1954e622945c8cc218e0793370e341e",
+    "pr": 189
+  },
+  "authorization_scope": "2026-11-15 user: audit/fix arena/learners-area-next and push main. No production schema, data, secret or feature activation authorization.",
+  "current_local_release": {
+    "backend": {
+      "passed": 7502,
+      "failed": 0,
+      "subtests_passed": 287,
+      "skipped": 0,
+      "xfailed": 0
+    },
+    "frontend": {
+      "passed": 1816,
+      "failed": 0,
+      "skipped": 11
+    },
+    "bot_passed": 92,
+    "signalling_passed": 7,
+    "worker_checks": 101,
+    "typecheck": "passed",
+    "migration_contract_passed": 4,
+    "validation_security_passed": 3,
+    "python_dependency_vulnerabilities": 0,
+    "npm_high_critical": 0,
+    "npm_moderate_dev_findings": 4
+  },
+  "all_prompt_requirements_complete": false,
+  "current_audit": "docs/verification/MAIN_MERGE_AUDIT_20261115.md"
 }

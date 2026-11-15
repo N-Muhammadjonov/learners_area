@@ -42,7 +42,10 @@ services/backend/.venv/bin/python scripts/serve.py --check
 services/backend/.venv/bin/python scripts/serve.py --reload
 ```
 
-Use a database with all 67 repository migrations applied. Migration and seed
+Use the authoritative `services/backend/migrations` chain. The current inventory
+contains 131 SQL files: 110 schema migrations and 21 content repairs. A fresh
+test database defers and names the 21 repairs; an existing content database must
+validate them on upgrade. Migration and seed
 commands remain available for explicitly chosen development databases; startup
 never runs them.
 `npm start` launches Python on port 8000. After the asset build, you can run
@@ -55,6 +58,13 @@ lists the transport tests and the limits of the checks. `npm run backend:test:ma
 compares the real pinned main handlers with FastAPI using isolated PostgreSQL
 databases; set `MAIN_REFERENCE_ROOT` as described there. The current parity
 record is `services/backend/contracts/main-parity.json`.
+
+Academy operations and tuition are disabled by default in managed environments.
+Merging code does not apply migrations or enable the feature. Release evidence,
+known engineering gaps and external verification limits are in
+[the main merge audit](docs/verification/MAIN_MERGE_AUDIT_20261115.md).
+The activation procedure has one maintained source:
+[SALE_READY_MANUAL_ACTIONS.md](docs/SALE_READY_MANUAL_ACTIONS.md#ma-03--academy-va-tuitionni-productionda-ishga-tushirish).
 
 ## Demo accounts
 

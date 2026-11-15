@@ -5,6 +5,13 @@ import {setup,tick,envelope} from './staff-final30/harness.mjs';
 import {managementAreas} from '../modules/staff-final30/management-hub.js';
 import {reportProblem} from '../modules/shared/report.js';
 import * as supportPage from '../modules/support/page.js';
+import {canonicalPath} from '../js/navigation.js';
+
+test('staff support bookmarks preserve filters and thread fragments at the canonical page',()=>{
+ assert.equal(canonicalPath(new URL('https://fixture.invalid/app/teacher/support?status=open#report-1')),
+  '/app/support?status=open#report-1');
+ assert.equal(canonicalPath(new URL('https://fixture.invalid/app/support?status=open#report-1')),null);
+});
 
 test('all staff roles have one canonical support destination',()=>{
  for(const role of ['teacher','admin','owner']){

@@ -1,6 +1,6 @@
 # SALE_READY_MANUAL_ACTIONS — egasi bajaradigan yagona ro'yxat
 
-**Branch:** `arena/c9f21950-learners-area` · **Sana:** 2026-11-14
+**Branch:** `audit/learners-area-next-main-20261115` · **Sana:** 2026-11-15, Asia/Tashkent
 **Qoida:** Barcha tashqi/qo'lda bajariladigan majburiyatlar **faqat shu faylda**. Boshqa
 hujjatlarda egaga topshiriq yozilmaydi. Kod bilan yopish mumkin bo'lgan hech narsa bu yerga
 ko'chirilmagan — muhandislik ishi muhandislikda qoldi.
@@ -23,7 +23,7 @@ deyish **noto'g'ri** bo'ladi.
 yuqorida qisqa indeks, pastda har bir element uchun barcha 15 maydonni o'z ichiga olgan blok
 berilgan. `ID` orqali bog'lanadi.
 
-15-noyabr tekshiruvida qo‘shimcha tashqi ruxsat aniqlanmadi. Live audio, Telegram va WebRTC uchun mavjud MA-04–06 bandlari amal qiladi. Lokal dasturlash, CI brauzer sinovi va sintetik backup/restore sinovi muhandislik ishida qoladi.
+15-noyabr auditi: main’ga kod birlashtirishga foydalanuvchi ruxsat berdi. Production schema o‘qishi va Cloudflare hisob metama’lumoti avtomatik approval review’da rad etildi. Bu xizmat yoki hisob yo‘qligini anglatmaydi. Baza, media va jonli integratsiya dalili hali tasdiqlanmagan. Live audio, Telegram va WebRTC uchun mavjud MA-04–06 bandlari amal qiladi. Lokal dasturlash, CI brauzer sinovi va sintetik backup/restore sinovi muhandislik ishida qoladi.
 
 ## Indeks
 
@@ -55,9 +55,9 @@ berilgan. `ID` orqali bog'lanadi.
 | Bajarilgan tayyorgarlik | To'lov subledgeri to'liq: `tuition_payments`, `UNIQUE(provider, provider_transaction_id)`, `idempotency_key`, duplikat callback testi (100×), 20 parallel poyga testi, `pending_provider` holati (redirect = to'lov emas). Adapter interfeysi `docs/architecture/DOMAIN_CONTRACTS.md` §8 da belgilangan |
 | Rasmiy manba | Payme Business Merchant API: `https://developer.help.paycom.uz/protokol-merchant-api/` · Payme API: `https://docs.payme.uz/api/introduction/` · Click Business: `https://business.click.uz/en` |
 | Kerakli hisob/ruxsat | Markaz rahbari nomidagi merchant hisob, API kalitlari, callback secret |
-| Aniq ketma-ketlik | 1) Provayder saytida merchant ro'yxatdan o'tish → 2) "API" bo'limida **qaysi API mahsuloti** ekanini aniqlash (Merchant API va oddiy API — ikki xil shartnoma, aralashtirmang) → 3) sandbox kalitlarini olish → 4) callback URL sifatida `https://<domen>/api/internal/payments/<provider>/callback` ni kiritish → 5) kalitlarni Railway secret sifatida qo'shish (`PAYME_MERCHANT_ID`, `PAYME_MERCHANT_SECRET`, `CLICK_SERVICE_ID`, `CLICK_SECRET_KEY` — nomlar adapter bilan kelishiladi) |
+| Aniq ketma-ketlik | 1) Provayder saytida merchant ro'yxatdan o'tish → 2) "API" bo'limida **qaysi API mahsuloti** ekanini aniqlash (Merchant API va oddiy API — ikki xil shartnoma, aralashtirmang) → 3) sandbox kalitlarini olish → 4) Tanlangan API mahsuloti hujjati va sandbox hisobini integratsiya uchun tayyorlash. Vendor callback manzili hali implement qilinmagan; uni uydirib merchantga kiritmang. Hozir mavjud `/api/internal/payments/sandbox/callback` faqat Learners Area sintetik protokoli. Kalit nomlari haqiqiy adapter bilan belgilanadi |
 | Xavfsiz misol | `PAYME_MERCHANT_SECRET=<sandbox-secret-here>` — haqiqiy qiymatni hech qachon chatga yoki repoga yozmang |
-| Egadan keyingi validatsiya | Sandbox'da 8 ta holat: muvaffaqiyat, duplikat callback, kechikkan callback, browser qaytishidan oldin callback, yaroqsiz imzo, summa nomuvofiqligi, refund, bekor qilish. Har biri uchun `GET /api/staff/finance/reconciliation` → `balanced: true` |
+| Egadan keyingi validatsiya | Vendor adapter CAP-22 bo‘yicha muhandislikda qurilgach, sandbox'da 8 ta holat: muvaffaqiyat, duplikat callback, kechikkan callback, browser qaytishidan oldin callback, yaroqsiz imzo, summa nomuvofiqligi, refund, bekor qilish. Har biri uchun `GET /api/staff/finance/reconciliation` → `balanced: true` |
 | Taxminiy vaqt | 2–5 ish kuni (provyayder tomoniga bog'liq) |
 | Status | `OPEN` |
 | Dalil havolasi | `services/backend/tests/test_tuition_ledger.py::test_duplicate_provider_callback_has_exactly_one_effect` |
@@ -164,7 +164,7 @@ berilgan. `ID` orqali bog'lanadi.
 | Modul | Zaxira |
 | Aniq harakat | Maskalangan baza nusxasini izolyatsiya qilingan muhitga tiklashga ruxsat berish |
 | Nega avtomatlashtirib bo'lmaydi | Production ma'lumotiga kirish va shaxsiy ma'lumotlarni ko'chirish — faqat ruxsat bilan |
-| Bajarilgan tayyorgarlik | Tiklash namunasi hujjatlashtirilgan (`docs/PLATFORM-RECOVERY-20261029.md`, `scripts/qa2-local-postgres.sh`). Moliya jadvallari tashqi holatsiz — to'liq tiklanadi, lekin **isbotlanmagan** |
+| Bajarilgan tayyorgarlik | Tiklash namunasi hujjatlashtirilgan (`docs/PLATFORM-RECOVERY-20261029.md`, `scripts/qa2-local-postgres.sh`). Sintetik lokal restore dalili mavjud: 240 jadval, 20 000 jurnal qatori va uchta lokal S3 obyekt. Staging/production restore va RPO/RTO bundan kelib chiqmaydi |
 | Rasmiy manba | Supabase → Database → Backups / PITR |
 | Kerakli hisob/ruxsat | Supabase owner |
 | Aniq ketma-ketlik | 1) Nusxa yuklab olish → 2) Shaxsiy ma'lumotlarni maskalash → 3) Izolyatsiya bazaga tiklash → 4) `GET /api/staff/finance/reconciliation` → 5) R2 pointer'larni tekshirish |

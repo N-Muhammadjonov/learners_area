@@ -48,7 +48,7 @@ export type ContentTypeDescriptor<TContent = unknown> = {
    */
   status: "active" | "planned";
   /** Level-1 schema for `envelope.content`. */
-  contentSchema: z.ZodType<TContent, z.ZodTypeDef, unknown>;
+  contentSchema: z.ZodType<TContent, unknown>;
   /** Older package versions this handler still accepts, newest first. */
   migratableVersions?: number[];
   /** Upgrades an older payload into a value shaped like the current version. */

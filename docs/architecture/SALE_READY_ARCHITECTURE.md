@@ -1,6 +1,6 @@
 # Sale-ready architecture — current state and the finance slice
 
-**Branch:** `arena/c9f21950-learners-area` · **Base:** `344e538c56a84fb6651e0cc5663a056663d5376a` · **Date:** 2026-11-14
+**Audit:** `arena/learners-area-next@c7519c0c` + `main@1231d6fa` · **Date:** 2026-11-15. [Current acceptance scope](../verification/MAIN_MERGE_AUDIT_20261115.md).
 
 > **Uzbek qisqacha:** Platforma bitta Python FastAPI "modular monolith" ichida ishlaydi
 > (bitta jarayon: API + native frontend + WebSocket signalling). PostgreSQL yagona haqiqat
@@ -24,21 +24,24 @@ Faylni tahlil qilish va XLSX eksporti cheklangan worker yordamida bajariladi. Bi
 
 ## 1. Verified current runtime (not the README's prose)
 
+```mermaid
+flowchart TD
+  B["Native web browser"] --> EDGE["Cloudflare / Railway entry"]
+  EDGE --> API["FastAPI ASGI dispatch"]
+  API --> AUTH["Session, role and object scope"]
+  AUTH --> ACADEMY["Groups, sessions and attendance"]
+  AUTH --> FIN["Tuition, journal and payroll"]
+  AUTH --> LEARN["IELTS, study plans and guardian views"]
+  ACADEMY --> DB[("PostgreSQL")]
+  FIN --> DB
+  LEARN --> DB
+  API --> MEDIA["Private R2 authorization"]
+  DB --> Q["Durable message queues"]
+  Q --> BOT["Existing Telegram bot"]
+  API --> RTC["Existing WebRTC signalling"]
 ```
-Browser ──HTTPS──> Cloudflare ──> Railway container
-                                     │
-                       server.py  (uvicorn entrypoint)
-                                     │
-                    services/backend/app/asgi.py  →  dispatch(scope, receive, send)
-                        ├── /api/frontend/*, /api/study-plan/*  → browser FastAPI app
-                        ├── /ws/live-partner/*                  → live_partner_signaling
-                        ├── /api/*                              → core FastAPI app (442 routes)
-                        └── everything else                     → StaticFrontend (built assets)
-                                     │
-                            app/db.py  asyncpg BoundedPool  ──>  PostgreSQL (Supabase)
-                                     │
-                    Cloudflare R2 (private media, signed)   ·   Telegram Bot API
-```
+
+This is a code-level runtime map, not a fresh production-integration receipt.
 
 | Component | File | Note |
 |---|---|---|
@@ -47,11 +50,11 @@ Browser ──HTTPS──> Cloudflare ──> Railway container
 | Identity/authorization | `app/main.py::_load_authority`, `current_authority`, `current_user` | session cookie → `users` row + `auth_version` + `auth_session_revocations` |
 | Guardian allow-list | `app/guardian_port.py::guardian_path_allowed` | central 403 for every non-`/api/guardian/*` route |
 | DB access | `app/db.py` | bounded asyncpg pool, acquire timing, failure classification |
-| Static frontend | `app/frontend_static.py` + `scripts/build_native_assets.py` | 1,010 files, revision-stamped |
-| Migrations | `services/backend/migrations/*.sql` (113 files) | applied by `scripts/apply-test-migrations.mjs`; `drizzle/` is the older typed chain |
+| Static frontend | `app/frontend_static.py` + `scripts/build_native_assets.py` | 1,028 files, revision-stamped |
+| Migrations | `services/backend/migrations/*.sql` (131 SQL files) | applied by `scripts/apply-test-migrations.mjs`; `drizzle/` is the older typed chain |
 
 **Deliberately unchanged:** no framework migration, no new service, no microservice split,
-no multi-tenant conversion. The finance slice is two new Python modules and one migration.
+no multi-tenant conversion. Academy/Tuition use the existing application, additive migrations 1115–1131 and domain modules. The managed-environment feature gate defaults off until a separately approved rollout.
 
 ## 2. What was added in this branch
 
@@ -119,9 +122,7 @@ No route computes money in the browser and no route writes outside `tuition_ledg
 3. **Revenue recognition is manual and bounded.** It can never exceed the deferred balance and
    is never a side effect of collecting cash. The ratable policy itself is the buyer's
    accounting decision (see manual actions).
-4. **No provider adapter yet.** Guessing a Click/Payme endpoint or signature algorithm is worse
-   than shipping none; the interface contract is specified in `DOMAIN_CONTRACTS.md` and the
-   merchant onboarding is a tracked owner action.
+4. **Vendor adapter remains engineering work.** `payments_sandbox.py` is a signed synthetic protocol, not a Click/Payme implementation. CAP-22 tracks the missing vendor code; MA-01 tracks only merchant onboarding and credentials.
 5. **Postgres enforces the invariants, not Python.** Triggers and unique indexes mean a future
    code path (or a hand-run SQL session) cannot silently break the ledger.
 

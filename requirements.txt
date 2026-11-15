@@ -1,7 +1,7 @@
 # Python deployment dependencies. Keep these pins in sync with services/backend/requirements.txt.
 # List dependencies directly so framework detection does not need to resolve an included file.
-fastapi==0.121.3
-starlette==0.50.0
+fastapi==0.136.3
+starlette==1.10.0
 uvicorn==0.54.0
 wsproto==1.3.2
 asyncpg==0.32.0

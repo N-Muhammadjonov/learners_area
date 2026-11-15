@@ -373,6 +373,11 @@
       "permanent": false
     },
     {
+      "source": "/app/teacher/support",
+      "destination": "/app/support",
+      "permanent": false
+    },
+    {
       "source": "/app/courses",
       "destination": "/app/courses/ielts"
     }

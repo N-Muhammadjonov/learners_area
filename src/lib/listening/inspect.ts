@@ -1,5 +1,5 @@
 import { strFromU8 } from "fflate";
-import { listeningPackageSchema, publicationBlockers, type ListeningPackage } from "./package";
+import { listeningPackageSchema, listeningVocabularyEntrySchema, publicationBlockers, type ListeningPackage } from "./package";
 import { convertLegacyPackage, slugTestId, type HtmlDocumentReader } from "./source-parser";
 import {
   audioCandidates,
@@ -158,7 +158,7 @@ export async function inspectListeningPackage(input: InspectInput): Promise<Insp
       const title = (doc.querySelector("title")?.textContent || input.zipName.replace(/\.(zip|html?)$/i, "")).trim().slice(0,200);
       const authored = canonicalRaw ? JSON.parse(canonicalRaw) : null;
       canonicalError = undefined; // Valid owner runtime is a separate format, not a repaired native package.
-      const vocabulary = authored?.vocabulary === undefined ? [] : listeningPackageSchema._def.schema.shape.vocabulary.parse(authored.vocabulary);
+      const vocabulary = authored?.vocabulary === undefined ? [] : listeningVocabularyEntrySchema.array().parse(authored.vocabulary);
       const images = names.filter(path => /\.(png|jpe?g)$/i.test(path));
       if (images.length > 1) throw new ListeningImportProblem("package_invalid", { files: images, info: "Multiple images need an explicit supported manifest mapping" });
       payload = listeningPackageSchema.parse({schemaVersion:1,authoredRuntime:{entryPath,files:runtimeFiles},testId:slugTestId(authored?.test_id ?? input.zipName),title,category:"full",provenance:"owner_authored_html",audio:{path:audio.path,durationSec:duration},imagePath:images[0]??null,sections:[{number:1,title,transcript:""}],questions:[],keyword1:[],keyword2:[],vocabulary});

@@ -68,7 +68,7 @@ export type ListeningSourceActivityId = (typeof LISTENING_ACTIVITY_IDS)[number];
 export const listeningStudyPackSchema = z.object({
   kind: z.literal("research-practice"),
   activities: z.array(z.enum(LISTENING_ACTIVITY_IDS)).min(1).max(LISTENING_ACTIVITY_IDS.length).optional(),
-  partRanges: z.record(z.tuple([z.number().nonnegative(), z.number().positive()])),
+  partRanges: z.record(z.string(), z.tuple([z.number().nonnegative(), z.number().positive()])),
   scriptParts: z.array(z.object({part:z.number().int().min(1).max(4),transcript:text,gaps:z.array(z.object({q:z.number().int().min(1).max(200),match:text,answer:text})).max(200)})).max(4).optional(),
   recall: z.array(z.object({ part: z.number().int().min(1).max(4), title: text, points: z.array(text).min(1).max(20) })).max(4).default([]),
 });
@@ -137,7 +137,7 @@ export type ListeningVocabularyEntry = z.infer<typeof listeningVocabularyEntrySc
 
 export const listeningAuthoredRuntimeSchema = z.object({
   entryPath: z.string().max(200),
-  files: z.record(z.string().max(5 * 1024 * 1024)),
+  files: z.record(z.string(), z.string().max(5 * 1024 * 1024)),
 });
 export type ListeningAuthoredRuntime = z.infer<typeof listeningAuthoredRuntimeSchema>;
 

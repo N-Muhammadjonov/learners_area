@@ -1,7 +1,8 @@
-"""Regression tests for the exact landing CEFR bank and secure 30-day gating."""
+"""Regression tests for the preserved CEFR bank and secure 30-day gating."""
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
 
 import pytest
@@ -9,28 +10,38 @@ from fastapi.testclient import TestClient
 
 from app import main as core
 from app.study_plan_level import (
-    LEVELS, PASS_SCORE, QUESTION_COUNT, QUESTIONS_PER_SKILL, SKILLS,
+    BANK_FILE, LEVELS, PASS_SCORE, QUESTION_COUNT, QUESTIONS_PER_SKILL, SKILLS,
     interpretation, new_attempt, public_questions, read_bank, score_attempt,
 )
 
 
-def test_in_app_bank_stays_identical_to_landing_reference():
-    import re
-    source = Path(__file__).resolve().parents[3] / 'frontend/vanilla/modules/landing-inline.js'
-    content = json.JSONDecoder().raw_decode(re.split(r'export const LANDING_HTML\s*=', source.read_text(), maxsplit=1)[1].lstrip())[0]
-    original = json.loads(re.search(r'const Q=(\[.*?\]);', content, re.S)[1])
+def test_in_app_bank_preserves_all_reviewed_questions_after_landing_replacement():
+    # Main retired the public inline diagnostic in 52e55390. Its canonical bank
+    # remains authoritative for signed-in study plans. Pin the reviewed data
+    # itself, including answer keys and context, rather than a deleted UI file.
+    assert hashlib.sha256(BANK_FILE.read_bytes()).hexdigest() == (
+        '8259da5f94fdb215342f85c4c4d453d2f01b2330e35a4e438cb038449c3fc3bc')
     imported = read_bank()
-    assert len(original) == len(imported) == 150, 'The landing and in-app diagnostic must share the complete canonical bank.'
-    skills = dict(g='grammar', v='vocabulary', r='reading', l='listening', u='use')
-    counters = {}
-    for question in original:
-        level, skill = LEVELS[question['l']], skills[question['s']]
-        counters[level, skill] = counters.get((level, skill), 0) + 1
-        canonical = imported[f'{level}-{skill}-{counters[level, skill]}']
-        assert (canonical['q'], canonical['options'], canonical['answer']) == (question['q'], question['opts'], question['answer'])
-        assert canonical.get('audio', canonical.get('passage', '')) == question['x']
-    assert len(counters) == 30
-    assert all(count == 5 for count in counters.values())
+    assert len(imported) == 150
+    assert set(imported) == {f'{level}-{skill}-{index}'
+                             for level in LEVELS for skill in SKILLS for index in range(1, 6)}
+    for question in imported.values():
+        assert question['q'].strip()
+        assert question['answer'] in range(len(question['options']))
+        if question['skill'] == 'reading':
+            assert question['passage'].strip()
+        if question['skill'] == 'listening':
+            assert question['audio'].strip()
+
+
+def test_bank_rejects_answer_outside_three_choice_listening_options(tmp_path: Path):
+    payload = json.loads(BANK_FILE.read_text())
+    question = next(row for row in payload['questions'] if len(row['options']) == 3)
+    question['answer'] = 3
+    path = tmp_path / 'invalid-listening-bank.json'
+    path.write_text(json.dumps(payload))
+    with pytest.raises(ValueError, match='invalid_level_answer'):
+        read_bank(path)
 
 
 @pytest.mark.parametrize("level", LEVELS)
