@@ -100,7 +100,8 @@ async def test_rescue_browser_journey(journey):
                 child.kill()
                 await child.communicate()
                 raise
-            assert child.returncode == 0, (output.decode(), errors.decode())
+            if child.returncode != 0:
+                pytest.fail(output.decode()+errors.decode(), pytrace=False)
             print(output.decode().strip())
         finally:
             server.should_exit = True

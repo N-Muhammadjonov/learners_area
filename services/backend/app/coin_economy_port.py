@@ -95,7 +95,7 @@ async def claim_daily(con, user_id) -> dict:
     async with con.transaction():
         # Serialize daily and purchase operations for a single learner.
         row = await con.fetchrow(
-            "SELECT id FROM users WHERE id=$1 AND role=ANY($2::text[]) AND account_status='active' FOR UPDATE",
+            "SELECT id FROM users WHERE id=$1 AND role::text=ANY($2::text[]) AND account_status='active' FOR UPDATE",
             user_id, list(PARTICIPANT_ROLES))
         if not row:
             raise ValueError("inactive_participant")
@@ -243,7 +243,7 @@ async def bot_referral_link(req: Request):
     db = await core.pool()
     async with db.acquire() as con:
         user = await con.fetchrow(
-            "SELECT id FROM users WHERE telegram_id=$1 AND role=ANY($2::text[]) "
+            "SELECT id FROM users WHERE telegram_id=$1 AND role::text=ANY($2::text[]) "
             "AND account_status='active'", telegram_id, list(PARTICIPANT_ROLES))
     if not user:
         return error("forbidden", 403)

@@ -410,3 +410,16 @@ async def test_rescue_evidence_and_thresholds_respect_the_live_teacher_roster(jo
     with pytest.raises(asyncpg.ObjectNotInPrerequisiteStateError,match='finance_journal_is_append_only'):
         await conn.execute('DELETE FROM users WHERE id=$1',peer['id'])
     assert await conn.fetchval('SELECT student_user_id FROM finance_journal_entries WHERE id=$1',statement)==peer['id']
+
+
+@pytest.mark.asyncio
+async def test_coin_daily_claim_with_migrated_user_roles(journey):
+    conn, client = journey
+    owner = await create_actor(conn, 'Coin Owner', 'owner')
+    guardian = await create_actor(conn, 'Coin Guardian', 'guardian')
+    endpoint = '/api/coins/daily/claim'
+    await request(client, guardian, 'POST', endpoint, 403)
+    first = await request(client, owner, 'POST', endpoint)
+    retry = await request(client, owner, 'POST', endpoint)
+    assert first['awarded'] == 1 and retry['awarded'] == 0
+    assert await conn.fetchval('SELECT count(*) FROM coin_ledger WHERE user_id=$1', owner['id']) == 1

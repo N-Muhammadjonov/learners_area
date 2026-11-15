@@ -34,6 +34,7 @@ try {
   await owner.getByRole('link', {name: /Learner support/}).click();
   await owner.waitForURL('**'+route);
   await owner.locator('[data-rescue-student="'+learner+'"]').waitFor();
+  await owner.getByText('Support thresholds', {exact: true}).click();
   await owner.locator('[name="attendancePercent"]').fill('80');
   const thresholds = responseTo(owner, 'PUT', queue+'/thresholds');
   await owner.getByRole('button', {name: 'Save thresholds'}).click();
