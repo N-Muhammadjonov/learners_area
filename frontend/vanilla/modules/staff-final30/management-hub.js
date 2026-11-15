@@ -51,7 +51,6 @@ export function managementAreas(dict,role,academyEnabled=true){
       dict.people.name==='Ism'?'O‘quv rejasi natijalari':'Study plan progress',
       dict.people.name==='Ism'?'7/30 kunlik rejalardagi mashqlar va o‘quvchi progressini ko‘rish.':'View daily tasks and verified progress on 7/30-day plans.',
       IconPeople);
-  add('/app/teacher/support',dict.support.inbox,dict.management.supportBody,IconSupport);
   add('/app/teacher/live-classes',dict.liveClasses.manageTitle,dict.management.liveBody,IconLive);
   add('/app/teacher/speaking',dict.speaking.manageTitle,dict.management.speakingBody,IconSpeaking);
  }
@@ -69,7 +68,8 @@ export function managementAreas(dict,role,academyEnabled=true){
   add('/app/admin/content',dict.nav.contentLibrary,dict.management.contentBody,IconContent);
  }
  add('/app/reports',dict.reporter.title,dict.reporter.managementBody,IconAudit);
- add('/app/support',dict.nav.support,dict.support.subtitle,IconSupport);
+ add('/app/support',dict.people.name==='Ism'?'Yordam / Muammo':'Support / Feedback',
+   dict.people.name==='Ism'?'Muammo, taklif va rag‘batlantirish xabarlarini yuborish va ko‘rib chiqish.':'Send and review problem reports, suggestions and encouragement.',IconSupport);
 
  if(owner){
   add('/app/management?view=coins',dict.people.name==='Ism'?'Sovg‘alar va xaridlar':'Gifts and purchases',dict.people.name==='Ism'?'Sovg‘alar, xarid cheklari va buyurtmalar.':'Manage gifts, receipts and orders.',IconSettings);

@@ -43,7 +43,7 @@ export const studentsMount=mountStaff({name:'management-students',roles:STAFF,lo
     pager({label:t.title,page:data.page,totalPages:data.totalPages,href:n=>`/app/teacher/students?page=${n}`,pageOf:ctx.locale==='uz'?'{total} sahifadan {page}':'Page {page} of {total}',previous:dict.people.previousPage,next:dict.people.nextPage,attr:'data-students-pagination'})));
  }});
 /** Source: components/support/ResolveReportButton.tsx + teacher/support/page.tsx. */
-export const supportMount=mountStaff({name:'management-support',roles:STAFF,load:c=>support(c.signal),
+export const supportMount=mountStaff({name:'management-support',roles:['teacher','admin','owner'],load:c=>support(c.signal),
  render(ctx,data,view){const {dict,signal,locale}=ctx,t=dict.support,S=(ctx.state.support??={errors:{},busy:null});
   const card=r=>{const btn=el('button',{type:'button',class:'btn-secondary','data-report-resolve':r.id,disabled:S.busy===r.id},t.resolved);
    listen(btn,'click',async()=>{if(S.busy)return;S.busy=r.id;delete S.errors[r.id];view.rerender();try{await resolveReport(r.id,signal);if(signal.aborted)return;S.busy=null;await view.reload({quiet:true});}catch(e){if(signal.aborted)return;S.busy=null;if(e?.status===409||e?.status===404){await view.reload({quiet:true});}else{S.errors[r.id]=true;view.rerender();}}},signal);
