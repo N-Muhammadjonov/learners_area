@@ -1,5 +1,20 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15, Toshkent — Arena yakuniy regressiyasi
+
+`ade6227b` commitida [Full Stability](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952681), [Coin Economy](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952663) va [Leaderboard](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952661) o‘tdi.
+
+| To‘plam | Arena o‘tdi | Arena fail | Arena skip / xfail | Lokal main o‘tdi | Lokal main fail | Lokal main skip / xfail |
+|---|---:|---:|---:|---:|---:|---:|
+| Backend | 7 490 | 0 | 0 / 0 | 7 248 | 8 | 0 / 1 |
+| Frontend | 1 808 | 0 | 12 / 0 | 1 758 | 18 | 12 / 0 |
+
+Arena va `main`dagi 287 backend subtest o‘tdi. Ikkala branch bir xil lokal PostgreSQL 18.6, Python 3.12 va Node 24.22.1 muhitida ham tekshirildi. CI’da Chromium Rescue va Capacity oqimi, 5 rol, 27 qatorli sahifalash va OS-motion holatlarini to‘rt juftlikda tekshirdi.
+
+- Fresh bazada 110 sxema migratsiyasi, 189 typed table va 9 ASGI tekshiruvi o‘tdi. 21 kontent migratsiyasi ro‘yxatda alohida qayd etildi.
+- Sintetik to‘ldirilgan bazada 1129 → 1131 o‘tdi. 10 000 Reading urinishlari, 20 000 jurnal qatori va Rescue case/action saqlandi. Kontentli staging upgrade va production migratsiyasi ochiq.
+- Lokal buyer ssenariysida nomzoddan to payroll va ledger CSV’gacha bog‘langan oqim o‘tdi. 15 ta maqsadli PostgreSQL testi va CI’dagi to‘liq suite natijasi mavjud.
+
 ## 2026-11-15, Toshkent — Sig‘im va daromad tahlili
 
 - Egasi `Management → Capacity and revenue explorer` orqali guruh va bitta dars vaqtini tanlaydi. Real guruh sig‘imi, band joylar, amaldagi o‘qituvchilar, jadval to‘qnashuvlari hamda akademiya hisob jurnali bitta o‘qish tranzaksiyasidan olinadi. O‘qituvchi, admin, o‘quvchi va guardian API’ga kira olmaydi.

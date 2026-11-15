@@ -32,6 +32,8 @@ p95 va p99 barcha HTTP javoblarini qamrab oladi. 100–1 000 darajalari 0,5% xat
 
 `EXPLAIN (ANALYZE, BUFFERS)` joriy SQL’da Reading urinishlari har bir Rescue nomzodi uchun to‘liq qayta o‘qilganini ko‘rsatdi. `1131` yakunlangan Reading va Listening urinishlari hamda ishga tushgan guruh a’zoliklariga qisman indekslar qo‘shadi. O‘lchangan SQL vaqti Journey uchun 3,117 → 0,394 ms, o‘qituvchi Rescue ro‘yxati uchun 112,114 → 5,074 ms, butun akademiya Rescue ro‘yxati uchun 10 914,631 → 198,876 ms. 50 parallel darajasidan yuqorisida maqsadlar hali ochiq. Navbat, yozuvlarning aralash yuklamasi, bir soatlik sinov, ko‘p replika va staging infratuzilmasi bu o‘lchovdan tashqarida.
 
+Indeksli variantni pool 10 va request budjeti 128 bilan lokal takroriy sinovdan o‘tkazdik. 100 parallel so‘rovda 1 440 ta 200, 0 ta 503 va p95 898,32 ms kuzatildi. 250 darajadan boshlab 503 qaytdi, 500 darajada ikki transport xatosi ham kuzatildi. Bu konfiguratsiya 300 ms maqsadiga yetmadi. Hisobotdagi odatiy runtime qiymatlari 5 va 64.
+
 Qayta ishlatish uchun faqat yangi, bo‘sh lokal `coin_qa` bazasini 55442 portda ishga tushiring. Sinov production manzillarini qabul qilmaydi.
 
 ```bash

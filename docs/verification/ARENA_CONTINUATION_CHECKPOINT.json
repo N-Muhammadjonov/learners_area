@@ -2,10 +2,10 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "001773a94600fee6d6a0061bcc07277ba2da3823",
+  "code_sha": "ade6227be1954e622945c8cc218e0793370e341e",
   "latest_finished_full_ci": {
-    "sha": "001773a94600fee6d6a0061bcc07277ba2da3823",
-    "run_id": 43681174596,
+    "sha": "ade6227be1954e622945c8cc218e0793370e341e",
+    "run_id": 43681952681,
     "backend": {
       "passed": 7490,
       "failed": 0,
@@ -13,7 +13,7 @@
       "xfailed": 0,
       "xpassed": 0,
       "subtests_passed": 287,
-      "seconds": 95.64
+      "seconds": 136.35
     },
     "frontend": {
       "passed": 1808,
@@ -27,7 +27,7 @@
       "failed": 0
     },
     "fresh_migration": {
-      "schema_migrations": 109,
+      "schema_migrations": 110,
       "content_deferred": 21,
       "typed_tables": 189,
       "asgi_checks": 9
@@ -46,15 +46,15 @@
       "rescue_and_capacity": "passed",
       "roles": 5,
       "rescue_paginated_students": 27,
-      "job_id": 132711925357
+      "job_id": 132714328296
     }
   },
   "code_ci": {
     "status": "success",
-    "run_id": 43681174596,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681174596",
-    "leaderboard_run_id": 43681174657,
-    "coin_run_id": 43681174599
+    "run_id": 43681952681,
+    "leaderboard_run_id": 43681952661,
+    "coin_run_id": 43681952663,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952681"
   },
   "tests": [
     {
@@ -216,7 +216,7 @@
     "staging": "pending",
     "production": "pending",
     "fresh_evidence": {
-      "schema_migrations": 109,
+      "schema_migrations": 110,
       "content_deferred": 21,
       "typed_tables": 189,
       "asgi_checks": 9,
@@ -227,6 +227,15 @@
       "typed_tables": 189,
       "content_deferred": 21,
       "asgi_checks": 9
+    },
+    "synthetic_forward_upgrade": {
+      "range": "1129 to 1131",
+      "status": "passed",
+      "reading_attempts": 10000,
+      "journal_lines": 20000,
+      "rescue_cases_preserved": 1,
+      "rescue_actions_preserved": 1,
+      "indexes": 3
     }
   },
   "gates": {
@@ -240,7 +249,6 @@
     "B": {
       "status": "green_at_code_commit",
       "remaining": [
-        "Verify Full stability regression on the final Arena tip.",
         "Run main-only Telegram and Parent Connect workflows after an authorized merge."
       ]
     },
@@ -316,5 +324,24 @@
     "optional": 1
   },
   "merge_authorized": false,
-  "production_rollout_authorized": false
+  "production_rollout_authorized": false,
+  "same_environment_main_baseline": {
+    "sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
+    "postgres_version": "18.6",
+    "backend": {
+      "passed": 7248,
+      "failed": 8,
+      "xfailed": 1,
+      "skipped": 0,
+      "xpassed": 0,
+      "subtests_passed": 287
+    },
+    "frontend": {
+      "passed": 1758,
+      "failed": 18,
+      "skipped": 12,
+      "xfailed": 0,
+      "xpassed": 0
+    }
+  }
 }
