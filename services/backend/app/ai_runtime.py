@@ -87,7 +87,7 @@ class Controller:
         try:
             result=await work()
             size=len(json.dumps(result,ensure_ascii=False).encode())
-            if size<=MAX_RESPONSE:
+            if size<=MAX_RESPONSE and not (isinstance(result,tuple) and len(result)==2 and isinstance(result[0],int) and result[0]!=200):
                 while state.cache and (len(state.cache)>=128 or state.cache_bytes+size>2*1024*1024):
                     _,(_,_,removed)=state.cache.popitem(last=False);state.cache_bytes-=removed
                 state.cache[key]=(time.monotonic()+LEASE_SECONDS,result,size);state.cache_bytes+=size

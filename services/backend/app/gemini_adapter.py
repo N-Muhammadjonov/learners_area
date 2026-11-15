@@ -6,6 +6,7 @@ The API key is never embedded in prompts, frontend code or repository files.
 from __future__ import annotations
 
 import json
+import logging
 import os
 import re
 from typing import Any
@@ -15,6 +16,7 @@ from .ai_runtime import request_json
 MODEL_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{1,119}$")
 MAX_INPUT_LENGTH = 60_000
 MAX_OUTPUT_LENGTH = 96_000
+LOG = logging.getLogger('uvicorn.error')
 
 
 async def request_gemini_json(
@@ -36,7 +38,7 @@ async def request_gemini_json(
         or not isinstance(system_instruction, str)
         or not system_instruction.strip()
         or type(max_output_tokens) is not int
-        or not 1 <= max_output_tokens <= 6000
+        or not 1 <= max_output_tokens <= 10000
     ):
         return None
 
@@ -56,17 +58,20 @@ async def request_gemini_json(
         "generationConfig": {
             "maxOutputTokens": max_output_tokens,
             "responseMimeType": "application/json",
+            **({"thinkingConfig": {"thinkingLevel": "low"}} if model.startswith("gemini-3") else {}),
         },
     }
-    response = await request_json(
+    status, response = await request_json(
         actor_id,
         url,
         {"content-type": "application/json", "x-goog-api-key": secret},
         payload=body,
-        timeout=25,
+        timeout=42,
         max_bytes=200_000,
+        with_status=True,
     )
-    if not isinstance(response, dict):
+    if status != 200 or not isinstance(response, dict):
+        LOG.warning("Gemini assessment request unavailable (HTTP %s)", status)
         return None
 
     try:
@@ -75,6 +80,7 @@ async def request_gemini_json(
             return None
         candidate = candidates[0]
         if candidate.get("finishReason") != "STOP":
+            LOG.warning("Gemini assessment response incomplete (%s)", str(candidate.get("finishReason"))[:30])
             return None
         parts = candidate["content"]["parts"]
         if not isinstance(parts, list):
@@ -82,11 +88,12 @@ async def request_gemini_json(
         reply = "".join(
             part["text"]
             for part in parts
-            if isinstance(part, dict) and isinstance(part.get("text"), str)
+            if isinstance(part, dict) and not part.get("thought") and isinstance(part.get("text"), str)
         )
         if not reply or len(reply) > MAX_OUTPUT_LENGTH:
             return None
         parsed = json.loads(reply)
         return parsed if isinstance(parsed, dict) else None
     except (KeyError, TypeError, ValueError, IndexError):
+        LOG.warning("Gemini assessment response was not valid JSON")
         return None

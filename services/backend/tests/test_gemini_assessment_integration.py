@@ -23,7 +23,7 @@ class GeminiAdapterTests(unittest.TestCase):
                 }
             ]
         }
-        request = AsyncMock(return_value=response)
+        request = AsyncMock(return_value=(200, response))
         with patch.dict(os.environ, {"GEMINI_API_KEY": "fake-test-key"}, clear=False):
             with patch("app.gemini_adapter.request_json", request):
                 actual = asyncio.run(
@@ -39,16 +39,18 @@ class GeminiAdapterTests(unittest.TestCase):
         self.assertEqual(args[0], "test-actor")
         self.assertEqual(args[2]["x-goog-api-key"], "fake-test-key")
         self.assertEqual(kwargs["payload"]["generationConfig"]["responseMimeType"], "application/json")
+        self.assertEqual(kwargs["payload"]["generationConfig"]["thinkingConfig"]["thinkingLevel"], "low")
+        self.assertTrue(kwargs["with_status"])
         self.assertNotIn("fake-test-key", json.dumps(kwargs["payload"]))
         self.assertEqual(args[1], "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent")
 
     def test_rejects_truncated_output_without_a_second_request(self) -> None:
-        request = AsyncMock(return_value={
+        request = AsyncMock(return_value=(200, {
             "candidates": [{
                 "finishReason": "MAX_TOKENS",
                 "content": {"parts": [{"text": '{"answer": "partial"}'}]},
             }]
-        })
+        }))
         with patch.dict(os.environ, {"GEMINI_API_KEY": "fake-test-key"}, clear=False):
             with patch("app.gemini_adapter.request_json", request):
                 result = asyncio.run(

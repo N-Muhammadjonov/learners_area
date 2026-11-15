@@ -22,7 +22,7 @@ from .riwi_contracts import (
 )
 from .riwi_conversations import append_conversation_turn, get_tutoring_history
 from .riwi_knowledge import retrieve_active_knowledge_for_actor
-from .riwi_provider_router import dispatch_external_riwi_provider
+from .riwi_provider_router import RiwiProviderRouterError, dispatch_external_riwi_provider
 from .riwi_role_surface import (
     RiwiTargetScopeError,
     authorize_target_learner_access,
@@ -185,6 +185,10 @@ async def handle_riwi_chat(
         if not reviewed:
             from .riwi_site_grammar import reply as site_grammar_reply
             reviewed = site_grammar_reply(actor, message, locale)
+        # An unavailable template is not an answer. Let the external tutor
+        # use the user's real question and existing RIWI knowledge first.
+        if reviewed and reviewed.get('provenance') == 'unavailable' and read_riwi_rollout(env).external_ai and external_runner is not None and intent_info.intent in ('grammar_help', 'general_learning_question'):
+            reviewed = None
         if reviewed:
             from .riwi_help import navigation as help_navigation
             reviewed['navigationLinks'] = help_navigation(actor, message, reviewed['provider']) if reviewed['provenance'] != 'policy_refusal' else []
@@ -468,7 +472,7 @@ async def handle_riwi_chat(
                 provenance = "approved_knowledge"
 
     rollout = read_riwi_rollout(env)
-    if not material_item and not study and not understood and not faq and not reference and rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
+    if not material_item and not study and not reference and (not understood or understood.get("provenance") == "unavailable") and not faq and rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
         history = await get_tutoring_history(conn, actor, conversation_id, now=now) if conversation_id else []
         task_key = "grammar.explanation" if intent_info.intent == "grammar_help" else select_instruction_task(message)
         import os
@@ -477,39 +481,60 @@ async def handle_riwi_chat(
             or (env if env is not None else os.environ).get("AI_PRIMARY_PROVIDER")
             or "riwi"
         ).strip().lower()
-        ext_res = await dispatch_external_riwi_provider(
-            conn,
-            actor=actor,
-            provider_id=provider_id,
-            task_profile="grammar_explanation" if intent_info.intent == "grammar_help" else "general_tutoring",
-            payload={
-                "language": locale,
-                "message": message,
-                "history": history,
-                "instructions": compose_teaching_prompt(get_assessment_contract(task_key)),
-                "knowledge": [
-                    {
-                        "ref": str(u["ref"]),
-                        "text": str(u["text"]),
-                        "authority": int(u["authority"]),
-                        "version": int(u["version"]),
-                    }
-                    for u in knowledge_units[:4]
-                ],
-            },
-            correlation_id=correlation_id,
-            transport=external_runner,
-            env=env,
-        )
+        try:
+            ext_res = await dispatch_external_riwi_provider(
+                conn,
+                actor=actor,
+                provider_id=provider_id,
+                task_profile="grammar_explanation" if intent_info.intent == "grammar_help" else "general_tutoring",
+                payload={
+                    "language": locale,
+                    "message": message,
+                    "history": history,
+                    "instructions": compose_teaching_prompt(get_assessment_contract(task_key)),
+                    "knowledge": [
+                        {
+                            "ref": str(u["ref"]),
+                            "text": str(u["text"]),
+                            "authority": int(u["authority"]),
+                            "version": int(u["version"]),
+                        }
+                        for u in knowledge_units[:4]
+                    ] + ([{
+                        "ref": "K5",
+                        "text": (
+                            "Learners Area Writing > Activation Lab is a vocabulary usage exercise. "
+                            "The learner chooses a target word or phrase and writes a complete English sentence using it. "
+                            "For the 'upgrade a simple sentence' mode, the original/simple sentence may omit the target phrase; "
+                            "the improved sentence must contain the complete target phrase and use it naturally. "
+                            "Example target 'performing arts': original 'I enjoy creative hobbies.'; "
+                            "improved 'I enjoy performing arts because theatre and dance help me express ideas.' "
+                            "In normal mode there is only one learner sentence. "
+                            "The system checks the target phrase before AI assessment. "
+                            "Feedback is an educational estimate, not an official IELTS grade."
+                        ),
+                        "authority": 90,
+                        "version": 1,
+                    }] if "activation lab" in message.casefold() else []),
+                },
+                correlation_id=correlation_id,
+                transport=external_runner,
+                env=env,
+                timeout_ms=24_000,
+            )
+        except RiwiProviderRouterError:
+            # External failure must not hide the existing trusted fallback.
+            ext_res = None
         formatted_teaching = (
             format_instruction_teaching(task_key, ext_res.get("teaching"), language=locale)
-            if ext_res.get("teaching")
+            if ext_res and ext_res.get("teaching")
             else None
         )
-        answer_text = formatted_teaching or ext_res["answer"]
-        provenance = "external_provider"
-        provider_meta = {"id": "riwi", "model": "riwi-external-v1"} if provider_id == "gemini" else ext_res["provider"]
-        if ext_res.get("citations"):
+        if ext_res:
+            answer_text = formatted_teaching or ext_res["answer"]
+            provenance = "external_provider"
+            provider_meta = {"id": "riwi", "model": "riwi-external-v1"} if provider_id == "gemini" else ext_res["provider"]
+        if ext_res and ext_res.get("citations"):
             allowed_map = {c["ref"]: c for c in citations}
             citations = [allowed_map[r] for r in ext_res["citations"] if r in allowed_map]
 
