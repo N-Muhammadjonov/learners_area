@@ -437,3 +437,96 @@ async def test_lead_dedupes_and_converts_to_existing_student_with_group_capacity
     for relation in ('academy_leads', 'academy_lead_notes'):
         assert await conn.fetchval("SELECT relrowsecurity FROM pg_class WHERE oid=$1::regclass", relation)
         assert not await conn.fetchval("SELECT has_table_privilege('authenticated',$1,'SELECT')", relation)
+
+
+@pytest.mark.asyncio
+async def test_calendar_and_aggregate_reporting_with_real_postgres(academy):
+    """Exercise the actual SQL, ASGI role boundary, branch filters and held denominator."""
+    conn, _, actors, course, client = academy
+    group, _ = await create(client, course, actors, capacity=3)
+    group_path = '/groups/' + group['id']
+    membership = await send(
+        client, 'POST', group_path + '/memberships',
+        json={'studentId': str(actors['student'])},
+    )
+    assert membership.status_code == 201, membership.text
+    activated = await send(
+        client, 'PUT', group_path + '/memberships/' + membership.json()['id'],
+        json={'revision': 1, 'status': 'active'},
+    )
+    assert activated.status_code == 200, activated.text
+
+    scheduled = await send(client, 'POST', group_path + '/sessions', json=booking())
+    assert scheduled.status_code == 201, scheduled.text
+    session = scheduled.json()['sessions'][0]
+
+    async def own_calendar(role):
+        return await client.get(
+            '/api/academy/calendar',
+            headers={'x-test-user': role, 'origin': 'https://academy.test'},
+        )
+
+    before = await own_calendar('student')
+    assert before.status_code == 200, before.text
+    assert [row['id'] for row in before.json()['sessions']] == [session['id']]
+    assert (await own_calendar('third')).json()['sessions'] == []
+    assert (await own_calendar('teacher')).status_code == 403
+    assert (await own_calendar('guardian')).status_code == 403
+    assert (await own_calendar('')).status_code == 401
+
+    await conn.execute(
+        """UPDATE academy_sessions
+              SET starts_at=now()-interval '2 hours',
+                  ends_at=now()-interval '1 hour' WHERE id=$1""",
+        session['id'],
+    )
+    await conn.execute(
+        "UPDATE academy_group_memberships SET activated_on=starts_on-1"
+    )
+    held = await send(
+        client, 'PUT', group_path + '/sessions/' + session['id'],
+        json={'revision': 1, 'status': 'held'},
+    )
+    assert held.status_code == 200, held.text
+    marked = await send(
+        client, 'PUT', group_path + '/sessions/' + session['id'] + '/attendance',
+        'teacher',
+        json={'id': str(uuid4()), 'marks': [{
+            'studentId': str(actors['student']),
+            'revision': 1, 'status': 'present',
+        }]},
+    )
+    assert marked.status_code == 200, marked.text
+    calendar = await own_calendar('student')
+    assert calendar.status_code == 200
+    assert calendar.json()['sessions'][0]['attendance_status'] == 'present'
+
+    scoped = await send(
+        client, 'GET', '/attendance/summary?branch=Tashkent', 'teacher'
+    )
+    assert scoped.status_code == 200, scoped.text
+    rows = scoped.json()['groups']
+    assert len(rows) == 1
+    assert rows[0]['held_sessions'] == 1
+    assert rows[0]['eligible_marks'] == 1
+    assert rows[0]['attended_marks'] == 1
+    assert rows[0]['attendanceRate'] == 1.0
+    assert scoped.json()['branches'][0]['attendanceRate'] == 1.0
+    assert (await send(
+        client, 'GET', '/attendance/summary?branch=nonexistent', 'teacher'
+    )).json()['groups'] == []
+    assert (await send(
+        client, 'GET', '/attendance/summary', 'other_teacher'
+    )).json()['groups'] == []
+    assert (await send(
+        client, 'GET', '/attendance/summary', 'guardian'
+    )).status_code == 403
+    assert (await send(
+        client, 'GET',
+        '/attendance/summary?start=2026-11-20&end=2026-11-01', 'owner'
+    )).status_code == 422
+
+    filtered = await send(client, 'GET', '/groups?branch=Tashkent', 'teacher')
+    assert filtered.status_code == 200 and len(filtered.json()['groups']) == 1
+    hidden = await send(client, 'GET', '/groups?branch=Samarkand', 'teacher')
+    assert hidden.status_code == 200 and hidden.json()['groups'] == []
