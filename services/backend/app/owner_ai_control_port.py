@@ -20,7 +20,10 @@ def registry():
            {'id':'openai','displayName':'OpenAI','type':'external','model':os.getenv('OPENAI_EVALUATION_MODEL') or None,
             'capabilities':CAPS,'requiredSecrets':['OPENAI_API_KEY','OPENAI_EVALUATION_MODEL']},
            {'id':'anthropic','displayName':'Anthropic','type':'external','model':os.getenv('ANTHROPIC_EVALUATION_MODEL') or None,
-            'capabilities':CAPS,'requiredSecrets':['ANTHROPIC_API_KEY','ANTHROPIC_EVALUATION_MODEL']}]
+            'capabilities':CAPS,'requiredSecrets':['ANTHROPIC_API_KEY','ANTHROPIC_EVALUATION_MODEL']},
+           {'id':'gemini','displayName':'Google Gemini','type':'external',
+            'model':os.getenv('GEMINI_EVALUATION_MODEL') or os.getenv('GEMINI_MODEL') or 'gemini-3.8-flash',
+            'capabilities':CAPS,'requiredSecrets':['GEMINI_API_KEY']}]
     issues=[]
     raw=os.getenv('AI_COMPATIBLE_PROVIDERS','')
     if raw.strip():
