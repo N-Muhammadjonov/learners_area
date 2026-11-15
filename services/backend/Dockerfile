@@ -20,11 +20,20 @@ RUN pip install --no-cache-dir rjsmin==1.2.5 rcssmin==1.2.2 \
 
 FROM python:3.14-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
-RUN apt-get update && apt-get install -y --no-install-recommends libicu-dev && rm -rf /var/lib/apt/lists/*
+# Native tools are used only by the guarded pre-deploy recovery rehearsal.
+# Prevent Debian from creating a persistent default PostgreSQL cluster.
+RUN mkdir -p /etc/postgresql-common \
+    && echo 'create_main_cluster = false' > /etc/postgresql-common/createcluster.conf \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends libicu-dev postgresql-17 postgresql-client-17 \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /srv/app
 COPY services/backend/requirements.txt ./services/backend/requirements.txt
 RUN pip install --no-cache-dir -r services/backend/requirements.txt
 COPY services/backend/app/ ./services/backend/app/
+COPY services/backend/migrate_academy.py ./services/backend/migrate_academy.py
+COPY services/backend/migrations/ ./services/backend/migrations/
+COPY services/backend/tools/ ./services/backend/tools/
 # Ship the generated same-commit site guide, never the stale checkout snapshot.
 COPY --from=assets /build/services/backend/app/data/riwi_site_catalog.json ./services/backend/app/data/riwi_site_catalog.json
 COPY services/backend/assets/ ./services/backend/assets/
