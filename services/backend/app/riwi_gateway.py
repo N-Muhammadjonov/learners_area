@@ -505,6 +505,7 @@ async def handle_riwi_chat(
                 correlation_id=correlation_id,
                 transport=external_runner,
                 env=env,
+                timeout_ms=24_000,
             )
         except RiwiProviderRouterError:
             # External failure must not hide the existing trusted fallback.
