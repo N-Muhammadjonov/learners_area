@@ -174,3 +174,9 @@ ID prevents duplicate effects if a worker exits after delivery and before acknow
 Topics without an approved handler remain pending. Only the event ID, topic and retry
 state enter worker failure logs. External provider deliveries and production telemetry
 require separate verification.
+
+## 11. Katalog va o‘quv tarixi kontraktlari
+
+- `1127_academy_directory_import.sql` manba kaliti va tashqi identifikator juftligini yagona saqlaydi. Fayl qiymatlari joriy `users` rolini yoki login holatini o‘zgartirmaydi. Mos kelmagan katalog qatori keyin egasi tasdiqlagan hisobga ulanadi.
+- Dry-run tekshiruvining xeshi tasdiqda qayta hisoblanadi. Moslik o‘zgarsa, API `409 preview_changed` qaytaradi. Bir xil batch kaliti va ayni so‘rov natijani qaytaradi. Kalit boshqa fayl yoki moslash bilan qayta ishlatilsa `409 idempotency_conflict`.
+- O‘quv yo‘li bitta o‘quvchining amaldagi manbalaridan `repeatable read` ichida olinadi. O‘qituvchi amaldagi roster orqali, ota-ona tasdiqlangan bog‘lanish orqali kiradi. Ota-ona proyeksiyasi topshiriq matni, javoblar, feedback izohi, media manzili yoki moliya yozuvini uzatmaydi.

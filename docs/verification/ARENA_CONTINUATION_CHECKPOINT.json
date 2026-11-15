@@ -2,40 +2,52 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "c0a1b451a5509b0a4ddc14b2b2892d005c580a1e",
+  "code_sha": "e9dc42db0db61537ef2382e0cb5ac6c70165ad93",
   "latest_finished_full_ci": {
-    "sha": "c0a1b451a5509b0a4ddc14b2b2892d005c580a1e",
-    "run_id": 43672823120,
+    "sha": "e9dc42db0db61537ef2382e0cb5ac6c70165ad93",
+    "run_id": 43675365435,
     "backend": {
-      "passed": 7473,
+      "passed": 7482,
       "failed": 0,
       "xfailed": 1,
       "subtests_passed": 287,
-      "seconds": 91.44
+      "seconds": 132.1
     },
     "frontend": {
-      "passed": 1797,
+      "passed": 1801,
       "failed": 0,
       "skipped": 12,
-      "seconds": 96.41
+      "seconds": 70.27
     },
     "migration_contract": {
       "passed": 4,
       "failed": 0
     },
     "fresh_migration": {
-      "schema_migrations": 105,
+      "schema_migrations": 106,
       "content_deferred": 21,
-      "typed_tables": 184,
+      "typed_tables": 186,
       "asgi_checks": 9
     }
   },
   "code_ci": {
     "status": "success",
-    "run_id": 43672823120,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43672823120"
+    "run_id": 43675365435,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43675365435"
   },
   "tests": [
+    {
+      "area": "directory_learning_academy_payroll_and_request_lifecycle",
+      "postgres_version": "18.6",
+      "passed": 56,
+      "failed": 0,
+      "seconds": 14.35
+    },
+    {
+      "area": "directory_journey_and_academy_frontend",
+      "passed": 24,
+      "failed": 0
+    },
     {
       "area": "final_academy_finance_payroll_and_backup_contract",
       "postgres_version": "18.6",
@@ -111,15 +123,15 @@
     }
   ],
   "migrations": {
-    "latest": "services/backend/migrations/1126_academy_payroll.sql",
+    "latest": "services/backend/migrations/1127_academy_directory_import.sql",
     "fresh": "verified",
     "content_bearing_upgrade": "pending",
     "staging": "pending",
     "production": "pending",
     "fresh_evidence": {
-      "schema_migrations": 105,
+      "schema_migrations": 106,
       "content_deferred": 21,
-      "typed_tables": 184,
+      "typed_tables": 186,
       "asgi_checks": 9,
       "command": "npm run backend:test:postgres"
     }
@@ -148,20 +160,31 @@
         "C4 staff summary, reconciliation, statement, cash/bank entry, internal receipt and cash close, scoped student and teacher views",
         "C4 contract, discount, charge, credit note, refund, AR aging, sandbox provider and journal CSV",
         "C5 admissions pipeline with deduplication and atomic existing-student conversion",
-        "C6 effective-dated fixed, session, hourly, revenue-share and hybrid payroll, adjustment and recorded bank payout"
+        "C6 effective-dated fixed, session, hourly, revenue-share and hybrid payroll, adjustment and recorded bank payout",
+        "C8 owner-only CSV/XLSX directory mapping, import dry-run, canonical identity matching, pending review, audit, exports and 10000-row isolated benchmark"
       ],
-      "next": "Implement the C8 CSV/XLSX preview, normalization, idempotent application and auditable export using explicit canonical account matching. C7 is conditional on a buyer-defined branch access scope.",
+      "next": "Continue Gate D learning after C8. C7 remains conditional on a buyer-defined branch access scope.",
       "remaining": [
         "Student calendar and attendance aggregate reports",
         "Buyer-dependent C7 branch authorization and scoped report drill-down",
-        "C8 data import and export",
         "Real browser, integration demo and realistic sample data",
-        "Buyer payroll policy, tax/withholding and bank operation verification"
+        "Buyer payroll policy, tax/withholding and bank operation verification",
+        "Buyer-specific cohort/history import and opening balances require reviewed source mapping and accounting policy."
       ]
     },
     "D": {
-      "status": "pending",
-      "next": "Validate the integrated student–teacher–guardian flow before adding differentiators."
+      "status": "partial",
+      "next": "Implement Intervention / Rescue Queue and Academy Capacity & Revenue Explorer. Continue the buyer acceptance scenario across operations and learning.",
+      "implemented": [
+        "Role-scoped Learner Journey with real attendance, study milestone events, scores and student goals",
+        "Native PostgreSQL/ASGI classroom-to-Writing flow with real roles and reviewer/guardian authorization",
+        "Reading, Listening and Speaking submission timeline and authorized simulated Telegram relay retries"
+      ],
+      "remaining": [
+        "Intervention / Rescue Queue",
+        "Academy Capacity & Revenue Explorer",
+        "Real device and provider checks for audio, STT, WebRTC and Telegram"
+      ]
     },
     "E": {
       "status": "pending",

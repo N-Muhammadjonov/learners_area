@@ -8,6 +8,16 @@
 > fayllari bilan bog'lab ko'rsatadi. Yangi server, yangi freymvork yoki mikroservis
 > qo'shilmadi — mavjud tuzilma kengaytirildi.
 
+## 2026-11-15 akademiya kengaytmasi
+
+| Oqim | Egasi | Saqlash |
+|---|---|---|
+| O‘quvchi va o‘qituvchi katalogi | FastAPI `academy_groups_port.py`, egaga cheklangan | `academy_directory_imports`, `academy_directory_records`, `audit_log` |
+| O‘quv tarixi | FastAPI `academy_journey.py` | Guruh, davomat, attempt, Writing feedback, assignment va onboarding jadvallari |
+| Ota-ona ko‘rinishi | FastAPI `guardian_actor` va `child_user` | Faqat faol tasdiqlangan `guardian_links` |
+
+Faylni tahlil qilish va XLSX eksporti cheklangan worker yordamida bajariladi. Bitta import ichidagi yozuvlar 500 qatorlik PostgreSQL buyruqlari bilan bitta tranzaksiyada yoziladi. O‘quv ko‘rinishi amaldagi ma’lumotlardan o‘qiladi. [Qabul tekshiruvi](../verification/SALE_READY_ACCEPTANCE.md)
+
 ## 1. Verified current runtime (not the README's prose)
 
 ```

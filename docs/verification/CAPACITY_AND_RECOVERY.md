@@ -8,6 +8,16 @@
 > bir vaqtda ishlay oladi" degan da'vo **qilinmayapti** — bunday da'vo uchun load-test
 > retsepti kerak va u hali bajarilmagan.
 
+## Katalog importi o‘lchovi (2026-11-15)
+
+| Fayl | Qator | Preview va fayl tayyorlash | Apply | Jarayon peak RSS |
+|---|---:|---:|---:|---:|
+| CSV | 500 | 20 ms | 21 ms | 112 136 KiB |
+| CSV | 5 000 | 94 ms | 160 ms | 122 032 KiB |
+| XLSX | 10 000 | 1 485 ms | 1 350 ms | 130 640 KiB |
+
+Linux x86_64, Python 3.12.14, PostgreSQL 18.6. Har fayl sintetik. Preview vaqtiga faylni tayyorlash ham kiradi. RSS butun sinov jarayonining eng yuqori xotira sarfi. Katalog importi o‘lchovi [qabul dalillarida](SALE_READY_ACCEPTANCE.md) takrorlanadi. Parallel HTTP yuk va to‘liq zaxiradan tiklash uchun alohida dalil kutilmoqda.
+
 ## 1. The claim this document does **not** make
 
 * ❌ "Supports 10,000 concurrent users." No HTTP load test was executed in this pass.

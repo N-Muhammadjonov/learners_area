@@ -1,5 +1,34 @@
 # Sale-readiness acceptance receipt
 
+## Katalog importi va o‘quv yo‘li (2026-11-15, Toshkent)
+
+- `Management → Directory files` egaga CSV/XLSX yuklash, ustun va varaq tanlash, oldindan tekshirish, tasdiqlash, qator xatolari hisobotini yuklash va filtrlangan eksportni beradi.
+- Mavjud o‘quvchi va o‘qituvchi hisoblari saqlanadi. Hisobi topilmagan qator katalogda kutadi. Egasi qidiruv orqali bir xil odamga tegishli joriy hisobni qo‘lda bog‘laydi. Fayl foydalanuvchi rolini, login holatini, to‘lov yoki o‘quv tarixini o‘zgartirish vakolatiga ega emas.
+- SHA-256 fayl izini bog‘laydi. Qayta qo‘llash bitta audit yozuvini qoldiradi. Oldindan tekshiruvdan keyin moslik o‘zgarsa, qayta ko‘rib chiqish talab qilinadi. CSV eksporti jadval formulasi sifatida talqin qilinadigan qiymatlarni ekranga ma’lumot sifatida yozadi.
+- «O‘quv yo‘li» mavjud davomat, Reading, Listening, Speaking, Writing, o‘qituvchi fikri va yakunlangan topshiriqlarni vaqt tartibida ko‘rsatadi. O‘quvchi o‘z natijasini, o‘qituvchi biriktirilgan o‘quvchini, ota-ona tasdiqlangan farzandini ko‘radi. Ota-ona xom javob, izoh, yozuv yoki moliyaviy ma’lumot olmaydi.
+- O‘quv oqimi lokal PostgreSQL, ASGI va saytning imzolangan sessiyasi bilan sinovdan o‘tdi. Writing topshirig‘i RIWI ichki rejimida yakunlandi. Reading va Listening javoblari sayt orqali tekshirildi. Speaking test fayl manzili bilan STT o‘chiq holatda topshirildi. Telegram ishchisi lokal modelda yuborish xatosi, takroriy javob, asl o‘qituvchi manzili va ota-ona bog‘lanishi bekor qilinishini tekshirdi.
+
+| Fayl | Qator | Preview va fayl tayyorlash | Apply | Jarayon peak RSS |
+|---|---:|---:|---:|---:|
+| CSV | 500 | 20 ms | 21 ms | 112 136 KiB |
+| CSV | 5 000 | 94 ms | 160 ms | 122 032 KiB |
+| XLSX | 10 000 | 1 485 ms | 1 350 ms | 130 640 KiB |
+
+PostgreSQL 18.6, Linux x86_64, Python 3.12.14. Lokal 56 ta backend va 24 ta interfeys testi o‘tdi. Fresh test bazasida 106 sxema migratsiyasi, 186 typed table va 9 ASGI tekshiruvi o‘tdi. RSS butun sinov jarayonining ketma-ket eng yuqori xotira sarfi. Qatorlar sintetik edi. Bu o‘lchov importga tegishli. Saytning parallel foydalanuvchi yuk sinovi alohida qolgan.
+
+[GitHub Actions](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43675365435) `e9dc42db0db61537ef2382e0cb5ac6c70165ad93` kodida backend 7 482, frontend 1 801 va 287 subtest o‘tdi. 0 fail, 1 mavjud xfail, 12 mavjud skip. Avvalgi CI xatosi deployment requirements faylidagi ikki yangi pin yetishmaganidan kelib chiqqan. Ikkala fayl sinxronlandi.
+
+```bash
+cd services/backend
+python -m pytest -q tests/test_academy_directory.py tests/test_academy_learning_journey.py tests/test_request_lifecycle.py
+cd ../..
+node --test frontend/vanilla/tests/academy-directory.test.mjs frontend/vanilla/tests/python-build-v69.test.mjs
+npm run test:migrations
+npm run backend:test:postgres
+```
+
+---
+
 ## Moliya, qabul va ish haqi davomi (2026-11-15, Toshkent)
 
 | Qism | Amalga oshirilgan ish |

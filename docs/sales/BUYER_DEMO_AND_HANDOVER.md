@@ -6,48 +6,36 @@
 > `docs/verification/` ga qarang. Egadan talab qilinadigan barcha qo'lda bajariladigan
 > harakatlar — `docs/SALE_READY_MANUAL_ACTIONS.md` da (yagona manba).
 
-## 1. 5 daqiqalik demo (hozirgi holatda **haqiqatan** ko'rsatish mumkin bo'lgani)
+## 1. Akademiya demo ssenariysi
 
-Demo **API darajasida** ko'rsatiladi: moliya modulining staff UI'si hali qurilmagan.
-Buni yashirmang — aksincha, bu halollik xaridorga ishonch beradi.
+Ajratilgan muhitda egasi, moliya admini, o‘qituvchi, o‘quvchi va ota-ona hisoblarini tayyorlang. Sintetik fayl va ma’lumotdan foydalaning.
 
-| # | Qadam | Buyruq / natija | Vaqt |
-|---|---|---|---|
-| 1 | Shartnoma: oyiga 800,000 so'm, 12 oy | `POST /api/staff/finance/contracts` → `draft` | 20 s |
-| 2 | Tasdiqlash va faollashtirish | `POST …/approve`, `POST …/activate` | 15 s |
-| 3 | Tasdiqlangan chegirma hujjati: 200,000 | `POST …/discounts` → alohida hujjat, ikkinchi marta qo'shib bo'lmaydi | 20 s |
-| 4 | Hisob (charge) yaratish va o'tkazish | `POST /api/staff/finance/charges` → net **600,000**; jurnal: DR A/R 600,000 / CR deferred 600,000 | 30 s |
-| 5 | Qisman to'lov 250,000 | `POST /api/staff/finance/payments` → kvitansiya `RC-202611-000001`, qarzdorlik **350,000** | 30 s |
-| 6 | Daromad **avtomatik** tan olinmaganini ko'rsatish | summary: `recognizedRevenueMinor = 0` | 15 s |
-| 7 | 100 marta bir xil provider callback | faqat **bitta** to'lov, bitta jurnal yozuvi | 30 s |
-| 8 | Ortiqcha to'lov 100,000 | `customerAdvanceMinor = 100000`, qarzdorlik 0 (manfiy emas) | 20 s |
-| 9 | Egasi dashboard'i | 5 xil raqam alohida: yig'ilgan naqd / hisoblangan / tan olingan / qarzdorlik / muddati o'tgan | 30 s |
-| 10 | Buxgalteriya tekshiruvi | `GET /api/staff/finance/reconciliation` → `{"balanced": true}` | 15 s |
-| 11 | O'qituvchi boshqa talabaning hisobini so'rasa | 404 — mavjud emasdek javob (ma'lumot sizmaydi) | 20 s |
-| 12 | Ota-ona moliya route'iga urinsa | markaziy 403 | 15 s |
+1. `Management → Directory files` orqali CSV yoki XLSX ustunlarini tanlang. Oldindan natijani ko‘rib, yaroqli qatorlarni saqlang. Mavjud hisobni bog‘lang va xato qatorlarini yuklab oling.
+2. `Management → Admissions pipeline` orqali nomzod va sinov darsini qayd eting. Mavjud o‘quvchini `Academy groups` dagi guruhga yozing.
+3. Guruh jadvalida darsni belgilang. Dars tugagach, o‘tilgan holatga o‘tkazing va biriktirilgan o‘qituvchi bilan davomatni yozing.
+4. `Academy finance` da kontrakt va charge yarating. Tasdiqdan so‘ng qisman to‘lovni yozing. Ichki kvitansiya, qoldiq, qarz yoshi va jurnalni ko‘ring.
+5. O‘qituvchi Writing topshirig‘ini tayinlaydi. O‘quvchi javobni saqlaydi va topshiradi. O‘qituvchi fikrini yozadi. `Progress → Learner journey` da dars va natijalar paydo bo‘ladi.
+6. O‘quvchi ota-ona bog‘lanishini tasdiqlaydi. Ota-ona o‘z farzandining natijasini ko‘radi. Boshqa farzandga ruxsat berilmaydi. Telegram javobini yuboruvchi o‘qituvchiga qaytarish lokal ishchi sinovida tasdiqlangan.
+7. `Academy finance → Teacher payroll` da tasdiqlangan davr ish haqini hisoblang. Qoldiq, tuzatish va tasdiqlangan bank chiqimini tekshiring.
 
-**Demo uchun zarur:** local PostgreSQL va `1115` migratsiyasi qo'llangan baza. Retsept:
-`docs/verification/SALE_READY_ACCEPTANCE.md` §1 va §7.
+Ushbu amallar tegishli lokal testlarda tasdiqlangan. Xaridor yakuniy demo sessiyasida ularni bitta stsenariy bo‘yicha o‘tkazing. [Dalillar](../verification/SALE_READY_ACCEPTANCE.md)
 
-## 2. Nima **yo'q** — demo paytida ochiq aytilishi kerak
+## 2. Tashqi tasdiq va qolgan ishlar
 
-| Yo'q | Holat | Keyingi qadam |
-|---|---|---|
-| Moliya moduli staff UI | API bor, interfeys yo'q | Keyingi sprint |
-| Guruhlar / jadval / dars davomati | Yo'q (live-class join boshqa narsa) | Eng katta operatsion bo'shliq |
-| Talabalarni Excel'dan import | Yo'q | Import pipeline |
-| O'qituvchi ish haqi (payroll) | Yo'q | P1 |
-| Lead CRM | Yo'q | P1 |
-| Filial (branch) izolatsiyasi | Yo'q | Faqat xaridorda filial bo'lsa |
-| Click/Payme integratsiyasi | Yo'q (ataylab) | Merchant hisob kerak (MA-01) |
-| Production isboti | Yo'q | MA-03…MA-05, MA-07 |
+| Yo‘nalish | Holat |
+|---|---|
+| Filial vakolati | Xaridor doirasi belgilanganidan keyin tekshiriladi. |
+| Click/Payme | Imzolangan sandbox ishlaydi. Jonli merchant tasdig‘i kutilmoqda. |
+| Telegram, audio, STT va WebRTC | Jonli mijoz va qurilma sinovlari alohida bajariladi. |
+| Xaridor ma’lumotlari | Hisoblar katalogi import qilinadi. Guruh tarixi va ochilish qoldiqlari uchun manba xaritasi hamda hisob siyosati tasdiqlanadi. |
+| Production va tiklash | Kontentli upgrade, to‘liq restore, monitoring va real yuk dalillari kutilmoqda. |
 
 ## 3. Uch paket (tadqiqot diapazonlari — **va'da emas**)
 
 | Paket | Nima kiradi | Tadqiqot diapazoni | Shart |
 |---|---|---|---|
 | **IELTS Edition** | IELTS LMS, CMS, o'qituvchi/talaba portali, RIWI, private media, audit, deploy, zaxira, brending, ma'lumot importi | $9,500–$12,000 | Acceptance dalillari mavjud bo'lsa |
-| **Academy Operations Edition** | + moliya subledger, qarzdorlar, naqd/kvitansiya, guruhlar, davomat, payroll, lead pipeline | $14,000–$18,000 | Moliya qismi qurilgan va testlangan; operatsion qatlam hali yo'q |
+| **Academy Operations Edition** | + moliya subledger, qarzdorlar, naqd/kvitansiya, guruhlar, davomat, payroll, lead pipeline | $14,000–$18,000 | Operatsion asos lokal sinovdan o‘tgan, xaridor piloti kutilmoqda |
 | **Exclusive Multi-Branch** | + filial izolatsiyasi, konsolidatsiya, migratsiya xizmati, production monitoring | $20,000–$25,000+ | Faqat haqiqiy branch izolatsiyasidan **keyin** |
 
 Bu raqamlar 2026-11-14 tadqiqot ssenariylari. Ular **savdo majburiyati emas** va har bir
@@ -97,7 +85,7 @@ kechikishi), va oxirida imzolangan qabul hujjati.
 ## 7. Halol yakuniy gap
 
 Hozirgi holat: **o'quv platformasi kuchli, moliya umurtqasi qurildi va testlandi, operatsion
-qatlam (guruhlar/davomat/import) hali yo'q va production isboti yo'q.**
+qatlam (guruhlar, davomat va import) lokal sinovdan o‘tdi. Production dalili kutilmoqda.**
 
 Shuning uchun "hammasi tayyor" deyish **mumkin emas**. To'g'ri gap:
 > "IELTS o'quv qismi ishlaydi; to'lov/qarzdorlik/jurnal qismi haqiqiy PostgreSQL'da
