@@ -274,7 +274,7 @@ async def persist(user_id,kind,source_type,source_id,data,info):
                      WHEN status='open' THEN 'improving'::weakness_status
                      WHEN status='improving' THEN 'resolved'::weakness_status ELSE status END,last_seen_at=now()
                   WHERE user_id=$1 AND category=ANY($2::text[]) AND occurrence_count>0''',user_id,clean)
-            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'COACH_EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'evaluationType':kind,'providerId':info['providerId'],'sourceId':str(source_id),'overallEstimate':data['overallEstimate']}))
+            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'COACH_EVALUATION_COMPLETED',$2::jsonb)''',user_id,json.dumps({'evaluationType':kind,'providerId':'riwi' if info['providerId']=='gemini' else info['providerId'],'sourceId':str(source_id),'overallEstimate':data['overallEstimate']}))
             if info['fallbackUsed'] and info['fallbackFrom']:
                 await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'COACH_PROVIDER_FALLBACK',$2::jsonb)''',user_id,json.dumps({'evaluationType':kind,'fallbackFrom':info['fallbackFrom'],'evaluatedBy':'riwi','sourceId':str(source_id)}))
     try:
