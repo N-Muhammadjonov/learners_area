@@ -13,7 +13,7 @@ test('portal, globe, sky and dunes remain a single scroll flow',()=>{
  assert.match(LANDING_MARKUP,/id="cinematicGlobeFrame"/);
  assert.match(LANDING_MARKUP,/id="cinematicSky"/);
  assert.match(LANDING_MARKUP,/id="cinematicDunes"/);
- assert.match(runtime,/const globeScale=1\+\.92\*earthApproach/);
+ assert.match(runtime,/const globeScale=1\+\.48\*earthApproach/);
  assert.match(runtime,/const skyProgress=smoothstep/);
  assert.match(runtime,/const duneProgress=smoothstep/);
  assert.doesNotMatch(runtime,/cinematicNight|nightProgress|nightLayer|nightImage/);
