@@ -2,16 +2,15 @@
 from datetime import datetime, timedelta, timezone
 
 from app.coin_policy import (add_unique_media_coverage, advance_playback, answers_complete, coin_level, credit_timeline,
-                             grammar_submission_ok, short_media_ready, vocab_milestone_coins)
+                             grammar_submission_ok, vocab_milestone_coins)
 
 T0 = datetime(2026, 11, 11, 12, 0, tzinfo=timezone.utc)
 
 
-def beat(state, seconds, position_s, rate=1, playing=True, duration_s=None):
+def beat(state, seconds, position_s, rate=1, playing=True):
     return advance_playback(
         state, T0 + timedelta(seconds=seconds), position_ms=int(position_s * 1000),
-        playback_rate=rate, playing=playing,
-        duration_ms=None if duration_s is None else int(duration_s * 1000))
+        playback_rate=rate, playing=playing)
 
 
 def test_partial_and_replay_answers_pay_nothing():
@@ -60,10 +59,15 @@ def test_double_speed_credits_wall_time_not_twice_the_video_position():
     assert step["buckets"] == []
 
 
-def test_short_media_needs_eighty_percent_verified():
-    assert short_media_ready(60_000, 47_000, 47_000) is False
-    assert short_media_ready(60_000, 48_000, 48_000) is True
-    assert short_media_ready(600_000, 500_000, 500_000) is False
+def test_short_media_never_completes_an_active_time_bucket():
+    step = beat(None, 0, 0)
+    for second in range(15, 61, 15):
+        step = beat(step["state"], second, second)
+        assert step["buckets"] == []
+    assert step["state"]["credited"] == 60_000
+
+
+def test_timeline_credits_a_full_slice_once():
     coverage, paid = {}, set()
     assert credit_timeline(coverage, paid, 0, 300_000) == [0]
     assert credit_timeline(coverage, paid, 0, 300_000) == []

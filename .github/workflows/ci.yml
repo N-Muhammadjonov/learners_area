@@ -66,3 +66,9 @@ jobs:
         working-directory: frontend/vanilla
       - run: npm test
         working-directory: frontend/vanilla
+      - name: Desktop and mobile motion parity in Chromium
+        working-directory: frontend/vanilla
+        run: |
+          export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
+          test -n "$CHROMIUM_EXECUTABLE"
+          node tests/browser-motion-parity.mjs

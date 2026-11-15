@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright-core';
 import {fixtureSession,publicPolicy,testId,viewFixture} from './fixtures.mjs';
 
-const root=fileURLToPath(new URL('../',import.meta.url));
+const root=path.resolve(fileURLToPath(new URL('../',import.meta.url)));
 const origin='http://learners-area-fixture.local';
 const catalog='/app/listening/lessons';
 const testUrl='/app/listening/tests/'+testId;
@@ -39,7 +39,7 @@ async function compareState(theme,width,preference){
    if(p.startsWith('/api/'))return route.fulfill({status:503,json:{error:'fixture_not_configured'}});
    const name=p==='/'||p==='/app'||p.startsWith('/app/')?'index.html':p.slice(1);
    const file=path.resolve(root,name);
-   if(!file.startsWith(root)||!await fs.stat(file).then(stat=>stat.isFile(),()=>false))return route.fulfill({status:404});
+   if(!file.startsWith(root+path.sep)||!await fs.stat(file).then(stat=>stat.isFile(),()=>false))return route.fulfill({status:404});
    return route.fulfill({path:file});
   });
   const page=await context.newPage();
