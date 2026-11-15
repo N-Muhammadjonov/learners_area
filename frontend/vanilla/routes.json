@@ -1,6 +1,7 @@
 {
   "version": 1,
   "routes": [
+    "/app/payments",
     "/app/management/study-plans",
     "/app/management/groups",
     "/app/management/capacity",
@@ -147,6 +148,16 @@
     "/app/reading/articles/[^/]+"
   ],
   "redirects": [
+    {
+      "source": "/payments",
+      "destination": "/app/payments",
+      "permanent": false
+    },
+    {
+      "source": "/payments/:path*",
+      "destination": "/app/payments/:path*",
+      "permanent": false
+    },
     {
       "source": "/dashboard",
       "destination": "/app/dashboard",

@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {academyHelp} from '../shared/academy-help.js';
 import {api, loadStyles, tr, failureText, replaceOptionalChildren} from './shared.js';
 
 const STATUS = {
@@ -19,6 +20,7 @@ export async function mount(ctx) {
   newKey();
   const host = h('div', {class: 'pc-page', 'data-route-usable': 'management-guardians'});
   root.append(host);
+  root.append(academyHelp(ctx,'guardians'));
   let timer = 0, ticket = 0;
 
   async function load() {

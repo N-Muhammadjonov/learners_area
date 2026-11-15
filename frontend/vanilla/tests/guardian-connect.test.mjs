@@ -27,13 +27,15 @@ test('progress and leaderboard routes use the role-aware entries; owner page is 
   assert.deepEqual(staff[0].roles, ['teacher', 'admin', 'owner']);
 });
 
-test('guardian read pages are GET-only and contain no action controls or module links', () => {
+test('guardian academic pages remain GET-only with only the scoped payments entry', () => {
   for (const file of ['progress.js', 'leaderboard.js', 'shared.js']) {
     const code = read(file).replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
     assert.equal(/method:\s*'(POST|PUT|PATCH|DELETE)'/i.test(code.replace("method = 'GET'", '')), false, file);
-    assert.equal(/href:\s*['"`]\/app\//.test(code), false, file);
+    const links=[...code.matchAll(/href:\s*['"`](\/app\/[^'"`]+)['"`]/g)].map(match=>match[1]);
+    assert.deepEqual(links,file==='progress.js'?['/app/payments?child=']:[],file);
   }
   assert.equal(/h\(\s*'(form|textarea)'/.test(read('leaderboard.js')), false);
+  assert.match(read('progress.js'),/session\?\.paymentsEnabled===true/);
 });
 
 test('owner page never sends without an explicit confirm and a stable idempotency key', () => {

@@ -1,4 +1,5 @@
 import {api} from '../../js/api-client.js';
+import {academyHelp} from '../shared/academy-help.js';
 import {el,listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
 
@@ -60,6 +61,7 @@ export function mount(ctx){
    el('label',{class:'flex items-center gap-2'},t.title,status),
    el('label',{class:'flex items-center gap-2'},t.workflow,workflow)),results);
  ctx.root.append(view);
+ view.append(academyHelp(ctx,'rescue'));
 
  function button(label,action,disabled=false){
   const node=el('button',{type:'button',class:'btn-secondary',disabled},label);

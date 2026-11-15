@@ -139,7 +139,8 @@ async def _load_authority(req: Request):
         # route that resolves the session, so no student/staff endpoint can ever serve a guardian.
         from .guardian_port import guardian_path_allowed
         from fastapi import HTTPException
-        if not guardian_path_allowed(req.url.path): raise HTTPException(403, 'forbidden')
+        if req.url.path.startswith('/api/') and not guardian_path_allowed(req.url.path):
+            raise HTTPException(403, 'forbidden')
     return {'user': user, 'expiresAt': token['expiresAt'], 'sessionKey': token['sessionKey'], 'authVersion': token['authVersion']}
 
 
@@ -918,6 +919,8 @@ from .guardian_port import install as _install_guardian
 _install_guardian()
 from .tuition_port import install as _install_tuition
 _install_tuition()
+from .self_service_payment_port import install as _install_self_service_payments
+_install_self_service_payments()
 from .study_plan_staff_port import install as _install_study_plan_staff
 _install_study_plan_staff()
 from .academy_groups_port import install as _install_academy_groups

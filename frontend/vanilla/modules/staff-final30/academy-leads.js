@@ -1,4 +1,5 @@
 import {api} from '../../js/api-client.js';
+import {academyHelp} from '../shared/academy-help.js';
 import {el, listen} from '../../js/dom.js';
 import {BackLink} from './kit.js';
 import {academyLookup} from './academy-groups.js';
@@ -161,7 +162,7 @@ export async function mount(ctx){
  const status=el('p',{role:'status'});
  ctx.root.append(el('div',{class:'mx-auto max-w-6xl space-y-4','data-academy-leads':''},
   BackLink({fallbackHref:selected?PAGE:'/app/management',label:ctx.dict.common.back}),
-  el('h1',{class:'font-display text-3xl'},t.title),status,section));
+  el('h1',{class:'font-display text-3xl'},t.title),status,section,academyHelp(ctx,'leads')));
  const request=(path,options={})=>api.request(BASE+path,{...options,signal:ctx.signal,fresh:true});
  async function reload(){
   if(ctx.signal.aborted)return;

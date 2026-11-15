@@ -2518,5 +2518,60 @@
     "method": "POST",
     "path": "/api/writing/typing/start",
     "name": "start"
+  },
+  {
+    "method": "GET",
+    "path": "/api/finance/me/payments",
+    "name": "my_payments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/finance/me/intents",
+    "name": "create_my_intent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/finance/me/intents/{intent_id}",
+    "name": "my_intent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/finance/me/intents/{intent_id}/refresh",
+    "name": "refresh_my_intent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children/{child_id}/payments",
+    "name": "child_payments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardian/children/{child_id}/payments/intents",
+    "name": "create_child_intent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children/{child_id}/payments/intents/{intent_id}",
+    "name": "child_intent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardian/children/{child_id}/payments/intents/{intent_id}/refresh",
+    "name": "refresh_child_intent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/payments/callbacks/payme",
+    "name": "payme_callback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/payments/callbacks/click",
+    "name": "click_callback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/payments/callbacks/uzum",
+    "name": "uzum_callback"
   }
 ]

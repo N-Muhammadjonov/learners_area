@@ -4,6 +4,7 @@ import {anySignal} from '../../js/signals.js';
 import {BackLink} from './kit.js';
 import {financeDocuments} from './finance-documents.js';
 import {academyPayroll} from './academy-payroll.js';
+import {pageGuide} from '../shared/page-guide.js';
 
 const STAFF_API='/api/staff/finance';
 const UUID=/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i;
@@ -109,7 +110,10 @@ function statementView(ctx,data,studentLabel){
  const view=el('div',{class:'space-y-3'},
   totals([[t.debt,fmt(p.balanceDueMinor)],[t.overdue,fmt(p.overdueMinor)],
    [t.advance,fmt(p.advanceMinor)],[t.refunds,fmt(p.refundedMinor)]]),
-  entries(t.charges,data.charges,row=>el('li',{class:'py-2'},[row.period_key,fmt(row.net_amount_minor),row.status].join(' · '))),
+  entries(t.charges,data.charges,row=>el('li',{class:'py-2'},[row.period_key,fmt(row.net_amount_minor),
+   ({draft:ctx.locale==='uz'?'Qoralama':'Draft',approved:ctx.locale==='uz'?'Tasdiqlangan':'Approved',
+    posted:ctx.locale==='uz'?'Hisobga yozilgan':'Recorded',reversed:ctx.locale==='uz'?'Teskari yozuv bilan bekor qilingan':'Reversed',
+    credited:ctx.locale==='uz'?'Tuzatilgan':'Credited'})[row.status]??ctx.dict.common.loading].join(' · '))),
   entries(t.payments,data.payments,row=>{
    const print=button(t.print);
    const printable=Boolean(row.receipt_no&&row.occurred_at&&['confirmed','partially_refunded','refunded'].includes(row.status));
@@ -235,10 +239,30 @@ export async function mount(ctx){
   label(t.find,search),lookup,label(t.select,matches),open);
  const findStatus=el('p',{role:'status'});
  const studentHost=el('div',{class:'space-y-3'});
+ const uz=ctx.locale==='uz',text=(a,b)=>uz?a:b;
+ const payPanel=el('section',{class:'card space-y-3 p-4','data-finance-payment-task':''},
+  el('h2',{class:'font-display text-xl'},text('O‘quvchining to‘lovini yozish','Record a student payment')),
+  el('p',{},text('Ism bo‘yicha qidiring, o‘quvchini oching va faqat olingan pulni yozing.','Search by name, open the student and record only funds you have received.')),
+  lookupForm,findStatus,studentHost);
+ const debtPanel=el('details',{class:'card space-y-3 p-4','data-finance-debt-task':''},
+  el('summary',{class:'cursor-pointer font-semibold'},text('Qarzdorlarni topish','Find outstanding tuition')),agingReport(ctx));
+ const expert=el('details',{class:'card space-y-3 p-4','data-finance-advanced':''},
+  el('summary',{class:'cursor-pointer font-semibold'},text('Batafsil: hisoblarni tekshirish, kassa va ish haqi','Advanced: account checks, cash close and payroll')),
+  el('p',{},text('Tushum — kelgan pul. Daromad — ko‘rsatilgan ta’lim xizmati uchun hisoblangan summa. Ular bir xil bo‘lishi shart emas.',
+   'Collections are received funds. Recognized revenue represents delivered tuition services. These amounts can differ.')),
+  reconcile,recon,journalExport(ctx,today),cashClose(ctx,today),academyPayroll(ctx));
+ const startPayment=button(text('To‘lovni yozish','Record payment'),{class:'btn-primary'});
+ listen(startPayment,'click',()=>{payPanel.scrollIntoView({block:'start'});search.focus();},ctx.signal);
+ const guide=pageGuide(ctx,{key:'finance',title:text('Moliya sahifasidan foydalanish','How to use finance'),
+  steps:[text('Davrni tanlang. Jami tushum kelgan pulni, qarz esa hali to‘lanmagan summani bildiradi.','Select the date range. Collections show received funds, while outstanding tuition is unpaid.'),
+   text('To‘lovni yozish uchun o‘quvchini qidiring, hisobini oching va naqd yoki bank usulini tanlang.','To record funds, find the student, open the account and choose cash or bank.'),
+   text('Qarzdorlarni alohida ro‘yxatdan ko‘ring. Hisob tekshiruvi va kassa yopish amallari “Batafsil” ichida.','Find debtors in their own list. Reconciliation and cash closing are under Advanced.')],
+  example:text('O‘quvchini ochganingizda uning haqiqiy qarzi, avansi va to‘lovlari ko‘rinadi. Faqat olingan summani yozing, qoldiq serverda qayta hisoblanadi.',
+   'Open a student to see actual debt, advance and payments. Record the received amount; the server recalculates the remainder.')});
  const host=el('div',{class:'mx-auto max-w-6xl space-y-4','data-academy-finance':''},
   BackLink({fallbackHref:'/app/management',label:ctx.dict.common.back}),el('h1',{class:'font-display text-3xl'},t.title),
-  form,summary,recon,agingReport(ctx),journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost,
-  academyPayroll(ctx));
+  el('p',{},text('To‘lovlarni yozing, qarzdorlarni toping va tanlangan davrdagi tushumni tekshiring.','Record payments, find outstanding tuition and review collections for the selected period.')),
+  startPayment,form,summary,payPanel,debtPanel,guide,expert);
  ctx.root.append(host);
  let selectedController;
  async function report(){

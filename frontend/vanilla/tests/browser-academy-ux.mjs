@@ -23,7 +23,6 @@ try {
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    const path=['owner','admin'].includes(role)?'/app/management/finance':role==='teacher'?'/app/management/guardians':stage==='after'?'/app/payments':'/app/progress';
    const response=await page.goto(origin+path);
-   if(stage==='after')assert.equal(response.status(),200);
    await page.waitForLoadState('networkidle');
    const filename=`${role}-${theme}-${width}.png`;
    await page.screenshot({path:resolve(directory,filename),fullPage:true});
@@ -39,6 +38,14 @@ try {
    await context.close();
   }
  }
- writeFileSync(resolve(directory,'receipt.json'),JSON.stringify({stage,source:'isolated PostgreSQL and real FastAPI; synthetic fixtures',studentId,results},null,2)+'\n');
+ writeFileSync(resolve(directory,'receipt.json'),JSON.stringify({stage,sourceCommit:process.env.ACADEMY_UX_SOURCE_SHA??null,source:'isolated PostgreSQL and real FastAPI; synthetic fixtures',studentId,results},null,2)+'\n');
+ if(stage==='after')for(const row of results){
+  const scope=`${row.role}/${row.theme}/${row.width}`;
+  assert.equal(row.responseStatus,200,scope+' document response');
+  assert.equal(row.actualPath,row.path,scope+' permitted route');
+  assert.deepEqual(row.errors,[],scope+' page errors');
+  assert.equal(row.overflow,false,scope+' horizontal reflow');
+  assert.equal(row.unlabeledFields,0,scope+' field labels');
+ }
  console.log(JSON.stringify({stage,screenshots:results.length,pageErrors:results.flatMap(r=>r.errors),overflow:results.filter(r=>r.overflow).map(r=>`${r.role}:${r.theme}:${r.width}`)}));
 } finally {await browser.close();}

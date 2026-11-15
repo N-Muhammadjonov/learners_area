@@ -30,7 +30,7 @@ berilgan. `ID` orqali bog'lanadi.
 
 | ID | Prioritet | To'suvchi? | Modul | Qisqa harakat | Status |
 |---|---|---|---|---|---|
-| MA-01 | P0 | **Ha — sale** | To'lovlar | Click yoki Payme merchant hisobini ochish va kalitlarni berish | `OPEN` |
+| MA-01 | P0 | **Ha — sale** | To'lovlar | Click / Payme / Uzum merchant sandbox va jonli qabul | `BLOCKED_EXTERNAL` |
 | MA-02 | P0 | **Ha — sale** | Moliya | Hisob siyosati va chart-of-accounts moslashtiruvini tasdiqlash | `OPEN` |
 | MA-03 | P0 | Yo‘q — bajarilgan | Migratsiya | 1115–1131 production’da qo‘llandi va Academy yoqildi | `DONE` |
 | MA-04 | P0 | **Ha — sale** | Media/R2 | R2 sozlangan; jonli audio va muddati tugagan URL qabuli | `CONFIGURED_AWAITING_MANUAL_QA` |
@@ -45,23 +45,23 @@ berilgan. `ID` orqali bog'lanadi.
 
 ---
 
-## MA-01 — To'lov provayderi (Click yoki Payme) merchant onboarding
+## MA-01 — Click, Payme va Uzum merchant tekshiruvi
 
 | Maydon | Qiymat |
 |---|---|
-| Prioritet / To'suvchi | P0 / **Ha — sale** (to'lov qabul qilish uchun) |
-| Modul | To'lovlar |
-| Aniq harakat | Bitta provayderni tanlash (Click **yoki** Payme), merchant shartnomasini imzolash, test (sandbox) va jangari kalitlarni alohida berish |
-| Nega avtomatlashtirib bo'lmaydi | Merchant identifikatsiyasi, shartnoma va kalitlar — bu huquqiy va moliyaviy harakat; hech qanday kod buni egasiz bajara olmaydi |
-| Bajarilgan tayyorgarlik | To'lov subledgeri to'liq: `tuition_payments`, `UNIQUE(provider, provider_transaction_id)`, `idempotency_key`, duplikat callback testi (100×), 20 parallel poyga testi, `pending_provider` holati (redirect = to'lov emas). Adapter interfeysi `docs/architecture/DOMAIN_CONTRACTS.md` §8 da belgilangan |
-| Rasmiy manba | Payme Business Merchant API: `https://developer.help.paycom.uz/protokol-merchant-api/` · Payme API: `https://docs.payme.uz/api/introduction/` · Click Business: `https://business.click.uz/en` |
-| Kerakli hisob/ruxsat | Markaz rahbari nomidagi merchant hisob, API kalitlari, callback secret |
-| Aniq ketma-ketlik | 1) Provayder saytida merchant ro'yxatdan o'tish → 2) "API" bo'limida **qaysi API mahsuloti** ekanini aniqlash (Merchant API va oddiy API — ikki xil shartnoma, aralashtirmang) → 3) sandbox kalitlarini olish → 4) Tanlangan API mahsuloti hujjati va sandbox hisobini integratsiya uchun tayyorlash. Vendor callback manzili hali implement qilinmagan; uni uydirib merchantga kiritmang. Hozir mavjud `/api/internal/payments/sandbox/callback` faqat Learners Area sintetik protokoli. Kalit nomlari haqiqiy adapter bilan belgilanadi |
-| Xavfsiz misol | `PAYME_MERCHANT_SECRET=<sandbox-secret-here>` — haqiqiy qiymatni hech qachon chatga yoki repoga yozmang |
-| Egadan keyingi validatsiya | Vendor adapter CAP-22 bo‘yicha muhandislikda qurilgach, sandbox'da 8 ta holat: muvaffaqiyat, duplikat callback, kechikkan callback, browser qaytishidan oldin callback, yaroqsiz imzo, summa nomuvofiqligi, refund, bekor qilish. Har biri uchun `GET /api/staff/finance/reconciliation` → `balanced: true` |
-| Taxminiy vaqt | 2–5 ish kuni (provyayder tomoniga bog'liq) |
-| Status | `OPEN` |
-| Dalil havolasi | `services/backend/tests/test_tuition_ledger.py::test_duplicate_provider_callback_has_exactly_one_effect` |
+| Prioritet / To'suvchi | P0 / Ha — sale, jonli to‘lov qabul qilish uchun |
+| Modul | O‘quvchi va bog‘langan farzand to‘lovlari |
+| Aniq harakat | Tanlangan provayderlarning merchant shartnomasini rasmiylashtirish, sandbox hisobini ajratish va rasmiy testlardan o‘tkazish. Sinovdan o‘tmagan usul yopiq qoladi |
+| Nega avtomatlashtirib bo'lmaydi | Merchant shartnomasi, haqiqiy kalitlar, provayder tekshiruvi va fiskal talablar markaz hamda provayder tomonidan tasdiqlanadi |
+| Bajarilgan tayyorgarlik | Alohida development branchda immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari, 39 ta haqiqiy ajratilgan PostgreSQL testi. Daraja: LOCALLY_TESTED. Haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
+| Rasmiy manba | [Click](https://docs.click.uz/), [Payme Merchant](https://developer.help.paycom.uz/protokol-merchant-api/), [Payme sandbox](https://developer.help.paycom.uz/pesochnitsa/), [Uzum Checkout](https://developer.uzumbank.uz/en/checkout/) |
+| Kerakli hisob/ruxsat | Markazning merchant hisobi, alohida sandbox kalitlari, tasdiqlangan login va ruxsat etilgan callback URL. Jonli chiqarish uchun yangi release ruxsati |
+| Aniq ketma-ketlik | 1) Merchant mahsulotini tanlang: Click Shop, Payme Merchant, Uzum Checkout. 2) Ajratilgan sinov bazasi va sandbox kalitlarini tayyorlang. 3) `/api/payments/callbacks/click`, `/payme` yoki `/uzum` manzilini shu sinov serverida sozlang. 4) Muvaffaqiyat, takror, kechikish, noto‘g‘ri imzo/summa, bekor qilish, ikkita farzand va refund siyosatini tekshiring. 5) Dalillar va reconciliation mos kelgach tegishli verification flagini tasdiqlang. 6) Yangi migratsiya va feature activationni alohida release ruxsati bilan bajaring. Tekshiruvgacha jonli flaglarni yoqmang |
+| Xavfsiz misol | Kalit nomlari va muhit chegaralari: `docs/architecture/SELF_SERVICE_PAYMENTS.md`. Kalit qiymatini chatga, repoga yoki screenshotga yozmang. Uzum API base URL va checkout origin merchant tomonidan beriladi, uydirilmaydi |
+| Egadan keyingi validatsiya | Rasmiy vendor sandbox hisobotlari + `services/backend/tests/test_self_service_payments.py` + asl journal bilan reconciliation. Payme credited-payment cancellation/refund tartibi provayder bilan alohida qabul qilinadi. Ichki tasdiqnoma fiskal chek deb olinmaydi |
+| Taxminiy vaqt | Merchant tekshiruvi va shartnomaga bog‘liq |
+| Status | BLOCKED_EXTERNAL — haqiqiy merchant kalitlari va vendor qabuli yo‘q |
+| Dalil havolasi | [Arxitektura va muhitlar](architecture/SELF_SERVICE_PAYMENTS.md), [UX dalillari](verification/UX_BASELINE_AND_REDESIGN.md), [PR #202](https://github.com/N-Muhammadjonov/learners_area/pull/202) |
 
 ## MA-02 — Hisob siyosati va chart-of-accounts moslashtiruvi
 
@@ -69,7 +69,7 @@ berilgan. `ID` orqali bog'lanadi.
 |---|---|
 | Prioritet / To'suvchi | P0 / **Ha — sale** (moliya modulini topshirish uchun) |
 | Modul | Moliya |
-| Aniq harakat | (a) Daromadni tan olish siyosatini belgilash (masalan: o'tkazilgan darslar ulushi bo'yicha), (b) 11 ta operatsion hisobni markazning o'z tasdiqlangan hisoblar rejasiga bog'lash, (c) chegirma va refund siyosatini yozma tasdiqlash |
+| Aniq harakat | (a) Daromadni tan olish siyosatini belgilash (masalan: o'tkazilgan darslar ulushi bo'yicha), (b) 12 ta operatsion hisobni markazning o'z tasdiqlangan hisoblar rejasiga bog'lash, (c) chegirma va refund siyosatini yozma tasdiqlash |
 | Nega avtomatlashtirib bo'lmaydi | Bu buxgalteriya siyosati qarori. Men O'zbekiston qonunchiligidagi hisob raqamlarini yoki soliq kodeklarini **o'ylab topa olmayman** va topshirmayman |
 | Bajarilgan tayyorgarlik | Ikkita qatlam qurilgan: AR subledger + double-entry jurnal. `finance_accounts.statutory_code` ataylab `NULL`. Daromadni tan olish qo'lda va chegaralangan (`insufficient_deferred_revenue`). To'lov yig'ish daromadni avtomatik tan olmaydi (test bilan isbotlangan) |
 | Rasmiy manba | Buxgalteriya hisobi to'g'risidagi qonun: `https://www.lex.uz/docs/-2931253` · IFRS 15: `https://www.ifrs.org/issued-standards/list-of-standards/ifrs-15-revenue-from-contracts-with-customers/` |

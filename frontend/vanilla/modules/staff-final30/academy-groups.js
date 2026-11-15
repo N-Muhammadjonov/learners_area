@@ -1,4 +1,5 @@
 import {api} from '../../js/api-client.js';
+import {academyHelp} from '../shared/academy-help.js';
 import {el, listen} from '../../js/dom.js';
 import {BackLink} from './kit.js';
 import {attendanceRoster, attendanceSummary} from './academy-attendance.js';
@@ -289,6 +290,7 @@ export async function mount(ctx) {
   BackLink({fallbackHref: groupId ? PATH : '/app/management', label: dict.common.back}),
   el('h1', {class: 'font-display text-3xl'}, t.heading), section);
  ctx.root.append(host);
+ host.append(academyHelp(ctx,'groups'));
  if (!groupId) host.append(attendanceSummary(ctx));
  async function render() {
   if (signal.aborted) return;
