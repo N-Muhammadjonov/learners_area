@@ -79,17 +79,20 @@ function paged(ctx, page, hasNext, link) {
   hasNext ? el('a', {href: link(page + 1), class: 'btn-secondary'}, t.next) : null);
 }
 
-function searchBar(ctx, label, query, status, callback) {
+function searchBar(ctx, label, query, status, callback, branch = '') {
  const t = words(ctx);
  const input = el('input', {class: 'input', type: 'search', maxlength: 120, value: query});
  const selector = status === null ? null : el('select', {class: 'input'}, option('', t.filters),
   GROUP_STATES.map(value => option(value, t[value])));
  if (selector) selector.value = status;
+ const branchInput = selector ? el('input', {class: 'input', type: 'search', maxlength: 120,
+  value: branch, 'data-academy-branch-filter': ''}) : null;
  const form = el('form', {class: 'flex flex-wrap items-end gap-3'}, field(label, input),
-  selector ? field(t.status, selector) : null, button(t.search, {type: 'submit'}));
+  selector ? field(t.status, selector) : null,
+  branchInput ? field(t.branch, branchInput) : null, button(t.search, {type: 'submit'}));
  listen(form, 'submit', event => {
   event.preventDefault();
-  callback(input.value.trim(), selector?.value ?? '');
+  callback(input.value.trim(), selector?.value ?? '', branchInput?.value.trim() ?? '');
  }, ctx.signal);
  return form;
 }
@@ -279,6 +282,7 @@ export async function mount(ctx) {
  const query = (url.searchParams.get('q') || '').slice(0, 120);
  const status = url.searchParams.get('status');
  const filter = GROUP_STATES.includes(status) ? status : '';
+ const branchFilter = (url.searchParams.get('branch') || '').slice(0, 120);
  const page = Math.max(1, Math.min(4000, Number.parseInt(url.searchParams.get('page'), 10) || 1));
  const section = el('div', {class: 'space-y-4'});
  const host = el('div', {class: 'mx-auto max-w-6xl space-y-4', 'data-academy-groups': ''},
@@ -303,13 +307,15 @@ export async function mount(ctx) {
      roster(ctx, data, page, query, canManage),sessionPanel(ctx,group,data.teachers,canManage));
     return;
    }
-   const href = (partial = {}) => PATH + '?' + new URLSearchParams({q: query, ...(filter ? {status: filter} : {}), page, ...partial});
+   const href = (partial = {}) => PATH + '?' + new URLSearchParams({q: query, ...(filter ? {status: filter} : {}), ...(branchFilter ? {branch: branchFilter} : {}), page, ...partial});
    const data = await request(ctx, '/groups?' + new URL(href(), url).searchParams);
    if (signal.aborted) return;
    replace(section, searchBar(ctx, t.groupSearch, query, filter,
-    (q, status) => { const target = new URL(PATH, url); target.searchParams.set('q', q);
+    (q, status, branch) => { const target = new URL(PATH, url); target.search = '';
+     target.searchParams.set('q', q);
      if (status) target.searchParams.set('status', status);
-     void ctx.navigate(target.pathname + target.search); }),
+     if (branch) target.searchParams.set('branch', branch);
+     void ctx.navigate(target.pathname + target.search); }, branchFilter),
     canManage ? groupForm(ctx) : null,
     data.groups.length ? el('ul', {class: 'grid gap-3 sm:grid-cols-2'}, data.groups.map(group =>
      el('li', {class: 'card p-4'}, el('a', {class: 'font-semibold underline', href: PATH + '?group=' + group.id}, group.name),

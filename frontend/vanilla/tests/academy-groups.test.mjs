@@ -152,3 +152,39 @@ test('teacher marks a held lesson and supplies a reason only when correcting a s
   assert.equal(updates[1].body.marks[0].revision,2);
  } finally {h.dispose();}
 });
+
+
+test('branch-specific group list filter preserves query, status and pagination', async () => {
+ const h=setup({path:path+'?branch=Tashkent&status=active&page=2',role:'teacher',locale:'uz'});
+ h.stub({[endpoint+'/groups']:{groups:[group],hasNext:true}});
+ try {
+  await mount(h.ctx);
+  assert.equal(h.calls.length,1);
+  const requested=new URL(h.calls[0].path,'https://fixture.invalid');
+  assert.equal(requested.searchParams.get('branch'),'Tashkent');
+  assert.equal(requested.searchParams.get('status'),'active');
+  assert.equal(requested.searchParams.get('page'),'2');
+  const branchInput=h.q('[data-academy-branch-filter]');
+  assert(branchInput);
+  assert.match(branchInput.closest('label').textContent,/Filial/);
+  assert.equal(branchInput.value,'Tashkent');
+  const next=h.q('nav a[href*="page=3"]');
+  assert(next);
+  const nextUrl=new URL(next.href,'https://fixture.invalid');
+  assert.equal(nextUrl.searchParams.get('branch'),'Tashkent');
+  assert.equal(nextUrl.searchParams.get('status'),'active');
+  h.input(branchInput,'Namangan');
+  h.submit(branchInput.closest('form'));
+  await tick();
+  const updated=new URL(h.nav.at(-1).path,'https://fixture.invalid');
+  assert.equal(updated.searchParams.get('branch'),'Namangan');
+  assert.equal(updated.searchParams.get('status'),'active');
+  assert.equal(updated.searchParams.has('page'),false);
+  h.input(branchInput,'');
+  h.submit(branchInput.closest('form'));
+  await tick();
+  const cleared=new URL(h.nav.at(-1).path,'https://fixture.invalid');
+  assert.equal(cleared.searchParams.has('branch'),false);
+  assert.equal(cleared.searchParams.has('page'),false);
+ } finally {h.dispose();}
+});
