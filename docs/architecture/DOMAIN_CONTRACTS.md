@@ -188,3 +188,5 @@ Har +1 coin uchun bitta media ichida 300 000 ms takrorlanmagan faol vaqt kerak. 
 ## 13. O‘quvchiga yordam ish oqimi
 
 Rescue Queue faol a’zolikni o‘quvchi identifikatori va guruh bilan bog‘laydi. O‘qituvchi uchun guruh biriktiruvi hamda amaldagi o‘quvchi ro‘yxati tekshiriladi. Mezonlarni faqat egasi yangilaydi. Har o‘zgarish revision va yig‘ilgan faktlar bilan qayd etiladi. Amallar ish kaliti bo‘yicha tranzaksiya qulfidan o‘tadi, bitta revisionni bir marta o‘zgartiradi va append-only tarix yozadi. Nazorat mezonlari e’lon qilingan davomat, topshiriq muddati va ayni mashqdan olingan dalillarga tayanadi. Ota-onaga xabar yuborish yoki coin hisobini o‘zgartirish oqimga kirmaydi.
+
+O‘quvchi hisobi qonuniy o‘chirilganda unga tegishli yordam ishlari va amallar tarixi kaskad orqali o‘chadi. Egasi bajargan o‘chirish hodisasi `audit_log`da yoziladi. Mavjud moliyaviy jurnal qatorini o‘zgartiradigan har qanday UPDATE yoki DELETE rad etiladi.

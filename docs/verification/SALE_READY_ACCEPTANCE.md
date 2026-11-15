@@ -1,5 +1,12 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15, Toshkent — Rescue Queue regressiyasi va akkauntni o‘chirish
+
+- `6aeac981` commitida beshta yangi Rescue API marshruti va `1128` / `1129` fayllari qat’iy inventarlarga kiritilmagani uchun to‘liq backend CI’da 12 ta test yiqildi. Marshrutlar va SHA-256 qiymatlari inventarlarga qo‘shildi. Eski fayllar xeshlari, marshrutlarning yakka ro‘yxati va kontrakt assertionlari saqlandi. [Qizil CI](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43679472858)
+- PostgreSQL 18.6 da egasi to‘xtatilgan o‘quvchini o‘chirganda 500 qaytdi. Foreign key bo‘sh natijali UPDATE bajarganda ham statement-level jurnal triggeri ishga tushardi. Rescue tarixining ikkita foreign key bog‘lanishi o‘chirishni alohida to‘sardi. `1130_preserve_rescue_account_erasure.sql` o‘quvchiga tegishli Rescue case va action qatorlarini kaskad orqali o‘chiradi. Jurnal triggerlari amalda yangilanayotgan yoki o‘chirilayotgan har bir qatorni avvalgidek himoya qiladi. HTTP regressiyasi Cascade, `account.deleted` auditi va saqlangan moliyaviy tarix himoyasini tekshiradi.
+- Fresh PostgreSQL tekshiruvi 109 sxema migratsiyasi, 189 typed table va 9 ASGI so‘rovini o‘tkazdi. 21 kontent migratsiyasi alohida qayd etildi. Migratsiya kontraktining to‘rt testi o‘tdi. Bu sinovlar alohida test bazalarida bajarildi.
+- Lokal Chromium jarayoniga muhit socket ochishga ruxsat bermadi. Rescue Queue uchun browser → API → DB oqimi mahalliy brauzerda tasdiqlanmagan.
+
 ## 2026-11-15, Toshkent — Rescue Queue
 
 - `Management → O‘quvchiga yordam` ro‘yxati davomat, ketma-ket kechikkan topshiriqlar va ayni Listening yoki Reading materialidagi tekshirilgan natija o‘zgarishini manbalari bilan ko‘rsatadi. Yetarli qayd bo‘lmasa holat `insufficient_data`.

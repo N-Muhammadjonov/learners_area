@@ -1666,6 +1666,31 @@
  },
  {
   "method": "GET",
+  "path": "/api/staff/academy/rescue",
+  "name": "academy_rescue_queue"
+ },
+ {
+  "method": "PUT",
+  "path": "/api/staff/academy/rescue/thresholds",
+  "name": "academy_rescue_threshold_update"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/rescue/{group_id}/{student_id}/actions",
+  "name": "academy_rescue_case_history"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/rescue/{group_id}/{student_id}/actions",
+  "name": "academy_rescue_case_apply"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/rescue/{group_id}/{student_id}/actions/assignees",
+  "name": "academy_rescue_assignees"
+ },
+ {
+  "method": "GET",
   "path": "/api/staff/academy/students/{student_id}/attendance",
   "name": "academy_student_attendance"
  },

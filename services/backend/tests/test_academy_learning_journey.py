@@ -394,3 +394,19 @@ async def test_rescue_evidence_and_thresholds_respect_the_live_teacher_roster(jo
     admin_items = (await request(client, admin, 'GET', route, params={'status':'needs_support'}))['items']
     assert len(admin_items)==1 and admin_items[0]['studentId']==item['studentId']
     assert admin_items[0]['reasons']==item['reasons']
+
+    await conn.execute("UPDATE users SET account_status='suspended' WHERE id=$1",learner['id'])
+    await request(client,owner,'DELETE','/api/admin/users/'+str(learner['id']))
+    assert await conn.fetchval("SELECT count(*) FROM academy_rescue_cases")==0
+    assert await conn.fetchval("SELECT count(*) FROM academy_rescue_actions")==0
+    assert await conn.fetchval("SELECT count(*) FROM audit_log WHERE action='account.deleted'")==1
+
+    # A learner with real journal history remains protected.
+    statement = await conn.fetchval("""INSERT INTO finance_journal_entries(
+        transaction_id, source_type, source_id, student_user_id)
+        VALUES($1,'fixture',$2,$3) RETURNING id""",uuid4(),uuid4(),peer['id'])
+    with pytest.raises(asyncpg.ObjectNotInPrerequisiteStateError,match='finance_journal_is_append_only'):
+        await conn.execute('UPDATE finance_journal_entries SET memo=$2 WHERE id=$1',statement,'Changed')
+    with pytest.raises(asyncpg.ObjectNotInPrerequisiteStateError,match='finance_journal_is_append_only'):
+        await conn.execute('DELETE FROM users WHERE id=$1',peer['id'])
+    assert await conn.fetchval('SELECT student_user_id FROM finance_journal_entries WHERE id=$1',statement)==peer['id']

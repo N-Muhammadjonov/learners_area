@@ -4457,7 +4457,7 @@ export const academyRescueThresholds = pgTable("academy_rescue_thresholds", {
 
 export const academyRescueCases = pgTable("academy_rescue_cases", {
   groupId: uuid("group_id").notNull().references(() => academyGroups.id),
-  studentId: uuid("student_id").notNull().references(() => users.id),
+  studentId: uuid("student_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   revision: integer("revision").notNull(),
   status: varchar("status", { length: 12 }).notNull(),
   assignedTo: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
@@ -4481,7 +4481,7 @@ export const academyRescueActions = pgTable("academy_rescue_actions", {
   result: jsonb("result").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, t => [
-  foreignKey({ columns: [t.groupId, t.studentId], foreignColumns: [academyRescueCases.groupId, academyRescueCases.studentId] }),
+  foreignKey({ columns: [t.groupId, t.studentId], foreignColumns: [academyRescueCases.groupId, academyRescueCases.studentId] }).onDelete("cascade"),
   unique("academy_rescue_actions_group_id_student_id_revision_key").on(t.groupId, t.studentId, t.revision),
   check("academy_rescue_actions_revision_check", sql`${t.revision} > 0`),
   check("academy_rescue_actions_action_check", sql`${t.action} IN ('claim','assign','note','plan','follow_up','resolve','dismiss','reopen')`),
