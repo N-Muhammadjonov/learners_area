@@ -179,8 +179,10 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
     host = validate_target(dsn, project)
     if tls is None:
         raise ValueError('Verified TLS is required')
+    print(json.dumps({'event': 'academy_database_target_validated'}), flush=True)
     conn = await asyncpg.connect(dsn, ssl=tls, timeout=15, command_timeout=120)
     try:
+        print(json.dumps({'event': 'academy_database_connected'}), flush=True)
         pending = await upgrade(conn, apply=False)
         if not pending:
             return {'result': 'already_applied', 'verification': await verify_upgrade(conn)}
@@ -193,6 +195,7 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
         key_hex = os.environ.get('ACADEMY_BACKUP_KEY', '')
         if not re.fullmatch(r'[0-9a-f]{64}', key_hex):
             raise ValueError('Separate persistent ACADEMY_BACKUP_KEY is required')
+        print(json.dumps({'event': 'academy_storage_target_validated'}), flush=True)
         os.environ['BACKUP_CA_FILE'] = os.environ.get('SUPABASE_CA_FILE') or str(
             Path(__file__).resolve().parents[1]/'app/supabase_root_ca.pem')
         with tempfile.TemporaryDirectory(prefix='la-academy-release-') as workspace:
@@ -208,6 +211,7 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
                 roles = [row['rolname'] for row in await conn.fetch(
                     "SELECT rolname FROM pg_roles WHERE rolname !~ '^pg_' ORDER BY rolname")]
                 exported = await conn.fetchval('SELECT pg_export_snapshot()')
+                print(json.dumps({'event': 'academy_backup_snapshot_exported'}), flush=True)
                 receipt = await asyncio.to_thread(recovery.backup_db, dsn, host, archive,
                     key_file, str(pg_bin/'pg_dump'), snapshot=exported)
             stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
@@ -215,6 +219,7 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
             await asyncio.to_thread(upload_backup, client, bucket, archive, object_key, receipt['sha256'])
             print(json.dumps({'event': 'academy_backup_uploaded', 'sha256': receipt['sha256'],
                               'encrypted_bytes': receipt['encrypted_bytes']}), flush=True)
+            print(json.dumps({'event': 'academy_restore_rehearsal_started'}), flush=True)
             with local_database(base, pg_bin) as local_dsn:
                 await prepare_local(local_dsn, roles)
                 await asyncio.to_thread(recovery.restore_db, local_dsn, archive, key_file,
@@ -250,6 +255,7 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
 
 
 def main() -> None:
+    print(json.dumps({'event': 'academy_release_started'}), flush=True)
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--project', required=True)
     parser.add_argument('--account', required=True)

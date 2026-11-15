@@ -3,9 +3,13 @@
 This operator command runs before the web process starts. It creates no HTTP
 endpoint and sends no external notifications, payments or test records.
 
+The same command can be used as a startup gate when pre-deploy execution is
+unavailable. In that mode the server is executed only after successful release,
+and `/readyz` must pass before traffic switches. Do not run both gates for a
+pending release. Each phase emits a fixed event name, without DSNs or row data.
+
 ```bash
-cd /srv/app/services/backend
-python -m tools.academy_release \
+env PYTHONPATH=/srv/app/services/backend python -m tools.academy_release \
   --project tuoeabrrnsiuxpjmslxp \
   --account d953f7ff0eedad092d7059969125244d \
   --bucket learners-area
