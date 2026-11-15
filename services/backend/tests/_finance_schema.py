@@ -73,6 +73,7 @@ async def http(monkeypatch):
     fails in CI, where the database is part of the job.
     """
     from app import main as core
+    from app.db import initialize_connection
 
     try:
         con = await asyncpg.connect(DSN)
@@ -90,7 +91,7 @@ async def http(monkeypatch):
     people = {'owner': await make('owner'), 'admin': await make('admin'),
               'teacher': await make('teacher'), 'student': await make('student'),
               'other_student': await make('student')}
-    pool = await asyncpg.create_pool(DSN, min_size=1, max_size=6,
+    pool = await asyncpg.create_pool(DSN, min_size=1, max_size=6, init=initialize_connection,
                                      server_settings={'search_path': f'"{schema}", public'})
 
     async def app_pool():

@@ -234,7 +234,7 @@ async def calculate(conn: Connection, teacher: UUID, period: str) -> dict:
                                ON a.student_user_id=e.student_user_id AND a.session_id=s.id
                               AND a.status IN ('present','late')
                               WHERE e.transaction_id=r.journal_transaction_id)
-                         ), '{}'::jsonb) AS revenue_transactions
+                         ), '{}'::jsonb)::text AS revenue_transactions
              FROM academy_sessions s JOIN academy_session_teachers t ON t.session_id=s.id
             WHERE t.teacher_user_id=$1 AND s.status IN ('scheduled','held')
               AND s.starts_at >= (($2::date)::timestamp AT TIME ZONE 'Asia/Tashkent')
@@ -266,10 +266,11 @@ async def calculate(conn: Connection, teacher: UUID, period: str) -> dict:
 async def finalize(conn: Connection, actor: UUID, command: Finalize) -> dict:
     await lock_teacher(conn, command.teacherUserId)
     existing = await conn.fetchrow(
-        'SELECT * FROM academy_payroll_runs WHERE teacher_user_id=$1 AND period_key=$2',
+        'SELECT *,calculation::text AS calculation_json FROM academy_payroll_runs'
+        ' WHERE teacher_user_id=$1 AND period_key=$2',
         command.teacherUserId, command.periodKey)
     if existing:
-        snapshot = json.loads(existing['calculation'])
+        snapshot = json.loads(existing['calculation_json'])
         ledger._require(fingerprint(snapshot) == command.expectedCalculation
                         and existing['accrued_minor'] == command.expectedAmountMinor,
                         'payroll_already_finalized', 409)
@@ -292,7 +293,7 @@ async def finalize(conn: Connection, actor: UUID, command: Finalize) -> dict:
     row = await conn.fetchrow(
         """INSERT INTO academy_payroll_runs(id,teacher_user_id,period_key,accrued_minor,
                   calculation,accrual_transaction_id,finalized_by)
-           VALUES($1,$2,$3,$4,$5::jsonb,$6,$7) RETURNING *""",
+           VALUES($1,$2,$3,$4,$5::jsonb,$6,$7) RETURNING *,calculation::text AS calculation_json""",
         run_id, command.teacherUserId, command.periodKey, amount, json.dumps(estimate), transaction, actor)
     await ledger.audit_event(conn, actor_user_id=actor, action='payroll_accrued',
                              subject_type='payroll_run', subject_id=run_id, period=command.periodKey,
@@ -309,7 +310,8 @@ async def overview(conn: Connection, request: RunRequest) -> dict:
     await lock_teacher(conn, request.teacherUserId)
     month(request.periodKey)
     run = await conn.fetchrow(
-        'SELECT * FROM academy_payroll_runs WHERE teacher_user_id=$1 AND period_key=$2',
+        'SELECT *,calculation::text AS calculation_json FROM academy_payroll_runs'
+        ' WHERE teacher_user_id=$1 AND period_key=$2',
         request.teacherUserId, request.periodKey)
     closed = bool(await conn.fetchval(
         'SELECT 1 FROM finance_closed_periods WHERE period_key=$1', request.periodKey))
@@ -374,12 +376,13 @@ async def position(conn: Connection, run: Record) -> dict:
             'events': [{'id': str(row['id']), 'kind': row['kind'], 'amountMinor': row['amount_minor'],
                         'reference': row['reference'], 'periodKey': row['period_key'],
                         'createdAt': row['created_at'].isoformat()} for row in rows],
-            'calculation': json.loads(run['calculation'])}
+            'calculation': json.loads(run['calculation_json'])}
 
 
 @ledger.transactional
 async def post_event(conn: Connection, actor: UUID, run_id: UUID, command: Event) -> dict:
-    run = await conn.fetchrow('SELECT * FROM academy_payroll_runs WHERE id=$1 FOR UPDATE', run_id)
+    run = await conn.fetchrow(
+        'SELECT *,calculation::text AS calculation_json FROM academy_payroll_runs WHERE id=$1 FOR UPDATE', run_id)
     ledger._require(run is not None, 'payroll_run_not_found', 404)
     await conn.execute("SELECT pg_advisory_xact_lock(hashtextextended($1,1126))", str(command.commandId))
     existing = await conn.fetchrow('SELECT * FROM academy_payroll_events WHERE id=$1', command.commandId)
