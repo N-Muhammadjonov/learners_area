@@ -1,5 +1,5 @@
-// Generated native DOM from reviewed source. No React runtime.
-import {h,fragment,Link,InstantLink} from '../native.js';
+// Canonical native module artwork.
+import {h,fragment} from '../native.js';
 // Original vector artwork: fixed appearance across platforms, no borrowed asset.
 const marks = { listening: () => ((h(fragment, null,
         h("path", { d: "M6 15v-3a10 10 0 0 1 20 0v3" }),
@@ -37,7 +37,9 @@ const marks = { listening: () => ((h(fragment, null,
         h("path", { d: "m16 3 11 4v9c0 7-11 13-11 13S5 23 5 16V7Z" }),
         h("path", { d: "m10 15 4 4 8-8" })))), eject: () => ((h(fragment, null,
         h("path", { d: "m7 19 9-13 9 13Z" }),
-        h("path", { d: "M7 25h18" })))) };
+        h("path", { d: "M7 25h18" })))), leaderboard: () => h(fragment, null,
+        h("path", { d: "M10 4h12v8a6 6 0 0 1-12 0V4Z" }),
+        h("path", { d: "M10 7H5v2a4 4 0 0 0 5 4M22 7h5v2a4 4 0 0 1-5 4M16 18v5M12 23h8M10 28h12" })) };
 export function moduleEmojiFor(href) {
     const routes = {
         "/app/listening": "listening",
@@ -51,6 +53,7 @@ export function moduleEmojiFor(href) {
         "/app/live-classes": "live",
         "/app/assignments": "assignment",
         "/app/progress": "progress",
+        "/app/leaderboard": "leaderboard",
         "/app/mocks": "assignment",
         "/app/admin/people": "people",
         "/app/admin/admissions": "people",
@@ -63,9 +66,13 @@ export function moduleEmojiFor(href) {
         "/app/owner/audit": "audit",
         "/app/support": "support",
     };
-    return routes[href] ?? null;
+    return Object.hasOwn(routes, href) ? routes[href] : null;
 }
 export function ModuleEmoji({ kind, className = "", }) {
-    return (h("span", { className: `module-emoji ${className}`, "aria-hidden": "true", 'data-ui-icon':kind },
-        h("svg", { viewBox: "0 0 32 32", width: "28", height: "28", fill: "none", stroke: "currentColor", strokeWidth: "1.9", strokeLinecap: "round", strokeLinejoin: "round", focusable: "false" }, marks[kind]())));
+    const known = Object.hasOwn(marks, kind);
+    if (!known) console.warn("Missing Learners Area module icon:", kind);
+    const renderMark = known ? marks[kind] : marks.dashboard;
+    return (h("span", { className: `module-emoji ${className}`, "aria-hidden": "true", "data-ui-icon": known ? kind : "dashboard",
+        ...(!known && {"data-ui-icon-fallback": String(kind)}) },
+        h("svg", { viewBox: "0 0 32 32", width: "28", height: "28", fill: "none", stroke: "currentColor", strokeWidth: "1.9", strokeLinecap: "round", strokeLinejoin: "round", focusable: "false" }, renderMark())));
 }

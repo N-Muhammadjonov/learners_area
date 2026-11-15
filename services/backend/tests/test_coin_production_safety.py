@@ -5,7 +5,7 @@ import asyncio
 import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 import asyncpg
 import pytest
@@ -13,7 +13,7 @@ import pytest_asyncio
 
 from app import main
 from app import coin_rewards as rewards
-from app.coin_policy import advance_playback
+from app.coin_policy import add_unique_media_coverage, advance_playback
 
 DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
 MIGRATION_DIR = Path(__file__).resolve().parents[1] / "migrations"
@@ -184,15 +184,92 @@ def test_sub_slice_heartbeats_and_rate_change_replay():
     assert replay["credit_ms"] == 0 and replay["buckets"] == []
 
 
-@pytest.mark.xfail(strict=True, reason="Owner decision required: short-media milestone currently becomes payable before five minutes; payout behavior is unchanged")
-def test_short_media_never_pays_before_five_minutes():
-    now = datetime(2026, 11, 11, tzinfo=timezone.utc)
-    state = advance_playback(None, now, position_ms=0, playback_rate=1, playing=True)["state"]
+@pytest.mark.asyncio
+@pytest.mark.parametrize(("module", "kind"), [("ted", "video"), ("podcast", "audio")])
+async def test_short_media_never_pays_before_five_minutes(database, module, kind):
+    con, schema, user = database
+    media = uuid4()
+    await con.execute(
+        "INSERT INTO video_lessons VALUES($1,NULL,'direct',$2,60,true,'published',NULL)",
+        media, kind,
+    )
+
+    async def pulse(connection, session, position):
+        result = await rewards.media_heartbeat(
+            connection, user, session_id=session, media_id=str(media), module=module,
+            position_ms=position, playback_rate=1, playing=True, duration_ms=60_000,
+        )
+        assert not result.get("unavailable"), result
+        assert result["awarded"] == 0, result
+        return UUID(result["sessionId"])
+
+    async def elapse():
+        await con.execute("UPDATE coin_media_sessions SET last_at=clock_timestamp()-interval '15 seconds'")
+
+    session = await pulse(con, None, 0)
     for tick in range(1, 5):
-        result = advance_playback(state, now+timedelta(seconds=tick*15), position_ms=tick*15000,
-                                  playback_rate=1, playing=True, duration_ms=60000)
-        assert not result["buckets"] and not result["short"]
-        state = result["state"]
+        await elapse()
+        await pulse(con, session, tick * 15_000)
+    assert await con.fetchval("SELECT sum(active_ms) FROM coin_practice_time") == 60_000
+
+    refreshed = await pulse(con, None, 0)
+    await elapse()
+
+    async def retry():
+        other = await asyncpg.connect(DSN)
+        try:
+            await other.execute(f'SET search_path TO "{schema}", public')
+            return await pulse(other, refreshed, 15_000)
+        finally:
+            await other.close()
+
+    assert await asyncio.gather(retry(), retry()) == [refreshed, refreshed]
+    assert await con.fetchval("SELECT sum(active_ms) FROM coin_practice_time") == 60_000
+    assert await con.fetchval("SELECT count(*) FROM coin_ledger") == 0
+
+
+def test_media_reward_boundary_is_exact_in_integer_wall_milliseconds():
+    now = datetime(2026, 11, 11, tzinfo=timezone.utc)
+    step = advance_playback(None, now, position_ms=0, playback_rate=1, playing=True)
+    for position in range(15_000, 285_001, 15_000):
+        step = advance_playback(
+            step["state"], now + timedelta(milliseconds=position),
+            position_ms=position, playback_rate=1, playing=True,
+        )
+        assert step["buckets"] == []
+    for elapsed, position, milestones in [
+        (299_999, 299_999, []),
+        (314_999, 300_000, [1]),
+        (329_999, 315_000, []),
+    ]:
+        step = advance_playback(
+            step["state"], now + timedelta(milliseconds=elapsed),
+            position_ms=position, playback_rate=1, playing=True,
+        )
+        assert step["buckets"] == milestones
+    assert add_unique_media_coverage({}, 1, 14_999, 1, 13_997) == 13_997
+
+
+def test_media_clock_jumps_cannot_reuse_a_wall_interval():
+    now = datetime(2026, 11, 11, tzinfo=timezone.utc)
+    initial = advance_playback(None, now, position_ms=0, playback_rate=1, playing=True)
+    backwards = advance_playback(
+        initial["state"], now - timedelta(seconds=10),
+        position_ms=10_000, playback_rate=1, playing=True,
+    )
+    assert backwards["credit_ms"] == 0
+    assert backwards["state"] == initial["state"]
+    forwards = advance_playback(
+        backwards["state"], now + timedelta(seconds=21),
+        position_ms=21_000, playback_rate=1, playing=True,
+    )
+    assert forwards["credit_ms"] == 0
+    resumed = advance_playback(
+        forwards["state"], now + timedelta(seconds=36),
+        position_ms=36_000, playback_rate=1, playing=True,
+    )
+    assert resumed["credit_ms"] == 15_000
+    assert resumed["buckets"] == []
 
 
 @pytest.mark.asyncio

@@ -1,11 +1,71 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {setup} from './staff-final30/harness.mjs';import {fixtureSession,viewFixture} from './fixtures.mjs';
-import {render as dashboard} from '../js/generated/dashboard.js';import {navigationList} from '../modules/shell/navigation-list.js';import {dockItems} from '../modules/shell/dock.js';
+import {render as dashboard} from '../js/generated/dashboard.js';import {navigationList} from '../modules/shell/navigation-list.js';import {dockItems,moduleDock} from '../modules/shell/dock.js';
 import {speakingMascot} from '../modules/shared/mascot.js';import {Button,RegionFailureNotice} from '../modules/shared/presentation.js';
 import {EmptyState} from '../js/generated/ui.js';
-for(const role of ['student','teacher','admin','owner'])test(role+': optional navigation lists the exact authorized Dock destinations',()=>{
- const h=setup({path:'/app/reading/lessons',role});try{const n=navigationList(h.ctx);h.ctx.root.append(n);assert(!n.open);assert(n.querySelector('summary'));assert.deepEqual([...n.querySelectorAll('a')].map(a=>[a.dataset.navigationListItem,a.getAttribute('href'),a.textContent]),dockItems(h.ctx.dict,role).map(i=>[i.key,i.href,i.label]));assert.equal(n.querySelector('[aria-current="page"]').dataset.navigationListItem,'reading');assert.equal(Boolean(n.querySelector('[data-navigation-list-item="management"]')),role!=='student');}finally{h.dispose();}
+import {ModuleEmoji,moduleEmojiFor} from '../js/generated/module-emoji.js';
+for(const role of ['student','teacher','admin','owner'])test(role+': optional navigation and Dock render the exact authorized destinations and artwork',()=>{
+ const h=setup({path:'/app/reading/lessons',role});
+ try{
+  globalThis.MutationObserver=h.dom.window.MutationObserver;
+  const list=navigationList(h.ctx),dock=moduleDock(h.ctx);
+  h.ctx.root.append(list,dock.node);
+  assert(!list.open);
+  assert(list.querySelector('summary'));
+  const items=dockItems(h.ctx.dict,role);
+  assert.deepEqual([...list.querySelectorAll('a')].map(a=>[a.dataset.navigationListItem,a.getAttribute('href'),a.textContent]),items.map(i=>[i.key,i.href,i.label]));
+  assert.equal(list.querySelector('[aria-current="page"]').dataset.navigationListItem,'reading');
+  assert.equal(dock.node.querySelector('[aria-current="page"]').dataset.dockModule,'reading');
+  assert.equal(Boolean(list.querySelector('[data-navigation-list-item="management"]')),role!=='student');
+  for(const item of items){
+   for(const selector of [`[data-navigation-list-item="${item.key}"]`,`[data-dock-module="${item.key}"]`]){
+    const artwork=h.q(selector).querySelector('svg');
+    assert.equal(artwork.dataset.dockArtwork,item.key);
+    assert.equal(artwork.getAttribute('focusable'),'false');
+    assert(artwork.querySelector('path,image,rect'));
+   }
+   const icon=ModuleEmoji({kind:item.icon});
+   assert.equal(icon.dataset.uiIcon,item.icon);
+   assert(!icon.hasAttribute('data-ui-icon-fallback'));
+   assert(icon.querySelector('path,rect,circle'));
+  }
+  dock.update(new URL('/app/study-plan/leaderboard',h.ctx.url));
+  assert.equal(dock.node.querySelector('[aria-current="page"]').dataset.dockModule,'leaderboard');
+  h.ctx.url=new URL('/app/study-plan/leaderboard',h.ctx.url);
+  const ranked=navigationList(h.ctx);
+  assert.equal(ranked.querySelector('[aria-current="page"]').dataset.navigationListItem,'leaderboard');
+  list.open=true;
+  const link=list.querySelector('[data-navigation-list-item="leaderboard"]');
+  link.focus();
+  assert.equal(document.activeElement,link);
+  for(const root of [list,dock.node]){
+   const image=root.querySelector('[data-dock-artwork="leaderboard"] image');
+   assert.equal(image.getAttribute('href'),'/images/dock/neon/leaderboard.webp');
+  }
+ }finally{h.dispose();delete globalThis.MutationObserver;}
+});
+test('leaderboard has a dedicated vector, and unknown module artwork emits a diagnostic',t=>{
+ const h=setup();
+ const warn=t.mock.method(console,'warn',()=>{});
+ try{
+  assert.equal(moduleEmojiFor('/app/leaderboard'),'leaderboard');
+  assert.equal(moduleEmojiFor('constructor'),null);
+  const leaderboard=ModuleEmoji({kind:'leaderboard'});
+  assert.equal(leaderboard.querySelectorAll('path').length,2);
+  assert.equal(warn.mock.callCount(),0);
+  for(const kind of ['missing-module','constructor','__proto__']){
+   const icon=ModuleEmoji({kind});
+   assert.equal(icon.dataset.uiIcon,'dashboard');
+   assert.equal(icon.dataset.uiIconFallback,kind);
+   assert(icon.querySelector('svg rect'));
+   assert.deepEqual(warn.mock.calls.at(-1).arguments,['Missing Learners Area module icon:',kind]);
+  }
+  assert.equal(warn.mock.callCount(),3);
+  const webp=readFileSync(new URL('../images/dock/neon/leaderboard.webp',import.meta.url));
+  assert.equal(webp.toString('ascii',0,4),'RIFF');
+  assert.equal(webp.toString('ascii',8,12),'WEBP');
+ }finally{h.dispose();}
 });
 test('Dashboard overview preserves actual target and learning destinations without nested controls',()=>{
  const h=setup({path:'/app/dashboard',role:'student'});try{const data=viewFixture('/app'),input=structuredClone(data);data.dashboard.profile={targetBand:8.5};data.dashboard.streak=0;data.mock.finishedCount=0;

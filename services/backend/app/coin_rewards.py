@@ -394,8 +394,6 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                 user_id, media_id)
             paid = {int(item["exercise_id"]) for item in paid_rows
                     if item["exercise_id"] and item["exercise_id"].isdigit()}
-            if any(item["bucket"] == -1 and item["paid"] for item in coverage_rows):
-                paid.add("short")
             state = {"at": max(row["last_at"], latest_at or row["last_at"]),
                      "position": int(row["last_position_ms"]), "seen": seen,
                      "playing": bool(marker and marker["paid"]),
@@ -403,8 +401,7 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                      "coverage": original, "paid": paid, "credited": int(row["credited_ms"] or 0)}
             step = advance_playback(
                 state, server_now, position_ms=position_ms,
-                playback_rate=playback_rate, playing=playing,
-                duration_ms=canonical_duration)
+                playback_rate=playback_rate, playing=playing)
             nxt = step["state"]
             await con.execute(
                 """UPDATE coin_media_sessions SET last_at=$2,last_position_ms=$3,credited_ms=$4
@@ -443,19 +440,6 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                         module=module, activity_type="active_time",
                         parent_content_id=media_id, exercise_id=str(bucket),
                         evidence_id=str(row["id"]), session_id=row["id"]):
-                    awarded += 1
-            if step["short"]:
-                if await award_coin(
-                        con, user_id, f"media:{user_id}:{media_id}:short",
-                        module=module, activity_type="short_complete",
-                        parent_content_id=media_id, exercise_id="short",
-                        evidence_id=str(row["id"]), session_id=row["id"]):
-                    await con.execute(
-                        """INSERT INTO coin_media_coverage(user_id,media_id,bucket,credited_ms,paid)
-                           VALUES($1,$2,-1,$3,true)
-                           ON CONFLICT(user_id,media_id,bucket) DO UPDATE
-                             SET paid=true,updated_at=now()""",
-                        user_id, media_id, nxt["credited"])
                     awarded += 1
             return {"sessionId": str(row["id"]), "awarded": awarded}
     except Exception:
