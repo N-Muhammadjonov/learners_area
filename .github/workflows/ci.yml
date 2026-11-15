@@ -47,6 +47,13 @@ jobs:
         run: npm run test:migrations
       - name: Migration runner + ASGI probes (embedded PostgreSQL)
         run: npm run backend:test:postgres
+      - name: Rescue Queue browser journey with PostgreSQL
+        run: |
+          npm ci --prefix frontend/vanilla --no-audit --no-fund
+          export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
+          test -n "$CHROMIUM_EXECUTABLE"
+          cd services/backend
+          python -m pytest -q -s --timeout=100 tests/rescue_browser_journey.py
       - name: Full backend suite
         working-directory: services/backend
         run: python -m pytest -q --timeout=90 -ra

@@ -2,7 +2,7 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "58425623dff1d4ccb95fd5cb2b84a1c2f6ea1394",
+  "code_sha": "55fdeacdd5821280cc89d7a1743442bbbbb0a323",
   "latest_finished_full_ci": {
     "sha": "58425623dff1d4ccb95fd5cb2b84a1c2f6ea1394",
     "run_id": 43678118427,
@@ -48,13 +48,35 @@
     }
   },
   "code_ci": {
-    "status": "success",
-    "run_id": 43678118427,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43678118427",
-    "leaderboard_run_id": 43678118446,
-    "coin_run_id": 43678118444
+    "status": "in_progress",
+    "run_id": 43680377449,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43680377449",
+    "leaderboard_run_id": 43680377519,
+    "coin_run_id": 43680377469
   },
   "tests": [
+    {
+      "area": "rescue_account_erasure_release_gate",
+      "code_sha": "55fdeacdd5821280cc89d7a1743442bbbbb0a323",
+      "postgres_version": "18.6",
+      "python_version": "3.12",
+      "node_version": "24.22.1",
+      "backend": {
+        "passed": 7488,
+        "failed": 0,
+        "skipped": 0,
+        "xfailed": 0,
+        "xpassed": 0,
+        "subtests_passed": 287
+      },
+      "frontend": {
+        "passed": 1806,
+        "failed": 0,
+        "skipped": 12,
+        "xfailed": 0,
+        "xpassed": 0
+      }
+    },
     {
       "area": "learner_support_directory_coin_postgresql",
       "passed": 35,
@@ -186,7 +208,7 @@
     }
   ],
   "migrations": {
-    "latest": "services/backend/migrations/1129_academy_rescue_workflow.sql",
+    "latest": "services/backend/migrations/1130_preserve_rescue_account_erasure.sql",
     "fresh": "verified",
     "content_bearing_upgrade": "pending",
     "staging": "pending",
@@ -199,7 +221,7 @@
       "command": "npm run backend:test:postgres"
     },
     "current_local_fresh": {
-      "schema_migrations": 108,
+      "schema_migrations": 109,
       "typed_tables": 189,
       "content_deferred": 21,
       "asgi_checks": 9
@@ -243,7 +265,7 @@
     },
     "D": {
       "status": "partial",
-      "next": "Run a real browser/API/database acceptance journey for D2 and its pagination under realistic load. Implement D3 with a read-only PostgreSQL snapshot and exact decimal scenario inputs. Continue to isolated recovery and staged HTTP load.",
+      "next": "Verify the CI Chromium Rescue browser/API/database journey; implement D3 with a read-only PostgreSQL snapshot and exact decimal scenario inputs.",
       "implemented": [
         "Role-scoped Learner Journey with real attendance, study milestone events, scores and student goals",
         "Native PostgreSQL/ASGI classroom-to-Writing flow with real roles and reviewer/guardian authorization",
