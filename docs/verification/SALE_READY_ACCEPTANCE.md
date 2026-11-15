@@ -1,5 +1,59 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15, Toshkent — OS animatsiyasi, ikonka va coin
+
+- Study Plan CSS’idagi yagona OS-motion sharti kun transitionini va kompanyon animatsiyalarini o‘chirgan. Eski test shu shartni maxsus istisno bilan talab qilgan. Istisno olib tashlangach, sinov aynan `modules/study-plan/sequence.css` sabab yiqildi. CSS sharti olib tashlangach, shu sinov o‘tdi. Birinchi tomon source va yangi Python asset build’ida OS-motion sharti topilmadi. Mustaqil Chromium sayohati kunduz/tun va 1440/390px bo‘yicha CI’ga ulandi.
+- Dock va ixtiyoriy navigatsiya 104×104 leaderboard WebP’ni yuklaydi. Mahalliy vektor ro‘yxatiga kubok qo‘shildi. Ro‘yxatga kirmagan nom `console.warn` va DOM’dagi `data-ui-icon-fallback` orqali ko‘rinadi. Student, teacher, admin va owner menyulari, joriy sahifa, klaviatura fokusi va ikkala ikonka oilasi regressiyada tekshirildi. Native modulning React konverteri bilan ustidan yozilishi to‘xtatildi.
+- Asosiy WebSocket server sinovi va startup warning sinovlari PostgreSQL’dan mustaqil holda ikki tartibda ishlatildi. Har safar 6 ta test o‘tdi. Warning assertionlari saqlandi va umumiy fixture qo‘shilmadi.
+- Eski TED/Podcast short completion alohida ledger yo‘li orqali 60 soniyalik media tugaganda coin bergan. `--runxfail` bu nosozlikni qayta ko‘rsatdi. Server faqat qayta ko‘rilmagan kontentga sarflangan 300 000 ms faol vaqt bucket’i uchun yozadi. Yangi tests ikki modul, 299 999/300 000 ms chegarasi, yaxlitlash, orqaga va oldinga soat siljishi, sahifani yangilash, parallel retry hamda ledger yozuvini tekshiradi. Eski ledger uchun DB amali talab qilinmadi.
+- ZIP auditi. Listening banki obyekt bo‘yicha 1–40 savollarni tekshiradi. Noaniq occurrence testdan o‘tmaydi. Listening activity sinovi GET holatini POST yozuvidan ajratadi. Retention `read` va `book` qiymatlarini tekshiradi. Coin DB bazasi 0084, 0091, 0092 va 13 himoyalangan jadvalni tekshiradi. Dashboard haqiqiy maqsad, to‘rtta skill va retention havolasini tasdiqlaydi. Landing va in-app level check uchun 150 savol tengligi saqlandi. Listening 08/10 runtime fayllariga eski ZIP qo‘llanmadi.
+
+| Lokal tekshiruv | O‘tgan | Yiqilgan | Skip | Xfail | Xpass |
+|---|---:|---:|---:|---:|---:|
+| Frontend Dock, motion, Listening, C8 va D1 | 64 | 0 | 0 | 0 | 0 |
+| Coin policy, integration va xavfsizlik, PostgreSQL 18.6 | 45 | 0 | 0 | 0 | 0 |
+| C8, D1, coin xavfsizligi va proxy, PostgreSQL 18.6 | 39 | 0 | 0 | 0 | 0 |
+| Node migratsiya kontrakti | 4 | 0 | 0 | 0 | 0 |
+
+Maqsadli sinov to‘plamlaridagi ayrim backend testlari takrorlangan. Fresh migratsiya dalili 106 sxema, 21 nomlangan kontent migratsiyasi, 186 typed table va 9 ASGI tekshiruvidan iborat. Content-bearing upgrade, staging va production tekshiruvlari ochiq.
+
+```bash
+node --test frontend/vanilla/tests/{hover-system,phase1-design,listening-v8,dock-navigation,academy-directory,learner-journey}.test.mjs
+cd services/backend
+python -m pytest -q tests/test_coin_policy.py tests/test_coin_economy_integration.py tests/test_coin_production_safety.py tests/test_proxy_startup_safety.py tests/test_academy_directory.py tests/test_academy_learning_journey.py
+cd ../..
+npm run test:migrations
+npm run backend:test:postgres
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node frontend/vanilla/tests/browser-motion-parity.mjs
+```
+
+### GitHub Actions va Chromium
+
+Kod commit’i `58425623dff1d4ccb95fd5cb2b84a1c2f6ea1394`. Full Stability backend 7 487 va 287 subtest o‘tdi. Backendda 0 fail, 0 skip, 0 xfail va 0 xpass. Frontendda 1 802 o‘tdi, 0 fail va 12 skip. Coin Economy va Leaderboard workflow’lari o‘tdi. Mahalliy eski dependency nusxasi avval sog‘liq endpointi va Grammar build faylini topmadi. Ayni HEAD fayllari bilan yangilangach o‘sha backend testlari o‘tdi. [Full Stability](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43678118427) · [Coin Economy](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43678118444) · [Leaderboard](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43678118446)
+
+Chromium’da bir URL uchun to‘rtta juft taqqoslash o‘tdi. Kunduz va tun mavzulari 1440px va 390px kengliklarda tekshirildi. Sway/blink/gaze 5.8s/4.4s/5.8s bo‘ldi, Dock transition 0.14s va kalendar transition 0.16s bo‘ldi. WebP 104×104 o‘lchamda dekodlandi. Dock hover va navigatsiya, telefon o‘lchamida scroll/tap, Focus yoqish va o‘chirish hamda Listening testning locked holatidan Back ishladi. API ma’lumoti sintetik. [Chromium jurnali](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43678118427/job/132702691833)
+
+### Oldingi frontend skip inventari
+
+| Sinov | Sabab |
+|---|---|
+| Computed animation styles match both browser preferences | Eski public landing brauzer sinovi sandbox sharti bilan skip. |
+| Real file parity | `LEGACY_LISTENING_FIXTURE` orqali egasining tasdiqlangan fayli kerak. |
+| Embedded media extraction | Xuddi shu Listening fayli. |
+| Explicit problems for missing or invalid media | Xuddi shu Listening fayli. |
+| Canonical package precedence | Xuddi shu Listening fayli. |
+| Package schema validation | Xuddi shu Listening fayli. |
+| Inert map SVG | Xuddi shu Listening fayli. |
+| Real HTML preview | Xuddi shu Listening fayli. |
+| Upload, duplicate click and abort | Xuddi shu Listening fayli. |
+| Ambiguous source and upload problem states | Xuddi shu Listening fayli. |
+| ZIP transport and path traversal rejection | Xuddi shu Listening fayli. |
+| Default legacy importer placement | Xuddi shu Listening fayli. |
+
+Manba [oldingi frontend jurnali](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43675700554/job/132695247037). Real audio, Telegram, WebRTC, STT, to‘liq tiklash va parallel HTTP yuk tekshiruvi ushbu receiptga kirmaydi.
+
+---
+
 ## Katalog importi va o‘quv yo‘li (2026-11-15, Toshkent)
 
 - `Management → Directory files` egaga CSV/XLSX yuklash, ustun va varaq tanlash, oldindan tekshirish, tasdiqlash, qator xatolari hisobotini yuklash va filtrlangan eksportni beradi.

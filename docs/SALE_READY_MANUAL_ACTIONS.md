@@ -23,6 +23,8 @@ deyish **noto'g'ri** bo'ladi.
 yuqorida qisqa indeks, pastda har bir element uchun barcha 15 maydonni o'z ichiga olgan blok
 berilgan. `ID` orqali bog'lanadi.
 
+15-noyabr tekshiruvida qo‘shimcha tashqi ruxsat aniqlanmadi. Live audio, Telegram va WebRTC uchun mavjud MA-04–06 bandlari amal qiladi. Lokal dasturlash, CI brauzer sinovi va sintetik backup/restore sinovi muhandislik ishida qoladi.
+
 ## Indeks
 
 | ID | Prioritet | To'suvchi? | Modul | Qisqa harakat | Status |

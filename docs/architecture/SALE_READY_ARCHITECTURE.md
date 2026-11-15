@@ -18,6 +18,10 @@
 
 Faylni tahlil qilish va XLSX eksporti cheklangan worker yordamida bajariladi. Bitta import ichidagi yozuvlar 500 qatorlik PostgreSQL buyruqlari bilan bitta tranzaksiyada yoziladi. O‘quv ko‘rinishi amaldagi ma’lumotlardan o‘qiladi. [Qabul tekshiruvi](../verification/SALE_READY_ACCEPTANCE.md)
 
+## Coin va brauzer regressiyasi
+
+`coin_policy.py` faol vaqtni hisoblaydi. `coin_rewards.py` serverdagi media yozuvi va PostgreSQL ledger’i bilan mukofotni bog‘laydi. Media davomiyligidan qat’i nazar, TED va Podcast uchun yagona 300 000 ms qoidasi qo‘llanadi. Native CSS va ikonka resurslari Python asset build’i orqali tarqatiladi. Chromium regressiyasi ayni native UI’ni ikkala OS-motion sozlamasida ochadi.
+
 ## 1. Verified current runtime (not the README's prose)
 
 ```

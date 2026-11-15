@@ -18,6 +18,8 @@
 
 Linux x86_64, Python 3.12.14, PostgreSQL 18.6. Har fayl sintetik. Preview vaqtiga faylni tayyorlash ham kiradi. RSS butun sinov jarayonining eng yuqori xotira sarfi. Katalog importi o‘lchovi [qabul dalillarida](SALE_READY_ACCEPTANCE.md) takrorlanadi. Parallel HTTP yuk va to‘liq zaxiradan tiklash uchun alohida dalil kutilmoqda.
 
+Xuddi shu PostgreSQL 18.6 konfiguratsiyasidagi takroriy XLSX o‘lchovi 10 000 qatorda 1 518 ms preview, 1 287 ms apply va 125 944 KiB process peak RSS berdi. 500, 5 000 va 10 000 qatorning uchta sinovi o‘tdi. HTTP yuk va tiklash bo‘yicha yangi o‘lchov olinmadi.
+
 ## 1. The claim this document does **not** make
 
 * ❌ "Supports 10,000 concurrent users." No HTTP load test was executed in this pass.

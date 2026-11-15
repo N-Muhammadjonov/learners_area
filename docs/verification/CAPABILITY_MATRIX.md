@@ -93,6 +93,12 @@ Arena davomi uchun backend va frontend natijalari [joriy dalil](SALE_READY_ACCEP
 | CAP-41 | **Migration chain contract (fresh install vs upgrade)** | — | `scripts/apply-test-migrations.mjs`, `tests/migration-contract.json` | **all 118** | — | 13 contract tests + 4 Node tests; `npm run backend:test:postgres` → exit 0 (99 applied, 21 content migrations deferred **and named**); upgrade path still raises the listening assertion | rollback and production lock behaviour unmeasured | `VERIFIED_LOCALLY` | no staging database here | high | staging dry-run | apply-time + forward-fix receipts | DB access |
 | CAP-42 | Learner Journey timeline | `/app/progress`, `/api/academy/journey`, `/api/staff/academy/students/{id}/journey`, `/api/guardian/children/{id}/journey` | `academy_journey.py`, `learner-journey.js` | existing source tables | student self, roster teacher, owner, approved guardian | Native PostgreSQL ASGI Writing workflow, practice submissions, role boundaries; JSDOM history/retry | none | `VERIFIED_LOCALLY` | guardian projection has no source links, private submissions or goals | high | live demo and performance checks | `test_academy_learning_journey.py` | browser/audio verification |
 
+## Joriy tekshiruv
+
+- CAP-11. TED va Podcast faqat 300 000 ms noyob faol vaqtdan keyin coin beradi. 45 ta PostgreSQL coin testi o‘tdi.
+- CAP-29 va CAP-42. Katalog importi va Learner Journey uchun lokal PostgreSQL regressiyasida rollar, tasdiqlangan bog‘lanish hamda katalog yozuvlari tekshirildi.
+- D2 va D3. Rescue Queue hamda Capacity & Revenue Explorer uchun yakunlangan vertikal oqim dalili yo‘q.
+
 ## What this means commercially
 
 * The learning product (CAP-05…CAP-14) is broad and mostly built; its blockers are

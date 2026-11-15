@@ -180,3 +180,7 @@ require separate verification.
 - `1127_academy_directory_import.sql` manba kaliti va tashqi identifikator juftligini yagona saqlaydi. Fayl qiymatlari joriy `users` rolini yoki login holatini o‘zgartirmaydi. Mos kelmagan katalog qatori keyin egasi tasdiqlagan hisobga ulanadi.
 - Dry-run tekshiruvining xeshi tasdiqda qayta hisoblanadi. Moslik o‘zgarsa, API `409 preview_changed` qaytaradi. Bir xil batch kaliti va ayni so‘rov natijani qaytaradi. Kalit boshqa fayl yoki moslash bilan qayta ishlatilsa `409 idempotency_conflict`.
 - O‘quv yo‘li bitta o‘quvchining amaldagi manbalaridan `repeatable read` ichida olinadi. O‘qituvchi amaldagi roster orqali, ota-ona tasdiqlangan bog‘lanish orqali kiradi. Ota-ona proyeksiyasi topshiriq matni, javoblar, feedback izohi, media manzili yoki moliya yozuvini uzatmaydi.
+
+## 12. TED va Podcast coin hisoblash
+
+Har +1 coin uchun bitta media ichida 300 000 ms takrorlanmagan faol vaqt kerak. Server o‘z soatini, e’lon qilingan media chegarasini, ijro holatini va jarayonning noyob bo‘laklarini tekshiradi. Tezlik oshishi 300 000 ms talabini o‘zgartirmaydi. Bo‘laklar bo‘yicha ulush bitta hisobda butun millisekundga yaxlitlanadi. Parallel so‘rovlar PostgreSQL tranzaksiya qulfi bilan ketma-ketlashtiriladi va coin holati ledger’dagi barqaror hodisa kaliti bilan saqlanadi. Oldingi mukofot yozuvlari saqlanadi.

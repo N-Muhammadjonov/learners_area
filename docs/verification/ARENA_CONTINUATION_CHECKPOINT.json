@@ -2,22 +2,26 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "e9dc42db0db61537ef2382e0cb5ac6c70165ad93",
+  "code_sha": "58425623dff1d4ccb95fd5cb2b84a1c2f6ea1394",
   "latest_finished_full_ci": {
-    "sha": "e9dc42db0db61537ef2382e0cb5ac6c70165ad93",
-    "run_id": 43675365435,
+    "sha": "58425623dff1d4ccb95fd5cb2b84a1c2f6ea1394",
+    "run_id": 43678118427,
     "backend": {
-      "passed": 7482,
+      "passed": 7487,
       "failed": 0,
-      "xfailed": 1,
+      "skipped": 0,
+      "xfailed": 0,
+      "xpassed": 0,
       "subtests_passed": 287,
-      "seconds": 132.1
+      "seconds": 154.31
     },
     "frontend": {
-      "passed": 1801,
+      "passed": 1802,
       "failed": 0,
       "skipped": 12,
-      "seconds": 70.27
+      "xfailed": 0,
+      "xpassed": 0,
+      "seconds": null
     },
     "migration_contract": {
       "passed": 4,
@@ -28,14 +32,63 @@
       "content_deferred": 21,
       "typed_tables": 186,
       "asgi_checks": 9
+    },
+    "chromium": {
+      "comparisons_passed": 4,
+      "failed": 0,
+      "fixture_modes": [
+        "day",
+        "night"
+      ],
+      "viewport_widths": [
+        1440,
+        390
+      ],
+      "job_id": 132702691833
     }
   },
   "code_ci": {
     "status": "success",
-    "run_id": 43675365435,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43675365435"
+    "run_id": 43678118427,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43678118427",
+    "leaderboard_run_id": 43678118446,
+    "coin_run_id": 43678118444
   },
   "tests": [
+    {
+      "area": "motion_dock_listening_directory_journey",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "area": "coin_policy_integration_and_safety",
+      "postgres_version": "18.6",
+      "passed": 45,
+      "failed": 0,
+      "xfailed": 0
+    },
+    {
+      "area": "coin_directory_journey_and_proxy",
+      "postgres_version": "18.6",
+      "passed": 39,
+      "failed": 0,
+      "xfailed": 0
+    },
+    {
+      "area": "uvicorn_and_startup_warning_both_orders",
+      "passed_per_order": 6,
+      "failed": 0
+    },
+    {
+      "area": "directory_xlsx_10000_retest",
+      "postgres_version": "18.6",
+      "passed": 3,
+      "failed": 0,
+      "preview_ms": 1518.3,
+      "apply_ms": 1286.8,
+      "process_peak_rss_kib": 125944
+    },
     {
       "area": "directory_learning_academy_payroll_and_request_lifecycle",
       "postgres_version": "18.6",
@@ -174,7 +227,7 @@
     },
     "D": {
       "status": "partial",
-      "next": "Implement Intervention / Rescue Queue and Academy Capacity & Revenue Explorer. Continue the buyer acceptance scenario across operations and learning.",
+      "next": "Build D2 Rescue Queue on current learner identities and teacher roster. Implement owner threshold revisions, evidence projection, authorized claim and action audit, then connect the native Management view. Continue with D3 after the D2 vertical slice.",
       "implemented": [
         "Role-scoped Learner Journey with real attendance, study milestone events, scores and student goals",
         "Native PostgreSQL/ASGI classroom-to-Writing flow with real roles and reviewer/guardian authorization",
@@ -188,7 +241,7 @@
     },
     "E": {
       "status": "pending",
-      "next": "Run isolated restore, authorization tests and a staged benchmark using 10000 synthetic learners."
+      "next": "Run an isolated PostgreSQL and object-storage restore, then a staged HTTP benchmark with at least 10000 synthetic student records."
     },
     "F": {
       "status": "pending",

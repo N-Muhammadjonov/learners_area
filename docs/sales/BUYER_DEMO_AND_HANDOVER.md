@@ -18,7 +18,7 @@ Ajratilgan muhitda egasi, moliya admini, o‘qituvchi, o‘quvchi va ota-ona his
 6. O‘quvchi ota-ona bog‘lanishini tasdiqlaydi. Ota-ona o‘z farzandining natijasini ko‘radi. Boshqa farzandga ruxsat berilmaydi. Telegram javobini yuboruvchi o‘qituvchiga qaytarish lokal ishchi sinovida tasdiqlangan.
 7. `Academy finance → Teacher payroll` da tasdiqlangan davr ish haqini hisoblang. Qoldiq, tuzatish va tasdiqlangan bank chiqimini tekshiring.
 
-Ushbu amallar tegishli lokal testlarda tasdiqlangan. Xaridor yakuniy demo sessiyasida ularni bitta stsenariy bo‘yicha o‘tkazing. [Dalillar](../verification/SALE_READY_ACCEPTANCE.md)
+Ushbu amallar tegishli lokal testlarda tasdiqlangan. Rescue Queue, Capacity & Revenue Explorer, to‘liq tiklash va real parallel yuk dalillari kutilmoqda. Xaridor yakuniy demo sessiyasida ularni bitta stsenariy bo‘yicha o‘tkazing. [Dalillar](../verification/SALE_READY_ACCEPTANCE.md)
 
 ## 2. Tashqi tasdiq va qolgan ishlar
 
