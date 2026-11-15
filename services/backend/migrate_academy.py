@@ -11,6 +11,8 @@ from urllib.parse import unquote, urlsplit
 
 import asyncpg
 
+from app.db import connection_settings
+
 MIGRATIONS = Path(__file__).resolve().with_name('migrations')
 VERSIONS = range(1115, 1132)
 JOURNAL = 'la_academy_migrations.applied'
@@ -93,7 +95,8 @@ async def upgrade(conn: asyncpg.Connection, *, apply: bool) -> list[str]:
 
 
 async def run(dsn: str, apply: bool) -> list[str]:
-    conn = await asyncpg.connect(dsn, timeout=15)
+    dsn, tls = connection_settings(dsn)
+    conn = await asyncpg.connect(dsn, ssl=tls, timeout=15)
     try:
         return await upgrade(conn, apply=apply)
     finally:

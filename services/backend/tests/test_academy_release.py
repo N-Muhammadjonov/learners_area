@@ -1,0 +1,145 @@
+"""Native backup/restore and fail-closed production-release rehearsal."""
+from __future__ import annotations
+
+import asyncio
+import json
+import os
+from pathlib import Path
+import shutil
+from typing import Iterator
+
+import asyncpg
+import pytest
+
+from tools import academy_release as release
+
+PROJECT = 'tuoeabrrnsiuxpjmslxp'
+ACCOUNT = 'd953f7ff0eedad092d7059969125244d'
+BACKEND = Path(__file__).resolve().parents[1]
+
+
+@pytest.fixture
+def pg_bin() -> Path:
+    path = Path(os.getenv('PG17_BIN', '/usr/lib/postgresql/17/bin'))
+    assert (path/'pg_dump').is_file(), 'Install PostgreSQL 17 server/client or set PG17_BIN'
+    return path
+
+
+async def seed_source(dsn: str) -> None:
+    await release.prepare_local(dsn, ['postgres', 'anon', 'authenticated', 'service_role'])
+    conn = await asyncpg.connect(dsn)
+    try:
+        deferred = set(json.loads((BACKEND/'tests/migration-contract.json').read_text())['contentMigrations'])
+        for file in sorted((BACKEND/'migrations').glob('*.sql')):
+            if file.name < '1115' and file.name not in deferred:
+                for sql in file.read_text().split('--> statement-breakpoint'):
+                    statement = '\n'.join(line for line in sql.splitlines() if not line.lstrip().startswith('--'))
+                    if statement.strip():
+                        await conn.execute(statement)
+        await conn.execute("INSERT INTO users(name,role,account_status) VALUES('Synthetic existing learner','student','active')")
+        # Reproduce Supabase's API defaults. Each new managed table must revoke them.
+        await conn.execute('ALTER DEFAULT PRIVILEGES GRANT ALL ON TABLES TO anon,authenticated,service_role')
+    finally:
+        await conn.close()
+
+
+@pytest.fixture
+def source(tmp_path: Path, pg_bin: Path) -> Iterator[str]:
+    base = tmp_path/'source'
+    base.mkdir(mode=0o700)
+    with release.local_database(base, pg_bin) as dsn:
+        asyncio.run(seed_source(dsn))
+        yield dsn
+
+
+class FileStorage:
+    def __init__(self, root: Path, *, corrupt: bool = False) -> None:
+        self.root, self.corrupt = root, corrupt
+        self.uploads = 0
+
+    def upload_file(self, filename: str, bucket: str, key: str, **kwargs: object) -> None:
+        target = self.root/key
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(filename, target)
+        self.uploads += 1
+
+    def download_file(self, bucket: str, key: str, filename: str) -> None:
+        shutil.copyfile(self.root/key, filename)
+        if self.corrupt:
+            Path(filename).write_bytes(b'corrupted transfer')
+
+    def put_object(self, *, Bucket: str, Key: str, Body: bytes, **kwargs: object) -> None:
+        (self.root/Key).write_bytes(Body)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('failure', [None, 'download', 'rehearsal'])
+async def test_native_release_requires_offsite_restore_before_production(
+    source: str, pg_bin: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure: str | None,
+) -> None:
+    storage = FileStorage(tmp_path/'offsite', corrupt=failure == 'download')
+    monkeypatch.setenv('DATABASE_URL', source)
+    monkeypatch.delenv('ACADEMY_MIGRATION_DATABASE_URL', raising=False)
+    monkeypatch.setenv('R2_ENDPOINT', f'https://{ACCOUNT}.r2.cloudflarestorage.com')
+    monkeypatch.setenv('ACADEMY_BACKUP_KEY', os.urandom(32).hex())
+    monkeypatch.setattr(release, '_client', lambda: (storage, 'fixture'))
+    # These two adapters are the only production identity/TLS replacements.
+    # PostgreSQL dump, upload/download, authenticated restore and DDL remain real.
+    monkeypatch.setattr(release, 'connection_settings', lambda value: (value, False))
+    monkeypatch.setattr(release, 'validate_target', lambda value, project: '127.0.0.1')
+    conn = await asyncpg.connect(source)
+    try:
+        if failure == 'rehearsal':
+            await conn.execute('ALTER TABLE reading_attempts RENAME COLUMN submitted_at TO previous_submitted_at')
+        before = await release.snapshot_state(conn)
+        if failure:
+            with pytest.raises(ValueError):
+                await release.release(PROJECT, ACCOUNT, 'fixture', pg_bin)
+            assert await conn.fetchval("SELECT to_regclass('la_academy_migrations.applied')") is None
+            assert await conn.fetchval("SELECT to_regclass('public.finance_accounts')") is None
+            assert await release.snapshot_state(conn) == before
+        else:
+            report = await release.release(PROJECT, ACCOUNT, 'fixture', pg_bin)
+            assert report['result'] == 'applied'
+            assert report['restore_rehearsal'] == 'passed'
+            assert report['verification']['migrations'] == 17
+            assert report['verification']['finance_accounts'] == 12
+            assert report['verification']['direct_api_grants'] == 0
+            assert report['verification']['unbalanced_entries'] == 0
+            after = await release.snapshot_state(conn)
+            assert all(after['tables'][name] == count for name, count in before['tables'].items())
+            assert (await release.release(PROJECT, ACCOUNT, 'fixture', pg_bin))['result'] == 'already_applied'
+            assert storage.uploads == 1
+            archive = storage.root/report['backup_object']
+            assert archive.read_bytes().startswith(release.recovery.MAGIC)
+            manifest = json.loads(Path(str(archive)+'.json').read_text())
+            assert manifest['source_state'] == before
+            assert len(manifest['migration_hashes']) == 17
+            assert os.environ['ACADEMY_BACKUP_KEY'] not in json.dumps(manifest)
+    finally:
+        await conn.close()
+
+
+@pytest.mark.parametrize('dsn', [
+    'postgresql://postgres:secret@db.otherproject.supabase.co/postgres',
+    f'postgresql://postgres.{PROJECT}:secret@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres',
+    f'postgresql://postgres:secret@db.{PROJECT}.supabase.co/another_database',
+    f'postgresql://postgres:secret@db.{PROJECT}.supabase.co/postgres?sslmode=disable',
+    'postgresql://postgres:secret@127.0.0.1/postgres',
+])
+def test_identity_rejects_wrong_project_transaction_pooler_or_options(dsn: str) -> None:
+    with pytest.raises(ValueError):
+        release.validate_target(dsn, PROJECT)
+
+
+def test_expected_direct_and_session_connections() -> None:
+    for dsn in (
+        f'postgresql://postgres:secret@db.{PROJECT}.supabase.co/postgres',
+        f'postgresql://postgres.{PROJECT}:secret@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres',
+    ):
+        assert release.validate_target(dsn, PROJECT)
+
+
+def test_invalid_snapshot_is_rejected_before_dump(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match='snapshot'):
+        release.recovery.backup_db('unused', 'unused', tmp_path/'backup', tmp_path/'key', snapshot=';unsafe')

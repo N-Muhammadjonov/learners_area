@@ -1,7 +1,8 @@
 """Offline recovery tools. Production sources are read-only; restore is local-only.
 
 No scheduler, production configuration change, overwrite, prune or cloud delete.
-Install requirements-recovery.txt in an operations environment, not the web image.
+Install requirements-recovery.txt in an operations environment. The Academy
+pre-deploy image also carries the native tools for its isolated restore gate.
 """
 from __future__ import annotations
 
@@ -130,14 +131,18 @@ def stop_process(process):
         except subprocess.TimeoutExpired:process.kill();process.wait(timeout=5)
 
 
-def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump',*,overall_timeout=900):
+def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump',*,overall_timeout=900,snapshot=None):
     if not 1<=overall_timeout<=3600:raise ValueError('database backup deadline must be 1–3600 seconds')
+    if snapshot is not None and not re.fullmatch(r'[0-9A-Fa-f]{8}-[0-9A-Fa-f]{8}-[0-9]+',snapshot):
+        raise ValueError('invalid exported PostgreSQL snapshot')
     env=connection_env(dsn,expected_host)
     # ACLs/RLS/functions are preserved; do not use --no-acl or data-only export.
     # Explicit READ ONLY transaction also protects pooled sources that discard
     # startup options; the deferrable snapshot is bounded by the outer deadline.
-    process=subprocess.Popen([pg_dump,'--format=custom','--serializable-deferrable','--no-owner','--schema=public','--schema=drizzle',
-                              '--lock-wait-timeout=10s'],env=env,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
+    # An imported snapshot cannot itself be READ ONLY DEFERRABLE. The exporter
+    # has already obtained the safe serializable snapshot in that mode.
+    process=subprocess.Popen([pg_dump,'--format=custom',*(['--serializable-deferrable'] if snapshot is None else []),'--no-owner','--schema=public','--schema=drizzle',
+                              '--lock-wait-timeout=10s',*(['--snapshot='+snapshot] if snapshot else [])],env=env,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
     deadline=threading.Timer(overall_timeout,lambda:stop_process(process));deadline.start()
     try:
         with encrypted_output(path,key_file) as out:
