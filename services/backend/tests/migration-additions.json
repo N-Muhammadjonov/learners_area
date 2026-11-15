@@ -56,5 +56,6 @@
  "1123_academy_sessions.sql": "b7cd103b1b2fd777a8a17c246b9b2abd2d26478d860147e5cb3fc67e9532b030",
  "1124_academy_attendance.sql": "061d6f36aab2f53fc7bd6250ab6fe47615a7a01658de69256c122238ada093fb",
  "1125_academy_leads.sql": "a75d3023dffbd092c442ae700ee7c4d1b87866c49baa5c28daa80b4fea2c3edf",
- "1126_academy_payroll.sql": "f95883df237a090e4c4c24bc921c4816a7d818f5241fed70c6a1959181c5dff8"
+ "1126_academy_payroll.sql": "f95883df237a090e4c4c24bc921c4816a7d818f5241fed70c6a1959181c5dff8",
+ "1127_academy_directory_import.sql": "9a227f32149b9db7a2aeadab95a03ba03e9348db2a9529b26e3955421be332c9"
 }

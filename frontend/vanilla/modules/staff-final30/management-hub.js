@@ -17,6 +17,8 @@ export function managementAreas(dict,role){
  const addGuardians=()=>add('/app/management/guardians',dict.people.name==='Ism'?'Ota-onalar':'Guardians',
    dict.people.name==='Ism'?'Talaba–ota-ona bog‘lanishlari va qo‘lda yuboriladigan xabarlar.':'Student–guardian links and manually sent messages.',IconPeople);
  if(admin){
+  if(owner)add('/app/management/directory-files',dict.people.name==='Ism'?'Katalog fayllari':'Directory files',
+      dict.people.name==='Ism'?'O‘quvchi va o‘qituvchi fayllarini tekshirish, import va eksport qilish.':'Review, import and export student and teacher spreadsheets.',IconPeople);
   add('/app/management/leads',dict.people.name==='Ism'?'Qabul jarayoni':'Admissions pipeline',
       dict.people.name==='Ism'?'Nomzodlar, sinov darslari va guruhga yozilish.':'Leads, trial lessons and enrollment.',IconPeople);
   add('/app/management/finance',dict.people.name==='Ism'?'Akademiya moliyasi':'Academy finance',

@@ -168,7 +168,8 @@ async def lookup(conn: Connection, kind: str, query: str) -> list[dict]:
     else:
         rows = await conn.fetch(
             """SELECT id, coalesce(name,email,id::text) AS label FROM users
-               WHERE (role::text=$1 OR ($1='teacher' AND role='owner')) AND account_status='active'
+               WHERE (role::text=$1 OR ($1='teacher' AND role='owner')
+                      OR ($1='directory-teacher' AND role='teacher')) AND account_status='active'
                  AND strpos(lower(coalesce(name,'') || ' ' || coalesce(email,'') || ' ' || id::text),
                             lower($2))>0 ORDER BY name, id LIMIT 25""",
             kind, query)

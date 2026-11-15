@@ -4406,3 +4406,32 @@ export const academyPayrollEvents = pgTable("academy_payroll_events", {
   check("academy_payroll_events_reference_check", sql`btrim(${t.reference}) <> ''`),
   check("academy_payroll_events_check", sql`${t.kind} = 'adjustment' OR ${t.amountMinor} > 0`),
 ]).enableRLS();
+
+export const academyDirectoryImports = pgTable("academy_directory_imports", {
+  id: uuid("id").primaryKey(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  source: varchar("source", { length: 80 }).notNull(),
+  fingerprint: varchar("fingerprint", { length: 64 }).notNull(),
+  fileSha256: varchar("file_sha256", { length: 64 }).notNull(),
+  report: jsonb("report").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}).enableRLS();
+
+export const academyDirectoryRecords = pgTable("academy_directory_records", {
+  source: varchar("source", { length: 80 }).notNull(),
+  externalId: varchar("external_id", { length: 120 }).notNull(),
+  name: varchar("name", { length: 200 }).notNull(),
+  email: varchar("email", { length: 320 }),
+  role: varchar("role", { length: 12 }).notNull(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "cascade" }),
+  createdIn: uuid("created_in").notNull().references(() => academyDirectoryImports.id),
+  linkedIn: uuid("linked_in").references(() => academyDirectoryImports.id),
+}, t => [
+  primaryKey({ name: "academy_directory_records_pkey", columns: [t.source, t.externalId] }),
+  uniqueIndex("academy_directory_records_source_email_idx").on(t.source, t.email).where(sql`${t.email} IS NOT NULL`),
+  uniqueIndex("academy_directory_records_source_user_idx").on(t.source, t.userId).where(sql`${t.userId} IS NOT NULL`),
+  index("academy_directory_records_user_idx").on(t.userId).where(sql`${t.userId} IS NOT NULL`),
+  check("academy_directory_records_role_check", sql`${t.role} IN ('student','teacher')`),
+  check("academy_directory_records_check", sql`${t.linkedIn} IS NULL OR ${t.userId} IS NOT NULL`),
+  check("academy_directory_records_check1", sql`${t.email} IS NOT NULL OR ${t.userId} IS NOT NULL`),
+]).enableRLS();

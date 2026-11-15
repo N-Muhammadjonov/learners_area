@@ -1531,6 +1531,31 @@
  },
  {
   "method": "GET",
+  "path": "/api/staff/academy/directory/export/{kind}",
+  "name": "academy_directory_export"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/directory/import/{operation}",
+  "name": "academy_directory_import"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/directory/imports/{batch_id}/issues.csv",
+  "name": "academy_directory_issues"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/directory/pending",
+  "name": "academy_directory_pending"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/directory/pending/link",
+  "name": "academy_directory_link"
+ },
+ {
+  "method": "GET",
   "path": "/api/staff/academy/groups",
   "name": "academy_groups_list"
  },
