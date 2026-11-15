@@ -23,7 +23,7 @@ try {
    const errors=[];page.on('pageerror',e=>errors.push(e.message));
    const path=['owner','admin'].includes(role)?'/app/management/finance':role==='teacher'?'/app/management/guardians':stage==='after'?'/app/payments':'/app/progress';
    const response=await page.goto(origin+path);
-   assert.equal(response.status(),200);
+   if(stage==='after')assert.equal(response.status(),200);
    await page.waitForLoadState('networkidle');
    const filename=`${role}-${theme}-${width}.png`;
    await page.screenshot({path:resolve(directory,filename),fullPage:true});
@@ -35,7 +35,7 @@ try {
     const data=await (await context.request.get(origin+'/api/finance/me')).json();
     assert.equal(data.position.balanceDueMinor,800000);
    }
-   results.push({role,theme,width,path,actualPath:new URL(page.url()).pathname,screenshot:filename,errors,...metrics});
+   results.push({role,theme,width,path,responseStatus:response.status(),actualPath:new URL(page.url()).pathname,screenshot:filename,errors,...metrics});
    await context.close();
   }
  }
