@@ -99,7 +99,7 @@ async def vendor(kind,params,language,provider,model,*,user_id=None,system_promp
         key=os.getenv('OPENAI_API_KEY');url='https://api.openai.com/v1/responses';headers={'Authorization':f'Bearer {key}'}
     elif pid=='anthropic':
         key=os.getenv('ANTHROPIC_API_KEY');url='https://api.anthropic.com/v1/messages';headers={'x-api-key':key or '', 'anthropic-version':'2023-06-01'}
-    else:
+    elif pid != 'gemini':
         entries,_=registry()
         choice=next((x for x in entries if x.get('id')==pid and x.get('_endpoint')),None)
         if not choice:return None
