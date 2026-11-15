@@ -736,11 +736,8 @@ body.intro-inverted nav .nv>a[href="/login"]:focus-visible{background:rgba(255,2
 
 /* v2 panoramic camera: single viewport background with four intersecting environments. */
 body.intro-inverted #cinematicTrack>.cinematic-panel{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
-body.intro-inverted #cinematicNight{z-index:3!important;background:#050a16;opacity:0;isolation:isolate}
 body.intro-inverted #cinematicDunes{z-index:4!important}
-body.intro-inverted #cinematicNightImage{position:absolute;inset:-15%;width:130%;height:130%;object-fit:cover;object-position:center;will-change:transform;transform-origin:center}
 body.intro-inverted #cinematicSkyImage{object-position:center}
-body.intro-inverted #cinematicNight .cinematic-night-vignette{position:absolute;inset:0;background:linear-gradient(180deg,rgba(1,3,12,.11),rgba(2,4,13,.12) 60%,rgba(3,7,21,.28));pointer-events:none}
 body.intro-inverted .cinematic-backdrop{background:#050915}
 /* Increase contrast over pale sky and luminous clouds. */
 body.intro-inverted .cinematic-hero-flow .hero .lead,
@@ -829,5 +826,76 @@ body.intro-inverted #cinematicDunes>video{
  object-fit:cover!important;object-position:center!important;
 }
 body.intro-inverted #cinematicSky,
-body.intro-inverted #cinematicNight,
 body.intro-inverted #cinematicDunes{transform:none!important}
+
+/* Panoramic production correction: one fixed, full-viewport camera.
+   The native view retains a single vertical scroll; content never forms a sidebar. */
+html:has(body.intro-inverted),body.intro-inverted{overflow-x:clip!important}
+body.intro-inverted,
+body.intro-inverted #root,
+body.intro-inverted #root>[data-native-landing]{
+ min-width:0!important;width:100%!important;max-width:100%!important;
+}
+body.intro-inverted #cinematicBackdrop{
+ position:fixed!important;inset:0!important;
+ width:100vw!important;height:100vh!important;height:100dvh!important;
+ max-width:none!important;min-width:0!important;
+ overflow:hidden!important;contain:paint;isolation:isolate;z-index:0!important;
+}
+body.intro-inverted #cinematicTrack{
+ position:absolute!important;inset:0!important;
+ width:100%!important;height:100%!important;max-width:none!important;
+ transform:none!important;
+}
+body.intro-inverted #cinematicTrack>.cinematic-panel{
+ position:absolute!important;inset:0!important;top:0!important;right:0!important;
+ bottom:0!important;left:0!important;width:100%!important;height:100%!important;
+ margin:0!important;max-width:none!important;
+ overflow:hidden!important;mask-image:none!important;-webkit-mask-image:none!important;
+ transform:none!important;
+}
+body.intro-inverted #cinematicEarth{z-index:1!important}
+body.intro-inverted #cinematicSky{z-index:2!important}
+body.intro-inverted #cinematicDunes{z-index:3!important}
+body.intro-inverted #cinematicGlobeFrame{
+ position:absolute!important;inset:-10% -12%!important;
+ width:124%!important;height:120%!important;
+ transform-origin:50% 65%!important;
+}
+body.intro-inverted #cinematicEarthImage{
+ position:absolute!important;inset:0!important;
+ width:100%!important;height:100%!important;
+ object-fit:cover!important;object-position:center 55%!important;
+ image-rendering:auto;filter:contrast(1.05) saturate(1.08);
+}
+body.intro-inverted #cinematicSkyImage,
+body.intro-inverted #cinematicDunes>img,
+body.intro-inverted #cinematicDunes>video{
+ position:absolute!important;inset:-16% -12%!important;
+ width:124%!important;height:132%!important;
+ max-width:none!important;object-fit:cover!important;
+ object-position:center center!important;image-rendering:auto;
+ backface-visibility:hidden;will-change:transform;
+}
+body.intro-inverted #cinematicSkyImage{
+ filter:contrast(1.045) saturate(1.045);
+}
+body.intro-inverted #cinematicDunes>img,
+body.intro-inverted #cinematicDunes>video{
+ object-position:center 55%!important;
+}
+body.intro-inverted .cinematic-hero-flow,
+body.intro-inverted section.sec,
+body.intro-inverted .reversed-finale{
+ max-width:100%!important;min-width:0!important;
+}
+/* Keep responsive content centered, with no horizontal side canvas. */
+@media(max-width:740px){
+ body.intro-inverted #cinematicBackdrop{width:100vw!important;max-width:100vw!important}
+ body.intro-inverted #cinematicTrack>.cinematic-panel{width:100%!important}
+ body.intro-inverted #cinematicSkyImage,
+ body.intro-inverted #cinematicDunes>img,
+ body.intro-inverted #cinematicDunes>video{
+  inset:-15% -17%!important;width:134%!important;height:130%!important;
+ }
+}
