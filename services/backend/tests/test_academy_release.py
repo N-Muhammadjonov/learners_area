@@ -72,6 +72,47 @@ class FileStorage:
         (self.root/Key).write_bytes(Body)
 
 
+async def assert_trigger_boundaries(conn: asyncpg.Connection) -> None:
+    await conn.execute('''
+        CREATE FUNCTION public.rls_auto_enable() RETURNS event_trigger
+        LANGUAGE plpgsql SECURITY DEFINER SET search_path TO pg_catalog AS $$
+        DECLARE command record;
+        BEGIN
+            FOR command IN SELECT * FROM pg_event_trigger_ddl_commands() LOOP
+                IF command.object_type='table' AND command.schema_name='public' THEN
+                    EXECUTE format('ALTER TABLE %s ENABLE ROW LEVEL SECURITY',command.object_identity);
+                END IF;
+            END LOOP;
+        END $$;
+        CREATE EVENT TRIGGER private_rls_test ON ddl_command_end
+        WHEN TAG IN ('CREATE TABLE') EXECUTE FUNCTION public.rls_auto_enable();
+    ''')
+    paths = list((BACKEND.parents[1]/'supabase/migrations').glob('*_private_trigger_function_boundaries.sql'))
+    assert len(paths) == 1
+    await conn.execute(paths[0].read_text())
+    await conn.execute(paths[0].read_text())
+    for role in ('anon', 'authenticated', 'service_role'):
+        assert not await conn.fetchval(
+            "SELECT has_function_privilege($1,'public.rls_auto_enable()','EXECUTE')", role)
+    await conn.execute('CREATE TABLE public.rls_after_revocation(id int)')
+    assert await conn.fetchval("SELECT relrowsecurity FROM pg_class WHERE oid='public.rls_after_revocation'::regclass")
+    # A forged temporary table must not hide an unbalanced real entry.
+    with pytest.raises(asyncpg.CheckViolationError):
+        async with conn.transaction():
+            await conn.execute('SET LOCAL search_path TO pg_temp,public')
+            await conn.execute('CREATE TEMP TABLE finance_journal_lines(transaction_id uuid,amount_minor bigint,direction text) ON COMMIT DROP')
+            entry = await conn.fetchrow('''
+                INSERT INTO public.finance_journal_entries(transaction_id,source_type,source_id)
+                VALUES(gen_random_uuid(),'test',gen_random_uuid()) RETURNING id,transaction_id
+            ''')
+            inserted = await conn.execute('''
+                INSERT INTO public.finance_journal_lines(transaction_id,entry_id,account_id,direction,amount_minor)
+                SELECT $1,$2,id,'debit',100 FROM public.finance_accounts WHERE code='cash_on_hand'
+            ''', entry['transaction_id'], entry['id'])
+            assert inserted == 'INSERT 0 1'
+    assert await conn.fetchval('SELECT count(*) FROM public.finance_journal_entries') == 0
+
+
 @pytest.mark.asyncio
 @pytest.mark.parametrize('failure', [None, 'download', 'rehearsal'])
 async def test_native_release_requires_offsite_restore_before_production(
@@ -116,6 +157,7 @@ async def test_native_release_requires_offsite_restore_before_production(
             assert manifest['source_state'] == before
             assert len(manifest['migration_hashes']) == 17
             assert os.environ['ACADEMY_BACKUP_KEY'] not in json.dumps(manifest)
+            await assert_trigger_boundaries(conn)
     finally:
         await conn.close()
 

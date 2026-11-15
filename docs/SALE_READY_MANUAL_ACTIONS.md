@@ -1,6 +1,6 @@
 # SALE_READY_MANUAL_ACTIONS — egasi bajaradigan yagona ro'yxat
 
-**Branch:** `audit/learners-area-next-main-20261115` · **Sana:** 2026-11-15, Asia/Tashkent
+**Branch:** `main` · **Sana:** 2026-11-15, Asia/Tashkent
 **Qoida:** Barcha tashqi/qo'lda bajariladigan majburiyatlar **faqat shu faylda**. Boshqa
 hujjatlarda egaga topshiriq yozilmaydi. Kod bilan yopish mumkin bo'lgan hech narsa bu yerga
 ko'chirilmagan — muhandislik ishi muhandislikda qoldi.
@@ -9,21 +9,22 @@ ko'chirilmagan — muhandislik ishi muhandislikda qoldi.
 
 | Tur | Soni | Izoh |
 |---|---:|---|
-| **Sale blockers** (sotuvni to'sadi) | **7** | MA-01 … MA-05, MA-07, MA-12 |
+| **Sale blockers** (sotuvni to'sadi) | **6** | MA-01, MA-02, MA-04, MA-05, MA-07, MA-12 |
 | **Pilot blockers** (pilotni to'sadi) | **3** | MA-06, MA-09, MA-10 |
 | **Handover blockers** (topshiriqda to'sadi) | **1** | MA-08 (domen/DNS/secret egaligi) |
 | **Optional / kelajak** | **1** | MA-11 (biometrik — hozircha **o'chiq** qolishi shart) |
+| Bajarilgan | **1** | MA-03 — production migratsiyasi va faollashtirish |
 | Jami | **12** | MA-01 … MA-12, indeks bilan bir xil |
 
-**Umumiy xulosa:** platforma kod tomonidan sotuvga yaqin, lekin **hech bir qator
-production'da isbotlanmagan**. Quyidagi 7 ta sale blocker yopilmaguncha "EVERYTHING IS READY"
+**Umumiy xulosa:** MA-03 production’da tasdiqlandi. Ilova bazasining shifrlangan
+zaxirasi va ajratilgan tiklash sinovi ham o‘tdi. Qolgan 6 ta sale blocker yopilmaguncha "EVERYTHING IS READY"
 deyish **noto'g'ri** bo'ladi.
 
 **Jadval formati haqida:** talab qilingan 15 ustun bitta keng jadvalga sig'maydi, shuning uchun
 yuqorida qisqa indeks, pastda har bir element uchun barcha 15 maydonni o'z ichiga olgan blok
 berilgan. `ID` orqali bog'lanadi.
 
-15-noyabr auditi: main’ga kod birlashtirishga foydalanuvchi ruxsat berdi. Production schema o‘qishi va Cloudflare hisob metama’lumoti avtomatik approval review’da rad etildi. Bu xizmat yoki hisob yo‘qligini anglatmaydi. Baza, media va jonli integratsiya dalili hali tasdiqlanmagan. Live audio, Telegram va WebRTC uchun mavjud MA-04–06 bandlari amal qiladi. Lokal dasturlash, CI brauzer sinovi va sintetik backup/restore sinovi muhandislik ishida qoladi.
+15-noyabrda foydalanuvchi production ishlariga va migratsiyalarga ruxsat berdi. Supabase sxemasi va Cloudflare omborlari tekshirildi. 1115–1131 production’da qo‘llandi, Academy yoqildi, ilova bazasidan R2’ga shifrlangan zaxira olindi va ajratilgan PostgreSQL’da tiklandi. [Production dalili](verification/ACADEMY_PRODUCTION_RELEASE_20261115.md). Jonli audio, Telegram va WebRTC qabuli MA-04–06 bandlarida ochiq qoladi.
 
 ## Indeks
 
@@ -31,11 +32,11 @@ berilgan. `ID` orqali bog'lanadi.
 |---|---|---|---|---|---|
 | MA-01 | P0 | **Ha — sale** | To'lovlar | Click yoki Payme merchant hisobini ochish va kalitlarni berish | `OPEN` |
 | MA-02 | P0 | **Ha — sale** | Moliya | Hisob siyosati va chart-of-accounts moslashtiruvini tasdiqlash | `OPEN` |
-| MA-03 | P0 | **Ha — sale** | Migratsiya | Academy va Tuition uchun 1115–1131 zanjirini production bazaga qo‘llash | `OPEN` |
-| MA-04 | P0 | **Ha — sale** | Media/R2 | Cloudflare R2 kalitlari va bucket siyosati | `OPEN` |
+| MA-03 | P0 | Yo‘q — bajarilgan | Migratsiya | 1115–1131 production’da qo‘llandi va Academy yoqildi | `DONE` |
+| MA-04 | P0 | **Ha — sale** | Media/R2 | R2 sozlangan; jonli audio va muddati tugagan URL qabuli | `CONFIGURED_AWAITING_MANUAL_QA` |
 | MA-05 | P0 | **Ha — sale** | Ota-ona Telegram | Bot token + webhook secret + jonli ikki tomonlama test | `OPEN` |
 | MA-06 | P1 | Pilot | WebRTC | TURN server kredensiallari | `OPEN` |
-| MA-07 | P0 | **Ha — sale** | Zaxira | Backup/restore drill uchun ruxsat va maskalangan nusxa | `OPEN` |
+| MA-07 | P0 | **Ha — sale** | Zaxira | Ilova bazasi tiklandi; to‘liq media recovery va RPO/RTO qabuli qolgan | `PARTIAL` |
 | MA-08 | P0 | Handover | Domen/secret | Domen, DNS, `AUTH_SECRET`, eski operatorni olib tashlash | `OPEN` |
 | MA-09 | P1 | Pilot | AI/STT | Writing/Speaking baholash uchun provider kaliti | `OPEN` |
 | MA-10 | P1 | Pilot | Yuklama | 10k stsenariy uchun infra byudjeti va load-test ruxsati | `OPEN` |
@@ -84,13 +85,15 @@ berilgan. `ID` orqali bog'lanadi.
 
 | Maydon | Qiymat |
 |---|---|
-| Prioritet / To'suvchi | P0 / **Ha — sale** |
+| Prioritet / To'suvchi | P0 / Yo‘q — bajarilgan |
 | Modul | Migratsiya |
 | Aniq harakat | Tasdiqlangan release commitidan 1115–1131 zanjirini qo‘llash va Academy’ni faollashtirish |
 | Kerakli hisob/ruxsat | Supabase loyihasi va ishlab turgan backend muhiti egasi |
-| Bajarilgan tayyorgarlik | Eski sxema uchun Academy va Tuition boshqariladigan muhitlarda yopiq. Migratsiya buyrug‘i 17 ta faylni bitta tranzaksiyada qo‘llaydi va SHA-256 qiymatlarini `la_academy_migrations.applied` jadvalida saqlaydi |
-| Status | `OPEN` |
-| Dalil havolasi | `docs/verification/SALE_READY_ACCEPTANCE.md` §2 |
+| Bajarilgan tayyorgarlik | 17 fayl production’da bitta tranzaksiyada qo‘llandi; barcha xeshlar mos; 35 ta yangi RLS jadvali; 12 ta hisob; 206 ta avvalgi jadval yozuv soni saqlandi. Shifrlangan R2 zaxirasi va ajratilgan tiklash o‘tdi; Railway readiness SUCCESS |
+| Status | `DONE` |
+| Dalil havolasi | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md` |
+
+Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da qayta bajarish talab qilinmaydi.
 
 1. Eski sxema bilan ishlayotgan backendda `ACADEMY_FEATURES_ENABLED` sozlanmagan yoki `0` bo‘lsin. Bazaning zaxirasini oling. Sinov nusxasida upgrade va restore jarayonini bajaring.
 2. Direct yoki session pooler ulanishini TLS bilan `ACADEMY_MIGRATION_DATABASE_URL` orqali kiriting. Reliz checkoutida backend dependency’lari bilan rejani o‘qing va chiqishdagi parolsiz nishonni tekshiring.
@@ -110,17 +113,17 @@ berilgan. `ID` orqali bog'lanadi.
 |---|---|
 | Prioritet / To'suvchi | P0 / **Ha — sale** (audio/media ishlashi uchun) |
 | Modul | Media/R2 |
-| Aniq harakat | R2 bucket yaratish, API token berish, private access siyosatini tasdiqlash |
-| Nega avtomatlashtirib bo'lmaydi | Cloudflare hisobi va token egaligi ownerda |
-| Bajarilgan tayyorgarlik | Kod tomoni mavjud: `app/media_streaming.py`, `app/step19_storage.py`, migration 0064 |
+| Aniq harakat | Mavjud private R2 orqali jonli audio va muddati tugagan URL rad etilishini tekshirish |
+| Nega avtomatlashtirib bo'lmaydi | Haqiqiy brauzer va audio qabuli foydalanuvchi tomonidan bajariladi |
+| Bajarilgan tayyorgarlik | `learners-area` bucket’da r2.dev o‘chiq va custom public domain yo‘q; media/dictionary Worker bindinglari tekshirildi; runtime kalitlari mavjud; haqiqiy shifrlangan zaxira upload/download xeshi mos |
 | Rasmiy manba | `https://developers.cloudflare.com/r2/` → Cloudflare dashboard → R2 |
 | Kerakli hisob/ruxsat | Cloudflare account admin |
-| Aniq ketma-ketlik | R2 → Create bucket → API Tokens → Object Read & Write (faqat shu bucket) → token'ni Railway secret'ga qo'yish |
+| Aniq ketma-ketlik | Mavjud konfiguratsiyada test audiosini brauzerda ochish; seek va qayta kirishni tekshirish; muddati tugagan URL rad etilishini tasdiqlash |
 | Xavfsiz misol | `R2_ACCESS_KEY_ID=<access-key-id>` |
 | Egadan keyingi validatsiya | Imzolangan URL orqali audio yuklash/yuklab olish; muddati tugagan URL 403 qaytarishi |
 | Taxminiy vaqt | 30 daqiqa |
-| Status | `OPEN` |
-| Dalil havolasi | `docs/verification/CAPABILITY_MATRIX.md` CAP-14 |
+| Status | `CONFIGURED_AWAITING_MANUAL_QA` |
+| Dalil havolasi | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md`; CAP-14 |
 
 ## MA-05 — Telegram bot: token, webhook secret va jonli ota-ona testi
 
@@ -162,17 +165,17 @@ berilgan. `ID` orqali bog'lanadi.
 | Maydon | Qiymat |
 | Prioritet / To'suvchi | P0 / **Ha — sale** |
 | Modul | Zaxira |
-| Aniq harakat | Maskalangan baza nusxasini izolyatsiya qilingan muhitga tiklashga ruxsat berish |
-| Nega avtomatlashtirib bo'lmaydi | Production ma'lumotiga kirish va shaxsiy ma'lumotlarni ko'chirish — faqat ruxsat bilan |
-| Bajarilgan tayyorgarlik | Tiklash namunasi hujjatlashtirilgan (`docs/PLATFORM-RECOVERY-20261029.md`, `scripts/qa2-local-postgres.sh`). Sintetik lokal restore dalili mavjud: 240 jadval, 20 000 jurnal qatori va uchta lokal S3 obyekt. Staging/production restore va RPO/RTO bundan kelib chiqmaydi |
+| Aniq harakat | To‘liq media recovery va kelishilgan RPO/RTO qabul mezonini belgilash |
+| Nega avtomatlashtirib bo'lmaydi | Muhandislikdagi tiklash sinovi mijozning yo‘qotishga yo‘l qo‘yiladigan vaqt va xizmatni qaytarish kelishuvini tasdiqlamaydi |
+| Bajarilgan tayyorgarlik | Ruxsat berilgan. Haqiqiy production ilova bazasi private R2’ga AES-256-GCM bilan olindi, qayta yuklab tekshirildi va ajratilgan PostgreSQL’da tiklandi. 206 ta jadval yozuv sonlari, constraint va RLS mos. Platform Auth/Storage/Vault va R2 media baytlari bu nusxaga kirmaydi |
 | Rasmiy manba | Supabase → Database → Backups / PITR |
 | Kerakli hisob/ruxsat | Supabase owner |
 | Aniq ketma-ketlik | 1) Nusxa yuklab olish → 2) Shaxsiy ma'lumotlarni maskalash → 3) Izolyatsiya bazaga tiklash → 4) `GET /api/staff/finance/reconciliation` → 5) R2 pointer'larni tekshirish |
 | Xavfsiz misol | `pg_restore -d learners_restore backup.dump` |
 | Egadan keyingi validatsiya | Jadval sonlari, jurnal balansi (`balanced: true`), R2 pointer'lar, vaqt belgilari |
 | Taxminiy vaqt | 2–4 soat |
-| Status | `OPEN` |
-| Dalil havolasi | `docs/verification/CAPACITY_AND_RECOVERY.md` §7 |
+| Status | `PARTIAL` |
+| Dalil havolasi | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md`; `CAPACITY_AND_RECOVERY.md` §7 |
 
 ## MA-08 — Domen, DNS, `AUTH_SECRET` va eski operatorni olib tashlash (handover)
 

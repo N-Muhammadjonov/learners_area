@@ -1,5 +1,15 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15 — production migratsiyasi va xavfsizlik
+
+1115–1131 production’da qo‘llandi, Academy yoqildi, 206 ta avvalgi jadvalning yozuv
+sonlari saqlandi. Private R2’dagi haqiqiy shifrlangan ilova zaxirasidan ajratilgan
+PostgreSQL’da tiklash va shu migratsiyalarni sinash o‘tdi. 35 ta yangi jadvalda RLS
+yoqilgan va to‘g‘ridan-to‘g‘ri API ruxsati yo‘q. Oltita funksiyaning search path’i
+qotirildi, yettita ichki funksiyaning API execute ruxsati yopildi. Supabase security
+auditida WARN va ERROR qolmadi. Bu natija quyidagi eski production activation
+pending qaydlarini almashtiradi. [To‘liq dalil](ACADEMY_PRODUCTION_RELEASE_20261115.md).
+
 ## 2026-11-15 — learners-area-next va joriy main auditi
 
 [To‘liq prompt bo‘yicha hukm va dalil](MAIN_MERGE_AUDIT_20261115.md). Lokal backend

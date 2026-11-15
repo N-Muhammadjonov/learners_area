@@ -64,6 +64,14 @@ Vault and role passwords are outside this application-schema backup.
 
 ## Automated evidence
 
+After the Academy upgrade, apply the platform maintenance migration
+`supabase/migrations/20261115183948_private_trigger_function_boundaries.sql`.
+It pins six private trigger search paths (with `pg_temp` last) and revokes direct
+API execution on seven internal functions. It does not change financial rows.
+This step is tracked in Supabase migration history, separately from the 17-file
+`la_academy_migrations.applied` journal. The native test also proves that a temporary
+table cannot conceal an unbalanced posting and that automatic RLS still runs.
+
 `tests/test_academy_release.py` performs a native PostgreSQL 17 dump, authenticated
 restore and 17-file upgrade. It verifies idempotency, API privilege revocation,
 existing-row preservation, and that corrupted downloads or a failed final

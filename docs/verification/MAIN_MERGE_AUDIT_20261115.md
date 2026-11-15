@@ -1,5 +1,16 @@
 # Main merge auditi — 2026-11-15, Asia/Tashkent
 
+## Keyingi production natijasi
+
+Foydalanuvchi production ishlariga va migratsiyalarga alohida ruxsat berdi.
+1115–1131 production’da qo‘llandi va Academy faollashtirildi. 206 ta avvalgi
+jadval yozuv sonlari saqlandi; private R2’dagi shifrlangan haqiqiy zaxiradan
+ajratilgan PostgreSQL’da tiklash va upgrade o‘tdi. Supabase funksiyalari ham
+mustahkamlandi: yakuniy security auditida WARN va ERROR yo‘q.
+[Production receipt](ACADEMY_PRODUCTION_RELEASE_20261115.md) quyidagi dastlabki
+auditning migratsiya, ruxsat va production sxemasi bo‘yicha ochiq holatlarini
+almashtiradi. Tijorat va jonli foydalanuvchi qabuli bo‘yicha umumiy hukm o‘z kuchida.
+
 ## Hukm
 
 Promptdagi barcha ishlar xatosiz va to‘liq tugagan deb aytish mumkin emas.

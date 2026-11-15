@@ -1,18 +1,18 @@
 {
-  "branch": "audit/learners-area-next-main-20261115",
-  "pr": 197,
+  "branch": "main",
+  "pr": 200,
   "base_sha": "1231d6fa0db1ef283c3f97917d49a845cb8d581b",
-  "code_sha": "bbfe29225b47980736c0fb47caa95ad0944044ac",
+  "code_sha": "059a3712fed86d948b6ab959b04d0d13be22fedb",
   "latest_finished_full_ci": {
-    "sha": "bbfe29225b47980736c0fb47caa95ad0944044ac",
-    "run_id": 43721200756,
+    "sha": "059a3712fed86d948b6ab959b04d0d13be22fedb",
+    "run_id": 43745334599,
     "backend": {
-      "passed": 7502,
+      "passed": 7516,
       "failed": 0,
       "skipped": 0,
       "xfailed": 0,
       "subtests_passed": 287,
-      "seconds": 125.09
+      "seconds": 169.36
     },
     "frontend": {
       "passed": 1816,
@@ -42,11 +42,11 @@
   },
   "code_ci": {
     "status": "success",
-    "run_id": 43721200756,
-    "parent_run_id": 43721200761,
-    "coin_run_id": 43721200758,
-    "leaderboard_run_id": 43721201134,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43721200756"
+    "run_id": 43745334599,
+    "parent_run_id": 43745334551,
+    "coin_run_id": 43745334496,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43745334599",
+    "telegram_run_id": 43745334477
   },
   "tests": [
     {
@@ -204,9 +204,9 @@
   "migrations": {
     "latest": "services/backend/migrations/1131_academy_attempt_lookup_indexes.sql",
     "fresh": "verified",
-    "content_bearing_upgrade": "pending",
-    "staging": "pending",
-    "production": "pending",
+    "content_bearing_upgrade": "academy_verified_on_restored_production_snapshot",
+    "staging": "no_separate_hosted_staging_run",
+    "production": "academy_1115_1131_applied_and_verified",
     "fresh_evidence": {
       "schema_migrations": 110,
       "content_deferred": 21,
@@ -228,7 +228,9 @@
       "rescue_cases_preserved": 1,
       "rescue_actions_preserved": 1,
       "indexes": 3
-    }
+    },
+    "production_receipt": "docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.json",
+    "platform_hardening": "supabase/migrations/20261115183948_private_trigger_function_boundaries.sql"
   },
   "gates": {
     "A": {
@@ -239,10 +241,8 @@
       ]
     },
     "B": {
-      "status": "green_at_code_commit",
-      "remaining": [
-        "Run main-only Telegram and Parent Connect workflows after an authorized merge."
-      ]
+      "status": "main_ci_verified",
+      "remaining": []
     },
     "C": {
       "status": "partial",
@@ -309,13 +309,14 @@
   },
   "manual_actions": "docs/SALE_READY_MANUAL_ACTIONS.md",
   "manual_action_count": {
-    "sale": 7,
+    "sale": 6,
     "pilot": 3,
     "handover": 1,
-    "optional": 1
+    "optional": 1,
+    "completed": 1
   },
   "merge_authorized": true,
-  "production_rollout_authorized": false,
+  "production_rollout_authorized": true,
   "same_environment_main_baseline": {
     "sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
     "postgres_version": "18.6",
@@ -340,14 +341,15 @@
     "code_sha": "ade6227be1954e622945c8cc218e0793370e341e",
     "pr": 189
   },
-  "authorization_scope": "2026-11-15 user: audit/fix arena/learners-area-next and push main. No production schema, data, secret or feature activation authorization.",
+  "authorization_scope": "2026-11-15 user authorized audit/fixes/main push, then explicitly authorized necessary production work and applying migrations.",
   "current_local_release": {
     "backend": {
-      "passed": 7502,
+      "passed": 7516,
       "failed": 0,
       "subtests_passed": 287,
       "skipped": 0,
-      "xfailed": 0
+      "xfailed": 0,
+      "seconds": 115.98
     },
     "frontend": {
       "passed": 1816,
@@ -362,8 +364,29 @@
     "validation_security_passed": 3,
     "python_dependency_vulnerabilities": 0,
     "npm_high_critical": 0,
-    "npm_moderate_dev_findings": 4
+    "npm_moderate_dev_findings": 4,
+    "native_backup_and_function_hardening": {
+      "passed": 24,
+      "failed": 0,
+      "seconds": 8.26
+    }
   },
   "all_prompt_requirements_complete": false,
-  "current_audit": "docs/verification/MAIN_MERGE_AUDIT_20261115.md"
+  "current_audit": "docs/verification/MAIN_MERGE_AUDIT_20261115.md",
+  "production_release": {
+    "status": "verified",
+    "academy_migrations": 17,
+    "managed_tables": 35,
+    "rls_tables": 35,
+    "api_table_grants": 0,
+    "preserved_source_tables": 206,
+    "finance_accounts": 12,
+    "unbalanced_entries": 0,
+    "backup_restore": "passed",
+    "security_warnings": 0,
+    "security_errors": 0,
+    "runtime_deployment": "77009910-6fbd-4d95-b17d-c32db56c5a15",
+    "idempotent_later_deployment": "665fa268-f8d4-45a5-8558-34cecaedafd9",
+    "receipt": "docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.json"
+  }
 }

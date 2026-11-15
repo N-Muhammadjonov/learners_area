@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-15",
+  "timezone": "Asia/Tashkent",
+  "authorization": "User explicitly authorized necessary production work and migrations on 2026-11-15.",
+  "runtime_release": {
+    "commit": "dd6fe49bc926819c183782bfe67f3701aefcfdd0",
+    "deployment": "77009910-6fbd-4d95-b17d-c32db56c5a15",
+    "status": "SUCCESS",
+    "readyz_required": true,
+    "applied_at_utc": "2026-11-15T15:28:07.108284Z",
+    "later_deployment": "665fa268-f8d4-45a5-8558-34cecaedafd9",
+    "later_commit": "059a3712fed86d948b6ab959b04d0d13be22fedb",
+    "later_status": "SUCCESS",
+    "later_guard_result": "already_applied"
+  },
+  "backup": {
+    "bucket": "learners-area",
+    "object_key": "operational-backups/academy/tuoeabrrnsiuxpjmslxp/20261115T152744Z-abff5aefb2a7ee9e96fef8a079373e5af28eca9b47c601ebbd97a34549ccea13.labak",
+    "sha256": "abff5aefb2a7ee9e96fef8a079373e5af28eca9b47c601ebbd97a34549ccea13",
+    "encrypted_bytes": 66805993,
+    "format": "PostgreSQL custom dump with AES-256-GCM",
+    "schemas": [
+      "public",
+      "drizzle"
+    ],
+    "download_checksum_verified": true,
+    "restore_to_isolated_postgres": "passed",
+    "source_tables_preserved": 206,
+    "key_variable": "ACADEMY_BACKUP_KEY",
+    "key_value_recorded": false,
+    "scope": "Application schemas only; platform Auth/Storage/Vault, role passwords, R2 media bytes and full disaster-recovery RPO/RTO are not covered."
+  },
+  "academy": {
+    "range": "1115-1131",
+    "migration_count": 17,
+    "hashes_match_checkout": true,
+    "managed_tables": 35,
+    "managed_rls_tables": 35,
+    "direct_api_table_grants": 0,
+    "unbalanced_entries": 0,
+    "finance_accounts": 12,
+    "journal": [
+      {
+        "name": "1115_tuition_finance.sql",
+        "sha256": "3c72acc1a5fd2f1a03fa4eca5ccc4dc347e015983f5c79c55ed1b461515e9f76"
+      },
+      {
+        "name": "1116_tuition_finance_corrections.sql",
+        "sha256": "354ee79ed768d2764b2a346b475152896da5cbbec8f1130a71136976a1bd736c"
+      },
+      {
+        "name": "1117_tuition_charge_approval.sql",
+        "sha256": "d90b21fe4e22e5dd46d059dfaa1d8eb29ee2b515802accb58aa4652237925916"
+      },
+      {
+        "name": "1118_refund_lifecycle_and_cash_day.sql",
+        "sha256": "76c0f00bc44eee4e2cc2635cbf5e200b9eba89d23c62350dbe1a4c2af52f29d3"
+      },
+      {
+        "name": "1119_provider_clearing_account.sql",
+        "sha256": "c5ff471a35bea2cff93a59920115415cbd60f1fa530754a7df52bc4700a73ac5"
+      },
+      {
+        "name": "1120_freeze_contract_terms.sql",
+        "sha256": "e5cbb74ddad6d09e174dd8fe8ebf2fb232c33ccceb3c9d70a702f9961622917e"
+      },
+      {
+        "name": "1121_finance_outbox_dispatch.sql",
+        "sha256": "98ee97d027dd1288f772798dfa5d749b972fa5b22d099639f65a22014effee45"
+      },
+      {
+        "name": "1122_academy_groups.sql",
+        "sha256": "c53f19f00f32e5ecf8a4379ea08f7c853547d0cd6ade7eb7b352cb91e11d4456"
+      },
+      {
+        "name": "1123_academy_sessions.sql",
+        "sha256": "b7cd103b1b2fd777a8a17c246b9b2abd2d26478d860147e5cb3fc67e9532b030"
+      },
+      {
+        "name": "1124_academy_attendance.sql",
+        "sha256": "061d6f36aab2f53fc7bd6250ab6fe47615a7a01658de69256c122238ada093fb"
+      },
+      {
+        "name": "1125_academy_leads.sql",
+        "sha256": "a75d3023dffbd092c442ae700ee7c4d1b87866c49baa5c28daa80b4fea2c3edf"
+      },
+      {
+        "name": "1126_academy_payroll.sql",
+        "sha256": "f95883df237a090e4c4c24bc921c4816a7d818f5241fed70c6a1959181c5dff8"
+      },
+      {
+        "name": "1127_academy_directory_import.sql",
+        "sha256": "9a227f32149b9db7a2aeadab95a03ba03e9348db2a9529b26e3955421be332c9"
+      },
+      {
+        "name": "1128_academy_rescue_thresholds.sql",
+        "sha256": "c1c133a548ddd0650febec6c95186bd597c00bf1717e46a5ab87baf1aac9fc98"
+      },
+      {
+        "name": "1129_academy_rescue_workflow.sql",
+        "sha256": "95fd88d42074685473a6739d0d2a4784431dd26d2373a02458d1f4b213f277ff"
+      },
+      {
+        "name": "1130_preserve_rescue_account_erasure.sql",
+        "sha256": "0650d18235578914926e49785a324aa8e42a41c7c3eeaee5582a2742d20b531a"
+      },
+      {
+        "name": "1131_academy_attempt_lookup_indexes.sql",
+        "sha256": "4a9e4c2e6d12034e821bac1c29622b07ae158f8ff545f43e32b6a1e932c30f8f"
+      }
+    ]
+  },
+  "platform_hardening": {
+    "migration": "20261115183948_private_trigger_function_boundaries.sql",
+    "sha256": "529dd6aec87c4790b4fa69e7b0d485c2cad37e4386b1b44813d93505286f85d2",
+    "functions_with_pinned_path": 6,
+    "private_functions_with_api_execute_revoked": 7,
+    "api_function_grants": 0,
+    "rls_event_trigger": [
+      {
+        "name": "ensure_rls",
+        "enabled": "O"
+      }
+    ],
+    "security_advisor_warnings": 0,
+    "security_advisor_errors": 0,
+    "rls_no_policy_info": 240,
+    "info_explanation": "Server-only application tables intentionally deny direct Supabase API access."
+  },
+  "verification": {
+    "production": {
+      "functions": [
+        {
+          "name": "dictionary_immutable_registry",
+          "config": [
+            "search_path=pg_catalog, public, pg_temp"
+          ],
+          "security_definer": false
+        },
+        {
+          "name": "dictionary_immutable_release",
+          "config": [
+            "search_path=pg_catalog, public, pg_temp"
+          ],
+          "security_definer": false
+        },
+        {
+          "name": "finance_journal_balance_guard",
+          "config": [
+            "search_path=pg_catalog, public, pg_temp"
+          ],
+          "security_definer": false
+        },
+        {
+          "name": "finance_journal_immutable_guard",
+          "config": [
+            "search_path=pg_catalog, public, pg_temp"
+          ],
+          "security_definer": false
+        },
+        {
+          "name": "preserve_grammar_source_owner",
+          "config": [
+            "search_path=pg_catalog, public, pg_temp"
+          ],
+          "security_definer": false
+        },
+        {
+          "name": "rls_auto_enable",
+          "config": [
+            "search_path=pg_catalog"
+          ],
+          "security_definer": true
+        },
+        {
+          "name": "tuition_contracts_freeze_terms",
+          "config": [
+            "search_path=pg_catalog, public, pg_temp"
+          ],
+          "security_definer": false
+        }
+      ],
+      "rls_tables": 240,
+      "ledger_lines": 0,
+      "public_tables": 240,
+      "ledger_entries": 0,
+      "academy_journal": [
+        {
+          "name": "1115_tuition_finance.sql",
+          "sha256": "3c72acc1a5fd2f1a03fa4eca5ccc4dc347e015983f5c79c55ed1b461515e9f76"
+        },
+        {
+          "name": "1116_tuition_finance_corrections.sql",
+          "sha256": "354ee79ed768d2764b2a346b475152896da5cbbec8f1130a71136976a1bd736c"
+        },
+        {
+          "name": "1117_tuition_charge_approval.sql",
+          "sha256": "d90b21fe4e22e5dd46d059dfaa1d8eb29ee2b515802accb58aa4652237925916"
+        },
+        {
+          "name": "1118_refund_lifecycle_and_cash_day.sql",
+          "sha256": "76c0f00bc44eee4e2cc2635cbf5e200b9eba89d23c62350dbe1a4c2af52f29d3"
+        },
+        {
+          "name": "1119_provider_clearing_account.sql",
+          "sha256": "c5ff471a35bea2cff93a59920115415cbd60f1fa530754a7df52bc4700a73ac5"
+        },
+        {
+          "name": "1120_freeze_contract_terms.sql",
+          "sha256": "e5cbb74ddad6d09e174dd8fe8ebf2fb232c33ccceb3c9d70a702f9961622917e"
+        },
+        {
+          "name": "1121_finance_outbox_dispatch.sql",
+          "sha256": "98ee97d027dd1288f772798dfa5d749b972fa5b22d099639f65a22014effee45"
+        },
+        {
+          "name": "1122_academy_groups.sql",
+          "sha256": "c53f19f00f32e5ecf8a4379ea08f7c853547d0cd6ade7eb7b352cb91e11d4456"
+        },
+        {
+          "name": "1123_academy_sessions.sql",
+          "sha256": "b7cd103b1b2fd777a8a17c246b9b2abd2d26478d860147e5cb3fc67e9532b030"
+        },
+        {
+          "name": "1124_academy_attendance.sql",
+          "sha256": "061d6f36aab2f53fc7bd6250ab6fe47615a7a01658de69256c122238ada093fb"
+        },
+        {
+          "name": "1125_academy_leads.sql",
+          "sha256": "a75d3023dffbd092c442ae700ee7c4d1b87866c49baa5c28daa80b4fea2c3edf"
+        },
+        {
+          "name": "1126_academy_payroll.sql",
+          "sha256": "f95883df237a090e4c4c24bc921c4816a7d818f5241fed70c6a1959181c5dff8"
+        },
+        {
+          "name": "1127_academy_directory_import.sql",
+          "sha256": "9a227f32149b9db7a2aeadab95a03ba03e9348db2a9529b26e3955421be332c9"
+        },
+        {
+          "name": "1128_academy_rescue_thresholds.sql",
+          "sha256": "c1c133a548ddd0650febec6c95186bd597c00bf1717e46a5ab87baf1aac9fc98"
+        },
+        {
+          "name": "1129_academy_rescue_workflow.sql",
+          "sha256": "95fd88d42074685473a6739d0d2a4784431dd26d2373a02458d1f4b213f277ff"
+        },
+        {
+          "name": "1130_preserve_rescue_account_erasure.sql",
+          "sha256": "0650d18235578914926e49785a324aa8e42a41c7c3eeaee5582a2742d20b531a"
+        },
+        {
+          "name": "1131_academy_attempt_lookup_indexes.sql",
+          "sha256": "4a9e4c2e6d12034e821bac1c29622b07ae158f8ff545f43e32b6a1e932c30f8f"
+        }
+      ],
+      "finance_accounts": 12,
+      "rls_event_trigger": [
+        {
+          "name": "ensure_rls",
+          "enabled": "O"
+        }
+      ],
+      "function_api_grants": 0
+    },
+    "targeted_native_tests": {
+      "passed": 24,
+      "failed": 0,
+      "seconds": 8.26
+    },
+    "checks": [
+      "encrypted upload/download checksum",
+      "authenticated restore",
+      "source counts, constraints and RLS match exported snapshot",
+      "17 migration hashes match production journal",
+      "corrupt download stops before source DDL",
+      "failed final rehearsal migration leaves source unchanged",
+      "temporary-table shadow cannot hide an unbalanced entry",
+      "RLS DDL event trigger works after API execution revocation"
+    ],
+    "full_local_backend": {
+      "passed": 7516,
+      "failed": 0,
+      "skipped": 0,
+      "xfailed": 0,
+      "subtests_passed": 287,
+      "seconds": 115.98
+    },
+    "baseline_full_ci": {
+      "sha": "059a3712fed86d948b6ab959b04d0d13be22fedb",
+      "run_id": 43745334599,
+      "status": "success",
+      "backend_passed": 7516,
+      "frontend_passed": 1816,
+      "frontend_legacy_fixture_skips": 11
+    }
+  },
+  "limitations": [
+    "No production test financial entries or provider messages were created.",
+    "Public automated HTTP reads were blocked by Cloudflare 1010; Railway readiness was required instead.",
+    "Live browser/audio/Telegram/WebRTC acceptance remains separate.",
+    "All commercial meta-prompt requirements are not complete."
+  ]
+}
