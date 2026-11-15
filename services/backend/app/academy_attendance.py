@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Literal, Self
 from uuid import UUID
 
@@ -150,3 +150,110 @@ async def student_summary(conn: Connection, student: UUID) -> dict:
     eligible = recorded['eligible'] - recorded['excused']
     return {'counts': recorded, 'attendanceRate': recorded['attended'] / eligible if eligible else None,
             'history': [public_row(row) for row in history]}
+
+
+async def student_calendar(conn: Connection, student: UUID, page: int = 1) -> dict:
+    """Own calendar: historical marked sessions and future sessions of actual memberships.
+
+    An active membership never exposes lessons held before the learner joined.
+    """
+    async with conn.transaction(isolation='repeatable_read', readonly=True):
+        rows = await conn.fetch(
+            """SELECT s.id, s.group_id, g.name AS group_name, g.branch, s.room,
+                      s.starts_at, s.ends_at, s.status AS session_status,
+                      a.status AS attendance_status
+                 FROM academy_sessions s
+                 JOIN academy_groups g ON g.id=s.group_id
+                 LEFT JOIN academy_attendance a
+                   ON a.session_id=s.id AND a.student_user_id=$1
+                WHERE a.student_user_id=$1
+                   OR (s.status='scheduled' AND EXISTS (
+                      SELECT 1 FROM academy_group_memberships m
+                       WHERE m.group_id=s.group_id AND m.student_user_id=$1
+                         AND m.status IN ('active','paused')
+                         AND m.starts_on <= (s.starts_at AT TIME ZONE 'Asia/Tashkent')::date
+                         AND (m.ends_on IS NULL OR m.ends_on >=
+                              (s.starts_at AT TIME ZONE 'Asia/Tashkent')::date)
+                   ))
+                ORDER BY s.starts_at DESC,s.id
+                LIMIT 26 OFFSET $2""",
+            student, 25 * (page - 1))
+    sessions = []
+    for row in rows[:25]:
+        item = public_row(row)
+        for key in ('starts_at', 'ends_at'):
+            if isinstance(item.get(key), datetime):
+                item[key] = item[key].isoformat()
+        sessions.append(item)
+    return {'sessions': sessions, 'page': page, 'hasNext': len(rows) > 25}
+
+
+async def attendance_aggregate_report(
+    conn: Connection, actor: UUID, role: str, *,
+    branch: str | None = None,
+    start_date: date | None = None,
+    end_date: date | None = None,
+) -> dict:
+    """Role-scoped per-group and per-branch report, with held lessons only in rate."""
+    today = datetime.now(Calendar).date()
+    end = end_date or today
+    start = start_date or (end - timedelta(days=30))
+    if start > end or (end - start).days > 366:
+        raise GroupError('invalid_attendance_date_range', 422)
+    async with conn.transaction(isolation='repeatable_read', readonly=True):
+        rows = await conn.fetch(
+            """SELECT g.id AS group_id, g.name AS group_name, g.branch,
+                      count(DISTINCT s.id) FILTER (WHERE s.status='held') AS held_sessions,
+                      count(DISTINCT s.id) FILTER (WHERE s.status='cancelled') AS cancelled_sessions,
+                      count(DISTINCT s.id) FILTER (WHERE s.status='scheduled') AS scheduled_sessions,
+                      count(a.student_user_id) FILTER (WHERE s.status='held') AS eligible_marks,
+                      count(a.student_user_id) FILTER (
+                        WHERE s.status='held' AND a.status IN ('present','late')) AS attended_marks,
+                      count(a.student_user_id) FILTER (
+                        WHERE s.status='held' AND a.status='absent') AS absent_marks,
+                      count(a.student_user_id) FILTER (
+                        WHERE s.status='held' AND a.status='excused') AS excused_marks,
+                      count(a.student_user_id) FILTER (
+                        WHERE s.status='held' AND a.status='not_marked') AS not_marked
+                 FROM academy_groups g
+                 LEFT JOIN academy_sessions s ON s.group_id=g.id
+                   AND (s.starts_at AT TIME ZONE 'Asia/Tashkent')::date
+                       BETWEEN $3::date AND $4::date
+                 LEFT JOIN academy_attendance a ON a.session_id=s.id
+                WHERE ($1::boolean OR EXISTS (
+                    SELECT 1 FROM academy_group_teachers gt
+                     WHERE gt.group_id=g.id AND gt.teacher_user_id=$2))
+                  AND ($5::text IS NULL OR lower(g.branch)=lower($5))
+                GROUP BY g.id,g.name,g.branch
+                ORDER BY lower(g.branch),lower(g.name),g.id""",
+            role in GROUP_STAFF, actor, start, end, branch)
+    groups = []
+    branches = {}
+    for row in rows:
+        item = public_row(row)
+        attended = int(item['attended_marks'])
+        eligible = int(item['eligible_marks'])
+        excused = int(item['excused_marks'])
+        item['attendanceRate'] = attended / (eligible - excused) if eligible > excused else None
+        groups.append(item)
+        bucket = branches.setdefault(item['branch'], {
+            'branch': item['branch'], 'groupCount': 0, 'heldSessions': 0,
+            'cancelledSessions': 0, 'scheduledSessions': 0, 'eligibleMarks': 0,
+            'attendedMarks': 0, 'absentMarks': 0, 'excusedMarks': 0, 'notMarked': 0,
+        })
+        bucket['groupCount'] += 1
+        for source_key, target_key in (
+            ('held_sessions','heldSessions'), ('cancelled_sessions','cancelledSessions'),
+            ('scheduled_sessions','scheduledSessions'), ('eligible_marks','eligibleMarks'),
+            ('attended_marks','attendedMarks'), ('absent_marks','absentMarks'),
+            ('excused_marks','excusedMarks'), ('not_marked','notMarked'),
+        ):
+            bucket[target_key] += int(item[source_key])
+    for bucket in branches.values():
+        denominator = bucket['eligibleMarks'] - bucket['excusedMarks']
+        bucket['attendanceRate'] = bucket['attendedMarks'] / denominator if denominator > 0 else None
+    return {
+        'groups': groups, 'branches': list(branches.values()),
+        'start': start.isoformat(), 'end': end.isoformat(),
+        'denominatorPolicy': 'held_sessions_only_excluding_excused',
+    }

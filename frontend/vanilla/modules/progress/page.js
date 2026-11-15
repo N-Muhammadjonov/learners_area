@@ -8,6 +8,7 @@ import {trendCards} from './trends.js';
 import {statCards, vocabularyCard, courseCard} from './summary.js';
 import {mockOverview} from './mocks.js';
 import {learnerJourney} from '../shared/learner-journey.js';
+import {studentCalendar} from '../staff-final30/academy-attendance.js';
 
 /** My Progress (`/app/progress`). Six independent projection regions on one route: summary (skills,
  * vocabulary, course), streak, trends and mocks. Each has its own loading, failure and retry state.
@@ -38,6 +39,8 @@ export async function mount(context) {
       modulesHost, trendsHost, statsHost, vocabHost, courseHost));
   root.append(page);
   if(context.session?.user?.role==='student'){
+    const calendar=studentCalendar(context);
+    if(calendar)page.append(calendar);
     const journey=learnerJourney(context,'/api/academy/journey');
     if(journey)page.append(journey);
   }

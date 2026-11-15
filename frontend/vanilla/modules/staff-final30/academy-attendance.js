@@ -119,3 +119,87 @@ export function studentAttendance(ctx, endpoint, signal=ctx.signal) {
  listen(panel,'toggle',()=>{if(panel.open&&!body.childNodes.length)void load();},signal);
  return panel;
 }
+
+
+/** Own class calendar; the server applies membership dates and learner authorization. */
+export function studentCalendar(ctx) {
+ if(ctx.session?.academyEnabled===false)return null;
+ const signal=ctx.signal, uz=ctx.locale==='uz', body=el('div',{class:'space-y-2'});
+ const panel=card(uz?'Dars jadvalim':'My class calendar',body);
+ panel.dataset.academyStudentCalendar='';
+ const dateFormat=new Intl.DateTimeFormat(uz?'uz-UZ':'en-GB',{
+  timeZone:'Asia/Tashkent',dateStyle:'medium',timeStyle:'short'
+ });
+ async function load(page=1) {
+  if(signal.aborted)return;
+  body.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
+  try {
+   const data=await api.request('/api/academy/calendar?page='+page,{signal});
+   if(signal.aborted)return;
+   const items=(data.sessions||[]).map(item=>el('li',{class:'border-b py-2'},
+    dateFormat.format(new Date(item.starts_at))+' · '+item.group_name+' · '+
+    (item.attendance_status||item.session_status)));
+   const previous=btn(uz?'Oldingi':'Previous',{disabled:page===1});
+   const next=btn(uz?'Keyingi':'Next',{disabled:!data.hasNext});
+   listen(previous,'click',()=>void load(page-1),signal);
+   listen(next,'click',()=>void load(page+1),signal);
+   body.replaceChildren(
+    items.length?el('ul',{class:'space-y-1'},items):
+      el('p',{},uz?'Darslar topilmadi.':'No sessions found.'),
+    el('div',{class:'flex gap-2'},previous,next)
+   );
+  }catch{
+   if(signal.aborted)return;
+   const retry=btn(uz?'Qayta urinish':'Retry');
+   listen(retry,'click',()=>void load(page),signal);
+   body.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error),retry);
+  }
+ }
+ listen(panel,'toggle',()=>{if(panel.open&&!body.childNodes.length)void load();},signal);
+ return panel;
+}
+
+/** Staff attendance metrics are computed from held-session rosters only. */
+export function attendanceSummary(ctx) {
+ const signal=ctx.signal, uz=ctx.locale==='uz',body=el('div',{class:'space-y-3'});
+ const panel=card(uz?'Guruh va filial davomati':'Group and branch attendance',body);
+ panel.dataset.academyAttendanceSummary='';
+ const locale=uz?'uz-UZ':'en-GB';
+ const percent=value=>value===null||value===undefined?'—':
+  new Intl.NumberFormat(locale,{style:'percent',maximumFractionDigits:1}).format(value);
+ async function load() {
+  if(signal.aborted)return;
+  const branch=el('input',{class:'input',maxlength:120,placeholder:uz?'Filial (ixtiyoriy)':'Branch (optional)'});
+  const reload=btn(uz?'Hisobotni ko‘rish':'View report');
+  const results=el('div',{class:'space-y-2'});
+  const controls=el('div',{class:'flex flex-wrap gap-2'},branch,reload);
+  body.replaceChildren(controls,results);
+  async function query() {
+   if(signal.aborted)return;
+   results.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
+   try {
+    const params=new URLSearchParams({branch:branch.value.trim()});
+    const data=await api.request('/api/staff/academy/attendance/summary?'+params,{signal});
+    if(signal.aborted)return;
+    const groups=(data.groups||[]).map(item=>el('li',{class:'border-b py-2'},
+      item.group_name+' · '+item.branch+' · '+
+      (uz?'O‘tilgan darslar: ':'Held classes: ')+item.held_sessions+' · '+
+      (uz?'Davomat: ':'Attendance: ')+percent(item.attendanceRate)));
+    const branches=(data.branches||[]).map(item=>el('li',{class:'border-b py-2'},
+      item.branch+' · '+(uz?'Davomat: ':'Attendance: ')+percent(item.attendanceRate)));
+    results.replaceChildren(
+     el('h3',{class:'font-semibold'},uz?'Filiallar':'Branches'),
+     branches.length?el('ul',{},branches):el('p',{},uz?'Ma’lumot yo‘q.':'No data.'),
+     el('h3',{class:'font-semibold'},uz?'Guruhlar':'Groups'),
+     groups.length?el('ul',{},groups):el('p',{},uz?'Ma’lumot yo‘q.':'No data.')
+    );
+   }catch{
+    if(!signal.aborted)results.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error));
+   }
+  }
+  listen(reload,'click',()=>void query(),signal);
+  await query();
+ }
+ listen(panel,'toggle',()=>{if(panel.open&&!body.childNodes.length)void load();},signal);
+ return panel;
+}
