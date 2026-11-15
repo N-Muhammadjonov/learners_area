@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import os
 from urllib.parse import urlsplit
-from .runtime_config import development
+from .runtime_config import academy_enabled, development
 from fastapi import APIRouter, Request, HTTPException
 from . import main as core
 from .auth_google_start_port import google_config
@@ -66,6 +66,7 @@ async def session(req: Request):
                  'photoPresent': has_photo, 'statusReason': user['status_reason']},
         'expiresAt': current['expiresAt'], 'accessEventsEnabled': bool(os.getenv('AUTH_EVENTS_DATABASE_URL','').strip() or os.getenv('DATABASE_URL','').strip()),
         'diagnostics': diagnostics_enabled(),
+        'academyEnabled': academy_enabled(),
     }}, headers=core.PRIVATE)
 
 

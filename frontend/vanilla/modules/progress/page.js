@@ -37,7 +37,10 @@ export async function mount(context) {
     h('div', {class: 'flex flex-col gap-4', 'data-progress-content': '', 'data-async-content': 'progress'},
       modulesHost, trendsHost, statsHost, vocabHost, courseHost));
   root.append(page);
-  if(context.session?.user?.role==='student')page.append(learnerJourney(context,'/api/academy/journey'));
+  if(context.session?.user?.role==='student'){
+    const journey=learnerJourney(context,'/api/academy/journey');
+    if(journey)page.append(journey);
+  }
 
   const state = {streak: {state: 'loading'}, summary: {state: 'loading'}};
   const renderStats = () => statsHost.replaceChildren(statCards(state, dict, () => refreshStreak()));

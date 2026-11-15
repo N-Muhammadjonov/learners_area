@@ -326,6 +326,7 @@ export async function mount(ctx) {
 }
 
 export function studentGroupHistory(ctx, studentId) {
+ if(ctx.session?.academyEnabled===false)return null;
  const t = words(ctx), body = el('div', {class: 'space-y-2'});
  const host = el('details', {class: 'card p-4 space-y-3', 'data-academy-history': ''},
   el('summary', {class: 'cursor-pointer font-semibold'}, t.history), body);

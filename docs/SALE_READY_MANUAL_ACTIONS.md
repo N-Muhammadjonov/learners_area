@@ -31,7 +31,7 @@ berilgan. `ID` orqali bog'lanadi.
 |---|---|---|---|---|---|
 | MA-01 | P0 | **Ha — sale** | To'lovlar | Click yoki Payme merchant hisobini ochish va kalitlarni berish | `OPEN` |
 | MA-02 | P0 | **Ha — sale** | Moliya | Hisob siyosati va chart-of-accounts moslashtiruvini tasdiqlash | `OPEN` |
-| MA-03 | P0 | **Ha — sale** | Migratsiya | `1115_tuition_finance.sql` ni production bazaga qo'llashga ruxsat | `OPEN` |
+| MA-03 | P0 | **Ha — sale** | Migratsiya | Academy va Tuition uchun 1115–1131 zanjirini production bazaga qo‘llash | `OPEN` |
 | MA-04 | P0 | **Ha — sale** | Media/R2 | Cloudflare R2 kalitlari va bucket siyosati | `OPEN` |
 | MA-05 | P0 | **Ha — sale** | Ota-ona Telegram | Bot token + webhook secret + jonli ikki tomonlama test | `OPEN` |
 | MA-06 | P1 | Pilot | WebRTC | TURN server kredensiallari | `OPEN` |
@@ -80,23 +80,29 @@ berilgan. `ID` orqali bog'lanadi.
 | Status | `OPEN` |
 | Dalil havolasi | `docs/architecture/DOMAIN_CONTRACTS.md` §3–§4 |
 
-## MA-03 — Production migratsiya ruxsati (`1115_tuition_finance.sql`)
+## MA-03 — Academy va Tuition’ni production’da ishga tushirish
 
 | Maydon | Qiymat |
 |---|---|
 | Prioritet / To'suvchi | P0 / **Ha — sale** |
 | Modul | Migratsiya |
-| Aniq harakat | Migration'ni production Supabase bazasiga qo'llashga yozma ruxsat berish |
-| Nega avtomatlashtirib bo'lmaydi | Production bazaga yozish — qaytarib bo'lmaydigan harakat; ruxsatsiz bajarilmaydi |
-| Bajarilgan tayyorgarlik | Migration **faqat qo'shimcha**: 12 ta yangi jadval, hech bir mavjud jadval o'zgarmaydi, hech qanday `DROP/TRUNCATE/DELETE` yo'q, ma'lumot ko'chirilmaydi. Haqiqiy PostgreSQL 18 va PGlite'da qo'llanib tekshirildi. Migratsiya yaxlitligi gate'iga ro'yxatga olindi |
-| Rasmiy manba | Supabase dashboard → Database → Migrations; session pooler ulanishi |
-| Kerakli hisob/ruxsat | Supabase loyihasi egasi |
-| Aniq ketma-ketlik | 1) Bazadan zaxira olish → 2) **Session pooler** connection string'ini olish (transaction pooler 6543 ishlamaydi) → 3) `psql "<session-pooler-url>" -f services/backend/migrations/1115_tuition_finance.sql` → 4) `SELECT count(*) FROM finance_accounts;` → 11 bo'lishi kerak |
-| Xavfsiz misol | `postgresql://postgres.<ref>:[YOUR-PASSWORD]@aws-0-<region>.pooler.supabase.com:5432/postgres` |
-| Egadan keyingi validatsiya | `GET /api/staff/finance/reconciliation` → `{"balanced": true}`; `SELECT count(*) FROM finance_accounts` = 11 |
-| Taxminiy vaqt | 15 daqiqa |
+| Aniq harakat | Tasdiqlangan release commitidan 1115–1131 zanjirini qo‘llash va Academy’ni faollashtirish |
+| Kerakli hisob/ruxsat | Supabase loyihasi va ishlab turgan backend muhiti egasi |
+| Bajarilgan tayyorgarlik | Eski sxema uchun Academy va Tuition boshqariladigan muhitlarda yopiq. Migratsiya buyrug‘i 17 ta faylni bitta tranzaksiyada qo‘llaydi va SHA-256 qiymatlarini `la_academy_migrations.applied` jadvalida saqlaydi |
 | Status | `OPEN` |
 | Dalil havolasi | `docs/verification/SALE_READY_ACCEPTANCE.md` §2 |
+
+1. Eski sxema bilan ishlayotgan backendda `ACADEMY_FEATURES_ENABLED` sozlanmagan yoki `0` bo‘lsin. Bazaning zaxirasini oling. Sinov nusxasida upgrade va restore jarayonini bajaring.
+2. Direct yoki session pooler ulanishini TLS bilan `ACADEMY_MIGRATION_DATABASE_URL` orqali kiriting. Reliz checkoutida backend dependency’lari bilan rejani o‘qing va chiqishdagi parolsiz nishonni tekshiring.
+
+   ```bash
+   python services/backend/migrate_academy.py
+   python services/backend/migrate_academy.py --apply '<chiqishdagi user@host:port/database>'
+   python services/backend/migrate_academy.py
+   ```
+
+3. 1131 ikkita mavjud urinish jadvalida indeks yaratadi. Ishni kam trafik vaqti uchun rejalashtiring. Qulfni olish kechiksa, butun tranzaksiya qaytariladi. Oldin qo‘lda o‘rnatilgan Academy sxemasi aniqlansa, operator sxema va migratsiya tarixini tekshiradi.
+4. Birinchi o‘rnatishda `SELECT count(*) FROM public.finance_accounts;` natijasi 12, qayta tekshiruvda kutilayotgan fayllar soni 0. Shundan keyin backend muhitida `ACADEMY_FEATURES_ENABLED=1` qo‘ying. Owner sessiyasida guruhlar, Rescue va `GET /api/staff/finance/reconciliation` javobidagi `journal.balanced` qiymatini tekshiring. Orqaga qaytishda muhit qiymatini `0` qiling va yozilgan hisob ma’lumotlarini saqlang.
 
 ## MA-04 — Cloudflare R2 kalitlari va bucket siyosati
 

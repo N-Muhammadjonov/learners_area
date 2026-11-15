@@ -96,6 +96,7 @@ export function attendanceRoster(ctx, groupId, sessionId) {
 }
 
 export function studentAttendance(ctx, endpoint, signal=ctx.signal) {
+ if(ctx.session?.academyEnabled===false)return null;
  const t=translations(ctx), body=el('div',{class:'space-y-2'}), panel=card(t.title,body);
  const clock=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',{dateStyle:'medium',timeZone:'Asia/Tashkent'});
  async function load() {

@@ -17,6 +17,7 @@ const uz={
 };
 
 export function learnerJourney(ctx,endpoint,signal=ctx.signal){
+ if(ctx.session?.academyEnabled===false)return null;
  const t=ctx.locale==='uz'?uz:en;
  const clock=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',
   {timeZone:'Asia/Tashkent',dateStyle:'medium'});

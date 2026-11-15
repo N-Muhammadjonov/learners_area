@@ -41,6 +41,9 @@ export async function mount(context){const {root,dict,signal}=context;const prof
    else{const student=context.session.user.role==='student',change=el('button',{type:'button',class:'btn-secondary',disabled:!student},dict.profile.telegramChange);listen(change,'click',()=>{changing=true;paint();},signal);card.append(change);if(!student)card.append(el('p',{class:'text-sm'},dict.profile.telegramStaffChange));}
   }paint();page.append(card);
  }
- if(context.session.user.role==='student')page.append(financeInProfile(context,context.session.user.id));
+ if(context.session.user.role==='student'){
+  const tuition=financeInProfile(context,context.session.user.id);
+  if(tuition)page.append(tuition);
+ }
  root.append(page);
 }

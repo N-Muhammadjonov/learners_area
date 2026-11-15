@@ -19,8 +19,10 @@ import pytest_asyncio
 from _finance_schema import DSN
 from app import academy_payroll, academy_sessions, main
 from app.academy_groups import today
+from app.asgi import application
 from app.db import initialize_connection
 from app.security import SESSION_COOKIE, issue_token
+from migrate_academy import upgrade
 
 BACKEND = Path(__file__).resolve().parents[1]
 ROOT = BACKEND.parents[1]
@@ -30,7 +32,7 @@ BOT_SECRET = 'isolated-guardian-worker-test'
 
 
 @pytest_asyncio.fixture
-async def journey(monkeypatch):
+async def journey(monkeypatch, request):
     name = 'learners_journey_'+uuid4().hex
     liveness = urlsplit(DSN)
     assert liveness.hostname=='127.0.0.1' and liveness.path=='/coin_qa'
@@ -50,7 +52,7 @@ async def journey(monkeypatch):
         await initialize_connection(conn)
         deferred = set(json.loads((BACKEND/'tests/migration-contract.json').read_text())['contentMigrations'])
         for file in sorted((BACKEND/'migrations').glob('*.sql')):
-            if file.name not in deferred:
+            if file.name not in deferred and file.name < getattr(request, 'param', '9999'):
                 for sql in file.read_text().split('--> statement-breakpoint'):
                     statement = '\n'.join(line for line in sql.splitlines() if not line.lstrip().startswith('--'))
                     if statement.strip():
@@ -103,6 +105,53 @@ async def bot_post(client, path, payload, expected=200):
     response=await client.post(BOT_API+path,headers={'Authorization':'Bearer '+BOT_SECRET},json=payload)
     assert response.status_code==expected,(path,response.status_code,response.text)
     return response.json()
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('journey', ['1115'], indirect=True)
+async def test_managed_release_upgrades_a_live_baseline_atomically(journey, monkeypatch):
+    conn, _ = journey
+    monkeypatch.setenv('APP_ENV', 'production')
+    monkeypatch.setenv('RATE_LIMIT_BACKEND', 'postgres')
+    monkeypatch.setenv('PUBLIC_BASE_URL', 'https://journey.test')
+    monkeypatch.delenv('ACADEMY_FEATURES_ENABLED', raising=False)
+    owner = await create_actor(conn, 'Existing owner', 'owner')
+    learner = await create_actor(conn, 'Existing learner', 'student')
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=application),
+                                 base_url='https://journey.test') as client:
+        assert (await request(client, learner, 'GET', '/api/auth/state'))['role'] == 'student'
+        assert (await request(client, owner, 'GET', '/api/frontend/session'))['session']['academyEnabled'] is False
+        for actor, path in (
+            (owner, API+'/groups'), (owner, '/api/staff/finance/reconciliation'),
+            (learner, '/api/finance/me'), (learner, '/api/academy/journey'),
+            (learner, f"/api/guardian/children/{learner['id']}/attendance"),
+        ):
+            assert await request(client, actor, 'GET', path, 404) == {'detail':'Not Found'}
+        pending = await upgrade(conn, apply=False)
+        assert len(pending) == 17
+        assert await conn.fetchval("SELECT to_regclass('la_academy_migrations.applied')") is None
+        assert await conn.fetchval("SELECT to_regclass('public.finance_accounts')") is None
+        # A prerequisite failure in the final file must roll back every earlier file.
+        await conn.execute('ALTER TABLE reading_attempts RENAME COLUMN submitted_at TO previous_submitted_at')
+        with pytest.raises(ValueError, match='1131.*rolled back'):
+            await upgrade(conn, apply=True)
+        assert await conn.fetchval("SELECT to_regclass('la_academy_migrations.applied')") is None
+        assert await conn.fetchval("SELECT to_regclass('public.finance_accounts')") is None
+        await conn.execute('ALTER TABLE reading_attempts RENAME COLUMN previous_submitted_at TO submitted_at')
+        assert await upgrade(conn, apply=True) == pending
+        assert await upgrade(conn, apply=True) == []
+        assert await upgrade(conn, apply=False) == []
+        assert await conn.fetchval('SELECT count(*) FROM finance_accounts') == 12
+        assert await conn.fetchval("SELECT name FROM users WHERE id=$1", learner['id']) == 'Existing learner'
+        assert await conn.fetchval("SELECT to_regclass('public.reading_attempts_completed_user_submitted_idx')")
+        await conn.execute("UPDATE la_academy_migrations.applied SET sha256='bad' WHERE name=$1", pending[0])
+        with pytest.raises(ValueError, match='checksums differ'):
+            await upgrade(conn, apply=False)
+        monkeypatch.setenv('ACADEMY_FEATURES_ENABLED', '1')
+        assert (await request(client, owner, 'GET', '/api/frontend/session'))['session']['academyEnabled'] is True
+        assert (await request(client, owner, 'GET', API+'/groups'))['groups'] == []
+        assert (await request(client, learner, 'GET', '/api/academy/journey'))['items'] == []
+        assert (await request(client, owner, 'GET', '/api/staff/finance/reconciliation'))['journal']['balanced']
 
 
 @pytest.mark.asyncio

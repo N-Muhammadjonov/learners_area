@@ -16,7 +16,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
 
 from .db import db_failure, pool, row_to_dict, close_pool
-from .runtime_config import environment as runtime_environment
+from .runtime_config import academy_enabled, environment as runtime_environment
 from .auth_validation import validate as validate_auth
 from .request_lifecycle import control, run_blocking, WorkBusy, unavailable
 from .rate_limit import client_key, async_counter as counter, too_many, async_reset as reset, reserve, release
@@ -47,7 +47,8 @@ async def lifespan(app):
     from .ai_runtime import control as ai_control
     ai_state = ai_control.state()  # Anchor private deduplication for this worker lifespan.
     probes=[asyncio.create_task(_rejected_account_cleanup())]
-    if os.getenv('TUITION_PROVIDER_SANDBOX') == '1' and os.getenv('TUITION_SANDBOX_OUTBOX') == '1':
+    if (academy_enabled() and os.getenv('TUITION_PROVIDER_SANDBOX') == '1'
+            and os.getenv('TUITION_SANDBOX_OUTBOX') == '1'):
         from .finance_outbox import run_sandbox_worker
         probes.append(asyncio.create_task(run_sandbox_worker(pool)))
     if os.getenv('MEDIA_READINESS_CHECK')=='1':

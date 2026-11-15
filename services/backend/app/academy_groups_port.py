@@ -8,7 +8,7 @@ from typing import Annotated, TypeVar
 from urllib.parse import urlencode
 from uuid import UUID
 
-from fastapi import APIRouter, Query, Request
+from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import JSONResponse, Response
 from pydantic import ValidationError
 
@@ -22,12 +22,13 @@ from . import academy_leads as leads
 from . import academy_rescue as rescue
 from . import academy_sessions as sessions
 from . import main as core
+from .academy_availability import require_academy
 from .rate_limit import RULES, async_counter, too_many
 from .request_lifecycle import WorkBusy, run_blocking, unavailable
 
-guardian_router = APIRouter()
-learner_router = APIRouter()
-router = APIRouter(prefix='/api/staff/academy')
+guardian_router = APIRouter(dependencies=[Depends(require_academy)])
+learner_router = APIRouter(dependencies=[Depends(require_academy)])
+router = APIRouter(prefix='/api/staff/academy', dependencies=[Depends(require_academy)])
 PRIVATE = {'Cache-Control': 'private, no-store'}
 STAFF = (*groups.GROUP_STAFF, 'teacher')
 PAGE = Annotated[int, Query(ge=1, le=4000)]

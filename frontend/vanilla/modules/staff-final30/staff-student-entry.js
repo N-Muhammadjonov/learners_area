@@ -23,8 +23,8 @@ export async function mount(ctx){
  if(!UUID.test(id)){
   host.append(el('p',{role:'alert'},ctx.locale==='uz'?'Talaba topilmadi.':'Student not found.'));
  }else{
-  host.append(studentPlanInline(ctx,id),studentGroupHistory(ctx,id),
-   studentAttendance(ctx,'/api/staff/academy/students/'+id+'/attendance'),financeInProfile(ctx,id));
+  host.append(...[studentPlanInline(ctx,id),studentGroupHistory(ctx,id),
+   studentAttendance(ctx,'/api/staff/academy/students/'+id+'/attendance'),financeInProfile(ctx,id)].filter(Boolean));
  }
  ctx.root.append(host);
 }

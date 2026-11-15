@@ -187,6 +187,7 @@ function studentStatement(ctx,id,studentLabel,allowPayment){
 }
 
 export function financeInProfile(ctx,id,studentLabel=''){
+ if(ctx.session?.academyEnabled===false)return null;
  const role=ctx.session?.user?.role;
  if(!MANAGERS.includes(role)&&role!=='teacher'&&role!=='student')return null;
  const t=translations(ctx),body=el('div',{class:'space-y-3'});

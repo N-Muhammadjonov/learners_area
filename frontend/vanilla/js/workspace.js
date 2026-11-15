@@ -39,6 +39,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
   if(session.user.role==='guardian'&&!['/app/progress','/app/leaderboard'].includes(url.pathname.replace(/\/+$/,'')))return {redirect:'/app/progress'};
   if(/^\/app\/owner(?:\/|$)/.test(url.pathname)&&session.user.role!=='owner')return {redirect:'/app'};
   if(/^\/app\/(teacher|management|admin)(?:\/|$)/.test(url.pathname)&&session.user.role==='student')return {redirect:'/app'};
+  if(context.route?.requiresAcademy&&session.academyEnabled===false)return {redirect:'/app/management'};
   // Opening another document is not an account mutation. Broadcasting here
   // remounted active exams in every other tab, interrupting media and inputs.
   // Login, logout and profile mutations already publish their explicit hints;

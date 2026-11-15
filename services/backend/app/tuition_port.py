@@ -24,11 +24,12 @@ from datetime import date, datetime, timedelta, timezone
 from collections.abc import Awaitable, Callable
 from uuid import UUID
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import Response
 
 from . import main as core
 from . import academy_payroll as payroll
+from .academy_availability import require_academy
 from .admin_authoring_port import uuid_val
 from .rate_limit import RULES, async_counter as counter, too_many
 from . import payments_sandbox as sandbox
@@ -37,7 +38,7 @@ from .tuition_schemas import ValidationError
 from . import tuition_ledger as ledger
 from .tuition_ledger import LedgerError
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(require_academy)])
 PRIVATE = {'Cache-Control': 'private, no-store'}
 # FIN-11: a billing period is always the seven-character form YYYY-MM.
 PERIOD_PATTERN = re.compile(r'\d{4}-(0[1-9]|1[0-2])')
