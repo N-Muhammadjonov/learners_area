@@ -21,5 +21,10 @@
         }
       ]
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "feature/academy-payments-ux-20261116": false
+    }
+  }
 }

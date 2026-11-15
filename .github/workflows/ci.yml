@@ -73,6 +73,22 @@ jobs:
       - name: Full backend suite
         working-directory: services/backend
         run: python -m pytest -q --timeout=90 -ra
+      - name: Academy role screenshots with PostgreSQL
+        env:
+          ACADEMY_UX_STAGE: before
+        run: |
+          export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
+          test -n "$CHROMIUM_EXECUTABLE"
+          cd services/backend
+          python -m pytest -q -s --timeout=220 tests/academy_ux_browser.py
+      - name: Academy browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: academy-ux-personas
+          path: docs/verification/academy-ux/
+          if-no-files-found: error
+          retention-days: 30
   frontend:
     runs-on: ubuntu-latest
     timeout-minutes: 15
