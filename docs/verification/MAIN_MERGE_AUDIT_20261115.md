@@ -101,7 +101,7 @@ Worker kontrakti synthetic authority/R2 bilan haqiqiy FastAPI ASGI’ni chaqirdi
 ## Cheklovlar va release chegarasi
 
 - Lokal Chromium ishga tushishi host Unix socket ruxsatida to‘xtadi. Bu brauzer
-  dalili sifatida hisoblanmaydi; repository CI’dagi Chromium gate saqlanadi.
+  dalili sifatida hisoblanmaydi. Repository CI’dagi Chromium gate o‘tdi; natija yuqorida qayd etilgan.
 - Supabase schema SELECT va Cloudflare account metadata o‘qishi avtomatik approval
   review’da rad etildi. Rad etish chetlab o‘tilmadi. Haqiqiy student, parent yoki
   moliyaviy ma’lumot eksport qilinmadi.
@@ -139,5 +139,21 @@ Starlette TestClient mavjud `httpx` transporti uchun deprecation warning chiqara
 server yoki test failure emas. 11 frontend skip tashqi owner Listening legacy
 fixture’iga bog‘langan, uydirma fixture bilan yashirilmagan.
 
-GitHub PR/CI havolalari remote tekshiruvi tugagach qo‘shiladi. Oldingi CI success
-yangi commit uchun dalil hisoblanmaydi.
+Kod commit’i: `bbfe29225b47980736c0fb47caa95ad0944044ac`. [PR #197](https://github.com/N-Muhammadjonov/learners_area/pull/197).
+
+- [Full Stability 43721200756](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43721200756): SUCCESS; backend 7 502 + 287 subtest, 125.09 s; frontend 1 816, 0 fail, 11 mavjud skip.
+- [Parent Connect](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43721200761): SUCCESS.
+- [Coin Economy](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43721200758): SUCCESS.
+- [Leaderboard](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43721201134): SUCCESS.
+- CI Chromium: Rescue/Capacity → FastAPI → PostgreSQL, 5 rol, 1440/390 px, 27-qator sahifalash o‘tdi. Motion parity 4 ta day/night × desktop/mobile juftlikda o‘tdi. Bu real provider/audio tekshiruvi emas.
+- Vercel commit status: SUCCESS. Production rollout dalili sifatida olinmaydi.
+
+Ushbu receipt commit’i faqat dalil/hujjatni yangilaydi; bajariladigan kod va dependency locklari yuqoridagi tekshirilgan commit bilan bir xil.
+
+### Tekshirilgan rasmiy texnik manbalar
+
+- [Starlette Host header security advisory](https://github.com/Kludex/starlette/security/advisories/GHSA-86qp-5c8j-p5mr)
+- [FastAPI release notes](https://fastapi.tiangolo.com/release-notes/)
+- [Rollup path traversal advisory](https://github.com/rollup/rollup/security/advisories/GHSA-mw96-cpmx-2vgc)
+- [Zod 4 migration guide](https://zod.dev/v4/changelog)
+- [Zod v3 collection-limit issue](https://github.com/colinhacks/zod/issues/6653): paket versiyasini almashtirib `/v3`da qolish haqiqiy tuzatish emas.
