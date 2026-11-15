@@ -1,5 +1,10 @@
 [
  {
+  "method": "GET",
+  "path": "/api/academy/journey",
+  "name": "academy_student_journey"
+ },
+ {
   "method": "POST",
   "path": "/api/admin/admission/{id}/decide",
   "name": "decide"
@@ -473,6 +478,11 @@
   "method": "GET",
   "path": "/api/guardian/children/{student_id}/attendance",
   "name": "academy_guardian_attendance"
+ },
+ {
+  "method": "GET",
+  "path": "/api/guardian/children/{student_id}/journey",
+  "name": "academy_guardian_journey"
  },
  {
   "method": "GET",
@@ -1663,6 +1673,11 @@
   "method": "GET",
   "path": "/api/staff/academy/students/{student_id}/groups",
   "name": "academy_student_group_history"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/academy/students/{student_id}/journey",
+  "name": "academy_staff_journey"
  },
  {
   "method": "GET",

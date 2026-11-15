@@ -151,6 +151,17 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey)
     assert await conn.fetchval("SELECT count(*) FROM writing_feedback WHERE submission_id=$1 AND source='teacher'",sid)==1
     assert await conn.fetchval("""SELECT count(*) FROM notifications
         WHERE user_id=$1 AND type='TEACHER_FEEDBACK_RECEIVED'""",learner['id'])==1
+    await conn.execute("INSERT INTO onboarding_profiles(user_id,target_band,exam_date) VALUES($1,7.5,now())",
+                       learner['id'])
+    self_journey=await request(client,learner,'GET','/api/academy/journey',params={'studentId':str(peer['id'])})
+    assert self_journey['goal']['targetBand']==7.5
+    assert {item['kind'] for item in self_journey['items']}=={
+        'group_joined','attendance','writing_submitted','teacher_feedback','assignment_completed'}
+    assert all(item['href'].startswith('/app/') for item in self_journey['items'])
+    staff_url=API+'/students/'+str(learner['id'])+'/journey'
+    await request(client,outsider,'GET',staff_url,404)
+    staff_journey=await request(client,teacher,'GET',staff_url)
+    assert any(item.get('href','').endswith('#submission-'+sid) for item in staff_journey['items'])
 
     invitation=await request(client,learner,'POST','/api/guardians/invitations',201,json={'relationship':'mother'})
     profile=await conn.fetchval("""INSERT INTO guardian_profiles(telegram_user_id,user_id,channel_verified_at)
@@ -161,14 +172,21 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey)
        VALUES($1,$2,$3,'mother','awaiting_student') RETURNING id""",profile,learner['id'],invitation['invitationId'])
     child='/api/guardian/children/'+str(learner['id'])
     await request(client,parent,'GET',child+'/attendance',403)
+    await request(client,parent,'GET',child+'/journey',403)
     await request(client,learner,'POST',f'/api/guardians/links/{link}/approve')
     assert (await request(client,parent,'GET',child+'/attendance'))['counts']['attended']==1
     progress=await request(client,parent,'GET',child+'/progress',params={'region':'progressSummary'})
     summary=progress['data']['progressSummary']
     assert summary['writing']['submissions']==1 and summary['assignments']['completed']==1
     assert essay not in json.dumps(progress) and feedback['comment'] not in json.dumps(progress)
+    parent_journey=await request(client,parent,'GET',child+'/journey')
+    assert parent_journey['goal'] is None
+    assert all('href' not in item for item in parent_journey['items'])
+    assert essay not in json.dumps(parent_journey) and feedback['comment'] not in json.dumps(parent_journey)
+    await request(client,parent,'GET','/api/guardian/children/'+str(peer['id'])+'/journey',403)
     await request(client,parent,'GET','/api/guardian/children/'+str(peer['id'])+'/progress',403,
                   params={'region':'progressSummary'})
     await request(client,parent,'GET','/api/staff/finance/students/'+str(learner['id'])+'/statement',403)
     await request(client,learner,'POST',f'/api/guardians/links/{link}/revoke')
     await request(client,parent,'GET',child+'/progress',403,params={'region':'progressSummary'})
+    await request(client,parent,'GET',child+'/journey',403)

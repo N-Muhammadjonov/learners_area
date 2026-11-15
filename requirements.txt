@@ -18,3 +18,5 @@ python-docx==1.2.0
 rjsmin==1.2.5
 rcssmin==1.2.2
 pypdfium2==5.14.0
+openpyxl==3.1.5
+defusedxml==0.7.1

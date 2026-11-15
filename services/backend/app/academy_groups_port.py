@@ -16,6 +16,7 @@ from . import academy_attendance as attendance
 from . import academy_directory as directory
 from . import academy_directory_files as directory_files
 from . import academy_groups as groups
+from . import academy_journey as journey
 from . import academy_leads as leads
 from . import academy_sessions as sessions
 from . import main as core
@@ -23,6 +24,7 @@ from .rate_limit import RULES, async_counter, too_many
 from .request_lifecycle import WorkBusy, run_blocking, unavailable
 
 guardian_router = APIRouter()
+learner_router = APIRouter()
 router = APIRouter(prefix='/api/staff/academy')
 PRIVATE = {'Cache-Control': 'private, no-store'}
 STAFF = (*groups.GROUP_STAFF, 'teacher')
@@ -435,6 +437,52 @@ async def academy_guardian_attendance(req: Request, student_id: str) -> JSONResp
     return core.j(result, headers=PRIVATE)
 
 
+@learner_router.get('/api/academy/journey')
+async def academy_student_journey(req: Request,
+                                  page: Annotated[int, Query(ge=1,le=400)] = 1):
+    user, denied = await authorize(req, ('student',))
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read',readonly=True):
+        return core.j(await journey.timeline(conn,user['id'],'student',page),headers=PRIVATE)
+
+
+@router.get('/students/{student_id}/journey')
+async def academy_staff_journey(req: Request, student_id: UUID,
+                                page: Annotated[int, Query(ge=1,le=400)] = 1):
+    user, denied = await authorize(req, ('owner','teacher'))
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read',readonly=True):
+        allowed = await conn.fetchval(
+            """SELECT 1 FROM users u WHERE u.id=$1 AND u.role='student'
+                AND ($2::boolean OR EXISTS (SELECT 1 FROM teacher_student_links l
+                             WHERE l.student_user_id=u.id AND l.teacher_user_id=$3))""",
+            student_id,user['role']=='owner',user['id'])
+        if not allowed:
+            return error('student_not_found',404)
+        return core.j(await journey.timeline(conn,student_id,user['role'],page),headers=PRIVATE)
+
+
+@guardian_router.get('/api/guardian/children/{student_id}/journey')
+async def academy_guardian_journey(req: Request, student_id: str,
+                                   page: Annotated[int, Query(ge=1,le=400)] = 1):
+    from .guardian_port import child_user, guardian_actor
+
+    _, profile, denied = await guardian_actor(req)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read',readonly=True):
+        child = await child_user(conn,profile['id'],student_id)
+        if not child:
+            return error('forbidden',403)
+        return core.j(await journey.timeline(conn,child['id'],'guardian',page),headers=PRIVATE)
+
+
 def install() -> None:
     core.app.include_router(router)
     core.app.include_router(guardian_router)
+    core.app.include_router(learner_router)

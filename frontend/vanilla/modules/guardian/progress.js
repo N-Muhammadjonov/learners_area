@@ -1,6 +1,7 @@
 import {h} from '../../js/native.js';
 import {anySignal} from '../../js/signals.js';
 import {studentAttendance} from '../staff-final30/academy-attendance.js';
+import {learnerJourney} from '../shared/learner-journey.js';
 import {progressSummaryDTO, progressStreakDTO, progressTrendsDTO, progressMocksDTO} from '../../js/adapters/progress-v54.js';
 import {loadingNode, failureNode} from '../progress/shared.js';
 import {skillCards} from '../progress/skills.js';
@@ -60,6 +61,7 @@ export async function mount(ctx) {
         marker(ctx)),
       childPicker(ctx, kids.children, child, c => { const u = new URL(location.href); u.searchParams.set('child', c.studentId); history.replaceState(null, '', u); draw(c); }),
       studentAttendance(ctx,'/api/guardian/children/'+encodeURIComponent(child.studentId)+'/attendance',childSignal),
+      learnerJourney(ctx,'/api/guardian/children/'+encodeURIComponent(child.studentId)+'/journey',childSignal),
       mocksHost, h('div', {class: 'flex flex-col gap-4'}, modulesHost, trendsHost, statsHost, vocabHost, courseHost));
     for (const region of Object.keys(kinds)) { kinds[region].host.replaceChildren(loadingNode(dict, region)); void load(region); }
   };
