@@ -184,3 +184,7 @@ require separate verification.
 ## 12. TED va Podcast coin hisoblash
 
 Har +1 coin uchun bitta media ichida 300 000 ms takrorlanmagan faol vaqt kerak. Server o‘z soatini, e’lon qilingan media chegarasini, ijro holatini va jarayonning noyob bo‘laklarini tekshiradi. Tezlik oshishi 300 000 ms talabini o‘zgartirmaydi. Bo‘laklar bo‘yicha ulush bitta hisobda butun millisekundga yaxlitlanadi. Parallel so‘rovlar PostgreSQL tranzaksiya qulfi bilan ketma-ketlashtiriladi va coin holati ledger’dagi barqaror hodisa kaliti bilan saqlanadi. Oldingi mukofot yozuvlari saqlanadi.
+
+## 13. O‘quvchiga yordam ish oqimi
+
+Rescue Queue faol a’zolikni o‘quvchi identifikatori va guruh bilan bog‘laydi. O‘qituvchi uchun guruh biriktiruvi hamda amaldagi o‘quvchi ro‘yxati tekshiriladi. Mezonlarni faqat egasi yangilaydi. Har o‘zgarish revision va yig‘ilgan faktlar bilan qayd etiladi. Amallar ish kaliti bo‘yicha tranzaksiya qulfidan o‘tadi, bitta revisionni bir marta o‘zgartiradi va append-only tarix yozadi. Nazorat mezonlari e’lon qilingan davomat, topshiriq muddati va ayni mashqdan olingan dalillarga tayanadi. Ota-onaga xabar yuborish yoki coin hisobini o‘zgartirish oqimga kirmaydi.

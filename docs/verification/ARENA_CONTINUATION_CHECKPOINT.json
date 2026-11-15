@@ -56,6 +56,16 @@
   },
   "tests": [
     {
+      "area": "learner_support_directory_coin_postgresql",
+      "passed": 35,
+      "failed": 0
+    },
+    {
+      "area": "learner_support_directory_journey_staff_frontend",
+      "passed": 11,
+      "failed": 0
+    },
+    {
       "area": "motion_dock_listening_directory_journey",
       "passed": 64,
       "failed": 0,
@@ -176,7 +186,7 @@
     }
   ],
   "migrations": {
-    "latest": "services/backend/migrations/1127_academy_directory_import.sql",
+    "latest": "services/backend/migrations/1129_academy_rescue_workflow.sql",
     "fresh": "verified",
     "content_bearing_upgrade": "pending",
     "staging": "pending",
@@ -187,6 +197,12 @@
       "typed_tables": 186,
       "asgi_checks": 9,
       "command": "npm run backend:test:postgres"
+    },
+    "current_local_fresh": {
+      "schema_migrations": 108,
+      "typed_tables": 189,
+      "content_deferred": 21,
+      "asgi_checks": 9
     }
   },
   "gates": {
@@ -227,14 +243,15 @@
     },
     "D": {
       "status": "partial",
-      "next": "Build D2 Rescue Queue on current learner identities and teacher roster. Implement owner threshold revisions, evidence projection, authorized claim and action audit, then connect the native Management view. Continue with D3 after the D2 vertical slice.",
+      "next": "Run a real browser/API/database acceptance journey for D2 and its pagination under realistic load. Implement D3 with a read-only PostgreSQL snapshot and exact decimal scenario inputs. Continue to isolated recovery and staged HTTP load.",
       "implemented": [
         "Role-scoped Learner Journey with real attendance, study milestone events, scores and student goals",
         "Native PostgreSQL/ASGI classroom-to-Writing flow with real roles and reviewer/guardian authorization",
-        "Reading, Listening and Speaking submission timeline and authorized simulated Telegram relay retries"
+        "Reading, Listening and Speaking submission timeline and authorized simulated Telegram relay retries",
+        "D2 native learner support queue with live roster scope, auditable owner thresholds, attendance/overdue/comparable IELTS scores, claims and recorded follow-ups in isolated PostgreSQL/ASGI tests"
       ],
       "remaining": [
-        "Intervention / Rescue Queue",
+        "Real browser to database Rescue Queue journey",
         "Academy Capacity & Revenue Explorer",
         "Real device and provider checks for audio, STT, WebRTC and Telegram"
       ]

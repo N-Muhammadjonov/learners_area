@@ -1,6 +1,7 @@
 """End-to-end classroom-to-Writing proof using an isolated native PostgreSQL database."""
 from __future__ import annotations
 
+import asyncio
 import json
 import os
 from datetime import datetime, timedelta
@@ -265,3 +266,131 @@ async def test_journey_projects_exact_practice_results_without_private_material(
     assert all(value not in json.dumps(events) for value in
                ('lighthouse','Private reading key','Private listening key','test-only.webm'))
     assert (await request(client,peer,'GET','/api/academy/journey'))['items']==[]
+
+
+@pytest.mark.asyncio
+async def test_rescue_evidence_and_thresholds_respect_the_live_teacher_roster(journey):
+    conn, client = journey
+    owner = await create_actor(conn, 'Rescue Owner', 'owner')
+    admin = await create_actor(conn, 'Rescue Admin', 'admin')
+    teacher = await create_actor(conn, 'Rescue Teacher', 'teacher')
+    outsider = await create_actor(conn, 'Rescue Outsider', 'teacher')
+    guardian = await create_actor(conn, 'Rescue Guardian', 'guardian')
+    learner = await create_actor(conn, 'Rescue Learner', 'student')
+    peer = await create_actor(conn, 'Rescue Peer', 'student')
+    course = await conn.fetchval("INSERT INTO courses(slug,title) VALUES('rescue','Rescue IELTS') RETURNING id")
+    body = {'id':str(uuid4()),'courseId':str(course),'teacherIds':[str(teacher['id'])],
+            'name':'Rescue IELTS','branch':'Tashkent','room':'101','capacity':4,
+            'startsOn':str(today()-timedelta(days=10)),'status':'active'}
+    group = await request(client, owner, 'POST', API+'/groups', 201, json=body)
+    group_path = API+'/groups/'+group['id']
+    for person in (learner, peer):
+        await request(client, owner, 'POST', group_path+'/memberships', 201,
+                      json={'studentId':str(person['id'])})
+    await request(client, owner, 'POST', '/api/admin/roster', 303, data={
+        'action':'assign','teacherId':str(teacher['id']),'studentId':str(learner['id']),
+    })
+    route = API+'/rescue'
+    await request(client, guardian, 'GET', route, 403)
+    await request(client, learner, 'GET', route, 403)
+    await request(client, teacher, 'PUT', route+'/thresholds', 403, json={})
+    await request(client, admin, 'PUT', route+'/thresholds', 403, json={})
+    original = await request(client, owner, 'GET', route)
+    assert {item['status'] for item in original['items']} == {'insufficient_data'}
+    assert (await request(client, outsider, 'GET', route))['items'] == []
+    settings = {**original['thresholds'], 'minimumMarkedSessions':2}
+    saved = await request(client, owner, 'PUT', route+'/thresholds', json=settings)
+    assert saved['revision'] == 2
+    assert await request(client, owner, 'PUT', route+'/thresholds', json=settings) == saved
+    await request(client, owner, 'PUT', route+'/thresholds', 409,
+                  json={**settings,'minimumMarkedSessions':3})
+    assert await conn.fetchval("SELECT count(*) FROM audit_log WHERE action='academy.rescue.thresholds_updated'") == 1
+
+    await conn.execute("""UPDATE academy_group_memberships
+                           SET starts_on=current_date-10,activated_on=current_date-10""")
+    for offset, status in [(1,'absent'),(2,'absent'),(3,'excused'),(4,'not_marked')]:
+        occurred = datetime.now(ZoneInfo('Asia/Tashkent'))-timedelta(days=offset)
+        session = await conn.fetchval("""INSERT INTO academy_sessions(group_id,series_id,branch,room,starts_at,ends_at,status)
+            VALUES($1,$2,'Tashkent','101',$3,$3::timestamptz+interval '1 hour','held') RETURNING id""",
+            group['id'], uuid4(), occurred)
+        await conn.execute("""INSERT INTO academy_attendance(session_id,membership_id,student_user_id,status,marked_at)
+            SELECT $1,id,student_user_id,$2::varchar,CASE WHEN $2::varchar='not_marked' THEN NULL ELSE now() END
+              FROM academy_group_memberships WHERE student_user_id=$3""", session, status, learner['id'])
+    assigned=[]
+    for offset in (1,2):
+        task = await conn.fetchval("""INSERT INTO assignments(title,created_by_user_id,target_user_id,due_at)
+            VALUES('Overdue evidence',$1,$2,now()-$3::int*interval '1 day') RETURNING id""",
+            teacher['id'],learner['id'],offset)
+        assigned.append(str(await conn.fetchval("""INSERT INTO assignment_targets(assignment_id,student_user_id,due_at)
+            VALUES($1,$2,now()-$3::int*interval '1 day') RETURNING id""",task,learner['id'],offset)))
+    reading = await conn.fetchval("""INSERT INTO reading_passages(title,body_text,publication_state)
+        VALUES('Comparable passage','Synthetic text.','published') RETURNING id""")
+    score_ids=[]
+    for offset, score in [(3,30),(1,20)]:
+        score_ids.append(str(await conn.fetchval("""INSERT INTO reading_attempts(
+            user_id,passage_id,status,score,total_questions,submitted_at)
+            VALUES($1,$2,'completed',$3,40,now()-$4::int*interval '1 day') RETURNING id""",
+            learner['id'],reading,score,offset)))
+    queue = await request(client, teacher, 'GET', route, params={'status':'needs_support'})
+    assert len(queue['items'])==1
+    item = queue['items'][0]
+    assert (item['studentId'],item['groupId'],item['thresholdVersion']) == (str(learner['id']),group['id'],2)
+    signals = {reason['ruleId']:reason for reason in item['reasons']}
+    assert signals['attendance']['sampleSize']==2
+    assert signals['attendance']['value']==0
+    assert set(signals['overdue_assignments']['evidenceIds'])==set(assigned)
+    assert signals['ielts_practice_drop']['value']==25
+    assert signals['ielts_practice_drop']['evidenceIds']==score_ids
+    assert item['priority']==3
+    assert (await request(client, teacher, 'GET', route, params={'group_id':str(uuid4())}))['items']==[]
+    assert (await request(client, owner, 'GET', route, params={'status':'insufficient_data'}))['items'][0]['studentId']==str(peer['id'])
+    linked_second = await create_actor(conn,'Second assigned teacher','teacher')
+    await conn.execute("INSERT INTO academy_group_teachers VALUES($1,$2)",group['id'],linked_second['id'])
+    await request(client, owner, 'POST', '/api/admin/roster', 303, data={
+        'action':'assign','teacherId':str(linked_second['id']),'studentId':str(learner['id']),
+    })
+    actions = route+'/'+group['id']+'/'+str(learner['id'])+'/actions'
+    await request(client, outsider, 'GET', actions, 404)
+    await request(client, teacher, 'GET', actions+'/assignees',403)
+    choices = await request(client, owner, 'GET', actions+'/assignees')
+    assert {entry['id'] for entry in choices['teachers']} == {str(teacher['id']),str(linked_second['id'])}
+    await request(client, guardian, 'GET', actions, 403)
+    await request(client, teacher, 'GET', route+'/'+group['id']+'/'+str(peer['id'])+'/actions', 404)
+
+    def command(revision, action, **fields):
+        return {'id':str(uuid4()),'revision':revision,'action':action,'reason':'Support check',**fields}
+
+    first, second = command(0,'claim'), command(0,'claim')
+    async def claim(actor, body):
+        result = await client.post(actions,headers={'origin':'https://journey.test',
+            'cookie':SESSION_COOKIE+'='+issue_token(actor)},json=body)
+        return actor,body,result
+    attempts = await asyncio.gather(claim(teacher,first),claim(linked_second,second))
+    assert sorted(result.status_code for _,_,result in attempts)==[200,409]
+    winner,won,claim_response = next(attempt for attempt in attempts if attempt[-1].status_code==200)
+    loser = next(attempt[0] for attempt in attempts if attempt[-1].status_code==409)
+    assert claim_response.json()['assignedTo']==str(winner['id'])
+    assert await request(client,winner,'POST',actions,json=won)==claim_response.json()
+    await request(client,winner,'POST',actions,409,json={**won,'reason':'Different payload'})
+    await request(client,loser,'POST',actions,403,json=command(1,'note'))
+    await request(client,winner,'POST',actions,json=command(1,'note'))
+    await request(client,winner,'POST',actions,json=command(2,'plan',followUpOn=str(today()+timedelta(days=1))))
+    await request(client,winner,'POST',actions,json=command(3,'follow_up'))
+    await request(client,winner,'POST',actions,json=command(4,'resolve'))
+    resolved = await request(client,owner,'GET',route,params={'workflow':'resolved'})
+    assert len(resolved['items'])==1 and resolved['items'][0]['studentId']==item['studentId']
+    await request(client,owner,'POST',actions,json=command(5,'reopen'))
+    await request(client,owner,'POST',actions,409,json=command(6,'assign',assignee=str(outsider['id'])))
+    await request(client,owner,'POST',actions,json=command(6,'assign',assignee=str(teacher['id'])))
+    await request(client,teacher,'POST',actions,json=command(7,'dismiss'))
+    history = await request(client,teacher,'GET',actions)
+    assert [action['action'] for action in history['items']]==[
+        'dismiss','assign','reopen','resolve','follow_up','plan','note','claim']
+    assert all(action['createdAt'] and action['actorId'] and action['reason'] for action in history['items'])
+    assert history['items'][5]['followUpOn']==str(today()+timedelta(days=1))
+    assert await conn.fetchval("SELECT count(*) FROM academy_rescue_actions")==8
+    await conn.execute('DELETE FROM teacher_student_links WHERE teacher_user_id=$1',teacher['id'])
+    assert (await request(client, teacher, 'GET', route))['items']==[]
+    admin_items = (await request(client, admin, 'GET', route, params={'status':'needs_support'}))['items']
+    assert len(admin_items)==1 and admin_items[0]['studentId']==item['studentId']
+    assert admin_items[0]['reasons']==item['reasons']

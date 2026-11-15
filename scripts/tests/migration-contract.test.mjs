@@ -25,7 +25,8 @@ const ACADEMY_TABLES = [
   'academy_sessions', 'academy_session_teachers', 'academy_session_reservations', 'academy_attendance',
   'academy_leads', 'academy_lead_notes', 'academy_payroll_rules', 'academy_payroll_runs',
   'academy_payroll_revenue', 'academy_payroll_events',
-  'academy_directory_imports', 'academy_directory_records',
+  'academy_directory_imports', 'academy_directory_records', 'academy_rescue_thresholds',
+  'academy_rescue_cases', 'academy_rescue_actions',
 ];
 
 async function tableExists(db, name) {

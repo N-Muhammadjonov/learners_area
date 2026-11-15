@@ -1562,6 +1562,17 @@
       "redirect": false
     },
     {
+      "path": "/app/management/rescue",
+      "roles": [
+        "teacher",
+        "admin",
+        "owner"
+      ],
+      "module": "modules/staff-final30/academy-rescue.js",
+      "focus": false,
+      "redirect": false
+    },
+    {
       "path": "/app/management/leads",
       "roles": [
         "admin",
@@ -1790,7 +1801,7 @@
     "frontend/vanilla/js/riwi-speech-worker.js": "cfc3a51fdd5830323a15a729ce676209b39f8eef4c22f6a9fcb42c6c53a27e4d",
     "frontend/vanilla/js/route-reuse.js": "ea8f1c29ad6c8986cf6fe4030edef011aaf24a7b52bfccf166db42a75744eb1e",
     "frontend/vanilla/js/router.js": "4ee408cd5fa00fa8159a1e1adac29cdcf3a38bd3362f750e8597bee4e13abb72",
-    "frontend/vanilla/js/routes.js": "59e1c96e3fd5c7af00ff06f23278f939d0f1225e3e3dab86d7d576b266b357f5",
+    "frontend/vanilla/js/routes.js": "4fffc4d38065f9f8b25b27a656d89d9af8d85b88d322976e99a6a49e27f7f8cd",
     "frontend/vanilla/js/safe-next.js": "8beff2ead2e96aa67f61e1932c7da200df8a61b5bc30a8a5d0f806c6797ba358",
     "frontend/vanilla/js/seo.js": "ca9a94743271cc9f083f95c2d9c69be4c4c90ea8926054534f8b42024be8db47",
     "frontend/vanilla/js/session-events.js": "689992b8f92e7258224b987fc9ea9ff66f10c7e0db37eb4c0d36ebf267703bdd",
@@ -2044,6 +2055,7 @@
     "frontend/vanilla/modules/staff-final30/academy-groups.js": "fd88372070c603f8ad5c7b59304bb8a9d5df7b07c7da92547321a963e810a9bb",
     "frontend/vanilla/modules/staff-final30/academy-leads.js": "d62c2e3ca94a707c4cd67058c80e56e44e9d900209c75134a32cf6ed28d6971c",
     "frontend/vanilla/modules/staff-final30/academy-payroll.js": "eafe013c84a39fb9c75bf8cad3ce5822dd0c856f73e1bb0642fbca83f2d97610",
+    "frontend/vanilla/modules/staff-final30/academy-rescue.js": "d64365253e344e88796a81bb81a5918dc9cb40f7490eed46acef0aae9492fa67",
     "frontend/vanilla/modules/staff-final30/admissions.js": "5f9d5ab60d31952a891a085d0dba035091e4813574ef3f37331ab0fae8958b4d",
     "frontend/vanilla/modules/staff-final30/content-compat.js": "b0c12db781e3905250ede91e4da3d40d84ccff7dbbf24c6b0955195290bacfb0",
     "frontend/vanilla/modules/staff-final30/content-workspace.js": "9462ca4a1cb6f6b56fa029e145a83eb79c25f564214e268b799cb40047bcf715",
@@ -2057,7 +2069,7 @@
     "frontend/vanilla/modules/staff-final30/listening-import.js": "9cfbdde9f57bf6fe7182cd6a982cc5f0460251159b67337649f97349bc35b517",
     "frontend/vanilla/modules/staff-final30/listening-legacy-import.js": "0f107a2345b8ca17e377daad8bc5d6a410867babee32aa2a4324e30470fd4bdd",
     "frontend/vanilla/modules/staff-final30/listening.js": "064ffeb0b23dd69a0714084c69cfc519609346931c330a7e639e2e25e3905728",
-    "frontend/vanilla/modules/staff-final30/management-hub.js": "6345f2aee1aa912ed08ae8f08a98e3b077628a533117b550dd1101eaca9ab2c9",
+    "frontend/vanilla/modules/staff-final30/management-hub.js": "93614bc8ac71e467c67f7ad88c008dc0b77dc77633463c39729a2f4280f3c18e",
     "frontend/vanilla/modules/staff-final30/materials.js": "3b08d485b88028eca09b89c9d38dc50de9d5ca72b5afeb022cec1cfa32322c3d",
     "frontend/vanilla/modules/staff-final30/mock-create.js": "656f8ce5c3b772e65beece28539c9887d0eeb15a4e221b7bb9bde18803e30d36",
     "frontend/vanilla/modules/staff-final30/mock-grading.js": "86cd9ec7c2a22c2987ca7d3c62de5c93f5f185f9ffcd9bbbf598935ef16d5f16",

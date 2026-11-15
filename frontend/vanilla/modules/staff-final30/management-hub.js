@@ -37,6 +37,8 @@ export function managementAreas(dict,role){
   add('/app/management?view=mocks',dict.people.name==='Ism'?'Mock testlar':'Mock Tests',dict.people.name==='Ism'?'Mock yaratish, materiallarni nashr qilish va natijalarni tekshirish.':'Create mocks, publish materials, review and grade results.',IconAudit);
  }
  if(staff){
+  add('/app/management/rescue',dict.people.name==='Ism'?'O‘quvchiga yordam':'Learner support',
+      dict.people.name==='Ism'?'Davomat, topshiriq va mashq natijalarini ko‘rib chiqing.':'Review attendance, assignment and practice signals.',IconPeople);
   add('/app/management/groups',dict.people.name==='Ism'?'Akademiya guruhlari':'Academy groups',
       dict.people.name==='Ism'?'Guruhlar va o‘quvchilar ro‘yxati.':'Groups and student rosters.',IconPeople);
   add('/app/management/study-plans',

@@ -18,6 +18,7 @@ from . import academy_directory_files as directory_files
 from . import academy_groups as groups
 from . import academy_journey as journey
 from . import academy_leads as leads
+from . import academy_rescue as rescue
 from . import academy_sessions as sessions
 from . import main as core
 from .rate_limit import RULES, async_counter, too_many
@@ -480,6 +481,90 @@ async def academy_guardian_journey(req: Request, student_id: str,
         if not child:
             return error('forbidden',403)
         return core.j(await journey.timeline(conn,child['id'],'guardian',page),headers=PRIVATE)
+
+
+@router.get('/rescue')
+async def academy_rescue_queue(req: Request, page: PAGE = 1, group_id: UUID | None = None,
+                               status: rescue.Status | None = None,
+                               workflow: rescue.Workflow | None = None) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        result = await rescue.read_queue(conn,user['id'],user['role'],page,group_id,status,workflow)
+    return core.j(result, headers=PRIVATE)
+
+
+@router.put('/rescue/thresholds')
+async def academy_rescue_threshold_update(req: Request) -> JSONResponse:
+    user, denied = await authorize(req, ('owner',))
+    if denied is not None:
+        return denied
+    try:
+        command = rescue.Thresholds.model_validate(await core.payload(req))
+    except ValidationError:
+        return error('invalid_input',422)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        delay = await async_counter('academy_groups_write',str(user['id']),consume=True,connection=conn)
+        if delay:
+            return too_many(delay)
+        try:
+            result = await rescue.update_thresholds(conn,user['id'],command)
+        except groups.GroupError as exc:
+            return error(exc.code,exc.status)
+    return core.j(result,headers=PRIVATE)
+
+
+@router.get('/rescue/{group_id}/{student_id}/actions')
+async def academy_rescue_case_history(req: Request, group_id: UUID, student_id: UUID,
+                                      page: PAGE = 1) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        try:
+            result = await rescue.case_history(conn,user['id'],user['role'],group_id,student_id,page)
+        except groups.GroupError as exc:
+            return error(exc.code,exc.status)
+    return core.j(result,headers=PRIVATE)
+
+
+@router.get('/rescue/{group_id}/{student_id}/actions/assignees')
+async def academy_rescue_assignees(req: Request, group_id: UUID, student_id: UUID) -> JSONResponse:
+    user, denied = await authorize(req, groups.GROUP_STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        try:
+            result = await rescue.case_assignees(conn,user['id'],user['role'],group_id,student_id)
+        except groups.GroupError as exc:
+            return error(exc.code,exc.status)
+    return core.j(result,headers=PRIVATE)
+
+
+@router.post('/rescue/{group_id}/{student_id}/actions')
+async def academy_rescue_case_apply(req: Request, group_id: UUID, student_id: UUID) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    try:
+        command = rescue.CaseAction.model_validate(await core.payload(req))
+    except ValidationError:
+        return error('invalid_input',422)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        delay = await async_counter('academy_groups_write',str(user['id']),consume=True,connection=conn)
+        if delay:
+            return too_many(delay)
+        try:
+            result = await rescue.apply_action(conn,user['id'],user['role'],group_id,student_id,command)
+        except groups.GroupError as exc:
+            return error(exc.code,exc.status)
+    return core.j(result,headers=PRIVATE)
 
 
 def install() -> None:

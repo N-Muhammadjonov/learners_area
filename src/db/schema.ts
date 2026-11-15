@@ -4435,3 +4435,55 @@ export const academyDirectoryRecords = pgTable("academy_directory_records", {
   check("academy_directory_records_check", sql`${t.linkedIn} IS NULL OR ${t.userId} IS NOT NULL`),
   check("academy_directory_records_check1", sql`${t.email} IS NOT NULL OR ${t.userId} IS NOT NULL`),
 ]).enableRLS();
+
+export const academyRescueThresholds = pgTable("academy_rescue_thresholds", {
+  id: smallint("id").primaryKey(),
+  revision: integer("revision").notNull().default(1),
+  windowDays: integer("window_days").notNull().default(28),
+  attendancePercent: integer("attendance_percent").notNull().default(75),
+  minimumMarkedSessions: integer("minimum_marked_sessions").notNull().default(3),
+  overdueStreak: integer("overdue_streak").notNull().default(2),
+  scoreDropPoints: integer("score_drop_points").notNull().default(15),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  check("academy_rescue_thresholds_id_check", sql`${t.id} = 1`),
+  check("academy_rescue_thresholds_revision_check", sql`${t.revision} > 0`),
+  check("academy_rescue_thresholds_window_days_check", sql`${t.windowDays} BETWEEN 7 AND 90`),
+  check("academy_rescue_thresholds_attendance_percent_check", sql`${t.attendancePercent} BETWEEN 1 AND 100`),
+  check("academy_rescue_thresholds_minimum_marked_sessions_check", sql`${t.minimumMarkedSessions} BETWEEN 2 AND 20`),
+  check("academy_rescue_thresholds_overdue_streak_check", sql`${t.overdueStreak} BETWEEN 1 AND 10`),
+  check("academy_rescue_thresholds_score_drop_points_check", sql`${t.scoreDropPoints} BETWEEN 1 AND 100`),
+]).enableRLS();
+
+export const academyRescueCases = pgTable("academy_rescue_cases", {
+  groupId: uuid("group_id").notNull().references(() => academyGroups.id),
+  studentId: uuid("student_id").notNull().references(() => users.id),
+  revision: integer("revision").notNull(),
+  status: varchar("status", { length: 12 }).notNull(),
+  assignedTo: uuid("assigned_to").references(() => users.id, { onDelete: "set null" }),
+  followUpOn: date("follow_up_on"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  primaryKey({ name: "academy_rescue_cases_pkey", columns: [t.groupId, t.studentId] }),
+  check("academy_rescue_cases_revision_check", sql`${t.revision} > 0`),
+  check("academy_rescue_cases_status_check", sql`${t.status} IN ('open','claimed','follow_up','resolved','dismissed')`),
+]).enableRLS();
+
+export const academyRescueActions = pgTable("academy_rescue_actions", {
+  id: uuid("id").primaryKey(),
+  groupId: uuid("group_id").notNull(),
+  studentId: uuid("student_id").notNull(),
+  actorId: uuid("actor_id").notNull().references(() => users.id),
+  revision: integer("revision").notNull(),
+  action: varchar("action", { length: 12 }).notNull(),
+  reason: text("reason").notNull(),
+  bodyHash: varchar("body_hash", { length: 64 }).notNull(),
+  result: jsonb("result").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  foreignKey({ columns: [t.groupId, t.studentId], foreignColumns: [academyRescueCases.groupId, academyRescueCases.studentId] }),
+  unique("academy_rescue_actions_group_id_student_id_revision_key").on(t.groupId, t.studentId, t.revision),
+  check("academy_rescue_actions_revision_check", sql`${t.revision} > 0`),
+  check("academy_rescue_actions_action_check", sql`${t.action} IN ('claim','assign','note','plan','follow_up','resolve','dismiss','reopen')`),
+  check("academy_rescue_actions_reason_check", sql`char_length(btrim(${t.reason})) BETWEEN 3 AND 300`),
+]).enableRLS();

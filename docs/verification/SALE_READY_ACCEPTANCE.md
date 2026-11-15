@@ -1,5 +1,12 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15, Toshkent — Rescue Queue
+
+- `Management → O‘quvchiga yordam` ro‘yxati davomat, ketma-ket kechikkan topshiriqlar va ayni Listening yoki Reading materialidagi tekshirilgan natija o‘zgarishini manbalari bilan ko‘rsatadi. Yetarli qayd bo‘lmasa holat `insufficient_data`.
+- Egasi vaqt oralig‘i va mezonlarni tahrirlaydi. O‘qituvchi faqat guruhga hamda o‘quvchiga amalda biriktirilgan bo‘lsa ishni ko‘radi. Student va guardian uchun endpoint yopiq. Owner va admin amaldagi tegishli o‘qituvchiga biriktira oladi.
+- Ishni qabul qilish, biriktirish, qayd, keyingi uchrashuv rejasi, kuzatuv, hal qilish, yopish va qayta ochish sanasi hamda sababini saqlaydi. Parallel qabulning biri muvaffaqiyatli, ikkinchisi 409. Bir xil idempotency kaliti ayni natijani qaytaradi. Boshqa qiymat bilan qaytarilgan kalit rad etiladi.
+- PostgreSQL va ASGI’da Rescue, Directory, Journey va Coin uchun 35 ta test o‘tdi. Rescue, Directory, Journey va staff routing va deep link uchun 11 ta frontend testi o‘tdi. Lokal fresh DB’da 108 sxema migratsiyasi va 189 typed table tekshirildi. Rescue’ning real browser → API → DB sinovi hali bajarilmagan. D3, tiklash, HTTP yuk va xaridor demosi navbatda.
+
 ## 2026-11-15, Toshkent — OS animatsiyasi, ikonka va coin
 
 - Study Plan CSS’idagi yagona OS-motion sharti kun transitionini va kompanyon animatsiyalarini o‘chirgan. Eski test shu shartni maxsus istisno bilan talab qilgan. Istisno olib tashlangach, sinov aynan `modules/study-plan/sequence.css` sabab yiqildi. CSS sharti olib tashlangach, shu sinov o‘tdi. Birinchi tomon source va yangi Python asset build’ida OS-motion sharti topilmadi. Mustaqil Chromium sayohati kunduz/tun va 1440/390px bo‘yicha CI’ga ulandi.

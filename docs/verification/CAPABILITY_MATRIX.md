@@ -97,7 +97,7 @@ Arena davomi uchun backend va frontend natijalari [joriy dalil](SALE_READY_ACCEP
 
 - CAP-11. TED va Podcast faqat 300 000 ms noyob faol vaqtdan keyin coin beradi. 45 ta PostgreSQL coin testi o‘tdi.
 - CAP-29 va CAP-42. Katalog importi va Learner Journey uchun lokal PostgreSQL regressiyasida rollar, tasdiqlangan bog‘lanish hamda katalog yozuvlari tekshirildi.
-- D2 va D3. Rescue Queue hamda Capacity & Revenue Explorer uchun yakunlangan vertikal oqim dalili yo‘q.
+- D2 Rescue Queue. Native UI, revisionli mezonlar, PostgreSQL/ASGI rollar va parallel claim dalili bor. Real brauzer orqali DBgacha sinov ochiq. D3 Capacity & Revenue Explorer hali bajarilmagan.
 
 ## What this means commercially
 
