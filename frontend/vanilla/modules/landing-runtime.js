@@ -246,6 +246,10 @@ const globeImage=$('#cinematicEarthImage');
 const earthLayer=$('#cinematicEarth');
 const skyLayer=$('#cinematicSky');
 const skyImage=$('#cinematicSkyImage');
+const nightLayer=$('#cinematicNight');
+const nightImage=$('#cinematicNightImage');
+const resultsSection=$('#natija');
+const faqSection=$('#faq');
 const desertLayer=$('#cinematicDunes');
 const desertVideo=$('#cinematicDesertVideo');
 const testSection=$('#test');
@@ -289,25 +293,36 @@ function updateJourney(){
  const featuresStart=pageTop(featuresSection);
  const earthApproach=smoothstep((scroll-(introStart+introTravel*.57))/
    Math.max(1,(heroStart+hero.offsetHeight*.44)-(introStart+introTravel*.57)));
- const skyStart=heroStart+hero.offsetHeight*.35;
- const skyEnd=testStart+viewport*.28;
- const skyProgress=smoothstep((scroll-skyStart)/Math.max(1,skyEnd-skyStart));
- const dunesStart=testStart+viewport*.40;
- const dunesEnd=featuresStart+viewport*.55;
- const duneProgress=smoothstep((scroll-dunesStart)/Math.max(1,dunesEnd-dunesStart));
+
+ // A single camera trajectory through Earth, blue sky, night sky and dunes.
+ // Scroll progress controls transforms and overlapping fades, never page swaps.
+ const skyStart=heroStart+hero.offsetHeight*.48;
+ const skyEnd=testStart+viewport*.34;
+ const skyProgress=smoothstep((scroll-skyStart)/Math.max(viewport*.50,skyEnd-skyStart));
+ const nightStart=featuresStart+featuresSection.offsetHeight*.18;
+ const resultsStart=pageTop(resultsSection);
+ const nightEnd=Math.max(nightStart+viewport*.65,resultsStart+viewport*.15);
+ const nightProgress=smoothstep((scroll-nightStart)/(nightEnd-nightStart));
+ const faqStart=pageTop(faqSection);
+ const dunesStart=Math.max(resultsStart+viewport*.58,faqStart-viewport*.68);
+ const dunesEnd=Math.max(dunesStart+viewport*.64,faqStart+viewport*.25);
+ const duneProgress=smoothstep((scroll-dunesStart)/(dunesEnd-dunesStart));
  const globeScale=1+.92*earthApproach;
  globeFrame.style.transform='perspective(1500px) rotateX('+(-12*earthApproach)+'deg) translate3d(0,'+(-7*earthApproach)+'%,0)';
  globeImage.style.transform='scale('+globeScale+') translate3d(0,'+(-10*earthApproach)+'%,0)';
  earthLayer.style.opacity='1';
- skyLayer.style.opacity=String(smoothstep((skyProgress-.01)/.90));
- skyLayer.style.transform='translate3d(0,'+mix(18,-18,skyProgress)+'vh,0)';
- skyImage.style.transform='scale('+(1.03+.11*skyProgress)+') translate3d(0,'+(-4*skyProgress)+'%,0)';
- desertLayer.style.opacity=String(smoothstep((duneProgress-.01)/.91));
- desertLayer.style.transform='translate3d(0,'+mix(18,-18,duneProgress)+'vh,0)';
- paintState={scroll,sky:skyProgress,dunes:duneProgress,earth:earthApproach};
+ skyLayer.style.opacity=String(smoothstep((skyProgress-.02)/.88));
+ skyLayer.style.transform='none';
+ skyImage.style.transform='scale('+(1.08+.13*skyProgress)+') translate3d(0,'+(-9*skyProgress)+'%,0)';
+ nightLayer.style.opacity=String(smoothstep((nightProgress-.02)/.90));
+ nightLayer.style.transform='none';
+ nightImage.style.transform='scale('+(1.04+.12*nightProgress)+') translate3d(0,'+(-11*nightProgress)+'%,0)';
+ desertLayer.style.opacity=String(smoothstep((duneProgress-.02)/.91));
+ desertLayer.style.transform='none';
+ paintState={scroll,sky:skyProgress,night:nightProgress,dunes:duneProgress,earth:earthApproach};
 
  // The poster is always present. Download the small muted video only near use.
- const videoNear=duneProgress>.01 && scroll<featuresStart+viewport*4;
+ const videoNear=duneProgress>.015 && scroll<faqStart+faqSection.offsetHeight+viewport*2;
  if(videoNear && !videoRequested){
   videoRequested=true;
   if(!desertVideo.src){desertVideo.src=desertVideo.dataset.src;desertVideo.load();}

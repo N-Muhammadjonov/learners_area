@@ -16,6 +16,7 @@ test('portal, globe, sky and dunes remain a single scroll flow',()=>{
  assert.match(runtime,/const globeScale=1\+\.92\*earthApproach/);
  assert.match(runtime,/const skyProgress=smoothstep/);
  assert.match(runtime,/const duneProgress=smoothstep/);
+ assert.match(runtime,/const nightProgress=smoothstep/);
  assert.match(runtime,/onWindow\('scroll',queueJourney/);
  assert.match(runtime,/ResizeObserver/);
  assert.match(css,/\.cinematic-hero-flow/);
@@ -25,7 +26,8 @@ test('portal, globe, sky and dunes remain a single scroll flow',()=>{
 test('media files are lightweight and not embedded in landing code',()=>{
  const files=[
   ['../brand/landing/earth-horizon-921fe67.webp',125000],
-  ['../brand/landing/blue-horizon-b1075f7.webp',80000],
+  ['../brand/landing/blue-sky-ee5ef14.webp',25000],
+  ['../brand/landing/night-sky-03ff7ed.webp',90000],
   ['../brand/landing/desert-poster-4516763.webp',60000],
   ['../brand/landing/purple-desert-892507c.mp4',1500000],
  ];

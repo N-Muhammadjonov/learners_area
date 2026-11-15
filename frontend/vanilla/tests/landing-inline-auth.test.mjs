@@ -28,6 +28,7 @@ test('new landing retains the actual quiz and responsive navigation',()=>{
  assert.match(LANDING_MARKUP,/id="bigBandNumber"/);
  assert.match(LANDING_MARKUP,/id="cinematicBackdrop"/);
  assert.match(LANDING_MARKUP,/id="cinematicDesertVideo"/);
+ assert.match(LANDING_MARKUP,/id="cinematicNightImage"/);
  for(const href of ['/login','/register','#test','#imkon'])
   assert(LANDING_MARKUP.includes('href="'+href+'"'));
  assert.match(css,/nav \.nv>a\[href="\/login"\]/);
@@ -38,7 +39,8 @@ test('new landing retains the actual quiz and responsive navigation',()=>{
 test('no embedded media and all four assets are separately cacheable',()=>{
  const files=[
   '../brand/landing/earth-horizon-921fe67.webp',
-  '../brand/landing/blue-horizon-b1075f7.webp',
+  '../brand/landing/blue-sky-ee5ef14.webp',
+  '../brand/landing/night-sky-03ff7ed.webp',
   '../brand/landing/desert-poster-4516763.webp',
   '../brand/landing/purple-desert-892507c.mp4',
  ];
