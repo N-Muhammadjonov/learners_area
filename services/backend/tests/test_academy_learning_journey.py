@@ -23,6 +23,8 @@ from app.security import SESSION_COOKIE, issue_token
 BACKEND = Path(__file__).resolve().parents[1]
 ROOT = BACKEND.parents[1]
 API = '/api/staff/academy'
+BOT_API = '/api/internal/telegram/guardians'
+BOT_SECRET = 'isolated-guardian-worker-test'
 
 
 @pytest_asyncio.fixture
@@ -66,6 +68,7 @@ async def journey(monkeypatch):
         monkeypatch.setenv('RIWI_EVALUATION_MODE','independent-v1')
         monkeypatch.setenv('AI_EXTERNAL_ENABLED','false')
         monkeypatch.setenv('STT_PRIMARY_PROVIDER','none')
+        monkeypatch.setenv('BOT_SERVICE_SECRET',BOT_SECRET)
 
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app),
                                      base_url='https://journey.test') as client:
@@ -94,11 +97,17 @@ async def request(client, actor, method, path, expected=200, **options):
     return response.json() if response.headers.get('content-type','').startswith('application/json') else response
 
 
+async def bot_post(client, path, payload, expected=200):
+    response=await client.post(BOT_API+path,headers={'Authorization':'Bearer '+BOT_SECRET},json=payload)
+    assert response.status_code==expected,(path,response.status_code,response.text)
+    return response.json()
+
+
 @pytest.mark.asyncio
 async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey):
     conn,client=journey
     owner=await create_actor(conn,'Centre Owner','owner')
-    teacher=await create_actor(conn,'Assigned Teacher','teacher')
+    teacher=await create_actor(conn,'Assigned Teacher','teacher','800002')
     outsider=await create_actor(conn,'Unassigned Teacher','teacher')
     learner=await create_actor(conn,'Writing Learner','student')
     peer=await create_actor(conn,'Other Learner','student')
@@ -188,9 +197,34 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey)
     await request(client,parent,'GET','/api/guardian/children/'+str(peer['id'])+'/progress',403,
                   params={'region':'progressSummary'})
     await request(client,parent,'GET','/api/staff/finance/students/'+str(learner['id'])+'/statement',403)
+    await conn.execute("INSERT INTO telegram_contacts(telegram_user_id,chat_id) VALUES($1,'teacher-fixture-chat')",
+                       teacher['telegram_id'])
+    message={'body':'Your child completed the lesson.','linkIds':[str(link)],
+             'idempotencyKey':str(uuid4()),'confirm':True}
+    await request(client,outsider,'POST','/api/staff/guardian-messages/send',409,json=message)
+    queued=await request(client,teacher,'POST','/api/staff/guardian-messages/send',201,json=message)
+    assert (await request(client,teacher,'POST','/api/staff/guardian-messages/send',
+                          json=message))['batchId']==queued['batchId']
+    delivery=(await bot_post(client,'/deliveries/claim',{}))['deliveries'][0]
+    assert delivery['chatId']==parent['telegram_id']
+    await bot_post(client,'/deliveries/claim',{'results':[{'deliveryId':delivery['deliveryId'],
+                   'status':'failed','retryAfterSeconds':1}]})
+    await conn.execute("UPDATE guardian_message_deliveries SET next_attempt_at=now() WHERE id=$1",
+                       delivery['deliveryId'])
+    claimed=(await bot_post(client,'/deliveries/claim',{}))['deliveries']
+    assert [item['deliveryId'] for item in claimed]==[delivery['deliveryId']]
+    await bot_post(client,'/deliveries/claim',{'results':[{'deliveryId':delivery['deliveryId'],
+                   'status':'sent','telegramMessageId':'9100'}]})
+    answer={'actorTelegramId':parent['telegram_id'],'deliveryId':delivery['deliveryId'],
+            'incomingMessageId':'9101','text':'Thank you for the update.'}
+    assert (await bot_post(client,'/replies',answer))['duplicate'] is False
+    assert (await bot_post(client,'/replies',answer))['duplicate'] is True
+    reply=(await bot_post(client,'/replies/claim',{}))['replies']
+    assert len(reply)==1 and reply[0]['chatId']=='teacher-fixture-chat'
     await request(client,learner,'POST',f'/api/guardians/links/{link}/revoke')
     await request(client,parent,'GET',child+'/progress',403,params={'region':'progressSummary'})
     await request(client,parent,'GET',child+'/journey',403)
+    await bot_post(client,'/replies',{**answer,'incomingMessageId':'9102'},409)
 
 
 @pytest.mark.asyncio
