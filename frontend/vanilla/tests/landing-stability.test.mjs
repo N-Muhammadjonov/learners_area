@@ -12,7 +12,8 @@ test('portal, globe, sky and dunes remain a single scroll flow',()=>{
  assert.match(LANDING_MARKUP,/id="introBrandTop"/);
  assert.match(LANDING_MARKUP,/id="introBrandBottom"/);
  assert(LANDING_MARKUP.includes('ROAD TO <strong>IELTS</strong>'));
- assert.match(LANDING_MARKUP,/LEARNERS AREA/);
+ assert(LANDING_MARKUP.includes('𝓛𝓮𝓪𝓻𝓷𝓮𝓻𝓼 𝓐𝓻𝓮𝓪'));
+ assert(!LANDING_MARKUP.includes('id="introBrandBottom" aria-hidden="true">LEARNERS AREA'));
  assert.match(LANDING_MARKUP,/class="cinematic-hero-flow"/);
  assert.match(LANDING_MARKUP,/id="cinematicGlobeFrame"/);
  assert.match(LANDING_MARKUP,/id="cinematicSky"/);
@@ -38,9 +39,11 @@ test('cinematic typography, button widths and glass panels are maintained',()=>{
  assert(css.includes('intro-brandline-bottom'));
  assert(css.includes('font-size:clamp(30px,4.2vw,66px)'));
  assert(css.includes('background:linear-gradient(108deg,#ffe2a0'));
- assert(css.includes('font-family:"Grand Hotel","Brush Script MT",cursive'));
+ assert(LANDING_MARKUP.includes('𝓛𝓮𝓪𝓻𝓷𝓮𝓻𝓼 𝓐𝓻𝓮𝓪'));
+ assert(css.includes('font-family:"Apple Symbols","STIX Two Math","Cambria Math",Georgia,serif'));
+ assert(css.includes('font-size:clamp(46px,4.65vw,79px)'));
  const landingEntry=read('../modules/landing-page.js');
- assert(landingEntry.includes('family=Grand+Hotel'));
+ assert(!landingEntry.includes('family=Grand+Hotel'));
  assert(css.includes('min-width:295px!important'));
  assert(css.includes('body.intro-inverted #imkon .sh>p:not(.ey){'));
  assert(css.includes('backdrop-filter:blur(20px)'));
