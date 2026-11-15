@@ -48,23 +48,16 @@ def test_home_is_indexable_without_javascript_or_session_queries(monkeypatch):
         assert data['@type'] == 'WebSite' and data['name'] == 'Learners Area'
         assert data['url'] == 'https://learnersarea.uz/'
         body = html.split('<body>', 1)[1]
-        assert re.search(r'<h1>Darajangizni aniqlang\.<br>Keyingi qadam:', body)
-        assert body.count('<h1>') == 1
-        assert '17 ta savol' in body
-        assert 'Learners Area saytida qanday imkoniyatlar mavjud?' in body
+        assert '<div id="root"><!--public-content-start--><!--public-content-end--></div>' in body
+        assert '<h1>' not in body
+        assert 'data-public-landing-fallback' not in body
+        assert 'la-landing-loading' not in html
+        assert 'la-landing-first-paint' not in html
+        assert 'Telegram orqali' not in body
+        assert 'nonce=' in html and 'Content-Security-Policy' in response.headers
         structured_data = [json.loads(block) for block in re.findall(r'<script[^>]+type="application/ld\+json">(.*?)</script>', html, re.S)]
         assert any(item.get('@type') == 'Organization' for item in structured_data)
-        faqs = [item for item in structured_data if item.get('@type') == 'FAQPage']
-        assert len(faqs) == 1
-        faq = faqs[0]
-        assert all(item['name'] in body and item['acceptedAnswer']['text'] in body for item in faq['mainEntity'])
-        assert '<a href="/login"' in body and '<a href="/register"' in body
-        assert 'Telegram orqali' in body
-        assert 'class="la-static-landing"' in body
-        assert 'Darajangizni aniqlang.' in body
-        assert 'la-static-login' not in body
-        assert 'Telegram orqali davom etish' not in body
-        assert 'nonce=' in html and 'Content-Security-Policy' in response.headers
+        assert not any(item.get('@type') == 'FAQPage' for item in structured_data)
 
 
 @pytest.mark.parametrize('path', ['/app/speaking/shadowing', '/app/speaking/shadowing?from=old', '/app/speaking/shadowing/'])
@@ -162,8 +155,9 @@ def test_preview_is_not_indexed_on_any_host(monkeypatch, settings):
     home = client.get('/')
     assert home.status_code == 200 and home.headers['x-robots-tag'].startswith('noindex')
     assert '<meta name="robots" content="noindex,nofollow,noarchive">' in home.text
-    assert 'Darajangizni aniqlang.' in home.text and 'Telegram orqali' in home.text
-    assert 'Darajangizni aniqlang.' in home.text and 'la-static-login' not in home.text
+    assert 'data-public-landing-fallback' not in home.text
+    assert 'la-landing-loading' not in home.text
+    assert '<div id="root"><!--public-content-start--><!--public-content-end--></div>' in home.text
     robots = client.get('/robots.txt')
     assert robots.text == 'User-agent: *\nDisallow: /\n' and robots.headers['x-robots-tag'].startswith('noindex')
     sitemap = client.get('/sitemap.xml')

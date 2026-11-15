@@ -19,49 +19,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Learners Area","url":"https://learnersarea.uz/","logo":"https://learnersarea.uz/brand/derived/learners-area-tab.png"}</script>
 <!--public-meta-end-->
 
-<style id="la-landing-first-paint">
-  #la-landing-loading {
-    position:fixed;inset:0;z-index:9999;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    min-height:100dvh;overflow:hidden;
-    background:radial-gradient(ellipse 65% 55% at 50% 45%,#101f37 0%,#080d13 68%,#05080e 100%);
-    color:#f4f7fc;text-align:center;
-    padding:24px max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom));
-    font-family:Geist,Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  #la-landing-loading .la-loading-brand {
-    position:absolute;top:max(24px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);
-    font-size:11px;font-weight:700;letter-spacing:.28em;white-space:nowrap;color:#9db0cc;
-  }
-  #la-landing-loading .la-loading-band {
-    font-size:clamp(110px,30vw,360px);line-height:.91;letter-spacing:-.09em;font-weight:850;
-    padding-right:.09em;font-variant-numeric:tabular-nums;
-    color:#f4f7fc;text-shadow:0 0 80px rgba(43,147,255,.1);
-    animation:la-loading-arrive .9s cubic-bezier(.2,.8,.2,1) both;
-  }
-  #la-landing-loading .la-loading-hint {
-    position:absolute;bottom:max(36px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);
-    display:flex;align-items:center;gap:12px;color:#9db0cc;font-size:11px;
-    font-weight:700;letter-spacing:.16em;white-space:nowrap;
-  }
-  #la-landing-loading .la-loading-dot {
-    display:inline-block;width:7px;height:7px;background:#32ded0;border-radius:50%;
-    box-shadow:0 0 14px #32ded0;animation:la-loading-pulse 1.25s ease-in-out infinite alternate;
-  }
-  @keyframes la-loading-arrive {from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
-  @keyframes la-loading-pulse {from{opacity:.25}to{opacity:1}}
-</style>
-<noscript><style>#la-landing-loading{display:none!important}</style></noscript>
-<script>
-(function () {
-  // Native SPA mount removes this first-paint cover with the fallback DOM.
-  // If imports fail, restore the server-rendered SEO/entry page instead of trapping visitors.
-  window.setTimeout(function () {
-    document.getElementById('la-landing-loading')?.remove();
-  }, 12000);
-})();
-</script>
+<style id="la-empty-root-surface">#root:empty{min-height:100dvh;background:#080d13}</style>
 <link rel="icon" href="/brand/derived/learners-area-tab.png" type="image/png" sizes="96x96">
 <link rel="shortcut icon" href="/brand/derived/learners-area-tab.png" type="image/png">
 <meta name="application-name" content="Learners Area">
@@ -74,28 +32,5 @@
 <link rel="stylesheet" href="/modules/shared/design-system.css">
 <script type="module" src="/js/main.js"></script>
 </head>
-<body><div id="root"><!--public-content-start-->
-<main class="la-static-landing" data-public-landing-fallback lang="uz" style="min-height:100dvh;background:#080d13;color:#f4f7fc;padding:clamp(20px,6vw,70px);font-family:system-ui;line-height:1.6">
-<div id="la-landing-loading" role="status" aria-label="Learners Area sahifasi yuklanmoqda">
-  <span class="la-loading-brand" aria-hidden="true">LEARNERS AREA</span>
-  <span class="la-loading-band" aria-hidden="true">9.0</span>
-  <span class="la-loading-hint" aria-hidden="true"><i class="la-loading-dot"></i> SCROLL TO EXPLORE</span>
-</div>
- <nav style="display:flex;gap:20px;align-items:center;justify-content:space-between"><strong>LEARNERS AREA</strong><div><a href="/login" style="color:#32ded0;margin-right:16px">Kirish</a><a href="/register" style="color:#32ded0">Hisob yaratish</a></div></nav>
- <header style="max-width:900px;margin:7vh auto;text-align:center">
-  <span style="font-size:clamp(88px,18vw,190px);font-weight:900;letter-spacing:-.08em;line-height:1" aria-hidden="true">9.0</span>
-  <h1>Darajangizni aniqlang.<br>Keyingi qadam: <em>IELTS 9.0</em></h1>
-  <p>17 ta savol, taxminan 10 daqiqa. Shaxsiy 30 kunlik IELTS o‘quv rejasini boshlang.</p>
-  <p>Telegram orqali Learners Area hisobingizga kirishingiz mumkin.</p>
-  <p><a href="/register" style="color:#32ded0">Testni boshlash va hisob yaratish</a></p>
- </header>
- <section style="max-width:900px;margin:auto">
-  <h2>Platforma imkoniyatlari</h2><p>Listening, Reading, Writing, Speaking, Grammar va Vocabulary. Mashqlar, testlar va o‘quv rejalari bitta joyda.</p>
-  <h2>Ko‘p beriladigan savollar</h2><details><summary>Learners Area saytida qanday imkoniyatlar mavjud?</summary><p>Bu yerda IELTS va ingliz tili bo‘yicha Listening, Reading, Writing, Speaking, Grammar, Vocabulary, topshiriqlar va natijalar bitta platformada jamlangan.</p></details>
-<details><summary>Platformaga qanday kiraman?</summary><p>Saytga Telegram orqali hisob yaratib kirishingiz mumkin.</p></details>
-<details><summary>Savol yoki taklif bo‘lsa, kimga yozaman?</summary><p>Savol va takliflaringizni administratorga yuboring.</p></details>
- </section>
-</main>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Learners Area saytida qanday imkoniyatlar mavjud?","acceptedAnswer":{"@type":"Answer","text":"Bu yerda IELTS va ingliz tili bo‘yicha Listening, Reading, Writing, Speaking, Grammar, Vocabulary, topshiriqlar va natijalar bitta platformada jamlangan."}},{"@type":"Question","name":"Platformaga qanday kiraman?","acceptedAnswer":{"@type":"Answer","text":"Saytga Telegram orqali hisob yaratib kirishingiz mumkin."}},{"@type":"Question","name":"Savol yoki taklif bo‘lsa, kimga yozaman?","acceptedAnswer":{"@type":"Answer","text":"Savol va takliflaringizni administratorga yuboring."}}]}</script>
-<!--public-content-end--></div><noscript>O‘quv kabinetidagi mashqlarni ishlatish uchun JavaScript’ni yoqing.</noscript></body>
+<body><div id="root"><!--public-content-start--><!--public-content-end--></div><noscript>O‘quv kabinetidagi mashqlarni ishlatish uchun JavaScript’ni yoqing.</noscript></body>
 </html>

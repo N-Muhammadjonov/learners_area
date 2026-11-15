@@ -16,7 +16,8 @@ test('public landing is native SPA DOM, not nested srcdoc or old HTML',()=>{
  assert.match(entry,/LANDING_MARKUP/);
  assert.doesNotMatch(entry,/iframe/);
  assert(!existsSync(new URL('../modules/landing-inline.js',import.meta.url)));
- assert.match(index,/data-public-landing-fallback/);
+ assert.doesNotMatch(index,/data-public-landing-fallback|la-landing-loading|la-landing-first-paint/);
+ assert(index.includes('<div id="root"><!--public-content-start--><!--public-content-end--></div>'));
  assert.doesNotMatch(index,/id="bandJourney"/);
  for(const route of ['/','/landing','/login','/register'])
   assert(routes.includes('pattern:"'+route+'",load:()=>import(\'../modules/auth/public.js\')'));
