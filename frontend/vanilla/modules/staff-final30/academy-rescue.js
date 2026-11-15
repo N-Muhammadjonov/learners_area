@@ -147,9 +147,9 @@ export function mount(ctx){
   const action=el('select',{'data-rescue-action':''},...options.map(key=>el('option',{value:key},t[key])));
   const reason=el('textarea',{required:true,minlength:3,maxlength:300,rows:2});
   const assignee=el('select');
-  const assigneeLabel=el('label',{class:'grid gap-1'},t.assignee,assignee);
+  const assigneeLabel=el('div',{},el('label',{class:'grid gap-1'},t.assignee,assignee));
   const followUp=el('input',{type:'date'});
-  const dateLabel=el('label',{class:'grid gap-1'},t.date,followUp);
+  const dateLabel=el('div',{},el('label',{class:'grid gap-1'},t.date,followUp));
   const outcome=el('p',{role:'alert'});
   const save=el('button',{type:'submit',class:'btn-primary'},t.saveAction);
   const form=el('form',{class:'space-y-2','data-rescue-case-form':''},
@@ -161,8 +161,10 @@ export function mount(ctx){
    const assign=action.value==='assign';
    assigneeLabel.hidden=!assign;
    assignee.required=assign;
+   assignee.disabled=!assign;
    dateLabel.hidden=action.value!=='plan';
    followUp.required=action.value==='plan';
+   followUp.disabled=action.value!=='plan';
    if(!assign||loadingTeachers||assignee.options.length)return;
    loadingTeachers=true;
    try{

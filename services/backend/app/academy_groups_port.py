@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse, Response
 from pydantic import ValidationError
 
 from . import academy_attendance as attendance
+from . import academy_capacity as capacity
 from . import academy_directory as directory
 from . import academy_directory_files as directory_files
 from . import academy_groups as groups
@@ -571,3 +572,23 @@ def install() -> None:
     core.app.include_router(router)
     core.app.include_router(guardian_router)
     core.app.include_router(learner_router)
+
+
+@router.get('/capacity/{group_id}')
+@router.post('/capacity/{group_id}')
+async def academy_capacity_scenario(req: Request, group_id: UUID) -> JSONResponse:
+    _, denied = await authorize(req, ('owner',))
+    if denied is not None:
+        return denied
+    try:
+        command = capacity.Scenario.model_validate(await core.payload(req)) if req.method == 'POST' else None
+    except ValidationError:
+        return error('invalid_input', 422)
+    db = await core.pool()
+    try:
+        async with db.acquire() as conn, conn.transaction(isolation='repeatable_read', readonly=True):
+            group = await capacity.group_snapshot(conn, group_id)
+            report = await capacity.simulate(conn, group, command) if command else capacity.group_summary(group)
+    except groups.GroupError as exc:
+        return error(exc.code, exc.status)
+    return core.j(report, headers=PRIVATE)

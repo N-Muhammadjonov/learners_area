@@ -63,7 +63,8 @@ try {
   async function saveAction(action, reason) {
     const form = card.locator('[data-rescue-case-form]');
     await form.locator('[data-rescue-action]').selectOption(action);
-    await form.getByRole('textbox').fill(reason);
+    assert.equal(await form.getByLabel('Follow-up date').isVisible(), false);
+    await form.getByRole('textbox', {name: 'Reason or note'}).fill(reason);
     const saved = responseTo(assigned, 'POST', actions);
     await form.getByRole('button', {name: 'Save action'}).click();
     const result = await saved;
@@ -87,7 +88,27 @@ try {
     assert.equal((await page.request.get(origin+queue)).status(), 403);
   }
 
-  console.log(JSON.stringify({rescueBrowserJourney:'passed', roles:5, widths:[1440,390], paginated:27}));
+  const capacity = '/app/management/capacity';
+  const capacityApi = '/api/staff/academy/capacity/'+group;
+  await owner.goto(origin+capacity);
+  await owner.getByRole('button', {name:'Load group'}).click();
+  const form = owner.locator('[data-capacity-simulation]');
+  for (const [field, value] of Object.entries({
+    projectedStudents:'1', tuitionMinor:'200001', discountBps:'10', collectionBps:'75', cashWithinPeriodBps:'80',
+    deliveryBps:'50', teacherRateMinor:'10000', teacherMinutesAvailable:'60', localStart:'16:00',
+  })) await form.locator('[name="'+field+'"]').fill(value);
+  const report = responseTo(owner, 'POST', capacityApi);
+  await form.getByRole('button', {name:'Calculate scenarios'}).click();
+  const result = await report;
+  assert.equal(result.status(), 200, await result.text());
+  const scenario = await result.json();
+  assert.equal(scenario.scenarios[1].invoicedMinor, '180001');
+  assert.equal(scenario.schedule.feasible, true);
+  await owner.getByRole('table', {name:'Simulated values'}).waitFor();
+  assert.equal((await assigned.request.get(origin+capacityApi)).status(), 403);
+
+  console.log(JSON.stringify({rescueBrowserJourney:'passed', capacityBrowserJourney:'passed',
+    roles:5, widths:[1440,390], paginated:27}));
 } finally {
   await browser.close();
 }

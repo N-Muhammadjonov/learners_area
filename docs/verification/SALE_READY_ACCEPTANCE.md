@@ -1,5 +1,12 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15, Toshkent — Sig‘im va daromad tahlili
+
+- Egasi `Management → Capacity and revenue explorer` orqali guruh va bitta dars vaqtini tanlaydi. Real guruh sig‘imi, band joylar, amaldagi o‘qituvchilar, jadval to‘qnashuvlari hamda akademiya hisob jurnali bitta o‘qish tranzaksiyasidan olinadi. O‘qituvchi, admin, o‘quvchi va guardian API’ga kira olmaydi.
+- Bitta to‘lov davri uchun uch ssenariy. O‘quvchilar soni va undirish foizi bo‘yicha farazlar, sig‘im chegarasi, to‘lanmay qolishi kutilgan summa, oldingi qarzdan tushum va o‘qituvchi xarajati alohida ko‘rinadi. Moliyaviy qiymatlar tiyinlarda aniq hisoblanadi. Sinovda 330 001 tiyinlik haqiqiy jurnal yozuvi prognozdan mustaqil chiqdi. Qo‘shimcha sinovlar jadval to‘qnashuvi, to‘liq va nol imkoniyat, JavaScript butun son chegarasidan yuqori qiymat va hech qanday domen yozuvi o‘zgarmaganini tasdiqladi.
+- Rejalash bitta dars va bitta davr bilan chegaralangan. Haqiqiy ledger qiymatlari akademiya bo‘yicha, ssenariy esa tanlangan guruh bo‘yicha hisoblanadi. Qabul sinovidan guruhga o‘tish, darslar davomidagi chiqib ketish va uzoq muddatli akademiya modeli alohida qolmoqda.
+- Rescue CI’dagi kunlik coin so‘rovi haqiqiy PostgreSQL `role` enumini `text[]` bilan solishtirganda 503 qaytargan. Kunlik coin va bot referral so‘rovlari matn ko‘rinishiga aniq cast qiladi. Real migratsiyalangan rollar sinovida egasi uchun bitta coin yozildi, qayta so‘rovda yangi yozuv paydo bo‘lmadi va guardian 403 oldi.
+
 ## 2026-11-15, Toshkent — Rescue Queue regressiyasi va akkauntni o‘chirish
 
 - `6aeac981` commitida beshta yangi Rescue API marshruti va `1128` / `1129` fayllari qat’iy inventarlarga kiritilmagani uchun to‘liq backend CI’da 12 ta test yiqildi. Marshrutlar va SHA-256 qiymatlari inventarlarga qo‘shildi. Eski fayllar xeshlari, marshrutlarning yakka ro‘yxati va kontrakt assertionlari saqlandi. [Qizil CI](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43679472858)

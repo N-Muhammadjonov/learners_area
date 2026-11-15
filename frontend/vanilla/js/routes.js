@@ -174,6 +174,7 @@ if(route.pattern==='/app/listening')return {...route,protected:true,redirectOnly
 export default [...mapped,
  {...staffRoutes.find(route=>route.pattern==='/app/management/study-plans'),protected:true},
  {...staffRoutes.find(route=>route.pattern==='/app/management/groups'),protected:true},
+ {pattern:'/app/management/capacity',protected:true,roles:['owner'],load:()=>import('../modules/staff-final30/academy-capacity.js')},
  {pattern:'/app/management/rescue',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/staff-final30/academy-rescue.js')},
  {pattern:'/app/management/leads',protected:true,roles:['admin','owner'],load:()=>import('../modules/staff-final30/academy-leads.js')},
  {pattern:'/app/management/directory-files',protected:true,roles:['owner'],load:()=>import('../modules/staff-final30/academy-directory.js')},

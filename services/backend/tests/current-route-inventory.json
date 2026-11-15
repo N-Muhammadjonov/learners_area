@@ -1541,6 +1541,16 @@
  },
  {
   "method": "GET",
+  "path": "/api/staff/academy/capacity/{group_id}",
+  "name": "academy_capacity_scenario"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/academy/capacity/{group_id}",
+  "name": "academy_capacity_scenario"
+ },
+ {
+  "method": "GET",
   "path": "/api/staff/academy/directory/export/{kind}",
   "name": "academy_directory_export"
  },
