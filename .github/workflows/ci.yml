@@ -41,6 +41,9 @@ jobs:
       - name: Native recovery rehearsal tools
         run: |
           sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends postgresql-17 postgresql-client-17
       - name: TypeScript and bounded validation contracts
         run: |
