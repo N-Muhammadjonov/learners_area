@@ -1,7 +1,7 @@
 import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
 import {BackLink} from './kit.js';
-import {attendanceRoster} from './academy-attendance.js';
+import {attendanceRoster, attendanceSummary} from './academy-attendance.js';
 
 const PATH = '/app/management/groups';
 const API = '/api/staff/academy';
@@ -285,6 +285,7 @@ export async function mount(ctx) {
   BackLink({fallbackHref: groupId ? PATH : '/app/management', label: dict.common.back}),
   el('h1', {class: 'font-display text-3xl'}, t.heading), section);
  ctx.root.append(host);
+ if (!groupId) host.append(attendanceSummary(ctx));
  async function render() {
   if (signal.aborted) return;
   section.replaceChildren(el('p', {role: 'status'}, dict.common.loading));

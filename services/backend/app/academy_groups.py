@@ -107,7 +107,8 @@ async def audit(conn: Connection, actor: UUID, action: str, target: UUID, detail
 
 
 async def list_groups(conn: Connection, actor: UUID, role: str, query: str,
-                      status: str | None, page: int, course_id: UUID | None = None) -> dict:
+                      status: str | None, page: int, course_id: UUID | None = None,
+                      branch: str | None = None) -> dict:
     rows = await conn.fetch(
         """SELECT g.*, c.title AS course_title,
                   (SELECT count(*) FROM academy_group_memberships m
@@ -120,8 +121,9 @@ async def list_groups(conn: Connection, actor: UUID, role: str, query: str,
                          OR strpos(lower(g.branch), lower($4))>0
                          OR strpos(lower(c.title), lower($4))>0)
               AND ($7::uuid IS NULL OR g.course_id=$7)
+               AND ($8::text IS NULL OR lower(g.branch)=lower($8))
             ORDER BY lower(g.name), g.id LIMIT $5 OFFSET $6""",
-        role in GROUP_STAFF, actor, status, query, PAGE_SIZE + 1, PAGE_SIZE * (page - 1), course_id)
+        role in GROUP_STAFF, actor, status, query, PAGE_SIZE + 1, PAGE_SIZE * (page - 1), course_id, branch)
     results = [public_row(row) for row in rows[:PAGE_SIZE]]
     if role not in GROUP_STAFF:
         for group in results:

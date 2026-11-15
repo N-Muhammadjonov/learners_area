@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 from collections.abc import Awaitable, Callable
+from datetime import date
 from typing import Annotated, TypeVar
 from urllib.parse import urlencode
 from uuid import UUID
@@ -261,13 +262,14 @@ async def academy_lead_convert(req: Request, lead_id: UUID) -> JSONResponse:
 
 @router.get('/groups')
 async def academy_groups_list(req: Request, q: SEARCH = '', status: groups.GroupStatus | None = None,
-                              page: PAGE = 1, courseId: UUID | None = None) -> JSONResponse:
+                              page: PAGE = 1, courseId: UUID | None = None,
+                              branch: SEARCH = '') -> JSONResponse:
     user, denied = await authorize(req, STAFF)
     if denied is not None:
         return denied
     db = await core.pool()
     async with db.acquire() as conn:
-        data = await groups.list_groups(conn, user['id'], user['role'], q.strip(), status, page, courseId)
+        data = await groups.list_groups(conn, user['id'], user['role'], q.strip(), status, page, courseId, branch.strip() or None)
     return core.j(data, headers=PRIVATE)
 
 
@@ -405,6 +407,39 @@ async def academy_attendance_save(req: Request, group_id: UUID, session_id: UUID
         except groups.GroupError as exc:
             return error(exc.code, exc.status)
     return core.j(result, headers=PRIVATE)
+
+
+@router.get('/attendance/summary')
+async def academy_attendance_summary(
+    req: Request, branch: SEARCH = '',
+    start: date | None = None, end: date | None = None,
+) -> JSONResponse:
+    user, denied = await authorize(req, STAFF)
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        try:
+            report = await attendance.attendance_aggregate_report(
+                conn, user['id'], user['role'],
+                branch=branch.strip() or None, start_date=start, end_date=end,
+            )
+        except groups.GroupError as exc:
+            return error(exc.code, exc.status)
+    return core.j(report, headers=PRIVATE)
+
+
+@learner_router.get('/api/academy/calendar')
+async def academy_own_calendar(req: Request, page: PAGE = 1) -> JSONResponse:
+    user, denied = await authorize(req, ('student',))
+    if denied is not None:
+        return denied
+    db = await core.pool()
+    async with db.acquire() as conn:
+        return core.j(
+            await attendance.student_calendar(conn, user['id'], page),
+            headers=PRIVATE,
+        )
 
 
 @router.get('/students/{student_id}/attendance')
