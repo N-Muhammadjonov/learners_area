@@ -2,36 +2,79 @@
   "branch": "arena/c9f21950-learners-area",
   "pr": 189,
   "base_sha": "098d3ac8225e46054f8908b82a339d3ea5821a50",
-  "code_sha": "475f2d3313eab0f0cdc88bdee4e0f2ee3e63d321",
+  "code_sha": "c0a1b451a5509b0a4ddc14b2b2892d005c580a1e",
   "latest_finished_full_ci": {
-    "sha": "475f2d3313eab0f0cdc88bdee4e0f2ee3e63d321",
-    "run_id": 43634900159,
+    "sha": "c0a1b451a5509b0a4ddc14b2b2892d005c580a1e",
+    "run_id": 43672823120,
     "backend": {
-      "passed": 7462,
+      "passed": 7473,
       "failed": 0,
       "xfailed": 1,
       "subtests_passed": 287,
-      "seconds": 90.73
+      "seconds": 91.44
     },
     "frontend": {
-      "passed": 1789,
+      "passed": 1797,
       "failed": 0,
       "skipped": 12,
-      "seconds": 78.67
+      "seconds": 96.41
+    },
+    "migration_contract": {
+      "passed": 4,
+      "failed": 0
     },
     "fresh_migration": {
-      "schema_migrations": 103,
+      "schema_migrations": 105,
       "content_deferred": 21,
-      "typed_tables": 178,
+      "typed_tables": 184,
       "asgi_checks": 9
     }
   },
   "code_ci": {
     "status": "success",
-    "run_id": 43634900159,
-    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43634900159"
+    "run_id": 43672823120,
+    "url": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43672823120"
   },
   "tests": [
+    {
+      "area": "final_academy_finance_payroll_and_backup_contract",
+      "postgres_version": "18.6",
+      "passed": 231,
+      "failed": 0,
+      "seconds": 24.7
+    },
+    {
+      "area": "academy_and_finance_with_payroll",
+      "postgres_version": "18.6",
+      "passed": 217,
+      "failed": 0,
+      "seconds": 22.84
+    },
+    {
+      "area": "payroll_journal_recognition_and_role_checks",
+      "postgres_version": "18.6",
+      "passed": 130,
+      "failed": 0,
+      "seconds": 14.63
+    },
+    {
+      "area": "payroll_and_tuition_with_application_postgres_codecs",
+      "postgres_version": "18.6",
+      "passed": 46,
+      "failed": 0,
+      "seconds": 8.72
+    },
+    {
+      "area": "academy_finance_crm_payroll_ui_and_static_routes",
+      "passed": 20,
+      "failed": 0,
+      "node_version": "24.22.1"
+    },
+    {
+      "area": "fresh_migration_contract",
+      "passed": 4,
+      "failed": 0
+    },
     {
       "area": "academy_and_finance",
       "postgres_version": "18.6",
@@ -68,11 +111,18 @@
     }
   ],
   "migrations": {
-    "latest": "services/backend/migrations/1124_academy_attendance.sql",
+    "latest": "services/backend/migrations/1126_academy_payroll.sql",
     "fresh": "verified",
     "content_bearing_upgrade": "pending",
     "staging": "pending",
-    "production": "pending"
+    "production": "pending",
+    "fresh_evidence": {
+      "schema_migrations": 105,
+      "content_deferred": 21,
+      "typed_tables": 184,
+      "asgi_checks": 9,
+      "command": "npm run backend:test:postgres"
+    }
   },
   "gates": {
     "A": {
@@ -85,8 +135,8 @@
     "B": {
       "status": "green_at_code_commit",
       "remaining": [
-        "Check the documentation-only head status.",
-        "Vercel automatic preview reported a deployment rate limit."
+        "Verify GitHub Actions on the documentation-only head.",
+        "Run main-only Telegram and Parent Connect workflows after an authorized merge."
       ]
     },
     "C": {
@@ -95,12 +145,18 @@
         "C1 groups, capacity, enrollment, transfer and staff profile history",
         "C2 group timetable, recurrence, resource overlap, substitutions, holidays and rescheduling",
         "C3 verified attendance, correction audit, staff and linked-child guardian views",
-        "C4 staff summary, reconciliation, statement, cash/bank entry, internal receipt and cash close, scoped student and teacher views"
+        "C4 staff summary, reconciliation, statement, cash/bank entry, internal receipt and cash close, scoped student and teacher views",
+        "C4 contract, discount, charge, credit note, refund, AR aging, sandbox provider and journal CSV",
+        "C5 admissions pipeline with deduplication and atomic existing-student conversion",
+        "C6 effective-dated fixed, session, hourly, revenue-share and hybrid payroll, adjustment and recorded bank payout"
       ],
-      "next": "Complete C4 contract/discount, charge/credit note, refund, provider and GL export UI. Then implement CRM, payroll, branch authorization, and student/staff import.",
+      "next": "Implement the C8 CSV/XLSX preview, normalization, idempotent application and auditable export using explicit canonical account matching. C7 is conditional on a buyer-defined branch access scope.",
       "remaining": [
-        "Direct student calendar, attendance aggregate reports and standalone branch/room/fee-plan entities",
-        "Live browser, integration demo and realistic sample data"
+        "Student calendar and attendance aggregate reports",
+        "Buyer-dependent C7 branch authorization and scoped report drill-down",
+        "C8 data import and export",
+        "Real browser, integration demo and realistic sample data",
+        "Buyer payroll policy, tax/withholding and bank operation verification"
       ]
     },
     "D": {

@@ -1,5 +1,23 @@
 # Sale-readiness acceptance receipt
 
+## Moliya, qabul va ish haqi davomi (2026-11-15, Toshkent)
+
+| Qism | Amalga oshirilgan ish |
+|---|---|
+| C4 | Kontrakt, chegirma, oylik va alohida charge, credit note, refund, qo‘lda tan olingan daromad, qarz yoshi va jurnal CSV. Provider amallari imzolangan sandbox bilan ishlaydi. |
+| C5 | `/app/management/leads` bosqichlari, mas’ul, follow-up, sinov darsi, izoh, kontakt deduplikatsiyasi va konversiya. Mavjud o‘quvchini guruhga yozish va nomzodni o‘tkazish bitta tranzaksiyada saqlanadi. |
+| C6 | `Management → Academy finance → Teacher payroll`. Oylik, darsbay, soatbay, tan olingan daromad ulushi va aralash stavkalar. Tasdiqlangan majburiyat, tuzatish va tasdiqlangan bank chiqimi alohida yoziladi. |
+
+- Oylik stavka amal qilgan kalendar kunlariga mutanosib hisoblanadi. Darsbay va soatbay hisobga o‘tilgan dars, haqiqiy tayinlangan o‘qituvchi va yakunlangan davomat kiradi. Bekor qilingan dars uchun to‘lov hozirgi qoidaga kirmaydi.
+- Ulush uchun egasi ayni davrdagi jurnal daromadini tegishli o‘tilgan dars va qatnashgan o‘quvchiga biriktiradi. Bir jurnal yozuvi bir marta ishlatiladi. Soliq ushlab qolish hamda haqiqiy bankdan pul o‘tkazish integratsiyasi doiradan tashqarida.
+- Yakuniy kodda mahalliy PostgreSQL 18.6 bilan 231 ta backend (24.70 s) va 20 ta frontend testi o‘tdi. Backup tekshiruvlari test arxivlari va invalid target nazoratini qamrab oldi. To‘liq restore mashqi alohida ochiq. PGlite migratsiya kontraktida 4 ta test o‘tdi. Ochiq davr, parallel tasdiqlash, audit, exact integer va bank reference deduplikatsiyasi tekshirildi.
+- Yangi bazada 105 sxema migratsiyasi, 184 typed table va 9 ASGI tekshiruvi o‘tdi. 21 kontent migratsiyasi fresh rejimda nomma-nom keyinga qoldirildi. `1125_academy_leads.sql` va `1126_academy_payroll.sql` ajratilgan test bazalarida ishlatildi. Kontentli upgrade, staging, production, real brauzer/audio va merchant ishlari bo‘yicha tasdiq kutilmoqda.
+- C7 xaridor talabiga bog‘liq. Amaldagi filial va xona yorliqlari jadval to‘qnashuvini tekshiradi. Filial bo‘yicha moliyaviy vakolat berish hali bajarilmagan. C8 CSV/XLSX, to‘liq D–F va 10k yuk sinovi qolgan.
+
+To‘liq GitHub Actions dalili [c0a1b45](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43672823120) — 7 473 backend va 1 797 frontend testi o‘tdi, 0 fail. 287 subtest, 1 mavjud xfail va 12 mavjud skip. Coin Economy hamda Leaderboard workflow’lari o‘tdi. Davom uchun [checkpoint](ARENA_CONTINUATION_CHECKPOINT.json).
+
+---
+
 ## Akademiya operatsiyalari davomi (2026-11-15, Toshkent)
 
 | Qism | Kod va dalil |
@@ -23,7 +41,7 @@ node --test frontend/vanilla/tests/academy-finance.test.mjs frontend/vanilla/tes
 npm run test:migrations
 ```
 
-C4 kontrakt, charge, refund, provider va GL export interfeyslari qolgan. C5–C8 va D–F ochiq. Keyingi ishlar [checkpoint](ARENA_CONTINUATION_CHECKPOINT.json) da.
+Ushbu tekshiruv o‘sha commitga tegishli. Keyingi o‘zgarishlar sahifa tepasida va [checkpoint](ARENA_CONTINUATION_CHECKPOINT.json) da.
 
 ---
 
