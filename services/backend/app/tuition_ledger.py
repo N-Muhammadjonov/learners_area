@@ -252,6 +252,7 @@ def _minor(value) -> int:
     """Reject floats for money at the boundary instead of rounding them silently."""
     if isinstance(value, bool) or not isinstance(value, int):
         raise LedgerError('amount_must_be_integer_minor_units')
+    _require(-(2**63) <= value < 2**63, 'amount_out_of_range', 422)
     return value
 
 
@@ -351,7 +352,12 @@ async def create_contract(conn, *, actor_user_id, student_user_id, monthly_amoun
     await _active_student(conn, student_user_id)
     amount = _minor(monthly_amount_minor)
     _require(amount >= 0, 'amount_must_be_non_negative')
-    _require(isinstance(term_months, int) and 1 <= term_months <= 120, 'invalid_term')
+    _require(isinstance(term_months, int) and not isinstance(term_months, bool)
+             and 1 <= term_months <= 120, 'invalid_term')
+    _require(ends_on is None or ends_on >= starts_on, 'invalid_contract_dates', 422)
+    if course_id is not None:
+        _require(await conn.fetchval('SELECT 1 FROM courses WHERE id=$1', course_id),
+                 'course_not_found', 404)
     row = await conn.fetchrow(
         '''INSERT INTO tuition_contracts
              (student_user_id, course_id, monthly_amount_minor, currency_code, term_months,
@@ -443,6 +449,7 @@ async def create_charge(conn, *, actor_user_id, student_user_id, period, due_dat
     the charge. A silent price difference between contract and invoice is how a centre ends up
     unable to explain its own receivables.
     """
+    await _active_student(conn, student_user_id)
     gross = _minor(gross_amount_minor)
     _require(gross >= 0, 'amount_must_be_non_negative')
     discount = 0
@@ -770,17 +777,9 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
     moment = occurred_at or datetime.now(timezone.utc)
     if isinstance(moment, str):
         moment = datetime.fromisoformat(moment)
-    await _assert_day_open(conn, business_date(moment))
-    await _assert_period_open(conn, period_key(moment))
+    await _lock_cash_day(conn, business_date(moment))
 
-    # Lock any existing row first so two concurrent callbacks serialise instead of both
-    # trying to insert and one losing to the unique index mid-flight.
-    existing = await conn.fetchrow(
-        '''SELECT * FROM tuition_payments
-           WHERE ($1::varchar IS NOT NULL AND idempotency_key = $1)
-              OR ($2::varchar IS NOT NULL AND provider = $2 AND provider_transaction_id = $3)
-           LIMIT 1 FOR UPDATE''', idempotency_key, provider, provider_transaction_id)
-    if existing is not None:
+    async def check_identity(existing):
         mismatched = identity_mismatch(
             existing, student_user_id=student_user_id, amount_minor=amount, method=method,
             provider=provider, provider_transaction_id=provider_transaction_id,
@@ -798,8 +797,20 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
                                          'providerTransactionId': provider_transaction_id})
             raise LedgerError('idempotency_conflict', 409, mismatched=mismatched,
                               existingPaymentId=str(existing['id']))
+
+    # Lock any existing row first so two concurrent callbacks serialise instead of both
+    # trying to insert and one losing to the unique index mid-flight.
+    existing = await conn.fetchrow(
+        '''SELECT * FROM tuition_payments
+           WHERE ($1::varchar IS NOT NULL AND idempotency_key = $1)
+              OR ($2::varchar IS NOT NULL AND provider = $2 AND provider_transaction_id = $3)
+           LIMIT 1 FOR UPDATE''', idempotency_key, provider, provider_transaction_id)
+    if existing is not None:
+        await check_identity(existing)
         return dict(existing), [], True
 
+    await _assert_day_open(conn, business_date(moment))
+    await _assert_period_open(conn, period_key(moment))
     payment = None
     try:
         # A savepoint, not a new transaction: the caller owns the atomic unit. Two
@@ -827,6 +838,7 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
                LIMIT 1''', idempotency_key, provider, provider_transaction_id)
         if winner is None:
             raise
+        await check_identity(winner)
         return dict(winner), [], True
 
     await _audit(conn, actor_user_id=actor_user_id, action='payment_recorded',
@@ -1281,24 +1293,40 @@ async def student_position(conn, student_user_id) -> dict:
 
 async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
     charges = await conn.fetch(
-        '''SELECT id, period_key, gross_amount_minor, discount_amount_minor, net_amount_minor,
+        '''SELECT id, contract_id, created_by, period_key, gross_amount_minor, discount_amount_minor, net_amount_minor,
                   status, is_reversal, original_charge_id, due_date, posted_at
              FROM tuition_charges WHERE student_user_id=$1
             ORDER BY due_date DESC, created_at DESC LIMIT $2''', student_user_id, limit)
     payments = await conn.fetch(
         '''SELECT p.id, p.amount_minor, p.method, p.provider, p.status, p.receipt_no,
-                  p.occurred_at, coalesce(sum(a.amount_minor),0) AS allocated_minor
+                  p.occurred_at, coalesce(sum(a.amount_minor),0)::bigint AS allocated_minor
              FROM tuition_payments p
              LEFT JOIN tuition_payment_allocations a ON a.payment_id = p.id
             WHERE p.student_user_id=$1
             GROUP BY p.id ORDER BY p.occurred_at DESC LIMIT $2''', student_user_id, limit)
     refunds = await conn.fetch(
-        '''SELECT id, amount_minor, reason, status, provider_refund_state,
+        '''SELECT id, payment_id, authorized_by, method, amount_minor, reason, status, provider_refund_state,
                   created_at, settled_at, effective_on
              FROM tuition_refunds WHERE student_user_id=$1 ORDER BY created_at DESC LIMIT $2''',
         student_user_id, limit)
+    contracts = await conn.fetch(
+        '''SELECT id, course_id, status, monthly_amount_minor, term_months, starts_on, ends_on
+             FROM tuition_contracts WHERE student_user_id=$1
+            ORDER BY created_at DESC, id LIMIT $2''', student_user_id, limit)
+    discounts = await conn.fetch(
+        '''SELECT d.id, d.contract_id, d.period_key, d.amount_minor, d.reason
+             FROM tuition_contract_discounts d JOIN tuition_contracts c ON c.id=d.contract_id
+            WHERE c.student_user_id=$1 ORDER BY d.created_at DESC, d.id LIMIT $2''',
+        student_user_id, limit)
+    notes = await conn.fetch(
+        '''SELECT id, charge_id, period_key, status, amount_minor, reason, requested_by
+             FROM tuition_credit_notes WHERE student_user_id=$1
+            ORDER BY created_at DESC, id LIMIT $2''', student_user_id, limit)
     return {
         'position': await student_position(conn, student_user_id),
+        'contracts': [dict(row) for row in contracts],
+        'discounts': [dict(row) for row in discounts],
+        'creditNotes': [dict(row) for row in notes],
         'charges': [dict(row) for row in charges],
         'payments': [dict(row) for row in payments],
         'refunds': [dict(row) for row in refunds],

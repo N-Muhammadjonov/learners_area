@@ -98,3 +98,56 @@ test('cash close requires a confirmed count and displays the server variance',as
   assert.match(form.textContent,/-50,000 UZS/);
  }finally{h.dispose();}
 });
+
+test('finance document controls follow staff authority and retry a draft with one command ID',async()=>{
+ const {financeDocuments}=await import('../modules/staff-final30/finance-documents.js');
+ const h=setup({path,role:'admin'});
+ let calls=0,saved=0;
+ h.stub({[api+'/contracts']:()=>++calls===1?new ApiError(503,'unavailable'):{ok:true}});
+ try{
+  const panel=financeDocuments(h.ctx,id,{contracts:[{id:ID(12),status:'draft',monthly_amount_minor:600000}],
+   sandboxProviderEnabled:false},String,'2026-11-15',()=>{saved++;});
+  h.ctx.root.append(panel);
+  assert.equal(panel.querySelector('[data-finance-command$="/approve"]'),null);
+  assert.equal(panel.querySelector('[data-finance-command="/payments"]'),null);
+  const form=panel.querySelector('[data-finance-command="/contracts"]');
+  form.querySelector('[type=number]').value='600000';
+  h.submit(form);await tick();
+  assert.equal(calls,0);
+  form.querySelector('[type=checkbox]').checked=true;
+  h.submit(form);h.submit(form);await tick();
+  assert.equal(calls,1);
+  h.submit(form);await tick();
+  assert.equal(calls,2);assert.equal(saved,1);
+  assert.deepEqual(h.calls[0].body,h.calls[1].body);
+  assert.match(h.calls[0].body.commandId,/^[a-f\d-]{36}$/);
+ }finally{h.dispose();}
+});
+
+test('owner can approve another author’s refund and sandbox intents never confirm funds',async()=>{
+ const {financeDocuments}=await import('../modules/staff-final30/finance-documents.js');
+ const h=setup({path,role:'owner'});
+ h.stub({[api+'/payments']:{ok:true}});
+ try{
+  const panel=financeDocuments(h.ctx,id,{
+   refunds:[{id:ID(20),status:'requested',authorized_by:ID(2),amount_minor:8000},
+            {id:ID(21),status:'requested',authorized_by:ID(1),amount_minor:8000},
+            {id:ID(22),status:'approved',method:'cash',amount_minor:8000},
+            {id:ID(23),status:'approved',method:'provider',amount_minor:8000}],
+   sandboxProviderEnabled:true,
+  },String,'2026-11-15',()=>{});
+  h.ctx.root.append(panel);
+  const action=route=>panel.querySelector('[data-finance-command="'+route+'"]');
+  assert(action('/refunds/'+ID(20)+'/approve'));
+  assert.equal(action('/refunds/'+ID(21)+'/approve'),null);
+  assert(action('/refunds/'+ID(22)+'/settle'));
+  assert.equal(action('/refunds/'+ID(23)+'/settle'),null);
+  const form=action('/payments');
+  form.querySelector('[type=text]').value='sandbox-fixture';
+  form.querySelector('[type=number]').value='8000';
+  form.querySelector('[type=checkbox]').checked=true;
+  h.submit(form);await tick();
+  assert.equal(h.calls[0].body.confirm,false);
+  assert.equal(h.calls[0].body.method,'provider');
+ }finally{h.dispose();}
+});

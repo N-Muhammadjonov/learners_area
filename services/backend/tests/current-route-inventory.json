@@ -1680,6 +1680,11 @@
   "name": "add_cash_adjustment"
  },
  {
+  "method": "GET",
+  "path": "/api/staff/finance/journal.csv",
+  "name": "export_finance_journal"
+ },
+ {
   "method": "POST",
   "path": "/api/staff/finance/payments",
   "name": "record_payment"

@@ -63,7 +63,7 @@ def parse(model: type[BaseModel], body: Any):
 #: Money is a whole number of minor units, in STRICT mode. Pydantic's default lax mode
 #: coerces `'800000'` -> 800000, `True` -> 1 and `800000.0` -> 800000, all of which would
 #: become a real charge. Strict() refuses all three before any validator runs.
-MoneyMinor = Annotated[int, Strict()]
+MoneyMinor = Annotated[int, Strict(), Field(ge=-(2**63), lt=2**63)]
 
 
 class _Strict(BaseModel):
@@ -72,7 +72,11 @@ class _Strict(BaseModel):
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
 
 
-class ContractCreate(_Strict):
+class RetryableDocument(_Strict):
+    commandId: UUID | None = None
+
+
+class ContractCreate(RetryableDocument):
     studentUserId: UUID
     monthlyAmountMinor: MoneyMinor
     startsOn: date
@@ -116,7 +120,7 @@ class DiscountCreate(_Strict):
         return value
 
 
-class ChargeCreate(_Strict):
+class ChargeCreate(RetryableDocument):
     studentUserId: UUID
     periodKey: str
     dueDate: date
@@ -251,7 +255,7 @@ class CashAdjustment(_Strict):
         return value
 
 
-class RefundRequest(_Strict):
+class RefundRequest(RetryableDocument):
     amountMinor: MoneyMinor
     reason: str = Field(min_length=1, max_length=200)
     method: str | None = None

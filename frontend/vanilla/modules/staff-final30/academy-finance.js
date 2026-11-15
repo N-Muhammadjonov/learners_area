@@ -2,6 +2,7 @@ import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
 import {BackLink} from './kit.js';
+import {financeDocuments} from './finance-documents.js';
 
 const STAFF_API='/api/staff/finance';
 const UUID=/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i;
@@ -9,7 +10,7 @@ const MANAGERS=['owner','admin'];
 
 function translations(ctx){
  return ctx.locale==='uz'?{
-  title:'Akademiya moliyasi',start:'Boshlanish',end:'Tugash',report:'Hisobot',statement:'O‘quvchi hisoboti',
+  title:'Akademiya moliyasi',journal:'Jurnal CSV',period:'Jurnal oyi',start:'Boshlanish',end:'Tugash',report:'Hisobot',statement:'O‘quvchi hisoboti',
   find:'O‘quvchi qidirish',select:'O‘quvchini tanlang',open:'Ochish',submit:'To‘lovni yozish',
   cash:'Naqd',bank:'Bank',purpose:'To‘lov maqsadi',amount:'Miqdor (so‘m)',confirm:'To‘lov miqdori va usulini tekshirdim',
   total:'Jami tushum',recognized:'Tan olingan daromad',debt:'Qarz',overdue:'Muddati o‘tgan qarz',
@@ -25,7 +26,7 @@ function translations(ctx){
   expected:'Hisob bo‘yicha qoldiq', variance:'Farq', closeConfirm:'Sanalgan mablag‘ni tekshirdim va kassani yopishga tayyorman',
   notes:'Izoh', closedDay:'Kassa kuni yopildi', day_already_closed:'Bu kassa kuni avval yopilgan.',
  }:{
-  title:'Academy finance',start:'Start',end:'End',report:'Report',statement:'Student statement',
+  title:'Academy finance',journal:'Journal CSV',period:'Journal month',start:'Start',end:'End',report:'Report',statement:'Student statement',
   find:'Search students',select:'Select a student',open:'Open',submit:'Record payment',
   cash:'Cash',bank:'Bank',purpose:'Payment purpose',amount:'Amount (UZS)',confirm:'I checked the payment method and amount',
   total:'Total collected',recognized:'Recognized revenue',debt:'Outstanding balance',overdue:'Overdue balance',
@@ -156,7 +157,8 @@ function staffPaymentForm(ctx,id,onSaved){
 
 function studentStatement(ctx,id,studentLabel,allowPayment){
  const t=translations(ctx),v=el('div',{class:'space-y-3'});
- const shell=el('section',{class:'space-y-3'},el('h2',{class:'font-display text-xl'},t.statement+' · '+studentLabel),v);
+ const feedback=el('p',{role:'status'});
+ const shell=el('section',{class:'space-y-3'},el('h2',{class:'font-display text-xl'},t.statement+' · '+studentLabel),feedback,v);
  let reading=false;
  async function load(){
   if(reading||ctx.signal.aborted)return;
@@ -164,7 +166,12 @@ function studentStatement(ctx,id,studentLabel,allowPayment){
   v.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
   try{
    const data=await api.request(STAFF_API+'/students/'+id+'/statement',{signal:ctx.signal,fresh:true});
-   if(!ctx.signal.aborted)v.replaceChildren(statementView(ctx,data,studentLabel));
+   if(ctx.signal.aborted)return;
+   v.replaceChildren(statementView(ctx,data,studentLabel));
+   if(allowPayment)v.append(financeDocuments(ctx,id,data,amounts(ctx),businessDate(),async message=>{
+    feedback.textContent=message;
+    await load();
+   }));
   }catch{
    if(ctx.signal.aborted)return;
    const retry=button(t.retry);listen(retry,'click',load,ctx.signal);
@@ -226,7 +233,7 @@ export async function mount(ctx){
  const studentHost=el('div',{class:'space-y-3'});
  const host=el('div',{class:'mx-auto max-w-6xl space-y-4','data-academy-finance':''},
   BackLink({fallbackHref:'/app/management',label:ctx.dict.common.back}),el('h1',{class:'font-display text-3xl'},t.title),
-  form,summary,recon,cashClose(ctx,today),lookupForm,findStatus,studentHost);
+  form,summary,recon,journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost);
  ctx.root.append(host);
  let selectedController;
  async function report(){
@@ -308,4 +315,16 @@ function cashClose(ctx,today){
   }finally{save.disabled=false;}
  },ctx.signal);
  return el('details',{class:'card space-y-3 p-4'},el('summary',{class:'cursor-pointer font-semibold'},t.closeDay),form);
+}
+
+function journalExport(ctx,today){
+ const t=translations(ctx);
+ const period=el('input',{type:'month',class:'input',value:today.slice(0,7),required:true});
+ const address=()=>STAFF_API+'/journal.csv?'+new URLSearchParams({period:period.value});
+ const link=el('a',{class:'btn-secondary',href:address(),download:true},t.journal);
+ listen(period,'input',()=>{
+  if(period.reportValidity())link.href=address();
+  else link.removeAttribute('href');
+ },ctx.signal);
+ return el('div',{class:'flex flex-wrap items-end gap-3'},label(t.period,period),link);
 }

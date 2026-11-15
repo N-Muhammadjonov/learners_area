@@ -3,7 +3,7 @@
 Authorization is explicit on every route (never by hiding buttons):
 
 * ``owner`` / ``admin`` may write money documents and read every statement.
-* ``teacher`` may read the billing statement of a student they are linked to
+* ``teacher`` may read the amount-free tuition status of a student they are linked to
   (``teacher_student_links``) and nothing else; teachers never write money documents.
 * ``student`` may read only their own billing status via ``/api/finance/me``.
 * ``guardian`` is rejected centrally by ``guardian_path_allowed`` before reaching here:
@@ -14,13 +14,18 @@ invariants hold no matter which client called.
 """
 from __future__ import annotations
 
+import csv
+import hashlib
+import io
 import json
 import re
 
 from datetime import date, datetime, timedelta, timezone
+from collections.abc import Awaitable, Callable
 from uuid import UUID
 
 from fastapi import APIRouter, Request
+from fastapi.responses import Response
 
 from . import main as core
 from .admin_authoring_port import uuid_val
@@ -109,6 +114,34 @@ async def _write_gate(req: Request, user, rule='finance_write'):
     return too_many(delay) if delay else None
 
 
+async def _retryable_document(conn, actor_id: UUID, action: str, body: schemas.RetryableDocument,
+                              execute: Callable[[], Awaitable[dict]]) -> tuple[dict, bool]:
+    """Serialize one client command and store its result atomically with the document."""
+    if body.commandId is None:
+        return await execute(), False
+    fingerprint = hashlib.sha256(json.dumps(body.model_dump(mode='json'),
+                                             sort_keys=True).encode()).hexdigest()
+    await conn.execute("SELECT pg_advisory_xact_lock(hashtextextended($1, 1125))",
+                       str(body.commandId))
+    existing = await conn.fetchrow(
+        """SELECT actor_user_id, detail FROM finance_audit_events
+            WHERE subject_type='finance_ui_command' AND subject_id=$1
+              AND action='finance_ui_command_completed'""", body.commandId)
+    if existing:
+        raw = existing['detail']
+        detail = json.loads(raw) if isinstance(raw, str) else raw
+        if (existing['actor_user_id'] != actor_id
+                or detail['action'] != action or detail['fingerprint'] != fingerprint):
+            raise LedgerError('idempotency_conflict', 409)
+        return detail['document'], True
+    document = await execute()
+    await ledger.audit_event(
+        conn, actor_user_id=actor_id, action='finance_ui_command_completed',
+        subject_type='finance_ui_command', subject_id=body.commandId,
+        detail={'action': action, 'fingerprint': fingerprint, 'document': serialize(document)})
+    return document, False
+
+
 async def _teacher_may_read(conn, teacher_id, student_id) -> bool:
     return bool(await conn.fetchval(
         'SELECT 1 FROM teacher_student_links WHERE teacher_user_id=$1 AND student_user_id=$2',
@@ -131,11 +164,13 @@ async def create_contract(req: Request):
     db = await core.pool()
     async with db.acquire() as conn, conn.transaction():
         try:
-            contract = await ledger.create_contract(
-                conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
-                monthly_amount_minor=body.monthlyAmountMinor, starts_on=body.startsOn,
-                term_months=body.termMonths, course_id=body.courseId, ends_on=body.endsOn,
-                note=body.note)
+            contract, _ = await _retryable_document(
+                conn, user['id'], 'contract.create', body,
+                lambda: ledger.create_contract(
+                    conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
+                    monthly_amount_minor=body.monthlyAmountMinor, starts_on=body.startsOn,
+                    term_months=body.termMonths, course_id=body.courseId, ends_on=body.endsOn,
+                    note=body.note))
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'contract': serialize(contract)}, headers=PRIVATE)
@@ -143,7 +178,7 @@ async def create_contract(req: Request):
 
 @router.post('/api/staff/finance/contracts/{contractId}/approve')
 async def approve_contract(req: Request, contractId: str):
-    user, denied = await actor(req, WRITE_ROLES)
+    user, denied = await actor(req, OWNER_ONLY)
     if denied:
         return denied
     ident = uuid_val(contractId)
@@ -223,11 +258,13 @@ async def create_charge(req: Request):
     db = await core.pool()
     async with db.acquire() as conn, conn.transaction():
         try:
-            charge = await ledger.create_charge(
-                conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
-                period=body.periodKey, due_date=body.dueDate,
-                gross_amount_minor=body.grossAmountMinor, contract_id=body.contractId,
-                adjustment_reason=body.adjustmentReason)
+            charge, _ = await _retryable_document(
+                conn, user['id'], 'charge.create', body,
+                lambda: ledger.create_charge(
+                    conn, actor_user_id=user['id'], student_user_id=body.studentUserId,
+                    period=body.periodKey, due_date=body.dueDate,
+                    gross_amount_minor=body.grossAmountMinor, contract_id=body.contractId,
+                    adjustment_reason=body.adjustmentReason))
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'charge': serialize(charge)}, headers=PRIVATE)
@@ -479,10 +516,19 @@ async def refund_payment(req: Request, paymentId: str):
             # FIN-08: this OPENS a refund request. Money leaves only after an owner approves
             # and a cashier settles it, and it leaves in today's period - the closed cash day
             # the original receipt belongs to is never reopened or rewritten.
-            refund, duplicate = await ledger.request_refund(
-                conn, actor_user_id=user['id'], payment_id=ident,
-                amount_minor=body.amountMinor, reason=body.reason, method=body.method,
-                provider_refund_id=body.providerRefundId)
+            provider_duplicate = False
+
+            async def open_refund():
+                nonlocal provider_duplicate
+                refund, provider_duplicate = await ledger.request_refund(
+                    conn, actor_user_id=user['id'], payment_id=ident,
+                    amount_minor=body.amountMinor, reason=body.reason, method=body.method,
+                    provider_refund_id=body.providerRefundId)
+                return refund
+
+            refund, repeated = await _retryable_document(
+                conn, user['id'], 'refund.request:' + str(ident), body, open_refund)
+            duplicate = repeated or provider_duplicate
         except LedgerError as exc:
             return failure(exc)
     return core.j({'ok': True, 'duplicate': duplicate, 'refund': serialize(refund)},
@@ -684,6 +730,40 @@ async def reconciliation(req: Request):
                       headers=PRIVATE)
 
 
+@router.get('/api/staff/finance/journal.csv')
+async def export_finance_journal(req: Request):
+    _, denied = await actor(req, MONEY_READ_ROLES)
+    if denied:
+        return denied
+    period = req.query_params.get('period', '')
+    if not period.isascii() or not PERIOD_PATTERN.fullmatch(period) or period.startswith('0000'):
+        return err('invalid_period', 422)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        rows = await conn.fetch(
+            """SELECT e.transaction_id, e.source_type, e.source_id, e.period_key,
+                      e.occurred_at, a.code AS account_code, l.direction, l.currency_code,
+                      l.amount_minor
+                 FROM finance_journal_entries e JOIN finance_journal_lines l ON l.entry_id=e.id
+                 JOIN finance_accounts a ON a.id=l.account_id
+                WHERE e.period_key=$1 ORDER BY e.occurred_at, e.id, l.id LIMIT 10001""", period)
+    if len(rows) > 10000:
+        return err('journal_export_limit', 422, maxLines=10000)
+
+    def cell(value):
+        # Spreadsheet software must treat exported text fields as text, never formulas.
+        return "'" + value if isinstance(value, str) and value.lstrip().startswith(('=', '+', '-', '@')) else value
+
+    out = io.StringIO(newline='')
+    writer = csv.writer(out)
+    writer.writerow(('transaction_id', 'source_type', 'source_id', 'period_key',
+                     'occurred_at', 'account_code', 'direction', 'currency_code', 'amount_minor'))
+    writer.writerows(tuple(cell(value) for value in row.values()) for row in rows)
+    return Response(out.getvalue(), media_type='text/csv', headers={
+        **PRIVATE, 'Content-Disposition': f'attachment; filename="finance-journal-{period}.csv"',
+    })
+
+
 @router.get('/api/staff/finance/students/{studentId}/statement')
 async def student_statement(req: Request, studentId: str):
     """A full financial statement: charges, payments, receipts, refunds, balances.
@@ -700,8 +780,11 @@ async def student_statement(req: Request, studentId: str):
     if not student_id:
         return err('student_not_found', 404)
     db = await core.pool()
-    async with db.acquire() as conn:
+    async with db.acquire() as conn, conn.transaction(isolation='repeatable_read', readonly=True):
+        if not await conn.fetchval("SELECT 1 FROM users WHERE id=$1 AND role='student'", student_id):
+            return err('student_not_found', 404)
         statement = await ledger.student_statement(conn, student_id)
+    statement['sandboxProviderEnabled'] = sandbox.enabled() and bool(sandbox.secret())
     return core.j(serialize(statement), headers=PRIVATE)
 
 
