@@ -26,6 +26,9 @@ class ScenarioSlot(Slot):
 
 class Scenario(Command):
     projectedStudents: Annotated[int, Field(strict=True, ge=0, le=1000)]
+    forecastMonths: Annotated[int, Field(strict=True, ge=1, le=12)] = 1
+    retentionBps: Percentage = BPS
+    sessionsPerMonth: Annotated[int, Field(strict=True, ge=1, le=31)] = 1
     tuitionMinor: Money
     discountBps: Percentage
     collectionBps: Percentage
@@ -43,7 +46,7 @@ class Scenario(Command):
 
 async def group_snapshot(conn: Connection, group_id: UUID) -> Record:
     row = await conn.fetchrow(
-        """SELECT g.id, g.name, g.capacity, g.status, g.branch, g.room, g.starts_on, g.ends_on,
+        """SELECT g.id, g.course_id, g.name, g.capacity, g.status, g.branch, g.room, g.starts_on, g.ends_on,
                   (SELECT count(*) FROM academy_group_memberships m
                     WHERE m.group_id=g.id AND m.status=ANY($2::varchar[])) AS reserved,
                   ARRAY(SELECT t.teacher_user_id FROM academy_group_teachers t
@@ -69,14 +72,54 @@ def scaled(amount: int, bps: int) -> int:
     return round_minor(Fraction(amount * bps, BPS))
 
 
+async def operating_history(conn: Connection, group: Record) -> dict:
+    end = today()
+    start = end-timedelta(days=29)
+    row = await conn.fetchrow("""
+        SELECT
+          (SELECT count(*) FROM academy_leads l
+            WHERE l.course_id=$2 AND EXISTS (
+                SELECT 1 FROM audit_log a WHERE a.target_type='academy_lead' AND a.target_id=l.id::text
+                  AND a.action='academy.lead.updated' AND a.metadata->>'to'='trial_completed'
+                  AND a.metadata->>'from'='trial_scheduled'
+                  AND a.created_at >= ($3::date::timestamp AT TIME ZONE 'Asia/Tashkent')
+                  AND a.created_at < (($4::date+1)::timestamp AT TIME ZONE 'Asia/Tashkent')
+            )) AS course_trials_completed,
+          (SELECT count(*) FROM academy_leads l
+              JOIN academy_group_memberships m ON m.id=l.membership_id
+            WHERE m.group_id=$1 AND l.stage='enrolled' AND EXISTS (
+                SELECT 1 FROM audit_log a WHERE a.target_type='academy_lead' AND a.target_id=l.id::text
+                  AND a.action='academy.lead.enrolled'
+                  AND a.created_at >= ($3::date::timestamp AT TIME ZONE 'Asia/Tashkent')
+                  AND a.created_at < (($4::date+1)::timestamp AT TIME ZONE 'Asia/Tashkent')
+            )) AS enrollments_from_leads,
+          (SELECT count(*) FROM academy_group_memberships m
+            WHERE m.group_id=$1 AND m.status='withdrawn' AND m.activated_on IS NOT NULL
+              AND m.ends_on BETWEEN $3 AND $4) AS withdrawals,
+          (SELECT count(*) FROM academy_sessions s
+            WHERE s.group_id=$1 AND s.starts_at >= ($3::date::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.starts_at < (($4::date+1)::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.status IN ('scheduled','held')) AS scheduled_lessons,
+          (SELECT count(*) FROM academy_sessions s
+            WHERE s.group_id=$1 AND s.starts_at >= ($3::date::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.starts_at < (($4::date+1)::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.status='held') AS held_lessons,
+          (SELECT coalesce(sum(extract(epoch FROM (s.ends_at-s.starts_at))/60),0)::integer
+             FROM academy_sessions s JOIN academy_session_teachers st ON st.session_id=s.id
+            WHERE s.group_id=$1 AND s.starts_at >= ($3::date::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.starts_at < (($4::date+1)::timestamp AT TIME ZONE 'Asia/Tashkent')
+              AND s.status='held') AS taught_minutes
+    """, group['id'], group['course_id'], start, end)
+    return {'start': start.isoformat(), 'end': end.isoformat(), **dict(row)}
+
+
 def forecast(inputs: Scenario, group: Record) -> list[dict]:
     teachers = len(group['teacher_ids'])
-    # One proposed lesson and one owner-selected forecast period. Fixed and revenue-share
-    # costs apply once per teacher for the period; hourly/session cost covers the proposal.
-    hourly = round_minor(Fraction(inputs.teacherRateMinor * inputs.slot.durationMinutes * teachers, 60))
+    hourly = round_minor(Fraction(
+        inputs.teacherRateMinor * inputs.slot.durationMinutes * teachers * inputs.sessionsPerMonth, 60))
     costs = {
         'fixed': inputs.teacherRateMinor * teachers,
-        'per_session': inputs.teacherRateMinor * teachers,
+        'per_session': inputs.teacherRateMinor * teachers * inputs.sessionsPerMonth,
         'hourly': hourly,
         'hybrid': inputs.teacherFixedMinor * teachers + hourly,
         'revenue_share': 0,
@@ -88,23 +131,34 @@ def forecast(inputs: Scenario, group: Record) -> list[dict]:
         demand = scaled(inputs.projectedStudents, BPS + student_delta)
         students = min(demand, group['capacity'])
         collection = max(0, min(BPS, inputs.collectionBps + collection_delta))
-        invoice = scaled(students * inputs.tuitionMinor, BPS - inputs.discountBps)
-        recognized = scaled(invoice, inputs.deliveryBps)
-        expected_collection = scaled(invoice, collection)
-        cash = scaled(expected_collection, inputs.cashWithinPeriodBps)
-        debt_cash = scaled(inputs.openingDebtMinor, inputs.debtRecoveryBps)
-        cost = costs[inputs.teacherPayMethod]
-        if inputs.teacherPayMethod == 'revenue_share':
-            cost = scaled(recognized, inputs.teacherRevenueBps) * teachers
+        periods = []
+        # Compound the unrounded cohort estimate, then round the billable headcount per month.
+        retention = Fraction(inputs.retentionBps, BPS)
+        for offset in range(inputs.forecastMonths):
+            headcount = round_minor(students * retention**offset)
+            invoice = scaled(headcount * inputs.tuitionMinor, BPS - inputs.discountBps)
+            recognized = scaled(invoice, inputs.deliveryBps)
+            expected_collection = scaled(invoice, collection)
+            cash = scaled(expected_collection, inputs.cashWithinPeriodBps)
+            debt_cash = scaled(inputs.openingDebtMinor, inputs.debtRecoveryBps) if offset == 0 else 0
+            cost = costs[inputs.teacherPayMethod]
+            if inputs.teacherPayMethod == 'revenue_share':
+                cost = scaled(recognized, inputs.teacherRevenueBps) * teachers
+            periods.append({
+                'month':offset+1, 'billableStudents':headcount,
+                'invoicedMinor':invoice, 'recognizedMinor':recognized,
+                'cashFromTuitionMinor':cash, 'cashFromOpeningDebtMinor':debt_cash,
+                'cashTotalMinor':cash+debt_cash, 'unpaidTuitionMinor':invoice-expected_collection,
+                'teacherCostMinor':cost, 'contributionMinor':recognized-cost,
+            })
         result.append({
             'name': name, 'demand': demand, 'billableStudents': students,
             'studentsOverCapacity': demand - students,
             'seatUseBps': round_minor(Fraction(students * BPS, group['capacity'])),
             'collectionBps': collection,
-            'invoicedMinor': str(invoice), 'recognizedMinor': str(recognized),
-            'cashFromTuitionMinor': str(cash), 'cashFromOpeningDebtMinor': str(debt_cash),
-            'cashTotalMinor': str(cash + debt_cash), 'unpaidTuitionMinor': str(invoice - expected_collection),
-            'teacherCostMinor': str(cost), 'contributionMinor': str(recognized - cost),
+            **{key:str(sum(period[key] for period in periods)) for key in periods[0] if key.endswith('Minor')},
+            'months':[{key:str(value) if key.endswith('Minor') else value for key,value in period.items()}
+                      for period in periods],
         })
     return result
 
@@ -139,8 +193,10 @@ async def simulate(conn: Connection, group: Record, inputs: Scenario) -> dict:
                 'outstandingReceivableMinor', 'overdueReceivableMinor',
             )},
         },
+        'operatingHistory': await operating_history(conn, group),
         'sources': {'capacity':'academy_groups', 'reservedSeats':'academy_group_memberships',
                     'teachers':'academy_group_teachers', 'schedule':'academy_session_reservations',
+                    'operatingHistory':'academy_leads, audit_log, academy_group_memberships, academy_sessions, academy_session_teachers',
                     'forecast':'owner_inputs', 'academyActuals':'tuition_ledger.finance_summary'},
         'assumptions': inputs.model_dump(mode='json', exclude={
             'tuitionMinor', 'openingDebtMinor', 'teacherRateMinor', 'teacherFixedMinor',

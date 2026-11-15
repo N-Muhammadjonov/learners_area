@@ -1,5 +1,12 @@
 # Sale-readiness acceptance receipt
 
+## 2026-11-15, Toshkent — Main uchun release tekshiruvi
+
+- Eski PostgreSQL sxemasida mavjud sessiya endpointlari ishladi. Academy va Tuition boshqariladigan muhitda `ACADEMY_FEATURES_ENABLED=1` berilgandan keyin ochiladi. O‘chiq holatda yangi API 404 qaytaradi va yangi sahifalar Management’ga yo‘naltiriladi.
+- 1115–1131 zanjiri eski sxema va mavjud foydalanuvchilar bilan alohida PostgreSQL bazasida sinovdan o‘tdi. Oxirgi fayl xatosi butun tranzaksiyani qaytardi. Qayta urinish 17 ta faylni o‘rnatdi, avvalgi foydalanuvchilar saqlandi, 12 ta hisob yaratildi va ikkinchi urinishda yangi migratsiya topilmadi. Migratsiya xeshi o‘zgarganda reja rad etildi. [Ishga tushirish tartibi](../SALE_READY_MANUAL_ACTIONS.md#ma-03--academy-va-tuitionni-productionda-ishga-tushirish)
+- Capacity Explorer 1–12 oy uchun saqlanib qoladigan o‘quvchilar, oylik darslar soni, hisoblangan to‘lov, tushum va o‘qituvchi xarajatini uchta ssenariyda ko‘rsatadi. Qayd etilgan sinov darslari kurs bo‘yicha, qabul, guruhdan chiqish va o‘tilgan darslar tanlangan guruh bo‘yicha beriladi. Masshtabi turlicha bo‘lgani uchun ular bitta konversiya foiziga birlashtirilmaydi.
+- Boshqariladigan QA sxemasida guardian va coin bazaviy jadvallari yetishmaydi. Sinovlar to‘liq bazaviy sxemali, ajratilgan PostgreSQL’da bajarildi. Production faollashtirish, jonli integratsiyalar va yuqori parallel yuk bo‘yicha tekshiruv ochiq.
+
 ## 2026-11-15, Toshkent — Arena yakuniy regressiyasi
 
 `ade6227b` commitida [Full Stability](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952681), [Coin Economy](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952663) va [Leaderboard](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43681952661) o‘tdi.

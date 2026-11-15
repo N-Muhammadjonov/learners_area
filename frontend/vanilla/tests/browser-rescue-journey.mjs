@@ -95,6 +95,7 @@ try {
   const form = owner.locator('[data-capacity-simulation]');
   for (const [field, value] of Object.entries({
     projectedStudents:'1', tuitionMinor:'200001', discountBps:'10', collectionBps:'75', cashWithinPeriodBps:'80',
+    forecastMonths:'3', retentionBps:'100', sessionsPerMonth:'2',
     deliveryBps:'50', teacherRateMinor:'10000', teacherMinutesAvailable:'60', localStart:'16:00',
   })) await form.locator('[name="'+field+'"]').fill(value);
   const report = responseTo(owner, 'POST', capacityApi);
@@ -102,9 +103,13 @@ try {
   const result = await report;
   assert.equal(result.status(), 200, await result.text());
   const scenario = await result.json();
-  assert.equal(scenario.scenarios[1].invoicedMinor, '180001');
+  assert.equal(scenario.scenarios[1].invoicedMinor, '540003');
+  assert.deepEqual(scenario.scenarios[1].months.map(month=>month.billableStudents), [1,1,1]);
   assert.equal(scenario.schedule.feasible, true);
   await owner.getByRole('table', {name:'Simulated values'}).waitFor();
+  await owner.getByText('Neutral · Monthly forecast', {exact:true}).click();
+  await owner.getByRole('row', {name:/^3 1 180,001 UZS/}).waitFor();
+  await owner.getByRole('heading', {name:'Recorded academy activity'}).waitFor();
   assert.equal((await assigned.request.get(origin+capacityApi)).status(), 403);
 
   console.log(JSON.stringify({rescueBrowserJourney:'passed', capacityBrowserJourney:'passed',

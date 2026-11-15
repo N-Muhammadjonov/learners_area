@@ -1,6 +1,6 @@
 """Capacity Explorer uses the source timetable without changing academy records."""
 
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
 import pytest
@@ -25,6 +25,27 @@ async def test_owner_compares_capacity_and_cash_with_exact_money_and_no_writes(j
     })
     group_path = API+'/groups/'+group['id']
     await request(client, owner, 'POST', group_path+'/memberships', 201, json={'studentId':str(learner['id'])})
+    lead_id = uuid4()
+    trial_at = datetime.now(timezone.utc)-timedelta(hours=1)
+    lead = await request(client, owner, 'POST', API+'/leads', 201, json={
+        'id':str(lead_id), 'name':'Prospective Learner', 'source':'Capacity test',
+        'email':'capacity-trial@example.test', 'courseId':str(course),
+    })
+    lead_path = API+'/leads/'+lead['id']
+    lead_fields = {'name':lead['name'], 'source':lead['source'], 'email':lead['email'], 'courseId':str(course)}
+    for stage in ('contacted','trial_scheduled','trial_completed'):
+        lead = await request(client, owner, 'PUT', lead_path, json={
+            **lead_fields, 'stage':stage, 'revision':lead['revision'],
+            **({'trialAt':trial_at.isoformat()} if stage.startswith('trial_') else {}),
+        })
+    await request(client, owner, 'POST', lead_path+'/convert', json={
+        'revision':lead['revision'], 'studentId':str(learner['id']), 'groupId':group['id'],
+    })
+    departed = await create_actor(conn, 'Departed Learner', 'student')
+    await conn.execute("""
+        INSERT INTO academy_group_memberships(group_id,course_id,student_user_id,starts_on,ends_on,status,activated_on)
+        VALUES ($1,$2,$3,$4,$4,'withdrawn',$4)
+    """, group['id'], course, departed['id'], today())
     slot_date = str(today()+timedelta(days=3))
     await request(client, owner, 'POST', group_path+'/sessions', 201, json={
         'seriesId':str(uuid4()), 'localDate':slot_date, 'localStart':'09:00',
@@ -83,9 +104,23 @@ async def test_owner_compares_capacity_and_cash_with_exact_money_and_no_writes(j
     assert neutral['contributionMinor'] == '570002'
     assert report['scenarios'][0]['billableStudents'] > neutral['billableStudents']
     assert report['scenarios'][2]['billableStudents'] < neutral['billableStudents']
+    assert report['operatingHistory']['course_trials_completed'] == 1
+    assert report['operatingHistory']['enrollments_from_leads'] == 1
+    assert report['operatingHistory']['withdrawals'] == 1
+    assert report['operatingHistory']['held_lessons'] == 0
+
+    multi = (await request(client, owner, 'POST', route, json={
+        **inputs, 'forecastMonths':3, 'retentionBps':7500, 'sessionsPerMonth':4,
+    }))['scenarios'][1]
+    assert [month['billableStudents'] for month in multi['months']] == [8, 6, 5]
+    assert [month['cashFromOpeningDebtMinor'] for month in multi['months']] == ['50001','0','0']
+    assert multi['teacherCostMinor'] == '1800018'
+    assert int(multi['contributionMinor']) == sum(int(month['contributionMinor']) for month in multi['months'])
+    assert int(multi['cashTotalMinor']) == sum(int(month['cashTotalMinor']) for month in multi['months'])
 
     await request(client, owner, 'POST', route, 422, json={**inputs,'tuitionMinor':-1})
     await request(client, owner, 'POST', route, 422, json={**inputs,'collectionBps':True})
+    await request(client, owner, 'POST', route, 422, json={**inputs,'forecastMonths':13})
     oversubscribed = await request(client, owner, 'POST', route, json={**inputs,'projectedStudents':12})
     assert oversubscribed['scenarios'][1]['studentsOverCapacity'] == 2
     assert oversubscribed['scenarios'][1]['seatUseBps'] == 10000

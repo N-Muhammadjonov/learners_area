@@ -4,7 +4,10 @@ import {BackLink, el, listen} from './kit.js';
 const route = '/api/staff/academy';
 const fields = [
   ['projectedStudents', 'Projected learners', 'Kutilgan o‘quvchilar', 1000],
-  ['tuitionMinor', 'Tuition per learner (UZS)', 'Bir o‘quvchi to‘lovi (UZS)', 'money'],
+  ['forecastMonths', 'Forecast months', 'Prognoz oylari', 12, 1],
+  ['retentionBps', 'Learners retained each month (%)', 'Har oy davom etadigan o‘quvchilar (%)', 'percent'],
+  ['sessionsPerMonth', 'Lessons per month', 'Bir oydagi darslar', 31, 1],
+  ['tuitionMinor', 'Monthly tuition per learner (UZS)', 'Bir o‘quvchi uchun oylik to‘lov (UZS)', 'money'],
   ['discountBps', 'Discount (%)', 'Chegirma (%)', 'percent'],
   ['collectionBps', 'Expected collection (%)', 'Kutilgan undirish (%)', 'percent'],
   ['cashWithinPeriodBps', 'Collection within the period (%)', 'Shu davrda tushadigan ulush (%)', 'percent'],
@@ -14,19 +17,19 @@ const fields = [
   ['teacherRateMinor', 'Teacher rate (UZS)', 'O‘qituvchi tarifi (UZS)', 'money'],
   ['teacherFixedMinor', 'Hybrid fixed portion (UZS)', 'Aralash usulning qat’iy qismi (UZS)', 'money'],
   ['teacherRevenueBps', 'Teacher share of earned tuition (%)', 'O‘qituvchining ishlab topilgan to‘lovdagi ulushi (%)', 'percent'],
-  ['teacherMinutesAvailable', 'Teacher minutes available', 'O‘qituvchilarning bo‘sh daqiqalari', 52560],
+  ['teacherMinutesAvailable', 'Teacher minutes available for this slot', 'Shu vaqt uchun bo‘sh o‘qituvchi daqiqalari', 52560],
 ];
 const methods = [
-  ['fixed', 'Fixed for the period', 'Davr uchun qat’iy'],
+  ['fixed', 'Fixed per month', 'Oylik qat’iy to‘lov'],
   ['per_session', 'Per session', 'Darsbay'],
   ['hourly', 'Hourly', 'Soatbay'],
   ['revenue_share', 'Revenue share', 'Tushum ulushi'],
   ['hybrid', 'Fixed and hourly', 'Qat’iy va soatbay'],
 ];
 const metrics = [
-  ['billableStudents', 'Learners within capacity', 'Sig‘imga mos o‘quvchilar'],
-  ['studentsOverCapacity', 'Learners without seats', 'Joy yetmaydigan o‘quvchilar'],
-  ['seatUseBps', 'Seat usage (%)', 'Band joylar (%)'],
+  ['billableStudents', 'Month 1 learners within capacity', 'Birinchi oyda sig‘imga mos o‘quvchilar'],
+  ['studentsOverCapacity', 'Month 1 learners without seats', 'Birinchi oyda joy yetmaydigan o‘quvchilar'],
+  ['seatUseBps', 'Month 1 seat usage (%)', 'Birinchi oyda band joylar (%)'],
   ['invoicedMinor', 'Projected tuition billed', 'Hisoblanadigan o‘qish to‘lovi'],
   ['recognizedMinor', 'Projected earned tuition', 'Ishlab topiladigan o‘qish daromadi'],
   ['cashFromTuitionMinor', 'Tuition cash in period', 'Shu davrda tushadigan o‘qish to‘lovi'],
@@ -62,8 +65,8 @@ export async function mount(ctx) {
   host.append(
     BackLink({fallbackHref:'/app/management', label:ctx.dict.common.back}),
     el('h1', {class:'font-display text-2xl'}, tr('Capacity and revenue explorer', 'Sig‘im va daromad tahlili')),
-    el('p', {}, tr('Simulate one proposed lesson and one tuition forecast period. The rates and collections are your assumptions.',
-                   'Bitta dars va bitta to‘lov davri uchun hisoblang. Tarif va tushumlar siz kiritgan farazlarga asoslanadi.')),
+    el('p', {}, tr('Check a proposed lesson slot and forecast up to 12 months using your rates and assumptions.',
+                   'Bitta dars vaqtini tekshiring va kiritgan tarif hamda farazlaringiz bilan 12 oygacha hisoblang.')),
     choices, formRegion, results,
   );
   ctx.root.append(host);
@@ -108,6 +111,7 @@ export async function mount(ctx) {
       })),
     );
     const actuals = value.academyActuals;
+    const history = value.operatingHistory;
     const actualRows = [
       ['invoicedTuitionMinor', 'Tuition billed', 'Hisoblangan to‘lov'],
       ['collectedNetMinor', 'Net cash collected', 'Sof pul tushumi'],
@@ -119,7 +123,34 @@ export async function mount(ctx) {
       group:tr('Group', 'Guruh'), room:tr('Room', 'Xona'), teacher:tr('Teacher', 'O‘qituvchi'),
     };
     const conflicts = value.schedule.conflicts.map(key => conflictLabels[key]).join(', ');
-    results.replaceChildren(
+    const monthColumns = [
+      ['month', 'Month', 'Oy'],
+      ['billableStudents', 'Learners', 'O‘quvchilar'],
+      ['invoicedMinor', 'Billed', 'Hisoblangan'],
+      ['recognizedMinor', 'Earned', 'Ishlab topilgan'],
+      ['cashTotalMinor', 'Cash', 'Pul tushumi'],
+      ['unpaidTuitionMinor', 'Unpaid', 'Undirilmagan'],
+      ['teacherCostMinor', 'Teacher cost', 'O‘qituvchi xarajati'],
+      ['contributionMinor', 'Contribution', 'Xarajatdan keyingi daromad'],
+    ];
+    const monthly = value.scenarios.map((scenario,index) => el('details', {},
+      el('summary', {class:'cursor-pointer font-semibold'}, captions[index]+' · '+tr('Monthly forecast', 'Oylik prognoz')),
+      el('div', {class:'overflow-x-auto'}, el('table', {class:'w-full text-left'},
+        el('thead', {}, el('tr', {}, monthColumns.map(column => el('th', {scope:'col',class:'p-2'}, selectedLabel(column))))),
+        el('tbody', {}, (scenario.months??[]).map(row => el('tr', {}, monthColumns.map(([key]) =>
+          el(key==='month'?'th':'td', {scope:key==='month'?'row':null,class:'p-2'},
+            key.endsWith('Minor')?formatMinor(row[key],locale):row[key]))))),
+      )),
+    ));
+    const activity = [
+      ['course_trials_completed','Course trials completed','Kurs bo‘yicha o‘tilgan sinov darslari'],
+      ['enrollments_from_leads','Lead enrollments into this group','Shu guruhga qabul qilingan nomzodlar'],
+      ['withdrawals','Learners who withdrew from this group','Shu guruhdan chiqqan o‘quvchilar'],
+      ['scheduled_lessons','Group lessons scheduled or held','Guruhning rejalangan yoki o‘tilgan darslari'],
+      ['held_lessons','Group lessons held','Guruhning o‘tilgan darslari'],
+      ['taught_minutes','Teacher minutes taught in group','Guruhdagi o‘tilgan o‘qituvchi daqiqalari'],
+    ];
+    results.replaceChildren(...[
       el('p', {}, value.schedule.feasible ? tr('Slot is available.', 'Tanlangan vaqt bo‘sh.')
         : tr('Slot is unavailable.', 'Tanlangan vaqt band yoki o‘qituvchi soati yetmaydi.')),
       conflicts ? el('p', {}, tr('Schedule conflicts', 'Jadvaldagi to‘qnashuvlar')+' · '+conflicts) : null,
@@ -127,16 +158,25 @@ export async function mount(ctx) {
       el('p', {}, tr('Teaching minutes missing', 'Yetishmayotgan o‘qituvchi daqiqalari')+' · '+value.schedule.staffingGapMinutes),
       el('p', {}, tr('Optimistic and stress scenarios vary projected learners by 10% and collection by 10 percentage points.',
                        'Ijobiy va salbiy ssenariylarda o‘quvchi soni 10%, undirish ulushi 10 foiz punktiga o‘zgaradi.')),
+      el('p', {}, tr('Monthly headcount follows the retention assumption. Prior debt recovery counts in month one.',
+                       'Oylik o‘quvchi soni davom etish ulushiga bog‘liq. Oldingi qarz tushumi birinchi oyga yoziladi.')),
       el('div', {class:'overflow-x-auto'}, table),
+      ...monthly,
+      history ? el('section', {class:'space-y-2'},
+        el('h2', {class:'font-display text-xl'}, tr('Recorded academy activity', 'Akademiyaning qayd etilgan faoliyati')),
+        el('p', {}, history.start+' – '+history.end),
+        el('dl', {class:'grid gap-2 sm:grid-cols-2'}, activity.map(metric =>
+          el('div', {}, el('dt', {}, selectedLabel(metric)), el('dd', {}, history[metric[0]]))))) : null,
       el('h2', {class:'font-display text-xl'}, tr('Academy ledger', 'Akademiya hisob jurnali')),
       el('p', {}, actuals.range.start+' – '+actuals.range.end),
       el('dl', {class:'grid gap-2 sm:grid-cols-2'}, ...actualRows.map(metric =>
         el('div', {}, el('dt', {}, selectedLabel(metric)), el('dd', {}, formatMinor(actuals[metric[0]], locale))))),
-    );
+    ].filter(Boolean));
   }
 
   function simulation(snapshot) {
-    const projected = new Map([['projectedStudents',snapshot.reservedSeats],['openingDebtMinor','0'],['debtRecoveryBps','0']]);
+    const projected = new Map([['projectedStudents',snapshot.reservedSeats],['openingDebtMinor','0'],['debtRecoveryBps','0'],
+      ['forecastMonths','1'],['retentionBps','100'],['sessionsPerMonth','1']]);
     const controls = {};
     const input = (key, label, attrs) => {
       const node = el('input', {name:key, class:'input min-w-0', required:true, ...attrs});
@@ -149,11 +189,11 @@ export async function mount(ctx) {
       el('p', {}, snapshot.groupName+' · '+tr('Reserved seats', 'Band joylar')+' '+snapshot.reservedSeats+'/'+snapshot.capacity),
       el('div', {class:'grid gap-3 sm:grid-cols-2 lg:grid-cols-3'},
         ...fields.map(field => {
-          const [key,,,kind] = field;
+          const [key,,,kind,min=0] = field;
           const value = projected.get(key) ?? '';
           const hints = kind === 'money' ? {type:'text', inputmode:'numeric', pattern:'[0-9]{1,17}', maxlength:17}
             : kind === 'percent' ? {type:'text', inputmode:'decimal', pattern:'[0-9]{1,3}([.,][0-9]{1,2})?', maxlength:6}
-              : {type:'number', min:0, max:kind, step:1};
+              : {type:'number', min, max:kind, step:1};
           return input(key, selectedLabel(field), {...hints, value});
         }),
         el('label', {class:'grid gap-1'}, tr('Teacher pay basis', 'O‘qituvchi to‘lovi usuli'), method),
