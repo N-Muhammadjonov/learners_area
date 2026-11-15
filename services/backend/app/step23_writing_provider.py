@@ -56,7 +56,7 @@ async def evaluate(language,task,input_data,system,output_tokens=1500,*,user_id=
     cfg=await provider_spec()
     if not cfg:return None,'unavailable'
     raw=json.dumps({'task':task,'language':language,'input':input_data},ensure_ascii=False,separators=(',',':'))
-    if len(raw)>60000 or type(output_tokens) is not int or not 1<=output_tokens<=5000:return None,'failed'
+    if len(raw)>60000 or type(output_tokens) is not int or not 1<=output_tokens<=9000:return None,'failed'
     h={'content-type':'application/json',**cfg['headers']}
     pid=cfg['id']
     if pid=='gemini':
