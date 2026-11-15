@@ -65,6 +65,7 @@ async def journey(monkeypatch):
         monkeypatch.setenv('RATE_LIMIT_BACKEND','memory')
         monkeypatch.setenv('RIWI_EVALUATION_MODE','independent-v1')
         monkeypatch.setenv('AI_EXTERNAL_ENABLED','false')
+        monkeypatch.setenv('STT_PRIMARY_PROVIDER','none')
 
         async with httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app),
                                      base_url='https://journey.test') as client:
@@ -190,3 +191,43 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey)
     await request(client,learner,'POST',f'/api/guardians/links/{link}/revoke')
     await request(client,parent,'GET',child+'/progress',403,params={'region':'progressSummary'})
     await request(client,parent,'GET',child+'/journey',403)
+
+
+@pytest.mark.asyncio
+async def test_journey_projects_exact_practice_results_without_private_material(journey):
+    conn,client=journey
+    owner=await create_actor(conn,'Centre Owner','owner')
+    learner=await create_actor(conn,'Practice Learner','student')
+    peer=await create_actor(conn,'Practice Peer','student')
+    passage=await conn.fetchval("""INSERT INTO reading_passages(title,body_text,publication_state)
+       VALUES('Fixture passage','The evidence names a lighthouse.','published') RETURNING id""")
+    reading_question=await conn.fetchval("""INSERT INTO reading_questions(passage_id,"order",type,type_code,
+       question_text,correct_answer,explanation)
+       VALUES($1,1,'short_answer','short_answer','Name the building.','lighthouse','Private reading key')
+       RETURNING id""",passage)
+    reading=await request(client,learner,'POST','/api/reading/attempts',json={'passageId':str(passage)})
+    assert (await request(client,learner,'POST','/api/reading/attempts/'+reading['id']+'/submit',
+                          json={'answers':[{'questionId':str(reading_question),'answer':'lighthouse'}]}))['score']==1
+    listening=await conn.fetchval("""INSERT INTO listening_tests(created_by_user_id,title,audio_type,audio_url,publication_state)
+       VALUES($1,'Fixture listening','audio','/api/resources/listening/fixture.mp3','published') RETURNING id""",owner['id'])
+    listening_question=await conn.fetchval("""INSERT INTO listening_questions(test_id,"order",type,type_code,
+       question_text,correct_answer,explanation)
+       VALUES($1,1,'short_answer','short_answer','Write the place.','station','Private listening key')
+       RETURNING id""",listening)
+    attempt=await request(client,learner,'POST','/api/listening/attempts',json={'testId':str(listening)})
+    assert (await request(client,learner,'POST','/api/listening/attempts/'+attempt['id']+'/submit',
+                          json={'answers':[{'questionId':str(listening_question),'answer':'station'}]}))['score']==1
+    speaking=await request(client,learner,'POST','/api/speaking/attempts',json={'part':'general'})
+    sid=speaking['attempt']['id']
+    # Exercise submission with an isolated storage reference and the configured no-STT path.
+    await conn.execute("""UPDATE speaking_attempts SET recording_object_key='speaking/test-only.webm',
+         recording_mime_type='audio/webm',recording_size=500 WHERE id=$1""",sid)
+    result=await request(client,learner,'POST','/api/speaking/attempts/'+sid+'/submit',json={'durationMs':4000})
+    assert result['recordingSaved'] is True and result['evaluated'] is False
+    events=(await request(client,learner,'GET','/api/academy/journey'))['items']
+    by_kind={item['kind']:item for item in events}
+    assert set(by_kind)=={'reading_completed','listening_completed','speaking_submitted'}
+    assert by_kind['reading_completed']['score']==by_kind['listening_completed']['score']==1
+    assert all(value not in json.dumps(events) for value in
+               ('lighthouse','Private reading key','Private listening key','test-only.webm'))
+    assert (await request(client,peer,'GET','/api/academy/journey'))['items']==[]
