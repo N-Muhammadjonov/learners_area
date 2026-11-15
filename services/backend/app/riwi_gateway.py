@@ -185,6 +185,10 @@ async def handle_riwi_chat(
         if not reviewed:
             from .riwi_site_grammar import reply as site_grammar_reply
             reviewed = site_grammar_reply(actor, message, locale)
+        # An unavailable template is not an answer. Let the external tutor
+        # use the user's real question and existing RIWI knowledge first.
+        if reviewed and reviewed.get('provenance') == 'unavailable' and read_riwi_rollout(env).external_ai and external_runner is not None and intent_info.intent in ('grammar_help', 'general_learning_question'):
+            reviewed = None
         if reviewed:
             from .riwi_help import navigation as help_navigation
             reviewed['navigationLinks'] = help_navigation(actor, message, reviewed['provider']) if reviewed['provenance'] != 'policy_refusal' else []
@@ -468,7 +472,7 @@ async def handle_riwi_chat(
                 provenance = "approved_knowledge"
 
     rollout = read_riwi_rollout(env)
-    if not material_item and not study and not understood and not faq and not reference and rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
+    if not material_item and not study and not reference and (not understood or understood.get("provenance") == "unavailable") and not faq and rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
         history = await get_tutoring_history(conn, actor, conversation_id, now=now) if conversation_id else []
         task_key = "grammar.explanation" if intent_info.intent == "grammar_help" else select_instruction_task(message)
         import os
@@ -477,8 +481,9 @@ async def handle_riwi_chat(
             or (env if env is not None else os.environ).get("AI_PRIMARY_PROVIDER")
             or "riwi"
         ).strip().lower()
-        ext_res = await dispatch_external_riwi_provider(
-            conn,
+        try:
+            ext_res = await dispatch_external_riwi_provider(
+                conn,
             actor=actor,
             provider_id=provider_id,
             task_profile="grammar_explanation" if intent_info.intent == "grammar_help" else "general_tutoring",
@@ -499,17 +504,22 @@ async def handle_riwi_chat(
             },
             correlation_id=correlation_id,
             transport=external_runner,
-            env=env,
-        )
+                env=env,
+            )
+        except Exception:
+            # Keep existing deterministic RIWI feedback available on provider
+            # outages. User input and credentials are never included in logs.
+            ext_res = None
         formatted_teaching = (
             format_instruction_teaching(task_key, ext_res.get("teaching"), language=locale)
-            if ext_res.get("teaching")
+            if ext_res and ext_res.get("teaching")
             else None
         )
-        answer_text = formatted_teaching or ext_res["answer"]
-        provenance = "external_provider"
-        provider_meta = {"id": "riwi", "model": "riwi-external-v1"} if provider_id == "gemini" else ext_res["provider"]
-        if ext_res.get("citations"):
+        if ext_res:
+            answer_text = formatted_teaching or ext_res["answer"]
+            provenance = "external_provider"
+            provider_meta = {"id": "riwi", "model": "riwi-external-v1"} if provider_id == "gemini" else ext_res["provider"]
+        if ext_res and ext_res.get("citations"):
             allowed_map = {c["ref"]: c for c in citations}
             citations = [allowed_map[r] for r in ext_res["citations"] if r in allowed_map]
 
