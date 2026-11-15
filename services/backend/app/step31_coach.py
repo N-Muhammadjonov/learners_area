@@ -225,10 +225,10 @@ def record(row):
     if not row:return None
     r=dict(row)
     return {'id':str(r['id']),'userId':str(r['user_id']),'evaluationType':r['evaluation_type'],
-       'sourceType':r['source_type'],'sourceId':str(r['source_id']),'providerId':r['provider_id'],
+       'sourceType':r['source_type'],'sourceId':str(r['source_id']),'providerId':'riwi' if r['provider_id']=='gemini' else r['provider_id'],
        'providerDisplayName':PUBLIC if r['provider_id']=='gemini' else r['provider_display_name'],'providerType':r['provider_type'],
-       'providerVersion':r['provider_version'],'model':r['model'],'promptVersion':r['prompt_version'],
-       'rubricVersion':r['rubric_version'],'fallbackUsed':r['fallback_used'],'fallbackFrom':r['fallback_from'],
+       'providerVersion':r['provider_version'],'model':None if r['provider_id']=='gemini' else r['model'],'promptVersion':r['prompt_version'],
+       'rubricVersion':r['rubric_version'],'fallbackUsed':r['fallback_used'],'fallbackFrom':'riwi' if r['fallback_from']=='gemini' else r['fallback_from'],
        'checkedByName':PUBLIC,'checkedBy':{'id':'riwi' if r['provider_id']=='gemini' else r['provider_id'],'displayName':PUBLIC if r['provider_id']=='gemini' else r['provider_display_name'],'type':r['provider_type']},
        'overallEstimate':r['overall_estimate'],'confidence':r['confidence'],'verdict':r['verdict'],
        'criteria':decoded(r['criteria']),'strengths':decoded(r['strengths']),'weaknesses':decoded(r['weaknesses']),
