@@ -1730,6 +1730,41 @@
   "name": "refund_payment"
  },
  {
+  "method": "GET",
+  "path": "/api/staff/finance/payroll",
+  "name": "payroll_overview"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/payroll/finalize",
+  "name": "payroll_finalize"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/payroll/revenue",
+  "name": "payroll_assign_revenue"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/payroll/rules",
+  "name": "payroll_create_rule"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/payroll/rules/{rule_id}/end",
+  "name": "payroll_end_rule"
+ },
+ {
+  "method": "GET",
+  "path": "/api/staff/finance/payroll/teachers",
+  "name": "payroll_teachers"
+ },
+ {
+  "method": "POST",
+  "path": "/api/staff/finance/payroll/{run_id}/events",
+  "name": "payroll_post_event"
+ },
+ {
   "method": "POST",
   "path": "/api/staff/finance/periods/close",
   "name": "close_period"

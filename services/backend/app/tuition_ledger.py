@@ -294,6 +294,13 @@ async def _post_journal(conn, *, source_type: str, source_id, student_user_id=No
     return transaction_id
 
 
+async def _lock_period(conn, period: str, *, closing: bool = False) -> None:
+    lock = 'pg_advisory_xact_lock' if closing else 'pg_advisory_xact_lock_shared'
+    await conn.execute(
+        f"SELECT {lock}(hashtext(current_schema() || ':finance-period'),"
+        " hashtext($1::text))", period)
+
+
 async def _assert_period_open(conn, period: str):
     closed = await conn.fetchval('SELECT 1 FROM finance_closed_periods WHERE period_key=$1', period)
     _require(not closed, 'period_closed', 409, periodKey=period)
@@ -1635,6 +1642,7 @@ async def close_day(conn, *, actor_user_id, business_date, counted_minor, reason
 
 @transactional
 async def close_period(conn, *, actor_user_id, period, reason=None):
+    await _lock_period(conn, period, closing=True)
     already = await conn.fetchval('SELECT 1 FROM finance_closed_periods WHERE period_key=$1', period)
     _require(not already, 'period_already_closed', 409)
     row = await conn.fetchrow(

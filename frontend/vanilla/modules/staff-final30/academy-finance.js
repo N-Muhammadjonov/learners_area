@@ -3,6 +3,7 @@ import {el, listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
 import {BackLink} from './kit.js';
 import {financeDocuments} from './finance-documents.js';
+import {academyPayroll} from './academy-payroll.js';
 
 const STAFF_API='/api/staff/finance';
 const UUID=/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i;
@@ -235,7 +236,8 @@ export async function mount(ctx){
  const studentHost=el('div',{class:'space-y-3'});
  const host=el('div',{class:'mx-auto max-w-6xl space-y-4','data-academy-finance':''},
   BackLink({fallbackHref:'/app/management',label:ctx.dict.common.back}),el('h1',{class:'font-display text-3xl'},t.title),
-  form,summary,recon,agingReport(ctx),journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost);
+  form,summary,recon,agingReport(ctx),journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost,
+  academyPayroll(ctx));
  ctx.root.append(host);
  let selectedController;
  async function report(){

@@ -28,6 +28,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import Response
 
 from . import main as core
+from . import academy_payroll as payroll
 from .admin_authoring_port import uuid_val
 from .rate_limit import RULES, async_counter as counter, too_many
 from . import payments_sandbox as sandbox
@@ -740,6 +741,85 @@ async def finance_aging(req: Request):
     async with db.acquire() as conn:
         report = await ledger.receivable_aging(conn, as_of=day)
     return core.j(report, headers=PRIVATE)
+
+
+def payroll_wire(data):
+    if isinstance(data, dict):
+        return {key: payroll_wire(value) for key, value in data.items()
+                if key != 'create_fingerprint'}
+    if isinstance(data, list):
+        return [payroll_wire(value) for value in data]
+    if type(data) is int and abs(data) >= 2**53:
+        return str(data)
+    return str(data) if isinstance(data, (UUID, date)) else data
+
+
+async def payroll_response(req: Request, roles: tuple[str, ...], model, callback,
+                           *, read: bool = False):
+    user, denied = await actor(req, roles)
+    if denied:
+        return denied
+    try:
+        command = typed(model, dict(req.query_params) if read else await payload(req))
+        if not read:
+            limited = await _write_gate(req, user)
+            if limited:
+                return limited
+        db = await core.pool()
+        async with db.acquire() as conn:
+            result = await callback(conn, user['id'], command)
+        return core.j(payroll_wire(dict(result)), headers=PRIVATE)
+    except ValidationError as exc:
+        return invalid(exc)
+    except LedgerError as exc:
+        return failure(exc)
+
+
+@router.get('/api/staff/finance/payroll')
+async def payroll_overview(req: Request):
+    return await payroll_response(req, MONEY_READ_ROLES, payroll.RunRequest,
+                                  lambda conn, _, command: payroll.overview(conn, command), read=True)
+
+
+@router.get('/api/staff/finance/payroll/teachers')
+async def payroll_teachers(req: Request):
+    _, denied = await actor(req, MONEY_READ_ROLES)
+    if denied:
+        return denied
+    query = req.query_params.get('q', '').strip()
+    if len(query) > 120:
+        return err('invalid_search', 422)
+    db = await core.pool()
+    async with db.acquire() as conn:
+        rows = await payroll.teacher_choices(conn, query)
+    return core.j({'options': rows}, headers=PRIVATE)
+
+
+@router.post('/api/staff/finance/payroll/rules')
+async def payroll_create_rule(req: Request):
+    return await payroll_response(req, OWNER_ONLY, payroll.Rule, payroll.create_rule)
+
+
+@router.post('/api/staff/finance/payroll/rules/{rule_id}/end')
+async def payroll_end_rule(req: Request, rule_id: UUID):
+    return await payroll_response(req, OWNER_ONLY, payroll.EndRule,
+                                  lambda c, u, command: payroll.end_rule(c, u, rule_id, command.endsOn))
+
+
+@router.post('/api/staff/finance/payroll/revenue')
+async def payroll_assign_revenue(req: Request):
+    return await payroll_response(req, OWNER_ONLY, payroll.RevenueSource, payroll.assign_revenue)
+
+
+@router.post('/api/staff/finance/payroll/finalize')
+async def payroll_finalize(req: Request):
+    return await payroll_response(req, OWNER_ONLY, payroll.Finalize, payroll.finalize)
+
+
+@router.post('/api/staff/finance/payroll/{run_id}/events')
+async def payroll_post_event(req: Request, run_id: UUID):
+    return await payroll_response(req, OWNER_ONLY, payroll.Event,
+                                  lambda c, u, command: payroll.post_event(c, u, run_id, command))
 
 
 @router.get('/api/staff/finance/journal.csv')

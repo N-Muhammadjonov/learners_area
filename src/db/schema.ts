@@ -4335,3 +4335,74 @@ export const academyLeadNotes = pgTable("academy_lead_notes", {
   index("academy_lead_notes_lead_idx").on(t.leadId, t.createdAt.desc(), t.id),
   check("academy_lead_notes_body_check", sql`btrim(${t.body}) <> ''`),
 ]).enableRLS();
+
+export const academyPayrollRules = pgTable("academy_payroll_rules", {
+  id: uuid("id").primaryKey(),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  monthlyMinor: bigint("monthly_minor", { mode: "bigint" }).notNull(),
+  sessionMinor: bigint("session_minor", { mode: "bigint" }).notNull(),
+  hourlyMinor: bigint("hourly_minor", { mode: "bigint" }).notNull(),
+  revenueBps: integer("revenue_bps").notNull(),
+  createFingerprint: varchar("create_fingerprint", { length: 64 }).notNull(),
+  createdBy: uuid("created_by").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  unique("academy_payroll_rules_teacher_user_id_starts_on_key").on(t.teacherUserId, t.startsOn),
+  check("academy_payroll_rules_monthly_minor_check", sql`${t.monthlyMinor} >= 0`),
+  check("academy_payroll_rules_session_minor_check", sql`${t.sessionMinor} >= 0`),
+  check("academy_payroll_rules_hourly_minor_check", sql`${t.hourlyMinor} >= 0`),
+  check("academy_payroll_rules_revenue_bps_check", sql`${t.revenueBps} BETWEEN 0 AND 10000`),
+  check("academy_payroll_rules_check", sql`${t.endsOn} IS NULL OR ${t.endsOn} >= ${t.startsOn}`),
+  check("academy_payroll_rules_check1", sql`${t.monthlyMinor} > 0 OR ${t.sessionMinor} > 0 OR ${t.hourlyMinor} > 0 OR ${t.revenueBps} > 0`),
+  check("academy_payroll_rules_check2", sql`${t.sessionMinor} = 0 OR ${t.hourlyMinor} = 0`),
+]).enableRLS();
+
+export const academyPayrollRevenue = pgTable("academy_payroll_revenue", {
+  journalTransactionId: uuid("journal_transaction_id").primaryKey().references(() => financeJournalEntries.transactionId),
+  sessionId: uuid("session_id").notNull(),
+  teacherUserId: uuid("teacher_user_id").notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  assignedBy: uuid("assigned_by").references(() => users.id, { onDelete: "set null" }),
+  assignedAt: timestamp("assigned_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  foreignKey({ name: "academy_payroll_revenue_session_id_teacher_user_id_fkey",
+    columns: [t.sessionId, t.teacherUserId],
+    foreignColumns: [academySessionTeachers.sessionId, academySessionTeachers.teacherUserId] }),
+  index("academy_payroll_revenue_teacher_session_idx").on(t.teacherUserId, t.sessionId),
+  check("academy_payroll_revenue_amount_minor_check", sql`${t.amountMinor} > 0`),
+]).enableRLS();
+
+export const academyPayrollRuns = pgTable("academy_payroll_runs", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  teacherUserId: uuid("teacher_user_id").notNull().references(() => users.id),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  accruedMinor: bigint("accrued_minor", { mode: "bigint" }).notNull(),
+  calculation: jsonb("calculation").notNull(),
+  accrualTransactionId: uuid("accrual_transaction_id").notNull().references(() => financeJournalEntries.transactionId),
+  finalizedBy: uuid("finalized_by").references(() => users.id, { onDelete: "set null" }),
+  finalizedAt: timestamp("finalized_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  unique("academy_payroll_runs_teacher_user_id_period_key_key").on(t.teacherUserId, t.periodKey),
+  check("academy_payroll_runs_accrued_minor_check", sql`${t.accruedMinor} > 0`),
+]).enableRLS();
+
+export const academyPayrollEvents = pgTable("academy_payroll_events", {
+  id: uuid("id").primaryKey(),
+  runId: uuid("run_id").notNull().references(() => academyPayrollRuns.id),
+  kind: varchar("kind", { length: 12 }).notNull(),
+  amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
+  periodKey: varchar("period_key", { length: 7 }).notNull(),
+  transactionId: uuid("transaction_id").notNull().references(() => financeJournalEntries.transactionId),
+  reference: varchar("reference", { length: 160 }).notNull(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  index("academy_payroll_events_run_idx").on(t.runId, t.createdAt, t.id),
+  uniqueIndex("academy_payroll_bank_reference_idx").on(sql`lower(${t.reference})`).where(sql`${t.kind} = 'payout'`),
+  check("academy_payroll_events_kind_check", sql`${t.kind} IN ('adjustment','payout')`),
+  check("academy_payroll_events_amount_minor_check", sql`${t.amountMinor} <> 0`),
+  check("academy_payroll_events_reference_check", sql`btrim(${t.reference}) <> ''`),
+  check("academy_payroll_events_check", sql`${t.kind} = 'adjustment' OR ${t.amountMinor} > 0`),
+]).enableRLS();
