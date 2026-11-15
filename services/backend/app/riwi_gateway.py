@@ -22,7 +22,7 @@ from .riwi_contracts import (
 )
 from .riwi_conversations import append_conversation_turn, get_tutoring_history
 from .riwi_knowledge import retrieve_active_knowledge_for_actor
-from .riwi_provider_router import dispatch_external_riwi_provider
+from .riwi_provider_router import RiwiProviderRouterError, dispatch_external_riwi_provider
 from .riwi_role_surface import (
     RiwiTargetScopeError,
     authorize_target_learner_access,
@@ -484,31 +484,30 @@ async def handle_riwi_chat(
         try:
             ext_res = await dispatch_external_riwi_provider(
                 conn,
-            actor=actor,
-            provider_id=provider_id,
-            task_profile="grammar_explanation" if intent_info.intent == "grammar_help" else "general_tutoring",
-            payload={
-                "language": locale,
-                "message": message,
-                "history": history,
-                "instructions": compose_teaching_prompt(get_assessment_contract(task_key)),
-                "knowledge": [
-                    {
-                        "ref": str(u["ref"]),
-                        "text": str(u["text"]),
-                        "authority": int(u["authority"]),
-                        "version": int(u["version"]),
-                    }
-                    for u in knowledge_units[:4]
-                ],
-            },
-            correlation_id=correlation_id,
-            transport=external_runner,
+                actor=actor,
+                provider_id=provider_id,
+                task_profile="grammar_explanation" if intent_info.intent == "grammar_help" else "general_tutoring",
+                payload={
+                    "language": locale,
+                    "message": message,
+                    "history": history,
+                    "instructions": compose_teaching_prompt(get_assessment_contract(task_key)),
+                    "knowledge": [
+                        {
+                            "ref": str(u["ref"]),
+                            "text": str(u["text"]),
+                            "authority": int(u["authority"]),
+                            "version": int(u["version"]),
+                        }
+                        for u in knowledge_units[:4]
+                    ],
+                },
+                correlation_id=correlation_id,
+                transport=external_runner,
                 env=env,
             )
-        except Exception:
-            # Keep existing deterministic RIWI feedback available on provider
-            # outages. User input and credentials are never included in logs.
+        except RiwiProviderRouterError:
+            # External failure must not hide the existing trusted fallback.
             ext_res = None
         formatted_teaching = (
             format_instruction_teaching(task_key, ext_res.get("teaching"), language=locale)
