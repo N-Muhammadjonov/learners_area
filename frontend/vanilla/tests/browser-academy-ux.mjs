@@ -24,8 +24,8 @@ try {
    const path=['owner','admin'].includes(role)?'/app/management/finance':role==='teacher'?'/app/management/guardians':stage==='after'?'/app/payments':'/app/progress';
    const response=await page.goto(origin+path);
    assert.equal(response.status(),200);
-   await page.locator('[data-route-usable]').first().waitFor({state:'visible'});
    await page.waitForLoadState('networkidle');
+   await page.locator('main').waitFor();
    const filename=`${role}-${theme}-${width}.png`;
    await page.screenshot({path:resolve(directory,filename),fullPage:true});
    const metrics=await page.evaluate(()=>({title:document.querySelector('main h1')?.textContent,
