@@ -47,10 +47,11 @@ def create_riwi_transport(actor_id):
             headers={'x-goog-api-key':key}
             body={'systemInstruction':{'parts':[{'text':system}]},
                   'contents':[{'role':'user','parts':[{'text':raw}]}],
-                  'generationConfig':{'maxOutputTokens':900,'responseMimeType':'application/json'}}
+                  'generationConfig':{'maxOutputTokens':1200,'responseMimeType':'application/json',
+                  **({'thinkingConfig':{'thinkingLevel':'low'}} if model.startswith('gemini-3') else {})}}
         else:raise RiwiProviderRouterError('invalid_provider')
         validate_provider_endpoint(provider_id,url)
-        result=await request_json(actor_id,url,{'content-type':'application/json',**headers},payload=body,timeout=16)
+        result=await request_json(actor_id,url,{'content-type':'application/json',**headers},payload=body,timeout=21)
         if not isinstance(result,dict):raise RiwiProviderRouterError('provider_unavailable')
         try:
             if provider_id=='openai':
