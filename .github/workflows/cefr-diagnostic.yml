@@ -9,7 +9,23 @@ on:
       - services/backend/app/study_plan_level_port.py
       - services/backend/app/data/plan_level_bank.json
       - services/backend/tests/test_study_plan_level.py
-      - frontend/vanilla/modules/landing-inline.js
+      - frontend/vanilla/modules/landing-page.js
+      - frontend/vanilla/modules/landing-runtime.js
+      - frontend/vanilla/modules/landing-markup.js
+      - frontend/vanilla/modules/study-plan/level-check.js
+      - frontend/vanilla/tests/study-plan-level-check.test.mjs
+      - .github/workflows/cefr-diagnostic.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - services/backend/app/study_plan_level.py
+      - services/backend/app/study_plan_level_port.py
+      - services/backend/app/data/plan_level_bank.json
+      - services/backend/tests/test_study_plan_level.py
+      - frontend/vanilla/modules/landing-page.js
+      - frontend/vanilla/modules/landing-runtime.js
+      - frontend/vanilla/modules/landing-markup.js
       - frontend/vanilla/modules/study-plan/level-check.js
       - frontend/vanilla/tests/study-plan-level-check.test.mjs
       - .github/workflows/cefr-diagnostic.yml
@@ -51,7 +67,9 @@ jobs:
         run: npm ci --prefix frontend/vanilla --no-audit --no-fund
       - name: Validate JS syntax
         run: |
-          node --check frontend/vanilla/modules/landing-inline.js
+          node --check frontend/vanilla/modules/landing-page.js
+          node --check frontend/vanilla/modules/landing-runtime.js
+          node --check frontend/vanilla/modules/landing-markup.js
           node --check frontend/vanilla/modules/study-plan/level-check.js
           node --check frontend/vanilla/tests/study-plan-level-check.test.mjs
       - name: Run level check and landing plan tests
