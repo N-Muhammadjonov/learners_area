@@ -2,12 +2,13 @@ import {api} from '../../js/api-client.js';
 import {el,listen} from '../../js/dom.js';
 import {paymentText} from './text.js';
 import {pageGuide} from '../shared/page-guide.js';
+import {paymentMoney,paymentDate,validatePaymentSummary} from './format.js';
 
 export async function mount(ctx){
  const {root,signal,locale,session}=ctx,t=paymentText(locale),guardian=session.user.role==='guardian';
  if(!document.querySelector('[data-payments-css]'))document.head.append(el('link',{rel:'stylesheet',href:'/modules/payments/style.css','data-payments-css':''}));
- const money=value=>new Intl.NumberFormat(locale==='uz'?'uz-UZ':'en-GB').format(value)+' UZS';
- const date=value=>value?new Intl.DateTimeFormat(locale==='uz'?'uz-UZ':'en-GB',{timeZone:'Asia/Tashkent',dateStyle:'medium',timeStyle:value.includes('T')?'short':undefined}).format(new Date(value.includes('T')?value:value+'T00:00:00+05:00')):t.none;
+ const money=value=>paymentMoney(value,locale);
+ const date=value=>paymentDate(value,locale,t.none);
  const button=(text,attrs={})=>el('button',{type:'button',class:'btn-secondary',...attrs},text);
  const status=el('p',{role:'status','aria-live':'polite'}),account=el('section',{class:'pay-card pay-account','aria-label':t.account});
  const amount=el('input',{id:'payment-amount',inputmode:'numeric',type:'text',pattern:'[0-9]+',maxlength:14,autocomplete:'off',class:'input','aria-describedby':'payment-amount-help',required:true});
@@ -38,11 +39,14 @@ export async function mount(ctx){
   return ({forbidden:t.revoked,channel_required:t.channel,membership_unavailable:t.channelRetry,
    provider_unavailable:t.unavailable,provider_temporarily_unavailable:t.delayed,
    provider_minimum:t.limits,provider_maximum:t.limits,idempotency_conflict:t.retryHistory,
-   rate_limited:t.rateLimit,intent_not_found:t.intentMissing})[error.code??error.message]??t.error;
+   rate_limited:t.rateLimit,intent_not_found:t.intentMissing,invalid_money_projection:t.unsafeProjection})[error.code??error.message]??t.error;
  }
  function validAmount(){return /^[1-9][0-9]*$/.test(amount.value)&&Number.isSafeInteger(Number(amount.value))&&Number(amount.value)<=90071992547409;}
  function updatePreview(){
   const selected=data?.providers.find(p=>p.id===provider),value=Number(amount.value);
+  if(data&&validAmount()&&!Number.isSafeInteger(data.position.advanceMinor+Math.max(0,value-data.position.balanceDueMinor))){
+   submit.disabled=true;preview.textContent=t.unsafeProjection;return;
+  }
   const allowed=validAmount()&&selected?.available&&value>=selected.minimumMinor&&value<=selected.maximumMinor;
   submit.disabled=busy||!allowed;
   preview.textContent=!validAmount()?t.amountHelp:!selected?.available?t.chooseMethod:
@@ -52,8 +56,10 @@ export async function mount(ctx){
  listen(amount,'input',()=>{key=crypto.randomUUID();review.hidden=true;updatePreview();},signal);
  function accountView(){
   const p=data.position;
+  const jump=button(t.pay,{class:'btn-primary'});
+  listen(jump,'click',()=>{amount.scrollIntoView({block:'center'});amount.focus();},signal);
   account.replaceChildren(el('p',{class:'pay-eyebrow'},t.account),el('h2',{},p.balanceDueMinor?t.due:t.clear),
-   el('p',{class:'pay-balance'},money(p.balanceDueMinor)),el('p',{},t.advance+': '+money(p.advanceMinor)),
+   el('p',{class:'pay-balance'},money(p.balanceDueMinor)),jump,el('p',{},t.advance+': '+money(p.advanceMinor)),
    el('p',{class:'pay-muted'},t.nextDue+': '+date(data.nextDueDate)),
    el('span',{class:'pay-badge'},t.monthly),el('p',{class:'pay-muted'},t.policy),
    el('details',{},el('summary',{},t.explain),el('dl',{class:'pay-facts'},
@@ -100,7 +106,7 @@ export async function mount(ctx){
   try{
    const result=await api.request(summaryPath()+'?'+new URLSearchParams({offset,limit:20,...filter?{status:filter}:{}}),{signal,fresh:true});
    if(signal.aborted||ticket!==requestNumber)return;
-   data=result;account.hidden=false;form.hidden=false;history.hidden=false;
+   data=validatePaymentSummary(result);account.hidden=false;form.hidden=false;history.hidden=false;
    if(!provider)provider=data.providers.find(p=>p.available)?.id??'';
    accountView();historyView();status.textContent=t.updated+' '+date(data.asOf);
   }catch(error){
@@ -108,7 +114,7 @@ export async function mount(ctx){
    status.replaceChildren(el('span',{role:'alert'},errorText(error)));
    const retry=button(t.retry);listen(retry,'click',()=>void load(),signal);status.append(retry);
    // Revocation must remove stale child financial data as well as block new requests.
-   if([401,403,404].includes(error.status)){account.replaceChildren();history.replaceChildren();form.hidden=true;review.hidden=true;paymentStatus.hidden=true;}
+   if([401,403,404].includes(error.status)||error.message==='invalid_money_projection'){account.replaceChildren();history.replaceChildren();form.hidden=true;review.hidden=true;paymentStatus.hidden=true;}
   }
  }
  function showIntent(row){

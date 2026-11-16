@@ -17,7 +17,7 @@ from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field, Strict
 
 from . import tuition_ledger as ledger
-from .runtime_config import academy_enabled, development
+from .runtime_config import academy_enabled, development, environment as runtime_environment
 
 PROVIDERS = ('click', 'payme', 'uzum')
 MAX_AMOUNT = 90071992547409
@@ -54,7 +54,7 @@ def provider_config(provider: str) -> dict:
     values = {key: os.getenv(prefix+'_'+key, '').strip() for key in names[provider]}
     verified = os.getenv(prefix+'_LIVE_VERIFIED') == '1'
     environment=os.getenv(prefix+'_ENVIRONMENT','live' if verified else 'disabled').strip().lower()
-    sandbox=environment=='sandbox' and development()
+    sandbox=environment=='sandbox' and runtime_environment()!='production'
     verified=(verified and environment=='live') or (sandbox and os.getenv(prefix+'_SANDBOX_VERIFIED')=='1')
     origin = os.getenv('PAYMENTS_RETURN_ORIGIN', '').strip().rstrip('/')
     configured = all(values.values()) and https_origin(origin)
@@ -97,7 +97,7 @@ async def intent_row(conn, intent_id: UUID, *, lock: bool = False):
 
 
 async def create_intent(conn, *, payer, student_id: UUID, link_id: UUID | None,
-                        body: IntentCreate) -> dict:
+                        body: IntentCreate, verification_order: bool = False) -> dict:
     """Called inside the portal's authorization transaction and live-link row lock."""
     # Serialize repeat submissions before checking their payload; no aborted-transaction
     # recovery or race-dependent duplicate order can escape the unique constraint.
@@ -110,7 +110,11 @@ async def create_intent(conn, *, payer, student_id: UUID, link_id: UUID | None,
                 (student_id, body.amountMinor, body.provider, body.currency), 'idempotency_conflict')
         return await public_intent(conn, old)
     config = provider_config(body.provider)
-    require(config['available'], 'provider_unavailable')
+    if verification_order:
+        require(payer['role']=='owner' and runtime_environment()!='production'
+                and config['environment']=='sandbox' and config['callbacksAvailable'],
+                'sandbox_verification_forbidden',403)
+    require(config['available'] or verification_order, 'provider_unavailable')
     require(body.amountMinor >= config['minimumMinor'], 'provider_minimum', 422,
             minimumMinor=config['minimumMinor'])
     require(body.amountMinor <= config['maximumMinor'], 'provider_maximum', 422,
@@ -121,7 +125,8 @@ async def create_intent(conn, *, payer, student_id: UUID, link_id: UUID | None,
         body.amountMinor,body.provider,body.idempotencyKey,config['environment'])
     await ledger.audit_event(conn, actor_user_id=payer['id'],action='self_service_intent_created',
         subject_type='payment_intent',subject_id=row['id'],amount_minor=body.amountMinor,
-        detail={'studentUserId':str(student_id),'provider':body.provider,'guardianLinkId':str(link_id) if link_id else None})
+        detail={'studentUserId':str(student_id),'provider':body.provider,'guardianLinkId':str(link_id) if link_id else None,
+                'environment':config['environment'],'verificationOrder':verification_order})
     # Imported here to keep adapter -> deterministic domain dependencies acyclic at import.
     from .payment_providers import checkout
     # Remote registration happens only AFTER this order commits. An uncertain network
@@ -149,12 +154,13 @@ async def public_intent(conn, row) -> dict:
     student = await conn.fetchval('SELECT name FROM users WHERE id=$1', row['student_user_id'])
     payer = await conn.fetchval('SELECT name FROM users WHERE id=$1', row['payer_user_id'])
     resumable = status in ('created','pending') and row['expires_at'] > datetime.now(timezone.utc)
+    provider=provider_config(row['provider'])
     return {'intentId':str(row['id']),'status':status,'beneficiaryStudentId':str(row['student_user_id']),
             'beneficiaryName':student,'payerName':payer,'amountMinor':row['amount_minor'],'currency':row['currency_code'],
             'provider':row['provider'],'environment':row['provider_environment'],
             'createdAt':row['created_at'].isoformat(),'expiresAt':row['expires_at'].isoformat(),
             'quoteVersion':row['quote_version'],'checkoutState':row['checkout_state'],
-            'merchantCheckoutUrl':row['checkout_url'] if resumable and provider_config(row['provider'])['available'] else None,
+            'merchantCheckoutUrl':row['checkout_url'] if resumable and provider['available'] and row['provider_environment']==provider['environment'] else None,
             'allocatedMinor':int(allocated),'advanceMinor':max(0,row['amount_minor']-int(allocated)-int(refunded)) if status in ('paid','partially_refunded','refunded') else 0,
             'refundedMinor':int(refunded),'acknowledgement':{'kind':'internal','number':payment['receipt_no']} if payment and status in ('paid','partially_refunded','refunded') else None,
             'fiscalStatus':row['fiscal_status'],'fiscalReceiptUrl':row['fiscal_url'] if row['fiscal_status']=='issued' else None}

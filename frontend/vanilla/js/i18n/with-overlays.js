@@ -20,6 +20,6 @@ export function withOverlays(base, locale) {
   const lang = locale === 'en' ? 'en' : 'uz';
   let byLang = cache.get(base);
   if (!byLang) { byLang = {}; cache.set(base, byLang); }
-  if (!byLang[lang]) byLang[lang] = merge(base, overlay[lang]);
+  if (!byLang[lang]) byLang[lang] = merge(merge(base, overlay[lang]),{nav:{payments:lang==='uz'?'To‘lovlar':'Payments'}});
   return byLang[lang];
 }

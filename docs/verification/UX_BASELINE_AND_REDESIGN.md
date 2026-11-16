@@ -83,7 +83,7 @@ overflow, unlabelled fields or page exceptions were observed in the captured sta
 
 Both permission/navigation causes are addressed by the implementation. CI now captures
 the same matrix with the new payments route and requires successful document responses.
-An after screenshot has not yet been reviewed at this checkpoint.
+The initial after matrix passed at 1e0bfa7d (run 43761482136): all 20 document responses and exact routes passed, with no page errors, horizontal overflow or unlabelled fields. Visual review found raw module naming and root-ICU Uzbek date formatting; both are corrected in the next slice. A fresh matrix and full browser payment journeys are pending for those changes.
 
 [Owner mobile before](academy-ux/before/owner-day-390.png) ·
 [Guardian failure before](academy-ux/before/guardian-day-390.png).
@@ -102,7 +102,7 @@ An after screenshot has not yet been reviewed at this checkpoint.
 - Source contract checks still preserve every historic route and migration hash. New
   routes and the additive migration have explicit reviewed inventory entries.
 
-Latest isolated evidence: 39 payment/database tests passed, 4 new UI scenarios passed,
+Latest isolated evidence: 41 payment/database tests passed, 4 new UI scenarios passed,
 1,820 frontend tests passed (11 pre-existing fixture skips), TypeScript and the native
 static build passed. Embedded PostgreSQL checked 191 typed tables. The current full backend also passed: 7,555 tests + 287 subtests, 0 failures/skips/xfails, 198.71 s. After-browser CI review is still pending.
 

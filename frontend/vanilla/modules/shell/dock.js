@@ -22,7 +22,7 @@ export function dockItems(dict,role,paymentsEnabled=false){
   ['progress','/app/progress',n.progress,'progress','#a3df7b','#41a954'],
   ['leaderboard','/app/leaderboard',dict.nav?.leaderboard??(dict.common?.back==='Back'?'Leaderboard':'Reyting'),'leaderboard','#ffcf82','#9b67e7'],
  ];
- if(paymentsEnabled&&['student','guardian'].includes(role))items.push(['payments','/app/payments',dict.common?.back==='Back'?'Payments':'To‘lovlar','payments','#57e2bc','#168c88']);
+ if(paymentsEnabled&&['student','guardian'].includes(role))items.push(['payments','/app/payments',n.payments??(dict.common?.back==='Back'?'Payments':'To‘lovlar'),'payments','#57e2bc','#168c88']);
  if(role==='guardian')return items.filter(([key])=>['progress','leaderboard','payments'].includes(key)).map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));
  if(['teacher','admin','owner'].includes(role))items.push(['management','/app/management',n.management,'settings','#a1a9bb','#515d76']);
  return items.map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));

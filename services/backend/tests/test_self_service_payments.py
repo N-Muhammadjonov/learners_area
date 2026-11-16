@@ -469,3 +469,32 @@ async def test_uzum_status_recovery_is_bounded_and_never_invents_money(family,mo
     assert (await recovery.reconcile_batch(pool))['checked']==0
     assert await conn.fetchval('SELECT verification_attempts FROM tuition_payment_intents')==12
     assert await conn.fetchval('SELECT count(*) FROM tuition_payments')==0
+
+
+def test_sandbox_flags_never_enable_production_checkout_or_callbacks(monkeypatch,payme_config):
+    from app.self_service_payments import provider_config
+    monkeypatch.setenv('APP_ENV','production')
+    monkeypatch.setenv('PAYME_ENVIRONMENT','sandbox')
+    monkeypatch.setenv('PAYME_SANDBOX_VERIFIED','1')
+    monkeypatch.setenv('PAYME_CALLBACKS_ENABLED','1')
+    config=provider_config('payme')
+    assert not config['available'] and not config['callbacksAvailable']
+
+
+@pytest.mark.asyncio
+async def test_owner_can_bootstrap_sandbox_without_claiming_live_verification(family,monkeypatch,payme_config):
+    from app import self_service_payments as domain
+    conn,client,a,_=family
+    for key,value in {'APP_ENV':'preview','ACADEMY_FEATURES_ENABLED':'1','SELF_SERVICE_PAYMENTS_ENABLED':'1',
+        'PAYME_ENVIRONMENT':'sandbox','PAYME_LIVE_VERIFIED':'0','PAYME_SANDBOX_VERIFIED':'0','PAYME_CALLBACKS_ENABLED':'1'}.items():monkeypatch.setenv(key,value)
+    assert not domain.provider_config('payme')['available']
+    body=domain.IntentCreate(amountMinor=150000,provider='payme',idempotencyKey=uuid4())
+    with pytest.raises(ledger.LedgerError,match='sandbox_verification_forbidden'):
+        async with conn.transaction():await domain.create_intent(conn,payer=a['student'],student_id=a['student']['id'],link_id=None,body=body,verification_order=True)
+    async with conn.transaction():
+        row=await domain.create_intent(conn,payer=a['owner'],student_id=a['student']['id'],link_id=None,body=body,verification_order=True)
+    assert row['environment']=='sandbox' and row['status']=='created' and row['merchantCheckoutUrl'] is None
+    assert (await conn.fetchval('SELECT checkout_url FROM tuition_payment_intents')).startswith('https://test.paycom.uz/')
+    assert not domain.capabilities()[1]['available']
+    await pay(client,payme_config,row)
+    assert (await ledger.student_position(conn,a['student']['id']))['collectedMinor']==150000

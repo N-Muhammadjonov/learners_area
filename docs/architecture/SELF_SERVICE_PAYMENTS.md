@@ -102,6 +102,13 @@ Required fields:
 - `PAYMENT_RECONCILIATION_ENABLED=1` explicitly enables the single-batch recovery
   command `python -m app.payment_reconciliation`. It is not scheduled automatically.
 
+The operator-only `prepare_provider_sandbox.py` command can create an audited
+verification order before sandbox approval, without exposing the method to learners.
+It requires an active owner, an active synthetic student, sandbox credentials,
+`PAYMENT_SANDBOX_DATABASE_ISOLATED=1`, a non-production runtime, and explicit target
+acknowledgement. `PAYMENTS_SANDBOX_DATABASE_URL` is separate from live configuration.
+Unverified sandbox orders never become available through the student/guardian UI.
+
 Credentials/configuration flags in isolated tests are synthetic fixtures. A green
 protocol test is `LOCALLY_TESTED`, not `SANDBOX_VERIFIED` or `LIVE_VERIFIED`.
 

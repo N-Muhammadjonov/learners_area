@@ -39,3 +39,11 @@ test('finance_help_walkthrough_works_keyboard_mobile',async()=>{
   assert.equal(guide.open,false);assert.equal(document.activeElement,guide.firstElementChild);assert(h.q('label[for=payment-amount]'));assert(h.q('fieldset legend'));
  }finally{h.dispose();}
 });
+
+test('Uzbek money and Tashkent dates never use root-locale month names or rounding',async()=>{
+ const {paymentMoney,paymentDate}=await import('../modules/payments/format.js');
+ assert.equal(paymentMoney(800000,'uz'),'800 000 UZS');
+ assert.equal(paymentDate('2026-11-15T19:00:00Z','uz','—'),'16.11.2026, 00:00');
+ assert.equal(paymentDate('2026-12-05','uz','—'),'05.12.2026');
+ assert.throws(()=>paymentMoney(9007199254740992,'uz'),/invalid_money_projection/);
+});
