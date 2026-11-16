@@ -2,7 +2,7 @@ import {api} from '../../js/api-client.js';
 import {el,listen} from '../../js/dom.js';
 import {paymentText} from './text.js';
 import {pageGuide} from '../shared/page-guide.js';
-import {paymentMoney,paymentDate,validatePaymentSummary} from './format.js';
+import {paymentMoney,paymentDate,validatePaymentSummary,projectServicePayment} from './format.js';
 import {academyAiPanel} from '../shared/academy-ai.js';
 
 export async function mount(ctx){
@@ -17,8 +17,10 @@ export async function mount(ctx){
  const choices=el('fieldset',{class:'pay-providers'},el('legend',{},t.method));
  const presets=el('div',{class:'pay-presets','aria-label':t.suggestions});
  const submit=button(t.review,{type:'submit',class:'btn-primary',disabled:true});
+ const serviceChoice=el('select',{id:'payment-service',class:'input'});
+ const serviceLabel=el('label',{for:'payment-service',hidden:true},t.service,serviceChoice);
  const form=el('form',{'data-payment-form':'',class:'pay-card'},el('h2',{},t.pay),
-  el('label',{for:'payment-amount'},t.amount),amount,presets,preview,choices,submit);
+  serviceLabel,el('label',{for:'payment-amount'},t.amount),amount,presets,preview,choices,submit);
  const review=el('section',{class:'pay-card',hidden:true,tabindex:'-1','aria-label':t.review});
  const paymentStatus=el('section',{class:'pay-card',hidden:true,'data-payment-status':'','aria-live':'polite'});
  const history=el('section',{class:'pay-card','aria-label':t.history});
@@ -33,7 +35,9 @@ export async function mount(ctx){
   pageGuide(ctx,{key:'payments',title:t.help,steps:t.steps,example:t.example}),faq(),aiHost);
  root.append(page);
  let studentId=session.user.id,data,provider='',offset=0,filter='',requestNumber=0,key=crypto.randomUUID(),busy=false,pollTimer=0,pollRound=0;
- let activeIntent=null;
+ let activeIntent=null,serviceId='';
+ const selectedService=()=>data?.serviceAccounts?.find(p=>p.id===serviceId);
+ const serviceUnit=p=>p.mode==='PREPAID_LESSONS'?t.lessons:t.days;
  const summaryPath=()=>guardian?`/api/guardian/children/${studentId}/payments`:'/api/finance/me/payments';
  const intentPath=()=>guardian?summaryPath()+'/intents':'/api/finance/me/intents';
  signal.addEventListener('abort',()=>clearTimeout(pollTimer),{once:true});
@@ -41,7 +45,9 @@ export async function mount(ctx){
   return ({forbidden:t.revoked,channel_required:t.channel,membership_unavailable:t.channelRetry,
    provider_unavailable:t.unavailable,provider_temporarily_unavailable:t.delayed,
    provider_minimum:t.limits,provider_maximum:t.limits,idempotency_conflict:t.retryHistory,
-   rate_limited:t.rateLimit,intent_not_found:t.intentMissing,invalid_money_projection:t.unsafeProjection})[error.code??error.message]??t.error;
+   rate_limited:t.rateLimit,intent_not_found:t.intentMissing,invalid_money_projection:t.unsafeProjection,
+   prepaid_purchases_disabled:t.serviceUnavailable,service_contract_not_active:t.serviceUnavailable,
+   service_purchase_limit:t.serviceLimit,service_policy_forbidden:t.revoked})[error.code??error.message]??t.error;
  }
  function validAmount(){return /^[1-9][0-9]*$/.test(amount.value)&&Number.isSafeInteger(Number(amount.value))&&Number(amount.value)<=90071992547409;}
  function updatePreview(){
@@ -49,12 +55,19 @@ export async function mount(ctx){
   if(data&&validAmount()&&!Number.isSafeInteger(data.position.advanceMinor+Math.max(0,value-data.position.balanceDueMinor))){
    submit.disabled=true;preview.textContent=t.unsafeProjection;return;
   }
-  const allowed=validAmount()&&selected?.available&&value>=selected.minimumMinor&&value<=selected.maximumMinor;
+  const policy=selectedService();
+  const allowed=validAmount()&&selected?.available&&value>=selected.minimumMinor&&value<=selected.maximumMinor&&(!policy||policy.active&&policy.approved&&policy.purchasesEnabled);
   submit.disabled=busy||!allowed;
   preview.textContent=!validAmount()?t.amountHelp:!selected?.available?t.chooseMethod:
    !allowed?t.limits+' '+money(selected.minimumMinor)+' – '+money(selected.maximumMinor):
-   t.afterDebt+' '+money(Math.max(0,data.position.balanceDueMinor-value))+' · '+t.afterAdvance+' '+money(data.position.advanceMinor+Math.max(0,value-data.position.balanceDueMinor));
+   policy?servicePreview(policy,value):t.afterDebt+' '+money(Math.max(0,data.position.balanceDueMinor-value))+' · '+t.afterAdvance+' '+money(data.position.advanceMinor+Math.max(0,value-data.position.balanceDueMinor));
+  if(policy&&(!policy.active||!policy.approved||!policy.purchasesEnabled))preview.textContent=t.serviceUnavailable;
  }
+ function servicePreview(policy,value){
+  try{const q=projectServicePayment(policy,value);return `${t.estimated} ${q.units} ${serviceUnit(policy)} · ${t.residual}: ${money(q.residual)} · ${t.afterDebt} ${money(Math.max(0,policy.balanceDueMinor-value))}. ${t.serverFinal}`;}
+  catch{return t.unsafeProjection;}
+ }
+ listen(serviceChoice,'change',()=>{serviceId=serviceChoice.value;key=crypto.randomUUID();review.hidden=true;accountView();updatePreview();},signal);
  listen(amount,'input',()=>{key=crypto.randomUUID();review.hidden=true;updatePreview();},signal);
  function accountView(){
   const p=data.position;
@@ -66,13 +79,27 @@ export async function mount(ctx){
    el('span',{class:'pay-badge'},t.monthly),el('p',{class:'pay-muted'},t.policy),
    el('details',{},el('summary',{},t.explain),el('dl',{class:'pay-facts'},
     ...[[t.charged,p.chargedMinor],[t.credits,p.creditedMinor],[t.allocated,p.allocatedMinor],[t.refunds,p.refundedMinor]].flatMap(([label,value])=>[el('dt',{},label),el('dd',{},money(value))])),el('p',{},t.advanceExplanation)));
+  const policies=data.serviceAccounts??[];
+  serviceLabel.hidden=!policies.length;
+  serviceChoice.replaceChildren(el('option',{value:''},t.monthly),...policies.map(row=>el('option',{value:row.id,selected:row.id===serviceId},row.label+' · '+row.course)));
+  const policy=selectedService();
+  if(policy){
+   account.replaceChildren(el('p',{class:'pay-eyebrow'},policy.course),el('h2',{},policy.label),
+    el('p',{class:'pay-balance'},policy.remainingUnits+' '+serviceUnit(policy)),jump,
+    el('p',{},`${t.tariff}: ${money(policy.priceAmountMinor)} / ${policy.priceUnits} ${serviceUnit(policy)}`),
+    el('p',{},t.residual+': '+money(policy.unappliedCreditMinor)),el('p',{},t.unspent+': '+money(policy.unspentMinor)),
+    el('p',{},t.due+': '+money(policy.balanceDueMinor)),el('p',{},t.serviceStart+': '+date(policy.startsOn)),
+    el('p',{},t.serviceEnd+': '+date(policy.endsOn)),
+    policy.mode==='PREPAID_CALENDAR_DAYS'?el('p',{},t.coveredUntil+': '+date(policy.coveredUntil)):el('p',{class:'pay-muted'},t.lessonRule),
+    el('p',{class:'pay-muted'},t.serviceRule));
+  }
   choices.replaceChildren(el('legend',{},t.method),...data.providers.map(p=>{
    const input=el('input',{type:'radio',name:'provider',value:p.id,disabled:!p.available,checked:provider===p.id});
    listen(input,'change',()=>{provider=p.id;key=crypto.randomUUID();review.hidden=true;updatePreview();},signal);
    return el('label',{class:'pay-provider','data-available':String(p.available)},input,
     el('span',{},el('strong',{},p.label),el('small',{},p.available?(p.environment==='sandbox'?t.sandbox:t.available):t.unavailable)));
   }));
-  const values=[100000,200000,300000,500000];
+  const values=policy?[policy.priceAmountMinor,...[2,3].map(n=>policy.priceAmountMinor*n).filter(Number.isSafeInteger)]:[100000,200000,300000,500000];
   if(p.balanceDueMinor>0&&!values.includes(p.balanceDueMinor))values.unshift(p.balanceDueMinor);
   presets.replaceChildren(...values.slice(0,5).map(value=>{
    const b=button(money(value));listen(b,'click',()=>{amount.value=String(value);key=crypto.randomUUID();review.hidden=true;updatePreview();amount.focus();},signal);return b;
@@ -88,6 +115,7 @@ export async function mount(ctx){
     el('span',{},el('strong',{},money(row.amountMinor)),el('small',{},date(row.createdAt)+' · '+(row.providerLabel??row.provider))),
     el('span',{class:'pay-badge','data-status':row.status},t.status[row.status]??t.status.pending)),
     el('dl',{class:'pay-facts'},...[[t.student,row.beneficiaryName],[t.payer,row.payerName??t.none],
+      [t.service,row.servicePolicyId?data.serviceAccounts?.find(p=>p.id===row.servicePolicyId)?.label??t.service:t.monthly],
       [t.allocated,money(row.allocatedMinor)],[t.advance,money(row.advanceMinor)],[t.refunds,money(row.refundedMinor)]].flatMap(([k,v])=>[el('dt',{},k),el('dd',{},v)])),
     el('p',{class:'pay-muted'},row.acknowledgement?t.internalReceipt+': '+(row.acknowledgement.number??t.recorded):t.noReceipt),
     el('p',{class:'pay-muted'},t.fiscalPending));
@@ -108,7 +136,7 @@ export async function mount(ctx){
   try{
    const result=await api.request(summaryPath()+'?'+new URLSearchParams({offset,limit:20,...filter?{status:filter}:{}}),{signal,fresh:true});
    if(signal.aborted||ticket!==requestNumber)return;
-   data=validatePaymentSummary(result);account.hidden=false;form.hidden=false;history.hidden=false;
+   data=validatePaymentSummary(result);if(serviceId&&!data.serviceAccounts?.some(p=>p.id===serviceId))serviceId='';account.hidden=false;form.hidden=false;history.hidden=false;
    if(!provider)provider=data.providers.find(p=>p.available)?.id??'';
    accountView();historyView();status.textContent=t.updated+' '+date(data.asOf);
    const ai=academyAiPanel(ctx,{endpoint:guardian?`/api/guardian/children/${studentId}/assistant`:'/api/finance/me/assistant',action:'payment_help'});
@@ -158,7 +186,7 @@ export async function mount(ctx){
    if(busy)return;busy=true;confirm.disabled=true;submit.disabled=true;
    const selectedStudent=studentId;
    try{
-    const row=await api.request(intentPath(),{method:'POST',body:{amountMinor:Number(amount.value),provider,idempotencyKey:key},signal});
+    const row=await api.request(intentPath(),{method:'POST',body:{amountMinor:Number(amount.value),provider,idempotencyKey:key,...serviceId?{servicePolicyId:serviceId}:{}},signal});
     if(signal.aborted||selectedStudent!==studentId)return;
     review.hidden=true;showIntent(row);paymentStatus.tabIndex=-1;paymentStatus.focus();await load();
     pollRound=0;void check(row.intentId);
@@ -174,7 +202,7 @@ export async function mount(ctx){
    if(!result.children.length){account.hidden=form.hidden=history.hidden=true;status.textContent=t.noChildren;return;}
    const requested=ctx.url.searchParams.get('child');studentId=result.children.find(c=>c.studentId===requested)?.studentId??result.children[0].studentId;
    child.replaceChildren(...result.children.map(c=>el('option',{value:c.studentId,selected:c.studentId===studentId},c.name)));
-   listen(child,'change',()=>{if(busy){child.value=studentId;return;}studentId=child.value;offset=0;provider='';key=crypto.randomUUID();clearTimeout(pollTimer);activeIntent=null;review.hidden=paymentStatus.hidden=true;account.replaceChildren();history.replaceChildren();aiHost.replaceChildren();void load();},signal);
+   listen(child,'change',()=>{if(busy){child.value=studentId;return;}studentId=child.value;offset=0;provider='';serviceId='';key=crypto.randomUUID();clearTimeout(pollTimer);activeIntent=null;review.hidden=paymentStatus.hidden=true;account.replaceChildren();history.replaceChildren();aiHost.replaceChildren();void load();},signal);
   }catch(error){if(!signal.aborted){account.hidden=form.hidden=history.hidden=true;status.textContent=errorText(error);}return;}
  }
  await load();

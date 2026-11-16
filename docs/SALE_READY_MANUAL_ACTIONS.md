@@ -69,7 +69,7 @@ berilgan. `ID` orqali bog'lanadi.
 |---|---|
 | Prioritet / To'suvchi | P0 / **Ha — sale** (moliya modulini topshirish uchun) |
 | Modul | Moliya |
-| Aniq harakat | (a) Daromadni tan olish siyosatini belgilash (masalan: o'tkazilgan darslar ulushi bo'yicha), (b) 12 ta operatsion hisobni markazning o'z tasdiqlangan hisoblar rejasiga bog'lash, (c) chegirma va refund siyosatini yozma tasdiqlash |
+| Aniq harakat | (a) Daromadni tan olish siyosatini belgilash (masalan: o'tkazilgan darslar ulushi bo'yicha), (b) 12 ta operatsion hisobni markazning o'z tasdiqlangan hisoblar rejasiga bog'lash, (c) chegirma va refund siyosatini yozma tasdiqlash, (d) har kurs uchun haqiqiy summa, kun/dars soni, sanalar, dam olish/bayram va tanaffus shartlarini tanlash. 200 ming / 7 kun majburiy narx emas |
 | Nega avtomatlashtirib bo'lmaydi | Bu buxgalteriya siyosati qarori. Men O'zbekiston qonunchiligidagi hisob raqamlarini yoki soliq kodeklarini **o'ylab topa olmayman** va topshirmayman |
 | Bajarilgan tayyorgarlik | Ikkita qatlam qurilgan: AR subledger + double-entry jurnal. `finance_accounts.statutory_code` ataylab `NULL`. Daromadni tan olish qo'lda va chegaralangan (`insufficient_deferred_revenue`). To'lov yig'ish daromadni avtomatik tan olmaydi (test bilan isbotlangan) |
 | Rasmiy manba | Buxgalteriya hisobi to'g'risidagi qonun: `https://www.lex.uz/docs/-2931253` · IFRS 15: `https://www.ifrs.org/issued-standards/list-of-standards/ifrs-15-revenue-from-contracts-with-customers/` |

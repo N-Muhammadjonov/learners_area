@@ -184,6 +184,7 @@ class CreditNoteCreate(_Strict):
 
 
 class PaymentCreate(_Strict):
+    servicePolicyId: UUID | None=None
     studentUserId: UUID
     amountMinor: MoneyMinor
     method: str = 'cash'

@@ -70,8 +70,8 @@ guardian role/suspension negative cases bring the targeted suite to 55 passes.
 | 21 | reconciliation_equals_independent_journal | PASS — automated local/CI | P | 500000 clearing debit = 300000 receivable + 200000 advance credits |
 | 22 | business_date_boundary_tashkent_midnight | PASS — automated local/CI | P | UTC/Tashkent boundary |
 | 23 | billing_mode_monthly_does_not_show_fabricated_days | PASS — automated local/CI | P | Frozen monthly policy version |
-| 24 | prepaid_day_policy_keeps_exact_remainder | NOT IMPLEMENTED | NOT IMPLEMENTED | This release has no prepaid-day contract; it does not claim 7 days/14500 remainder entitlements |
-| 25 | prepaid_lesson_policy_no_double_spend | NOT IMPLEMENTED | NOT IMPLEMENTED | This release has no prepaid-lesson balance or attendance unit consumption |
+| 24 | prepaid_day_policy_keeps_exact_remainder | PASS — PostgreSQL; new browser CI pending | `test_prepaid_services.py`, native payment/staff tests | Arbitrary X UZS / N units; 26,500/1 yields 7 + 14,500; 200,000/7 preserves the exact seven-unit bundle |
+| 25 | prepaid_lesson_policy_no_double_spend | PASS — isolated PostgreSQL | `test_held_lesson_deducts_once_attendance_edits_never_charge` | Held-session roster consumes once; replay and attendance edits do not charge again |
 | 26 | payment_history_persists_after_refresh | PASS — automated local/CI | P + browser reload | Cash and provider history retained |
 | 27 | fiscal_receipt_not_claimed_without_verified_fiscalization | PASS — automated local/CI | P + browser | Internal acknowledgement only |
 | 28 | live_providers_disabled_without_credentials | PASS — automated local/CI | P | Sandbox flags cannot activate production |
@@ -84,8 +84,10 @@ guardian role/suspension negative cases bring the targeted suite to 55 passes.
 | 35 | 10000_student_read_load_meets_measured_defined_envelope | PASS at 25 / FAIL at 50–2000 | `tests/load_validation/academy_payments_http.py` | Local 25-concurrent envelope passes; 50–2000 miss objectives; see load receipt |
 
 No failure was converted to a skip. The unchanged frontend skips belong to external
-legacy fixtures. Cases 24–25 are explicitly missing engineering, not passing math
-unit tests or owner tasks. Current monthly contracts remain usable and truthful.
+legacy fixtures. Cases 24–25 now include actual money posting and delivery on
+PostgreSQL, beyond math-only tests. Their new Chromium journey is wired into CI;
+it is not described as passed before its receipt arrives. Existing monthly
+contracts remain usable and truthful. See [configurable service contracts](../architecture/PREPAID_SERVICE_CONTRACTS.md).
 
 ## Module acceptance
 
@@ -125,6 +127,6 @@ from service/browser assertions, not production sample records.
 
 Real novice comprehension, merchant acceptance and connected-system verification
 are tracked only in [the canonical manual actions](../SALE_READY_MANUAL_ACTIONS.md).
-Remaining engineering includes prepaid policies, broader role briefs, full mixed
+Remaining engineering includes broader role briefs, full mixed
 write/outage/load scenarios, horizontal capacity validation and a 2–24 h soak.
 No sale-ready or all-gates-complete verdict is made by this draft.

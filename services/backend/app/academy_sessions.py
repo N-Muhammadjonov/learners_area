@@ -212,6 +212,8 @@ async def transition(conn: Connection, actor: UUID, group_id: UUID, session_id: 
         if command.status == 'held':
             from .academy_attendance import snapshot
             await snapshot(conn, result)
+            from .prepaid_services import held_session
+            await held_session(conn,result,actor)
         await audit(conn, actor, command.status, session_id, {'reason': command.reason})
         return public_row(result)
 

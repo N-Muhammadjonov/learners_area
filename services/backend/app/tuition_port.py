@@ -479,7 +479,8 @@ async def record_payment(req: Request):
                 amount_minor=body.amountMinor, method=body.method, provider=body.provider,
                 provider_transaction_id=body.providerTransactionId,
                 idempotency_key=body.idempotencyKey, receipt_purpose=body.receiptPurpose,
-                payer_name=body.payerName, occurred_at=body.occurredAt, confirm=body.confirm)
+                payer_name=body.payerName, occurred_at=body.occurredAt, confirm=body.confirm,
+                service_policy_id=body.servicePolicyId,new_service_purchase=body.servicePolicyId is not None)
             if backdated > schemas.BACKDATE_GRACE_DAYS:
                 await ledger.audit_event(
                     conn, actor_user_id=user['id'], action='backdated_payment',

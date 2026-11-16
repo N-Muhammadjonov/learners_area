@@ -2598,5 +2598,30 @@
     "method": "POST",
     "path": "/api/guardian/children/{child_id}/assistant",
     "name": "academy_guardian_payment_help"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies",
+    "name": "create_policy"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/students/{student_id}/service-policies",
+    "name": "student_policies"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies/{policy_id}/pauses",
+    "name": "request_pause"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies/{policy_id}/pauses/{pause_id}/approve",
+    "name": "approve_pause"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies/{policy_id}/days",
+    "name": "consume_day"
   }
 ]

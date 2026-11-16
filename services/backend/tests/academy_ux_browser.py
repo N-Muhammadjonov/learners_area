@@ -95,6 +95,20 @@ async def test_academy_persona_browser(journey,monkeypatch):
                 assert (await ledger.student_position(conn,second))['advanceMinor']==200000
                 assert (await ledger.journal_is_balanced(conn))['balanced']
                 assert await conn.fetchval('SELECT count(*) FROM tuition_provider_events')==3
+                monkeypatch.setenv('PREPAID_BILLING_ENABLED','1')
+                course=await conn.fetchval("INSERT INTO courses(slug,title) VALUES('qa-prepaid-browser','QA Prepaid Course') RETURNING id")
+                process=await asyncio.create_subprocess_exec('node',str(ROOT/'frontend/vanilla/tests/browser-prepaid-journey.mjs'),
+                    cwd=ROOT,env={**os.environ,'ACADEMY_UX_ORIGIN':origin},stdin=asyncio.subprocess.PIPE,
+                    stdout=asyncio.subprocess.PIPE,stderr=asyncio.subprocess.PIPE)
+                output,errors=await asyncio.wait_for(process.communicate(json.dumps({
+                    'tokens':{role:issue_token(person) for role,person in people.items()},'courseId':str(course),
+                    'providerAuthorization':'Basic '+base64.b64encode(b'Paycom:isolated-browser-key').decode(),
+                }).encode()),timeout=120)
+                assert process.returncode==0,output.decode()+errors.decode()
+                print(output.decode().strip())
+                assert (await ledger.journal_is_balanced(conn))['balanced']
+                assert await conn.fetchval('SELECT count(*) FROM tuition_service_events')==1
+                assert await conn.fetchval('SELECT count(*) FROM tuition_provider_events')==4
         finally:
             if process is not None and process.returncode is None:
                 process.kill()

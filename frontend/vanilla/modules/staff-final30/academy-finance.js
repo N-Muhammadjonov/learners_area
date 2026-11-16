@@ -7,6 +7,7 @@ import {academyPayroll} from './academy-payroll.js';
 import {pageGuide} from '../shared/page-guide.js';
 import {financeDebtors} from './finance-debtors.js';
 import {paymentDate} from '../payments/format.js';
+import {prepaidContracts} from './prepaid-contracts.js';
 
 const STAFF_API='/api/staff/finance';
 const UUID=/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i;
@@ -131,19 +132,29 @@ function staffPaymentForm(ctx,id,onSaved){
  const t=translations(ctx), amount=el('input',{class:'input',type:'number',min:1,step:1,max:Number.MAX_SAFE_INTEGER,required:true});
  const method=el('select',{class:'input'},['cash','bank'].map(value=>el('option',{value},t[value])));
  const purpose=el('input',{class:'input',maxlength:120});
+ const policy=el('select',{class:'input'},el('option',{value:''},ctx.locale==='uz'?'Umumiy qarz va avans':'General tuition and advance'));
+ const policyLabel=label(ctx.locale==='uz'?'Qaysi to‘lov uchun?':'Payment account',policy);policyLabel.hidden=true;
+ async function refreshPolicies(){
+  try{const result=await api.request(STAFF_API+'/students/'+id+'/service-policies',{signal:ctx.signal,fresh:true});
+   if(ctx.signal.aborted)return;const current=policy.value,choices=result.policies.filter(p=>p.active&&p.approved&&p.purchasesEnabled);
+   policy.replaceChildren(el('option',{value:''},ctx.locale==='uz'?'Umumiy qarz va avans':'General tuition and advance'),
+    ...choices.map(p=>el('option',{value:p.id,selected:p.id===current},p.label+' · '+p.course)));policyLabel.hidden=!choices.length;
+  }catch{if(!ctx.signal.aborted)status.textContent=ctx.locale==='uz'?'Paketlarni yuklab bo‘lmadi. Paket uchun to‘lov yozishdan oldin sahifani yangilang.':'Packages could not load. Refresh before recording a package payment.';}
+ }
  const confirm=el('input',{type:'checkbox',required:true});
  const save=button(t.submit,{type:'submit',class:'btn-primary'});
  const status=el('p',{role:'status'}), error=el('p',{role:'alert'});
  let pending=null;
  const form=el('form',{class:'card space-y-3 p-3','data-academy-payment-form':''},
-  el('h3',{class:'font-semibold'},t.submit),label(t.amount,amount),label(t.method,method),
+  el('h3',{class:'font-semibold'},t.submit),policyLabel,label(t.amount,amount),label(t.method,method),
   label(t.purpose,purpose),el('label',{class:'flex gap-2'},confirm,t.confirm),save,status,error);
  listen(form,'submit',async event=>{
   event.preventDefault();
   if(save.disabled||ctx.signal.aborted||!form.reportValidity())return;
   const value=amount.valueAsNumber;
   if(!Number.isSafeInteger(value)||value<1){error.textContent=t.invalid_amount;return;}
-  const data={studentUserId:id,amountMinor:value,method:method.value,receiptPurpose:purpose.value.trim()||null};
+  const data={studentUserId:id,amountMinor:value,method:method.value,receiptPurpose:purpose.value.trim()||null,
+   ...policy.value?{servicePolicyId:policy.value}:{}};
   const fingerprint=JSON.stringify(data);
   if(pending?.fingerprint!==fingerprint)pending={fingerprint,key:crypto.randomUUID()};
   save.disabled=true;error.textContent='';status.textContent=ctx.dict.common.saving;
@@ -159,7 +170,7 @@ function staffPaymentForm(ctx,id,onSaved){
    if(!ctx.signal.aborted){status.textContent='';error.textContent=Object.hasOwn(t,cause.code)?t[cause.code]:ctx.dict.common.error;}
   }finally{save.disabled=false;}
  },ctx.signal);
- return form;
+ return {node:form,refresh:refreshPolicies};
 }
 
 function studentStatement(ctx,id,studentLabel,allowPayment,onUpdated=async()=>{}){
@@ -175,18 +186,20 @@ function studentStatement(ctx,id,studentLabel,allowPayment,onUpdated=async()=>{}
    const data=await api.request(STAFF_API+'/students/'+id+'/statement',{signal:ctx.signal,fresh:true});
    if(ctx.signal.aborted)return;
    v.replaceChildren(statementView(ctx,data,studentLabel));
-   if(allowPayment)v.append(financeDocuments(ctx,id,data,amounts(ctx),businessDate(),async message=>{
+   if(allowPayment)v.append(prepaidContracts(ctx,id,businessDate(),async()=>{await load();await onUpdated();}),financeDocuments(ctx,id,data,amounts(ctx),businessDate(),async message=>{
     feedback.textContent=message;
     await load();
     await onUpdated();
    }));
+   if(payment)await payment.refresh();
   }catch{
    if(ctx.signal.aborted)return;
    const retry=button(t.retry);listen(retry,'click',load,ctx.signal);
    v.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error),retry);
   }finally{reading=false;}
  }
- if(allowPayment)shell.append(staffPaymentForm(ctx,id,async()=>{await load();await onUpdated();}));
+ const payment=allowPayment?staffPaymentForm(ctx,id,async()=>{await load();await onUpdated();}):null;
+ if(payment)shell.append(payment.node);
  void load();
  return shell;
 }

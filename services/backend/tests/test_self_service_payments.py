@@ -469,7 +469,8 @@ async def test_payment_history_enrichment_is_bounded_and_matches_individual_inte
 
     observed=ObservedConnection()
     page=await payments.summary(observed,a['student']['id'])
-    assert len(page['history'])==20 and observed.calls<=12
+    # Schema detection and the bounded service-policy list add two constant queries.
+    assert len(page['history'])==20 and observed.calls<=14
     assert {r['intentId'] for r in page['history'] if r['intentId']}==set(ids)
     for row in page['history']:
         if row['intentId']:

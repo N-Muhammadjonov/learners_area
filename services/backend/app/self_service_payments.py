@@ -45,6 +45,7 @@ class IntentCreate(BaseModel):
     currency: Literal['UZS'] = 'UZS'
     provider: Literal['click', 'payme', 'uzum']
     idempotencyKey: UUID
+    servicePolicyId: UUID | None=None
 
 
 def enabled() -> bool:
@@ -123,6 +124,7 @@ async def create_intent(conn, *, payer, student_id: UUID, link_id: UUID | None,
     if old:
         require((old['student_user_id'], old['amount_minor'], old['provider'], old['currency_code']) ==
                 (student_id, body.amountMinor, body.provider, body.currency), 'idempotency_conflict')
+        require(old.get('service_policy_id')==body.servicePolicyId,'idempotency_conflict')
         return await public_intent(conn, old)
     config = provider_config(body.provider)
     if verification_order:
@@ -134,10 +136,17 @@ async def create_intent(conn, *, payer, student_id: UUID, link_id: UUID | None,
             minimumMinor=config['minimumMinor'])
     require(body.amountMinor <= config['maximumMinor'], 'provider_maximum', 422,
             maximumMinor=config['maximumMinor'])
-    row = await conn.fetchrow('''INSERT INTO tuition_payment_intents
-        (student_user_id,payer_user_id,guardian_link_id,amount_minor,provider,idempotency_key,provider_environment)
-        VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *''', student_id,payer['id'],link_id,
-        body.amountMinor,body.provider,body.idempotencyKey,config['environment'])
+    policy_column=policy_value=''
+    parameters=[student_id,payer['id'],link_id,body.amountMinor,body.provider,body.idempotencyKey,config['environment']]
+    if body.servicePolicyId:
+        from . import prepaid_services as service
+        policy=await service.for_payment(conn,body.servicePolicyId,student_id,new_purchase=True)
+        await service.validate_purchase_amount(conn,policy,body.amountMinor)
+        policy_column=',service_policy_id,quote_version';policy_value=',$8,$9'
+        parameters.extend([body.servicePolicyId,'svc1:'+str(body.servicePolicyId)])
+    row = await conn.fetchrow(f'''INSERT INTO tuition_payment_intents
+        (student_user_id,payer_user_id,guardian_link_id,amount_minor,provider,idempotency_key,provider_environment{policy_column})
+        VALUES($1,$2,$3,$4,$5,$6,$7{policy_value}) RETURNING *''',*parameters)
     await ledger.audit_event(conn, actor_user_id=payer['id'],action='self_service_intent_created',
         subject_type='payment_intent',subject_id=row['id'],amount_minor=body.amountMinor,
         detail={'studentUserId':str(student_id),'provider':body.provider,'guardianLinkId':str(link_id) if link_id else None,
@@ -170,6 +179,7 @@ def intent_view(row) -> dict:
     resumable = status in ('created','pending') and row['expires_at'] > datetime.now(timezone.utc)
     provider=provider_config(row['provider'])
     return {'intentId':str(row['id']),'status':status,'beneficiaryStudentId':str(row['student_user_id']),
+            'servicePolicyId':str(row['service_policy_id']) if row.get('service_policy_id') else None,
             'beneficiaryName':row['beneficiary_name'],'payerName':row['payer_name'],'amountMinor':row['amount_minor'],'currency':row['currency_code'],
             'provider':row['provider'],'environment':row['provider_environment'],
             'createdAt':row['created_at'].isoformat(),'expiresAt':row['expires_at'].isoformat(),
@@ -183,8 +193,8 @@ def intent_view(row) -> dict:
 async def summary(conn, student_id: UUID, *, offset: int = 0, limit: int = 20,
                   status: str | None = None) -> dict:
     position = await ledger.student_position(conn, student_id)
-    # This release has no approved prepaid conversion policy. The existing contract and
-    # ledger remain monthly monetary obligations, with no invented day/lesson counter.
+    # Existing monetary obligations retain their monthly presentation. Explicitly
+    # approved service contracts appear separately, with their own exact conversion.
     rows = await conn.fetch("""SELECT * FROM (
         SELECT 'intent'::text AS kind,i.id,i.created_at AS at,
           CASE WHEN p.status IN ('partially_refunded','refunded') THEN p.status
@@ -211,7 +221,9 @@ async def summary(conn, student_id: UUID, *, offset: int = 0, limit: int = 20,
         WHERE c.student_user_id=$1 AND c.status='posted' AND NOT c.is_reversal
           AND c.net_amount_minor > coalesce((SELECT sum(a.amount_minor) FROM tuition_payment_allocations a WHERE a.charge_id=c.id),0)
                +coalesce((SELECT sum(n.amount_minor) FROM tuition_credit_notes n WHERE n.charge_id=c.id AND n.status='posted'),0)''',student_id)
-    return {'beneficiaryStudentId':str(student_id),'beneficiaryName':name,'position':position,
+    from .prepaid_services import accounts
+    service_accounts=await accounts(conn,student_id)
+    return {'beneficiaryStudentId':str(student_id),'beneficiaryName':name,'position':position,'serviceAccounts':service_accounts,
             'billingPolicy':{'mode':'MONTHLY_INVOICE','version':'monthly-invoice-v1','advanceUse':'money_on_account'},
             'nextDueDate':due.isoformat() if due else None,'providers':capabilities(),
             'history':history,'pagination':{'offset':offset,'limit':limit,'hasMore':len(rows)>limit},
@@ -234,7 +246,8 @@ async def prepare(conn, row, transaction_id: str, *, created_ms: int | None = No
         require(bool(link and link['status']=='linked'),'guardian_link_revoked')
     payment, _, _ = await ledger.record_payment(conn,actor_user_id=row['payer_user_id'],
         student_user_id=row['student_user_id'],amount_minor=row['amount_minor'],method='provider',
-        provider=row['provider'],provider_transaction_id=transaction_id,idempotency_key=str(row['id']),confirm=False)
+        provider=row['provider'],provider_transaction_id=transaction_id,idempotency_key=str(row['id']),confirm=False,
+        service_policy_id=row.get('service_policy_id'))
     return await conn.fetchrow('''UPDATE tuition_payment_intents SET status='pending',payment_id=$2,
         provider_transaction_id=$3,provider_created_ms=$4,updated_at=now() WHERE id=$1 RETURNING *''',
         row['id'],payment['id'],transaction_id,created_ms)
@@ -271,6 +284,7 @@ def legacy_view(row) -> dict:
     state={'confirmed':'paid','pending_provider':'pending','initiated':'created','rejected':'failed'}.get(row['status'],row['status'])
     settled=row['status'] in ledger.SETTLED_PAYMENT_STATES
     return {'intentId':None,'paymentId':str(row['id']),'status':state,'beneficiaryStudentId':str(row['student_user_id']),
+        'servicePolicyId':str(row['service_policy_id']) if row.get('service_policy_id') else None,
         'beneficiaryName':row['student_name'],'payerName':row['payer_name'],'amountMinor':row['amount_minor'],
         'currency':row['currency_code'],'provider':row['provider'] or row['method'],
         'createdAt':row['occurred_at'].isoformat(),'merchantCheckoutUrl':None,

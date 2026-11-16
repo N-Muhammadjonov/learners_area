@@ -131,10 +131,10 @@ export function financeDocuments(ctx, studentId, data, format, day, onSaved) {
  const contracts=(data.contracts??[]).map(row=>{
   const base='/contracts/'+row.id;
   const discounts=(data.discounts??[]).filter(d=>d.contract_id===row.id);
-  return line([state(row),format(row.monthly_amount_minor),row.starts_on,row.ends_on].filter(Boolean).join(' · '),[
+  return line([state(row),row.service_policy_id?(ctx.locale==='uz'?'Narx paketda ko‘rsatilgan':'Price shown in package'):format(row.monthly_amount_minor),row.starts_on,row.ends_on].filter(Boolean).join(' · '),[
    row.status==='draft'&&owner?draw(t.approve,base+'/approve'):null,
    row.status==='approved'?draw(t.activate,base+'/activate'):null,
-   ['approved','active'].includes(row.status)?[
+   !row.service_policy_id&&['approved','active'].includes(row.status)?[
     draw(t.discount,base+'/discounts',[month(),money('amountMinor',t.amount),reason(t)]),
     draw(t.installment,base+'/installment',[month(),due()]),
    ]:null,
@@ -148,7 +148,7 @@ export function financeDocuments(ctx, studentId, data, format, day, onSaved) {
    postable&&row.status==='draft'&&owner&&!sameActor(ctx,row.created_by)?draw(t.approve,base+'/approve'):null,
    postable&&row.status==='approved'?draw(t.post,base+'/post'):null,
    postable&&row.status==='posted'?[
-    draw(t.reverse,base+'/reverse',[reason(t)]),
+    row.service_policy_id?null:draw(t.reverse,base+'/reverse',[reason(t)]),
     draw(t.credit,'/credit-notes',[money('amountMinor',t.amount),reason(t)],{chargeId:row.id}),
    ]:null,
   ]);

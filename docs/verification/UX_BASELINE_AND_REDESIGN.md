@@ -142,7 +142,7 @@ production SLA. [Final confirmation](academy-ux/load-confirmation.json) and
 | Gate | State | Evidence still required |
 |---|---|---|
 | A — truth/security | LOCALLY_TESTED | Current source, role screenshots, immutable migration and current-link negative tests are recorded |
-| B — payment engine | LOCALLY_TESTED / PARTIAL | Monthly invoice math and all three protocols tested; prepaid modes 24–25 are not implemented; vendor acceptance remains external |
+| B — payment engine | LOCALLY_TESTED / PARTIAL | Monthly invoice math and all three protocols tested; configurable prepaid modes now have real PostgreSQL posting/refund/delivery evidence; new browser CI pending; vendor acceptance remains external |
 | C — beginner UX | LOCALLY_TESTED / PARTIAL | Five-role screenshot matrix and payment/admin/teacher browser flows pass; real novice acceptance is separate |
 | D — continuity | LOCALLY_TESTED | The lead→class→Writing→parent→payroll journey also exercises parent portal payment and exact Today teacher scope |
 | E — AI/reliability | PARTIAL | Typed read/draft tools, injection/outage/kill/quota tests and measured load; high concurrency, mixed write/outage scenarios and long soak remain engineering gates |
