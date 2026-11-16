@@ -1,5 +1,6 @@
 import {api} from '../../js/api-client.js';
 import {academyHelp} from '../shared/academy-help.js';
+import {paymentDate} from '../payments/format.js';
 import {el,listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
 
@@ -52,7 +53,6 @@ export function mount(ctx){
  const workflow=el('select',{'data-rescue-workflow-filter':''},
   el('option',{value:''},t.workflow),
   ...['open','claimed','follow_up','resolved','dismissed'].map(key=>el('option',{value:key},t[key])));
- const dates=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',{dateStyle:'medium',timeZone:'Asia/Tashkent'});
  let read;
  let page=1;
  let saving=false;
@@ -135,7 +135,7 @@ export function mount(ctx){
     const data=await api.request(path+'?page='+pageNumber,{signal:ctx.signal,fresh:true});
     if(ctx.signal.aborted)return;
     log.replaceChildren(data.items.length?el('ol',{class:'space-y-1'},...data.items.map(entry=>
-     el('li',{},t[entry.action]+' · '+dates.format(new Date(entry.createdAt))+' · '+entry.reason))):el('p',{},t.emptyHistory),
+     el('li',{},t[entry.action]+' · '+paymentDate(entry.createdAt,ctx.locale,'—')+' · '+entry.reason))):el('p',{},t.emptyHistory),
      button(t.prev,()=>void showHistory(pageNumber-1),pageNumber===1),
      button(t.next,()=>void showHistory(pageNumber+1),!data.hasNext));
    }catch{
@@ -209,7 +209,7 @@ export function mount(ctx){
   const card=el('li',{class:'card space-y-2 p-3','data-rescue-student':item.studentId},
    el('h2',{class:'font-semibold'},item.studentName),
    el('p',{},item.groupName+' · '+t[item.status]),
-   el('p',{class:'text-sm'},dates.format(new Date(window.startsAt))+' – '+dates.format(new Date(window.endsAt))));
+   el('p',{class:'text-sm'},paymentDate(window.startsAt,ctx.locale,'—')+' – '+paymentDate(window.endsAt,ctx.locale,'—')));
   for(const entry of item.reasons){
    card.append(el('details',{class:'text-sm'},
     el('summary',{},t[entry.ruleId]+' · '+entry.value+' · '+t.limit+' '+entry.threshold+' · '+t.sample+' '+entry.sampleSize),

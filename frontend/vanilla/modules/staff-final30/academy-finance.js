@@ -162,7 +162,7 @@ function staffPaymentForm(ctx,id,onSaved){
  return form;
 }
 
-function studentStatement(ctx,id,studentLabel,allowPayment){
+function studentStatement(ctx,id,studentLabel,allowPayment,onUpdated=async()=>{}){
  const t=translations(ctx),v=el('div',{class:'space-y-3'});
  const feedback=el('p',{role:'status'});
  const shell=el('section',{class:'space-y-3'},el('h2',{class:'font-display text-xl'},t.statement+' · '+studentLabel),feedback,v);
@@ -178,6 +178,7 @@ function studentStatement(ctx,id,studentLabel,allowPayment){
    if(allowPayment)v.append(financeDocuments(ctx,id,data,amounts(ctx),businessDate(),async message=>{
     feedback.textContent=message;
     await load();
+    await onUpdated();
    }));
   }catch{
    if(ctx.signal.aborted)return;
@@ -185,7 +186,7 @@ function studentStatement(ctx,id,studentLabel,allowPayment){
    v.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error),retry);
   }finally{reading=false;}
  }
- if(allowPayment)shell.append(staffPaymentForm(ctx,id,load));
+ if(allowPayment)shell.append(staffPaymentForm(ctx,id,async()=>{await load();await onUpdated();}));
  void load();
  return shell;
 }
@@ -240,14 +241,14 @@ export async function mount(ctx){
  const findStatus=el('p',{role:'status'});
  const studentHost=el('div',{class:'space-y-3'});
  const uz=ctx.locale==='uz',text=(a,b)=>uz?a:b;
- const payPanel=el('section',{class:'card space-y-3 p-4','data-finance-payment-task':''},
+ const payPanel=el('section',{class:'card space-y-3 p-4',style:{scrollMarginTop:'6rem'},'data-finance-payment-task':''},
   el('h2',{class:'font-display text-xl'},text('O‘quvchining to‘lovini yozish','Record a student payment')),
   el('p',{},text('Ism bo‘yicha qidiring, o‘quvchini oching va faqat olingan pulni yozing.','Search by name, open the student and record only funds you have received.')),
   lookupForm,findStatus,studentHost);
  const debtorList=financeDebtors(ctx,(id,name)=>{
   selectedController?.abort();selectedController=new AbortController();
   const selected={...ctx,signal:anySignal([ctx.signal,selectedController.signal])};
-  studentHost.replaceChildren(studentStatement(selected,id,name,true));
+  studentHost.replaceChildren(studentStatement(selected,id,name,true,refreshAccounts));
   payPanel.scrollIntoView({block:'start'});
  });
  const debtPanel=el('details',{class:'card space-y-3 p-4','data-finance-debt-task':''},
@@ -273,22 +274,34 @@ export async function mount(ctx){
   startPayment,form,summary,payPanel,debtPanel,guide,expert);
  ctx.root.append(host);
  let selectedController;
+ async function refreshAccounts(){
+  await report();
+  if(debtLoaded)debtorList.dispatchEvent(new Event('academy-load'));
+ }
  if(ctx.url?.searchParams.get('view')==='debts'){
   debtPanel.open=true;
   host.insertBefore(debtPanel,form);
  }
+ let reportNumber=0;
  async function report(){
-  if(submit.disabled||!form.reportValidity()||ctx.signal.aborted)return;
+  if(!form.reportValidity()||ctx.signal.aborted)return;
+  const ticket=++reportNumber;
   submit.disabled=true;
   summary.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
   try{
-   const data=await api.request(STAFF_API+'/summary?'+new URLSearchParams({start:start.value,end:end.value}),{signal:ctx.signal});
-   if(!ctx.signal.aborted)summary.replaceChildren(totals([[t.total,fmt(data.collectedTotalMinor)],[t.net,fmt(data.collectedNetMinor)],
+   const data=await api.request(STAFF_API+'/summary?'+new URLSearchParams({start:start.value,end:end.value}),{signal:ctx.signal,fresh:true});
+   if(!ctx.signal.aborted&&ticket===reportNumber)summary.replaceChildren(
+    el('p',{'data-finance-report-scope':'',class:'text-sm'},text('Barcha filiallar','All branches')+' · '+
+     paymentDate(data.range?.start??start.value,ctx.locale,'—')+' – '+paymentDate(data.range?.end??end.value,ctx.locale,'—')),
+    el('p',{},text('Tushum va qaytarishlar tanlangan davrga tegishli. Qarz va avans esa barcha davrlardagi hozirgi qoldiq. Daromad ko‘rsatilgan xizmat uchun hisoblanadi.',
+     'Collections and refunds cover the selected period. Debt and advances are current balances across all periods. Revenue represents delivered tuition services.')),
+    totals([[t.total,fmt(data.collectedTotalMinor)],[t.net,fmt(data.collectedNetMinor)],
     [t.cash,fmt(data.collectedCashMinor)],[t.bank,fmt(data.collectedBankMinor)],[t.recognized,fmt(data.recognizedRevenueMinor)],
     [t.debt,fmt(data.outstandingReceivableMinor)],[t.overdue,fmt(data.overdueReceivableMinor)],
-    [t.advance,fmt(data.customerAdvanceMinor)],[t.refunds,fmt(data.refundsMinor)]]));
-  }catch{if(!ctx.signal.aborted)summary.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error));}
-  finally{submit.disabled=false;}
+    [t.advance,fmt(data.customerAdvanceMinor)],[t.refunds,fmt(data.refundsMinor)]]),
+    el('p',{class:'text-sm',role:'status'},text('Yangilandi (Toshkent): ','Updated (Tashkent): ')+paymentDate(data.asOf,ctx.locale,'—')));
+  }catch{if(!ctx.signal.aborted&&ticket===reportNumber)summary.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error));}
+  finally{if(ticket===reportNumber)submit.disabled=false;}
  }
  listen(form,'submit',event=>{event.preventDefault();void report();},ctx.signal);
  listen(reconcile,'click',async()=>{
@@ -317,7 +330,7 @@ export async function mount(ctx){
   const id=matches.value;if(!UUID.test(id))return;
   selectedController?.abort();selectedController=new AbortController();
   const selected={...ctx,signal:anySignal([ctx.signal,selectedController.signal])};
-  studentHost.replaceChildren(studentStatement(selected,id,matches.selectedOptions[0].textContent,true));
+  studentHost.replaceChildren(studentStatement(selected,id,matches.selectedOptions[0].textContent,true,refreshAccounts));
  },ctx.signal);
  await report();
 }

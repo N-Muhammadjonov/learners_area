@@ -255,7 +255,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Bajarilgan tayyorgarlik | `docs/sales/BUYER_DEMO_AND_HANDOVER.md` da 5 daqiqalik demo, 30 kunlik pilot reja va paket farqlari tayyor |
 | Rasmiy manba | — |
 | Kerakli hisob/ruxsat | Owner + xaridor |
-| Aniq ketma-ketlik | 1) Paketni tanlash → 2) Litsenziya turini belgilash → 3) Qo'llab-quvvatlash/SLA chegarasini yozish → 4) Ma'lumot migratsiyasi mas'uliyatini belgilash |
+| Aniq ketma-ketlik | 1) Paketni tanlash → 2) Litsenziya turini belgilash → 3) Qo'llab-quvvatlash/SLA chegarasini yozish → 4) Ma'lumot migratsiyasi mas'uliyatini belgilash → 5) Tajribasiz owner, admin, teacher, student va guardian bilan 5 asosiy vazifani kuzatish, tushunarsiz atama va bosish sonlarini yozish. Demo matni: `docs/verification/ACADEMY_2_ACCEPTANCE.md` |
 | Xavfsiz misol | — |
 | Egadan keyingi validatsiya | Imzolangan shartnoma |
 | Taxminiy vaqt | Kelishuvga bog'liq |

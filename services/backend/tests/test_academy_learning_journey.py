@@ -204,6 +204,10 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey,
     with monkeypatch.context() as clock:
         clock.setattr(academy_sessions,'datetime',HeldLessonClock)
         await request(client,owner,'PUT',lesson,json={'status':'held','revision':1})
+    assigned_today=await request(client,teacher,'GET',API+'/today')
+    assert assigned_today['classes']['count']==1
+    assert assigned_today['classes']['items'][0]['href'].endswith('&view=sessions')
+    assert (await request(client,outsider,'GET',API+'/today'))['classes']['count']==0
     await request(client,outsider,'GET',lesson+'/attendance',403)
     await request(client,teacher,'PUT',lesson+'/attendance',json={
         'id':str(uuid4()),'marks':[{'studentId':str(learner['id']),'revision':1,'status':'present'}]})

@@ -1,6 +1,7 @@
 import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
 import {academyHelp} from '../shared/academy-help.js';
+import {paymentDate} from '../payments/format.js';
 
 const choices = ['not_marked','present','late','absent','excused'];
 
@@ -100,7 +101,6 @@ export function attendanceRoster(ctx, groupId, sessionId) {
 export function studentAttendance(ctx, endpoint, signal=ctx.signal) {
  if(ctx.session?.academyEnabled===false)return null;
  const t=translations(ctx), body=el('div',{class:'space-y-2'}), panel=card(t.title,body);
- const clock=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',{dateStyle:'medium',timeZone:'Asia/Tashkent'});
  async function load() {
   if(signal.aborted)return;
   body.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
@@ -110,7 +110,7 @@ export function studentAttendance(ctx, endpoint, signal=ctx.signal) {
    const {counts,history}=data;
    body.replaceChildren(el('p',{},t.eligible+' '+counts.eligible+' · '+t.attended+' '+counts.attended),
     history.length?el('ul',{class:'space-y-2'},history.map(row=>el('li',{},
-     [clock.format(new Date(row.starts_at)),row.group_name,t[row.status]].join(' · ')))):el('p',{},t.empty));
+     [paymentDate(row.starts_at,ctx.locale,'—'),row.group_name,t[row.status]].join(' · ')))):el('p',{},t.empty));
   }catch{
    if(signal.aborted)return;
    const retry=btn(t.refresh);
@@ -129,9 +129,6 @@ export function studentCalendar(ctx) {
  const signal=ctx.signal, uz=ctx.locale==='uz', body=el('div',{class:'space-y-2'});
  const panel=card(uz?'Dars jadvalim':'My class calendar',body);
  panel.dataset.academyStudentCalendar='';
- const dateFormat=new Intl.DateTimeFormat(uz?'uz-UZ':'en-GB',{
-  timeZone:'Asia/Tashkent',dateStyle:'medium',timeStyle:'short'
- });
  async function load(page=1) {
   if(signal.aborted)return;
   body.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
@@ -139,7 +136,7 @@ export function studentCalendar(ctx) {
    const data=await api.request('/api/academy/calendar?page='+page,{signal});
    if(signal.aborted)return;
    const items=(data.sessions||[]).map(item=>el('li',{class:'border-b py-2'},
-    dateFormat.format(new Date(item.starts_at))+' · '+item.group_name+' · '+
+    paymentDate(item.starts_at,ctx.locale,'—')+' · '+item.group_name+' · '+
     (item.attendance_status||item.session_status)));
    const previous=btn(uz?'Oldingi':'Previous',{disabled:page===1});
    const next=btn(uz?'Keyingi':'Next',{disabled:!data.hasNext});

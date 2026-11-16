@@ -63,7 +63,7 @@ async def today(conn, *, actor_id: UUID, role: str,classes_offset: int=0,followu
           'classes':{'count':count,'pagination':{'offset':classes_offset,'limit':10,'hasMore':classes_offset+len(classes)<count},'items':[
               {'id':str(r['id']),'groupId':str(r['group_id']),'name':r['name'],'branch':r['branch'],
                'startsAt':r['starts_at'].isoformat(),'endsAt':r['ends_at'].isoformat(),'status':r['status'],
-               'href':'/app/management/groups?group='+str(r['group_id'])} for r in classes]}}
+               'href':'/app/management/groups?group='+str(r['group_id'])+('&view=sessions' if role=='teacher' else '')} for r in classes]}}
     if role in ('owner','admin'):
         balances=await debtors(conn,limit=1)
         rows=await conn.fetch('''WITH matches AS MATERIALIZED(SELECT id,name,follow_up_at FROM academy_leads

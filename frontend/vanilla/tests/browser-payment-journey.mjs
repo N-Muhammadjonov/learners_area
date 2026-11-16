@@ -87,15 +87,21 @@ try{
  assert.equal(own.position.balanceDueMinor,512469);assert.equal(own.history.find(r=>r.intentId===third.intentId).fiscalReceiptUrl,null);
  await student.page.screenshot({path:resolve(directory,'student-custom-paid.png')});
  const admin=await open('admin','en',1440);await admin.page.goto(origin+'/app/management');
+ await admin.page.locator('[data-academy-today] h1').waitFor();
+ await admin.page.screenshot({path:resolve(directory,'admin-today.png')});
  await admin.page.locator('[data-academy-today] a[href="/app/management/finance?view=debts"]').click();
  const debtor=admin.page.locator('[data-finance-debtors] article').filter({hasText:'QA Student'});
  await debtor.getByRole('button',{name:'Open account',exact:true}).click();
  const cash=admin.page.locator('[data-academy-payment-form]');await cash.locator('input[type=number]').fill('50000');
  await cash.locator('input[type=checkbox]').check();await cash.getByRole('button',{name:'Record payment',exact:true}).click();
  await cash.getByRole('status').filter({hasText:'Payment recorded'}).waitFor();
+ await admin.page.waitForFunction(()=>!document.querySelector('[data-academy-payment-form] button[type=submit]').disabled);
+ await debtor.getByText('Outstanding: 462,469 UZS',{exact:true}).waitFor();
  assert.equal((await summary(guardian.context,input.studentId)).position.balanceDueMinor,462469);
+ await admin.page.getByRole('heading',{name:'Student statement · QA Student',exact:true}).scrollIntoViewIfNeeded();
  await admin.page.screenshot({path:resolve(directory,'admin-cash-from-debt-queue.png')});
- const owner=await open('owner','en',1440);await owner.page.goto(origin+'/app/management/finance');
+ const owner=await open('owner','en',1440);await owner.page.goto(origin+'/app/management');
+ await owner.page.locator('[data-academy-today] h1').waitFor();await owner.page.goto(origin+'/app/management/finance');
  const businessDay=(await (await owner.context.request.get('/api/staff/academy/today')).json()).date;
  const report=await (await owner.context.request.get('/api/staff/finance/summary?start='+businessDay.slice(0,8)+'01&end='+businessDay)).json();
  assert.equal(report.collectedNetMinor,937531);assert.equal(report.recognizedRevenueMinor,0);
@@ -104,12 +110,21 @@ try{
  await owner.page.screenshot({path:resolve(directory,'owner-net-collection.png')});
  const teacher=await open('teacher','en',1440);let sent=0;
  teacher.page.on('request',r=>{if(r.url().includes('/guardian-messages/send'))sent++;});
- await teacher.page.goto(origin+'/app/management/guardians');await teacher.page.locator('[data-guardian-view]').first().click();
+ await teacher.page.goto(origin+'/app/management');
+ await teacher.page.locator('[data-academy-today] a[href="/app/management/guardians"]').click();
+ await teacher.page.locator('[data-guardian-view]').first().click();
  const draft=teacher.page.locator('[data-academy-ai]');await draft.locator(':scope > summary').click();
  await draft.getByRole('button',{name:'Review evidence',exact:true}).click();await draft.locator('textarea').waitFor();
  assert.match(await draft.locator('textarea').inputValue(),/QA Student/);
  await draft.getByRole('button',{name:'Use draft in composer',exact:true}).click();
  assert.match(await teacher.page.locator('textarea.pc-textarea').inputValue(),/QA Student/);assert.equal(sent,0);
+ await teacher.page.screenshot({path:resolve(directory,'teacher-reviewed-draft.png')});
+ for(const role of ['owner','admin','teacher']){
+  const mobile=await open(role,'uz',390);await mobile.page.goto(origin+'/app/management');
+  await mobile.page.locator('[data-academy-today] h1').waitFor();
+  assert.equal(await mobile.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  await mobile.page.screenshot({path:resolve(directory,role+'-today-mobile.png'),fullPage:true});
+ }
  const revoked=await student.context.request.post('/api/guardians/links/'+input.guardianLinkId+'/revoke',{headers:{origin}});
  assert.equal(revoked.status(),200,await revoked.text());
  assert.equal((await guardian.context.request.get(childPath(input.studentId))).status(),403);
@@ -121,6 +136,6 @@ try{
  writeFileSync(resolve(directory,'receipt.json'),JSON.stringify({sourceCommit:process.env.ACADEMY_UX_SOURCE_SHA??null,
   verificationLevel:'LOCALLY_TESTED',environment:'real Chromium + isolated PostgreSQL + actual FastAPI; synthetic sandbox credentials',
   externalProviderVerified:false,results,duplicateCallbacks:true,multiChildIsolation:true,revocationDenied:true,keyboardGuide:true,
-  adminCashFromDebtQueue:true,ownerNetCollection:937531,teacherDraftDidNotSend:true,errors},null,2)+'\n');
+  adminCashFromDebtQueue:true,ownerNetCollection:937531,teacherDraftDidNotSend:true,todayMobileRoleChecks:3,errors},null,2)+'\n');
  console.log(JSON.stringify({journeys:results.length,verificationLevel:'LOCALLY_TESTED',externalProviderVerified:false,errors}));
 }finally{for(const context of contexts)await context.close();await browser.close();}

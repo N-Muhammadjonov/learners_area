@@ -34,8 +34,12 @@ and both themes. Synthetic sandbox credentials never contact an external vendor.
 `P` means `services/backend/tests/test_self_service_payments.py`; cases use their
 exact `test_` + scenario name unless a different test is specified below.
 `F` means `frontend/vanilla/tests/payments.test.mjs`.
-Local protocol tests were green at published `072a647d`. The current added
-workbench/AI/history batch is awaiting its full frozen-source CI receipt.
+The workbench/AI/history batch passed at `04cbadc6` in
+[CI run 43800377560](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43800377560):
+7,568 backend tests + 287 subtests, 1,826 frontend passes, security/migrations/recovery,
+the 20-image matrix and expanded admin/owner/teacher payment journeys. Final scope,
+date, account-refresh and assigned-session navigation polish has regression tests
+and receives a separate final CI/screenshots receipt.
 
 | # | Scenario | Executable evidence | Verification boundary |
 |---:|---|---|---|

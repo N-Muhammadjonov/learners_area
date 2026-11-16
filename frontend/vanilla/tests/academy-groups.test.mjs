@@ -14,6 +14,18 @@ const member = {id: ID(15), student_user_id: ID(3), student_name: 'Student 3', s
  starts_on: '2026-11-01', revision: 4, profile_allowed: false};
 const detail = {group, memberships: [member], teachers: [{id: ID(4), name: 'Teacher'}], hasNext: false};
 
+test('Today assigned-session view uses session authority without requesting a full group roster',async()=>{
+ const h=setup({path:path+'?group='+group.id+'&view=sessions',role:'teacher'});
+ h.stub({[endpoint+'/groups/'+group.id+'/sessions']:{sessions:[],hasNext:false}});
+ try{
+  await mount(h.ctx);const panel=h.q('[data-academy-sessions]');assert(panel);
+  assert.match(h.ctx.root.textContent,/Your assigned classes/);assert.equal(h.calls.length,0);
+  panel.open=true;await tick();await tick();
+  assert.equal(h.calls.length,1);assert.match(h.calls[0].path,/\/sessions\?page=1$/);
+  assert.equal(h.q('[data-academy-member]'),null);assert.equal(h.q('[data-academy-group-form]'),null);
+ }finally{h.dispose();}
+});
+
 test('academy route and Management card are scoped to staff', () => {
  const route = routes.find(entry => entry.pattern === path);
  assert.deepEqual(route.roles, ['teacher', 'admin', 'owner']);

@@ -12,6 +12,19 @@ const id=ID(9);
 const statement={position:{balanceDueMinor:100000,overdueMinor:0,advanceMinor:0,refundedMinor:0},
  charges:[],payments:[],refunds:[]};
 
+test('owner_finance_terms_are_explained_without_accounting_jargon',async()=>{
+ const h=setup({path,role:'owner',locale:'uz'});
+ h.stub({[api+'/summary']:{collectedTotalMinor:500000,collectedNetMinor:400000,refundsMinor:100000,
+  recognizedRevenueMinor:0,range:{start:'2026-11-01',end:'2026-11-16'},asOf:'2026-11-15T19:00:00Z'}});
+ try{
+  await mount(h.ctx);assert.match(h.q('[data-finance-report-scope]').textContent,/Barcha filiallar · 01\.11\.2026 – 16\.11\.2026/);
+  assert.match(h.ctx.root.textContent,/Qarz va avans esa barcha davrlardagi hozirgi qoldiq/);
+  assert.match(h.ctx.root.textContent,/400.000 UZS/);assert.match(h.ctx.root.textContent,/Yangilandi \(Toshkent\): 16\.11\.2026, 00:00/);
+  assert.equal(h.q('[data-finance-advanced]').open,false);
+  assert(!h.calls.some(c=>c.path.includes('reconciliation')||c.path.includes('payroll')));
+ }finally{h.dispose();}
+});
+
 test('finance management requires owner or admin and shows reconciliation from both server checks',async()=>{
  const route=routes.find(item=>item.pattern===path);
  assert.deepEqual(route.roles,['admin','owner']);assert(route.protected);
@@ -58,7 +71,7 @@ test('staff records cash only after confirmation and keeps the same idempotency 
  const h=setup({path,role:'admin'});
  let writes=0;
  h.stub({
-  [api+'/summary']:{collectedTotalMinor:0},
+  [api+'/summary']:()=>({collectedTotalMinor:writes===2?100000:0}),
   ['/api/staff/academy/lookups/student']:{options:[{id,label:'Test Student'}]},
   [api+'/students/'+id+'/statement']:()=>({...statement,payments:writes===2?[
    {amount_minor:100000,status:'confirmed',method:'cash',receipt_no:'RC-1',occurred_at:'2026-11-15T01:00:00Z'},
@@ -85,6 +98,8 @@ test('staff records cash only after confirmation and keeps the same idempotency 
   assert.match(h.ctx.root.textContent,/RC-1/);
   assert.match(h.ctx.root.textContent,/Awaiting provider confirmation/);
   assert.equal(h.qa('button').filter(node=>node.textContent==='Print').length,1);
+  assert.equal(h.calls.filter(call=>call.path.startsWith(api+'/summary?')).length,2);
+  assert.match(h.ctx.root.textContent,/Total collected100,000 UZS/);
  }finally{h.dispose();}
 });
 
@@ -104,6 +119,24 @@ for(const role of ['teacher','student']){
   }finally{h.dispose();}
  });
 }
+
+test('a report started before cash confirmation cannot overwrite the refreshed collection',async()=>{
+ const h=setup({path,role:'admin'});let reads=0,resolveOlder;
+ h.stub({[api+'/summary']:()=>{
+   reads++;return reads===2?new Promise(resolve=>{resolveOlder=resolve;}):{collectedTotalMinor:reads>2?100000:0};
+  },['/api/staff/academy/lookups/student']:{options:[{id,label:'Test Student'}]},
+  [api+'/students/'+id+'/statement']:statement,[api+'/payments']:{ok:true}});
+ try{
+  await mount(h.ctx);h.submit(h.qa('form')[0]);await tick();
+  h.submit(h.q('[data-academy-student-search]'));await tick();
+  h.click(h.qa('button').find(node=>node.textContent==='Open'));await tick();
+  const form=h.q('[data-academy-payment-form]');form.querySelector('input[type=number]').value='100000';
+  form.querySelector('input[type=checkbox]').checked=true;h.submit(form);await tick();await tick();
+  assert.equal(reads,3);assert.match(h.ctx.root.textContent,/Total collected100,000 UZS/);
+  resolveOlder({collectedTotalMinor:0});await tick();
+  assert.match(h.ctx.root.textContent,/Total collected100,000 UZS/);
+ }finally{resolveOlder?.({collectedTotalMinor:0});h.dispose();}
+});
 
 test('cash close requires a confirmed count and displays the server variance',async()=>{
  const h=setup({path,role:'admin'});

@@ -88,8 +88,10 @@ module naming and root-ICU Uzbek date formatting; both were corrected. Published
 `072a647d` passed the complete matrix and three real payment journeys in
 [run 43795214244](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43795214244).
 All 20 document responses and exact routes passed, without page errors, horizontal
-overflow or unlabelled fields. The new Today/admin/teacher-draft extension awaits
-its own current CI artifact.
+overflow or unlabelled fields. The Today/admin/teacher-draft extension also passed
+at `04cbadc6` in [run 43800377560](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43800377560).
+Review of its cash screenshot exposed a refresh timing gap; final polish now refreshes
+the statement, centre summary and open debt queue after a financial command.
 
 [Owner mobile before](academy-ux/before/owner-day-390.png) ·
 [Guardian failure before](academy-ux/before/guardian-day-390.png).
@@ -114,11 +116,13 @@ attendance/payroll guides, bounded history enrichment and child-specific AI pane
 rebinding. See [the control-plane boundary](../architecture/ACADEMY_WORKBENCH_AND_RIWI.md).
 
 Latest isolated targeted evidence: 52 backend payment/workbench/AI tests passed.
-The frontend full suite passed 1,825 tests with 11 unchanged legacy fixture skips;
-an additional child-AI scope regression is verified separately before CI. TypeScript
-and the native Python/venv build passed (1,037 assets, 145 routes). The complete
-backend rerun and expanded browser journeys are pending. The last published full
-CI was green at `072a647d` (7,557 backend tests + 287 subtests).
+The complete backend passed 7,568 tests + 287 subtests, with no failures/skips/xfails
+(local 150.00 s, then CI green at `04cbadc6`). Frontend CI passed 1,826 tests with 11
+unchanged legacy fixture skips. TypeScript and the native Python/venv build passed
+(1,037 assets, 145 routes). Final polish adds explicit report scope/refresh time,
+uniform academy dates, stale-response protection and a session-only teacher entry
+that does not request an unauthorized full group roster. New regression tests and
+a final browser matrix cover that slice.
 
 The new 10,000-student actual HTTP measurement passes the defined local read envelope
 at 25 concurrent requests: mixed p95 173.44 ms, 1,266 successes, no errors; every
@@ -133,8 +137,8 @@ production SLA. [Raw receipt](academy-ux/load-receipt.json) and
 |---|---|---|
 | A — truth/security | LOCALLY_TESTED | Current source, role screenshots, immutable migration and current-link negative tests are recorded |
 | B — payment engine | LOCALLY_TESTED / PARTIAL | Monthly invoice math and all three protocols tested; prepaid modes 24–25 are not implemented; vendor acceptance remains external |
-| C — beginner UX | IN_PROGRESS | Payment browser flows passed; new Today/admin/teacher flow needs final CI review; real novice acceptance is separate |
-| D — continuity | LOCALLY_TESTED | Existing lead→class→Writing→parent→payroll journey now also exercises the parent portal payment; full rerun pending |
+| C — beginner UX | LOCALLY_TESTED / PARTIAL | Five-role screenshot matrix and payment/admin/teacher browser flows pass; real novice acceptance is separate |
+| D — continuity | LOCALLY_TESTED | The lead→class→Writing→parent→payroll journey also exercises parent portal payment and exact Today teacher scope |
 | E — AI/reliability | PARTIAL | Typed read/draft tools, injection/outage/kill/quota tests and measured load; high concurrency, mixed write/outage scenarios and long soak remain engineering gates |
 | F — delivery | DRAFT | PR #202, migration/forward-fix documents and acceptance map exist; current CI/artifact review pending |
 

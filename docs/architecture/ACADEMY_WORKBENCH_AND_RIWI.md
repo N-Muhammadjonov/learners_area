@@ -17,6 +17,12 @@ membership branch filter, overdue filter and pagination execute on the server.
 Withdrawn memberships cannot match a current-branch filter. An API failure never
 creates a zero count. Refresh time and Tashkent business date are visible.
 
+Teacher class links open the existing session API in a session-only native view.
+Substitute teachers need not request a full group roster; existing server services
+still check exact session and attendance authority. Attendance opens only for a held
+class. Financial commands refresh the student statement, centre totals and any open
+debtor queue. An older in-flight report cannot replace the confirmed collection.
+
 The debtor query aggregates each financial table before joining. It avoids both
 join multiplication and repeated per-student subqueries over 10,000 accounts.
 Payment history similarly enriches an entire page with at most two queries.

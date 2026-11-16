@@ -721,5 +721,6 @@
     "seconds": 0.923,
     "balanced": true,
     "externalProviderVerified": false
-  }
+  },
+  "equivalentMeasuredSourceCommit": "04cbadc605e7b3f46304c06c572ef6ad66ad20db"
 }
