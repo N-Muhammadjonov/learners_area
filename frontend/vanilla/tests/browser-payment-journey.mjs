@@ -18,6 +18,9 @@ async function open(role,locale='uz',width=390){
  return {context,page,locale};
 }
 const childPath=id=>`/api/guardian/children/${id}/payments`;
+async function todayReady(page){
+ await page.locator('[data-academy-today] > p[role=status]').filter({hasText:/Updated:|Yangilandi:/}).waitFor();
+}
 async function summary(context,id){const response=await context.request.get(childPath(id));assert.equal(response.status(),200);return response.json();}
 async function rpc(method,params){
  const response=await contexts[0].request.post(origin+'/api/payments/callbacks/payme',{
@@ -87,7 +90,7 @@ try{
  assert.equal(own.position.balanceDueMinor,512469);assert.equal(own.history.find(r=>r.intentId===third.intentId).fiscalReceiptUrl,null);
  await student.page.screenshot({path:resolve(directory,'student-custom-paid.png')});
  const admin=await open('admin','en',1440);await admin.page.goto(origin+'/app/management');
- await admin.page.locator('[data-academy-today] h1').waitFor();
+ await todayReady(admin.page);
  await admin.page.screenshot({path:resolve(directory,'admin-today.png')});
  await admin.page.locator('[data-academy-today] a[href="/app/management/finance?view=debts"]').click();
  const debtor=admin.page.locator('[data-finance-debtors] article').filter({hasText:'QA Student'});
@@ -101,7 +104,7 @@ try{
  await admin.page.getByRole('heading',{name:'Student statement · QA Student',exact:true}).scrollIntoViewIfNeeded();
  await admin.page.screenshot({path:resolve(directory,'admin-cash-from-debt-queue.png')});
  const owner=await open('owner','en',1440);await owner.page.goto(origin+'/app/management');
- await owner.page.locator('[data-academy-today] h1').waitFor();await owner.page.goto(origin+'/app/management/finance');
+ await todayReady(owner.page);await owner.page.goto(origin+'/app/management/finance');
  const businessDay=(await (await owner.context.request.get('/api/staff/academy/today')).json()).date;
  const report=await (await owner.context.request.get('/api/staff/finance/summary?start='+businessDay.slice(0,8)+'01&end='+businessDay)).json();
  assert.equal(report.collectedNetMinor,937531);assert.equal(report.recognizedRevenueMinor,0);
@@ -121,7 +124,7 @@ try{
  await teacher.page.screenshot({path:resolve(directory,'teacher-reviewed-draft.png')});
  for(const role of ['owner','admin','teacher']){
   const mobile=await open(role,'uz',390);await mobile.page.goto(origin+'/app/management');
-  await mobile.page.locator('[data-academy-today] h1').waitFor();
+  await todayReady(mobile.page);
   assert.equal(await mobile.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await mobile.page.screenshot({path:resolve(directory,role+'-today-mobile.png'),fullPage:true});
  }

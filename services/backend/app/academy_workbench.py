@@ -38,13 +38,16 @@ async def debtors(conn, *, q: str='', branch: str='', overdue_only: bool=False,
         AND ($3='' OR EXISTS(SELECT 1 FROM academy_group_memberships m JOIN academy_groups g ON g.id=m.group_id
              WHERE m.student_user_id=u.id AND m.status IN ('active','paused')
                AND m.starts_on<=$1 AND (m.ends_on IS NULL OR m.ends_on>=$1) AND g.branch=$3))
-    ) SELECT *,count(*) OVER() AS total FROM balances WHERE due>0 AND (NOT $4 OR overdue>0)
-      ORDER BY oldest_due NULLS LAST,lower(name),id LIMIT $5 OFFSET $6''',day,q,branch,overdue_only,limit+1,offset)
-    return {'asOf':day.isoformat(),'observedAt':now.isoformat(),'total':int(rows[0]['total']) if rows else 0,
+    ), filtered AS MATERIALIZED(SELECT * FROM balances WHERE due>0 AND (NOT $4 OR overdue>0))
+      SELECT b.*,t.total FROM (SELECT count(*) AS total FROM filtered)t LEFT JOIN LATERAL(
+        SELECT * FROM filtered ORDER BY oldest_due NULLS LAST,lower(name),id LIMIT $5 OFFSET $6)b ON true''',
+      day,q,branch,overdue_only,limit+1,offset)
+    total=int(rows[0]['total']);items=[r for r in rows if r['id'] is not None]
+    return {'asOf':day.isoformat(),'observedAt':now.isoformat(),'total':total,
         'items':[{'studentId':str(r['id']),'name':r['name'],'accountStatus':r['account_status'],
                   'balanceDueMinor':r['due'],'overdueMinor':r['overdue'],
-                  'oldestDueDate':r['oldest_due'].isoformat() if r['oldest_due'] else None} for r in rows[:limit]],
-        'pagination':{'offset':offset,'limit':limit,'hasMore':len(rows)>limit}}
+                  'oldestDueDate':r['oldest_due'].isoformat() if r['oldest_due'] else None} for r in items[:limit]],
+        'pagination':{'offset':offset,'limit':limit,'hasMore':len(items)>limit}}
 
 
 async def today(conn, *, actor_id: UUID, role: str,classes_offset: int=0,followups_offset: int=0) -> dict:

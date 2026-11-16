@@ -96,3 +96,30 @@ async def test_optional_ranking_provider_never_receives_identity_message_or_free
     encoded=json.dumps(sent)
     assert not any(value in encoded for value in ('Alice','private-child','private-actor','example.test','998901234567','sourceHref','draftText'))
     assert metric['inputTokens']==3 and metric['estimatedCostMicros'] is None
+
+
+@pytest.mark.asyncio
+async def test_awaiting_external_AI_still_allows_payments_and_lessons(family,monkeypatch):
+    import asyncio
+    from app import main
+    _,client,a,_=family
+    for key,value in {'RIWI_EXTERNAL_AI_ENABLED':'1','AI_EXTERNAL_ENABLED':'true','ACADEMY_AI_EXTERNAL_ENABLED':'1',
+        'ACADEMY_AI_PROVIDER_VERIFIED':'1','AI_GATEWAY_API_KEY':'isolated-model-key','AI_GATEWAY_MODEL':'fixture/model'}.items():monkeypatch.setenv(key,value)
+    entered,released=asyncio.Event(),asyncio.Event()
+    async def pending(actor,model,instructions,payload,**kwargs):
+        entered.set();await released.wait()
+        return {'evidenceIds':[payload['facts'][0]['id']]},{'inputTokens':3,'outputTokens':2}
+    monkeypatch.setattr(ai.gateway,'completion',pending)
+    monkeypatch.setattr(ai,'GATEWAY_TIMEOUT_SECONDS',10)
+    task=asyncio.create_task(request(client,a['student'],'POST','/api/finance/me/assistant',json={'action':'payment_help'}))
+    try:
+        await asyncio.wait_for(entered.wait(),timeout=3)
+        pool=await main.pool()
+        assert pool.get_idle_size()==pool.get_size(), 'No database lease may be held during an external completion'
+        account=await request(client,a['student'],'GET','/api/finance/me/payments')
+        await request(client,a['student'],'GET','/api/academy/calendar')
+        assert account['position']['balanceDueMinor']==900000 and not task.done()
+    finally:
+        released.set()
+        result=await task
+    assert result['mode']=='external' and result['canExecute'] is False

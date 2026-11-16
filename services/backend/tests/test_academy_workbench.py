@@ -11,6 +11,8 @@ async def test_debtor_queue_matches_each_authoritative_student_position(family):
     await ledger.record_payment(conn,actor_user_id=a['admin']['id'],student_user_id=a['student']['id'],amount_minor=100000,idempotency_key='workbench-cash')
     result=await request(client,a['owner'],'GET','/api/staff/finance/debtors?limit=1')
     assert result['total']==2 and result['pagination']['hasMore']
+    empty=await request(client,a['owner'],'GET','/api/staff/finance/debtors?offset=20')
+    assert empty['items']==[] and empty['total']==2
     seen={}
     for offset in (0,1):
         row=(await request(client,a['admin'],'GET','/api/staff/finance/debtors?limit=1&offset='+str(offset)))['items'][0]
