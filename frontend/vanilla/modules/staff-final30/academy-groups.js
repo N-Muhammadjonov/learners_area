@@ -1,4 +1,6 @@
 import {api} from '../../js/api-client.js';
+import {academyHelp} from '../shared/academy-help.js';
+import {paymentDate} from '../payments/format.js';
 import {el, listen} from '../../js/dom.js';
 import {BackLink} from './kit.js';
 import {attendanceRoster, attendanceSummary} from './academy-attendance.js';
@@ -279,6 +281,7 @@ export async function mount(ctx) {
  const canManage = MANAGERS.includes(role);
  if (!canManage && role !== 'teacher') return;
  const groupId = url.searchParams.get('group');
+ const sessionsOnly = groupId && url.searchParams.get('view') === 'sessions';
  const query = (url.searchParams.get('q') || '').slice(0, 120);
  const status = url.searchParams.get('status');
  const filter = GROUP_STATES.includes(status) ? status : '';
@@ -286,9 +289,18 @@ export async function mount(ctx) {
  const page = Math.max(1, Math.min(4000, Number.parseInt(url.searchParams.get('page'), 10) || 1));
  const section = el('div', {class: 'space-y-4'});
  const host = el('div', {class: 'mx-auto max-w-6xl space-y-4', 'data-academy-groups': ''},
-  BackLink({fallbackHref: groupId ? PATH : '/app/management', label: dict.common.back}),
+  BackLink({fallbackHref: groupId && !sessionsOnly ? PATH : '/app/management', label: dict.common.back}),
   el('h1', {class: 'font-display text-3xl'}, t.heading), section);
  ctx.root.append(host);
+ host.append(academyHelp(ctx,'groups'));
+ if(sessionsOnly){
+  if(!UUID.test(groupId)){section.append(el('p',{role:'alert'},errorText(ctx,{code:'invalid_input'})));return;}
+  section.append(el('h2',{class:'font-display text-xl'},ctx.locale==='uz'?'Biriktirilgan darslar':'Assigned classes'),
+   el('p',{},ctx.locale==='uz'?'Sizga biriktirilgan darslar. Davomat faqat o‘tilgan dars uchun ochiladi.':
+    'Your assigned classes. Attendance opens only after a class is marked as held.'),
+   sessionPanel(ctx,{id:groupId},[],false));
+  return;
+ }
  if (!groupId) host.append(attendanceSummary(ctx));
  async function render() {
   if (signal.aborted) return;
@@ -380,7 +392,6 @@ function sessionPanel(ctx, group, teachers, canManage) {
   el('summary', {class:'cursor-pointer font-semibold'}, t.title), body);
  const endpoint = '/groups/' + group.id + '/sessions';
  const timeZone = 'Asia/Tashkent';
- const clock = new Intl.DateTimeFormat(local?'uz-UZ':'en-GB', {dateStyle:'medium', timeStyle:'short', timeZone});
  function slotForm(row) {
   const ident = crypto.randomUUID();
   const room = el('input',{class:'input',required:true,maxlength:120,value:row?.room??group.room});
@@ -425,7 +436,7 @@ function sessionPanel(ctx, group, teachers, canManage) {
    listen(previous,'click',()=>void load(page-1),ctx.signal);
    listen(next,'click',()=>void load(page+1),ctx.signal);
    const items = data.sessions.map(row=>el('li',{class:'space-y-2 py-3','data-academy-session':row.id},
-    el('p',{class:'font-medium'},clock.format(new Date(row.starts_at))+' · '+row.room),
+    el('p',{class:'font-medium'},paymentDate(row.starts_at,ctx.locale,'—')+' · '+row.room),
     el('p',{class:'text-sm'},[row.status==='held'?t.delivered:t[row.status],
      row.teacher_names.join(', '),row.reason==='holiday'?t.holiday:row.reason].filter(Boolean).join(' · ')),
     row.status==='held'?attendanceRoster(ctx,group.id,row.id):null,

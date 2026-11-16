@@ -35,8 +35,9 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
   if(session.expiresAt*1000<=Date.now()){session=null;return {redirect:'/login'};}
   if(url.pathname==='/pending'&&session.user.accountStatus==='active')return {redirect:'/app'};
   if(url.pathname!=='/pending'&&session.user.accountStatus!=='active')return {redirect:'/pending'};
-  if(url.pathname.replace(/\/+$/,'')==='/app/management/guardians'&&session.user.role!=='owner')return {redirect:'/app/management'};
-  if(session.user.role==='guardian'&&!['/app/progress','/app/leaderboard'].includes(url.pathname.replace(/\/+$/,'')))return {redirect:'/app/progress'};
+  if(url.pathname.replace(/\/+$/,'')==='/app/management/guardians'&&!['teacher','admin','owner'].includes(session.user.role))return {redirect:'/app/management'};
+  if(session.user.role==='guardian'&&session.user.accountStatus==='active'&&!['/app/progress','/app/leaderboard','/app/payments'].includes(url.pathname.replace(/\/+$/,'')))return {redirect:'/app/progress'};
+  if(context.route?.requiresPayments&&(session.paymentsEnabled!==true||!['student','guardian'].includes(session.user.role)))return {redirect:'/app/progress'};
   if(/^\/app\/owner(?:\/|$)/.test(url.pathname)&&session.user.role!=='owner')return {redirect:'/app'};
   if(/^\/app\/(teacher|management|admin)(?:\/|$)/.test(url.pathname)&&session.user.role==='student')return {redirect:'/app'};
   if(context.route?.requiresAcademy&&session.academyEnabled===false)return {redirect:'/app/management'};

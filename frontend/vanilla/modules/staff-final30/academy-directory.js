@@ -1,4 +1,5 @@
 import {api} from '../../js/api-client.js';
+import {academyHelp} from '../shared/academy-help.js';
 import {el,listen} from '../../js/dom.js';
 import {BackLink} from './kit.js';
 
@@ -95,6 +96,7 @@ export async function mount(ctx){
   BackLink({fallbackHref:'/app/management',label:ctx.dict.common.back}),head,
   exportPanel(ctx,t),el('p',{},t.help),fileForm,status,mapping,review,pendingPanel(ctx,t));
  ctx.root.append(screen);
+ screen.append(academyHelp(ctx,'directory'));
  let payload, inspected, working=false, revision=0;
  function feedback(message,failed=false){
   status.setAttribute('role',failed?'alert':'status');

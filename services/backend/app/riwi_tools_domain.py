@@ -670,4 +670,6 @@ def build_default_riwi_tool_broker() -> RiwiToolBroker:
             handler=generate_deterministic_report,
         )
     )
+    from .academy_ai_tools import register_academy_tools
+    register_academy_tools(broker)
     return broker

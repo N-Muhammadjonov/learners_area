@@ -3,10 +3,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Final, Literal
 
-Role = Literal["student", "teacher", "admin", "owner"]
+Role = Literal["student", "teacher", "admin", "owner", "guardian"]
 AccountStatus = Literal["pending", "active", "rejected", "suspended"]
 
 RIWI_CAPABILITIES: Final[tuple[str, ...]] = (
+    "riwi.academy.read_workbench",
+    "riwi.academy.payment_help",
+    "riwi.academy.draft_parent_message",
     "riwi.chat.self",
     "riwi.dictionary.lookup",
     "riwi.grammar.explain",
@@ -36,6 +39,7 @@ RIWI_CAPABILITIES: Final[tuple[str, ...]] = (
 
 ROLE_CAPABILITIES: Final[dict[str, tuple[str, ...]]] = {
     "student": (
+        "riwi.academy.payment_help",
         "riwi.chat.self",
         "riwi.dictionary.lookup",
         "riwi.grammar.explain",
@@ -51,6 +55,8 @@ ROLE_CAPABILITIES: Final[dict[str, tuple[str, ...]]] = {
         "riwi.feedback.student",
     ),
     "teacher": (
+        "riwi.academy.read_workbench",
+        "riwi.academy.draft_parent_message",
         "riwi.chat.self",
         "riwi.dictionary.lookup",
         "riwi.grammar.explain",
@@ -64,6 +70,8 @@ ROLE_CAPABILITIES: Final[dict[str, tuple[str, ...]]] = {
         "riwi.feedback.teacher",
     ),
     "admin": (
+        "riwi.academy.read_workbench",
+        "riwi.academy.draft_parent_message",
         "riwi.chat.self",
         "riwi.dictionary.lookup",
         "riwi.grammar.explain",
@@ -72,6 +80,7 @@ ROLE_CAPABILITIES: Final[dict[str, tuple[str, ...]]] = {
         "riwi.knowledge.read_approved",
     ),
     "owner": RIWI_CAPABILITIES,
+    "guardian": ("riwi.academy.payment_help",),
 }
 
 

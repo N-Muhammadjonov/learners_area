@@ -61,5 +61,7 @@
  "1128_academy_rescue_thresholds.sql": "c1c133a548ddd0650febec6c95186bd597c00bf1717e46a5ab87baf1aac9fc98",
  "1129_academy_rescue_workflow.sql": "95fd88d42074685473a6739d0d2a4784431dd26d2373a02458d1f4b213f277ff",
  "1130_preserve_rescue_account_erasure.sql": "0650d18235578914926e49785a324aa8e42a41c7c3eeaee5582a2742d20b531a",
- "1131_academy_attempt_lookup_indexes.sql": "4a9e4c2e6d12034e821bac1c29622b07ae158f8ff545f43e32b6a1e932c30f8f"
+ "1131_academy_attempt_lookup_indexes.sql": "4a9e4c2e6d12034e821bac1c29622b07ae158f8ff545f43e32b6a1e932c30f8f",
+ "20261115200716_academy_self_service_payments.sql": "c82b03476709febcb7d30ee5dd0adec52633f82157dd3b7bac7bb751bcc168d0",
+ "20261116081748_academy_prepaid_service_policies.sql": "6ac9b1fb6b5d82c926ae7eafcf09f513b8ac6b4ae432e5614537d6fc6bb40921"
 }

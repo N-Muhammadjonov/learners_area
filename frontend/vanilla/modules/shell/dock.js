@@ -5,7 +5,7 @@ import {returnForWindow} from '../campus/return-policy.js';
 const EDGE_INSET = 10;
 
 /** Only module entries live here. Management keeps its role-scoped cards. */
-export function dockItems(dict,role){
+export function dockItems(dict,role,paymentsEnabled=false){
  const n=dict.nav;
  const items=[
   ['dashboard','/app',n.dashboard,'dashboard','#49caff','#007bff'],
@@ -22,7 +22,8 @@ export function dockItems(dict,role){
   ['progress','/app/progress',n.progress,'progress','#a3df7b','#41a954'],
   ['leaderboard','/app/leaderboard',dict.nav?.leaderboard??(dict.common?.back==='Back'?'Leaderboard':'Reyting'),'leaderboard','#ffcf82','#9b67e7'],
  ];
- if(role==='guardian')return items.filter(([key])=>key==='progress'||key==='leaderboard').map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));
+ if(paymentsEnabled&&['student','guardian'].includes(role))items.push(['payments','/app/payments',n.payments??(dict.common?.back==='Back'?'Payments':'To‘lovlar'),'payments','#57e2bc','#168c88']);
+ if(role==='guardian')return items.filter(([key])=>['progress','leaderboard','payments'].includes(key)).map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));
  if(['teacher','admin','owner'].includes(role))items.push(['management','/app/management',n.management,'settings','#a1a9bb','#515d76']);
  return items.map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));
 }
@@ -33,7 +34,7 @@ export function moduleDock(context){
  node.style.setProperty('--dock-edge-inset', `${EDGE_INSET}px`);
  const nav=el('nav',{'aria-label':dict.shell.learningNav,class:'module-dock__glass'});
  const tooltip=el('span',{class:'module-dock__label','aria-hidden':'true',hidden:true});
- const items=dockItems(dict,session.user.role),links=items.map(item=>{
+ const items=dockItems(dict,session.user.role,session.paymentsEnabled===true),links=items.map(item=>{
   const artwork=dockIcon(item.key),icon=el('span',{class:'module-dock__icon'+(artwork.hasAttribute('data-dock-reference')?' module-dock__icon--reference':'')},artwork);
   icon.style.setProperty('--dock-top',item.top);icon.style.setProperty('--dock-bottom',item.bottom);
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));

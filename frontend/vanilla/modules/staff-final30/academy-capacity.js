@@ -1,4 +1,5 @@
 import {api} from '../../js/api-client.js';
+import {academyHelp} from '../shared/academy-help.js';
 import {BackLink, el, listen} from './kit.js';
 
 const route = '/api/staff/academy';
@@ -70,6 +71,7 @@ export async function mount(ctx) {
     choices, formRegion, results,
   );
   ctx.root.append(host);
+  host.append(academyHelp(ctx,'capacity'));
   const group = el('select', {required:true, 'data-capacity-group':''});
   const loadButton = el('button', {type:'submit', class:'btn-secondary'}, tr('Load group', 'Guruhni ochish'));
   const find = el('form', {}, el('label', {}, tr('Active group', 'Faol guruh'), group), ' ', loadButton);

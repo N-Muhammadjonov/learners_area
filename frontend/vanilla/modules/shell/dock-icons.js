@@ -44,6 +44,8 @@ export function dockIcon(key){
  const text=(value,x,y,size,fill=ink)=>{const n=svg('text',{x,y,'font-family':'-apple-system,BlinkMacSystemFont,Arial,sans-serif','font-size':size,'font-weight':750,fill});n.textContent=value;return n;};
  let art=[];
  switch(key){
+ case 'payments':
+  art=[rect(7,12,34,27,5,metal),rect(7,9,30,9,4,paper),rect(27,22,16,10,3,gold),circle(32,27,1.5,ink),line('M13 25h8m-8 6h5','#7599b9',1.8)];break;
  case 'dashboard':
   art=[[10,10],[26,10],[10,26],[26,26]].flatMap(([x,y],i)=>[rect(x,y,12,12,3,paper),rect(x+2,y+2,8,3,1,['#78d9ff','#a9c4ff','#73e1c4','#ffda86'][i]),line(`M${x+3} ${y+8}h6`,'#b4cce1',1)]);break;
  case 'live-classes':

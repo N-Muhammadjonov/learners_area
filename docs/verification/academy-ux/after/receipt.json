@@ -1,0 +1,352 @@
+{
+  "stage": "after",
+  "sourceCommit": "3792506e405446d72953ff537603091d2f58ff06",
+  "source": "isolated PostgreSQL and real FastAPI; synthetic fixtures",
+  "studentId": "e9df2b79-20b5-4221-9232-e9a0e3b80a51",
+  "results": [
+    {
+      "role": "owner",
+      "theme": "day",
+      "width": 1440,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "owner-day-1440.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "owner",
+      "theme": "day",
+      "width": 390,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "owner-day-390.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "owner",
+      "theme": "night",
+      "width": 1440,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "owner-night-1440.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "owner",
+      "theme": "night",
+      "width": 390,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "owner-night-390.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "admin",
+      "theme": "day",
+      "width": 1440,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "admin-day-1440.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "admin",
+      "theme": "day",
+      "width": 390,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "admin-day-390.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "admin",
+      "theme": "night",
+      "width": 1440,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "admin-night-1440.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "admin",
+      "theme": "night",
+      "width": 390,
+      "path": "/app/management/finance",
+      "responseStatus": 200,
+      "actualPath": "/app/management/finance",
+      "screenshot": "admin-night-390.png",
+      "errors": [],
+      "title": "Akademiya moliyasi",
+      "overflow": false,
+      "headings": [
+        "O‘quvchining to‘lovini yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "teacher",
+      "theme": "day",
+      "width": 1440,
+      "path": "/app/management/guardians",
+      "responseStatus": 200,
+      "actualPath": "/app/management/guardians",
+      "screenshot": "teacher-day-1440.png",
+      "errors": [],
+      "title": "Ota-onalar nazorati",
+      "overflow": false,
+      "headings": [
+        "✉ Xabar yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "teacher",
+      "theme": "day",
+      "width": 390,
+      "path": "/app/management/guardians",
+      "responseStatus": 200,
+      "actualPath": "/app/management/guardians",
+      "screenshot": "teacher-day-390.png",
+      "errors": [],
+      "title": "Ota-onalar nazorati",
+      "overflow": false,
+      "headings": [
+        "✉ Xabar yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "teacher",
+      "theme": "night",
+      "width": 1440,
+      "path": "/app/management/guardians",
+      "responseStatus": 200,
+      "actualPath": "/app/management/guardians",
+      "screenshot": "teacher-night-1440.png",
+      "errors": [],
+      "title": "Ota-onalar nazorati",
+      "overflow": false,
+      "headings": [
+        "✉ Xabar yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "teacher",
+      "theme": "night",
+      "width": 390,
+      "path": "/app/management/guardians",
+      "responseStatus": 200,
+      "actualPath": "/app/management/guardians",
+      "screenshot": "teacher-night-390.png",
+      "errors": [],
+      "title": "Ota-onalar nazorati",
+      "overflow": false,
+      "headings": [
+        "✉ Xabar yozish"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "student",
+      "theme": "day",
+      "width": 1440,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "student-day-1440.png",
+      "errors": [],
+      "title": "Mening to‘lovlarim",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "student",
+      "theme": "day",
+      "width": 390,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "student-day-390.png",
+      "errors": [],
+      "title": "Mening to‘lovlarim",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "student",
+      "theme": "night",
+      "width": 1440,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "student-night-1440.png",
+      "errors": [],
+      "title": "Mening to‘lovlarim",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "student",
+      "theme": "night",
+      "width": 390,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "student-night-390.png",
+      "errors": [],
+      "title": "Mening to‘lovlarim",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "guardian",
+      "theme": "day",
+      "width": 1440,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "guardian-day-1440.png",
+      "errors": [],
+      "title": "Farzandimning to‘lovlari",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "guardian",
+      "theme": "day",
+      "width": 390,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "guardian-day-390.png",
+      "errors": [],
+      "title": "Farzandimning to‘lovlari",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "guardian",
+      "theme": "night",
+      "width": 1440,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "guardian-night-1440.png",
+      "errors": [],
+      "title": "Farzandimning to‘lovlari",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    },
+    {
+      "role": "guardian",
+      "theme": "night",
+      "width": 390,
+      "path": "/app/payments",
+      "responseStatus": 200,
+      "actualPath": "/app/payments",
+      "screenshot": "guardian-night-390.png",
+      "errors": [],
+      "title": "Farzandimning to‘lovlari",
+      "overflow": false,
+      "headings": [
+        "To‘lanishi kerak",
+        "To‘lov qilish",
+        "To‘lovlar tarixi",
+        "Ko‘p so‘raladigan savollar"
+      ],
+      "unlabeledFields": 0
+    }
+  ]
+}

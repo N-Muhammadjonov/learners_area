@@ -160,6 +160,8 @@ class StaticFrontend:
                                     response = RedirectResponse('/pending', 303)
                                 elif path == '/pending' and user['account_status'] == 'active':
                                     response = RedirectResponse('/app', 303)
+                                elif user['role']=='guardian' and user['account_status']=='active' and path not in ('/app/progress','/app/leaderboard','/app/payments'):
+                                    response = RedirectResponse('/app/progress',303)
                                 elif path.startswith('/app/owner') and user['role'] != 'owner':
                                     response = RedirectResponse('/app', 303)
                                 elif path.startswith('/app/admin') and not re.match(r'^/app/admin/(materials|video-lessons)(/|$)',path) and user['role'] not in ('admin','owner'):

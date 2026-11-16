@@ -2518,5 +2518,110 @@
     "method": "POST",
     "path": "/api/writing/typing/start",
     "name": "start"
+  },
+  {
+    "method": "GET",
+    "path": "/api/finance/me/payments",
+    "name": "my_payments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/finance/me/intents",
+    "name": "create_my_intent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/finance/me/intents/{intent_id}",
+    "name": "my_intent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/finance/me/intents/{intent_id}/refresh",
+    "name": "refresh_my_intent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children/{child_id}/payments",
+    "name": "child_payments"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardian/children/{child_id}/payments/intents",
+    "name": "create_child_intent"
+  },
+  {
+    "method": "GET",
+    "path": "/api/guardian/children/{child_id}/payments/intents/{intent_id}",
+    "name": "child_intent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardian/children/{child_id}/payments/intents/{intent_id}/refresh",
+    "name": "refresh_child_intent"
+  },
+  {
+    "method": "POST",
+    "path": "/api/payments/callbacks/payme",
+    "name": "payme_callback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/payments/callbacks/click",
+    "name": "click_callback"
+  },
+  {
+    "method": "POST",
+    "path": "/api/payments/callbacks/uzum",
+    "name": "uzum_callback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/debtors",
+    "name": "finance_debtor_list"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/academy/today",
+    "name": "academy_today"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/academy/assistant/proposals",
+    "name": "academy_staff_proposal"
+  },
+  {
+    "method": "POST",
+    "path": "/api/finance/me/assistant",
+    "name": "academy_student_payment_help"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardian/children/{child_id}/assistant",
+    "name": "academy_guardian_payment_help"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies",
+    "name": "create_policy"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/students/{student_id}/service-policies",
+    "name": "student_policies"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies/{policy_id}/pauses",
+    "name": "request_pause"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies/{policy_id}/pauses/{pause_id}/approve",
+    "name": "approve_pause"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/finance/service-policies/{policy_id}/days",
+    "name": "consume_day"
   }
 ]

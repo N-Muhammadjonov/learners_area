@@ -1,6 +1,8 @@
 import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
+import {academyHelp} from '../shared/academy-help.js';
+import {paymentDate} from '../payments/format.js';
 
 const API='/api/staff/finance/payroll';
 
@@ -76,7 +78,10 @@ export function academyPayroll(ctx){
   field(t.teacher,teacher),field(t.period,period),button(t.open));
  const status=el('p',{role:'status'}),body=el('div',{class:'space-y-4'});
  const panel=el('details',{class:'card space-y-3 p-4','data-academy-payroll':''},
-  el('summary',{class:'cursor-pointer font-semibold'},t.title),lookup,query,status,body);
+  el('summary',{class:'cursor-pointer font-semibold'},t.title),
+  el('p',{},ctx.locale==='uz'?'Darslar va kelishilgan stavkalar asosida ish haqini tekshiring. Hisoblash va pul to‘lash alohida amallar.':
+   'Review pay from class records and agreed terms. Accrual and bank payout are separate actions.'),
+  lookup,query,status,body,academyHelp(ctx,'payroll'));
  let selection, revision=0;
  const fmt=new Intl.NumberFormat(ctx.locale==='uz'?'uz-UZ':'en-GB');
  const money=value=>/^[-]?\d+$/.test(String(value))?fmt.format(BigInt(value))+' UZS':'—';
@@ -198,10 +203,8 @@ export function academyPayroll(ctx){
    try{
     const data=await api.request(API+'/revenue?'+new URLSearchParams(request),{signal,fresh:true});
     if(signal.aborted)return;
-    const date=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',
-     {timeZone:'Asia/Tashkent',dateStyle:'short',timeStyle:'short'});
     const select=el('select',{class:'input',required:true},data.options.map((row,index)=>
-     el('option',{value:index},[row.group_name,date.format(new Date(row.starts_at)),
+     el('option',{value:index},[row.group_name,paymentDate(row.starts_at,ctx.locale,'—'),
       row.student_name,money(row.amount_minor)].join(' · '))));
     if(!data.options.length){options.replaceChildren(el('p',{},t.noSources));return;}
     options.replaceChildren(command(t.assign,[field(t.source,select)],'/revenue',()=>{

@@ -23,3 +23,8 @@ def academy_enabled() -> bool:
     """Managed deployments activate Academy after its database upgrade."""
     setting = os.getenv('ACADEMY_FEATURES_ENABLED')
     return development() if setting is None else setting == '1'
+
+
+def academy_assistant_enabled() -> bool:
+    setting=os.getenv('ACADEMY_ASSISTANT_ENABLED')
+    return academy_enabled() and (development() if setting is None else setting=='1')

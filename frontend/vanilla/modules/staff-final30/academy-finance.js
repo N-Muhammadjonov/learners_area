@@ -4,6 +4,10 @@ import {anySignal} from '../../js/signals.js';
 import {BackLink} from './kit.js';
 import {financeDocuments} from './finance-documents.js';
 import {academyPayroll} from './academy-payroll.js';
+import {pageGuide} from '../shared/page-guide.js';
+import {financeDebtors} from './finance-debtors.js';
+import {paymentDate} from '../payments/format.js';
+import {prepaidContracts} from './prepaid-contracts.js';
 
 const STAFF_API='/api/staff/finance';
 const UUID=/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i;
@@ -14,7 +18,7 @@ function translations(ctx){
   title:'Akademiya moliyasi',journal:'Jurnal CSV',period:'Jurnal oyi',start:'Boshlanish',end:'Tugash',report:'Hisobot',statement:'O‘quvchi hisoboti',
   find:'O‘quvchi qidirish',select:'O‘quvchini tanlang',open:'Ochish',submit:'To‘lovni yozish',
   cash:'Naqd',bank:'Bank',purpose:'To‘lov maqsadi',amount:'Miqdor (so‘m)',confirm:'To‘lov miqdori va usulini tekshirdim',
-  total:'Jami tushum',recognized:'Tan olingan daromad',debt:'Qarz',overdue:'Muddati o‘tgan qarz',
+  total:'Jami tushum',net:'Qaytarishlardan keyingi tushum',recognized:'Tan olingan daromad',debt:'Qarz',overdue:'Muddati o‘tgan qarz',
   advance:'Avans',refunds:'Qaytarilgan mablag‘',charges:'Hisoblangan to‘lovlar',payments:'To‘lovlar',
   receipt:'Ichki to‘lov tasdiqnomasi',print:'Chop etish',noRows:'Yozuv yo‘q.',retry:'Qayta urinish',
   clear:'Ochiq qarz yo‘q',outstanding:'Ochiq qarz bor',pastDue:'Muddati o‘tgan qarz bor',
@@ -31,7 +35,7 @@ function translations(ctx){
   title:'Academy finance',journal:'Journal CSV',period:'Journal month',start:'Start',end:'End',report:'Report',statement:'Student statement',
   find:'Search students',select:'Select a student',open:'Open',submit:'Record payment',
   cash:'Cash',bank:'Bank',purpose:'Payment purpose',amount:'Amount (UZS)',confirm:'I checked the payment method and amount',
-  total:'Total collected',recognized:'Recognized revenue',debt:'Outstanding balance',overdue:'Overdue balance',
+  total:'Total collected',net:'Collections after refunds',recognized:'Recognized revenue',debt:'Outstanding balance',overdue:'Overdue balance',
   advance:'Advance',refunds:'Settled refunds',charges:'Charges',payments:'Payments',
   receipt:'Internal payment acknowledgment',print:'Print',noRows:'No records.',retry:'Retry',
   clear:'No outstanding balance',outstanding:'Outstanding balance',pastDue:'Past-due balance',
@@ -74,9 +78,7 @@ function totals(entries){
 
 function printReceipt(ctx,payment,studentLabel){
  const t=translations(ctx),amount=amounts(ctx);
- const stamp=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',{
-  dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Tashkent',
- }).format(new Date(payment.occurred_at));
+ const stamp=paymentDate(payment.occurred_at,ctx.locale,'—');
  const content=el('article',{},el('h1',{},t.receipt),
   el('dl',{},[[t.receiptNo,payment.receipt_no],[t.statement,studentLabel],
    [t.amount,amount(payment.amount_minor)],[t.method,t[payment.method]??payment.method],
@@ -109,7 +111,10 @@ function statementView(ctx,data,studentLabel){
  const view=el('div',{class:'space-y-3'},
   totals([[t.debt,fmt(p.balanceDueMinor)],[t.overdue,fmt(p.overdueMinor)],
    [t.advance,fmt(p.advanceMinor)],[t.refunds,fmt(p.refundedMinor)]]),
-  entries(t.charges,data.charges,row=>el('li',{class:'py-2'},[row.period_key,fmt(row.net_amount_minor),row.status].join(' · '))),
+  entries(t.charges,data.charges,row=>el('li',{class:'py-2'},[row.period_key,fmt(row.net_amount_minor),
+   ({draft:ctx.locale==='uz'?'Qoralama':'Draft',approved:ctx.locale==='uz'?'Tasdiqlangan':'Approved',
+    posted:ctx.locale==='uz'?'Hisobga yozilgan':'Recorded',reversed:ctx.locale==='uz'?'Teskari yozuv bilan bekor qilingan':'Reversed',
+    credited:ctx.locale==='uz'?'Tuzatilgan':'Credited'})[row.status]??ctx.dict.common.loading].join(' · '))),
   entries(t.payments,data.payments,row=>{
    const print=button(t.print);
    const printable=Boolean(row.receipt_no&&row.occurred_at&&['confirmed','partially_refunded','refunded'].includes(row.status));
@@ -127,19 +132,29 @@ function staffPaymentForm(ctx,id,onSaved){
  const t=translations(ctx), amount=el('input',{class:'input',type:'number',min:1,step:1,max:Number.MAX_SAFE_INTEGER,required:true});
  const method=el('select',{class:'input'},['cash','bank'].map(value=>el('option',{value},t[value])));
  const purpose=el('input',{class:'input',maxlength:120});
+ const policy=el('select',{class:'input'},el('option',{value:''},ctx.locale==='uz'?'Umumiy qarz va avans':'General tuition and advance'));
+ const policyLabel=label(ctx.locale==='uz'?'Qaysi to‘lov uchun?':'Payment account',policy);policyLabel.hidden=true;
+ async function refreshPolicies(){
+  try{const result=await api.request(STAFF_API+'/students/'+id+'/service-policies',{signal:ctx.signal,fresh:true});
+   if(ctx.signal.aborted)return;const current=policy.value,choices=result.policies.filter(p=>p.active&&p.approved&&p.purchasesEnabled);
+   policy.replaceChildren(el('option',{value:''},ctx.locale==='uz'?'Umumiy qarz va avans':'General tuition and advance'),
+    ...choices.map(p=>el('option',{value:p.id,selected:p.id===current},p.label+' · '+p.course)));policyLabel.hidden=!choices.length;
+  }catch{if(!ctx.signal.aborted)status.textContent=ctx.locale==='uz'?'Paketlarni yuklab bo‘lmadi. Paket uchun to‘lov yozishdan oldin sahifani yangilang.':'Packages could not load. Refresh before recording a package payment.';}
+ }
  const confirm=el('input',{type:'checkbox',required:true});
  const save=button(t.submit,{type:'submit',class:'btn-primary'});
  const status=el('p',{role:'status'}), error=el('p',{role:'alert'});
  let pending=null;
  const form=el('form',{class:'card space-y-3 p-3','data-academy-payment-form':''},
-  el('h3',{class:'font-semibold'},t.submit),label(t.amount,amount),label(t.method,method),
+  el('h3',{class:'font-semibold'},t.submit),policyLabel,label(t.amount,amount),label(t.method,method),
   label(t.purpose,purpose),el('label',{class:'flex gap-2'},confirm,t.confirm),save,status,error);
  listen(form,'submit',async event=>{
   event.preventDefault();
   if(save.disabled||ctx.signal.aborted||!form.reportValidity())return;
   const value=amount.valueAsNumber;
   if(!Number.isSafeInteger(value)||value<1){error.textContent=t.invalid_amount;return;}
-  const data={studentUserId:id,amountMinor:value,method:method.value,receiptPurpose:purpose.value.trim()||null};
+  const data={studentUserId:id,amountMinor:value,method:method.value,receiptPurpose:purpose.value.trim()||null,
+   ...policy.value?{servicePolicyId:policy.value}:{}};
   const fingerprint=JSON.stringify(data);
   if(pending?.fingerprint!==fingerprint)pending={fingerprint,key:crypto.randomUUID()};
   save.disabled=true;error.textContent='';status.textContent=ctx.dict.common.saving;
@@ -155,10 +170,10 @@ function staffPaymentForm(ctx,id,onSaved){
    if(!ctx.signal.aborted){status.textContent='';error.textContent=Object.hasOwn(t,cause.code)?t[cause.code]:ctx.dict.common.error;}
   }finally{save.disabled=false;}
  },ctx.signal);
- return form;
+ return {node:form,refresh:refreshPolicies};
 }
 
-function studentStatement(ctx,id,studentLabel,allowPayment){
+function studentStatement(ctx,id,studentLabel,allowPayment,onUpdated=async()=>{}){
  const t=translations(ctx),v=el('div',{class:'space-y-3'});
  const feedback=el('p',{role:'status'});
  const shell=el('section',{class:'space-y-3'},el('h2',{class:'font-display text-xl'},t.statement+' · '+studentLabel),feedback,v);
@@ -171,17 +186,20 @@ function studentStatement(ctx,id,studentLabel,allowPayment){
    const data=await api.request(STAFF_API+'/students/'+id+'/statement',{signal:ctx.signal,fresh:true});
    if(ctx.signal.aborted)return;
    v.replaceChildren(statementView(ctx,data,studentLabel));
-   if(allowPayment)v.append(financeDocuments(ctx,id,data,amounts(ctx),businessDate(),async message=>{
+   if(allowPayment)v.append(prepaidContracts(ctx,id,businessDate(),async()=>{await load();await onUpdated();}),financeDocuments(ctx,id,data,amounts(ctx),businessDate(),async message=>{
     feedback.textContent=message;
     await load();
+    await onUpdated();
    }));
+   if(payment)await payment.refresh();
   }catch{
    if(ctx.signal.aborted)return;
    const retry=button(t.retry);listen(retry,'click',load,ctx.signal);
    v.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error),retry);
   }finally{reading=false;}
  }
- if(allowPayment)shell.append(staffPaymentForm(ctx,id,load));
+ const payment=allowPayment?staffPaymentForm(ctx,id,async()=>{await load();await onUpdated();}):null;
+ if(payment)shell.append(payment.node);
  void load();
  return shell;
 }
@@ -235,24 +253,68 @@ export async function mount(ctx){
   label(t.find,search),lookup,label(t.select,matches),open);
  const findStatus=el('p',{role:'status'});
  const studentHost=el('div',{class:'space-y-3'});
+ const uz=ctx.locale==='uz',text=(a,b)=>uz?a:b;
+ const payPanel=el('section',{class:'card space-y-3 p-4',style:{scrollMarginTop:'6rem'},'data-finance-payment-task':''},
+  el('h2',{class:'font-display text-xl'},text('O‘quvchining to‘lovini yozish','Record a student payment')),
+  el('p',{},text('Ism bo‘yicha qidiring, o‘quvchini oching va faqat olingan pulni yozing.','Search by name, open the student and record only funds you have received.')),
+  lookupForm,findStatus,studentHost);
+ const debtorList=financeDebtors(ctx,(id,name)=>{
+  selectedController?.abort();selectedController=new AbortController();
+  const selected={...ctx,signal:anySignal([ctx.signal,selectedController.signal])};
+  studentHost.replaceChildren(studentStatement(selected,id,name,true,refreshAccounts));
+  payPanel.scrollIntoView({block:'start'});
+ });
+ const debtPanel=el('details',{class:'card space-y-3 p-4','data-finance-debt-task':''},
+  el('summary',{class:'cursor-pointer font-semibold'},text('Qarzdorlarni topish','Find outstanding tuition')),debtorList,agingReport(ctx));
+ let debtLoaded=false;
+ listen(debtPanel,'toggle',()=>{if(debtPanel.open&&!debtLoaded){debtLoaded=true;debtorList.dispatchEvent(new Event('academy-load'));}},ctx.signal);
+ const expert=el('details',{class:'card space-y-3 p-4','data-finance-advanced':''},
+  el('summary',{class:'cursor-pointer font-semibold'},text('Batafsil: hisoblarni tekshirish, kassa va ish haqi','Advanced: account checks, cash close and payroll')),
+  el('p',{},text('Tushum — kelgan pul. Daromad — ko‘rsatilgan ta’lim xizmati uchun hisoblangan summa. Ular bir xil bo‘lishi shart emas.',
+   'Collections are received funds. Recognized revenue represents delivered tuition services. These amounts can differ.')),
+  reconcile,recon,journalExport(ctx,today),cashClose(ctx,today),academyPayroll(ctx));
+ const startPayment=button(text('To‘lovni yozish','Record payment'),{class:'btn-primary'});
+ listen(startPayment,'click',()=>{payPanel.scrollIntoView({block:'start'});search.focus();},ctx.signal);
+ const guide=pageGuide(ctx,{key:'finance',title:text('Moliya sahifasidan foydalanish','How to use finance'),
+  steps:[text('Davrni tanlang. Jami tushum kelgan pulni, qarz esa hali to‘lanmagan summani bildiradi.','Select the date range. Collections show received funds, while outstanding tuition is unpaid.'),
+   text('To‘lovni yozish uchun o‘quvchini qidiring, hisobini oching va naqd yoki bank usulini tanlang.','To record funds, find the student, open the account and choose cash or bank.'),
+   text('Qarzdorlarni alohida ro‘yxatdan ko‘ring. Hisob tekshiruvi va kassa yopish amallari “Batafsil” ichida.','Find debtors in their own list. Reconciliation and cash closing are under Advanced.')],
+  example:text('O‘quvchini ochganingizda uning haqiqiy qarzi, avansi va to‘lovlari ko‘rinadi. Faqat olingan summani yozing, qoldiq serverda qayta hisoblanadi.',
+   'Open a student to see actual debt, advance and payments. Record the received amount; the server recalculates the remainder.')});
  const host=el('div',{class:'mx-auto max-w-6xl space-y-4','data-academy-finance':''},
   BackLink({fallbackHref:'/app/management',label:ctx.dict.common.back}),el('h1',{class:'font-display text-3xl'},t.title),
-  form,summary,recon,agingReport(ctx),journalExport(ctx,today),cashClose(ctx,today),lookupForm,findStatus,studentHost,
-  academyPayroll(ctx));
+  el('p',{},text('To‘lovlarni yozing, qarzdorlarni toping va tanlangan davrdagi tushumni tekshiring.','Record payments, find outstanding tuition and review collections for the selected period.')),
+  startPayment,form,summary,payPanel,debtPanel,guide,expert);
  ctx.root.append(host);
  let selectedController;
+ async function refreshAccounts(){
+  await report();
+  if(debtLoaded)debtorList.dispatchEvent(new Event('academy-load'));
+ }
+ if(ctx.url?.searchParams.get('view')==='debts'){
+  debtPanel.open=true;
+  host.insertBefore(debtPanel,form);
+ }
+ let reportNumber=0;
  async function report(){
-  if(submit.disabled||!form.reportValidity()||ctx.signal.aborted)return;
+  if(!form.reportValidity()||ctx.signal.aborted)return;
+  const ticket=++reportNumber;
   submit.disabled=true;
   summary.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
   try{
-   const data=await api.request(STAFF_API+'/summary?'+new URLSearchParams({start:start.value,end:end.value}),{signal:ctx.signal});
-   if(!ctx.signal.aborted)summary.replaceChildren(totals([[t.total,fmt(data.collectedTotalMinor)],
+   const data=await api.request(STAFF_API+'/summary?'+new URLSearchParams({start:start.value,end:end.value}),{signal:ctx.signal,fresh:true});
+   if(!ctx.signal.aborted&&ticket===reportNumber)summary.replaceChildren(
+    el('p',{'data-finance-report-scope':'',class:'text-sm'},text('Barcha filiallar','All branches')+' · '+
+     paymentDate(data.range?.start??start.value,ctx.locale,'—')+' – '+paymentDate(data.range?.end??end.value,ctx.locale,'—')),
+    el('p',{},text('Tushum va qaytarishlar tanlangan davrga tegishli. Qarz va avans esa barcha davrlardagi hozirgi qoldiq. Daromad ko‘rsatilgan xizmat uchun hisoblanadi.',
+     'Collections and refunds cover the selected period. Debt and advances are current balances across all periods. Revenue represents delivered tuition services.')),
+    totals([[t.total,fmt(data.collectedTotalMinor)],[t.net,fmt(data.collectedNetMinor)],
     [t.cash,fmt(data.collectedCashMinor)],[t.bank,fmt(data.collectedBankMinor)],[t.recognized,fmt(data.recognizedRevenueMinor)],
     [t.debt,fmt(data.outstandingReceivableMinor)],[t.overdue,fmt(data.overdueReceivableMinor)],
-    [t.advance,fmt(data.customerAdvanceMinor)],[t.refunds,fmt(data.refundsMinor)]]));
-  }catch{if(!ctx.signal.aborted)summary.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error));}
-  finally{submit.disabled=false;}
+    [t.advance,fmt(data.customerAdvanceMinor)],[t.refunds,fmt(data.refundsMinor)]]),
+    el('p',{class:'text-sm',role:'status'},text('Yangilandi (Toshkent): ','Updated (Tashkent): ')+paymentDate(data.asOf,ctx.locale,'—')));
+  }catch{if(!ctx.signal.aborted&&ticket===reportNumber)summary.replaceChildren(el('p',{role:'alert'},ctx.dict.common.error));}
+  finally{if(ticket===reportNumber)submit.disabled=false;}
  }
  listen(form,'submit',event=>{event.preventDefault();void report();},ctx.signal);
  listen(reconcile,'click',async()=>{
@@ -281,7 +343,7 @@ export async function mount(ctx){
   const id=matches.value;if(!UUID.test(id))return;
   selectedController?.abort();selectedController=new AbortController();
   const selected={...ctx,signal:anySignal([ctx.signal,selectedController.signal])};
-  studentHost.replaceChildren(studentStatement(selected,id,matches.selectedOptions[0].textContent,true));
+  studentHost.replaceChildren(studentStatement(selected,id,matches.selectedOptions[0].textContent,true,refreshAccounts));
  },ctx.signal);
  await report();
 }

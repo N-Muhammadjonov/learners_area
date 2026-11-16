@@ -21,6 +21,7 @@ import pytest
 import pytest_asyncio
 
 from _finance_schema import apply_finance_migrations, create_disposable_schema
+from test_academy_learning_journey import journey
 
 DSN = "postgresql://coin_qa:coin_qa_local@127.0.0.1:55439/coin_qa"
 SCHEMA_TS = Path(__file__).resolve().parents[3] / 'src' / 'db' / 'schema.ts'
@@ -88,8 +89,11 @@ def test_the_typescript_schema_file_is_where_this_test_expects():
 
 
 @pytest.mark.asyncio
-async def test_every_finance_table_and_column_is_declared(migrated, declarations):
-    con, schema = migrated
+async def test_every_finance_table_and_column_is_declared(journey, declarations):
+    # Column parity uses the current complete chain. The legacy fixture below still
+    # verifies pre-feature money compatibility and its unbounded bigint precision.
+    con, _ = journey
+    schema = 'public'
     rows = await con.fetch(
         """SELECT table_name, column_name FROM information_schema.columns
             WHERE table_schema = $1 ORDER BY table_name, ordinal_position""", schema)
@@ -97,7 +101,8 @@ async def test_every_finance_table_and_column_is_declared(migrated, declarations
     for row in rows:
         database.setdefault(row['table_name'], set()).add(row['column_name'])
 
-    for table in FINANCE_TABLES:
+    for table in (*FINANCE_TABLES,'tuition_service_policies','tuition_service_consumptions',
+                  'tuition_service_events','tuition_service_pauses'):
         assert table in database, f'{table} was not created by the migration chain'
         assert table in declarations, f'{table} is missing from src/db/schema.ts'
         declared = set(declarations[table])

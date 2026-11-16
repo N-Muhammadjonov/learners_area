@@ -179,4 +179,5 @@ export default [...mapped,
  {pattern:'/app/management/leads',protected:true,requiresAcademy:true,roles:['admin','owner'],load:()=>import('../modules/staff-final30/academy-leads.js')},
  {pattern:'/app/management/directory-files',protected:true,requiresAcademy:true,roles:['owner'],load:()=>import('../modules/staff-final30/academy-directory.js')},
  {pattern:'/app/management/finance',protected:true,requiresAcademy:true,roles:['admin','owner'],load:()=>import('../modules/staff-final30/academy-finance.js')},
- {pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')}];
+ {pattern:'/app/management/guardians',protected:true,roles:['teacher','admin','owner'],load:()=>import('../modules/guardian/guardians.js')},
+ {pattern:'/app/payments',protected:true,requiresPayments:true,roles:['student','guardian'],load:()=>import('../modules/payments/page.js')}];

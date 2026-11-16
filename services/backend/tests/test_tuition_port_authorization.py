@@ -57,7 +57,11 @@ class Conn:
             return 1 if args[0] in (LINKED, UNLINKED, STUDENT) else None
         return None
 
-    async def fetchrow(self, *args):
+    async def fetchrow(self, sql, *args):
+        # An aggregate account read returns one zero-valued row even without
+        # transactions; authorization remains the subject of this stub fixture.
+        if 'WITH charges AS MATERIALIZED' in sql:
+            return {key: 0 for key in ('charged', 'allocated', 'credited', 'collected', 'refunded', 'overdue')}
         return None
 
     async def fetch(self, *args):

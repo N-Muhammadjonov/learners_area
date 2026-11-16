@@ -806,7 +806,7 @@ async def staff_guardian_detail(req: Request, link_id: str):
             WHERE d.link_id=$1''' + history_scope + ' ORDER BY d.created_at DESC LIMIT 30', *history_args)
         await audit(con, 'guardian.detail.viewed', actor_user_id=user['id'], link_id=r['id'], student_id=r['student_id'])
     return core.j({'ok': True, 'link': {
-        'linkId': str(r['id']), 'status': r['status'], 'relationship': r['relationship'], 'studentName': r['student_name'],
+        'linkId': str(r['id']), 'studentId':str(r['student_id']), 'status': r['status'], 'relationship': r['relationship'], 'studentName': r['student_name'],
         'guardianName': r['display_name'], 'telegramUsername': r['username'],
         'telegramUserId': r['telegram_user_id'],
         'phone': (r['phone_number'] if user['role'] == 'owner' else mask_phone(r['phone_number']))

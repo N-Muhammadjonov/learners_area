@@ -18,6 +18,7 @@
  * data-rich dashboard is preserved as a real `/app/dashboard` page.
  */
 export const PRIVATE_MODULES = [
+  { segment: "payments", destination: "/app/payments" },
   { segment: "dashboard", destination: "/app/dashboard" },
   { segment: "courses", destination: "/app/courses" },
   { segment: "writing", destination: "/app/writing" },

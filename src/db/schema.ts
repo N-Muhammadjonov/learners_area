@@ -3965,6 +3965,7 @@ export const financeJournalLines = pgTable("finance_journal_lines", {
 
 export const tuitionContracts = pgTable("tuition_contracts", {
   id: uuid("id").defaultRandom().primaryKey(),
+  servicePolicyId: uuid("service_policy_id").unique().references((): AnyPgColumn => tuitionServicePolicies.id, {onDelete: "restrict"}),
   studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
   courseId: uuid("course_id").references(() => courses.id, { onDelete: "set null" }),
   status: varchar("status", { length: 12 }).notNull().default("draft"),
@@ -3996,6 +3997,7 @@ export const tuitionContractDiscounts = pgTable("tuition_contract_discounts", {
 
 export const tuitionCharges = pgTable("tuition_charges", {
   id: uuid("id").defaultRandom().primaryKey(),
+  servicePolicyId: uuid("service_policy_id").references((): AnyPgColumn => tuitionServicePolicies.id, {onDelete: "restrict"}),
   contractId: uuid("contract_id").references(() => tuitionContracts.id, { onDelete: "set null" }),
   studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
   periodKey: varchar("period_key", { length: 7 }).notNull(),
@@ -4019,10 +4021,12 @@ export const tuitionCharges = pgTable("tuition_charges", {
 }, table => [
   index("tuition_charges_student_period_idx").on(table.studentUserId, table.periodKey),
   index("tuition_charges_open_idx").on(table.studentUserId, table.dueDate),
+  index("tuition_charges_service_policy_idx").on(table.servicePolicyId,table.id).where(sql`${table.servicePolicyId} IS NOT NULL`),
 ]);
 
 export const tuitionPayments = pgTable("tuition_payments", {
   id: uuid("id").defaultRandom().primaryKey(),
+  servicePolicyId: uuid("service_policy_id").references((): AnyPgColumn => tuitionServicePolicies.id, {onDelete: "restrict"}),
   studentUserId: uuid("student_user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
   currencyCode: varchar("currency_code", { length: 3 }).notNull().default("UZS"),
   amountMinor: bigint("amount_minor", { mode: "bigint" }).notNull(),
@@ -4044,6 +4048,7 @@ export const tuitionPayments = pgTable("tuition_payments", {
   uniqueIndex("tuition_payments_idempotency_uidx").on(table.idempotencyKey),
   uniqueIndex("tuition_payments_receipt_uidx").on(table.receiptNo),
   index("tuition_payments_student_idx").on(table.studentUserId, table.occurredAt),
+  index("tuition_payments_service_policy_idx").on(table.servicePolicyId,table.id).where(sql`${table.servicePolicyId} IS NOT NULL`),
 ]);
 
 export const tuitionPaymentAllocations = pgTable("tuition_payment_allocations", {
@@ -4513,3 +4518,141 @@ export const academyRescueActions = pgTable("academy_rescue_actions", {
   check("academy_rescue_actions_action_check", sql`${t.action} IN ('claim','assign','note','plan','follow_up','resolve','dismiss','reopen')`),
   check("academy_rescue_actions_reason_check", sql`char_length(btrim(${t.reason})) BETWEEN 3 AND 300`),
 ]).enableRLS();
+
+/** Private portal orders; settlement remains in tuitionPayments and the journal. */
+export const tuitionPaymentIntents = pgTable("tuition_payment_intents", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  servicePolicyId: uuid("service_policy_id").references((): AnyPgColumn => tuitionServicePolicies.id, {onDelete: "restrict"}),
+  prepareNumber: bigint("prepare_number", {mode: "number"}).generatedAlwaysAsIdentity().unique(),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, {onDelete: "restrict"}),
+  payerUserId: uuid("payer_user_id").notNull().references(() => users.id, {onDelete: "restrict"}),
+  // Existing guardian tables are SQL-owned; the native migration enforces this FK.
+  guardianLinkId: uuid("guardian_link_id"),
+  amountMinor: bigint("amount_minor", {mode: "number"}).notNull(),
+  currencyCode: varchar("currency_code", {length: 3}).notNull().default("UZS"),
+  provider: varchar("provider", {length: 8}).notNull(),
+  providerEnvironment: varchar("provider_environment", {length: 8}).notNull().default("live"),
+  idempotencyKey: uuid("idempotency_key").notNull(),
+  quoteVersion: varchar("quote_version", {length: 50}).notNull().default("monthly-invoice-v1"),
+  status: varchar("status", {length: 16}).notNull().default("created"),
+  paymentId: uuid("payment_id").unique().references(() => tuitionPayments.id, {onDelete: "restrict"}),
+  providerTransactionId: varchar("provider_transaction_id", {length: 200}),
+  providerCreatedMs: bigint("provider_created_ms", {mode: "number"}),
+  performedMs: bigint("performed_ms", {mode: "number"}),
+  cancelledMs: bigint("cancelled_ms", {mode: "number"}),
+  cancellationReason: integer("cancellation_reason"),
+  checkoutUrl: text("checkout_url"),
+  checkoutState: varchar("checkout_state", {length: 16}).notNull().default("new"),
+  verificationAttempts: integer("verification_attempts").notNull().default(0),
+  nextCheckAt: timestamp("next_check_at", {withTimezone: true}).notNull().defaultNow(),
+  verificationErrorCode: varchar("verification_error_code", {length: 50}),
+  fiscalStatus: varchar("fiscal_status", {length: 24}).notNull().default("manual_review"),
+  fiscalUrl: text("fiscal_url"),
+  createdAt: timestamp("created_at", {withTimezone: true}).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", {withTimezone: true}).notNull().defaultNow(),
+  expiresAt: timestamp("expires_at", {withTimezone: true}).notNull().default(sql`now()+interval '30 minutes'`),
+}, t => [
+  unique().on(t.payerUserId,t.idempotencyKey),
+  unique().on(t.provider,t.providerTransactionId),
+  index("tuition_payment_intents_student_history_idx").on(t.studentUserId,t.createdAt.desc(),t.id.desc()),
+  index("tuition_payment_intents_provider_pending_idx").on(t.provider,t.nextCheckAt).where(sql`${t.status} IN ('created','pending')`),
+  index("tuition_payment_intents_payer_idx").on(t.payerUserId,t.createdAt.desc()),
+  index("tuition_payment_intents_guardian_link_idx").on(t.guardianLinkId).where(sql`${t.guardianLinkId} IS NOT NULL`),
+  index("tuition_intents_service_policy_idx").on(t.servicePolicyId).where(sql`${t.servicePolicyId} IS NOT NULL`),
+  check("tuition_payment_intents_verification_attempts_check",sql`${t.verificationAttempts} BETWEEN 0 AND 12`),
+  check("tuition_payment_intents_amount_minor_check",sql`${t.amountMinor} BETWEEN 1 AND 90071992547409`),
+  check("tuition_payment_intents_currency_code_check",sql`${t.currencyCode}='UZS'`),
+  check("tuition_payment_intents_provider_check",sql`${t.provider} IN ('click','payme','uzum')`),
+  check("tuition_payment_intents_provider_environment_check",sql`${t.providerEnvironment} IN ('sandbox','live')`),
+  check("tuition_payment_intents_status_check",sql`${t.status} IN ('created','pending','paid','failed','cancelled','expired')`),
+  check("tuition_payment_intents_checkout_state_check",sql`${t.checkoutState} IN ('new','registering','ready','unknown')`),
+  check("tuition_payment_intents_fiscal_status_check",sql`${t.fiscalStatus} IN ('not_required','pending','issued','failed','manual_review')`),
+  check("tuition_payment_intents_check",sql`${t.status} <> 'paid' OR ${t.paymentId} IS NOT NULL`),
+  check("tuition_payment_intents_check1",sql`${t.fiscalUrl} IS NULL OR ${t.fiscalStatus}='issued'`),
+  check("tuition_payment_intents_check2",sql`${t.expiresAt}>${t.createdAt}`),
+]).enableRLS();
+
+export const tuitionProviderEvents = pgTable("tuition_provider_events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  intentId: uuid("intent_id").notNull().references(() => tuitionPaymentIntents.id, {onDelete: "restrict"}),
+  provider: varchar("provider", {length: 8}).notNull(),
+  eventKey: varchar("event_key", {length: 200}).notNull(),
+  fingerprint: varchar("fingerprint", {length: 64}).notNull(),
+  eventType: varchar("event_type", {length: 40}).notNull(),
+  createdAt: timestamp("created_at", {withTimezone: true}).notNull().defaultNow(),
+}, t => [
+  unique().on(t.provider,t.eventKey),
+  index("tuition_provider_events_intent_idx").on(t.intentId,t.createdAt),
+  check("tuition_provider_events_provider_check",sql`${t.provider} IN ('click','payme','uzum')`),
+]).enableRLS();
+
+
+// Explicit approved service conversion. Money remains independent from delivered units.
+export const tuitionServicePolicies = pgTable("tuition_service_policies", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  contractId: uuid("contract_id").notNull().unique().references((): AnyPgColumn => tuitionContracts.id, {onDelete: "restrict"}),
+  studentUserId: uuid("student_user_id").notNull().references(() => users.id, {onDelete: "restrict"}),
+  courseId: uuid("course_id").notNull().references(() => courses.id, {onDelete: "restrict"}),
+  mode: varchar("mode", {length: 30}).notNull(),
+  label: varchar("label", {length: 120}).notNull(),
+  version: varchar("version", {length: 30}).notNull().default("service-policy-v1"),
+  priceAmountMinor: bigint("price_amount_minor", {mode: "bigint"}).notNull(),
+  priceUnits: integer("price_units").notNull(),
+  maxUnits: integer("max_units").notNull(),
+  eligibleWeekdays: smallint("eligible_weekdays").array().notNull(),
+  excludedDates: date("excluded_dates").array().notNull().default(sql`'{}'::date[]`),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on"),
+  residualRule: varchar("residual_rule", {length: 30}).notNull(),
+  lessonBasis: varchar("lesson_basis", {length: 30}).notNull(),
+  createFingerprint: varchar("create_fingerprint", {length: 64}).notNull(),
+  createdBy: uuid("created_by").notNull().references(() => users.id, {onDelete: "restrict"}),
+  approvedBy: uuid("approved_by").references(() => users.id, {onDelete: "restrict"}),
+  approvedAt: timestamp("approved_at", {withTimezone: true}),
+  createdAt: timestamp("created_at", {withTimezone: true}).notNull().defaultNow(),
+}, t => [
+  index("tuition_service_policies_student_idx").on(t.studentUserId,t.createdAt,t.id),
+  index("tuition_service_policies_course_idx").on(t.courseId,t.startsOn),
+]).enableRLS();
+
+export const tuitionServiceConsumptions = pgTable("tuition_service_consumptions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  policyId: uuid("policy_id").notNull().references(() => tuitionServicePolicies.id, {onDelete: "restrict"}),
+  serviceRef: varchar("service_ref", {length: 80}).notNull(),
+  serviceDate: date("service_date").notNull(),
+  sessionId: uuid("session_id").references(() => academySessions.id, {onDelete: "restrict"}),
+  chargeId: uuid("charge_id").notNull().unique().references(() => tuitionCharges.id, {onDelete: "restrict"}),
+  units: integer("units").notNull(),
+  amountMinor: bigint("amount_minor", {mode: "bigint"}).notNull(),
+  actorUserId: uuid("actor_user_id").references(() => users.id, {onDelete: "restrict"}),
+  createdAt: timestamp("created_at", {withTimezone: true}).notNull().defaultNow(),
+}, t => [
+  unique().on(t.policyId,t.serviceRef),
+  index("tuition_service_consumptions_policy_date_idx").on(t.policyId,t.serviceDate,t.id),
+  index("tuition_service_consumptions_session_idx").on(t.sessionId).where(sql`${t.sessionId} IS NOT NULL`),
+]).enableRLS();
+
+export const tuitionServiceEvents = pgTable("tuition_service_events", {
+  sequence: bigint("sequence", {mode: "bigint"}).primaryKey().generatedAlwaysAsIdentity(),
+  policyId: uuid("policy_id").notNull().references(() => tuitionServicePolicies.id, {onDelete: "restrict"}),
+  reasonType: varchar("reason_type", {length: 15}).notNull(),
+  sourceId: uuid("source_id").notNull(),
+  cashBalanceMinor: bigint("cash_balance_minor", {mode: "bigint"}).notNull(),
+  remainingUnits: integer("remaining_units").notNull(),
+  unitsDelta: integer("units_delta").notNull(),
+  unappliedCreditMinor: bigint("unapplied_credit_minor", {mode: "bigint"}).notNull(),
+  unitPriceMinor: bigint("unit_price_minor", {mode: "bigint"}).notNull(),
+  createdAt: timestamp("created_at", {withTimezone: true}).notNull().defaultNow(),
+}, t => [unique().on(t.policyId,t.reasonType,t.sourceId),index("tuition_service_events_policy_idx").on(t.policyId,t.sequence.desc())]).enableRLS();
+
+export const tuitionServicePauses = pgTable("tuition_service_pauses", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  policyId: uuid("policy_id").notNull().references(() => tuitionServicePolicies.id, {onDelete: "restrict"}),
+  startsOn: date("starts_on").notNull(),
+  endsOn: date("ends_on").notNull(),
+  reason: varchar("reason", {length: 300}).notNull(),
+  createdBy: uuid("created_by").notNull().references(() => users.id, {onDelete: "restrict"}),
+  approvedBy: uuid("approved_by").references(() => users.id, {onDelete: "restrict"}),
+  approvedAt: timestamp("approved_at", {withTimezone: true}),
+  createdAt: timestamp("created_at", {withTimezone: true}).notNull().defaultNow(),
+}, t => [index("tuition_service_pauses_policy_idx").on(t.policyId,t.startsOn,t.endsOn).where(sql`${t.approvedAt} IS NOT NULL`)]).enableRLS();

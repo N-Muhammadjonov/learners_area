@@ -1,0 +1,180 @@
+{
+  "sourceCommit": "3792506e405446d72953ff537603091d2f58ff06",
+  "files": [
+    {
+      "path": "after/admin-day-1440.png",
+      "bytes": 328986,
+      "sha256": "92e09749384f1f423d1cfd78979546badeec07e8262540f795731bbb23ddc463"
+    },
+    {
+      "path": "after/admin-day-390.png",
+      "bytes": 118655,
+      "sha256": "537dbc77a8e4eddb4c3566411ea432838e3a99aad24c1806c1c2094d42d08520"
+    },
+    {
+      "path": "after/admin-night-1440.png",
+      "bytes": 301320,
+      "sha256": "c4d86252c074dbd199c1d55ce3e034e025cf392e02ea0f20082dad4a0961c05f"
+    },
+    {
+      "path": "after/admin-night-390.png",
+      "bytes": 122669,
+      "sha256": "2fd50ade175a8eb9eb77cfa198f3818576f1921855e47803980bee809c938dfb"
+    },
+    {
+      "path": "after/guardian-day-1440.png",
+      "bytes": 308163,
+      "sha256": "08cebedff4a592e425ad436e412a1a2cb8cd044bff027c4b5355e6012d49ce53"
+    },
+    {
+      "path": "after/guardian-day-390.png",
+      "bytes": 143601,
+      "sha256": "4b546c053c16c69ca91a542fb1c74cc6b0445be204852e102b6025cbcbaad892"
+    },
+    {
+      "path": "after/guardian-night-1440.png",
+      "bytes": 332720,
+      "sha256": "3d3eab2e37feeec5551e0847608fa0435570e3dbc21401b626ddaeccc6e130b5"
+    },
+    {
+      "path": "after/guardian-night-390.png",
+      "bytes": 158170,
+      "sha256": "bc0abec65d81d0956faf0d6e888d2426aec19c809a3e99b10cb50f1b902c79e4"
+    },
+    {
+      "path": "after/owner-day-1440.png",
+      "bytes": 329146,
+      "sha256": "903f37dd44ebed2d2e7368c44deb5c79da6d9557b1148bc6bcafd1e90a5dacd0"
+    },
+    {
+      "path": "after/owner-day-390.png",
+      "bytes": 118655,
+      "sha256": "537dbc77a8e4eddb4c3566411ea432838e3a99aad24c1806c1c2094d42d08520"
+    },
+    {
+      "path": "after/owner-night-1440.png",
+      "bytes": 301536,
+      "sha256": "68b7e112d71e2ee641b45d86c6d2d71609d63b2988a8baf093ab5cc2421e238b"
+    },
+    {
+      "path": "after/owner-night-390.png",
+      "bytes": 122669,
+      "sha256": "2fd50ade175a8eb9eb77cfa198f3818576f1921855e47803980bee809c938dfb"
+    },
+    {
+      "path": "after/receipt.json",
+      "bytes": 9211,
+      "sha256": "e8ebb58616ab2dc48eee20b14ad51f403a361030673940cbe810d369b97cf1fc"
+    },
+    {
+      "path": "after/student-day-1440.png",
+      "bytes": 356612,
+      "sha256": "959972a9c29480f9a6499b549fce646614f2bbc12cbbc5fa436ffb5932e67f30"
+    },
+    {
+      "path": "after/student-day-390.png",
+      "bytes": 154679,
+      "sha256": "baebb975f6a3cc940736b962b3a6a50cf315adbe2a846678fab83147cd93db85"
+    },
+    {
+      "path": "after/student-night-1440.png",
+      "bytes": 384436,
+      "sha256": "8dc82c763a6aa45ba2e584c5da0f579c97266a52035292e3b08dfa7011ee4db2"
+    },
+    {
+      "path": "after/student-night-390.png",
+      "bytes": 169034,
+      "sha256": "22e7bf67712f846cbee5e1c8c5ebac94d220b645d3b1753cad6699a8f930d3b4"
+    },
+    {
+      "path": "after/teacher-day-1440.png",
+      "bytes": 166228,
+      "sha256": "5f67a6c050e356fbfba023e1b9ad9eab0ee0e23dd8b73f30e09bad90f04a4f29"
+    },
+    {
+      "path": "after/teacher-day-390.png",
+      "bytes": 74044,
+      "sha256": "cff5fca40990a598a9dc34418d55d1963924bdbe515fe7c40a5413ad8f1407e8"
+    },
+    {
+      "path": "after/teacher-night-1440.png",
+      "bytes": 161881,
+      "sha256": "8be575c162b09591459d70c8747bdc1a8d0596f661d1df7ba28b1cc20ee0b14c"
+    },
+    {
+      "path": "after/teacher-night-390.png",
+      "bytes": 77522,
+      "sha256": "2ac6c0cd8441319410abf1a316d19695723032d636b9c2865b0d5416f0318a3f"
+    },
+    {
+      "path": "journey/admin-cash-from-debt-queue.png",
+      "bytes": 343251,
+      "sha256": "a1edaa83beab4fcc5fd50211afdfa630b37b4e7890f0adc0251259c8555c9757"
+    },
+    {
+      "path": "journey/admin-today-mobile.png",
+      "bytes": 125223,
+      "sha256": "4b0548e8723e8958c1f584a6b11ff8a4bfb1295b2ab6831cbc4144fd03e0e58d"
+    },
+    {
+      "path": "journey/admin-today.png",
+      "bytes": 337363,
+      "sha256": "4370dfded50f89e3dc03934021d508d748b3a61e79cf94fdb3cbaa8550115976"
+    },
+    {
+      "path": "journey/en-137531-created.png",
+      "bytes": 339425,
+      "sha256": "a3992f3270b574e5783d25b7f82ce84a5d353740bce0332d0cfaf6c54b286a5c"
+    },
+    {
+      "path": "journey/guardian-first-paid.png",
+      "bytes": 158258,
+      "sha256": "9507464ca283ef2a762c64b89077a965eb751f0bc0e809b7d7e977f5fb44696c"
+    },
+    {
+      "path": "journey/guardian-help-keyboard.png",
+      "bytes": 87239,
+      "sha256": "40a182f1d0fe5f5cbe1518f0003bd7129aad75000bd3132eb2d2c5736e6abab9"
+    },
+    {
+      "path": "journey/owner-net-collection.png",
+      "bytes": 335593,
+      "sha256": "19da63f1f21824ceae6df1f2ff846040f9d8fee96436faabcff16fa9f0cc6d11"
+    },
+    {
+      "path": "journey/owner-today-mobile.png",
+      "bytes": 125223,
+      "sha256": "4b0548e8723e8958c1f584a6b11ff8a4bfb1295b2ab6831cbc4144fd03e0e58d"
+    },
+    {
+      "path": "journey/receipt.json",
+      "bytes": 1590,
+      "sha256": "6ada634176de5a7346e9ff1df71b2ec5f3ce1f27830412b8f0d5caecde8d1c27"
+    },
+    {
+      "path": "journey/student-custom-paid.png",
+      "bytes": 361666,
+      "sha256": "54d6e4d61a85b04da405ccab6d8395f476e7495fd1ea462257287ae9fa990629"
+    },
+    {
+      "path": "journey/teacher-reviewed-draft.png",
+      "bytes": 152408,
+      "sha256": "e00b3d64d98801582e939c71f51db50d82ef49266115d5e46e2dedca9f3b91fb"
+    },
+    {
+      "path": "journey/teacher-today-mobile.png",
+      "bytes": 121267,
+      "sha256": "85888e5d29f871aa784970aa03aa2c8aec76b2498640b5a38783f334a0b966dc"
+    },
+    {
+      "path": "journey/uz-150000-created.png",
+      "bytes": 85793,
+      "sha256": "c00c967ad380147ba58196efffec772ba90f77576c41a9928022de844a7cadf9"
+    },
+    {
+      "path": "journey/uz-500000-created.png",
+      "bytes": 83574,
+      "sha256": "d0269990ffe115a7d9be68770eb6137110f3ff60e061f2f9628f942b98b6059f"
+    }
+  ]
+}

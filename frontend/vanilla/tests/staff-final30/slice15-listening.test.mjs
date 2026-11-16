@@ -70,8 +70,9 @@ test('import errors: invalid JSON, unknown server code => unknown, server issues
  h.ctx.startUpload=(f)=>({cancel(){},promise:Promise.resolve({ok:true,uploadId:'u-'+f.name})});h.click(h.q('[data-canonical-dry-run]'));await tick(10);assert(h.q('[data-canonical-import-problem]').dataset.canonicalImportProblem==='grades_impacted');
 });
 test('ZIP transport: manifest + declared assets extracted (assets pre-filled), path traversal / no manifest refused as invalid_input; nothing inside is executed',async()=>{
+ const until=async predicate=>{const deadline=Date.now()+5000;while(!predicate()){assert(Date.now()<deadline,'ZIP validation did not complete');await tick();}};
  await mountImport();globalThis.fetch=async(p,o)=>jres(200,validation({requiredAssets:[{key:'audio',role:'audio',required:true,label:null,mimeTypes:['audio/mpeg'],maxBytes:1e7,declared:true,path:'audio/full.mp3'}]}));
- const manifest=JSON.stringify({module:'listening',assets:[{key:'audio',path:'audio/full.mp3'}]});pickPkg(h,new File([zip({'pkg/manifest.json':manifest,'pkg/audio/full.mp3':'ID3data','pkg/evil.js':'alert(1)'})],'p.zip'));await tick(10);
+ const manifest=JSON.stringify({module:'listening',assets:[{key:'audio',path:'audio/full.mp3'}]});pickPkg(h,new File([zip({'pkg/manifest.json':manifest,'pkg/audio/full.mp3':'ID3data','pkg/evil.js':'alert(1)'})],'p.zip'));await until(()=>h.q('[data-asset-key=audio]'));
  assert.equal(h.q('[data-asset-key=audio]').textContent.includes('full.mp3'),true);assert.equal(h.q('[data-canonical-dry-run]').disabled,false);
  pickPkg(h,new File([zip({'x.txt':'no manifest'})],'q.zip'));await tick(10);assert.equal(h.q('[data-canonical-import-problem]').dataset.canonicalImportProblem,'invalid_input');pickPkg(h,new File([zip({'../manifest.json':'{}'})],'r.zip'));await tick(10);assert.equal(h.q('[data-canonical-import-problem]').dataset.canonicalImportProblem,'invalid_input');pickPkg(h,new File(['x'],'p.txt'));await tick(4);assert.equal(h.q('[data-canonical-import-problem]').dataset.canonicalImportProblem,'invalid_input');
 });

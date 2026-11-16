@@ -129,15 +129,16 @@ async def test_conflicting_payment_retry_after_concurrent_insert_returns_conflic
     key = 'race-' + str(uuid4())
 
     pool = await main.pool()
+    competing_student=await http.con.fetchval("INSERT INTO users(name,role,account_status) VALUES('Other wallet','student','active') RETURNING id")
 
     async def record(amount, moment):
         async with pool.acquire() as conn, conn.transaction():
             return await ledger.record_payment(
-                conn, actor_user_id=http.people['admin'], student_user_id=http.people['student'],
+                conn, actor_user_id=http.people['admin'], student_user_id=competing_student,
                 amount_minor=amount, occurred_at=moment, idempotency_key=key)
 
-    # Hold the winner's transaction open. The other business date uses a separate day
-    # lock, so its uncommitted INSERT can reach the unique-index contention path.
+    # Distinct wallets and dates use separate money/day locks. The conflicting
+    # global idempotency key must still reach and be refused at the unique index.
     moment = datetime.now(timezone.utc)
     async with pool.acquire() as conn, conn.transaction():
         payment, _, _ = await ledger.record_payment(

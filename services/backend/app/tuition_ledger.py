@@ -385,6 +385,9 @@ async def approve_contract(conn, *, actor_user_id, contract_id):
     row = await conn.fetchrow('SELECT * FROM tuition_contracts WHERE id=$1 FOR UPDATE', contract_id)
     _require(row is not None, 'contract_not_found', 404)
     _require(row['status'] == 'draft', 'invalid_state', 409, status=row['status'])
+    if row.get('service_policy_id'):
+        from .prepaid_services import approve_for_contract
+        await approve_for_contract(conn,actor_user_id,row)
     updated = await conn.fetchrow(
         '''UPDATE tuition_contracts SET status='approved', approved_by=$2, approved_at=now(),
              updated_at=now() WHERE id=$1 RETURNING *''', contract_id, actor_user_id)
@@ -400,6 +403,9 @@ async def activate_contract(conn, *, actor_user_id, contract_id):
     row = await conn.fetchrow('SELECT * FROM tuition_contracts WHERE id=$1 FOR UPDATE', contract_id)
     _require(row is not None, 'contract_not_found', 404)
     _require(row['status'] in ('approved', 'active'), 'invalid_state', 409, status=row['status'])
+    if row.get('service_policy_id'):
+        from .prepaid_services import validate_activation
+        await validate_activation(conn,row)
     updated = await conn.fetchrow(
         "UPDATE tuition_contracts SET status='active', updated_at=now() WHERE id=$1 RETURNING *",
         contract_id)
@@ -464,6 +470,7 @@ async def create_charge(conn, *, actor_user_id, student_user_id, period, due_dat
         contract = await conn.fetchrow('SELECT * FROM tuition_contracts WHERE id=$1', contract_id)
         _require(contract is not None, 'contract_not_found', 404)
         _require(contract['student_user_id'] == student_user_id, 'contract_student_mismatch', 403)
+        _require(not contract.get('service_policy_id'),'service_consumption_required')
         _require(contract['status'] in ('approved', 'active'), 'invalid_state', 409,
                  status=contract['status'])
         if gross != contract['monthly_amount_minor']:
@@ -514,6 +521,7 @@ async def generate_installment(conn, *, actor_user_id, contract_id, period, due_
     """
     contract = await conn.fetchrow('SELECT * FROM tuition_contracts WHERE id=$1', contract_id)
     _require(contract is not None, 'contract_not_found', 404)
+    _require(not contract.get('service_policy_id'),'service_contract_has_no_monthly_invoice')
     _require(contract['status'] in ('approved', 'active'), 'invalid_state', 409,
              status=contract['status'])
     monthly = contract['monthly_amount_minor']
@@ -724,6 +732,7 @@ async def reverse_charge(conn, *, actor_user_id, charge_id, reason):
     _require(charge is not None, 'charge_not_found', 404)
     _require(charge['status'] == 'posted', 'invalid_state', 409, status=charge['status'])
     _require(not charge['is_reversal'], 'reversal_cannot_be_reversed')
+    _require(not charge.get('service_policy_id'),'service_charge_requires_credit_note')
     applied = await conn.fetchval(
         'SELECT coalesce(sum(amount_minor),0) FROM tuition_payment_allocations WHERE charge_id=$1',
         charge_id) or 0
@@ -762,7 +771,8 @@ async def reverse_charge(conn, *, actor_user_id, charge_id, reason):
 @transactional
 async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, method='cash',
                          provider=None, provider_transaction_id=None, idempotency_key=None,
-                         receipt_purpose=None, payer_name=None, occurred_at=None, confirm=True):
+                         receipt_purpose=None, payer_name=None, occurred_at=None, confirm=True,service_policy_id=None,
+                         new_service_purchase=False):
     """Record money in, allocate it to open charges and write the balanced journal.
 
     Returns ``(payment_row, allocations, duplicate)``. A repeated provider callback or a
@@ -773,6 +783,9 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
     """
     amount = _minor(amount_minor)
     _require(amount > 0, 'amount_must_be_positive')
+    from .prepaid_services import finance_lock,for_payment,payment_changed
+    await finance_lock(conn,student_user_id)
+    if service_policy_id:await for_payment(conn,service_policy_id,student_user_id)
     _require(method in CASH_METHODS, 'unknown_method', method=method)
     _require(provider is None or provider_transaction_id, 'provider_transaction_id_required')
     if method == 'provider':
@@ -791,6 +804,7 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
             existing, student_user_id=student_user_id, amount_minor=amount, method=method,
             provider=provider, provider_transaction_id=provider_transaction_id,
             occurred_at=moment)
+        if existing.get('service_policy_id')!=service_policy_id:mismatched.append('servicePolicyId')
         if mismatched:
             # FIN-09: the same key describing a different event. Returning the old row here
             # would silently swallow this one - the family pays and nothing is recorded.
@@ -816,6 +830,10 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
         await check_identity(existing)
         return dict(existing), [], True
 
+    if service_policy_id and new_service_purchase:
+        from .prepaid_services import validate_purchase_amount
+        policy=await for_payment(conn,service_policy_id,student_user_id,new_purchase=True)
+        await validate_purchase_amount(conn,policy,amount)
     await _assert_day_open(conn, business_date(moment))
     await _assert_period_open(conn, period_key(moment))
     payment = None
@@ -824,17 +842,20 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
         # concurrent identical callbacks race on the unique index; the loser rolls back to
         # the savepoint and reports the winner instead of raising a duplicate error.
         async with conn.transaction():
+            policy_column=',service_policy_id' if service_policy_id else ''
+            policy_value=',$13' if service_policy_id else ''
+            parameters=[student_user_id,CURRENCY,amount,method,provider,provider_transaction_id,
+                idempotency_key,'confirmed' if confirm else 'pending_provider',receipt_purpose,actor_user_id,payer_name,moment]
+            if service_policy_id:parameters.append(service_policy_id)
             payment = await conn.fetchrow(
-                '''INSERT INTO tuition_payments
+                f'''INSERT INTO tuition_payments
                      (student_user_id, currency_code, amount_minor, method, provider,
                       provider_transaction_id, idempotency_key, status, receipt_purpose,
-                      operator_user_id, payer_name, occurred_at, confirmed_at)
+                      operator_user_id, payer_name, occurred_at, confirmed_at{policy_column})
                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12::timestamptz,
-                           CASE WHEN $8::varchar = 'confirmed' THEN $12::timestamptz END)
+                           CASE WHEN $8::varchar = 'confirmed' THEN $12::timestamptz END{policy_value})
                    RETURNING *''',
-                student_user_id, CURRENCY, amount, method, provider, provider_transaction_id,
-                idempotency_key, 'confirmed' if confirm else 'pending_provider', receipt_purpose,
-                actor_user_id, payer_name, moment)
+                *parameters)
     except Exception as exc:
         if getattr(exc, 'sqlstate', None) != '23505':
             raise
@@ -880,6 +901,7 @@ async def record_payment(conn, *, actor_user_id, student_user_id, amount_minor, 
         actor_user_id=actor_user_id, memo=receipt_purpose or 'Tuition payment',
         period=period_key(moment), lines=lines, occurred_at=moment)
     payment['allocations'] = [dict(row) for row in allocations]
+    await payment_changed(conn,payment,allocations=allocations)
     return payment, [dict(row) for row in allocations], False
 
 
@@ -905,6 +927,11 @@ async def confirm_provider_payment(conn, *, provider, provider_transaction_id, p
     same row and writes nothing twice; a proof that disagrees with the intent about amount,
     currency, customer, order or status settles nothing.
     """
+    from .prepaid_services import finance_lock,for_payment,payment_changed
+    initial=await conn.fetchrow('SELECT * FROM tuition_payments WHERE provider=$1 AND provider_transaction_id=$2 LIMIT 1',provider,provider_transaction_id)
+    _require(initial is not None,'provider_intent_not_found',404)
+    await finance_lock(conn,initial['student_user_id'])
+    if initial.get('service_policy_id'):await for_payment(conn,initial['service_policy_id'],initial['student_user_id'])
     payment = await conn.fetchrow(
         'SELECT * FROM tuition_payments WHERE provider=$1 AND provider_transaction_id=$2'
         ' LIMIT 1 FOR UPDATE', provider, provider_transaction_id)
@@ -961,6 +988,7 @@ async def confirm_provider_payment(conn, *, provider, provider_transaction_id, p
                  amount_minor=settled['amount_minor'],
                  detail={'provider': provider,
                          'providerTransactionId': provider_transaction_id})
+    await payment_changed(conn,settled,allocations=allocations)
     return dict(settled), [dict(row) for row in allocations], False
 
 
@@ -986,11 +1014,13 @@ async def _allocate(conn, payment):
     Locks serialize allocation with credit-note posting. A fresh balance query
     after acquiring the locks observes the latest committed credits and payments.
     """
-    charges = await conn.fetch(
-        """SELECT id, student_user_id, net_amount_minor FROM tuition_charges
+    query="""SELECT id, student_user_id, net_amount_minor FROM tuition_charges
             WHERE student_user_id=$1 AND currency_code=$2 AND status='posted'
-            ORDER BY due_date, created_at, id FOR UPDATE""",
-        payment['student_user_id'], payment['currency_code'])
+            {policy_filter} ORDER BY due_date, created_at, id FOR UPDATE"""
+    policy_filter='AND service_policy_id=$3' if payment.get('service_policy_id') else ''
+    parameters=[payment['student_user_id'],payment['currency_code']]
+    if payment.get('service_policy_id'):parameters.append(payment['service_policy_id'])
+    charges = await conn.fetch(query.format(policy_filter=policy_filter),*parameters)
     if not charges:
         return []
     open_rows = await conn.fetch(
@@ -1117,6 +1147,12 @@ async def settle_refund(conn, *, actor_user_id, refund_id):
     The only gate on timing is that TODAY is open: the historical day the receipt belongs to
     stays closed and unchanged.
     """
+    from .prepaid_services import finance_lock,for_payment,payment_changed
+    initial=await conn.fetchrow('SELECT * FROM tuition_refunds WHERE id=$1',refund_id)
+    _require(initial is not None,'refund_not_found',404)
+    await finance_lock(conn,initial['student_user_id'])
+    original=await conn.fetchrow('SELECT * FROM tuition_payments WHERE id=$1',initial['payment_id'])
+    if original.get('service_policy_id'):await for_payment(conn,original['service_policy_id'],initial['student_user_id'])
     row = await conn.fetchrow('SELECT * FROM tuition_refunds WHERE id=$1 FOR UPDATE', refund_id)
     _require(row is not None, 'refund_not_found', 404)
     # An already-settled refund says so plainly: "not approved" would send the cashier
@@ -1155,6 +1191,7 @@ async def settle_refund(conn, *, actor_user_id, refund_id):
     await conn.execute(
         'UPDATE tuition_payments SET status=$2 WHERE id=$1', row['payment_id'],
         'refunded' if remaining_net == 0 and allocated == 0 else 'partially_refunded')
+    await payment_changed(conn,original,reason='refund',source=row['id'])
     return dict(updated)
 
 
@@ -1250,44 +1287,32 @@ async def student_position(conn, student_user_id) -> dict:
     ``receivable = posted charges (net, reversals included) - applied allocations``
     ``balance_due = max(receivable, 0)`` and the surplus stays visible as an advance.
     """
-    charged = await conn.fetchval(
-        f"SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges"
-        f" WHERE student_user_id=$1 AND {POSTED_EVENT}", student_user_id) or 0
-    # LATERAL, not a grouped join over the whole allocations table: a per-student read must
-    # touch this student's rows only, or it degrades linearly with total centre history.
-    allocated = await conn.fetchval(
-        '''SELECT coalesce(sum(a.applied),0) FROM tuition_charges c
-             JOIN LATERAL (SELECT sum(x.amount_minor) AS applied
-                             FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
-            WHERE c.student_user_id=$1''', student_user_id) or 0
-    # Approved relief posted after billing (FIN-05). It reduces the receivable, but as its
-    # own line item: the charge document still shows what was billed.
-    credited = await conn.fetchval(
-        "SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes"
-        " WHERE student_user_id=$1 AND status='posted'", student_user_id) or 0
-    collected = await conn.fetchval(
-        '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
-            WHERE student_user_id=$1 AND status = ANY($2::varchar[])''',
-        student_user_id, list(SETTLED_PAYMENT_STATES)) or 0
-    refunded = await conn.fetchval(
-        "SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds"
-        " WHERE student_user_id=$1 AND status='settled'",
-        student_user_id) or 0
-    # Net across every posted document in the window: an original and its reversal carry the
-    # same due_date, so they cancel here. Per-document values are never negative for a normal
-    # charge (allocation is capped at the open amount), so the positive part belongs at the
-    # aggregate, not on each row.
-    overdue = await conn.fetchval(
-        f'''SELECT greatest(coalesce(sum(c.net_amount_minor
-                                          - coalesce(n.credited,0) - a.applied),0), 0)
-             FROM tuition_charges c
-             JOIN LATERAL (SELECT coalesce(sum(x.amount_minor),0) AS applied
-                             FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
-             LEFT JOIN LATERAL (SELECT sum(y.amount_minor) AS credited
-                                  FROM tuition_credit_notes y
-                                 WHERE y.charge_id = c.id AND y.status='posted') n ON true
-            WHERE c.student_user_id=$1 AND c.{POSTED_EVENT} AND c.due_date < (now() AT TIME ZONE 'Asia/Tashkent')::date''',
-        student_user_id) or 0
+    # One PostgreSQL statement gives every component the same MVCC snapshot.
+    # Separate READ COMMITTED queries could straddle a settlement/refund commit,
+    # and six network round trips held a scarce pool lease for every account read.
+    row = await conn.fetchrow(
+        f"""WITH charges AS MATERIALIZED (
+            SELECT c.net_amount_minor,c.posted_at,c.due_date,
+              (SELECT coalesce(sum(a.amount_minor),0) FROM tuition_payment_allocations a
+                WHERE a.charge_id=c.id) AS applied,
+              (SELECT coalesce(sum(n.amount_minor),0) FROM tuition_credit_notes n
+                WHERE n.charge_id=c.id AND n.status='posted') AS relieved
+            FROM tuition_charges c WHERE c.student_user_id=$1
+        ) SELECT
+            coalesce(sum(net_amount_minor) FILTER(WHERE {POSTED_EVENT}),0) AS charged,
+            coalesce(sum(applied),0) AS allocated,
+            (SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes
+              WHERE student_user_id=$1 AND status='posted') AS credited,
+            (SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
+              WHERE student_user_id=$1 AND status=ANY($2::varchar[])) AS collected,
+            (SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds
+              WHERE student_user_id=$1 AND status='settled') AS refunded,
+            greatest(coalesce(sum(net_amount_minor-relieved-applied)
+              FILTER(WHERE {POSTED_EVENT}
+                AND due_date<(now() AT TIME ZONE 'Asia/Tashkent')::date),0),0) AS overdue
+          FROM charges""", student_user_id, list(SETTLED_PAYMENT_STATES))
+    charged, allocated, credited = row['charged'], row['allocated'], row['credited']
+    collected, refunded, overdue = row['collected'], row['refunded'], row['overdue']
     receivable = charged - credited - allocated
     return {
         'studentUserId': str(student_user_id),
@@ -1308,7 +1333,8 @@ async def student_position(conn, student_user_id) -> dict:
 async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
     charges = await conn.fetch(
         '''SELECT id, contract_id, created_by, period_key, gross_amount_minor, discount_amount_minor, net_amount_minor,
-                  status, is_reversal, original_charge_id, due_date, posted_at
+                  status, is_reversal, original_charge_id, due_date, posted_at,
+                  to_jsonb(tuition_charges)->>'service_policy_id' AS service_policy_id
              FROM tuition_charges WHERE student_user_id=$1
             ORDER BY due_date DESC, created_at DESC LIMIT $2''', student_user_id, limit)
     payments = await conn.fetch(
@@ -1324,7 +1350,8 @@ async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
              FROM tuition_refunds WHERE student_user_id=$1 ORDER BY created_at DESC LIMIT $2''',
         student_user_id, limit)
     contracts = await conn.fetch(
-        '''SELECT id, course_id, status, monthly_amount_minor, term_months, starts_on, ends_on
+        '''SELECT id, course_id, status, monthly_amount_minor, term_months, starts_on, ends_on,
+                  to_jsonb(tuition_contracts)->>'service_policy_id' AS service_policy_id
              FROM tuition_contracts WHERE student_user_id=$1
             ORDER BY created_at DESC, id LIMIT $2''', student_user_id, limit)
     discounts = await conn.fetch(
