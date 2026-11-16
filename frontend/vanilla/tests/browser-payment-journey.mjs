@@ -10,7 +10,7 @@ const directory=resolve('docs/verification/academy-ux/journey');mkdirSync(direct
 const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/chromium',args:['--no-sandbox']});
 const contexts=[],results=[],errors=[];
 async function open(role,locale='uz',width=390){
- const context=await browser.newContext({viewport:{width,height:width===390?844:900},serviceWorkers:'block'});contexts.push(context);
+ const context=await browser.newContext({baseURL:origin,viewport:{width,height:width===390?844:900},serviceWorkers:'block'});contexts.push(context);
  await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
  await context.addCookies([{name:'la_session',value:input.tokens[role],url:origin,httpOnly:true,sameSite:'Lax'},
   {name:'la_locale',value:locale,url:origin},{name:'la_theme',value:width===390?'night':'day',url:origin}]);
