@@ -70,7 +70,7 @@ guardian role/suspension negative cases bring the targeted suite to 55 passes.
 | 21 | reconciliation_equals_independent_journal | PASS — automated local/CI | P | 500000 clearing debit = 300000 receivable + 200000 advance credits |
 | 22 | business_date_boundary_tashkent_midnight | PASS — automated local/CI | P | UTC/Tashkent boundary |
 | 23 | billing_mode_monthly_does_not_show_fabricated_days | PASS — automated local/CI | P | Frozen monthly policy version |
-| 24 | prepaid_day_policy_keeps_exact_remainder | PASS — PostgreSQL; new browser CI pending | `test_prepaid_services.py`, native payment/staff tests | Arbitrary X UZS / N units; 26,500/1 yields 7 + 14,500; 200,000/7 preserves the exact seven-unit bundle |
+| 24 | prepaid_day_policy_keeps_exact_remainder | PASS — PostgreSQL and Chromium CI at `40fb974e` | `test_prepaid_services.py`, native payment/staff tests; [run 43839462354](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43839462354) | Arbitrary X UZS / N units; 26,500/1 yields 7 + 14,500; 200,000/7 preserves the exact seven-unit bundle |
 | 25 | prepaid_lesson_policy_no_double_spend | PASS — isolated PostgreSQL | `test_held_lesson_deducts_once_attendance_edits_never_charge` | Held-session roster consumes once; replay and attendance edits do not charge again |
 | 26 | payment_history_persists_after_refresh | PASS — automated local/CI | P + browser reload | Cash and provider history retained |
 | 27 | fiscal_receipt_not_claimed_without_verified_fiscalization | PASS — automated local/CI | P + browser | Internal acknowledgement only |
@@ -85,8 +85,10 @@ guardian role/suspension negative cases bring the targeted suite to 55 passes.
 
 No failure was converted to a skip. The unchanged frontend skips belong to external
 legacy fixtures. Cases 24–25 now include actual money posting and delivery on
-PostgreSQL, beyond math-only tests. Their new Chromium journey is wired into CI;
-it is not described as passed before its receipt arrives. Existing monthly
+PostgreSQL, beyond math-only tests. The configurable-tariff Chromium journey
+passed in run 43839462354. Parent Connect's separate catalog consistency gate
+failed at that source because the generated source hashes were stale; the
+continuation regenerates the catalog rather than disabling the gate. Existing monthly
 contracts remain usable and truthful. See [configurable service contracts](../architecture/PREPAID_SERVICE_CONTRACTS.md).
 
 ## Module acceptance
@@ -130,3 +132,24 @@ are tracked only in [the canonical manual actions](../SALE_READY_MANUAL_ACTIONS.
 Remaining engineering includes broader role briefs, full mixed
 write/outage/load scenarios, horizontal capacity validation and a 2–24 h soak.
 No sale-ready or all-gates-complete verdict is made by this draft.
+
+## 2026-11-16 continuation
+
+The owner/admin operational brief now includes active groups, free seats in those
+groups, open admissions and scheduled trials. Teacher evidence includes only
+currently assigned active students. PostgreSQL tests cover paused reservations,
+pending memberships, closed leads, suspended/promoted accounts and immediate
+teacher-link removal. Existing role and financial boundaries are unchanged.
+
+`test_academy_mixed_reliability.py` combines five identical cash submissions,
+twenty authenticated provider replays, repeated student/guardian/teacher reads,
+unrelated-family denials and an external-model timeout. It verifies exactly two
+payments, one provider event, 700000 remaining debt, an unchanged second child
+and a balanced journal. This is a concurrent ASGI/real-PostgreSQL correctness
+scenario, not a sustained HTTP load or 2-hour soak claim.
+
+Local continuation environment: Python 3.12, disposable PostgreSQL 18.6, no
+external provider/model traffic. Targeted payment/prepaid/workbench/AI suite:
+74 passes; separate mixed scenario: 1 pass. Frontend full suite: 1833 passes,
+11 pre-existing external-fixture skips, zero failures. TypeScript and native
+build pass. Full CI for the continuation is recorded in PR #202.

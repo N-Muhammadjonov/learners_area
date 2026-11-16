@@ -134,3 +134,45 @@ async def test_guardian_ai_and_payment_portal_share_current_active_student_bound
     base=f"/api/guardian/children/{a['student']['id']}"
     await request(client,a['guardian'],'POST',base+'/assistant',403,json={'action':'payment_help'})
     await request(client,a['guardian'],'GET',base+'/payments',403)
+
+
+@pytest.mark.asyncio
+async def test_operational_briefs_count_reserved_seats_and_exclude_closed_admissions(family):
+    conn,client,a,_=family
+    course=await conn.fetchval("INSERT INTO courses(slug,title) VALUES('brief-course','Brief course') RETURNING id")
+    group=await conn.fetchval('''INSERT INTO academy_groups(course_id,name,branch,capacity,starts_on)
+        VALUES($1,'Current group','QA',3,current_date) RETURNING id''',course)
+    await conn.execute('''INSERT INTO academy_groups(course_id,name,branch,capacity,starts_on,status)
+        VALUES($1,'Paused group','QA',100,current_date,'paused')''',course)
+    for person,status in (('student','active'),('second','paused'),('outsider','pending')):
+        await conn.execute('''INSERT INTO academy_group_memberships(group_id,course_id,student_user_id,starts_on,status)
+            VALUES($1,$2,$3,current_date,$4)''',group,course,a[person]['id'],status)
+    for stage in ('new','trial_scheduled','enrolled','lost'):
+        await conn.execute('''INSERT INTO academy_leads(id,name,email,source,stage,trial_at,lost_reason,create_fingerprint)
+            VALUES($1,$2,$3,'QA',$2,now(),'QA','qa')''',uuid4(),stage,stage+'@example.test')
+    for role in ('owner','admin'):
+        result=await request(client,a[role],'POST','/api/staff/academy/assistant/proposals',json={'action':'daily_brief'})
+        values={r['kind']:r['value'] for r in result['evidence']}
+        assert {key:values[key] for key in ('active_groups','available_seats','active_leads','trials_scheduled')}=={
+            'active_groups':1,'available_seats':1,'active_leads':2,'trials_scheduled':1}
+        assert result['canExecute'] is False and 'Current group' not in str(result)
+    teacher=await request(client,a['teacher'],'POST','/api/staff/academy/assistant/proposals',json={'action':'daily_brief'})
+    assert not {'active_groups','available_seats','active_leads','trials_scheduled'} & {r['kind'] for r in teacher['evidence']}
+
+
+@pytest.mark.asyncio
+async def test_teacher_brief_counts_only_current_assigned_active_students(family):
+    conn,client,a,_=family
+    for key in ('student','second','outsider'):
+        await conn.execute('INSERT INTO teacher_student_links(teacher_user_id,student_user_id) VALUES($1,$2)',
+                           a['teacher']['id'],a[key]['id'])
+    await conn.execute("UPDATE users SET account_status='suspended' WHERE id=$1",a['second']['id'])
+    await conn.execute("UPDATE users SET role='teacher' WHERE id=$1",a['outsider']['id'])
+    result=await request(client,a['teacher'],'POST','/api/staff/academy/assistant/proposals',json={'action':'daily_brief'})
+    evidence={r['kind']:r for r in result['evidence']}
+    assert evidence['assigned_active_students']['value']==1
+    assert evidence['assigned_active_students']['sourceApi']=='/api/frontend/staff/teacher-students'
+    assert all(r['unit']=='count' for r in result['evidence'])
+    await conn.execute('DELETE FROM teacher_student_links WHERE teacher_user_id=$1',a['teacher']['id'])
+    updated=await request(client,a['teacher'],'POST','/api/staff/academy/assistant/proposals',json={'action':'daily_brief'})
+    assert next(r['value'] for r in updated['evidence'] if r['kind']=='assigned_active_students')==0

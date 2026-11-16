@@ -7,6 +7,7 @@ import json
 from typing import Annotated,Literal
 from uuid import UUID
 
+from asyncpg import Connection
 from pydantic import BaseModel,ConfigDict,Field,Strict
 from . import academy_workbench as workbench
 from . import tuition_ledger as ledger
@@ -51,6 +52,34 @@ def parse_output(value) -> dict:
     return Facts.model_validate(value).model_dump(mode='json')
 
 
+async def operational_evidence(conn: Connection, actor: RiwiActor, stamp: str) -> list[dict]:
+    """Count current operational records without exposing identities to the model."""
+    if actor.role == 'teacher':
+        count = await conn.fetchval('''SELECT count(*) FROM users u
+            WHERE u.role='student' AND u.account_status='active'
+              AND EXISTS(SELECT 1 FROM teacher_student_links t
+                WHERE t.student_user_id=u.id AND t.teacher_user_id=$1)''', UUID(actor.id))
+        return [fact('assigned_active_students', count, 'count', '/api/frontend/staff/teacher-students',
+                     '/app/teacher/students', stamp)]
+    if actor.role not in ('owner', 'admin'):
+        raise PermissionError('staff_scope_required')
+    row = await conn.fetchrow('''WITH groups AS (
+        SELECT g.capacity,(SELECT count(*) FROM academy_group_memberships m
+            WHERE m.group_id=g.id AND m.status IN ('active','paused')) AS reserved
+          FROM academy_groups g WHERE g.status='active'
+    ) SELECT
+        (SELECT count(*) FROM groups) AS active_groups,
+        (SELECT coalesce(sum(greatest(capacity-reserved,0)),0)::bigint FROM groups) AS available_seats,
+        (SELECT count(*) FROM academy_leads WHERE stage NOT IN ('enrolled','lost')) AS active_leads,
+        (SELECT count(*) FROM academy_leads WHERE stage='trial_scheduled') AS trials_scheduled''')
+    return [fact(kind, row[kind], 'count', source, href, stamp) for kind, source, href in (
+        ('active_groups', '/api/staff/academy/groups', '/app/management/groups'),
+        ('available_seats', '/api/staff/academy/groups', '/app/management/groups'),
+        ('active_leads', '/api/staff/academy/leads', '/app/management/leads'),
+        ('trials_scheduled', '/api/staff/academy/leads', '/app/management/leads'),
+    )]
+
+
 async def read_workbench(conn,actor: RiwiActor,data: dict) -> dict:
     if data['studentId'] is not None:raise PermissionError('target_not_permitted')
     day=await workbench.today(conn,actor_id=UUID(actor.id),role=actor.role)
@@ -66,6 +95,7 @@ async def read_workbench(conn,actor: RiwiActor,data: dict) -> dict:
             fact('followups_due',day['followUps']['count'],'count',source,'/app/management#today-followups',stamp)])
     else:
         facts.append(fact('parent_links',int(day['parents']['count']),'count',source,'/app/management/guardians',stamp))
+    facts.extend(await operational_evidence(conn,actor,stamp))
     return {'observedAt':stamp,'evidence':facts}
 
 

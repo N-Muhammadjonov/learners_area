@@ -50,6 +50,15 @@ back to the complete local facts. Free-form questions, names, identity IDs,
 source URLs and message text are not sent to this optional ranking provider.
 No connection or guardian row lock is held while the model is awaited.
 
+Owner/admin briefs also expose current active-group and available-seat counts,
+open admissions and scheduled-trial counts. Available seats use the existing
+capacity rule: active/paused memberships reserve a seat, pending memberships do
+not; paused/closed groups contribute no available seats. These are current
+operational counts, not conversion rates, future income or promises of enrollment.
+Teacher briefs count only currently active student accounts assigned through the
+live teacher/student link. All new evidence retains a source API and an existing
+review page, with Uzbek and English labels. No learner names reach the ranker.
+
 Every response retains the RIWI brand and `canExecute=false`. Applying a draft
 only fills the existing composer and selects the reviewed parent. Its separate
 recipient preview and explicit Send remain mandatory. There is no AI SQL,
