@@ -1,0 +1,725 @@
+{
+  "sourceCommit": "072a647dea0c6989a440cc21c11fdf859b77f412",
+  "workingTreeModified": true,
+  "verificationLevel": "LOCALLY_TESTED",
+  "sourceSha256": {
+    "services/backend/tests/load_validation/academy_payments_http.py": "86a6968d242cf8fddd50102c9b3a798cbf70bfaa5bd9d9dec0f6b41f9b31cf0f",
+    "services/backend/app/self_service_payments.py": "851426e1b7e84565e09742308133815caacd22e799e1e0a57f1d462a951659e8",
+    "services/backend/app/self_service_payment_port.py": "e0c933335ab47222a681afa406703312e08d201746fab3262999a99b87633926",
+    "services/backend/app/academy_workbench.py": "bbc020b558b48734a67a7aeff436c03fd0dcad9580846db51f187bf66cbd9633",
+    "services/backend/app/academy_workbench_port.py": "8f813954efaf2984739fb88c20ff459184989f18d8099eda5ccc5b0f34af4974",
+    "services/backend/app/tuition_ledger.py": "e7f5da2cd22bcf81ea901b3072244de576fe82fc200b77949272dceacdaf34af",
+    "services/backend/app/db.py": "2468b13521837217c8786509b8b21718b8c7c3d41dfce85201351a3623c334a1"
+  },
+  "externalProviderVerified": false,
+  "registeredStudents": 10000,
+  "fixture": {
+    "users": 11101,
+    "academy_groups": 100,
+    "academy_attendance": 30000,
+    "reading_attempts": 10000,
+    "tuition_charges": 10000,
+    "finance_journal_lines": 20000,
+    "guardian_links": 1000
+  },
+  "environment": {
+    "python": "3.12.14",
+    "postgres": "17.11 (Debian 17.11-0+deb13u1)",
+    "cpuCount": 9,
+    "poolMax": 5,
+    "requestBudget": "64",
+    "workers": 1,
+    "transport": "localhost HTTP; shared load generator/application/DB machine"
+  },
+  "levels": [
+    {
+      "concurrency": 10,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 5.07,
+      "requests": 1312,
+      "rps": 258.98,
+      "status": {
+        "200": 1312
+      },
+      "p50Ms": 35.03,
+      "p95Ms": 63.54,
+      "p99Ms": 79.94,
+      "errors": {},
+      "readObjectiveMet": true,
+      "poolWaitP95Ms": 14.25,
+      "poolLeases": 2836,
+      "sqlCalls": {
+        "fetchrow": 1920,
+        "execute": 5302,
+        "fetchval": 7023,
+        "fetch": 1564
+      },
+      "sqlP95Ms": 3.0,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 1.65,
+      "appAndClientCpuSeconds": 4.96,
+      "appAndClientPeakRssKiB": 118656,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 90,
+          "status": {
+            "200": 90
+          },
+          "p95Ms": 69.0,
+          "successfulP95Ms": 69.0
+        },
+        "guardian_payments": {
+          "requests": 212,
+          "status": {
+            "200": 212
+          },
+          "p95Ms": 63.73,
+          "successfulP95Ms": 63.73
+        },
+        "owner_summary": {
+          "requests": 79,
+          "status": {
+            "200": 79
+          },
+          "p95Ms": 78.72,
+          "successfulP95Ms": 78.72
+        },
+        "student_journey": {
+          "requests": 184,
+          "status": {
+            "200": 184
+          },
+          "p95Ms": 37.57,
+          "successfulP95Ms": 37.57
+        },
+        "student_payments": {
+          "requests": 564,
+          "status": {
+            "200": 564
+          },
+          "p95Ms": 49.36,
+          "successfulP95Ms": 49.36
+        },
+        "teacher_today": {
+          "requests": 183,
+          "status": {
+            "200": 183
+          },
+          "p95Ms": 38.71,
+          "successfulP95Ms": 38.71
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 25,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 5.11,
+      "requests": 1266,
+      "rps": 247.81,
+      "status": {
+        "200": 1266
+      },
+      "p50Ms": 94.38,
+      "p95Ms": 173.44,
+      "p99Ms": 217.98,
+      "errors": {},
+      "readObjectiveMet": true,
+      "poolWaitP95Ms": 74.52,
+      "poolLeases": 2744,
+      "sqlCalls": {
+        "fetchrow": 1837,
+        "execute": 5078,
+        "fetchval": 6902,
+        "fetch": 1492
+      },
+      "sqlP95Ms": 3.13,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 1.68,
+      "appAndClientCpuSeconds": 4.92,
+      "appAndClientPeakRssKiB": 120576,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 125,
+          "status": {
+            "200": 125
+          },
+          "p95Ms": 174.71,
+          "successfulP95Ms": 174.71
+        },
+        "guardian_payments": {
+          "requests": 212,
+          "status": {
+            "200": 212
+          },
+          "p95Ms": 203.67,
+          "successfulP95Ms": 203.67
+        },
+        "owner_summary": {
+          "requests": 99,
+          "status": {
+            "200": 99
+          },
+          "p95Ms": 211.79,
+          "successfulP95Ms": 211.79
+        },
+        "student_journey": {
+          "requests": 147,
+          "status": {
+            "200": 147
+          },
+          "p95Ms": 134.95,
+          "successfulP95Ms": 134.95
+        },
+        "student_payments": {
+          "requests": 533,
+          "status": {
+            "200": 533
+          },
+          "p95Ms": 146.75,
+          "successfulP95Ms": 146.75
+        },
+        "teacher_today": {
+          "requests": 150,
+          "status": {
+            "200": 150
+          },
+          "p95Ms": 127.22,
+          "successfulP95Ms": 127.22
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 50,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 5.19,
+      "requests": 1201,
+      "rps": 231.43,
+      "status": {
+        "200": 1201
+      },
+      "p50Ms": 197.02,
+      "p95Ms": 365.13,
+      "p99Ms": 476.75,
+      "errors": {},
+      "readObjectiveMet": false,
+      "poolWaitP95Ms": 174.04,
+      "poolLeases": 2572,
+      "sqlCalls": {
+        "fetchrow": 1678,
+        "execute": 4728,
+        "fetchval": 6634,
+        "fetch": 1459
+      },
+      "sqlP95Ms": 3.29,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 1.79,
+      "appAndClientCpuSeconds": 4.99,
+      "appAndClientPeakRssKiB": 124928,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 114,
+          "status": {
+            "200": 114
+          },
+          "p95Ms": 343.44,
+          "successfulP95Ms": 343.44
+        },
+        "guardian_payments": {
+          "requests": 170,
+          "status": {
+            "200": 170
+          },
+          "p95Ms": 476.75,
+          "successfulP95Ms": 476.75
+        },
+        "owner_summary": {
+          "requests": 123,
+          "status": {
+            "200": 123
+          },
+          "p95Ms": 324.82,
+          "successfulP95Ms": 324.82
+        },
+        "student_journey": {
+          "requests": 137,
+          "status": {
+            "200": 137
+          },
+          "p95Ms": 329.22,
+          "successfulP95Ms": 329.22
+        },
+        "student_payments": {
+          "requests": 519,
+          "status": {
+            "200": 519
+          },
+          "p95Ms": 338.17,
+          "successfulP95Ms": 338.17
+        },
+        "teacher_today": {
+          "requests": 138,
+          "status": {
+            "200": 138
+          },
+          "p95Ms": 303.48,
+          "successfulP95Ms": 303.48
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 100,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 5.53,
+      "requests": 868,
+      "rps": 157.06,
+      "status": {
+        "200": 142,
+        "503": 726
+      },
+      "p50Ms": 205.26,
+      "p95Ms": 3109.74,
+      "p99Ms": 5152.63,
+      "errors": {
+        "busy": 726
+      },
+      "readObjectiveMet": false,
+      "poolWaitP95Ms": 2088.29,
+      "poolLeases": 305,
+      "sqlCalls": {
+        "fetchrow": 201,
+        "execute": 559,
+        "fetchval": 784,
+        "fetch": 170
+      },
+      "sqlP95Ms": 36.35,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 19.46,
+      "appAndClientCpuSeconds": 5.46,
+      "appAndClientPeakRssKiB": 126976,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 95,
+          "status": {
+            "200": 13,
+            "503": 82
+          },
+          "p95Ms": 2727.4,
+          "successfulP95Ms": 4056.11
+        },
+        "guardian_payments": {
+          "requests": 105,
+          "status": {
+            "200": 21,
+            "503": 84
+          },
+          "p95Ms": 5159.19,
+          "successfulP95Ms": 5262.49
+        },
+        "owner_summary": {
+          "requests": 89,
+          "status": {
+            "200": 15,
+            "503": 74
+          },
+          "p95Ms": 2821.66,
+          "successfulP95Ms": 3985.23
+        },
+        "student_journey": {
+          "requests": 92,
+          "status": {
+            "200": 17,
+            "503": 75
+          },
+          "p95Ms": 2556.53,
+          "successfulP95Ms": 3203.51
+        },
+        "student_payments": {
+          "requests": 394,
+          "status": {
+            "200": 60,
+            "503": 334
+          },
+          "p95Ms": 2646.21,
+          "successfulP95Ms": 3983.58
+        },
+        "teacher_today": {
+          "requests": 93,
+          "status": {
+            "200": 16,
+            "503": 77
+          },
+          "p95Ms": 3002.09,
+          "successfulP95Ms": 3984.28
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 250,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 6.28,
+      "requests": 904,
+      "rps": 143.95,
+      "status": {
+        "503": 777,
+        "200": 127
+      },
+      "p50Ms": 1162.2,
+      "p95Ms": 4607.31,
+      "p99Ms": 5831.41,
+      "errors": {
+        "busy": 776,
+        "unreachable": 1
+      },
+      "readObjectiveMet": false,
+      "poolWaitP95Ms": 2720.92,
+      "poolLeases": 275,
+      "sqlCalls": {
+        "fetchrow": 176,
+        "execute": 496,
+        "fetchval": 759,
+        "fetch": 157
+      },
+      "sqlP95Ms": 48.04,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 25.37,
+      "appAndClientCpuSeconds": 6.17,
+      "appAndClientPeakRssKiB": 129536,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 100,
+          "status": {
+            "200": 10,
+            "503": 90
+          },
+          "p95Ms": 3954.33,
+          "successfulP95Ms": 5620.18
+        },
+        "guardian_payments": {
+          "requests": 175,
+          "status": {
+            "200": 20,
+            "503": 155
+          },
+          "p95Ms": 5589.52,
+          "successfulP95Ms": 5995.41
+        },
+        "owner_summary": {
+          "requests": 74,
+          "status": {
+            "503": 58,
+            "200": 16
+          },
+          "p95Ms": 4758.01,
+          "successfulP95Ms": 5866.15
+        },
+        "student_journey": {
+          "requests": 99,
+          "status": {
+            "200": 9,
+            "503": 90
+          },
+          "p95Ms": 3909.11,
+          "successfulP95Ms": 4611.28
+        },
+        "student_payments": {
+          "requests": 361,
+          "status": {
+            "503": 304,
+            "200": 57
+          },
+          "p95Ms": 4410.8,
+          "successfulP95Ms": 5702.52
+        },
+        "teacher_today": {
+          "requests": 95,
+          "status": {
+            "200": 15,
+            "503": 80
+          },
+          "p95Ms": 4607.31,
+          "successfulP95Ms": 5009.04
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 500,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 7.53,
+      "requests": 1099,
+      "rps": 145.96,
+      "status": {
+        "503": 959,
+        "200": 140
+      },
+      "p50Ms": 2343.56,
+      "p95Ms": 6393.43,
+      "p99Ms": 7021.98,
+      "errors": {
+        "busy": 958,
+        "unreachable": 1
+      },
+      "readObjectiveMet": false,
+      "poolWaitP95Ms": 2696.93,
+      "poolLeases": 309,
+      "sqlCalls": {
+        "fetchrow": 206,
+        "execute": 558,
+        "fetchval": 808,
+        "fetch": 164
+      },
+      "sqlP95Ms": 51.76,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 29.77,
+      "appAndClientCpuSeconds": 7.45,
+      "appAndClientPeakRssKiB": 133504,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 114,
+          "status": {
+            "200": 15,
+            "503": 99
+          },
+          "p95Ms": 5745.53,
+          "successfulP95Ms": 6803.74
+        },
+        "guardian_payments": {
+          "requests": 214,
+          "status": {
+            "200": 28,
+            "503": 186
+          },
+          "p95Ms": 6856.04,
+          "successfulP95Ms": 7163.25
+        },
+        "owner_summary": {
+          "requests": 116,
+          "status": {
+            "200": 15,
+            "503": 101
+          },
+          "p95Ms": 5939.87,
+          "successfulP95Ms": 6623.15
+        },
+        "student_journey": {
+          "requests": 104,
+          "status": {
+            "503": 94,
+            "200": 10
+          },
+          "p95Ms": 6227.77,
+          "successfulP95Ms": 4972.48
+        },
+        "student_payments": {
+          "requests": 434,
+          "status": {
+            "503": 378,
+            "200": 56
+          },
+          "p95Ms": 6427.93,
+          "successfulP95Ms": 6999.14
+        },
+        "teacher_today": {
+          "requests": 117,
+          "status": {
+            "200": 16,
+            "503": 101
+          },
+          "p95Ms": 6227.58,
+          "successfulP95Ms": 6733.53
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 1000,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 10.31,
+      "requests": 1412,
+      "rps": 136.98,
+      "status": {
+        "200": 170,
+        "503": 1242
+      },
+      "p50Ms": 5754.23,
+      "p95Ms": 9064.08,
+      "p99Ms": 9470.27,
+      "errors": {
+        "busy": 1237,
+        "unreachable": 5
+      },
+      "readObjectiveMet": false,
+      "poolWaitP95Ms": 3382.95,
+      "poolLeases": 384,
+      "sqlCalls": {
+        "fetchrow": 258,
+        "execute": 693,
+        "fetchval": 952,
+        "fetch": 196
+      },
+      "sqlP95Ms": 56.2,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 37.6,
+      "appAndClientCpuSeconds": 10.25,
+      "appAndClientPeakRssKiB": 139136,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 140,
+          "status": {
+            "200": 23,
+            "503": 117
+          },
+          "p95Ms": 8998.96,
+          "successfulP95Ms": 9012.91
+        },
+        "guardian_payments": {
+          "requests": 284,
+          "status": {
+            "200": 35,
+            "503": 249
+          },
+          "p95Ms": 9064.08,
+          "successfulP95Ms": 9585.35
+        },
+        "owner_summary": {
+          "requests": 143,
+          "status": {
+            "503": 130,
+            "200": 13
+          },
+          "p95Ms": 9002.84,
+          "successfulP95Ms": 9470.27
+        },
+        "student_journey": {
+          "requests": 145,
+          "status": {
+            "200": 14,
+            "503": 131
+          },
+          "p95Ms": 9049.44,
+          "successfulP95Ms": 9218.36
+        },
+        "student_payments": {
+          "requests": 567,
+          "status": {
+            "200": 69,
+            "503": 498
+          },
+          "p95Ms": 9075.87,
+          "successfulP95Ms": 9447.82
+        },
+        "teacher_today": {
+          "requests": 133,
+          "status": {
+            "200": 16,
+            "503": 117
+          },
+          "p95Ms": 8860.75,
+          "successfulP95Ms": 8667.88
+        }
+      },
+      "crossScopeDenied": true
+    },
+    {
+      "concurrency": 2000,
+      "admissionSeconds": 5.0,
+      "elapsedSeconds": 13.61,
+      "requests": 2197,
+      "rps": 161.46,
+      "status": {
+        "503": 1935,
+        "200": 262
+      },
+      "p50Ms": 8665.85,
+      "p95Ms": 11078.85,
+      "p99Ms": 12105.97,
+      "errors": {
+        "busy": 1933,
+        "unreachable": 2
+      },
+      "readObjectiveMet": false,
+      "poolWaitP95Ms": 2485.42,
+      "poolLeases": 579,
+      "sqlCalls": {
+        "fetchrow": 395,
+        "execute": 1053,
+        "fetchval": 1474,
+        "fetch": 316
+      },
+      "sqlP95Ms": 42.58,
+      "lockWaitersPeak": 0,
+      "eventLoopLagP95Ms": 24.57,
+      "appAndClientCpuSeconds": 13.57,
+      "appAndClientPeakRssKiB": 151424,
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 221,
+          "status": {
+            "200": 26,
+            "503": 195
+          },
+          "p95Ms": 10783.74,
+          "successfulP95Ms": 11121.55
+        },
+        "guardian_payments": {
+          "requests": 436,
+          "status": {
+            "200": 51,
+            "503": 385
+          },
+          "p95Ms": 11239.9,
+          "successfulP95Ms": 11608.36
+        },
+        "owner_summary": {
+          "requests": 216,
+          "status": {
+            "503": 192,
+            "200": 24
+          },
+          "p95Ms": 11064.32,
+          "successfulP95Ms": 11124.78
+        },
+        "student_journey": {
+          "requests": 220,
+          "status": {
+            "200": 29,
+            "503": 191
+          },
+          "p95Ms": 10944.31,
+          "successfulP95Ms": 11307.05
+        },
+        "student_payments": {
+          "requests": 890,
+          "status": {
+            "503": 784,
+            "200": 106
+          },
+          "p95Ms": 10995.52,
+          "successfulP95Ms": 11322.3
+        },
+        "teacher_today": {
+          "requests": 214,
+          "status": {
+            "200": 26,
+            "503": 188
+          },
+          "p95Ms": 11010.94,
+          "successfulP95Ms": 11010.94
+        }
+      },
+      "crossScopeDenied": true
+    }
+  ],
+  "callbackBurst": {
+    "requests": 50,
+    "acknowledged": 50,
+    "journalEffects": 1,
+    "seconds": 0.923,
+    "balanced": true,
+    "externalProviderVerified": false
+  }
+}

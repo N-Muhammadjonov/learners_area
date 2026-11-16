@@ -23,6 +23,21 @@ PROVIDERS = ('click', 'payme', 'uzum')
 MAX_AMOUNT = 90071992547409
 TERMINAL = ('paid', 'failed', 'cancelled', 'expired')
 
+INTENT_VIEW_SQL = '''SELECT i.*,s.name AS beneficiary_name,u.name AS payer_name,
+    p.status AS payment_status,p.receipt_no,
+    coalesce(a.allocated,0)::bigint AS allocated,coalesce(r.refunded,0)::bigint AS refunded
+    FROM tuition_payment_intents i JOIN users s ON s.id=i.student_user_id
+    JOIN users u ON u.id=i.payer_user_id LEFT JOIN tuition_payments p ON p.id=i.payment_id
+    LEFT JOIN LATERAL(SELECT sum(amount_minor) AS allocated FROM tuition_payment_allocations
+        WHERE payment_id=p.id)a ON true
+    LEFT JOIN LATERAL(SELECT sum(amount_minor) AS refunded FROM tuition_refunds
+        WHERE payment_id=p.id AND status='settled')r ON true'''
+
+LEGACY_VIEW_SQL = '''SELECT p.*,u.name AS student_name,
+    coalesce((SELECT sum(a.amount_minor) FROM tuition_payment_allocations a WHERE a.payment_id=p.id),0)::bigint AS allocated,
+    coalesce((SELECT sum(r.amount_minor) FROM tuition_refunds r WHERE r.payment_id=p.id AND r.status='settled'),0)::bigint AS refunded
+    FROM tuition_payments p JOIN users u ON u.id=p.student_user_id'''
+
 
 class IntentCreate(BaseModel):
     model_config = ConfigDict(extra='forbid')
@@ -141,28 +156,27 @@ async def create_intent(conn, *, payer, student_id: UUID, link_id: UUID | None,
 
 async def public_intent(conn, row) -> dict:
     """Never infer success from a URL, request parameter, or pending provider response."""
-    payment = await conn.fetchrow('SELECT * FROM tuition_payments WHERE id=$1',row['payment_id']) if row['payment_id'] else None
-    allocated = await conn.fetchval('SELECT coalesce(sum(amount_minor),0)::bigint FROM tuition_payment_allocations WHERE payment_id=$1',
-                                    row['payment_id']) if payment else 0
-    refunded = await conn.fetchval("SELECT coalesce(sum(amount_minor),0)::bigint FROM tuition_refunds WHERE payment_id=$1 AND status='settled'",
-                                   row['payment_id']) if payment else 0
+    return intent_view(await conn.fetchrow(INTENT_VIEW_SQL+' WHERE i.id=$1',row['id']))
+
+
+def intent_view(row) -> dict:
+    """Pure presentation shared by individual status and a batched history page."""
+    allocated,refunded=row['allocated'],row['refunded']
     status = row['status']
     if status=='created' and not row['payment_id'] and row['expires_at']<=datetime.now(timezone.utc):
         status='expired'
-    if status == 'paid' and payment:
-        status = {'partially_refunded':'partially_refunded','refunded':'refunded'}.get(payment['status'],'paid')
-    student = await conn.fetchval('SELECT name FROM users WHERE id=$1', row['student_user_id'])
-    payer = await conn.fetchval('SELECT name FROM users WHERE id=$1', row['payer_user_id'])
+    if status == 'paid' and row['payment_id']:
+        status = {'partially_refunded':'partially_refunded','refunded':'refunded'}.get(row['payment_status'],'paid')
     resumable = status in ('created','pending') and row['expires_at'] > datetime.now(timezone.utc)
     provider=provider_config(row['provider'])
     return {'intentId':str(row['id']),'status':status,'beneficiaryStudentId':str(row['student_user_id']),
-            'beneficiaryName':student,'payerName':payer,'amountMinor':row['amount_minor'],'currency':row['currency_code'],
+            'beneficiaryName':row['beneficiary_name'],'payerName':row['payer_name'],'amountMinor':row['amount_minor'],'currency':row['currency_code'],
             'provider':row['provider'],'environment':row['provider_environment'],
             'createdAt':row['created_at'].isoformat(),'expiresAt':row['expires_at'].isoformat(),
             'quoteVersion':row['quote_version'],'checkoutState':row['checkout_state'],
             'merchantCheckoutUrl':row['checkout_url'] if resumable and provider['available'] and row['provider_environment']==provider['environment'] else None,
             'allocatedMinor':int(allocated),'advanceMinor':max(0,row['amount_minor']-int(allocated)-int(refunded)) if status in ('paid','partially_refunded','refunded') else 0,
-            'refundedMinor':int(refunded),'acknowledgement':{'kind':'internal','number':payment['receipt_no']} if payment and status in ('paid','partially_refunded','refunded') else None,
+            'refundedMinor':int(refunded),'acknowledgement':{'kind':'internal','number':row['receipt_no']} if row['payment_id'] and status in ('paid','partially_refunded','refunded') else None,
             'fiscalStatus':row['fiscal_status'],'fiscalReceiptUrl':row['fiscal_url'] if row['fiscal_status']=='issued' else None}
 
 
@@ -186,12 +200,12 @@ async def summary(conn, student_id: UUID, *, offset: int = 0, limit: int = 20,
           AND NOT EXISTS(SELECT 1 FROM tuition_payment_intents i WHERE i.payment_id=p.id)
         ) h WHERE ($2::varchar IS NULL OR h.status=$2)
         ORDER BY at DESC,id DESC LIMIT $3 OFFSET $4""",student_id,status,limit+1,offset)
-    history=[]
-    for item in rows[:limit]:
-        if item['kind']=='intent':
-            history.append(await public_intent(conn,await intent_row(conn,item['id'])))
-        else:
-            history.append(await public_legacy_payment(conn,item['id']))
+    intent_ids=[r['id'] for r in rows[:limit] if r['kind']=='intent']
+    legacy_ids=[r['id'] for r in rows[:limit] if r['kind']=='legacy']
+    # At most two enrichment queries for any page size, rather than 2–6 per item.
+    intents={r['id']:intent_view(r) for r in await conn.fetch(INTENT_VIEW_SQL+' WHERE i.id=ANY($1::uuid[])',intent_ids)} if intent_ids else {}
+    legacy={r['id']:legacy_view(r) for r in await conn.fetch(LEGACY_VIEW_SQL+' WHERE p.id=ANY($1::uuid[])',legacy_ids)} if legacy_ids else {}
+    history=[(intents if r['kind']=='intent' else legacy)[r['id']] for r in rows[:limit]]
     name = await conn.fetchval('SELECT name FROM users WHERE id=$1',student_id)
     due = await conn.fetchval('''SELECT min(c.due_date) FROM tuition_charges c
         WHERE c.student_user_id=$1 AND c.status='posted' AND NOT c.is_reversal
@@ -250,10 +264,10 @@ async def settle(conn, row, *, transaction_id: str, amount_minor: int, currency:
 
 async def public_legacy_payment(conn, payment_id: UUID) -> dict:
     """Cash/bank and older provider receipts stay visible alongside portal orders."""
-    row=await conn.fetchrow('''SELECT p.*,u.name AS student_name,
-        coalesce((SELECT sum(a.amount_minor) FROM tuition_payment_allocations a WHERE a.payment_id=p.id),0)::bigint AS allocated,
-        coalesce((SELECT sum(r.amount_minor) FROM tuition_refunds r WHERE r.payment_id=p.id AND r.status='settled'),0)::bigint AS refunded
-        FROM tuition_payments p JOIN users u ON u.id=p.student_user_id WHERE p.id=$1''',payment_id)
+    return legacy_view(await conn.fetchrow(LEGACY_VIEW_SQL+' WHERE p.id=$1',payment_id))
+
+
+def legacy_view(row) -> dict:
     state={'confirmed':'paid','pending_provider':'pending','initiated':'created','rejected':'failed'}.get(row['status'],row['status'])
     settled=row['status'] in ledger.SETTLED_PAYMENT_STATES
     return {'intentId':None,'paymentId':str(row['id']),'status':state,'beneficiaryStudentId':str(row['student_user_id']),

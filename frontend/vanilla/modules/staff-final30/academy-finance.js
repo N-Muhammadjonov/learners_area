@@ -5,6 +5,8 @@ import {BackLink} from './kit.js';
 import {financeDocuments} from './finance-documents.js';
 import {academyPayroll} from './academy-payroll.js';
 import {pageGuide} from '../shared/page-guide.js';
+import {financeDebtors} from './finance-debtors.js';
+import {paymentDate} from '../payments/format.js';
 
 const STAFF_API='/api/staff/finance';
 const UUID=/^[a-f\d]{8}-(?:[a-f\d]{4}-){3}[a-f\d]{12}$/i;
@@ -15,7 +17,7 @@ function translations(ctx){
   title:'Akademiya moliyasi',journal:'Jurnal CSV',period:'Jurnal oyi',start:'Boshlanish',end:'Tugash',report:'Hisobot',statement:'O‘quvchi hisoboti',
   find:'O‘quvchi qidirish',select:'O‘quvchini tanlang',open:'Ochish',submit:'To‘lovni yozish',
   cash:'Naqd',bank:'Bank',purpose:'To‘lov maqsadi',amount:'Miqdor (so‘m)',confirm:'To‘lov miqdori va usulini tekshirdim',
-  total:'Jami tushum',recognized:'Tan olingan daromad',debt:'Qarz',overdue:'Muddati o‘tgan qarz',
+  total:'Jami tushum',net:'Qaytarishlardan keyingi tushum',recognized:'Tan olingan daromad',debt:'Qarz',overdue:'Muddati o‘tgan qarz',
   advance:'Avans',refunds:'Qaytarilgan mablag‘',charges:'Hisoblangan to‘lovlar',payments:'To‘lovlar',
   receipt:'Ichki to‘lov tasdiqnomasi',print:'Chop etish',noRows:'Yozuv yo‘q.',retry:'Qayta urinish',
   clear:'Ochiq qarz yo‘q',outstanding:'Ochiq qarz bor',pastDue:'Muddati o‘tgan qarz bor',
@@ -32,7 +34,7 @@ function translations(ctx){
   title:'Academy finance',journal:'Journal CSV',period:'Journal month',start:'Start',end:'End',report:'Report',statement:'Student statement',
   find:'Search students',select:'Select a student',open:'Open',submit:'Record payment',
   cash:'Cash',bank:'Bank',purpose:'Payment purpose',amount:'Amount (UZS)',confirm:'I checked the payment method and amount',
-  total:'Total collected',recognized:'Recognized revenue',debt:'Outstanding balance',overdue:'Overdue balance',
+  total:'Total collected',net:'Collections after refunds',recognized:'Recognized revenue',debt:'Outstanding balance',overdue:'Overdue balance',
   advance:'Advance',refunds:'Settled refunds',charges:'Charges',payments:'Payments',
   receipt:'Internal payment acknowledgment',print:'Print',noRows:'No records.',retry:'Retry',
   clear:'No outstanding balance',outstanding:'Outstanding balance',pastDue:'Past-due balance',
@@ -75,9 +77,7 @@ function totals(entries){
 
 function printReceipt(ctx,payment,studentLabel){
  const t=translations(ctx),amount=amounts(ctx);
- const stamp=new Intl.DateTimeFormat(ctx.locale==='uz'?'uz-UZ':'en-GB',{
-  dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Tashkent',
- }).format(new Date(payment.occurred_at));
+ const stamp=paymentDate(payment.occurred_at,ctx.locale,'—');
  const content=el('article',{},el('h1',{},t.receipt),
   el('dl',{},[[t.receiptNo,payment.receipt_no],[t.statement,studentLabel],
    [t.amount,amount(payment.amount_minor)],[t.method,t[payment.method]??payment.method],
@@ -244,8 +244,16 @@ export async function mount(ctx){
   el('h2',{class:'font-display text-xl'},text('O‘quvchining to‘lovini yozish','Record a student payment')),
   el('p',{},text('Ism bo‘yicha qidiring, o‘quvchini oching va faqat olingan pulni yozing.','Search by name, open the student and record only funds you have received.')),
   lookupForm,findStatus,studentHost);
+ const debtorList=financeDebtors(ctx,(id,name)=>{
+  selectedController?.abort();selectedController=new AbortController();
+  const selected={...ctx,signal:anySignal([ctx.signal,selectedController.signal])};
+  studentHost.replaceChildren(studentStatement(selected,id,name,true));
+  payPanel.scrollIntoView({block:'start'});
+ });
  const debtPanel=el('details',{class:'card space-y-3 p-4','data-finance-debt-task':''},
-  el('summary',{class:'cursor-pointer font-semibold'},text('Qarzdorlarni topish','Find outstanding tuition')),agingReport(ctx));
+  el('summary',{class:'cursor-pointer font-semibold'},text('Qarzdorlarni topish','Find outstanding tuition')),debtorList,agingReport(ctx));
+ let debtLoaded=false;
+ listen(debtPanel,'toggle',()=>{if(debtPanel.open&&!debtLoaded){debtLoaded=true;debtorList.dispatchEvent(new Event('academy-load'));}},ctx.signal);
  const expert=el('details',{class:'card space-y-3 p-4','data-finance-advanced':''},
   el('summary',{class:'cursor-pointer font-semibold'},text('Batafsil: hisoblarni tekshirish, kassa va ish haqi','Advanced: account checks, cash close and payroll')),
   el('p',{},text('Tushum — kelgan pul. Daromad — ko‘rsatilgan ta’lim xizmati uchun hisoblangan summa. Ular bir xil bo‘lishi shart emas.',
@@ -265,13 +273,17 @@ export async function mount(ctx){
   startPayment,form,summary,payPanel,debtPanel,guide,expert);
  ctx.root.append(host);
  let selectedController;
+ if(ctx.url?.searchParams.get('view')==='debts'){
+  debtPanel.open=true;
+  host.insertBefore(debtPanel,form);
+ }
  async function report(){
   if(submit.disabled||!form.reportValidity()||ctx.signal.aborted)return;
   submit.disabled=true;
   summary.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));
   try{
    const data=await api.request(STAFF_API+'/summary?'+new URLSearchParams({start:start.value,end:end.value}),{signal:ctx.signal});
-   if(!ctx.signal.aborted)summary.replaceChildren(totals([[t.total,fmt(data.collectedTotalMinor)],
+   if(!ctx.signal.aborted)summary.replaceChildren(totals([[t.total,fmt(data.collectedTotalMinor)],[t.net,fmt(data.collectedNetMinor)],
     [t.cash,fmt(data.collectedCashMinor)],[t.bank,fmt(data.collectedBankMinor)],[t.recognized,fmt(data.recognizedRevenueMinor)],
     [t.debt,fmt(data.outstandingReceivableMinor)],[t.overdue,fmt(data.overdueReceivableMinor)],
     [t.advance,fmt(data.customerAdvanceMinor)],[t.refunds,fmt(data.refundsMinor)]]));

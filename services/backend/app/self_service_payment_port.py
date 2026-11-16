@@ -83,7 +83,7 @@ async def portal(req: Request, child_id: UUID | None, *, body=None,
 
 @router.get('/api/finance/me/payments')
 async def my_payments(req: Request,offset: int=Query(0,ge=0,le=100000),limit: int=Query(20,ge=1,le=50),
-                      status: Literal['created','pending','paid','failed','cancelled','expired'] | None=None):
+                      status: Literal['created','pending','paid','failed','cancelled','expired','partially_refunded','refunded'] | None=None):
     return await portal(req,None,offset=offset,limit=limit,status=status)
 
 
@@ -106,7 +106,7 @@ async def refresh_my_intent(req: Request,intent_id: UUID):
 @router.get('/api/guardian/children/{child_id}/payments')
 async def child_payments(req: Request,child_id: UUID,offset: int=Query(0,ge=0,le=100000),
                          limit: int=Query(20,ge=1,le=50),
-                         status: Literal['created','pending','paid','failed','cancelled','expired'] | None=None):
+                         status: Literal['created','pending','paid','failed','cancelled','expired','partially_refunded','refunded'] | None=None):
     return await portal(req,child_id,offset=offset,limit=limit,status=status)
 
 

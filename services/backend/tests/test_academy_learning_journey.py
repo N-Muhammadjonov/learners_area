@@ -298,6 +298,26 @@ async def test_classroom_writing_teacher_feedback_and_guardian_progress(journey,
     await request(client,parent,'GET','/api/guardian/children/'+str(peer['id'])+'/progress',403,
                   params={'region':'progressSummary'})
     await request(client,parent,'GET','/api/staff/finance/students/'+str(learner['id'])+'/statement',403)
+    # A linked parent's real portal order continues the same admission/class/tuition
+    # journey. Synthetic protocol credentials never contact a merchant.
+    import base64
+    for key,value in {'PAYME_ENVIRONMENT':'sandbox','PAYME_SANDBOX_VERIFIED':'1','PAYME_LIVE_VERIFIED':'0',
+        'PAYME_MERCHANT_ID':'isolated-lifecycle','PAYME_KEY':'isolated-lifecycle-key','PAYME_LOGIN':'Paycom',
+        'PAYMENTS_RETURN_ORIGIN':'https://journey.test'}.items():monkeypatch.setenv(key,value)
+    order=await request(client,parent,'POST',child+'/payments/intents',json={
+        'amountMinor':100000,'provider':'payme','idempotencyKey':str(uuid4())})
+    provider_headers={'authorization':'Basic '+base64.b64encode(b'Paycom:isolated-lifecycle-key').decode()}
+    prepared=await client.post('/api/payments/callbacks/payme',headers=provider_headers,json={
+        'id':1,'method':'CreateTransaction','params':{'id':'lifecycle-parent-payment','time':int(datetime.now().timestamp()*1000),
+        'amount':10000000,'account':{'order_id':order['intentId']}}})
+    assert prepared.json()['result']['state']==1
+    for _ in range(2):
+        completed=await client.post('/api/payments/callbacks/payme',headers=provider_headers,json={
+            'id':2,'method':'PerformTransaction','params':{'id':'lifecycle-parent-payment'}})
+        assert completed.json()['result']['state']==2
+    paid_account=await request(client,parent,'GET',child+'/payments')
+    assert paid_account['position']['balanceDueMinor']==250000
+    assert len(paid_account['history'])==2
     await conn.execute("INSERT INTO telegram_contacts(telegram_user_id,chat_id) VALUES($1,'teacher-fixture-chat')",
                        teacher['telegram_id'])
     message={'body':'Your child completed the lesson.','linkIds':[str(link)],

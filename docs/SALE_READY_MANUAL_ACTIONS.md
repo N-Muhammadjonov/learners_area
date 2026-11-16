@@ -1,6 +1,6 @@
 # SALE_READY_MANUAL_ACTIONS — egasi bajaradigan yagona ro'yxat
 
-**Branch:** `main` · **Sana:** 2026-11-15, Asia/Tashkent
+**Branch:** `feature/academy-payments-ux-20261116` · **Sana:** 2026-11-16, Asia/Tashkent
 **Qoida:** Barcha tashqi/qo'lda bajariladigan majburiyatlar **faqat shu faylda**. Boshqa
 hujjatlarda egaga topshiriq yozilmaydi. Kod bilan yopish mumkin bo'lgan hech narsa bu yerga
 ko'chirilmagan — muhandislik ishi muhandislikda qoldi.
@@ -53,7 +53,7 @@ berilgan. `ID` orqali bog'lanadi.
 | Modul | O‘quvchi va bog‘langan farzand to‘lovlari |
 | Aniq harakat | Tanlangan provayderlarning merchant shartnomasini rasmiylashtirish, sandbox hisobini ajratish va rasmiy testlardan o‘tkazish. Sinovdan o‘tmagan usul yopiq qoladi |
 | Nega avtomatlashtirib bo'lmaydi | Merchant shartnomasi, haqiqiy kalitlar, provayder tekshiruvi va fiskal talablar markaz hamda provayder tomonidan tasdiqlanadi |
-| Bajarilgan tayyorgarlik | Alohida development branchda immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari, 41 ta haqiqiy ajratilgan PostgreSQL testi. Daraja: LOCALLY_TESTED. Haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
+| Bajarilgan tayyorgarlik | Alohida development branchda immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari, 42 ta haqiqiy ajratilgan PostgreSQL to‘lov testi va jami 52 ta payment/workbench/AI testi. Daraja: LOCALLY_TESTED. Haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
 | Rasmiy manba | [Click](https://docs.click.uz/), [Payme Merchant](https://developer.help.paycom.uz/protokol-merchant-api/), [Payme sandbox](https://developer.help.paycom.uz/pesochnitsa/), [Uzum Checkout](https://developer.uzumbank.uz/en/checkout/) |
 | Kerakli hisob/ruxsat | Markazning merchant hisobi, alohida sandbox kalitlari, tasdiqlangan login va ruxsat etilgan callback URL. Jonli chiqarish uchun yangi release ruxsati |
 | Aniq ketma-ketlik | 1) Merchant mahsulotini tanlang: Click Shop, Payme Merchant, Uzum Checkout. 2) Ajratilgan sinov bazasi va sandbox kalitlarini tayyorlang. 3) `/api/payments/callbacks/click`, `/api/payments/callbacks/payme` yoki `/api/payments/callbacks/uzum` manzilini shu sinov serverida sozlang. Non-production runtime va `PAYMENT_SANDBOX_DATABASE_ISOLATED=1` bilan `prepare_provider_sandbox.py` orqali owner/sinov o‘quvchisi uchun order tayyorlash mumkin. 4) Muvaffaqiyat, takror, kechikish, noto‘g‘ri imzo/summa, bekor qilish, ikkita farzand va refund siyosatini tekshiring. 5) Dalillar va reconciliation mos kelgach tegishli verification flagini tasdiqlang. 6) Yangi migratsiya va feature activationni alohida release ruxsati bilan bajaring. Tekshiruvgacha jonli flaglarni yoqmang |
@@ -133,7 +133,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Modul | Ota-ona aloqasi |
 | Aniq harakat | Bot token va webhook secret'ni berish; **haqiqiy** ikki ota-ona / ikki bola bilan ikki tomonlama xabar testini o'tkazish |
 | Nega avtomatlashtirib bo'lmaydi | Haqiqiy Telegram hisoblari va foydalanuvchi roziligi kerak; sintetik test delivery'ni isbotlamaydi |
-| Bajarilgan tayyorgarlik | Parent Connect to'liq mavjud va **saqlab qolindi**: `guardian_port.py`, migratsiyalar 0088–0090, javob aynan yuboruvchi xodimga qaytadi, `UNIQUE(actor_telegram_id, source_message_id)`, `update_id` dedup. Guardian moliya route'lariga markaziy 403 bilan yopiq |
+| Bajarilgan tayyorgarlik | Parent Connect saqlangan: `guardian_port.py`, migratsiyalar 0088–0090, javob aynan yuboruvchi xodimga qaytadi, `UNIQUE(actor_telegram_id, source_message_id)`, `update_id` dedup. Guardian staff moliyasiga yopiq. Yangi branchda faqat amaldagi bog‘langan farzand to‘lovlari va shu hisob bo‘yicha RIWI yordami ruxsat etiladi |
 | Rasmiy manba | `https://core.telegram.org/bots/api` → @BotFather |
 | Kerakli hisob/ruxsat | Bot egasi |
 | Aniq ketma-ketlik | 1) @BotFather → `/token` → 2) `TELEGRAM_BOT_TOKEN` va `BOT_SERVICE_SECRET` ni Railway'ga qo'shish → 3) webhook'ni `https://<domen>/api/internal/telegram/...` ga o'rnatish va `secret_token` ni moslashtirish → 4) Test: 2 xodim, 2 ota-ona, 2 bola; bitta ota-ona ikki bolaga ulangan; eski xabarga javob; duplikat update |
@@ -201,10 +201,10 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Modul | RIWI / Writing / Speaking |
 | Aniq harakat | Provider'ni tanlash va kalitni berish |
 | Nega avtomatlashtirib bo'lmaydi | Tashqi hisob va to'lov |
-| Bajarilgan tayyorgarlik | Provider abstraction, fallback va provenance mavjud (`app/riwi_provider_router.py`, `ai_runtime.py`) |
+| Bajarilgan tayyorgarlik | Mavjud provider abstraction, fallback va provenance saqlangan. Yangi Academy RIWI typed read/draft vositalari, rol kvotasi, kill switch va deterministik fallback bilan ishlaydi. Tashqi model yoqilmagan, pullik chaqiruv bajarilmagan |
 | Rasmiy manba | Tanlangan provider hujjatlari |
 | Kerakli hisob/ruxsat | Provider hisobi |
-| Aniq ketma-ketlik | `AI_PRIMARY_PROVIDER` ni sozlash va kalitni secret sifatida qo'shish |
+| Aniq ketma-ketlik | Baholash uchun mavjud provider sozlamalari va secret kalitni ajrating. Academy faktlarini tashqi saralash zarur bo‘lsa, sinov muhitida mavjud gateway model/kalitini tekshiring, keyin `ACADEMY_AI_EXTERNAL_ENABLED=1` va `ACADEMY_AI_PROVIDER_VERIFIED=1` ni tasdiqlang. Avval maxfiy ma’lumot chiqmasligi, model uzilishidagi fallback va haqiqiy sarf yozuvlarini tekshiring |
 | Xavfsiz misol | `AI_PRIMARY_PROVIDER=<provider-id>` |
 | Egadan keyingi validatsiya | Haqiqiy Writing topshirig'ida rubric-asosidagi baho va provenance yozuvi |
 | Taxminiy vaqt | 30 daqiqa |
@@ -218,7 +218,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Modul | Yuklama |
 | Aniq harakat | 100 → 2,000 konkurent darajalari uchun vaqtincha infra byudjetini tasdiqlash |
 | Nega avtomatlashtirib bo'lmaydi | Pul va infra resursi |
-| Bajarilgan tayyorgarlik | `scripts/controlled_load.py` va oldingi 20/200 daraja retseptlari mavjud; yangi moliya so'rovlari 10k ma'lumotda `EXPLAIN ANALYZE` bilan o'lchandi |
+| Bajarilgan tayyorgarlik | 10 000 sintetik o‘quvchida haqiqiy lokal HTTP orqali 10/25/50/100/250/500/1000/2000 darajalari o‘lchandi. 25 parallel daraja p95 173,44 ms va 0 xato; yuqori darajalar maqsadga yetmadi. 50 takror callback 1 jurnal effektini berdi. Bu staging yoki production SLA emas |
 | Rasmiy manba | Railway / Supabase narx sahifalari |
 | Kerakli hisob/ruxsat | Owner |
 | Aniq ketma-ketlik | Vaqtincha muhit → `python3 scripts/controlled_load.py --levels 100,250,500` → natijalarni `docs/verification/CAPACITY_AND_RECOVERY.md` ga yozish |
@@ -226,7 +226,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Egadan keyingi validatsiya | p50/p95/p99, xato ulushi, PASS/FAIL yozuvi |
 | Taxminiy vaqt | 1 kun |
 | Status | `OPEN` |
-| Dalil havolasi | `docs/verification/CAPACITY_AND_RECOVERY.md` §3–§4 |
+| Dalil havolasi | `docs/verification/academy-ux/load-receipt.json`; `docs/verification/CAPACITY_AND_RECOVERY.md` |
 
 ## MA-11 — Kamera yuz-identifikatsiyasi (hozircha **o'chiq** qolishi shart)
 
@@ -268,9 +268,9 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 
 | ID | Nima yopildi | Sana | Dalil |
 |---|---|---|---|
-| — | Hozircha yopilgan element yo'q | — | — |
+| MA-03 | 1115–1131 production migratsiyasi va Academy faollashtirish | 2026-11-15 | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md` |
 
-**Eslatma:** Bu ro'yxatga kod bilan yopiladigan ishlar kiritilmaydi. Masalan, mavjud 5 ta
-qizil test (Listening 08/10 runtime, Reading gloss offset, study-plan bank parity, order-dependent
-startup warning) — bu **muhandislik ishi**, owner harakati emas; ular
-`docs/verification/SALE_READY_ACCEPTANCE.md` §3 da qayd etilgan.
+**Eslatma:** Kod bilan yopiladigan ishlar bu ro‘yxatga kiritilmaydi. Academy 2.0 bo‘yicha
+muhandislik holati va qolgan testlar `docs/verification/ACADEMY_2_ACCEPTANCE.md` da.
+Yangi self-service payment migratsiyasi MA-03 dagi avvalgi production reliziga kirmaydi,
+ushbu vazifada production bazasi o‘zgartirilmadi.

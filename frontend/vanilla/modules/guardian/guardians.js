@@ -1,5 +1,6 @@
 import {h} from '../../js/native.js';
 import {academyHelp} from '../shared/academy-help.js';
+import {academyAiPanel} from '../shared/academy-ai.js';
 import {api, loadStyles, tr, failureText, replaceOptionalChildren} from './shared.js';
 
 const STATUS = {
@@ -100,6 +101,8 @@ export async function mount(ctx) {
       h('div', {class: 'pc-toolbar'}, h('h2', {class: 'card-title'}, `${l.studentName} ← ${l.guardianName || '—'}`),
         h('button', {type: 'button', class: 'btn-ghost', onClick: () => { S.detail = null; paint(); }}, dict.common.cancel ?? '×')),
       h('p', {class: 'pc-muted'}, [`${STATUS[l.status][L]}`, l.relationship ? REL[l.relationship][L] : null, [l.telegramUsername ? '@' + l.telegramUsername.replace(/^@/, '') : null, l.phone].filter(Boolean).join(' · ')].filter(Boolean).join(' · ')),
+      l.status==='linked'?academyAiPanel(ctx,{endpoint:'/api/staff/academy/assistant/proposals',action:'parent_message_draft',studentId:l.studentId,
+        onDraft:text=>{S.body=text;S.templateKey=null;S.selected=new Set([l.linkId]);resetPreview();paint();}}):null,
       h('h3', {class: 'card-title'}, T('Qo‘lda yuborilgan xabarlar tarixi', 'Manual message history')),
       S.detail.messages.length ? h('ul', {}, S.detail.messages.map(m => h('li', {class: 'pc-muted'},
         `${m.createdAt?.slice(0, 16).replace('T', ' ')} · ${m.template || 'custom'} · ${m.status}${m.error ? ' (' + m.error + ')' : ''}`))) : h('p', {class: 'pc-muted'}, T('Hali xabar yo‘q.', 'No messages yet.')));

@@ -40,6 +40,27 @@ test('finance_help_walkthrough_works_keyboard_mobile',async()=>{
  }finally{h.dispose();}
 });
 
+test('guardian payment assistant rebinds to the selected child and revocation clears its old evidence',async()=>{
+ const h=setup({path:'/app/payments',role:'guardian'}),first=ID(2),second=ID(3);h.ctx.session.assistantEnabled=true;
+ let revoked=false;
+ const proposal=id=>({brand:'RIWI',canExecute:false,observedAt:account.asOf,evidence:[{
+  kind:'balance_due',value:id===first?900000:300000,unit:'UZS',sourceHref:'/app/payments?child='+id}]});
+ h.stub({'/api/guardian/children':{children:[{studentId:first,name:'Child A'},{studentId:second,name:'Child B'}]},
+  ['/api/guardian/children/'+first+'/payments']:()=>revoked?new ApiError(403,'forbidden'):account,
+  ['/api/guardian/children/'+second+'/payments']:{...account,beneficiaryName:'Child B'},
+  ['/api/guardian/children/'+first+'/assistant']:proposal(first),['/api/guardian/children/'+second+'/assistant']:proposal(second)});
+ try{
+  await mount(h.ctx);h.click(h.q('[data-academy-ai] button'));await tick();
+  assert.equal(h.calls.at(-1).path,'/api/guardian/children/'+first+'/assistant');
+  h.change(h.q('#payment-child'),second);await tick();
+  assert(!h.q('[data-academy-ai] a'));h.click(h.q('[data-academy-ai] button'));await tick();
+  assert.equal(h.calls.at(-1).path,'/api/guardian/children/'+second+'/assistant');
+  assert.match(h.q('[data-academy-ai]').textContent,/300,000 UZS/);
+  revoked=true;h.change(h.q('#payment-child'),first);await tick();
+  assert(!h.q('[data-academy-ai]'));assert(h.q('[data-payment-form]').hidden);
+ }finally{h.dispose();}
+});
+
 test('Uzbek money and Tashkent dates never use root-locale month names or rounding',async()=>{
  const {paymentMoney,paymentDate}=await import('../modules/payments/format.js');
  assert.equal(paymentMoney(800000,'uz'),'800 000 UZS');

@@ -1,5 +1,6 @@
 import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
+import {academyHelp} from '../shared/academy-help.js';
 
 const choices = ['not_marked','present','late','absent','excused'];
 
@@ -29,6 +30,7 @@ export function attendanceRoster(ctx, groupId, sessionId) {
  const t=translations(ctx), signal=ctx.signal, endpoint='/api/staff/academy/groups/'+groupId+'/sessions/'+sessionId+'/attendance';
  const body=el('div',{class:'space-y-2'}), panel=card(t.title,body);
  panel.dataset.academyAttendance='';
+ panel.append(academyHelp(ctx,'attendance'));
  const request=(path,options={})=>api.request(endpoint+path,{...options,signal});
  async function load(page, saved=false) {
   body.replaceChildren(el('p',{role:'status'},ctx.dict.common.loading));

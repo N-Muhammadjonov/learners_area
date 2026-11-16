@@ -9,6 +9,7 @@ export function validateSession(value){
  const s=value?.session,u=s?.user;
  if(s?.academyEnabled!==undefined&&typeof s.academyEnabled!=='boolean')throw new ApiError(502,'invalid_session_adapter');
  if(s?.paymentsEnabled!==undefined&&typeof s.paymentsEnabled!=='boolean')throw new ApiError(502,'invalid_session_adapter');
+ if(s?.assistantEnabled!==undefined&&typeof s.assistantEnabled!=='boolean')throw new ApiError(502,'invalid_session_adapter');
  if(value?.version!==1||s?.diagnostics!==undefined&&typeof s.diagnostics!=='boolean'||!u||typeof u.id!=='string'||!u.id||typeof u.name!=='string'||u.email!=null&&typeof u.email!=='string'||!roles.includes(u.role)||!['active','pending','suspended','rejected'].includes(u.accountStatus)||!Number.isSafeInteger(s.expiresAt)||typeof s.accessEventsEnabled!=='boolean'||typeof u.photoPresent!=='boolean')throw new ApiError(502,'invalid_session_adapter');
  return s;
 }

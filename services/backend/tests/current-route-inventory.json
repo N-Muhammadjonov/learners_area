@@ -2573,5 +2573,30 @@
     "method": "POST",
     "path": "/api/payments/callbacks/uzum",
     "name": "uzum_callback"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/finance/debtors",
+    "name": "finance_debtor_list"
+  },
+  {
+    "method": "GET",
+    "path": "/api/staff/academy/today",
+    "name": "academy_today"
+  },
+  {
+    "method": "POST",
+    "path": "/api/staff/academy/assistant/proposals",
+    "name": "academy_staff_proposal"
+  },
+  {
+    "method": "POST",
+    "path": "/api/finance/me/assistant",
+    "name": "academy_student_payment_help"
+  },
+  {
+    "method": "POST",
+    "path": "/api/guardian/children/{child_id}/assistant",
+    "name": "academy_guardian_payment_help"
   }
 ]

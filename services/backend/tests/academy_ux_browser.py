@@ -91,7 +91,7 @@ async def test_academy_persona_browser(journey,monkeypatch):
                 }).encode()),timeout=120)
                 assert process.returncode==0,output.decode()+errors.decode()
                 print(output.decode().strip())
-                assert (await ledger.student_position(conn,student))['balanceDueMinor']==512469
+                assert (await ledger.student_position(conn,student))['balanceDueMinor']==462469
                 assert (await ledger.student_position(conn,second))['advanceMinor']==200000
                 assert (await ledger.journal_is_balanced(conn))['balanced']
                 assert await conn.fetchval('SELECT count(*) FROM tuition_provider_events')==3

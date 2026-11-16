@@ -1,6 +1,7 @@
 /** V56 native Management front door. Current main reference:
  * src/app/app/(shell)/management/page.tsx @ b62b78f. */
 import {el} from './kit.js';
+import {academyToday} from './academy-today.js';
 import {STATS_EN,STATS_UZ} from './statistics-strings.js';
 import {ACADEMIC_EN,ACADEMIC_UZ} from './monitoring-strings.js';
 import {
@@ -120,5 +121,6 @@ export async function mount(ctx){
   areas.length?el('div',{class:'grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3'},cards):el('p',{},dict.management.emptyForRole));
  if(signal?.aborted)return;
  root.append(host);
+ if(session.academyEnabled===true&&['owner','admin','teacher'].includes(role))host.prepend(academyToday(ctx));
  signal?.addEventListener('abort',()=>host.remove(),{once:true});
 }

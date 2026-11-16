@@ -449,6 +449,37 @@ async def test_reconciliation_equals_independent_journal(family,payme_config):
 
 
 @pytest.mark.asyncio
+async def test_payment_history_enrichment_is_bounded_and_matches_individual_intents(family,payme_config):
+    from app import self_service_payments as payments
+    conn,client,a,_=family
+    ids=[]
+    for i in range(10):
+        intent=await new_intent(client,a['student'],amountMinor=10000+i)
+        ids.append(intent['intentId'])
+        await ledger.record_payment(conn,actor_user_id=a['admin']['id'],student_user_id=a['student']['id'],
+            amount_minor=1000+i,idempotency_key='batch-cash-'+str(i))
+
+    class ObservedConnection:
+        def __init__(self):self.calls=0
+        def __getattr__(self,name):
+            async def query(*args,**kwargs):
+                self.calls+=1
+                return await getattr(conn,name)(*args,**kwargs)
+            return query
+
+    observed=ObservedConnection()
+    page=await payments.summary(observed,a['student']['id'])
+    assert len(page['history'])==20 and observed.calls<=12
+    assert {r['intentId'] for r in page['history'] if r['intentId']}==set(ids)
+    for row in page['history']:
+        if row['intentId']:
+            individual=await request(client,a['student'],'GET','/api/finance/me/intents/'+row['intentId'])
+            assert row==individual
+        else:
+            assert row['acknowledgement']['kind']=='internal' and row['allocatedMinor']>0
+
+
+@pytest.mark.asyncio
 async def test_uzum_status_recovery_is_bounded_and_never_invents_money(family,monkeypatch):
     from app import main,payment_providers as vendors,payment_reconciliation as recovery
     conn,client,a,_=family

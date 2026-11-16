@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import os
 from urllib.parse import urlsplit
-from .runtime_config import academy_enabled, development
+from .runtime_config import academy_enabled, development,academy_assistant_enabled
 from .self_service_payments import enabled as payments_enabled
 from fastapi import APIRouter, Request, HTTPException
 from . import main as core
@@ -69,6 +69,7 @@ async def session(req: Request):
         'diagnostics': diagnostics_enabled(),
         'academyEnabled': academy_enabled(),
         'paymentsEnabled': payments_enabled(),
+        'assistantEnabled': academy_assistant_enabled(),
     }}, headers=core.PRIVATE)
 
 

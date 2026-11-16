@@ -921,6 +921,10 @@ from .tuition_port import install as _install_tuition
 _install_tuition()
 from .self_service_payment_port import install as _install_self_service_payments
 _install_self_service_payments()
+from .academy_workbench_port import install as _install_academy_workbench
+_install_academy_workbench()
+from .academy_assistant_port import install as _install_academy_assistant
+_install_academy_assistant()
 from .study_plan_staff_port import install as _install_study_plan_staff
 _install_study_plan_staff()
 from .academy_groups_port import install as _install_academy_groups

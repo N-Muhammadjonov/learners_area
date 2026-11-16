@@ -3,6 +3,7 @@ import {el,listen} from '../../js/dom.js';
 import {paymentText} from './text.js';
 import {pageGuide} from '../shared/page-guide.js';
 import {paymentMoney,paymentDate,validatePaymentSummary} from './format.js';
+import {academyAiPanel} from '../shared/academy-ai.js';
 
 export async function mount(ctx){
  const {root,signal,locale,session}=ctx,t=paymentText(locale),guardian=session.user.role==='guardian';
@@ -21,6 +22,7 @@ export async function mount(ctx){
  const review=el('section',{class:'pay-card',hidden:true,tabindex:'-1','aria-label':t.review});
  const paymentStatus=el('section',{class:'pay-card',hidden:true,'data-payment-status':'','aria-live':'polite'});
  const history=el('section',{class:'pay-card','aria-label':t.history});
+ const aiHost=el('div',{'data-payment-ai-host':''});
  const child=el('select',{id:'payment-child',class:'input','aria-label':t.child});
  const childLabel=el('label',{for:'payment-child',hidden:!guardian},t.child,child);
  const header=el('header',{class:'pay-header'},el('div',{},el('p',{class:'pay-eyebrow'},'Learners Area'),
@@ -28,7 +30,7 @@ export async function mount(ctx){
   el('a',{href:'/app/progress',class:'btn-secondary'},t.progress));
  const page=el('div',{class:'pay-page','data-route-usable':'payments'},header,childLabel,status,
   el('div',{class:'pay-columns'},account,form),review,paymentStatus,history,
-  pageGuide(ctx,{key:'payments',title:t.help,steps:t.steps,example:t.example}),faq());
+  pageGuide(ctx,{key:'payments',title:t.help,steps:t.steps,example:t.example}),faq(),aiHost);
  root.append(page);
  let studentId=session.user.id,data,provider='',offset=0,filter='',requestNumber=0,key=crypto.randomUUID(),busy=false,pollTimer=0,pollRound=0;
  let activeIntent=null;
@@ -78,7 +80,7 @@ export async function mount(ctx){
   updatePreview();
  }
  function historyView(){
-  const select=el('select',{'aria-label':t.filter,class:'input'},...['','created','pending','paid','failed','cancelled','expired'].map(value=>el('option',{value,selected:filter===value},value?t.status[value]:t.all)));
+  const select=el('select',{'aria-label':t.filter,class:'input'},...['','created','pending','paid','failed','cancelled','expired','partially_refunded','refunded'].map(value=>el('option',{value,selected:filter===value},value?t.status[value]:t.all)));
   listen(select,'change',()=>{filter=select.value;offset=0;void load();},signal);
   const rows=el('div',{class:'pay-history'});
   for(const row of data.history){
@@ -109,12 +111,14 @@ export async function mount(ctx){
    data=validatePaymentSummary(result);account.hidden=false;form.hidden=false;history.hidden=false;
    if(!provider)provider=data.providers.find(p=>p.available)?.id??'';
    accountView();historyView();status.textContent=t.updated+' '+date(data.asOf);
+   const ai=academyAiPanel(ctx,{endpoint:guardian?`/api/guardian/children/${studentId}/assistant`:'/api/finance/me/assistant',action:'payment_help'});
+   aiHost.replaceChildren(...(ai?[ai]:[]));
   }catch(error){
    if(signal.aborted||ticket!==requestNumber)return;
    status.replaceChildren(el('span',{role:'alert'},errorText(error)));
    const retry=button(t.retry);listen(retry,'click',()=>void load(),signal);status.append(retry);
    // Revocation must remove stale child financial data as well as block new requests.
-   if([401,403,404].includes(error.status)||error.message==='invalid_money_projection'){account.replaceChildren();history.replaceChildren();form.hidden=true;review.hidden=true;paymentStatus.hidden=true;}
+   if([401,403,404].includes(error.status)||error.message==='invalid_money_projection'){account.replaceChildren();history.replaceChildren();aiHost.replaceChildren();form.hidden=true;review.hidden=true;paymentStatus.hidden=true;}
   }
  }
  function showIntent(row){
@@ -170,7 +174,7 @@ export async function mount(ctx){
    if(!result.children.length){account.hidden=form.hidden=history.hidden=true;status.textContent=t.noChildren;return;}
    const requested=ctx.url.searchParams.get('child');studentId=result.children.find(c=>c.studentId===requested)?.studentId??result.children[0].studentId;
    child.replaceChildren(...result.children.map(c=>el('option',{value:c.studentId,selected:c.studentId===studentId},c.name)));
-   listen(child,'change',()=>{if(busy){child.value=studentId;return;}studentId=child.value;offset=0;provider='';key=crypto.randomUUID();clearTimeout(pollTimer);activeIntent=null;review.hidden=paymentStatus.hidden=true;account.replaceChildren();history.replaceChildren();void load();},signal);
+   listen(child,'change',()=>{if(busy){child.value=studentId;return;}studentId=child.value;offset=0;provider='';key=crypto.randomUUID();clearTimeout(pollTimer);activeIntent=null;review.hidden=paymentStatus.hidden=true;account.replaceChildren();history.replaceChildren();aiHost.replaceChildren();void load();},signal);
   }catch(error){if(!signal.aborted){account.hidden=form.hidden=history.hidden=true;status.textContent=errorText(error);}return;}
  }
  await load();

@@ -1,6 +1,7 @@
 import {api} from '../../js/api-client.js';
 import {el, listen} from '../../js/dom.js';
 import {anySignal} from '../../js/signals.js';
+import {academyHelp} from '../shared/academy-help.js';
 
 const API='/api/staff/finance/payroll';
 
@@ -76,7 +77,10 @@ export function academyPayroll(ctx){
   field(t.teacher,teacher),field(t.period,period),button(t.open));
  const status=el('p',{role:'status'}),body=el('div',{class:'space-y-4'});
  const panel=el('details',{class:'card space-y-3 p-4','data-academy-payroll':''},
-  el('summary',{class:'cursor-pointer font-semibold'},t.title),lookup,query,status,body);
+  el('summary',{class:'cursor-pointer font-semibold'},t.title),
+  el('p',{},ctx.locale==='uz'?'Darslar va kelishilgan stavkalar asosida ish haqini tekshiring. Hisoblash va pul to‘lash alohida amallar.':
+   'Review pay from class records and agreed terms. Accrual and bank payout are separate actions.'),
+  lookup,query,status,body,academyHelp(ctx,'payroll'));
  let selection, revision=0;
  const fmt=new Intl.NumberFormat(ctx.locale==='uz'?'uz-UZ':'en-GB');
  const money=value=>/^[-]?\d+$/.test(String(value))?fmt.format(BigInt(value))+' UZS':'—';

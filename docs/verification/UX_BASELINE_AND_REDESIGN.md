@@ -83,7 +83,13 @@ overflow, unlabelled fields or page exceptions were observed in the captured sta
 
 Both permission/navigation causes are addressed by the implementation. CI now captures
 the same matrix with the new payments route and requires successful document responses.
-The initial after matrix passed at 1e0bfa7d (run 43761482136): all 20 document responses and exact routes passed, with no page errors, horizontal overflow or unlabelled fields. Visual review found raw module naming and root-ICU Uzbek date formatting; both are corrected in the next slice. A fresh matrix and full browser payment journeys are pending for those changes.
+The initial after matrix passed at 1e0bfa7d (run 43761482136). Visual review found raw
+module naming and root-ICU Uzbek date formatting; both were corrected. Published
+`072a647d` passed the complete matrix and three real payment journeys in
+[run 43795214244](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43795214244).
+All 20 document responses and exact routes passed, without page errors, horizontal
+overflow or unlabelled fields. The new Today/admin/teacher-draft extension awaits
+its own current CI artifact.
 
 [Owner mobile before](academy-ux/before/owner-day-390.png) ·
 [Guardian failure before](academy-ux/before/guardian-day-390.png).
@@ -102,19 +108,37 @@ The initial after matrix passed at 1e0bfa7d (run 43761482136): all 20 document r
 - Source contract checks still preserve every historic route and migration hash. New
   routes and the additive migration have explicit reviewed inventory entries.
 
-Latest isolated evidence: 41 payment/database tests passed, 4 new UI scenarios passed,
-1,820 frontend tests passed (11 pre-existing fixture skips), TypeScript and the native
-static build passed. Embedded PostgreSQL checked 191 typed tables. The current full backend also passed: 7,555 tests + 287 subtests, 0 failures/skips/xfails, 198.71 s. After-browser CI review is still pending.
+The current extension adds actual Today priorities, a named server-paged debt queue,
+net-collection presentation and optional RIWI typed facts/parent drafts. It also adds
+attendance/payroll guides, bounded history enrichment and child-specific AI panel
+rebinding. See [the control-plane boundary](../architecture/ACADEMY_WORKBENCH_AND_RIWI.md).
+
+Latest isolated targeted evidence: 52 backend payment/workbench/AI tests passed.
+The frontend full suite passed 1,825 tests with 11 unchanged legacy fixture skips;
+an additional child-AI scope regression is verified separately before CI. TypeScript
+and the native Python/venv build passed (1,037 assets, 145 routes). The complete
+backend rerun and expanded browser journeys are pending. The last published full
+CI was green at `072a647d` (7,557 backend tests + 287 subtests).
+
+The new 10,000-student actual HTTP measurement passes the defined local read envelope
+at 25 concurrent requests: mixed p95 173.44 ms, 1,266 successes, no errors; every
+endpoint p95 below 300 ms. Higher levels miss objectives. Fifty duplicate authenticated
+callbacks produced exactly one journal effect and a balanced journal. This is not a
+production SLA. [Raw receipt](academy-ux/load-receipt.json) and
+[measurement limits](ACADEMY_2_CAPACITY.md).
 
 ## Gates
 
 | Gate | State | Evidence still required |
 |---|---|---|
-| A — truth/security | LOCALLY_TESTED | 20 baseline images, source inventory and linked/unlinked/revoked negative tests |
-| B — payment engine | IN_PROGRESS | Local protocol/money proofs implemented; remaining policy/provider scenarios and canonical recovery evaluation |
-| C — beginner UX | IN_PROGRESS | Native screens/guides implemented; after-browser review and complete novice acceptance still pending |
-| D — continuity | NOT_STARTED | Full academy lifecycle with preserved parent-thread isolation |
-| E — AI/reliability | NOT_STARTED | Read/draft-only typed tools, policy, outages and measured load |
-| F — delivery | NOT_STARTED | Reviewed PR and full acceptance evidence; no merge/deploy without approval |
+| A — truth/security | LOCALLY_TESTED | Current source, role screenshots, immutable migration and current-link negative tests are recorded |
+| B — payment engine | LOCALLY_TESTED / PARTIAL | Monthly invoice math and all three protocols tested; prepaid modes 24–25 are not implemented; vendor acceptance remains external |
+| C — beginner UX | IN_PROGRESS | Payment browser flows passed; new Today/admin/teacher flow needs final CI review; real novice acceptance is separate |
+| D — continuity | LOCALLY_TESTED | Existing lead→class→Writing→parent→payroll journey now also exercises the parent portal payment; full rerun pending |
+| E — AI/reliability | PARTIAL | Typed read/draft tools, injection/outage/kill/quota tests and measured load; high concurrency, mixed write/outage scenarios and long soak remain engineering gates |
+| F — delivery | DRAFT | PR #202, migration/forward-fix documents and acceptance map exist; current CI/artifact review pending |
+
+The [35-scenario acceptance map](ACADEMY_2_ACCEPTANCE.md) distinguishes implemented
+proofs from missing work. No all-gates-complete or sale-ready claim is made.
 
 External/owner work remains exclusively in `docs/SALE_READY_MANUAL_ACTIONS.md`.
