@@ -23,6 +23,8 @@ import httpx
 import uvicorn
 
 from academy_http import DSN,ROOT,STUDENTS,percentile,seed
+from measurements import Measurements
+from soak_scenarios import MixedPulse
 from app import db,tuition_ledger as ledger,self_service_payments as payments
 from app.asgi import application
 from app.security import SESSION_COOKIE,issue_token
@@ -95,7 +97,8 @@ async def main() -> None:
     dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip())
     receipt={'sourceCommit':source,'workingTreeModified':dirty,'verificationLevel':'LOCALLY_TESTED',
         'sourceSha256':{str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (
-            Path(__file__),ROOT/'services/backend/app/self_service_payments.py',ROOT/'services/backend/app/self_service_payment_port.py',
+            Path(__file__),Path(__file__).with_name('measurements.py'),Path(__file__).with_name('soak_scenarios.py'),
+            ROOT/'services/backend/app/self_service_payments.py',ROOT/'services/backend/app/self_service_payment_port.py',
             ROOT/'services/backend/app/academy_workbench.py',ROOT/'services/backend/app/academy_workbench_port.py',
             ROOT/'services/backend/app/tuition_ledger.py',ROOT/'services/backend/app/db.py')},
         'externalProviderVerified':False,'registeredStudents':STUDENTS,'fixture':volume,
@@ -106,6 +109,7 @@ async def main() -> None:
     server=uvicorn.Server(uvicorn.Config(application,host='127.0.0.1',port=4197,backlog=4096,access_log=False,log_config=None))
     active=asyncio.create_task(server.serve())
     auth='Basic '+base64.b64encode(b'Paycom:isolated-load-key').decode()
+    pulse=None
     try:
         async with httpx.AsyncClient(base_url=ORIGIN,trust_env=False,timeout=30,
                 limits=httpx.Limits(max_connections=2100,max_keepalive_connections=2100)) as api:
@@ -115,6 +119,9 @@ async def main() -> None:
                 except httpx.ConnectError:pass
                 await asyncio.sleep(.05)
             else:raise RuntimeError('isolated server did not become ready')
+            if os.getenv('ACADEMY_LOAD_MIXED')=='1':
+                pulse=MixedPulse(api,actors,cookies,auth,DSN)
+                await pulse.prepare()
             async def read(index: int):
                 kind=index%10;n=index%1000+1
                 if kind<4:
@@ -144,7 +151,8 @@ async def main() -> None:
 
             for concurrency in levels:
                 WAITS.clear();SQL_MS.clear();SQL.clear();cpu=process_time();started=perf_counter();deadline=started+duration
-                lock_peak=0;event_loop_lag=[];monitoring=True
+                lock_peak=0;event_loop_lag=deque(maxlen=200000);monitoring=True
+                measurements=Measurements()
                 async def monitor():
                     nonlocal lock_peak
                     observer=await asyncpg.connect(DSN)
@@ -154,30 +162,34 @@ async def main() -> None:
                             event_loop_lag.append(max(0,(perf_counter()-expected)*1000))
                             lock_peak=max(lock_peak,await observer.fetchval("SELECT count(*) FROM pg_stat_activity WHERE wait_event_type='Lock' AND pid<>pg_backend_pid()"))
                     finally:await observer.close()
+                async def heartbeat():
+                    while monitoring:
+                        await asyncio.sleep(45)
+                        if monitoring:
+                            print(json.dumps({'heartbeatSeconds':round(perf_counter()-started),
+                                'requests':measurements.times.count,'status':dict(measurements.status),
+                                'rssKiB':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
+                                'mixedPulses':pulse.pulses if pulse else 0}),flush=True)
                 monitor_task=asyncio.create_task(monitor())
+                heartbeat_task=asyncio.create_task(heartbeat())
+                pulse_task=asyncio.create_task(pulse.run(deadline)) if pulse else None
                 async def worker(i):
-                    rows=[];index=i
+                    index=i
                     while perf_counter()<deadline:
-                        rows.append(await read(index));index+=concurrency
-                    return rows
-                try:rows=[r for batch in await asyncio.gather(*(worker(i) for i in range(concurrency))) for r in batch]
-                finally:monitoring=False;await monitor_task
-                elapsed=perf_counter()-started;times=[r[2] for r in rows];codes=Counter(r[1] for r in rows)
-                endpoints={}
-                for name in sorted({r[0] for r in rows}):
-                    subset=[r for r in rows if r[0]==name];ok=[r[2] for r in subset if r[1]==200]
-                    endpoints[name]={'requests':len(subset),'status':dict(Counter(r[1] for r in subset)),
-                        'p95Ms':measured([r[2] for r in subset],.95),'successfulP95Ms':measured(ok,.95)}
-                result={'concurrency':concurrency,'admissionSeconds':duration,'elapsedSeconds':round(elapsed,2),
-                    'requests':len(rows),'rps':round(len(rows)/elapsed,2),'status':dict(codes),
-                    'p50Ms':measured(times,.5),'p95Ms':measured(times,.95),'p99Ms':measured(times,.99),
-                    'errors':dict(Counter(r[3] for r in rows if r[3])),
-                    'readObjectiveMet':codes[200]==len(rows) and measured(times,.95)<=300 and measured(times,.99)<=1500
-                        and all(e['p95Ms']<=300 for e in endpoints.values()),
-                    'poolWaitP95Ms':measured(WAITS,.95),'poolLeases':len(WAITS),'sqlCalls':dict(SQL),'sqlP95Ms':measured(SQL_MS,.95),
+                        measurements.add(*(await read(index)));index+=concurrency
+                try:await asyncio.gather(*(worker(i) for i in range(concurrency)))
+                finally:
+                    monitoring=False
+                    heartbeat_task.cancel()
+                    await asyncio.gather(heartbeat_task,return_exceptions=True)
+                    await monitor_task
+                    if pulse_task:await pulse_task
+                elapsed=perf_counter()-started
+                result={**measurements.summary(),'concurrency':concurrency,'admissionSeconds':duration,'elapsedSeconds':round(elapsed,2),
+                    'rps':round(measurements.times.count/elapsed,2),
+                    'poolWaitP95Ms':measured(WAITS,.95),'poolLeasesSampled':len(WAITS),'sqlCalls':dict(SQL),'sqlP95Ms':measured(SQL_MS,.95),
                     'lockWaitersPeak':lock_peak,'eventLoopLagP95Ms':measured(event_loop_lag,.95),
-                    'appAndClientCpuSeconds':round(process_time()-cpu,2),'appAndClientPeakRssKiB':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
-                    'endpoints':endpoints}
+                    'appAndClientCpuSeconds':round(process_time()-cpu,2),'appAndClientPeakRssKiB':resource.getrusage(resource.RUSAGE_SELF).ru_maxrss}
                 # Probe a real unrelated child at every level; never infer isolation from latency.
                 forbidden=await api.get(f"/api/guardian/children/{actors['student1001']['id']}/payments",headers={'cookie':cookies['guardian1']})
                 assert forbidden.status_code==403
@@ -185,6 +197,7 @@ async def main() -> None:
                 print(json.dumps(result),flush=True)
                 assert (await api.get('/readyz')).status_code==200
                 await asyncio.sleep(.25)
+            if pulse:receipt['mixedWorkload']=await pulse.verify()
             # Callback burst uses actual auth, durable intent and idempotent settlement.
             headers={'cookie':cookies['student1'],'origin':ORIGIN}
             created=await api.post('/api/finance/me/intents',headers=headers,json={
@@ -204,12 +217,14 @@ async def main() -> None:
             check=await asyncpg.connect(DSN);await db.initialize_connection(check)
             try:
                 effects=await check.fetchval("SELECT count(*) FROM finance_journal_entries WHERE source_type='provider_payment'")
-                assert effects==1 and await check.fetchval('SELECT count(*) FROM tuition_provider_events')==1
+                expected_effects=2 if pulse else 1
+                assert effects==expected_effects and await check.fetchval('SELECT count(*) FROM tuition_provider_events')==expected_effects
                 assert (await ledger.journal_is_balanced(check))['balanced']
                 receipt['callbackBurst']={'requests':50,'acknowledged':acknowledged,'journalEffects':effects,
                     'seconds':round(perf_counter()-begin,3),'balanced':True,'externalProviderVerified':False}
             finally:await check.close()
     finally:
+        if pulse:pulse.close()
         server.should_exit=True;await active
         asyncpg.create_pool=original_create_pool;db.BoundedPool._observe_acquire=original_observe
     output=Path(os.getenv('ACADEMY_LOAD_RECEIPT',str(ROOT/'docs/verification/academy-ux/load-receipt.json')))

@@ -1,0 +1,84 @@
+name: Academy two-hour mixed soak
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/academy-soak.yml'
+      - 'services/backend/tests/load_validation/**'
+permissions:
+  contents: read
+concurrency:
+  group: academy-soak-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  mixed-soak:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: coin_qa
+          POSTGRES_PASSWORD: coin_qa_local
+          POSTGRES_DB: coin_qa
+        ports: ['55442:5432']
+        options: >-
+          --health-cmd "pg_isready -U coin_qa -d coin_qa"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      APP_ENV: test
+      LOAD_TEST_ONLY: '1'
+      RATE_LIMIT_BACKEND: memory
+      DATABASE_POOL_MAX: '5'
+      REQUEST_BUDGET_ORDINARY: '64'
+      AUTH_SECRET: isolated-academy-soak-signing-key
+      DATABASE_URL: postgresql://coin_qa:coin_qa_local@127.0.0.1:55442/coin_qa
+      ACADEMY_LOAD_LEVELS: '10'
+      ACADEMY_LOAD_SECONDS: '7200'
+      ACADEMY_LOAD_MIXED: '1'
+      ACADEMY_LOAD_RECEIPT: ${{ runner.temp }}/academy-two-hour-soak/soak-two-hours.json
+      PYTHONPATH: services/backend
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: services/backend/requirements-dev.txt
+      - run: python -m pip install -r services/backend/requirements-dev.txt
+      - name: Bounded measurement contracts
+        run: python -m pytest -q services/backend/tests/test_load_measurements.py
+      - name: Two-hour HTTP reads, write retries, callbacks and model outage
+        run: |
+          mkdir -p "$RUNNER_TEMP/academy-two-hour-soak"
+          python services/backend/tests/load_validation/academy_payments_http.py | tee "$RUNNER_TEMP/academy-two-hour-soak/soak-two-hours.log"
+      - name: Verify duration, scope, financial invariants and measured envelope
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt = json.loads(Path(os.environ['ACADEMY_LOAD_RECEIPT']).read_text())
+          assert receipt['registeredStudents'] == 10000
+          assert not receipt['externalProviderVerified'] and not receipt['workingTreeModified']
+          level, = receipt['levels']
+          assert level['admissionSeconds'] >= 7200 and level['elapsedSeconds'] >= 7200
+          assert level['readObjectiveMet'] and level['crossScopeDenied']
+          mixed = receipt['mixedWorkload']
+          assert mixed['pulses'] >= 200
+          assert mixed['pulses'] == mixed['modelOutageFallbacks'] == mixed['crossScopeDenials']
+          assert mixed['cashEffects'] == mixed['providerEffects'] == 1
+          assert mixed['journalBalanced'] and mixed['cashWriteObjectiveMet']
+          assert mixed['balanceDueMinor'] == 461469
+          assert receipt['callbackBurst']['acknowledged'] == 50 and receipt['callbackBurst']['balanced']
+          print(json.dumps({'sourceCommit': receipt['sourceCommit'], 'requests': level['requests'],
+              'p95Ms': level['p95Ms'], 'elapsedSeconds': level['elapsedSeconds'], 'mixedPulses': mixed['pulses']}))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: academy-two-hour-soak
+          path: ${{ runner.temp }}/academy-two-hour-soak/
+          if-no-files-found: error
+          retention-days: 30
