@@ -42,7 +42,7 @@ APP_ENV=test LOAD_TEST_ONLY=1 RATE_LIMIT_BACKEND=memory DATABASE_POOL_MAX=5 \
   services/backend/tests/load_validation/academy_payments_http.py
 ```
 
-`ACADEMY_LOAD_SECONDS` defaults to 5; for a later isolated 2-hour read soak use 7200 with a deliberately bounded concurrency. No 2–24-hour result is claimed here. Mixed mass-attendance/exam submissions, Friday reminder queues, R2 degradation, independent load generators and multi-replica staging remain unmeasured engineering gates. Existing isolated backup/restore and Telegram retry tests continue in full CI. External-resource decisions are tracked only in [the canonical actions](../SALE_READY_MANUAL_ACTIONS.md).
+`ACADEMY_LOAD_SECONDS` defaults to 5; for a later isolated 2-hour read soak use 7200 with a deliberately bounded concurrency. The initial short run did not establish a soak; the subsequent two-hour result is below. Mixed mass-attendance/exam submissions, Friday reminder queues, R2 degradation, independent load generators and multi-replica staging remain unmeasured engineering gates. Existing isolated backup/restore and Telegram retry tests continue in full CI. External-resource decisions are tracked only in [the canonical actions](../SALE_READY_MANUAL_ACTIONS.md).
 
 ## Confirmation after pagination correction
 
@@ -94,5 +94,49 @@ after). No genuine provider verification is implied.
 [Before receipt](academy-ux/continuation-load-before.json) ·
 [After receipt](academy-ux/continuation-load-after.json).
 
-The existing high-concurrency, horizontal scaling, mixed sustained workloads and
-2–24-hour soak gates remain open; no failed target has been relabelled as passed.
+The following two-hour run closes the bounded mixed-soak gate. Independent-worker
+settlement/restart correctness is also tested. Higher-concurrency and production
+horizontal-capacity gates remain open; no failed target is relabelled as passed.
+
+## Two-hour hosted-CI mixed soak
+
+[Workflow run 43877008801](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43877008801)
+passed on clean source `fada41c91be4f8c42633adbbe16a95c55d7e2733`.
+[Raw receipt](academy-ux/soak-two-hours.json).
+
+| Measurement | Observed value |
+|---|---:|
+| Registered synthetic students / concurrent readers | 10000 / 10 |
+| Duration | 7200.11 seconds |
+| Successful reads / read failures | 1034705 / 0 |
+| Read p50 / p95 / p99 | 66 / 115 / 133 ms |
+| Worst endpoint p95 (owner summary) | 138 ms |
+| Periodic cash write p95 | 245 ms |
+| Mixed-operation requests / failures | 4048 / 0 |
+| AI outage fallback / unrelated-family denial | 238 / 238 |
+| Periodic cash / provider effects | 1 / 1 |
+| App plus client peak RSS | 233636 KiB |
+| Last thirty-minute heartbeat RSS range | 229788–230300 KiB |
+
+The generator, app and PostgreSQL share a four-CPU hosted runner; this is not an
+independent load generator or production measurement. One application process
+uses pool five and admission budget 64. All-request percentiles use conservative
+one-millisecond upper-bound histograms, not a rolling sample. SQL/acquire/loop
+instrumentation retains bounded samples. The memory observations do not promise
+leak-free operation at every duration or workload.
+
+The 238 pulses replay the same cash document and provider transaction while
+serving reads and simulating model unavailability. Every pulse denies an
+unrelated family. A final 50-request burst targets another intent: one additional
+provider effect; the final global provider-entry count is two, with a balanced
+journal. No real vendor or paid model is contacted.
+
+The workflow is repeatable via manual dispatch and relevant PR changes. It builds
+the native frontend for the real readiness contract, retains pipeline failures,
+requires at least two elapsed hours and verifies all stated objectives before
+passing. Earlier configuration/readiness failures remain in Actions history.
+No failure was converted to a skip.
+
+The earlier 50–2000 single-worker misses remain valid observations. This result
+qualifies the stated ten-reader sustained profile and does not establish a
+production SLA or 10000 simultaneous users. Staging scale/resources remain MA-10.

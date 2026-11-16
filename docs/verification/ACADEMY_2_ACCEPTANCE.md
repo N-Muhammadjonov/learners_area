@@ -81,7 +81,7 @@ guardian role/suspension negative cases bring the targeted suite to 55 passes.
 | 32 | owner_finance_terms_are_explained_without_accounting_jargon | PASS — automated local/CI | `academy-finance.test.mjs`, owner browser total, contextual glossary | Human comprehension not certified by a selector |
 | 33 | day_night_theme_and_navigation_no_regression | PASS — automated local/CI | `browser-academy-ux.mjs`, `browser-motion-parity.mjs`, existing route suites | 20 role/theme/width captures |
 | 34 | awaiting_external_AI_still_allows_payments_and_lessons | PASS — automated local/CI | `test_academy_assistant.py::test_awaiting_external_AI_still_allows_payments_and_lessons` and outage/kill/quota cases | An intentionally pending provider holds no DB lease and payment/calendar reads finish |
-| 35 | 10000_student_read_load_meets_measured_defined_envelope | PASS at 25 / FAIL at 50–2000 | `tests/load_validation/academy_payments_http.py` | Local 25-concurrent envelope passes; 50–2000 miss objectives; see load receipt |
+| 35 | 10000_student_read_load_meets_measured_defined_envelope | PASS at 25 short / 10 for two hours; FAIL at 50–2000 | `tests/load_validation/academy_payments_http.py` | Local 25-concurrent short envelope and hosted-CI 10-concurrent two-hour mixed envelope pass; higher levels miss objectives |
 
 No failure was converted to a skip. The unchanged frontend skips belong to external
 legacy fixtures. Cases 24–25 now include actual money posting and delivery on
@@ -129,9 +129,10 @@ from service/browser assertions, not production sample records.
 
 Real novice comprehension, merchant acceptance and connected-system verification
 are tracked only in [the canonical manual actions](../SALE_READY_MANUAL_ACTIONS.md).
-Remaining engineering includes broader role briefs, full mixed
-write/outage/load scenarios, horizontal capacity validation and a 2–24 h soak.
-No sale-ready or all-gates-complete verdict is made by this draft.
+The subsequent closure below adds broader operational facts, mixed exam/attendance writes,
+independent worker/restart correctness and a real two-hour mixed soak. High-concurrency
+staging capacity and broader AI workflows beyond the read/draft boundary remain unverified.
+No sale-ready or production-SLA verdict is inferred from these engineering results.
 
 ## 2026-11-16 continuation
 
@@ -168,3 +169,37 @@ the minified build had not been generated yet, and three release-fixture setup
 errors because `/usr/lib/postgresql/17/bin/pg_dump` was absent. The minified-build
 case passed after building; no test was suppressed or changed to a skip. Native
 PostgreSQL 17 recovery remains covered by the required full CI job.
+
+## Merge verification — 2026-11-16
+
+[PR #202](https://github.com/N-Muhammadjonov/learners_area/pull/202) was merged
+as `763d7a02a18522d48a8ce48f7acd574ab9470ea7`. Verified source
+`fada41c91be4f8c42633adbbe16a95c55d7e2733` passed
+[full CI 43877008848](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43877008848):
+7596 backend tests, 287 subtests, 1833 frontend passes and 11 unchanged external-fixture skips;
+security, TypeScript, migrations, PostgreSQL 17 recovery, Rescue/Academy Chromium and motion parity.
+Parent Connect and leaderboard checks also passed.
+
+| Added scenario | Executable proof | Result |
+|---|---|---|
+| Forty concurrent examinees plus attendance and cash retries | `test_academy_mixed_reliability.py::test_mass_attendance_and_acknowledged_exam_drafts_survive_payment_retries` | Forty newest acknowledged drafts remain at revision 8 after stale writes; forty attendance rows; one cash effect; unrelated draft denied |
+| Two independent HTTP workers and process restart | `test_academy_worker_isolation.py::test_two_worker_callback_cash_retry_and_immediate_link_revocation` | Twenty callbacks and six cash submissions create two payments; revocation applies on both workers and survives restart |
+| Bounded measurements | `test_load_measurements.py` | Every rejection retained; conservative 1 ms histogram; overflow cannot pass a percentile objective |
+| Two-hour mixed HTTP | `.github/workflows/academy-soak.yml` | 7200.11 s, 1034705 successful reads, no read errors, p95 115 ms, p99 133 ms; all defined read/write and money invariants pass |
+
+[Soak run 43877008801](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43877008801)
+used 10000 synthetic registered students, ten concurrent readers, one application
+process, pool five, PostgreSQL 17.12 and Python 3.14.10. Its 238 pulses include
+1190 cash retries, 2381 protocol callback requests, 238 model-outage fallbacks
+and 238 cross-family denials. Periodic cash/provider effects are one each; the
+second child's remaining debt is exactly 461469 and the journal balances. The
+final separate 50-callback burst adds one effect for a second intent, hence two
+provider journal entries in the final global total.
+
+[Raw receipt](academy-ux/soak-two-hours.json) retains source hashes, clean-tree
+identity, environment and endpoint distributions. It proves this hosted-CI
+envelope only. Production throughput, vendor sandbox/live acceptance and human
+novice usability remain separate. New payment/prepaid production migrations and
+activation were not performed by this merge. Rollback remains feature disablement
+and additive repair, preserving paid history. Owner-dependent actions remain
+only in [the canonical manual actions](../SALE_READY_MANUAL_ACTIONS.md).

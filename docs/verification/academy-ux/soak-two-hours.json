@@ -1,0 +1,192 @@
+{
+  "sourceCommit": "fada41c91be4f8c42633adbbe16a95c55d7e2733",
+  "workingTreeModified": false,
+  "verificationLevel": "LOCALLY_TESTED",
+  "sourceSha256": {
+    "services/backend/tests/load_validation/academy_payments_http.py": "0b596e8f113833bc6ccf7564cd1c17de971b5b18c89a5f6ce9053654f5062df0",
+    "services/backend/tests/load_validation/measurements.py": "00de4f3c02c6f16e7f37155d9203c829822a473454ebc6eb2bad0bbd1aeefcfa",
+    "services/backend/tests/load_validation/soak_scenarios.py": "89aab022b4eb1d3d4ae7a05e2ad2ca3bccacaf75543e3e713186fe18ccedb6f7",
+    "services/backend/app/self_service_payments.py": "d06f379f4c34b2f1e974b03f43b028f1da21448049cc813c85cf7ec4aff1c0da",
+    "services/backend/app/self_service_payment_port.py": "e0c933335ab47222a681afa406703312e08d201746fab3262999a99b87633926",
+    "services/backend/app/academy_workbench.py": "cb943943776608c945958ad37792ea1b21e82481a8ad754cbb19895b76621948",
+    "services/backend/app/academy_workbench_port.py": "8f813954efaf2984739fb88c20ff459184989f18d8099eda5ccc5b0f34af4974",
+    "services/backend/app/tuition_ledger.py": "796c0f55dda5292947d86b926ae292e9f5d4d4e216e88a29b90a023165f50988",
+    "services/backend/app/db.py": "2468b13521837217c8786509b8b21718b8c7c3d41dfce85201351a3623c334a1"
+  },
+  "externalProviderVerified": false,
+  "registeredStudents": 10000,
+  "fixture": {
+    "users": 11101,
+    "academy_groups": 100,
+    "academy_attendance": 30000,
+    "reading_attempts": 10000,
+    "tuition_charges": 10000,
+    "finance_journal_lines": 20000,
+    "guardian_links": 1000
+  },
+  "environment": {
+    "python": "3.14.10",
+    "postgres": "17.12 (Debian 17.12-1.pgdg13+1)",
+    "cpuCount": 4,
+    "poolMax": 5,
+    "requestBudget": "64",
+    "workers": 1,
+    "transport": "localhost HTTP; shared load generator/application/DB machine"
+  },
+  "levels": [
+    {
+      "requests": 1034705,
+      "status": {
+        "200": 1034705
+      },
+      "p50Ms": 66,
+      "p95Ms": 115,
+      "p99Ms": 133,
+      "errors": {},
+      "endpoints": {
+        "debtor_queue": {
+          "requests": 70231,
+          "status": {
+            "200": 70231
+          },
+          "p95Ms": 127,
+          "successfulP95Ms": 127
+        },
+        "guardian_payments": {
+          "requests": 168571,
+          "status": {
+            "200": 168571
+          },
+          "p95Ms": 114,
+          "successfulP95Ms": 114
+        },
+        "owner_summary": {
+          "requests": 63691,
+          "status": {
+            "200": 63691
+          },
+          "p95Ms": 138,
+          "successfulP95Ms": 138
+        },
+        "student_journey": {
+          "requests": 139712,
+          "status": {
+            "200": 139712
+          },
+          "p95Ms": 75,
+          "successfulP95Ms": 75
+        },
+        "student_payments": {
+          "requests": 452344,
+          "status": {
+            "200": 452344
+          },
+          "p95Ms": 88,
+          "successfulP95Ms": 88
+        },
+        "teacher_today": {
+          "requests": 140156,
+          "status": {
+            "200": 140156
+          },
+          "p95Ms": 75,
+          "successfulP95Ms": 75
+        }
+      },
+      "latencyResolutionMs": 1,
+      "latencyOverflow": 0,
+      "readObjectiveMet": true,
+      "concurrency": 10,
+      "admissionSeconds": 7200.0,
+      "elapsedSeconds": 7200.11,
+      "rps": 143.71,
+      "poolWaitP95Ms": 28.21,
+      "poolLeasesSampled": 200000,
+      "sqlCalls": {
+        "fetchrow": 2149617,
+        "execute": 4210040,
+        "fetchval": 2513627,
+        "fetch": 1863095
+      },
+      "sqlP95Ms": 5.93,
+      "lockWaitersPeak": 4,
+      "eventLoopLagP95Ms": 3.04,
+      "appAndClientCpuSeconds": 6701.8,
+      "appAndClientPeakRssKiB": 233636,
+      "crossScopeDenied": true
+    }
+  ],
+  "mixedWorkload": {
+    "pulses": 238,
+    "modelOutageFallbacks": 238,
+    "crossScopeDenials": 238,
+    "cashEffects": 1,
+    "providerEffects": 1,
+    "balanceDueMinor": 461469,
+    "journalBalanced": true,
+    "measurements": {
+      "requests": 4048,
+      "status": {
+        "200": 4048
+      },
+      "p50Ms": 152,
+      "p95Ms": 233,
+      "p99Ms": 272,
+      "errors": {},
+      "endpoints": {
+        "ai_fallback": {
+          "requests": 238,
+          "status": {
+            "200": 238
+          },
+          "p95Ms": 275,
+          "successfulP95Ms": 275
+        },
+        "calendar": {
+          "requests": 238,
+          "status": {
+            "200": 238
+          },
+          "p95Ms": 228,
+          "successfulP95Ms": 228
+        },
+        "callback": {
+          "requests": 2381,
+          "status": {
+            "200": 2381
+          },
+          "p95Ms": 209,
+          "successfulP95Ms": 209
+        },
+        "cash": {
+          "requests": 1190,
+          "status": {
+            "200": 1190
+          },
+          "p95Ms": 245,
+          "successfulP95Ms": 245
+        },
+        "intent": {
+          "requests": 1,
+          "status": {
+            "200": 1
+          },
+          "p95Ms": 25,
+          "successfulP95Ms": 25
+        }
+      },
+      "latencyResolutionMs": 1,
+      "latencyOverflow": 0,
+      "readObjectiveMet": true
+    },
+    "cashWriteObjectiveMet": true
+  },
+  "callbackBurst": {
+    "requests": 50,
+    "acknowledged": 50,
+    "journalEffects": 2,
+    "seconds": 0.655,
+    "balanced": true,
+    "externalProviderVerified": false
+  }
+}

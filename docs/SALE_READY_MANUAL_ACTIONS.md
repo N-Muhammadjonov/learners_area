@@ -218,7 +218,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Modul | Yuklama |
 | Aniq harakat | 100 → 2,000 konkurent darajalari uchun vaqtincha infra byudjetini tasdiqlash |
 | Nega avtomatlashtirib bo'lmaydi | Pul va infra resursi |
-| Bajarilgan tayyorgarlik | 10 000 sintetik o‘quvchida haqiqiy lokal HTTP orqali 10/25/50/100/250/500/1000/2000 darajalari o‘lchandi. Yakuniy 30 soniyalik 25 parallel sinov: 7 054 muvaffaqiyatli javob, p95 184,72 ms, 0 xato; yuqori darajalar maqsadga yetmadi. 50 takror callback 1 jurnal effektini berdi. Bu staging yoki production SLA emas |
+| Bajarilgan tayyorgarlik | 10 000 sintetik o‘quvchida haqiqiy lokal HTTP orqali 10/25/50/100/250/500/1000/2000 darajalari o‘lchandi. 25 parallel qisqa profil o‘tdi; yuqori darajalar maqsadga yetmadi. Keyingi haqiqiy 2 soatlik hosted-CI aralash sinovda 10 parallel mijoz, 1 034 705 muvaffaqiyatli read, p95 115 ms, 0 read xatosi qayd etildi. 238 aralash davrda naqd/provider takrorlari bittadan effekt berdi, model uzilishida fallback va begona farzandga 403 saqlandi. Ikki mustaqil backend va restart tekshiruvi ham o‘tdi. Bu staging yoki production SLA emas |
 | Rasmiy manba | Railway / Supabase narx sahifalari |
 | Kerakli hisob/ruxsat | Owner |
 | Aniq ketma-ketlik | Vaqtincha muhit → `python3 scripts/controlled_load.py --levels 100,250,500` → natijalarni `docs/verification/CAPACITY_AND_RECOVERY.md` ga yozish |
