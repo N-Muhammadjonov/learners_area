@@ -50,12 +50,12 @@ def validate_target(dsn: str, project: str) -> str:
     return host
 
 
-async def snapshot_state(conn: asyncpg.Connection) -> dict[str, Any]:
+async def snapshot_state(conn: asyncpg.Connection, schemas: tuple[str, ...] = SCHEMAS) -> dict[str, Any]:
     tables = await conn.fetch("""
         SELECT n.nspname AS schema, c.relname AS name, c.relrowsecurity AS rls
         FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
         WHERE n.nspname=ANY($1::text[]) AND c.relkind IN ('r','p') ORDER BY 1,2
-    """, list(SCHEMAS))
+    """, list(schemas))
     parts = []
     for index, row in enumerate(tables):
         parts.append(f'SELECT {index} AS index, count(*) AS count FROM '
@@ -68,7 +68,7 @@ async def snapshot_state(conn: asyncpg.Connection) -> dict[str, Any]:
         'constraints': await conn.fetchval("""
             SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace
             WHERE n.nspname=ANY($1::text[])
-        """, list(SCHEMAS)),
+        """, list(schemas)),
     }
 
 
@@ -173,7 +173,13 @@ def upload_backup(client: Any, bucket: str, archive: Path, key: str, sha256: str
     downloaded.unlink()
 
 
-async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict[str, Any]:
+async def release(project: str, account: str, bucket: str, pg_bin: Path, *, scope: str = 'academy') -> dict[str, Any]:
+    if scope not in ('academy', 'payments'):
+        raise ValueError('Unknown migration scope')
+    inspect_upgrade, check_upgrade, files = upgrade, verify_upgrade, migration_files
+    if scope == 'payments':
+        from tools import payments_release_plan as feature
+        inspect_upgrade, check_upgrade, files = feature.upgrade, feature.verify_upgrade, feature.migration_files
     raw_dsn = os.environ.get('ACADEMY_MIGRATION_DATABASE_URL') or os.environ['DATABASE_URL']
     dsn, tls = connection_settings(raw_dsn)
     host = validate_target(dsn, project)
@@ -183,9 +189,15 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
     conn = await asyncpg.connect(dsn, ssl=tls, timeout=15, command_timeout=120)
     try:
         print(json.dumps({'event': 'academy_database_connected'}), flush=True)
-        pending = await upgrade(conn, apply=False)
+        pending = await inspect_upgrade(conn, apply=False)
         if not pending:
-            return {'result': 'already_applied', 'verification': await verify_upgrade(conn)}
+            return {'result': 'already_applied', 'verification': await check_upgrade(conn)}
+        schemas = SCHEMAS
+        if scope == 'payments':
+            journals = await conn.fetch('''SELECT nspname FROM pg_namespace
+                WHERE nspname=ANY($1::text[]) ORDER BY nspname''',
+                ['la_academy_migrations','la_payments_migrations','la_prepaid_migrations'])
+            schemas = SCHEMAS + tuple(row['nspname'] for row in journals)
         endpoint = os.environ.get('R2_ENDPOINT', '').rstrip('/')
         if endpoint != f'https://{account}.r2.cloudflarestorage.com':
             raise ValueError('Unexpected R2 account')
@@ -207,13 +219,13 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
             key_file.chmod(0o600)
             archive = base/'encrypted'/'application.labak'
             async with conn.transaction(isolation='serializable', readonly=True, deferrable=True):
-                state = await snapshot_state(conn)
+                state = await snapshot_state(conn, schemas)
                 roles = [row['rolname'] for row in await conn.fetch(
                     "SELECT rolname FROM pg_roles WHERE rolname !~ '^pg_' ORDER BY rolname")]
                 exported = await conn.fetchval('SELECT pg_export_snapshot()')
                 print(json.dumps({'event': 'academy_backup_snapshot_exported'}), flush=True)
                 receipt = await asyncio.to_thread(recovery.backup_db, dsn, host, archive,
-                    key_file, str(pg_bin/'pg_dump'), snapshot=exported)
+                    key_file, str(pg_bin/'pg_dump'), snapshot=exported, schemas=schemas)
             stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
             object_key = f'operational-backups/academy/{project}/{stamp}-{receipt["sha256"]}.labak'
             await asyncio.to_thread(upload_backup, client, bucket, archive, object_key, receipt['sha256'])
@@ -226,25 +238,25 @@ async def release(project: str, account: str, bucket: str, pg_bin: Path) -> dict
                                         receipt['sha256'], str(pg_bin/'pg_restore'))
                 local = await asyncpg.connect(local_dsn, command_timeout=120)
                 try:
-                    if await snapshot_state(local) != state:
+                    if await snapshot_state(local, schemas) != state:
                         raise ValueError('Restored row counts, constraints or RLS differ from backup snapshot')
-                    await upgrade(local, apply=True)
-                    rehearsal = await verify_upgrade(local)
+                    await inspect_upgrade(local, apply=True)
+                    rehearsal = await check_upgrade(local)
                 finally:
                     await local.close()
             manifest = {'project': project, 'bucket': bucket, 'object_key': object_key,
                         'backup': receipt, 'source_state': state, 'roles': roles,
                         'rehearsal': rehearsal, 'encryption_key_variable': 'ACADEMY_BACKUP_KEY',
-                        'migration_hashes': {name: digest for name, digest, _ in migration_files()}}
+                        'migration_hashes': {name: digest for name, digest, _ in files()}}
             await asyncio.to_thread(client.put_object, Bucket=bucket, Key=object_key+'.json',
                                     Body=json.dumps(manifest, sort_keys=True).encode(),
                                     ContentType='application/json')
             print(json.dumps({'event': 'academy_restore_rehearsal_passed', **rehearsal}), flush=True)
             async with conn.transaction(isolation='repeatable_read'):
-                before = await snapshot_state(conn)
-                await upgrade(conn, apply=True)
-                verification = await verify_upgrade(conn)
-                after = await snapshot_state(conn)
+                before = await snapshot_state(conn, schemas)
+                await inspect_upgrade(conn, apply=True)
+                verification = await check_upgrade(conn)
+                after = await snapshot_state(conn, schemas)
                 if any(after['tables'].get(table) != count for table, count in before['tables'].items()):
                     raise ValueError('Existing table row counts changed during the upgrade')
             return {'result': 'applied', 'project': project, 'backup_object': object_key,
@@ -261,9 +273,10 @@ def main() -> None:
     parser.add_argument('--account', required=True)
     parser.add_argument('--bucket', required=True)
     parser.add_argument('--pg-bin', type=Path, default=Path('/usr/lib/postgresql/17/bin'))
+    parser.add_argument('--scope', choices=('academy','payments'), default='academy')
     args = parser.parse_args()
     try:
-        report = asyncio.run(release(args.project, args.account, args.bucket, args.pg_bin))
+        report = asyncio.run(release(args.project, args.account, args.bucket, args.pg_bin, scope=args.scope))
         print(json.dumps({'event': 'academy_release_complete', **report}), flush=True)
     except Exception as exc:
         # SQL, DSNs, object credentials and student data must never enter logs.

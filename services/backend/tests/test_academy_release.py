@@ -12,6 +12,7 @@ import asyncpg
 import pytest
 
 from tools import academy_release as release
+from tools import payments_release_plan as feature
 
 PROJECT = 'tuoeabrrnsiuxpjmslxp'
 ACCOUNT = 'd953f7ff0eedad092d7059969125244d'
@@ -185,3 +186,80 @@ def test_expected_direct_and_session_connections() -> None:
 def test_invalid_snapshot_is_rejected_before_dump(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match='snapshot'):
         release.recovery.backup_db('unused', 'unused', tmp_path/'backup', tmp_path/'key', snapshot=';unsafe')
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('failure', [None, 'download', 'rehearsal'])
+async def test_payment_release_restores_existing_journal_and_cash_before_new_schema(
+    source: str, pg_bin: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure: str | None,
+) -> None:
+    from app import tuition_ledger as ledger
+    storage = FileStorage(tmp_path/'offsite', corrupt=failure == 'download')
+    monkeypatch.setenv('DATABASE_URL', source)
+    monkeypatch.delenv('ACADEMY_MIGRATION_DATABASE_URL', raising=False)
+    monkeypatch.setenv('R2_ENDPOINT', f'https://{ACCOUNT}.r2.cloudflarestorage.com')
+    monkeypatch.setenv('ACADEMY_BACKUP_KEY', os.urandom(32).hex())
+    monkeypatch.setattr(release, '_client', lambda: (storage, 'fixture'))
+    monkeypatch.setattr(release, 'connection_settings', lambda value: (value, False))
+    monkeypatch.setattr(release, 'validate_target', lambda value, project: '127.0.0.1')
+    conn = await asyncpg.connect(source)
+    try:
+        await release.upgrade(conn, apply=True)
+        actor = await conn.fetchval("INSERT INTO users(name,role,account_status) VALUES('Cashier','admin','active') RETURNING id")
+        student = await conn.fetchval("SELECT id FROM users WHERE role='student' LIMIT 1")
+        payment, _, _ = await ledger.record_payment(conn, actor_user_id=actor, student_user_id=student,
+            amount_minor=137531, idempotency_key='pre-feature-money')
+        if failure == 'rehearsal':
+            await conn.execute('ALTER FUNCTION finance_journal_immutable_guard() RENAME TO held_immutable_guard')
+        schemas = release.SCHEMAS + ('la_academy_migrations',)
+        before = await release.snapshot_state(conn, schemas)
+        if failure:
+            with pytest.raises((ValueError, asyncpg.UndefinedFunctionError)):
+                await release.release(PROJECT, ACCOUNT, 'fixture', pg_bin, scope='payments')
+            assert await conn.fetchval("SELECT to_regclass('public.tuition_payment_intents')") is None
+            assert await conn.fetchval("SELECT to_regclass('la_payments_migrations.applied')") is None
+            assert await release.snapshot_state(conn, schemas) == before
+        else:
+            report = await release.release(PROJECT, ACCOUNT, 'fixture', pg_bin, scope='payments')
+            assert report['result'] == 'applied' and report['restore_rehearsal'] == 'passed'
+            assert report['verification']['feature_migrations'] == 2
+            assert report['verification']['feature_rls_tables'] == 6
+            assert report['verification']['feature_direct_api_grants'] == 0
+            assert report['verification']['feature_direct_function_grants'] == 0
+            assert await conn.fetchval('SELECT count(*) FROM la_academy_migrations.applied') == 17
+            assert await conn.fetchval('SELECT count(*) FROM la_payments_migrations.applied') == 1
+            assert await conn.fetchval('SELECT count(*) FROM la_prepaid_migrations.applied') == 1
+            assert (await conn.fetchrow('SELECT * FROM tuition_payments WHERE id=$1', payment['id']))['amount_minor'] == 137531
+            assert (await ledger.student_position(conn, student))['advanceMinor'] == 137531
+            manifest = json.loads(Path(str(storage.root/report['backup_object'])+'.json').read_text())
+            assert 'la_academy_migrations' in manifest['backup']['schemas']
+            assert len(manifest['migration_hashes']) == 2
+            assert (await release.release(PROJECT, ACCOUNT, 'fixture', pg_bin, scope='payments'))['result'] == 'already_applied'
+            assert storage.uploads == 1
+    finally:
+        await conn.close()
+
+
+@pytest.mark.asyncio
+async def test_second_feature_failure_rolls_back_both_migrations(source: str, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import migrate_prepaid_services as prepaid
+    conn = await asyncpg.connect(source)
+    try:
+        await release.upgrade(conn, apply=True)
+        broken = tmp_path/prepaid.SQL.name
+        broken.write_text(prepaid.SQL.read_text() + '\nSELECT 1/0;\n')
+        monkeypatch.setattr(prepaid, 'SQL', broken)
+        with pytest.raises(asyncpg.DivisionByZeroError):
+            await feature.upgrade(conn, apply=True)
+        assert await conn.fetchval("SELECT to_regclass('public.tuition_payment_intents')") is None
+        assert await conn.fetchval("SELECT to_regclass('public.tuition_service_policies')") is None
+        assert await conn.fetchval("SELECT to_regclass('la_payments_migrations.applied')") is None
+        assert await conn.fetchval('SELECT count(*) FROM la_academy_migrations.applied') == 17
+    finally:
+        await conn.close()
+
+
+@pytest.mark.parametrize('schemas', [('public','auth'), (), ('public','public'), ('public','public;DROP TABLE users')])
+def test_backup_schema_scope_refuses_platform_or_unvalidated_names(tmp_path: Path, schemas: tuple[str, ...]) -> None:
+    with pytest.raises(ValueError, match='schemas'):
+        release.recovery.backup_db('unused','unused',tmp_path/'backup',tmp_path/'key',schemas=schemas)

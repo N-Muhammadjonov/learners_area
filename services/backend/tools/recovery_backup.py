@@ -131,17 +131,20 @@ def stop_process(process):
         except subprocess.TimeoutExpired:process.kill();process.wait(timeout=5)
 
 
-def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump',*,overall_timeout=900,snapshot=None):
+def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump',*,overall_timeout=900,snapshot=None,schemas=('public','drizzle')):
     if not 1<=overall_timeout<=3600:raise ValueError('database backup deadline must be 1–3600 seconds')
     if snapshot is not None and not re.fullmatch(r'[0-9A-Fa-f]{8}-[0-9A-Fa-f]{8}-[0-9]+',snapshot):
         raise ValueError('invalid exported PostgreSQL snapshot')
+    allowed={'public','drizzle','la_academy_migrations','la_payments_migrations','la_prepaid_migrations'}
+    if not schemas or len(schemas)!=len(set(schemas)) or not set(schemas)<=allowed:
+        raise ValueError('invalid application backup schemas')
     env=connection_env(dsn,expected_host)
     # ACLs/RLS/functions are preserved; do not use --no-acl or data-only export.
     # Explicit READ ONLY transaction also protects pooled sources that discard
     # startup options; the deferrable snapshot is bounded by the outer deadline.
     # An imported snapshot cannot itself be READ ONLY DEFERRABLE. The exporter
     # has already obtained the safe serializable snapshot in that mode.
-    process=subprocess.Popen([pg_dump,'--format=custom',*(['--serializable-deferrable'] if snapshot is None else []),'--no-owner','--schema=public','--schema=drizzle',
+    process=subprocess.Popen([pg_dump,'--format=custom',*(['--serializable-deferrable'] if snapshot is None else []),'--no-owner',*['--schema='+schema for schema in schemas],
                               '--lock-wait-timeout=10s',*(['--snapshot='+snapshot] if snapshot else [])],env=env,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
     deadline=threading.Timer(overall_timeout,lambda:stop_process(process));deadline.start()
     try:
@@ -151,7 +154,7 @@ def backup_db(dsn,expected_host,path,key_file,pg_dump='pg_dump',*,overall_timeou
     finally:
         deadline.cancel();stop_process(process);process.stdout.close()
     return {'kind':'postgres-custom','sha256':digest_file(path),'encrypted_bytes':Path(path).stat().st_size,
-            'schemas':['public','drizzle'],'overall_timeout_seconds':overall_timeout,
+            'schemas':list(schemas),'overall_timeout_seconds':overall_timeout,
             'source_host_sha256':hashlib.sha256(expected_host.encode()).hexdigest()}
 
 

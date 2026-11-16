@@ -79,3 +79,32 @@ migration leave the source database unchanged. The storage adapter is a local
 file store in this test. Production R2 upload/download verification runs in the
 actual pre-deploy command. `tests/test_recovery_backup.py` covers key permissions,
 tampering, plaintext authentication, bounded export and restore-target guards.
+
+## Payment and prepaid upgrade after Academy
+
+For an installed, checksum-verified Academy foundation, use the same pre-deploy
+command with `--scope payments`. This scope applies only
+`20261115200716_academy_self_service_payments.sql` and
+`20261116081748_academy_prepaid_service_policies.sql`, in one transaction. It never
+reruns the foundation. An inconsistent feature journal stops the release.
+
+The fresh encrypted backup includes existing private application migration
+journals alongside `public` and `drizzle`. The restored copy must reproduce their
+row counts and hashes before both new migrations are rehearsed. Six feature
+tables must have RLS, no direct API grants, and no direct API execution on the
+four private trigger functions. Historical cash and the balanced journal must
+survive. A failed second migration rolls back both feature migrations.
+
+After the gate succeeds, the next web process may use
+`SELF_SERVICE_PAYMENTS_ENABLED=1`, `PREPAID_BILLING_ENABLED=1`,
+`ACADEMY_ASSISTANT_ENABLED=1`, and
+`PAYMENTS_RETURN_ORIGIN=https://learnersarea.uz`. Provider-specific credentials
+and verification flags remain separate: these module flags cannot enable an
+unverified payment method or an unverified external Academy AI provider. New
+course policy forms keep amount and duration blank for the operator's real
+values. No production transactions are created by the release gate.
+
+Railway's pre-deploy command runs the migration gate before the new web process;
+the web start command runs only `scripts/serve.py`. Keep the 1800-second
+pre-deploy deadline. The native release tests cover corrupt offsite downloads,
+failed rehearsal, existing-cash preservation, and atomic two-migration rollback.
