@@ -1287,44 +1287,32 @@ async def student_position(conn, student_user_id) -> dict:
     ``receivable = posted charges (net, reversals included) - applied allocations``
     ``balance_due = max(receivable, 0)`` and the surplus stays visible as an advance.
     """
-    charged = await conn.fetchval(
-        f"SELECT coalesce(sum(net_amount_minor),0) FROM tuition_charges"
-        f" WHERE student_user_id=$1 AND {POSTED_EVENT}", student_user_id) or 0
-    # LATERAL, not a grouped join over the whole allocations table: a per-student read must
-    # touch this student's rows only, or it degrades linearly with total centre history.
-    allocated = await conn.fetchval(
-        '''SELECT coalesce(sum(a.applied),0) FROM tuition_charges c
-             JOIN LATERAL (SELECT sum(x.amount_minor) AS applied
-                             FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
-            WHERE c.student_user_id=$1''', student_user_id) or 0
-    # Approved relief posted after billing (FIN-05). It reduces the receivable, but as its
-    # own line item: the charge document still shows what was billed.
-    credited = await conn.fetchval(
-        "SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes"
-        " WHERE student_user_id=$1 AND status='posted'", student_user_id) or 0
-    collected = await conn.fetchval(
-        '''SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
-            WHERE student_user_id=$1 AND status = ANY($2::varchar[])''',
-        student_user_id, list(SETTLED_PAYMENT_STATES)) or 0
-    refunded = await conn.fetchval(
-        "SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds"
-        " WHERE student_user_id=$1 AND status='settled'",
-        student_user_id) or 0
-    # Net across every posted document in the window: an original and its reversal carry the
-    # same due_date, so they cancel here. Per-document values are never negative for a normal
-    # charge (allocation is capped at the open amount), so the positive part belongs at the
-    # aggregate, not on each row.
-    overdue = await conn.fetchval(
-        f'''SELECT greatest(coalesce(sum(c.net_amount_minor
-                                          - coalesce(n.credited,0) - a.applied),0), 0)
-             FROM tuition_charges c
-             JOIN LATERAL (SELECT coalesce(sum(x.amount_minor),0) AS applied
-                             FROM tuition_payment_allocations x WHERE x.charge_id = c.id) a ON true
-             LEFT JOIN LATERAL (SELECT sum(y.amount_minor) AS credited
-                                  FROM tuition_credit_notes y
-                                 WHERE y.charge_id = c.id AND y.status='posted') n ON true
-            WHERE c.student_user_id=$1 AND c.{POSTED_EVENT} AND c.due_date < (now() AT TIME ZONE 'Asia/Tashkent')::date''',
-        student_user_id) or 0
+    # One PostgreSQL statement gives every component the same MVCC snapshot.
+    # Separate READ COMMITTED queries could straddle a settlement/refund commit,
+    # and six network round trips held a scarce pool lease for every account read.
+    row = await conn.fetchrow(
+        f"""WITH charges AS MATERIALIZED (
+            SELECT c.net_amount_minor,c.posted_at,c.due_date,
+              (SELECT coalesce(sum(a.amount_minor),0) FROM tuition_payment_allocations a
+                WHERE a.charge_id=c.id) AS applied,
+              (SELECT coalesce(sum(n.amount_minor),0) FROM tuition_credit_notes n
+                WHERE n.charge_id=c.id AND n.status='posted') AS relieved
+            FROM tuition_charges c WHERE c.student_user_id=$1
+        ) SELECT
+            coalesce(sum(net_amount_minor) FILTER(WHERE {POSTED_EVENT}),0) AS charged,
+            coalesce(sum(applied),0) AS allocated,
+            (SELECT coalesce(sum(amount_minor),0) FROM tuition_credit_notes
+              WHERE student_user_id=$1 AND status='posted') AS credited,
+            (SELECT coalesce(sum(amount_minor),0) FROM tuition_payments
+              WHERE student_user_id=$1 AND status=ANY($2::varchar[])) AS collected,
+            (SELECT coalesce(sum(amount_minor),0) FROM tuition_refunds
+              WHERE student_user_id=$1 AND status='settled') AS refunded,
+            greatest(coalesce(sum(net_amount_minor-relieved-applied)
+              FILTER(WHERE {POSTED_EVENT}
+                AND due_date<(now() AT TIME ZONE 'Asia/Tashkent')::date),0),0) AS overdue
+          FROM charges""", student_user_id, list(SETTLED_PAYMENT_STATES))
+    charged, allocated, credited = row['charged'], row['allocated'], row['credited']
+    collected, refunded, overdue = row['collected'], row['refunded'], row['overdue']
     receivable = charged - credited - allocated
     return {
         'studentUserId': str(student_user_id),

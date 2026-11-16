@@ -66,3 +66,33 @@ p95 314.45 ms, missing the per-endpoint objective. That observation is retained 
 [load-concurrent-qa.json](academy-ux/load-concurrent-qa.json). No failed observation
 was deleted or turned into a passing performance assertion. The defined quiet
 local profile is narrower than a shared host or production-capacity guarantee.
+
+## Continuation: statement-consistent account positions
+
+Two additional runs use Python 3.12 / PostgreSQL 18.6, 10,000 synthetic
+students, one worker, pool 5 and admission budget 64. The first uses the six-read
+account position; the second uses the one-statement position. Both source hashes
+and dirty-tree markers are retained in the raw receipts. Each level admits work
+for only five seconds, so these are short observations, not soak or SLA evidence.
+
+| Parallel clients | Before p95 ms | After p95 ms | Read objective after |
+|---:|---:|---:|---|
+| 25 | 242.63 | 236.31 | PASS: 893 responses, all 200 |
+| 100 | 2248.44 | 2325.91 | FAIL |
+| 250 | 4067.28 | 3554.13 | FAIL |
+| 500 | 6228.76 | 5897.25 | FAIL |
+| 1000 | 9673.86 | 9701.30 | FAIL |
+| 2000 | 10204.62 | 10677.86 | FAIL |
+
+The statement change proves one consistent account snapshot and removes five
+round trips; these noisy runs do not establish an overall throughput improvement
+or expand the verified concurrency envelope. Every level denies an unrelated
+guardian and recovers readiness. Each run acknowledges 50 duplicate callbacks
+with exactly one journal effect and a balanced journal (0.925 s before, 1.150 s
+after). No genuine provider verification is implied.
+
+[Before receipt](academy-ux/continuation-load-before.json) ·
+[After receipt](academy-ux/continuation-load-after.json).
+
+The existing high-concurrency, horizontal scaling, mixed sustained workloads and
+2–24-hour soak gates remain open; no failed target has been relabelled as passed.

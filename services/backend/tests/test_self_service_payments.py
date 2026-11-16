@@ -34,6 +34,35 @@ async def family(journey):
     return conn,client,actors,links
 
 
+@pytest.mark.asyncio
+async def test_account_position_uses_one_snapshot_without_multiplying_allocations(family):
+    conn,_,actors,_=family
+    for index,amount in enumerate((100000,150000)):
+        await ledger.record_payment(conn,actor_user_id=actors['admin']['id'],
+            student_user_id=actors['student']['id'],amount_minor=amount,
+            idempotency_key='snapshot-cash-'+str(index))
+    await ledger.record_payment(conn,actor_user_id=actors['admin']['id'],
+        student_user_id=actors['second']['id'],amount_minor=500000,
+        idempotency_key='snapshot-other-child')
+
+    class SnapshotReader:
+        """A statement is the READ COMMITTED snapshot and round-trip budget."""
+        def __init__(self):
+            self.statements=0
+
+        async def fetchrow(self,sql,*args):
+            self.statements+=1
+            return await conn.fetchrow(sql,*args)
+
+    reader=SnapshotReader()
+    position=await ledger.student_position(reader,actors['student']['id'])
+    assert reader.statements==1
+    assert {key:position[key] for key in ('chargedMinor','allocatedMinor','collectedMinor','balanceDueMinor','advanceMinor')}=={
+        'chargedMinor':900000,'allocatedMinor':250000,'collectedMinor':250000,'balanceDueMinor':650000,'advanceMinor':0}
+    sibling=await ledger.student_position(conn,actors['second']['id'])
+    assert sibling['balanceDueMinor']==0 and sibling['advanceMinor']==200000
+
+
 def child_path(actors, key='student') -> str:
     return f"/api/guardian/children/{actors[key]['id']}/payments"
 

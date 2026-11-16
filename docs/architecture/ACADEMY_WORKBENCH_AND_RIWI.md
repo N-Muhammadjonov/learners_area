@@ -27,6 +27,11 @@ The debtor query aggregates each financial table before joining. It avoids both
 join multiplication and repeated per-student subqueries over 10,000 accounts.
 Payment history similarly enriches an entire page with at most two queries.
 `student_position` and the append-only journal remain the monetary authority.
+The account position is now one SQL statement rather than six sequential reads.
+Charges, credits, allocations, settled collections/refunds and overdue debt use
+one PostgreSQL statement snapshot, so a concurrent settlement cannot split the
+components across different READ COMMITTED snapshots. Charge-local allocation
+and relief aggregates preserve the existing no-multiplication rule.
 
 ## Read/draft-only AI
 

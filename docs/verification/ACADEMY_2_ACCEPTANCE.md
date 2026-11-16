@@ -153,3 +153,18 @@ external provider/model traffic. Targeted payment/prepaid/workbench/AI suite:
 74 passes; separate mixed scenario: 1 pass. Frontend full suite: 1833 passes,
 11 pre-existing external-fixture skips, zero failures. TypeScript and native
 build pass. Full CI for the continuation is recorded in PR #202.
+
+The follow-up account-position change reduces six sequential SQL reads to one
+statement snapshot. The real-PostgreSQL money regression command passed 159
+tests, including the new snapshot/round-trip budget, credits, reversals, refunds,
+provider concurrency, prepaid delivery and separate-child balances:
+
+```bash
+CI=true .venv/bin/python -m pytest -q tests/test_tuition_ledger.py tests/test_self_service_payments.py tests/test_prepaid_services.py tests/test_academy_workbench.py tests/test_academy_mixed_reliability.py tests/test_tuition_provider_http.py tests/test_tuition_refund_http.py
+```
+
+The initial local full run recorded 7587 passes, 287 subtests, one failure because
+the minified build had not been generated yet, and three release-fixture setup
+errors because `/usr/lib/postgresql/17/bin/pg_dump` was absent. The minified-build
+case passed after building; no test was suppressed or changed to a skip. Native
+PostgreSQL 17 recovery remains covered by the required full CI job.
