@@ -31,7 +31,9 @@ WORKDIR /srv/app
 COPY services/backend/requirements.txt ./services/backend/requirements.txt
 RUN pip install --no-cache-dir -r services/backend/requirements.txt
 COPY services/backend/app/ ./services/backend/app/
-COPY services/backend/migrate_academy.py services/backend/migrate_self_service_payments.py services/backend/migrate_prepaid_services.py ./services/backend/
+COPY services/backend/migrate_academy.py ./services/backend/migrate_academy.py
+COPY services/backend/migrate_self_service_payments.py ./services/backend/migrate_self_service_payments.py
+COPY services/backend/migrate_prepaid_services.py ./services/backend/migrate_prepaid_services.py
 COPY services/backend/migrations/ ./services/backend/migrations/
 COPY services/backend/tools/ ./services/backend/tools/
 # Ship the generated same-commit site guide, never the stale checkout snapshot.
