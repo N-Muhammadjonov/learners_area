@@ -36,7 +36,7 @@ jobs:
       ACADEMY_LOAD_LEVELS: '10'
       ACADEMY_LOAD_SECONDS: '7200'
       ACADEMY_LOAD_MIXED: '1'
-      ACADEMY_LOAD_RECEIPT: ${{ runner.temp }}/academy-two-hour-soak/soak-two-hours.json
+      ACADEMY_LOAD_RECEIPT: /tmp/academy-two-hour-soak/soak-two-hours.json
       PYTHONPATH: services/backend
     steps:
       - uses: actions/checkout@v4
@@ -52,8 +52,8 @@ jobs:
         run: python -m pytest -q services/backend/tests/test_load_measurements.py
       - name: Two-hour HTTP reads, write retries, callbacks and model outage
         run: |
-          mkdir -p "$RUNNER_TEMP/academy-two-hour-soak"
-          python services/backend/tests/load_validation/academy_payments_http.py | tee "$RUNNER_TEMP/academy-two-hour-soak/soak-two-hours.log"
+          mkdir -p /tmp/academy-two-hour-soak
+          python services/backend/tests/load_validation/academy_payments_http.py | tee /tmp/academy-two-hour-soak/soak-two-hours.log
       - name: Verify duration, scope, financial invariants and measured envelope
         run: |
           python - <<'PY'
@@ -79,6 +79,6 @@ jobs:
         if: always()
         with:
           name: academy-two-hour-soak
-          path: ${{ runner.temp }}/academy-two-hour-soak/
+          path: /tmp/academy-two-hour-soak/
           if-no-files-found: error
           retention-days: 30
