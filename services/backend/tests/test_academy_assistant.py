@@ -123,3 +123,14 @@ async def test_awaiting_external_AI_still_allows_payments_and_lessons(family,mon
         released.set()
         result=await task
     assert result['mode']=='external' and result['canExecute'] is False
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('change',["role='teacher'","account_status='suspended'"])
+async def test_guardian_ai_and_payment_portal_share_current_active_student_boundary(family,change):
+    conn,client,a,_=family
+    # Closed test-controlled statements, never a request-supplied column/expression.
+    await conn.execute('UPDATE users SET '+change+' WHERE id=$1',a['student']['id'])
+    base=f"/api/guardian/children/{a['student']['id']}"
+    await request(client,a['guardian'],'POST',base+'/assistant',403,json={'action':'payment_help'})
+    await request(client,a['guardian'],'GET',base+'/payments',403)

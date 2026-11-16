@@ -43,3 +43,26 @@ APP_ENV=test LOAD_TEST_ONLY=1 RATE_LIMIT_BACKEND=memory DATABASE_POOL_MAX=5 \
 ```
 
 `ACADEMY_LOAD_SECONDS` defaults to 5; for a later isolated 2-hour read soak use 7200 with a deliberately bounded concurrency. No 2–24-hour result is claimed here. Mixed mass-attendance/exam submissions, Friday reminder queues, R2 degradation, independent load generators and multi-replica staging remain unmeasured engineering gates. Existing isolated backup/restore and Telegram retry tests continue in full CI. External-resource decisions are tracked only in [the canonical actions](../SALE_READY_MANUAL_ACTIONS.md).
+
+## Confirmation after pagination correction
+
+All seven measured source hashes in [load-confirmation.json](academy-ux/load-confirmation.json)
+match published `3792506e`. Empty debtor pages now retain the correct total rather
+than displaying a false zero. A separate targeted PostgreSQL suite was completed
+before this 30-second-per-level repeat.
+
+| Parallel requests | Successful reads | 5xx / transport errors | Mixed p95 | Worst endpoint p95 | p99 |
+|---:|---:|---:|---:|---:|---:|
+| 10 | 7137 | 0 | 73.05 ms | 94.17 ms | 107.69 ms |
+| 25 | 7054 | 0 | 184.72 ms | 220.12 ms | 242.54 ms |
+
+The independent 50-request callback burst again produced one journal effect, one
+provider event and a balanced journal (0.585 s). An unrelated child was denied at
+each level and readiness remained 200. These are still short local measurements.
+
+The preceding five-second execution overlapped other targeted PostgreSQL QA.
+It recorded 1078 successful requests with mixed p95 210.40 ms, but guardian payment
+p95 314.45 ms, missing the per-endpoint objective. That observation is retained in
+[load-concurrent-qa.json](academy-ux/load-concurrent-qa.json). No failed observation
+was deleted or turned into a passing performance assertion. The defined quiet
+local profile is narrower than a shared host or production-capacity guarantee.

@@ -1,0 +1,44 @@
+{
+  "sourceCommit": "3792506e405446d72953ff537603091d2f58ff06",
+  "verificationLevel": "LOCALLY_TESTED",
+  "environment": "real Chromium + isolated PostgreSQL + actual FastAPI; synthetic sandbox credentials",
+  "externalProviderVerified": false,
+  "results": [
+    {
+      "role": "guardian",
+      "beneficiary": "e9df2b79-20b5-4221-9232-e9a0e3b80a51",
+      "amountMinor": 150000,
+      "intentId": "0771547e-4582-4f47-b77b-c1b9cf1edeaf",
+      "activations": 5,
+      "activationDefinition": "account action, optional child selection, provider, review, confirm; text entry excluded",
+      "created": true
+    },
+    {
+      "role": "guardian",
+      "beneficiary": "17bd9373-c4e1-4898-9e12-a2872574ac8b",
+      "amountMinor": 500000,
+      "intentId": "b52a1083-0112-46b5-990a-cc81fe5fa8b1",
+      "activations": 5,
+      "activationDefinition": "account action, optional child selection, provider, review, confirm; text entry excluded",
+      "created": true
+    },
+    {
+      "role": "student",
+      "beneficiary": "e9df2b79-20b5-4221-9232-e9a0e3b80a51",
+      "amountMinor": 137531,
+      "intentId": "5eb8ac63-24c5-4799-8e2d-6fc8c9e32473",
+      "activations": 4,
+      "activationDefinition": "account action, optional child selection, provider, review, confirm; text entry excluded",
+      "created": true
+    }
+  ],
+  "duplicateCallbacks": true,
+  "multiChildIsolation": true,
+  "revocationDenied": true,
+  "keyboardGuide": true,
+  "adminCashFromDebtQueue": true,
+  "ownerNetCollection": 937531,
+  "teacherDraftDidNotSend": true,
+  "todayMobileRoleChecks": 3,
+  "errors": []
+}

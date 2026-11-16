@@ -53,7 +53,7 @@ berilgan. `ID` orqali bog'lanadi.
 | Modul | O‘quvchi va bog‘langan farzand to‘lovlari |
 | Aniq harakat | Tanlangan provayderlarning merchant shartnomasini rasmiylashtirish, sandbox hisobini ajratish va rasmiy testlardan o‘tkazish. Sinovdan o‘tmagan usul yopiq qoladi |
 | Nega avtomatlashtirib bo'lmaydi | Merchant shartnomasi, haqiqiy kalitlar, provayder tekshiruvi va fiskal talablar markaz hamda provayder tomonidan tasdiqlanadi |
-| Bajarilgan tayyorgarlik | Alohida development branchda immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari, 42 ta haqiqiy ajratilgan PostgreSQL to‘lov testi va jami 52 ta payment/workbench/AI testi. Daraja: LOCALLY_TESTED. Haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
+| Bajarilgan tayyorgarlik | Alohida development branchda immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari, 42 ta haqiqiy ajratilgan PostgreSQL to‘lov testi va jami 55 ta payment/workbench/AI testi. Daraja: LOCALLY_TESTED. Haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
 | Rasmiy manba | [Click](https://docs.click.uz/), [Payme Merchant](https://developer.help.paycom.uz/protokol-merchant-api/), [Payme sandbox](https://developer.help.paycom.uz/pesochnitsa/), [Uzum Checkout](https://developer.uzumbank.uz/en/checkout/) |
 | Kerakli hisob/ruxsat | Markazning merchant hisobi, alohida sandbox kalitlari, tasdiqlangan login va ruxsat etilgan callback URL. Jonli chiqarish uchun yangi release ruxsati |
 | Aniq ketma-ketlik | 1) Merchant mahsulotini tanlang: Click Shop, Payme Merchant, Uzum Checkout. 2) Ajratilgan sinov bazasi va sandbox kalitlarini tayyorlang. 3) `/api/payments/callbacks/click`, `/api/payments/callbacks/payme` yoki `/api/payments/callbacks/uzum` manzilini shu sinov serverida sozlang. Non-production runtime va `PAYMENT_SANDBOX_DATABASE_ISOLATED=1` bilan `prepare_provider_sandbox.py` orqali owner/sinov o‘quvchisi uchun order tayyorlash mumkin. 4) Muvaffaqiyat, takror, kechikish, noto‘g‘ri imzo/summa, bekor qilish, ikkita farzand va refund siyosatini tekshiring. 5) Dalillar va reconciliation mos kelgach tegishli verification flagini tasdiqlang. 6) Yangi migratsiya va feature activationni alohida release ruxsati bilan bajaring. Tekshiruvgacha jonli flaglarni yoqmang |
@@ -218,7 +218,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Modul | Yuklama |
 | Aniq harakat | 100 → 2,000 konkurent darajalari uchun vaqtincha infra byudjetini tasdiqlash |
 | Nega avtomatlashtirib bo'lmaydi | Pul va infra resursi |
-| Bajarilgan tayyorgarlik | 10 000 sintetik o‘quvchida haqiqiy lokal HTTP orqali 10/25/50/100/250/500/1000/2000 darajalari o‘lchandi. 25 parallel daraja p95 173,44 ms va 0 xato; yuqori darajalar maqsadga yetmadi. 50 takror callback 1 jurnal effektini berdi. Bu staging yoki production SLA emas |
+| Bajarilgan tayyorgarlik | 10 000 sintetik o‘quvchida haqiqiy lokal HTTP orqali 10/25/50/100/250/500/1000/2000 darajalari o‘lchandi. Yakuniy 30 soniyalik 25 parallel sinov: 7 054 muvaffaqiyatli javob, p95 184,72 ms, 0 xato; yuqori darajalar maqsadga yetmadi. 50 takror callback 1 jurnal effektini berdi. Bu staging yoki production SLA emas |
 | Rasmiy manba | Railway / Supabase narx sahifalari |
 | Kerakli hisob/ruxsat | Owner |
 | Aniq ketma-ketlik | Vaqtincha muhit → `python3 scripts/controlled_load.py --levels 100,250,500` → natijalarni `docs/verification/CAPACITY_AND_RECOVERY.md` ga yozish |
@@ -226,7 +226,7 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | Egadan keyingi validatsiya | p50/p95/p99, xato ulushi, PASS/FAIL yozuvi |
 | Taxminiy vaqt | 1 kun |
 | Status | `OPEN` |
-| Dalil havolasi | `docs/verification/academy-ux/load-receipt.json`; `docs/verification/CAPACITY_AND_RECOVERY.md` |
+| Dalil havolasi | `docs/verification/ACADEMY_2_CAPACITY.md`; `docs/verification/academy-ux/load-confirmation.json` |
 
 ## MA-11 — Kamera yuz-identifikatsiyasi (hozircha **o'chiq** qolishi shart)
 

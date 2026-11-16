@@ -94,7 +94,8 @@ Review of its cash screenshot exposed a refresh timing gap; final polish now ref
 the statement, centre summary and open debt queue after a financial command.
 
 [Owner mobile before](academy-ux/before/owner-day-390.png) ·
-[Guardian failure before](academy-ux/before/guardian-day-390.png).
+[Guardian failure before](academy-ux/before/guardian-day-390.png) ·
+[Before/after and 13 journey captures](academy-ux/README.md).
 
 ## Implemented development slice
 
@@ -115,20 +116,25 @@ net-collection presentation and optional RIWI typed facts/parent drafts. It also
 attendance/payroll guides, bounded history enrichment and child-specific AI panel
 rebinding. See [the control-plane boundary](../architecture/ACADEMY_WORKBENCH_AND_RIWI.md).
 
-Latest isolated targeted evidence: 52 backend payment/workbench/AI tests passed.
+Latest isolated targeted evidence: 55 backend payment/workbench/AI tests passed.
 The complete backend passed 7,568 tests + 287 subtests, with no failures/skips/xfails
 (local 150.00 s, then CI green at `04cbadc6`). Frontend CI passed 1,826 tests with 11
 unchanged legacy fixture skips. TypeScript and the native Python/venv build passed
 (1,037 assets, 145 routes). Final polish adds explicit report scope/refresh time,
 uniform academy dates, stale-response protection and a session-only teacher entry
-that does not request an unauthorized full group roster. New regression tests and
-a final browser matrix cover that slice.
+that does not request an unauthorized full group roster. All of that passed at
+`3792506e` in [CI run 43802665538](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43802665538):
+7,569 backend tests + 287 subtests, 1,829 frontend passes, 20 role captures and the
+expanded three payments/admin/owner/teacher journey plus three mobile Today views.
+The final guardian role/suspension parity adds two targeted negative tests.
 
-The new 10,000-student actual HTTP measurement passes the defined local read envelope
-at 25 concurrent requests: mixed p95 173.44 ms, 1,266 successes, no errors; every
-endpoint p95 below 300 ms. Higher levels miss objectives. Fifty duplicate authenticated
+The final 10,000-student actual HTTP confirmation passes the quiet local read envelope
+at 25 concurrent requests over 30 seconds: mixed p95 184.72 ms, 7,054 successes,
+no errors; every endpoint p95 below 300 ms. Higher levels miss objectives, and a
+separate run overlapping other QA missed the guardian endpoint objective. All
+observations are retained. Fifty duplicate authenticated
 callbacks produced exactly one journal effect and a balanced journal. This is not a
-production SLA. [Raw receipt](academy-ux/load-receipt.json) and
+production SLA. [Final confirmation](academy-ux/load-confirmation.json) and
 [measurement limits](ACADEMY_2_CAPACITY.md).
 
 ## Gates
@@ -140,7 +146,7 @@ production SLA. [Raw receipt](academy-ux/load-receipt.json) and
 | C — beginner UX | LOCALLY_TESTED / PARTIAL | Five-role screenshot matrix and payment/admin/teacher browser flows pass; real novice acceptance is separate |
 | D — continuity | LOCALLY_TESTED | The lead→class→Writing→parent→payroll journey also exercises parent portal payment and exact Today teacher scope |
 | E — AI/reliability | PARTIAL | Typed read/draft tools, injection/outage/kill/quota tests and measured load; high concurrency, mixed write/outage scenarios and long soak remain engineering gates |
-| F — delivery | DRAFT | PR #202, migration/forward-fix documents and acceptance map exist; current CI/artifact review pending |
+| F — delivery | DRAFT | PR #202, reviewed screenshots, full green code CI, migration/forward-fix documents and explicit acceptance gaps; no merge/deploy performed |
 
 The [35-scenario acceptance map](ACADEMY_2_ACCEPTANCE.md) distinguishes implemented
 proofs from missing work. No all-gates-complete or sale-ready claim is made.

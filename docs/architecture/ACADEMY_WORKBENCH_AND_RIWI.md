@@ -39,7 +39,8 @@ Payment history similarly enriches an entire page with at most two queries.
 Typed tools are registered in the existing RIWI tool broker. Its live actor check,
 capabilities, allowed roles, strict input/output validation and tool audit apply.
 Guardian tools recheck and lock the actual link; neither a prompt nor a body role
-can select another family. Teacher briefs omit monetary evidence. Parent drafts
+can select another family. A promoted staff account or suspended learner cannot
+remain eligible through an old student link. Teacher briefs omit monetary evidence. Parent drafts
 require an assigned learner and a linked parent.
 
 The optional model may only rank known evidence IDs. Values, units, sources,

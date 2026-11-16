@@ -76,7 +76,8 @@ async def read_payment(conn,actor: RiwiActor,data: dict) -> dict:
         target=UUID(data['studentId'])
         allowed=await conn.fetchval('''SELECT l.student_id FROM guardian_links l
             JOIN guardian_profiles g ON g.id=l.guardian_profile_id JOIN users u ON u.id=l.student_id
-            WHERE g.user_id=$1 AND l.student_id=$2 AND l.status='linked' AND u.account_status='active'
+            WHERE g.user_id=$1 AND l.student_id=$2 AND l.status='linked'
+              AND u.role='student' AND u.account_status='active'
             FOR SHARE OF l,g,u''',UUID(actor.id),target)
         if not allowed:raise PermissionError('linked_child_required')
         source=f'/api/guardian/children/{target}/payments';href=f'/app/payments?child={target}'

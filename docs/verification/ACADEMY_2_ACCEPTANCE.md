@@ -39,45 +39,49 @@ The workbench/AI/history batch passed at `04cbadc6` in
 7,568 backend tests + 287 subtests, 1,826 frontend passes, security/migrations/recovery,
 the 20-image matrix and expanded admin/owner/teacher payment journeys. Final scope,
 date, account-refresh and assigned-session navigation polish has regression tests
-and receives a separate final CI/screenshots receipt.
+passed at `3792506e` in [run 43802665538](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43802665538):
+7,569 backend tests + 287 subtests and 1,829 frontend passes. All 20 role captures,
+three payments, admin cash/owner net collection, teacher draft and three mobile
+Today views passed. [Reviewed captures](academy-ux/README.md). The final two
+guardian role/suspension negative cases bring the targeted suite to 55 passes.
 
-| # | Scenario | Executable evidence | Verification boundary |
-|---:|---|---|---|
-| 1 | guardian_linked_child_can_get_finance_summary | P | Isolated PostgreSQL |
-| 2 | guardian_unlinked_child_finance_forbidden | P | Two families, server denial |
-| 3 | guardian_can_pay_only_linked_child | P | Exact child and payer |
-| 4 | guardian_revoked_link_cannot_start_intent | P | Reads and new writes denied |
-| 5 | guardian_two_children_payment_uses_exact_beneficiary | P + real browser journey | Original beneficiary survives child switching |
-| 6 | teacher_cannot_view_student_full_statement_without_finance_scope | P | Assigned teacher still has no full finance |
-| 7 | student_can_enter_unrestricted_policy_valid_custom_amount | P + browser 137531 | Whole UZS, custom amount |
-| 8 | amount_zero_negative_float_boolean_overflow_rejected | P, six inputs | No coercion |
-| 9 | amount_below_provider_minimum_explained | P | Backend configured bound |
-| 10 | payment_intent_duplicate_submit_returns_one_intent | P | Concurrent PostgreSQL requests |
-| 11 | browser_redirect_does_not_mark_paid | P + browser | No URL-driven settlement |
-| 12 | provider_callback_signature_required | P + Click signature test | Synthetic protocol authentication |
-| 13 | provider_amount_currency_student_order_exact | P + Uzum canonical-status test | Mismatched proof refuses posting |
-| 14 | callback_replay_one_journal_effect | P + 50-request HTTP burst | One independent journal effect |
-| 15 | out_of_order_callback_does_not_reopen_cancelled_money | P | Terminal state preserved |
-| 16 | provider_timeout_status_pending_then_confirmed | P | Unknown registration never re-registers or invents a URL |
-| 17 | unconfirmed_refund_does_not_reduce_advance | P | Approval moves no money |
-| 18 | partial_refund_preserves_remaining_advance | P | Settled-only effect |
-| 19 | credit_note_reduces_payment_allocation_ceiling | P | Credits are separate documents |
-| 20 | overpayment_is_an_advance | P + browser 500000 against 300000 | 200000 remains money on account |
-| 21 | reconciliation_equals_independent_journal | P | 500000 clearing debit = 300000 receivable + 200000 advance credits |
-| 22 | business_date_boundary_tashkent_midnight | P | UTC/Tashkent boundary |
-| 23 | billing_mode_monthly_does_not_show_fabricated_days | P | Frozen monthly policy version |
-| 24 | prepaid_day_policy_keeps_exact_remainder | NOT IMPLEMENTED | This release has no prepaid-day contract; it does not claim 7 days/14500 remainder entitlements |
-| 25 | prepaid_lesson_policy_no_double_spend | NOT IMPLEMENTED | This release has no prepaid-lesson balance or attendance unit consumption |
-| 26 | payment_history_persists_after_refresh | P + browser reload | Cash and provider history retained |
-| 27 | fiscal_receipt_not_claimed_without_verified_fiscalization | P + browser | Internal acknowledgement only |
-| 28 | live_providers_disabled_without_credentials | P | Sandbox flags cannot activate production |
-| 29 | parent_reply_routes_back_to_exact_original_staff | `test_guardian_reply_routing.py` + `test_classroom_writing_teacher_feedback_and_guardian_progress` | Includes retry, reply dedup and revoked-link denial |
-| 30 | guardian_payment_access_does_not_expand_progress_permissions | P + guardian auth suite | No staff, payroll or unrelated child access |
-| 31 | finance_help_walkthrough_works_keyboard_mobile | F + Chromium Enter-key guide | Actual mobile DOM, not human novice observation |
-| 32 | owner_finance_terms_are_explained_without_accounting_jargon | `academy-finance.test.mjs`, owner browser total, contextual glossary | Human comprehension not certified by a selector |
-| 33 | day_night_theme_and_navigation_no_regression | `browser-academy-ux.mjs`, `browser-motion-parity.mjs`, existing route suites | 20 role/theme/width captures |
-| 34 | awaiting_external_AI_still_allows_payments_and_lessons | `test_academy_assistant.py` | Outage/injection/kill/quota preserve payment/calendar reads |
-| 35 | 10000_student_read_load_meets_measured_defined_envelope | `tests/load_validation/academy_payments_http.py` | Local 25-concurrent envelope passes; 50–2000 miss objectives; see load receipt |
+| # | Scenario | Result | Executable evidence | Verification boundary |
+|---:|---|---|---|---|
+| 1 | guardian_linked_child_can_get_finance_summary | PASS — automated local/CI | P | Isolated PostgreSQL |
+| 2 | guardian_unlinked_child_finance_forbidden | PASS — automated local/CI | P | Two families, server denial |
+| 3 | guardian_can_pay_only_linked_child | PASS — automated local/CI | P | Exact child and payer |
+| 4 | guardian_revoked_link_cannot_start_intent | PASS — automated local/CI | P | Reads and new writes denied |
+| 5 | guardian_two_children_payment_uses_exact_beneficiary | PASS — automated local/CI | P + real browser journey | Original beneficiary survives child switching |
+| 6 | teacher_cannot_view_student_full_statement_without_finance_scope | PASS — automated local/CI | P | Assigned teacher still has no full finance |
+| 7 | student_can_enter_unrestricted_policy_valid_custom_amount | PASS — automated local/CI | P + browser 137531 | Whole UZS, custom amount |
+| 8 | amount_zero_negative_float_boolean_overflow_rejected | PASS — automated local/CI | P, six inputs | No coercion |
+| 9 | amount_below_provider_minimum_explained | PASS — automated local/CI | P | Backend configured bound |
+| 10 | payment_intent_duplicate_submit_returns_one_intent | PASS — automated local/CI | P | Concurrent PostgreSQL requests |
+| 11 | browser_redirect_does_not_mark_paid | PASS — automated local/CI | P + browser | No URL-driven settlement |
+| 12 | provider_callback_signature_required | PASS — automated local/CI | P + Click signature test | Synthetic protocol authentication |
+| 13 | provider_amount_currency_student_order_exact | PASS — automated local/CI | P + Uzum canonical-status test | Mismatched proof refuses posting |
+| 14 | callback_replay_one_journal_effect | PASS — automated local/CI | P + 50-request HTTP burst | One independent journal effect |
+| 15 | out_of_order_callback_does_not_reopen_cancelled_money | PASS — automated local/CI | P | Terminal state preserved |
+| 16 | provider_timeout_status_pending_then_confirmed | PASS — automated local/CI | P | Unknown registration never re-registers or invents a URL |
+| 17 | unconfirmed_refund_does_not_reduce_advance | PASS — automated local/CI | P | Approval moves no money |
+| 18 | partial_refund_preserves_remaining_advance | PASS — automated local/CI | P | Settled-only effect |
+| 19 | credit_note_reduces_payment_allocation_ceiling | PASS — automated local/CI | P | Credits are separate documents |
+| 20 | overpayment_is_an_advance | PASS — automated local/CI | P + browser 500000 against 300000 | 200000 remains money on account |
+| 21 | reconciliation_equals_independent_journal | PASS — automated local/CI | P | 500000 clearing debit = 300000 receivable + 200000 advance credits |
+| 22 | business_date_boundary_tashkent_midnight | PASS — automated local/CI | P | UTC/Tashkent boundary |
+| 23 | billing_mode_monthly_does_not_show_fabricated_days | PASS — automated local/CI | P | Frozen monthly policy version |
+| 24 | prepaid_day_policy_keeps_exact_remainder | NOT IMPLEMENTED | NOT IMPLEMENTED | This release has no prepaid-day contract; it does not claim 7 days/14500 remainder entitlements |
+| 25 | prepaid_lesson_policy_no_double_spend | NOT IMPLEMENTED | NOT IMPLEMENTED | This release has no prepaid-lesson balance or attendance unit consumption |
+| 26 | payment_history_persists_after_refresh | PASS — automated local/CI | P + browser reload | Cash and provider history retained |
+| 27 | fiscal_receipt_not_claimed_without_verified_fiscalization | PASS — automated local/CI | P + browser | Internal acknowledgement only |
+| 28 | live_providers_disabled_without_credentials | PASS — automated local/CI | P | Sandbox flags cannot activate production |
+| 29 | parent_reply_routes_back_to_exact_original_staff | PASS — automated local/CI | `test_guardian_reply_routing.py` + `test_classroom_writing_teacher_feedback_and_guardian_progress` | Includes retry, reply dedup and revoked-link denial |
+| 30 | guardian_payment_access_does_not_expand_progress_permissions | PASS — automated local/CI | P + guardian auth suite | No staff, payroll or unrelated child access |
+| 31 | finance_help_walkthrough_works_keyboard_mobile | PASS — automated local/CI | F + Chromium Enter-key guide | Actual mobile DOM, not human novice observation |
+| 32 | owner_finance_terms_are_explained_without_accounting_jargon | PASS — automated local/CI | `academy-finance.test.mjs`, owner browser total, contextual glossary | Human comprehension not certified by a selector |
+| 33 | day_night_theme_and_navigation_no_regression | PASS — automated local/CI | `browser-academy-ux.mjs`, `browser-motion-parity.mjs`, existing route suites | 20 role/theme/width captures |
+| 34 | awaiting_external_AI_still_allows_payments_and_lessons | PASS — automated local/CI | `test_academy_assistant.py::test_awaiting_external_AI_still_allows_payments_and_lessons` and outage/kill/quota cases | An intentionally pending provider holds no DB lease and payment/calendar reads finish |
+| 35 | 10000_student_read_load_meets_measured_defined_envelope | PASS at 25 / FAIL at 50–2000 | `tests/load_validation/academy_payments_http.py` | Local 25-concurrent envelope passes; 50–2000 miss objectives; see load receipt |
 
 No failure was converted to a skip. The unchanged frontend skips belong to external
 legacy fixtures. Cases 24–25 are explicitly missing engineering, not passing math
