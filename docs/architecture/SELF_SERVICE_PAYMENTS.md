@@ -129,8 +129,10 @@ RLS and preservation of an existing user.
 
 Rollback means disable the feature/providers/worker and preserve the new financial
 records. Never drop payment history or reverse paid money through a schema rollback.
-Subsequent corrections require an additive migration/domain reversal. No production
-migration or activation was run for this task.
+Subsequent corrections require an additive migration/domain reversal. The schema
+and module were activated in the [2026-11-17 guarded production release](../verification/PAYMENTS_PRODUCTION_RELEASE_20261117.md).
+Merchant credentials and verification flags remain absent, so live payment methods
+remain unavailable pending external acceptance.
 
 ## Official protocol sources
 

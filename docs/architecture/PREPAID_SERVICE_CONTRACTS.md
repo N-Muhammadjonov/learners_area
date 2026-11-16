@@ -69,7 +69,9 @@ existing money. The exact-target application mechanism matches the prior runner.
 
 `PREPAID_BILLING_ENABLED=1` permits new terms/purchases; default is disabled. Reads
 and completion/refund processing of existing bound funds continue when disabled.
-New production migration, activation and scheduling were not performed.
+The schema and module were activated in the
+[2026-11-17 guarded production release](../verification/PAYMENTS_PRODUCTION_RELEASE_20261117.md).
+No calendar scheduler or production sample policy was provisioned.
 
 The calendar command `prepaid_calendar.py` inspects one policy and at most 31
 completed dates per invocation. It defaults to read-only. Its actor must be an

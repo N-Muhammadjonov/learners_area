@@ -1,6 +1,6 @@
 # SALE_READY_MANUAL_ACTIONS — egasi bajaradigan yagona ro'yxat
 
-**Branch:** `feature/academy-payments-ux-20261116` · **Sana:** 2026-11-16, Asia/Tashkent
+**Branch:** `main` · **Sana:** 2026-11-17, Asia/Tashkent
 **Qoida:** Barcha tashqi/qo'lda bajariladigan majburiyatlar **faqat shu faylda**. Boshqa
 hujjatlarda egaga topshiriq yozilmaydi. Kod bilan yopish mumkin bo'lgan hech narsa bu yerga
 ko'chirilmagan — muhandislik ishi muhandislikda qoldi.
@@ -26,13 +26,18 @@ berilgan. `ID` orqali bog'lanadi.
 
 15-noyabrda foydalanuvchi production ishlariga va migratsiyalarga ruxsat berdi. Supabase sxemasi va Cloudflare omborlari tekshirildi. 1115–1131 production’da qo‘llandi, Academy yoqildi, ilova bazasidan R2’ga shifrlangan zaxira olindi va ajratilgan PostgreSQL’da tiklandi. [Production dalili](verification/ACADEMY_PRODUCTION_RELEASE_20261115.md). Jonli audio, Telegram va WebRTC qabuli MA-04–06 bandlarida ochiq qoladi.
 
+17-noyabrda payment/prepaid migratsiyalari ham yangi shifrlangan R2 zaxirasi va
+ajratilgan tiklash sinovidan keyin qo‘llandi. To‘lov, prepaid va Academy RIWI
+modullari faollashtirildi; merchant tasdiqlari va tashqi Academy AI yoqilmadi.
+242 ta avvalgi jadvalning yozuv soni saqlandi. [Yangi reliz dalili](verification/PAYMENTS_PRODUCTION_RELEASE_20261117.md).
+
 ## Indeks
 
 | ID | Prioritet | To'suvchi? | Modul | Qisqa harakat | Status |
 |---|---|---|---|---|---|
 | MA-01 | P0 | **Ha — sale** | To'lovlar | Click / Payme / Uzum merchant sandbox va jonli qabul | `BLOCKED_EXTERNAL` |
 | MA-02 | P0 | **Ha — sale** | Moliya | Hisob siyosati va chart-of-accounts moslashtiruvini tasdiqlash | `OPEN` |
-| MA-03 | P0 | Yo‘q — bajarilgan | Migratsiya | 1115–1131 production’da qo‘llandi va Academy yoqildi | `DONE` |
+| MA-03 | P0 | Yo‘q — bajarilgan | Migratsiya | Academy, payment/prepaid migratsiyalari va modul faollashtirish production’da tasdiqlandi | `DONE` |
 | MA-04 | P0 | **Ha — sale** | Media/R2 | R2 sozlangan; jonli audio va muddati tugagan URL qabuli | `CONFIGURED_AWAITING_MANUAL_QA` |
 | MA-05 | P0 | **Ha — sale** | Ota-ona Telegram | Bot token + webhook secret + jonli ikki tomonlama test | `OPEN` |
 | MA-06 | P1 | Pilot | WebRTC | TURN server kredensiallari | `OPEN` |
@@ -53,10 +58,10 @@ berilgan. `ID` orqali bog'lanadi.
 | Modul | O‘quvchi va bog‘langan farzand to‘lovlari |
 | Aniq harakat | Tanlangan provayderlarning merchant shartnomasini rasmiylashtirish, sandbox hisobini ajratish va rasmiy testlardan o‘tkazish. Sinovdan o‘tmagan usul yopiq qoladi |
 | Nega avtomatlashtirib bo'lmaydi | Merchant shartnomasi, haqiqiy kalitlar, provayder tekshiruvi va fiskal talablar markaz hamda provayder tomonidan tasdiqlanadi |
-| Bajarilgan tayyorgarlik | Alohida development branchda immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari, 42 ta haqiqiy ajratilgan PostgreSQL to‘lov testi va jami 55 ta payment/workbench/AI testi. Daraja: LOCALLY_TESTED. Haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
+| Bajarilgan tayyorgarlik | Immutable buyurtmalar, guardian IDOR nazorati, Click Shop / Payme Merchant / Uzum Checkout adapterlari main’da. Payment/prepaid sxemasi va modullar production’da faollashtirilgan. Yakuniy CI: 7604 backend test + 287 subtest, 1833 frontend pass. Protokol darajasi LOCALLY_TESTED; haqiqiy SANDBOX_VERIFIED yoki LIVE_VERIFIED dalili hali yo‘q |
 | Rasmiy manba | [Click](https://docs.click.uz/), [Payme Merchant](https://developer.help.paycom.uz/protokol-merchant-api/), [Payme sandbox](https://developer.help.paycom.uz/pesochnitsa/), [Uzum Checkout](https://developer.uzumbank.uz/en/checkout/) |
 | Kerakli hisob/ruxsat | Markazning merchant hisobi, alohida sandbox kalitlari, tasdiqlangan login va ruxsat etilgan callback URL. Jonli chiqarish uchun yangi release ruxsati |
-| Aniq ketma-ketlik | 1) Merchant mahsulotini tanlang: Click Shop, Payme Merchant, Uzum Checkout. 2) Ajratilgan sinov bazasi va sandbox kalitlarini tayyorlang. 3) `/api/payments/callbacks/click`, `/api/payments/callbacks/payme` yoki `/api/payments/callbacks/uzum` manzilini shu sinov serverida sozlang. Non-production runtime va `PAYMENT_SANDBOX_DATABASE_ISOLATED=1` bilan `prepare_provider_sandbox.py` orqali owner/sinov o‘quvchisi uchun order tayyorlash mumkin. 4) Muvaffaqiyat, takror, kechikish, noto‘g‘ri imzo/summa, bekor qilish, ikkita farzand va refund siyosatini tekshiring. 5) Dalillar va reconciliation mos kelgach tegishli verification flagini tasdiqlang. 6) Yangi migratsiya va feature activationni alohida release ruxsati bilan bajaring. Tekshiruvgacha jonli flaglarni yoqmang |
+| Aniq ketma-ketlik | 1) Merchant mahsulotini tanlang: Click Shop, Payme Merchant, Uzum Checkout. 2) Ajratilgan sinov bazasi va sandbox kalitlarini tayyorlang. 3) `/api/payments/callbacks/click`, `/api/payments/callbacks/payme` yoki `/api/payments/callbacks/uzum` manzilini shu sinov serverida sozlang. Non-production runtime va `PAYMENT_SANDBOX_DATABASE_ISOLATED=1` bilan `prepare_provider_sandbox.py` orqali owner/sinov o‘quvchisi uchun order tayyorlash mumkin. 4) Muvaffaqiyat, takror, kechikish, noto‘g‘ri imzo/summa, bekor qilish, ikkita farzand va refund siyosatini tekshiring. 5) Dalillar va reconciliation mos kelgach tegishli verification flagini tasdiqlang. 6) Tasdiqlangan merchant sozlamalarini boshqariladigan relizda faollashtiring. Ilova migratsiyalari allaqachon o‘rnatilgan; tekshiruvgacha jonli provider flaglarini yoqmang |
 | Xavfsiz misol | Kalit nomlari va muhit chegaralari: `docs/architecture/SELF_SERVICE_PAYMENTS.md`. Kalit qiymatini chatga, repoga yoki screenshotga yozmang. Uzum API base URL va checkout origin merchant tomonidan beriladi, uydirilmaydi |
 | Egadan keyingi validatsiya | Rasmiy vendor sandbox hisobotlari + `services/backend/tests/test_self_service_payments.py` + asl journal bilan reconciliation. Payme credited-payment cancellation/refund tartibi provayder bilan alohida qabul qilinadi. Ichki tasdiqnoma fiskal chek deb olinmaydi |
 | Taxminiy vaqt | Merchant tekshiruvi va shartnomaga bog‘liq |
@@ -87,11 +92,11 @@ berilgan. `ID` orqali bog'lanadi.
 |---|---|
 | Prioritet / To'suvchi | P0 / Yo‘q — bajarilgan |
 | Modul | Migratsiya |
-| Aniq harakat | Tasdiqlangan release commitidan 1115–1131 zanjirini qo‘llash va Academy’ni faollashtirish |
+| Aniq harakat | Tasdiqlangan release commitlaridan Academy va payment/prepaid migratsiyalarini qo‘llash hamda modullarni faollashtirish |
 | Kerakli hisob/ruxsat | Supabase loyihasi va ishlab turgan backend muhiti egasi |
-| Bajarilgan tayyorgarlik | 17 fayl production’da bitta tranzaksiyada qo‘llandi; barcha xeshlar mos; 35 ta yangi RLS jadvali; 12 ta hisob; 206 ta avvalgi jadval yozuv soni saqlandi. Shifrlangan R2 zaxirasi va ajratilgan tiklash o‘tdi; Railway readiness SUCCESS |
+| Bajarilgan tayyorgarlik | 1115–1131 dagi 17 fayl saqlangan; yangi payment va prepaid fayllari bitta tranzaksiyada qo‘llandi. Barcha xeshlar mos, 6 ta qo‘shimcha RLS jadvali, API table/trigger grantlari 0, jurnal muvozanatli. Yangi 66 948 227 baytli shifrlangan R2 zaxirasi, ajratilgan tiklash va migratsiya sinovi o‘tdi; 242 ta avvalgi jadval yozuv soni saqlandi. Railway readiness SUCCESS |
 | Status | `DONE` |
-| Dalil havolasi | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md` |
+| Dalil havolasi | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md`; `docs/verification/PAYMENTS_PRODUCTION_RELEASE_20261117.md` |
 
 Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da qayta bajarish talab qilinmaydi.
 
@@ -269,8 +274,9 @@ Quyidagi tartib boshqa muhitning birinchi o‘rnatilishi uchun. Production’da 
 | ID | Nima yopildi | Sana | Dalil |
 |---|---|---|---|
 | MA-03 | 1115–1131 production migratsiyasi va Academy faollashtirish | 2026-11-15 | `docs/verification/ACADEMY_PRODUCTION_RELEASE_20261115.md` |
+| MA-03 | Payment/prepaid migratsiyalari va to‘lov/prepaid/Academy RIWI modullari | 2026-11-17 | `docs/verification/PAYMENTS_PRODUCTION_RELEASE_20261117.md` |
 
 **Eslatma:** Kod bilan yopiladigan ishlar bu ro‘yxatga kiritilmaydi. Academy 2.0 bo‘yicha
 muhandislik holati va qolgan testlar `docs/verification/ACADEMY_2_ACCEPTANCE.md` da.
-Yangi self-service payment migratsiyasi MA-03 dagi avvalgi production reliziga kirmaydi,
-ushbu vazifada production bazasi o‘zgartirilmadi.
+Yangi self-service payment va prepaid relizi MA-03 daliliga qo‘shildi. Merchant
+qabuli, haqiqiy kurs siyosati va qolgan tashqi tekshiruvlarning holati o‘zgarmagan.

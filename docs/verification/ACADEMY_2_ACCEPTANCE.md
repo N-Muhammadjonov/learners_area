@@ -203,3 +203,22 @@ novice usability remain separate. New payment/prepaid production migrations and
 activation were not performed by this merge. Rollback remains feature disablement
 and additive repair, preserving paid history. Owner-dependent actions remain
 only in [the canonical manual actions](../SALE_READY_MANUAL_ACTIONS.md).
+
+## Guarded feature production release — 2026-11-17
+
+The subsequent [PR #203](https://github.com/N-Muhammadjonov/learners_area/pull/203)
+was merged as `636358677a88aeaaa7e62716e944a2b71d1fc096`. Full
+[CI 43947518306](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43947518306)
+passed 7604 backend tests + 287 subtests, 1833 frontend passes and the same 11
+external-fixture skips. The added native PostgreSQL 17 tests cover restored
+private journals, existing cash preservation, corrupt backup/failed rehearsal
+rejection and atomic rollback when the second feature migration fails.
+
+Payment/prepaid production migrations and module activation subsequently passed
+after the fresh encrypted R2 backup and isolated restore rehearsal. Six new RLS
+tables have no direct API table/trigger grants. The unchanged foundation retains
+17 recorded migrations and the finance journal balances. Academy RIWI runs in
+deterministic read/draft mode; merchant/provider verification remains separate.
+The [production receipt](PAYMENTS_PRODUCTION_RELEASE_20261117.md) records exact
+hashes, deployment, backup and acceptance limits. No sale-ready claim follows
+from module activation.

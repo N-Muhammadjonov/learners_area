@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-17",
+  "timezone": "Asia/Tashkent",
+  "authorization": "User authorized necessary production work and migrations on 2026-11-15 and subsequently requested completion and merge to main.",
+  "runtime_release": {
+    "pr": 203,
+    "source_commit": "bdcfe282646a5720ab7a72c8fca9ca256f830d2d",
+    "merge_commit": "636358677a88aeaaa7e62716e944a2b71d1fc096",
+    "deployment": "0282bb51-6892-49bb-85bd-75fdbbafa60b",
+    "status": "SUCCESS",
+    "readyz_required": true,
+    "healthcheck_succeeded_at_utc": "2026-11-16T20:25:06.261922285Z",
+    "one_running_replica": true,
+    "verified_tls": true,
+    "pool_max": 5
+  },
+  "backup": {
+    "project": "tuoeabrrnsiuxpjmslxp",
+    "bucket": "learners-area",
+    "object_key": "operational-backups/academy/tuoeabrrnsiuxpjmslxp/20261116T202440Z-949ccd6df47e1c9deb77612a032d1e71d7b94fa6abfb70edb25e1b799323b986.labak",
+    "backup": {
+      "encrypted_bytes": 66948227,
+      "kind": "postgres-custom",
+      "overall_timeout_seconds": 900,
+      "schemas": [
+        "public",
+        "drizzle",
+        "la_academy_migrations"
+      ],
+      "sha256": "949ccd6df47e1c9deb77612a032d1e71d7b94fa6abfb70edb25e1b799323b986",
+      "source_host_sha256": "06eb5f60fd044994f216e734cc4afacbd51759f7560f0d54b6c0aca0719dc51f"
+    },
+    "rehearsal": {
+      "direct_api_grants": 0,
+      "feature_direct_api_grants": 0,
+      "feature_direct_function_grants": 0,
+      "feature_migrations": 2,
+      "feature_rls_tables": 6,
+      "feature_tables": 6,
+      "finance_accounts": 12,
+      "managed_tables": 35,
+      "migrations": 17,
+      "rls_tables": 35,
+      "unbalanced_entries": 0
+    },
+    "migration_hashes": {
+      "20261115200716_academy_self_service_payments.sql": "c82b03476709febcb7d30ee5dd0adec52633f82157dd3b7bac7bb751bcc168d0",
+      "20261116081748_academy_prepaid_service_policies.sql": "6ac9b1fb6b5d82c926ae7eafcf09f513b8ac6b4ae432e5614537d6fc6bb40921"
+    },
+    "source_tables": 242,
+    "source_constraints": 992,
+    "encryption_key_variable": "ACADEMY_BACKUP_KEY",
+    "download_checksum_verified": true,
+    "restore_to_isolated_postgres": "passed",
+    "preserved_application_tables": 242,
+    "key_value_recorded": false,
+    "scope": "Application schemas and existing private migration journals only. Platform Auth/Storage/Vault, role passwords, R2 media bytes and full disaster-recovery RPO/RTO are outside this backup."
+  },
+  "production": {
+    "migration_journal": [
+      {
+        "name": "20261115200716_academy_self_service_payments.sql",
+        "sha256": "c82b03476709febcb7d30ee5dd0adec52633f82157dd3b7bac7bb751bcc168d0"
+      },
+      {
+        "name": "20261116081748_academy_prepaid_service_policies.sql",
+        "sha256": "6ac9b1fb6b5d82c926ae7eafcf09f513b8ac6b4ae432e5614537d6fc6bb40921"
+      }
+    ],
+    "checksum_mismatches": 0,
+    "feature_rls_tables": 6,
+    "direct_api_table_grants": 0,
+    "direct_api_trigger_grants": 0,
+    "private_journal_schema_access": 0,
+    "academy_migrations": 17,
+    "finance_accounts": 12,
+    "user_rows": 9,
+    "cash_rows": 0,
+    "journal_rows": 0,
+    "unbalanced_entries": 0,
+    "payment_intents": 0,
+    "service_policies": 0
+  },
+  "applied_migrations": [
+    {
+      "name": "20261115200716_academy_self_service_payments.sql",
+      "sha256": "c82b03476709febcb7d30ee5dd0adec52633f82157dd3b7bac7bb751bcc168d0",
+      "applied_at": "2026-11-16 20:24:55.805796+00"
+    },
+    {
+      "name": "20261116081748_academy_prepaid_service_policies.sql",
+      "sha256": "6ac9b1fb6b5d82c926ae7eafcf09f513b8ac6b4ae432e5614537d6fc6bb40921",
+      "applied_at": "2026-11-16 20:24:55.805796+00"
+    }
+  ],
+  "activation": {
+    "ACADEMY_FEATURES_ENABLED": "existing enabled configuration retained",
+    "SELF_SERVICE_PAYMENTS_ENABLED": "1",
+    "PREPAID_BILLING_ENABLED": "1",
+    "ACADEMY_ASSISTANT_ENABLED": "1",
+    "PAYMENTS_RETURN_ORIGIN": "https://learnersarea.uz",
+    "merchant_credentials_configured": false,
+    "merchant_verification_flags_enabled": false,
+    "external_academy_ai_verified": false,
+    "calendar_scheduler_provisioned": false,
+    "production_test_transactions_created": false,
+    "provider_messages_sent": false,
+    "pricing": "Amount and duration remain operator-defined; 200000 UZS / 7 days is not a fixed price."
+  },
+  "verification": {
+    "full_ci": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43947518306",
+    "parent_connect_ci": "https://github.com/N-Muhammadjonov/learners_area/actions/runs/43947518265",
+    "backend_passed": 7604,
+    "backend_subtests_passed": 287,
+    "frontend_passed": 1833,
+    "frontend_unchanged_external_fixture_skips": 11,
+    "failures": 0,
+    "native_recovery_and_atomic_failure_tests": "passed",
+    "local_recovery_guard_tests": 25,
+    "local_native_build_tests": 6,
+    "security_advisory_summary": [
+      {
+        "name": "rls_enabled_no_policy",
+        "level": "INFO",
+        "count": 248
+      }
+    ],
+    "security_interpretation": "Private backend-managed tables intentionally have no direct API policies; direct API table/trigger grants and feature-journal schema access were independently checked as zero.",
+    "public_automated_edge_probe": {
+      "status": 403,
+      "cloudflare_code": 1010
+    },
+    "public_browser_audio_manual_qa": "Owner-owned; not represented as completed."
+  },
+  "remaining_actions": "docs/SALE_READY_MANUAL_ACTIONS.md"
+}

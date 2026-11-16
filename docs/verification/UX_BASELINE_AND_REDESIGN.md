@@ -142,13 +142,24 @@ production SLA. [Final confirmation](academy-ux/load-confirmation.json) and
 | Gate | State | Evidence still required |
 |---|---|---|
 | A — truth/security | LOCALLY_TESTED | Current source, role screenshots, immutable migration and current-link negative tests are recorded |
-| B — payment engine | LOCALLY_TESTED / PARTIAL | Monthly invoice math and all three protocols tested; configurable prepaid modes now have real PostgreSQL posting/refund/delivery evidence; new browser CI pending; vendor acceptance remains external |
+| B — payment engine | LOCALLY_TESTED / PARTIAL | Monthly invoice math and all three protocols tested; configurable prepaid modes have PostgreSQL posting/refund/delivery and Chromium evidence; schema/module activated in production; vendor acceptance remains external |
 | C — beginner UX | LOCALLY_TESTED / PARTIAL | Five-role screenshot matrix and payment/admin/teacher browser flows pass; real novice acceptance is separate |
 | D — continuity | LOCALLY_TESTED | The lead→class→Writing→parent→payroll journey also exercises parent portal payment and exact Today teacher scope |
-| E — AI/reliability | PARTIAL | Typed read/draft tools, injection/outage/kill/quota tests and measured load; high concurrency, mixed write/outage scenarios and long soak remain engineering gates |
-| F — delivery | DRAFT | PR #202, reviewed screenshots, full green code CI, migration/forward-fix documents and explicit acceptance gaps; no merge/deploy performed |
+| E — AI/reliability | PARTIAL | Typed read/draft tools, injection/outage/kill/quota tests, mixed write/outage scenarios, two-process restart and two-hour hosted-CI soak passed; higher-concurrency production capacity and external provider acceptance remain separate |
+| F — delivery | RELEASED / EXTERNAL GAPS | PR #202 and #203 merged; full CI passed; guarded production migration/activation and restore rehearsal passed; canonical external acceptance gaps remain open |
 
 The [35-scenario acceptance map](ACADEMY_2_ACCEPTANCE.md) distinguishes implemented
 proofs from missing work. No all-gates-complete or sale-ready claim is made.
 
 External/owner work remains exclusively in `docs/SALE_READY_MANUAL_ACTIONS.md`.
+
+## Production continuation — 2026-11-17
+
+[PR #203](https://github.com/N-Muhammadjonov/learners_area/pull/203) extends the
+existing encrypted-backup gate to payment/prepaid migrations. Final
+[CI 43947518306](https://github.com/N-Muhammadjonov/learners_area/actions/runs/43947518306)
+passed 7604 backend tests + 287 subtests, 1833 frontend tests and 11 unchanged
+external-fixture skips. Both feature migrations and module activation completed
+on production after a fresh verified R2 backup and isolated PostgreSQL restore.
+No provider verification or production sample transactions were fabricated.
+[Production receipt](PAYMENTS_PRODUCTION_RELEASE_20261117.md).
