@@ -85,6 +85,9 @@ async def read_workbench(conn,actor: RiwiActor,data: dict) -> dict:
     day=await workbench.today(conn,actor_id=UUID(actor.id),role=actor.role)
     stamp=day['observedAt'];source='/api/staff/academy/today'
     facts=[fact('classes_today',day['classes']['count'],'count',source,'/app/management#today-classes',stamp)]
+    if day.get('attendance'):
+        facts.append(fact('incomplete_attendance',day['attendance']['count'],'count',
+                          source,'/app/management#today-attendance',stamp))
     if actor.role in ('owner','admin'):
         today=ledger.business_date(datetime.now(timezone.utc))
         summary=await ledger.finance_summary(conn,start=today.replace(day=1),end=today)

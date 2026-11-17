@@ -50,7 +50,8 @@ async def debtors(conn, *, q: str='', branch: str='', overdue_only: bool=False,
         'pagination':{'offset':offset,'limit':limit,'hasMore':len(items)>limit}}
 
 
-async def today(conn, *, actor_id: UUID, role: str,classes_offset: int=0,followups_offset: int=0) -> dict:
+async def today(conn, *, actor_id: UUID, role: str,classes_offset: int=0,followups_offset: int=0,
+                attendance_offset: int=0) -> dict:
     now=datetime.now(timezone.utc);day=ledger.business_date(now)
     start=datetime.combine(day,time.min,TASHKENT);end=start+timedelta(days=1)
     rows=await conn.fetch('''WITH matches AS MATERIALIZED(
@@ -67,6 +68,27 @@ async def today(conn, *, actor_id: UUID, role: str,classes_offset: int=0,followu
               {'id':str(r['id']),'groupId':str(r['group_id']),'name':r['name'],'branch':r['branch'],
                'startsAt':r['starts_at'].isoformat(),'endsAt':r['ends_at'].isoformat(),'status':r['status'],
                'href':'/app/management/groups?group='+str(r['group_id'])+('&view=sessions' if role=='teacher' else '')} for r in classes]}}
+    # A frozen held-session roster is the authority. Never infer absence from a
+    # missing mark, a current membership, or a scheduled/cancelled class.
+    rows=await conn.fetch('''WITH matches AS MATERIALIZED(
+        SELECT s.id,s.group_id,s.starts_at,s.ends_at,g.name,g.branch,count(*)::int AS unmarked
+        FROM academy_sessions s JOIN academy_groups g ON g.id=s.group_id
+        JOIN academy_attendance a ON a.session_id=s.id AND a.status='not_marked'
+        WHERE s.status='held' AND s.starts_at>=$1 AND s.starts_at<$2
+          AND ($3 OR EXISTS(SELECT 1 FROM academy_session_teachers t
+              WHERE t.session_id=s.id AND t.teacher_user_id=$4))
+        GROUP BY s.id,g.name,g.branch
+    ) SELECT m.*,t.total FROM (SELECT count(*) AS total FROM matches)t LEFT JOIN LATERAL(
+        SELECT * FROM matches ORDER BY starts_at,id LIMIT 10 OFFSET $5)m ON true''',
+        start-timedelta(days=6),end,role in ('owner','admin'),actor_id,attendance_offset)
+    from .academy_attendance import teacher_window
+    pending=[row for row in rows if row['id'] is not None];count=int(rows[0]['total'])
+    data['attendance']={'count':count,'windowDays':7,
+        'pagination':{'offset':attendance_offset,'limit':10,'hasMore':attendance_offset+len(pending)<count},
+        'items':[{'id':str(row['id']),'name':row['name'],'branch':row['branch'],
+            'startsAt':row['starts_at'].isoformat(),'unmarked':row['unmarked'],
+            'canMark':role in ('owner','admin') or now<=row['ends_at']+teacher_window(),
+            'href':'/app/management/groups?group='+str(row['group_id'])+'&view=sessions'} for row in pending]}
     if role in ('owner','admin'):
         balances=await debtors(conn,limit=1)
         rows=await conn.fetch('''WITH matches AS MATERIALIZED(SELECT id,name,follow_up_at FROM academy_leads

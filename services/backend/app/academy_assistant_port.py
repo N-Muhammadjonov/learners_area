@@ -6,6 +6,7 @@ from uuid import UUID,uuid4
 from fastapi import APIRouter,Depends,Request
 
 from . import main as core,guardian_port as guardian,academy_assistant as assistant
+from . import riwi_workflows as workflows
 from .academy_availability import require_academy
 from .rate_limit import RULES,async_counter,too_many
 from .riwi_audit import record_riwi_usage_metric
@@ -35,6 +36,11 @@ async def respond(req: Request, *, mode: str,child_id: UUID | None=None):
     if not allowed:return core.j({'error':'riwi_disabled'},503,PRIVATE)
     try:body=parse(assistant.AssistantRequest,await payload(req))
     except ValidationError as exc:return invalid(exc)
+    if body.workflowId and not workflows.allowed(user['role'],body.workflowId):
+        return core.j({'error':'forbidden'},403,PRIVATE)
+    required_workflow={'payment_help':'payments','parent_message_draft':'parent_message'}.get(body.action)
+    if body.workflowId and required_workflow and body.workflowId!=required_workflow:
+        return core.j({'error':'forbidden'},403,PRIVATE)
     if mode in ('guardian','student'):
         if body.action!='payment_help' or body.studentId not in (None,child_id if mode=='guardian' else user['id']):
             return core.j({'error':'forbidden'},403,PRIVATE)
@@ -57,7 +63,7 @@ async def respond(req: Request, *, mode: str,child_id: UUID | None=None):
     except RiwiToolBrokerError as exc:
         return core.j({'error':'forbidden' if exc.code in ('forbidden','tool_execution_failed') else exc.code},
                       403 if exc.code in ('forbidden','tool_execution_failed') else 503,PRIVATE)
-    result,metric=await assistant.propose(str(user['id']),body,facts)
+    result,metric=await assistant.propose(str(user['id']),body,facts,role=user['role'])
     async with pool.acquire() as conn:
         correlation=str(uuid4())
         await record_riwi_usage_metric(conn,actor_user_id=str(user['id']),actor_role=user['role'],
