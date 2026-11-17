@@ -67,7 +67,10 @@ async function earnPanel(ctx, host, options) {
   host.replaceChildren(loading(ctx));
   const results = await Promise.allSettled([
     api.request('/api/coins/wallet', {signal: ctx.signal}),
-    api.request('/api/coins/daily', {signal: ctx.signal}),
+    api.request('/api/coins/daily/claim', {method:'POST',signal: ctx.signal}).catch(error=>{
+      if(ctx.signal.aborted)throw error;
+      return api.request('/api/coins/daily',{signal:ctx.signal});
+    }),
     api.request('/api/coins/referral-link', {method: 'POST', signal: ctx.signal}),
     api.request('/api/study-plan/rewards', {signal: ctx.signal}),
   ]);
@@ -76,7 +79,7 @@ async function earnPanel(ctx, host, options) {
   if (walletResult.status !== 'fulfilled' || dailyResult.status !== 'fulfilled') {
     host.replaceChildren(errorNotice(ctx)); return;
   }
-  let wallet = walletResult.value;
+  let wallet = dailyResult.value.wallet || walletResult.value;
   let daily = dailyResult.value;
   const link = referralResult.status === 'fulfilled' ? referralResult.value?.url : null;
   const referrals = referralResult.status === 'fulfilled' ? referralResult.value?.count ?? 0 : 0;

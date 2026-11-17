@@ -15,13 +15,15 @@
 
 Landing `raw_answers`ni qurilmada saqlaydi. Hisobga kirilgach `/api/study-plan/monthly/sequence/level/landing/import` serverdagi savollar bazasi bilan qayta baholaydi. Natija `onboarding_profiles.current_level`ga yoziladi. Mijoz yuborgan `level` ishonchli baho sifatida ishlatilmaydi. Avval qo‘lda tanlangan yoki ichki test bilan tasdiqlangan daraja avtomatik almashtirilmaydi. Import bir hisobga bir marta qabul qilinadi va 24 soatlik muddatga ega.
 
+To‘g‘ridan-to‘g‘ri “Tanga yig‘ish” sahifasida kunlik mukofot va balans ham claim javobining yagona server holatidan olinadi. Oldingi balans bilan yangi mukofot aralashib ko‘rsatilmaydi.
+
 ## Kunlik oyna chegaralari
 
 Coin berishning mavjud tranzaksiyali server qoidalari saqlanadi. Oyna yangi coin yozuvini mijozda yaratmaydi. Tashkent yarim tunidan o‘tib ochiq qolgan tab ham keyingi kunni tekshiradi. Fokus imtihoni yoki boshqa dialog paytida oyna keyingi oddiy sahifagacha kutadi. Hisob almashishi va sessiya tugashi kechikkan javobning oynasini bekor qiladi. Storage ishlamasa, shu sessiyaning xotirasi takroriy ko‘rsatishni to‘xtatadi. Tarmoq xatosidan keyin qayta tekshirish mumkin.
 
 ## Bajarilgan tekshiruvlar
 
-- Frontend: 1 846 passed, 11 mavjud tashqi fixture skip, 0 fail.
+- Frontend: 1 847 passed, 11 mavjud tashqi fixture skip, 0 fail.
 - PostgreSQL bilan yo‘naltirilgan backend tekshiruvlari: 82 passed, 0 fail. Haqiqiy migratsiyalar qo‘llangan vaqtinchalik bazada guruh/teacher/student, admissions, learning, self-service payment va yangi statistika/daraja oqimlari.
 - Yangi regressiyalar: stagingdagi natijalar, modul kartalari, kech DOM yakori, import/GET ketma-ketligi, yetti kunlik oyna, hisob/sana izolyatsiyasi, boshqa dialog va fokus imtihoni, transport/abort, Tashkent yarim tuni va 7→1 davr.
 - TypeScript tekshiruvi va Python native asset build muvaffaqiyatli.
