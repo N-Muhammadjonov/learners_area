@@ -123,7 +123,7 @@ async def read_level_check(req: Request) -> JSONResponse:
             "SELECT * FROM study_plan_30_level_checks WHERE user_id=$1", user["id"])
         if (row and not row["submitted_at"] and row["started_at"] + WINDOW > now
                 and len(row["question_order"] or []) == QUESTION_COUNT):
-            return response(_public(dict(row), read_bank()))
+            return response({**_public(dict(row), read_bank()), 'currentLevel': level})
         return response({
             "state": "select", "levels": list(LEVELS),
             "currentLevel": level,

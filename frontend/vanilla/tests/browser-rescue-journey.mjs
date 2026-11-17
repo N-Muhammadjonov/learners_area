@@ -1,3 +1,4 @@
+import {dismissDailyReward} from './browser-daily-reward.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {chromium} from 'playwright-core';
@@ -30,7 +31,7 @@ function responseTo(page, method, path) {
 
 try {
   const owner = await pageFor('Owner');
-  await owner.goto(origin+'/app/management');
+  await owner.goto(origin+'/app/management');await dismissDailyReward(owner);
   await owner.getByRole('link', {name: /Learner support/}).click();
   await owner.waitForURL('**'+route);
   await owner.locator('[data-rescue-student="'+learner+'"]').waitFor();
@@ -53,7 +54,7 @@ try {
   assert.equal(new Set([...firstPage, ...secondPage]).size, 27);
 
   const assigned = await pageFor('Assigned teacher', 390);
-  await assigned.goto(origin+route);
+  await assigned.goto(origin+route);await dismissDailyReward(assigned);
   const card = assigned.locator('[data-rescue-student="'+learner+'"]');
   await card.getByText('Test learner').waitFor();
   assert.equal(await assigned.locator('[data-rescue-thresholds]').count(), 0);
@@ -80,7 +81,7 @@ try {
   await card.getByText(/Learner attended the review/).waitFor();
 
   const outsider = await pageFor('Unassigned teacher');
-  await outsider.goto(origin+route);
+  await outsider.goto(origin+route);await dismissDailyReward(outsider);
   await outsider.getByText('No learners match this filter.').waitFor();
   assert.equal((await outsider.request.get(origin+actions)).status(), 404);
   for (const role of ['Test learner', 'Guardian']) {
@@ -90,7 +91,7 @@ try {
 
   const capacity = '/app/management/capacity';
   const capacityApi = '/api/staff/academy/capacity/'+group;
-  await owner.goto(origin+capacity);
+  await owner.goto(origin+capacity);await dismissDailyReward(owner);
   await owner.getByRole('button', {name:'Load group'}).click();
   const form = owner.locator('[data-capacity-simulation]');
   for (const [field, value] of Object.entries({

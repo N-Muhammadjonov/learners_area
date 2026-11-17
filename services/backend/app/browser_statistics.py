@@ -245,6 +245,19 @@ async def read(req, user, kind, q):
           (now() AT TIME ZONE 'Asia/Tashkent')::date-13,(now() AT TIME ZONE 'Asia/Tashkent')::date,interval '1 day') d)
           SELECT to_char(d.d,'YYYY-MM-DD') day_key,count(r.id)::int count FROM days d
           LEFT JOIN r ON (r.at AT TIME ZONE 'Asia/Tashkent')::date=d.d::date {where}
+            AND EXISTS(SELECT 1 FROM users u WHERE u.id=r.user_id AND u.role='student')
           GROUP BY d.d ORDER BY d.d''',*args)
-        levels = await con.fetch("SELECT level,count(*)::int rounds,avg(score)::float8 average FROM retention_attempts WHERE status IN ('completed','timed_out') GROUP BY level ORDER BY level")
-        return {'summary':await summary(con),'selected':selected,'students':[camel(r) for r in rows],'daily':[{'day':r['day_key'],'count':r['count']} for r in daily],'levels':[dict(r) for r in levels]}
+        levels = await con.fetch("SELECT a.level,count(*)::int rounds,avg(a.score)::float8 average FROM retention_attempts a JOIN users u ON u.id=a.user_id AND u.role='student' WHERE a.status IN ('completed','timed_out') GROUP BY a.level ORDER BY a.level")
+        total = await con.fetchval(f'''WITH r AS ({RELATION}) SELECT count(*)::int
+          FROM r JOIN users u ON u.id=r.user_id WHERE u.role='student' {where}''', *args)
+        pages = max(1, math.ceil(total / 25))
+        page = min(pages, number(q.get('page')))
+        history = await con.fetch(f'''WITH r AS ({RELATION})
+          SELECT r.id,r.module,r.activity,r.at,r.completed,
+            CASE WHEN r.completed THEN r.score END score,r.maximum,r.unit,r.title,
+            u.id AS student_id,u.name AS student_name
+          FROM r JOIN users u ON u.id=r.user_id WHERE u.role='student' {where}
+          ORDER BY r.at DESC,r.id DESC,r.module LIMIT 25 OFFSET {(page-1)*25}''', *args)
+        return {'summary':await summary(con),'selected':selected,'students':[camel(r) for r in rows],'daily':[{'day':r['day_key'],'count':r['count']} for r in daily],'levels':[dict(r) for r in levels],
+                'history':{'module':selected,'total':total,'pages':pages,'page':page,
+                           'rows':[camel(r) for r in history]}}

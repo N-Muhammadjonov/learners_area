@@ -47,6 +47,20 @@ afterEach(() => {
     'File', 'FormData']) delete globalThis[name];
 });
 
+test('direct earn entry shows the committed daily receipt and balance together',async()=>{
+  api.request=async path=>{
+    if(path==='/api/coins/wallet')return {balance:10};
+    if(path==='/api/coins/daily/claim')return {date:'2026-11-17',claimed:true,streak:3,todayCoins:3,nextCoins:0,cycle:7,wallet:{balance:13}};
+    if(path==='/api/coins/referral-link')return {url:null,count:0};
+    if(path==='/api/study-plan/rewards')return {totalEarned:0};
+    throw Error('Unexpected route: '+path);
+  };
+  await showCoinFeature(base(),'earn',root);
+  assert.match(root.querySelector('[data-coin-balances]').textContent,/13/);
+  assert.equal(root.querySelector('[data-coin-daily-claim]'),null);
+  assert.equal(root.querySelector('[data-coin-streak]').dataset.coinStreak,'3');
+});
+
 test('buyer confirms exact price with Ha, then sees the success receipt', async () => {
   let purchases = [], writes = 0;
   api.request = async (path, options) => {

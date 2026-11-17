@@ -1,6 +1,7 @@
 /** Learner profile CEFR selector, independent of existing study preferences. */
 import {h} from '../../js/native.js';
 import {api} from '../../js/api-client.js';
+import {consumePublicLevelHint} from '../../js/public-level-hint.js';
 
 const API='/api/study-plan/monthly/sequence/level';
 const LEVELS=['A1','A2','B1','B2','C1','C2'];
@@ -40,6 +41,8 @@ export function profileLevel(ctx) {
   async function initial(){
     sync();
     try{
+      await consumePublicLevelHint();
+      if(ctx.signal.aborted)return;
       const data=await api.request(API,{signal:ctx.signal,fresh:true});
       if(ctx.signal.aborted)return;
       if(LEVELS.includes(data.currentLevel))select.value=data.currentLevel;

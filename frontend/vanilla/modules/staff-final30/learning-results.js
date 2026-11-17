@@ -34,16 +34,16 @@ export function studentLearningPanel(ctx,id,baseHref){
   host.replaceChildren(el('div',{class:'h-40 animate-pulse rounded-xl bg-ink-50',role:'status','aria-label':dict.common.loading},dict.common.loading));
   try{
    const data=await learningHistory(id,module,page,request.signal);
-   if(signal.aborted||request.signal.aborted||seqNow!==seq||!host.isConnected)return;
+   if(signal.aborted||request.signal.aborted||seqNow!==seq)return;
    host.replaceChildren(moduleCards(t,data.summary,data.history.module,baseHref),renderHistory(ctx,data.history,baseHref));
   }catch{
-   if(signal.aborted||request.signal.aborted||seqNow!==seq||!host.isConnected)return;
+   if(signal.aborted||request.signal.aborted||seqNow!==seq)return;
    const button=el('button',{type:'button',class:'btn-secondary'},dict.common.retry);
    listen(button,'click',()=>void load(),signal);
    host.replaceChildren(el('div',{class:'panel space-y-3','data-student-learning-unavailable':'',role:'alert'},el('p',{},dict.auth.errorServer),button));
   }finally{signal.removeEventListener('abort',linked);}
  }
  signal.addEventListener('abort',()=>{cancel();host.remove();},{once:true});
- queueMicrotask(()=>{if(host.isConnected&&!signal.aborted)void load();});
+ queueMicrotask(()=>{if(!signal.aborted)void load();});
  return host;
 }

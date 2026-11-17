@@ -1,3 +1,4 @@
+import {dismissDailyReward} from './browser-daily-reward.mjs';
 import assert from 'node:assert/strict';
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -20,7 +21,7 @@ async function open(role,width){
 async function post(view,path,data){const response=await view.context.request.post(path,{headers:{origin},data});assert.equal(response.status(),200,await response.text());return response.json();}
 try{
  const admin=await open('admin',1440);
- await admin.page.goto(origin+'/app/management/finance?view=debts');
+ await admin.page.goto(origin+'/app/management/finance?view=debts');await dismissDailyReward(admin.page);
  await admin.page.locator('[data-finance-debtors] article').filter({hasText:'QA Student'}).getByRole('button',{name:'Open account',exact:true}).click();
  const panel=admin.page.locator('[data-prepaid-contracts]');
  await panel.getByText('New day or lesson tariff',{exact:true}).click();
@@ -38,7 +39,7 @@ try{
  const owner=await open('owner',1440);
  await post(owner,`/api/staff/finance/contracts/${policy.contract_id}/approve`);
  await post(admin,`/api/staff/finance/contracts/${policy.contract_id}/activate`);
- const student=await open('student',390);await student.page.goto(origin+'/app/payments');
+ const student=await open('student',390);await student.page.goto(origin+'/app/payments');await dismissDailyReward(student.page);
  await student.page.locator('#payment-service option[value="'+policy.id+'"]').waitFor({state:'attached'});
  await student.page.locator('#payment-service').selectOption(policy.id);
  assert.match(await student.page.locator('.pay-account').textContent(),/137,531 UZS \/ 19 days/);
