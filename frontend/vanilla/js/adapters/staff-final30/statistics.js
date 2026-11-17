@@ -31,7 +31,16 @@ export function validateCentreStatistics(d){
   return {id:x.id,name:str(x.name,{max:300}),started,completed,accuracy:nullableNumber(x.accuracy),band:nullableNumber(x.band,0,9)};
  });
  const levels=arr(d.levels??[],30).map(x=>{if(!isObj(x))throw bad();return {level:str(x.level,{max:100}),rounds:count(x.rounds),average:nullableNumber(x.average)};});
- return {summary,selected,daily,students,levels};
+ const history=d.history==null?null:validateResultHistory(d.history);
+ if(history){
+  if(history.module!==selected)throw bad();
+  history.rows=history.rows.map((row,index)=>{
+   const source=d.history.rows[index];
+   if(!UUID.test(source.studentId))throw bad();
+   return {...row,studentId:source.studentId,studentName:str(source.studentName,{max:300})};
+  });
+ }
+ return {summary,selected,daily,students,levels,history};
 }
 export function validateResultHistory(d){
  if(!isObj(d))throw bad();const module=d.module==null?null:moduleValue(d.module);const total=count(d.total),pages=int(d.pages,{min:1}),page=int(d.page,{min:1});
@@ -44,7 +53,7 @@ export function validateResultHistory(d){
  });
  return {module,total,pages,page,rows};
 }
-export const centreStatistics=(selected,signal)=>staffData('centre-statistics',selected?{module:selected}:{},signal).then(validateCentreStatistics);
+export const centreStatistics=(selected,signal,page=1)=>staffData('centre-statistics',{...selected?{module:selected}:{},page},signal).then(validateCentreStatistics);
 export const learningHistory=(id,selected,page,signal)=>{if(!UUID.test(id))return Promise.reject(bad());return staffData('student-learning',{id,...selected?{module:selected}:{},page},signal).then(d=>{
  if(!isObj(d))throw bad();return {summary:validateSummary(d.summary),history:validateResultHistory(d.history)};
  });};

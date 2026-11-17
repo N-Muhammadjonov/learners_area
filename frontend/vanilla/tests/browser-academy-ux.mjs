@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdirSync, readFileSync, writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {chromium} from 'playwright-core';
+import {dismissDailyReward} from './browser-daily-reward.mjs';
 
 const origin=process.env.ACADEMY_UX_ORIGIN;
 assert.match(origin,/^http:\/\/127\.0\.0\.1:\d+$/);
@@ -24,6 +25,17 @@ try {
    const path=['owner','admin'].includes(role)?'/app/management/finance':role==='teacher'?'/app/management/guardians':stage==='after'?'/app/payments':'/app/progress';
    const response=await page.goto(origin+path);
    await page.waitForLoadState('networkidle');
+   let dailyReward=null;
+   if(role!=='guardian'){
+    const dialog=page.locator('[data-daily-reward]');await dialog.waitFor();
+    assert.equal(await dialog.locator('.daily-reward-day').count(),7);
+    dailyReward=await dialog.evaluate(node=>{const r=node.getBoundingClientRect();return {width:r.width,left:r.left,right:r.right,viewport:innerWidth};});
+    assert(dailyReward.left>=0&&dailyReward.right<=width,role+' daily receipt fits');
+    await page.screenshot({path:resolve(directory,`daily-${role}-${theme}-${width}.png`)});
+    await dismissDailyReward(page);
+    await page.reload();await page.waitForLoadState('networkidle');
+    assert.equal(await page.locator('[data-daily-reward]').count(),0,'same-day reload does not reopen receipt');
+   }
    const filename=`${role}-${theme}-${width}.png`;
    await page.screenshot({path:resolve(directory,filename),fullPage:true});
    const metrics=await page.evaluate(()=>({title:document.querySelector('main h1')?.textContent,
@@ -34,7 +46,22 @@ try {
     const data=await (await context.request.get(origin+'/api/finance/me')).json();
     assert.equal(data.position.balanceDueMinor,800000);
    }
-   results.push({role,theme,width,path,responseStatus:response.status(),actualPath:new URL(page.url()).pathname,screenshot:filename,errors,...metrics});
+   if(['owner','admin'].includes(role)){
+    metrics.fields=await page.locator('main .input').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).map(n=>{
+     const r=n.getBoundingClientRect(),s=getComputedStyle(n);return {type:n.type,width:r.width,height:r.height,left:r.left,right:r.right,background:s.backgroundColor,color:s.color,border:s.borderTopWidth};
+    }));
+    assert(metrics.fields.length>0);
+    for(const field of metrics.fields){assert(field.width>=96&&field.height>=44,JSON.stringify({role,width,field}));assert(field.left>=0&&field.right<=width,JSON.stringify(field));assert.notEqual(field.background,'rgba(0, 0, 0, 0)');}
+   }
+   const actualPath=new URL(page.url()).pathname;
+   if(role==='owner'&&width===1440){
+    await page.goto(origin+'/app/admin/statistics');
+    await page.locator('[data-result-module="reading"]').click();
+    await page.locator('[data-centre-result-history] h2').filter({hasText:'Reading'}).waitFor();
+    assert.equal(new URL(page.url()).searchParams.get('module'),'reading');
+    await page.screenshot({path:resolve(directory,`statistics-${theme}.png`)});
+   }
+   results.push({role,theme,width,path,responseStatus:response.status(),actualPath,screenshot:filename,errors,dailyReward,...metrics});
    await context.close();
   }
  }

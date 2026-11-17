@@ -12,7 +12,25 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
  function historyKey(){if(typeof win.history.state?.__laEntry!=='string')win.history.replaceState({...win.history.state,__laEntry:entry()},'',win.location.href);return win.history.state.__laEntry;}
  const dispose=(e,reason='route-left')=>{if(!e)return;e.controller.abort(reason);e.dispose?.();if(reason!=='route-refresh')for(const key of Object.keys(e.context.state??{}))delete e.context.state[key];};
  function leave(){if(!active)return;const old=active;active=null;if(!reuse?.put(old.key,old))dispose(old);}
- function focusDestination(navigation){if(navigation.refresh)return;const focus=navigation.focus?root.querySelector(navigation.focus):null,heading=root.querySelector('h1')??root.querySelector('[data-shell-main]');if(focus)focus.focus({preventScroll:true});else if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}}
+ function focusDestination(navigation){
+  if(navigation.refresh)return;
+  const focus=navigation.focus?root.querySelector(navigation.focus):null,heading=root.querySelector('h1')??root.querySelector('[data-shell-main]');
+  if(focus)focus.focus({preventScroll:true});else if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
+  if(!win.location.hash)return;
+  let targetId;try{targetId=decodeURIComponent(win.location.hash.slice(1));}catch{return;}
+  const life=active?.controller.signal;
+  let observer,timer;
+  const stop=()=>{observer?.disconnect();clearTimeout(timer);life?.removeEventListener('abort',stop);};
+  const reveal=()=>{
+   if(life?.aborted){stop();return true;}
+   const target=root.ownerDocument.getElementById(targetId);
+   if(!target||!root.contains(target))return false;
+   stop();target.scrollIntoView?.({block:'start'});target.tabIndex=-1;target.focus({preventScroll:true});return true;
+  };
+  if(reveal())return;
+  const Observer=win.MutationObserver;
+  if(Observer){observer=new Observer(reveal);observer.observe(root,{childList:true,subtree:true});timer=setTimeout(stop,5000);life?.addEventListener('abort',stop,{once:true});}
+ }
  async function render(navigation={}){
   onBeforeNavigate?.(active?.context);
   const historyEntry=historyKey();let url=new URL(win.location.href);const canonical=canonicalize?.(url);if(canonical){win.history.replaceState(win.history.state,'',canonical);url=new URL(win.location.href);}

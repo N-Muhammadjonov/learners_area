@@ -9,23 +9,14 @@ import {api} from './api-client.js';
 import {watchAuthority} from './authority.js';
 import {watchPresence} from './presence.js';
 import {watchStudyTime} from './study-time.js';
+import {dailyReward} from '../modules/shared/daily-reward.js';
 import {moduleLayout} from '../modules/shell/module-layout.js';
 import {createShell,focusFrame} from '../modules/shell/layout.js';
 /** Shell and authority are separate lifetimes: focus routes retain the access gate. */
 export function createWorkspace(root){let pendingScroll,lastPresentation;let shell,shellController,session,key,locationKey,authorityController,authorityKey,release;const scroll=new Map();
- let lastDailyClaim='';
- function claimDailyCoins(current){
-  if(!['student','teacher','admin','owner'].includes(current?.user?.role)||current.user.accountStatus!=='active')return;
-  const stamp=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-  const identity=current.user.id+':'+stamp;
-  if(lastDailyClaim===identity)return;
-  lastDailyClaim=identity;
-  void api.request('/api/coins/daily/claim',{method:'POST'}).catch(()=>{
-   if(lastDailyClaim===identity)lastDailyClaim='';
-  });
- }
+ let rewards;
  function closeShell(){shellController?.abort();shell=null;shellController=null;key=null;locationKey=null;pendingScroll=undefined;}
- function closeAuthority(){authorityController?.abort();authorityController=null;authorityKey=null;release?.();release=null;}
+ function closeAuthority(){authorityController?.abort();authorityController=null;authorityKey=null;rewards=null;release?.();release=null;}
  function invalidate(){session=null;}
  async function prepare(context){const {url,signal}=context,{locale}=readPreferences(),dict=await dictionary(locale);
   if(signal.aborted)return {};if(!shell&&!root.childNodes.length){const routeKey=workspaceKey(url.pathname),frames=sectionEntryFrames(dict);root.replaceChildren(SectionEntryFrame({routeKey,frame:frames[routeKey]??frames.other,privateBoundary:true}));}
@@ -47,15 +38,15 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
   // the unchanged authority watcher still handles revocation and expiry.
   privateScope.setScope(session.user.id);return {dict,locale,session,invalidateSession:()=>{session=null;}};
  }
- function ensureAuthority(context){const current=context.session;if(!current)return;claimDailyCoins(current);const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
+ function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};
   release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')claimDailyCoins(current);},{signal:persistent.signal});
+  rewards=dailyReward({session:current,signal:persistent.signal,client:api});
   watchAuthority(current,persistent);watchPresence(persistent);watchStudyTime(persistent);
  }
  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
   if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}
-  ensureAuthority(context);if(context.session.diagnostics)void enableDiagnostics(context.signal);
+  ensureAuthority(context);rewards?.update(context,{ordinary});if(context.session.diagnostics)void enableDiagnostics(context.signal);
   if(!ordinary){closeShell();const frame=context.route?.layout==='focus'?focusFrame(context,staging):staging;root.replaceChildren(...(frame===staging?staging.childNodes:[frame]));return;}
   const nextKey=context.session.user.id+':'+context.session.user.role+':'+context.locale;
   const priorScroll=pendingScroll??shell?.main.scrollTop??0;pendingScroll=undefined;shell?.end(true);

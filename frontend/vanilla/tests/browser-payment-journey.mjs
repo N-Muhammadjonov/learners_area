@@ -1,3 +1,4 @@
+import {dismissDailyReward} from './browser-daily-reward.mjs';
 import assert from 'node:assert/strict';
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -58,12 +59,12 @@ async function enter(view,amount,studentId,label){
 }
 try{
  const guardian=await open('guardian');
- await guardian.page.goto(origin+'/app/payments?child='+input.studentId);
+ await guardian.page.goto(origin+'/app/payments?child='+input.studentId);await dismissDailyReward(guardian.page);
  const first=await enter(guardian,150000,input.studentId,'QA Student');
  assert.equal(first.beneficiaryStudentId,input.studentId);
  await guardian.page.reload();
  assert.equal((await summary(guardian.context,input.studentId)).history.find(r=>r.intentId===first.intentId).status,'created');
- await guardian.page.goto(origin+'/app/payments?child='+input.studentId+'&intent='+first.intentId);
+ await guardian.page.goto(origin+'/app/payments?child='+input.studentId+'&intent='+first.intentId);await dismissDailyReward(guardian.page);
  await guardian.page.locator('[data-payment-status]').waitFor();
  assert.doesNotMatch(await guardian.page.locator('[data-payment-status]').textContent(),/To‘lov tasdiqlandi/);
  await settle(first,'browser-guardian-first');
@@ -74,7 +75,7 @@ try{
  assert.equal(second.beneficiaryStudentId,input.secondStudentId);
  assert.equal((await guardian.context.request.get(childPath(input.secondStudentId)+'/intents/'+first.intentId)).status(),404);
  await settle(second,'browser-guardian-second');
- await guardian.page.goto(origin+'/app/payments?child='+input.secondStudentId+'&intent='+second.intentId);
+ await guardian.page.goto(origin+'/app/payments?child='+input.secondStudentId+'&intent='+second.intentId);await dismissDailyReward(guardian.page);
  await guardian.page.locator('[data-payment-status] h2').filter({hasText:'To‘lov tasdiqlandi'}).waitFor();
  const position=(await summary(guardian.context,input.secondStudentId)).position;
  assert.equal(position.balanceDueMinor,0);assert.equal(position.advanceMinor,200000);
@@ -82,14 +83,14 @@ try{
  const guide=guardian.page.locator('[data-page-guide=payments]');await guide.locator(':scope > summary').press('Enter');
  await guide.getByRole('button',{name:'Keyingi',exact:true}).press('Enter');assert.match(await guide.textContent(),/2 \/ 3/);
  await guardian.page.screenshot({path:resolve(directory,'guardian-help-keyboard.png')});
- const student=await open('student','en',1440);await student.page.goto(origin+'/app/payments');
+ const student=await open('student','en',1440);await student.page.goto(origin+'/app/payments');await dismissDailyReward(student.page);
  const third=await enter(student,137531,null,'QA Student');await settle(third,'browser-student-custom');
- await student.page.goto(origin+'/app/payments?intent='+third.intentId);
+ await student.page.goto(origin+'/app/payments?intent='+third.intentId);await dismissDailyReward(student.page);
  await student.page.locator('[data-payment-status] h2').filter({hasText:'Payment confirmed'}).waitFor();
  const own=await (await student.context.request.get('/api/finance/me/payments')).json();
  assert.equal(own.position.balanceDueMinor,512469);assert.equal(own.history.find(r=>r.intentId===third.intentId).fiscalReceiptUrl,null);
  await student.page.screenshot({path:resolve(directory,'student-custom-paid.png')});
- const admin=await open('admin','en',1440);await admin.page.goto(origin+'/app/management');
+ const admin=await open('admin','en',1440);await admin.page.goto(origin+'/app/management');await dismissDailyReward(admin.page);
  await todayReady(admin.page);
  await admin.page.screenshot({path:resolve(directory,'admin-today.png')});
  await admin.page.locator('[data-academy-today] a[href="/app/management/finance?view=debts"]').click();
@@ -103,8 +104,8 @@ try{
  assert.equal((await summary(guardian.context,input.studentId)).position.balanceDueMinor,462469);
  await admin.page.getByRole('heading',{name:'Student statement · QA Student',exact:true}).scrollIntoViewIfNeeded();
  await admin.page.screenshot({path:resolve(directory,'admin-cash-from-debt-queue.png')});
- const owner=await open('owner','en',1440);await owner.page.goto(origin+'/app/management');
- await todayReady(owner.page);await owner.page.goto(origin+'/app/management/finance');
+ const owner=await open('owner','en',1440);await owner.page.goto(origin+'/app/management');await dismissDailyReward(owner.page);
+ await todayReady(owner.page);await owner.page.goto(origin+'/app/management/finance');await dismissDailyReward(owner.page);
  const businessDay=(await (await owner.context.request.get('/api/staff/academy/today')).json()).date;
  const report=await (await owner.context.request.get('/api/staff/finance/summary?start='+businessDay.slice(0,8)+'01&end='+businessDay)).json();
  assert.equal(report.collectedNetMinor,937531);assert.equal(report.recognizedRevenueMinor,0);
@@ -113,7 +114,7 @@ try{
  await owner.page.screenshot({path:resolve(directory,'owner-net-collection.png')});
  const teacher=await open('teacher','en',1440);let sent=0;
  teacher.page.on('request',r=>{if(r.url().includes('/guardian-messages/send'))sent++;});
- await teacher.page.goto(origin+'/app/management');
+ await teacher.page.goto(origin+'/app/management');await dismissDailyReward(teacher.page);
  await teacher.page.locator('[data-academy-today] a[href="/app/management/guardians"]').click();
  await teacher.page.locator('[data-guardian-view]').first().click();
  const draft=teacher.page.locator('[data-academy-ai]');await draft.locator(':scope > summary').click();
@@ -123,7 +124,7 @@ try{
  assert.match(await teacher.page.locator('textarea.pc-textarea').inputValue(),/QA Student/);assert.equal(sent,0);
  await teacher.page.screenshot({path:resolve(directory,'teacher-reviewed-draft.png')});
  for(const role of ['owner','admin','teacher']){
-  const mobile=await open(role,'uz',390);await mobile.page.goto(origin+'/app/management');
+  const mobile=await open(role,'uz',390);await mobile.page.goto(origin+'/app/management');await dismissDailyReward(mobile.page);
   await todayReady(mobile.page);
   assert.equal(await mobile.page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await mobile.page.screenshot({path:resolve(directory,role+'-today-mobile.png'),fullPage:true});
@@ -133,7 +134,7 @@ try{
  assert.equal((await guardian.context.request.get(childPath(input.studentId))).status(),403);
  const forbidden=await guardian.context.request.post(childPath(input.studentId)+'/intents',{
   headers:{origin},data:{amountMinor:1,provider:'payme',idempotencyKey:crypto.randomUUID()}});assert.equal(forbidden.status(),403);
- await guardian.page.goto(origin+'/app/payments');await guardian.page.locator('#payment-child').waitFor();
+ await guardian.page.goto(origin+'/app/payments');await dismissDailyReward(guardian.page);await guardian.page.locator('#payment-child').waitFor();
  assert.equal(await guardian.page.locator(`#payment-child option[value="${input.studentId}"]`).count(),0);
  assert.deepEqual(errors,[]);
  writeFileSync(resolve(directory,'receipt.json'),JSON.stringify({sourceCommit:process.env.ACADEMY_UX_SOURCE_SHA??null,
