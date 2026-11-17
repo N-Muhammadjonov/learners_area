@@ -9,6 +9,9 @@ import {el, listen} from '../../js/dom.js';
 import {api} from '../../js/api-client.js';
 import {createLocalTranscriptCapture} from './local-transcript.js';
 import {renderObjectiveMaterial,renderObjectiveReview} from './objective-material.js';
+import {MOCK_EXAM_CSS} from './exam-surface.js';
+import {cdSplit} from '../shared/cd-layout.js';
+import {speakingTopicGroups} from '../shared/speaking-session.js';
 
 const STRINGS = {
   en: {
@@ -1225,6 +1228,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
   if(activeIdx<0){await navigateMockRoute(context,host,buildMockRouteUrl(attemptId,true));return;}
 
   let activeWritingTab = 'task1';
+  let activeSpeakingGroup = 0;
   const initialRevisions = {
     listening: (sections.find(s => s.skill === 'listening')?.draftRevision || 0),
     reading: (sections.find(s => s.skill === 'reading')?.draftRevision || 0),
@@ -1254,6 +1258,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
       }
     }
     activeSpeakingRecorders.clear();
+    stopListeningAudio();
     for (const url of speakingPreviewUrls.values()) {
       try {
         URL.revokeObjectURL?.(url);
@@ -1364,6 +1369,8 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
   }, 1000);
   signal?.addEventListener('abort', () => clearInterval(clockInterval), {once: true});
 
+  let listeningWidget = null;
+  let stopListeningAudio = () => {};
   const listeningSection = sections.find(s => s.skill === 'listening');
   const listeningController = listeningSection
     ? createListeningPlaybackController({
@@ -1389,7 +1396,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         const btn = el('button', {
           type: 'button',
           class: `chip ${isCurrent ? 'chip-active' : isDone ? 'chip-done' : ''}`,
-          disabled: isDone && idx !== activeIdx,
+          disabled: idx !== activeIdx,
           'data-mock-section-tab': s.skill,
         }, `${s.position}. ${s.skill.toUpperCase()}`);
         listen(btn, 'click', async () => {
@@ -1442,6 +1449,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
 
       let audioWidget = null;
       if (sec.skill === 'listening' && listeningController) {
+       if (!listeningWidget) {
         const pbState = listeningController.getState();
         const audioEl = el('audio', {
           preload: 'auto',
@@ -1485,8 +1493,15 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
           }
         }, signal);
 
+        let reportedSec = authorizedSec;
+        let reporting = false;
         listen(audioEl, 'timeupdate', () => {
           authorizedSec = Math.max(authorizedSec, Math.floor(audioEl.currentTime || 0));
+          if (!reporting && authorizedSec - reportedSec >= 10) {
+            reporting = true; reportedSec = authorizedSec;
+            void listeningController.reportProgress(authorizedSec * 1000)
+              .catch(() => {}).finally(() => { reporting = false; });
+          }
         }, signal);
 
         listen(audioEl, 'stalled', () => {
@@ -1513,11 +1528,20 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
           playBtn.textContent = L.listeningCompleted;
         }, signal);
 
-        listen(playBtn, 'click', async () => {
+        const startPlayback = async () => {
+          if (signal?.aborted || !audioEl.isConnected || listeningController.getState().status === 'completed') return;
           playBtn.disabled = true;
           try {
             const nextState = await listeningController.requestStartOrResume();
+            if (signal?.aborted || !audioEl.isConnected) return;
             authorizedSec = Math.floor((nextState.positionMs || 0) / 1000);
+            if (authorizedSec > 0 && audioEl.readyState < 1) {
+              await new Promise((resolve, reject) => {
+                audioEl.addEventListener('loadedmetadata', resolve, {once:true});
+                audioEl.addEventListener('error', reject, {once:true});
+                signal?.addEventListener('abort', reject, {once:true});
+              });
+            }
             try {
               if (authorizedSec > 0) {
                 audioEl.currentTime = authorizedSec;
@@ -1533,15 +1557,22 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
             statusLine.setAttribute('data-mock-listening-status', st.status);
             statusLine.textContent = err?.message || L.listeningOtherTab;
             playBtn.disabled = st.status === 'completed';
+            if (st.status === 'playing') await listeningController.reportNetworkInterruption(authorizedSec * 1000);
           }
-        }, signal);
+        };
+        listen(playBtn, 'click', () => { void startPlayback(); }, signal);
+        stopListeningAudio = () => { audioEl.pause(); };
+        signal?.addEventListener('abort', () => { audioEl.pause(); audioEl.removeAttribute('src'); audioEl.load(); }, {once:true});
 
-        audioWidget = el('div', {class: 'flex flex-col gap-2', 'data-mock-listening-controls': ''},
+        listeningWidget = el('div', {class: 'flex flex-col gap-2', 'data-mock-listening-controls': ''},
           playBtn,
           statusLine,
           audioEl,
         );
-      }
+        if (pbState.status !== 'completed') queueMicrotask(() => { void startPlayback(); });
+       }
+       audioWidget = listeningWidget;
+      } else { stopListeningAudio(); }
 
       const leftPane = el('div', {class: 'panel flex flex-col gap-3', 'data-mock-left-pane': sec.skill},
         el('h2', {class: 'font-display text-lg text-ink-900'},
@@ -1626,10 +1657,12 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         'aria-label': activeWritingTab === 'task1' ? L.task1Label : L.task2Label,
         'data-mock-writing-editor': activeWritingTab,
         'data-focus-key': `writing-editor-${activeWritingTab}`,
+        'data-exam-editor':'',
         spellcheck: 'false',
         autocapitalize: 'off',
         autocomplete: 'off',
       });
+      textarea.value=answersState[activeWritingTab];
       listen(textarea, 'input', () => {
         answersState[activeWritingTab] = textarea.value;
         wordCountNode.textContent = `${L.wordsCount}: ${countWords(textarea.value)}`;
@@ -1660,15 +1693,21 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         textarea,
       );
 
-      bodyNode = el('div', {class: 'flex flex-col gap-4'},
-        tabBar,
-        el('div', {class: 'grid grid-cols-1 gap-4 lg:grid-cols-2'}, promptPane, editorPane));
+      bodyNode = el('section', {class:'mock-writing', 'data-cd-exam':'writing'},
+        el('div', {class:'mock-writing-instruction'},
+          el('strong',{},activeWritingTab==='task1'?'Part 1':'Part 2'),
+          el('p',{},`You should spend about ${activeWritingTab==='task1'?20:40} minutes on this task. Write at least ${activeWritingTab==='task1'?150:250} words.`)),
+        cdSplit(promptPane,editorPane,signal),
+        el('footer',{class:'mock-writing-tabs'},tabBar));
     } else {
       const matParts = sec.material.parts;
 
       const questionMode=attempt.speakingCaptureMode==='question';
       const recordings=questionMode?matParts.map((p,index)=>({partCode:p.part,partPrompts:[p],captureKey:p.part+':'+p.questionId,index})):['P1','P2','P3'].map(partCode=>({partCode,partPrompts:matParts.filter(p=>p.part===partCode),captureKey:partCode}));
-      const partCards = recordings.map(({partCode,partPrompts,captureKey,index}) => {
+      const topicGroups=questionMode?speakingTopicGroups(matParts):['P1','P2','P3'].map(part=>({part,topic:part,questions:matParts.filter(q=>q.part===part)}));
+      const currentGroup=topicGroups[activeSpeakingGroup];
+      const visibleRecordings=recordings.filter(r=>currentGroup.questions.some(q=>questionMode?q.questionId===r.partPrompts[0].questionId:q.part===r.partCode));
+      const partCards = visibleRecordings.map(({partCode,partPrompts,captureKey,index}) => {
         const existingRec = speakingState[captureKey];
         const activeRec = activeSpeakingRecorders.get(captureKey);
         const pendingUploadRec = pendingSpeakingRecordings.get(captureKey);
@@ -1837,12 +1876,23 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
         );
       });
 
-      bodyNode = el('div', {class: 'flex flex-col gap-3', 'data-mock-speaking-stage': ''},
+      const advance=el('button',{type:'button',class:'btn-primary','data-mock-next-topic':''},context.locale==='uz'?'Keyingi mavzu':'Next topic');
+      listen(advance,'click',()=>{
+        if(activeSpeakingRecorders.size||!visibleRecordings.every(r=>speakingState[r.captureKey]?.captureStatus==='finalized')){
+          saveIndicator.textContent=context.locale==='uz'?'Avval shu mavzudagi barcha javoblarni yozib saqlang.':'Record and save every response in this topic first.';return;
+        }
+        activeSpeakingGroup++;renderStage();
+      },signal);
+      const previous=el('button',{type:'button',class:'btn-secondary',disabled:activeSpeakingGroup===0},context.locale==='uz'?'Oldingi mavzu':'Previous topic');
+      listen(previous,'click',()=>{if(!activeSpeakingRecorders.size){activeSpeakingGroup--;renderStage();}},signal);
+      bodyNode = el('div', {class: 'mock-speaking-flow', 'data-mock-speaking-stage': ''},
         el('div', {class: 'panel flex flex-col gap-1'},
-          el('h2', {class: 'font-display text-lg text-ink-900'}, L.speakingTitle),
-          el('p', {class: 'text-sm text-ink-500'}, L.speakingHint)),
+          el('h2', {class: 'font-display text-lg text-ink-900'},`${currentGroup.part} · ${currentGroup.topic}`),
+          el('p', {class: 'text-sm text-ink-500'}, currentGroup.part==='P1'
+            ? `Topic ${activeSpeakingGroup+1} / ${topicGroups.filter(g=>g.part==='P1').length}`
+            : currentGroup.part==='P2'?'Prepare for one minute, then speak for up to two minutes.':'Discuss the topic from Part 2.')),
         ...partCards,
-      );
+        el('div',{class:'mock-speaking-topic-actions'},previous,activeSpeakingGroup<topicGroups.length-1?advance:null));
     }
 
     const submitBtn = el('button', {
@@ -1850,6 +1900,8 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
       class: 'btn-primary',
       'data-mock-submit-section': sec.skill,
     }, activeIdx < sections.length - 1 ? L.nextPart : L.submitSection);
+
+    if(sec.skill==='speaking' && activeSpeakingGroup < (attempt.speakingCaptureMode==='question'?speakingTopicGroups(sec.material.parts).length:3)-1) submitBtn.hidden=true;
 
     listen(submitBtn, 'click', async () => {
       submitBtn.disabled = true;
@@ -1901,7 +1953,7 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
     stageHost.replaceChildren(
       navChips,
       bodyNode,
-      el('div', {class: 'flex items-center justify-between pt-2'}, saveStatusWrapper, submitBtn),
+      el('footer', {class: 'mock-exam-footer'}, saveStatusWrapper, submitBtn),
     );
 
     if (activeFocusKey) {
@@ -1934,15 +1986,21 @@ export async function renderExamRunnerScreen(context, host, attemptId) {
     await navigateMockRoute(context, host, buildMockRouteUrl(null, false));
   }, signal);
 
-  const topHeader = el('div', {class: 'flex flex-wrap items-center justify-between gap-3'},
+  const fullscreen = el('button', {type:'button',class:'btn-secondary','aria-label':'Fullscreen'}, '⛶');
+  listen(fullscreen, 'click', () => {
+    if (document.fullscreenElement) void document.exitFullscreen?.();
+    else void container.requestFullscreen?.();
+  }, signal);
+  const topHeader = el('header', {class: 'mock-exam-header'},
+    el('span', {class:'mock-exam-brand','aria-label':'Learners Area'}, 'LA'),
     el('div', {class: 'flex flex-col gap-1'},
       backToCatalogueBtn,
       el('h1', {class: 'font-display text-2xl text-ink-900'}, attempt.title || 'IELTS Mock'),
       el('p', {class: 'text-sm text-ink-500'}, `${(attempt.track || 'Academic').toUpperCase()} · Full Timed Mock`)),
-    timerNode,
+    timerNode, fullscreen,
   );
 
-  container.append(topHeader, stageHost);
+  container.append(el('style', {}, MOCK_EXAM_CSS), topHeader, stageHost);
   host.replaceChildren(container);
   renderStage();
 }
@@ -2040,3 +2098,4 @@ export async function renderResultsScreen(context, host, attemptId) {
   );
   host.replaceChildren(screen);
 }
+

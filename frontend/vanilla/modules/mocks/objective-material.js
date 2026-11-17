@@ -1,12 +1,14 @@
 import {el, listen} from '../../js/dom.js';
+import {MOCK_EXAM_CSS} from './exam-surface.js';
+import {cdSplit} from '../shared/cd-layout.js';
 
 const CSS = `
 .mock-native{color:#17212d;background:#fff;border:1px solid #cad3dd;border-radius:10px;overflow:hidden;font:16px/1.55 Arial,sans-serif}
 .mock-native *{box-sizing:border-box}.mock-native button,.mock-native input,.mock-native select{font:inherit;color:inherit}
 .mock-native-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;background:#f5f7f9;border-bottom:1px solid #cad3dd}
 .mock-native-tabs,.mock-native-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.mock-native button{background:white;border:1px solid #aab8c7;border-radius:5px;padding:6px 11px;cursor:pointer}
-.mock-native button[aria-selected=true]{background:#dfedfb;border-color:#155a9f;color:#124777}.mock-native-grid{display:grid;grid-template-columns:1fr 1fr;min-height:430px}
-.mock-native-pane{padding:24px;max-height:66vh;overflow:auto}.mock-native-pane:first-child{border-right:1px solid #cad3dd}.mock-native h3{font-size:21px;margin:0 0 18px}.mock-native h4{font-size:18px;margin:0 0 12px}
+.mock-native button[aria-selected=true]{background:#dfedfb;border-color:#155a9f;color:#124777}.mock-native-grid{display:grid;grid-template-columns:minmax(0,var(--cd-split,50%)) 3px minmax(0,1fr);min-height:430px}
+.mock-native-pane{padding:24px;max-height:66vh;overflow:auto}.mock-native-pane:first-child{border-right:0}.mock-native h3{font-size:21px;margin:0 0 18px}.mock-native h4{font-size:18px;margin:0 0 12px}
 .mock-native p{margin:0 0 14px;white-space:pre-wrap}.mock-native-group{margin-bottom:30px}.mock-native-question{padding:14px 0;border-bottom:1px solid #e1e7ed;scroll-margin-top:20px}
 .mock-native input[type=text],.mock-native select{border:1px solid #8c9eaf;border-radius:4px;background:#fff;min-width:110px;max-width:240px;padding:7px 9px;margin:3px 5px}
 .mock-native input:focus,.mock-native select:focus{outline:2px solid #287dbd;outline-offset:1px}.mock-native-choice{display:flex;align-items:flex-start;gap:10px;margin:7px 0;padding:8px;border:1px solid #d9e1ea;border-radius:5px;cursor:pointer}
@@ -14,7 +16,8 @@ const CSS = `
 .mock-native-legend{padding:14px 18px;background:#f7f9fb;border:1px solid #d4dee8;border-radius:6px;margin:12px 0;list-style:none}.mock-native-legend li{padding:4px 0}
 .mock-native-nav{padding:12px 18px;border-top:1px solid #cad3dd;background:#f8fafc}.mock-native-nav button{padding:3px 7px;font-size:13px}.mock-native-nav button[data-answered=true]{background:#dff0e8;border-color:#63a687}
 .mock-review{grid-column:1/-1}.mock-review details{border:1px solid #cbd5e1;border-radius:7px;padding:12px;margin-top:10px}.mock-review summary{cursor:pointer}.mock-review blockquote{white-space:pre-wrap;border-left:3px solid #3278ac;padding:10px 16px;margin:12px 0;background:#f4f8fb}
-@media(max-width:760px){.mock-native-grid{grid-template-columns:1fr}.mock-native-pane{max-height:55vh;padding:18px}.mock-native-pane:first-child{border-right:0;border-bottom:1px solid #cad3dd}.mock-native-head{align-items:flex-start;flex-direction:column}.mock-native input[type=text]{max-width:180px}}
+.mock-native .cd-divider{position:relative;cursor:col-resize;background:#aab8c7;touch-action:none}.mock-native .cd-divider span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid #8c9eaf;padding:3px;color:#17212d}.mock-reading-tools{display:flex;gap:8px}.mock-reading-mobile{display:none}
+@media(max-width:760px){.mock-native-grid{grid-template-columns:1fr}.mock-native .cd-divider{display:none}.mock-reading-mobile{display:flex;gap:8px;padding:8px 18px}.mock-native[data-mock-native=reading][data-reading-pane=passage] .mock-native-pane:last-child,.mock-native[data-mock-native=reading][data-reading-pane=questions] .mock-native-pane:first-child{display:none}.mock-native-pane{max-height:55vh;padding:18px}.mock-native-pane:first-child{border-right:0;border-bottom:1px solid #cad3dd}.mock-native-head{align-items:flex-start;flex-direction:column}.mock-native input[type=text]{max-width:180px}}
 `;
 
 export function renderObjectiveMaterial({material, skill, answers, onAnswer, signal, audioWidget=null}) {
@@ -23,14 +26,31 @@ export function renderObjectiveMaterial({material, skill, answers, onAnswer, sig
     : questions.map(q=>({id:`question-${q.id}`,part:q.part||1,title:'',questionIds:[String(q.id)]}));
   const passages = Array.isArray(material.passages) ? material.passages : [];
   const parts = [...new Set(questions.map(q => Number(q.part || 1)))].sort((a,b) => a-b);
-  const left = el('section', {class:'mock-native-pane', 'aria-label':skill==='reading'?'Reading passage':'Listening audio'}, audioWidget);
+  const left = el('section', {class:'mock-native-pane', 'aria-label':skill==='reading'?'Reading passage':'Listening questions'});
   const right = el('section', {class:'mock-native-pane', 'aria-label':'Questions'});
   const tabs = el('div', {class:'mock-native-tabs', role:'tablist', 'aria-label':'Exam parts'});
   const navigation = el('nav', {class:'mock-native-nav', 'aria-label':'Question navigation'});
-  const root = el('section', {class:'mock-native', 'data-mock-native':skill},
-    el('style',{},CSS),
-    el('header',{class:'mock-native-head'},el('strong',{},`Learners Area · ${skill==='reading'?'Reading':'Listening'}`),tabs),
-    el('div',{class:'mock-native-grid'},left,right),navigation);
+  const split=cdSplit(left,right,signal);
+  split.classList.add('mock-native-grid');
+  const readingTools=el('div',{class:'mock-reading-tools'});
+  if(skill==='reading'){
+    let fontSize=16;
+    for(const [label,delta] of [['Decrease font size',-1],['Increase font size',1]]){
+      const button=el('button',{type:'button','aria-label':label},delta<0?'A−':'A+');
+      listen(button,'click',()=>{fontSize=Math.max(14,Math.min(22,fontSize+delta));left.style.fontSize=fontSize+'px';right.style.fontSize=fontSize+'px';},signal);
+      readingTools.append(button);
+    }
+  }
+  const mobileTabs=el('div',{class:'mock-reading-mobile',role:'tablist','aria-label':'Reading panes'});
+  const root = el('section', {class:'mock-native', 'data-mock-native':skill,'data-reading-pane':'passage'},
+    el('style',{},MOCK_EXAM_CSS + CSS),
+    el('header',{class:'mock-native-head'},el('strong',{},`Learners Area · ${skill==='reading'?'Reading':'Listening'}`),skill==='listening'?audioWidget:readingTools),
+    skill==='reading'?mobileTabs:null,split,el('footer',{class:'mock-native-footer'},tabs,navigation));
+  for(const [key,label] of [['passage','Passage'],['questions','Questions']]){
+    const button=el('button',{type:'button',role:'tab','aria-selected':String(key==='passage')},label);
+    listen(button,'click',()=>{root.dataset.readingPane=key;for(const b of mobileTabs.children)b.setAttribute('aria-selected',String(b===button));},signal);
+    mobileTabs.append(button);
+  }
   const panels=[];
   const buttons=[];
   const navButtons=new Map();
@@ -96,7 +116,9 @@ export function renderObjectiveMaterial({material, skill, answers, onAnswer, sig
       left.append(pane);panels.push({part,node:pane});
     }
     const pane=el('div',{'data-native-part':part});
-    for(const group of groups.filter(g=>Number(g.part||1)===part)){
+    const leftQuestions=skill==='listening'?el('div',{'data-native-left-part':part}):null;
+    const partGroups=groups.filter(g=>Number(g.part||1)===part);
+    for(const [groupIndex,group] of partGroups.entries()){
       const section=el('section',{class:'mock-native-group'},el('h4',{},group.title||'Questions'),
         group.instructions?el('p',{},group.instructions):null);
       if(group.sharedChoices?.length)section.append(el('ul',{class:'mock-native-legend'},...group.sharedChoices.map(o=>el('li',{},el('strong',{},`${o.label} `),o.text))));
@@ -120,8 +142,9 @@ export function renderObjectiveMaterial({material, skill, answers, onAnswer, sig
         section.append(counter);
       }else if(group.stimulusText)section.append(tokens(group.stimulusText,el('div',{class:'mock-native-stimulus'})));
       else groupQuestions.forEach(q=>section.append(questionNode(q,group)));
-      pane.append(section);
+      (leftQuestions && groupIndex < Math.ceil(partGroups.length / 2) ? leftQuestions : pane).append(section);
     }
+    if(leftQuestions){left.append(leftQuestions);panels.push({part,node:leftQuestions});}
     right.append(pane);panels.push({part,node:pane});
   }
   for(const q of questions){
@@ -129,12 +152,13 @@ export function renderObjectiveMaterial({material, skill, answers, onAnswer, sig
     navButtons.set(qid,button);
     listen(button,'click',()=>{
       activate(Number(q.part||1));
+      if(skill==='reading')mobileTabs.lastElementChild.click();
       const targetId=String(q.pair?.[0]||qid);
       const target=[...root.querySelectorAll('[data-native-question]')].find(n=>n.getAttribute('data-native-question')===targetId);
       target?.scrollIntoView({block:'center'});target?.focus();
     },signal);navigation.append(button);
   }
-  if(skill==='listening')left.append(el('p',{},'The recording plays once. Answer the questions while listening.'));
+
   activate(parts[0]);return root;
 }
 
@@ -151,3 +175,4 @@ export function renderObjectiveReview(items,locale='en'){
       item.evidenceQuote?el('blockquote',{},item.evidenceQuote):null,
       item.evidence?.passageNo?el('p',{class:'text-xs text-ink-500'},`Passage ${item.evidence.passageNo} · ${uz?'Paragraf':'Paragraph'} ${item.evidence.paragraph||''}`):null)));
 }
+

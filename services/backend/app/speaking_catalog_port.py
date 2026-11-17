@@ -187,6 +187,32 @@ async def speaking_questions(req: Request):
     return core.j(data, headers={'Cache-Control': 'no-store'})
 
 
+@router.get('/api/speaking/fluency/session')
+async def fluency_session(req: Request):
+    from .fluency_sessions import LEVELS, choose_session
+    user = await core.current_user(req, active=True)
+    if not user:
+        return core.auth_error()
+    level = req.query_params.get('level', 'intermediate')
+    if level not in LEVELS:
+        return core.j({'error': 'invalid_level'}, 400)
+    excluded = set(req.query_params.get('exclude', '').split(',')[:80])
+    where, args = _scope('practice_alone')
+    db = await core.pool()
+    async with db.acquire() as conn:
+        rows = await conn.fetch(f'''SELECT p.id,p.part::text AS part,p.topic,p.prompt_text,
+            p.cue_card,p.follow_ups,p.external_id,
+            jsonb_build_object('fluencyLevel',p.study_support->'fluencyLevel') AS study_support
+            FROM speaking_prompts p WHERE {where} AND p.is_active=TRUE
+            AND p.part::text IN ('part1','part2','part3')
+            ORDER BY p.part,p.topic,p.external_id,p.id LIMIT 2500''', *args)
+    try:
+        questions = choose_session([dict(row) for row in rows], level, excluded)
+    except ValueError as error:
+        return core.j({'error': str(error)}, 422)
+    return core.j({'questions': questions, 'level': level}, headers={'Cache-Control': 'no-store'})
+
+
 @router.get('/api/speaking/live-partner/questions')
 async def live_partner_questions(req: Request):
     user = await core.current_user(req, active=True)
@@ -305,3 +331,4 @@ async def speaking_prompt_support(req: Request, id: str):
 
 def install():
     core.app.include_router(router)
+

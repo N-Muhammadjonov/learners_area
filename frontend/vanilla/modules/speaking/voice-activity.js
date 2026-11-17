@@ -1,5 +1,5 @@
 import {openSpeechClassifier} from './speech-classifier.js';
-/** Local speech activity only. No recording, transcription, upload or audio output. */
+/** Local speech activity. The optional recorder shares this existing microphone stream. */
 export const CALIBRATION_MS=1200;
 const audioError=code=>Object.assign(Error(code),{code});
 /** @param {ArrayLike<number>} samples @returns {number} */
@@ -82,7 +82,7 @@ export function createVoiceInput({signal,onInterrupted=()=>{},mediaDevices=globa
   return promise;
  }
  if(signal?.aborted)dispose();else signal?.addEventListener('abort',dispose,{once:true});
- return {open,dispose,sample(){
+ return {open,dispose,recordingStream(){return stream;},sample(){
   if(disposed||!analyser||context.state!=='running')throw audioError('audio_suspended');
   analyser.getFloatTimeDomainData(buffer);
   const at=context.currentTime??performance.now()/1000;
@@ -90,3 +90,4 @@ export function createVoiceInput({signal,onInterrupted=()=>{},mediaDevices=globa
   return {rms:rmsEnergy(frame),samples:frame,speech};
  }};
 }
+

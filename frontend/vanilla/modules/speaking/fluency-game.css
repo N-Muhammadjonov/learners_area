@@ -78,3 +78,6 @@
 .fluency-preparation strong{font-size:clamp(48px,6vw,64px);font-weight:500;line-height:1;font-variant-numeric:tabular-nums}
 .fluency-preparation span{font-size:12px;letter-spacing:.14em;color:rgb(var(--workspace-muted,77 92 117))}
 .fluency-game[data-fluency-state="ready"] .fluency-arena{--danger:0}
+
+
+.fluency-recordings{display:grid;gap:12px;width:100%;padding-top:12px}.fluency-recordings article{display:grid;gap:10px;padding:16px;border:1px solid rgb(var(--workspace-line,210 215 222));border-radius:12px;background:rgb(var(--workspace-raised,255 255 255))}.fluency-recordings audio{width:100%}.fluency-recordings article>div{display:flex;gap:10px;flex-wrap:wrap}

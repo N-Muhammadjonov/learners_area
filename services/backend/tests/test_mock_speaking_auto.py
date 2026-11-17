@@ -56,8 +56,8 @@ class SpeakingAutoTests(unittest.TestCase):
         # No unrelated Part 3 topic can appear in a given Part 2 selection.
         with patch('secrets.choice',side_effect=lambda x:x[-1]):
             material=mock.select_attempt_speaking_material(pool)
-        self.assertEqual([p['part'] for p in material['parts']],['P1','P2','P3'])
-        self.assertEqual(material['parts'][2]['questionId'],str(self.p3c['id']))
+        self.assertEqual([p['part'] for p in material['parts']],['P1','P1','P2','P3'])
+        self.assertEqual(material['parts'][-1]['questionId'],str(self.p3c['id']))
 
     def test_choice_differs_with_different_random_selections(self):
         asyncio.run(author._auto_speaking_version(self.con,self.user,'academic','Weekly'))
@@ -100,3 +100,4 @@ class SpeakingAutoTests(unittest.TestCase):
         self.assertEqual(response.status_code,422)
 
 if __name__=='__main__':unittest.main()
+
