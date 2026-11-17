@@ -11,7 +11,7 @@ export function academyToday(ctx){
  const host=el('section',{class:'space-y-4','data-academy-today':''},el('h1',{class:'font-display text-3xl'},t('Bugun','Today')),
   el('p',{},teacher?t('Sizga biriktirilgan darslar va ota-onalar bilan ishlash.','Your assigned classes and parent communication.'):
     t('Dars, qabul va to‘lov bo‘yicha navbatdagi amallar. Sonni bosib uning manbasini ko‘ring.','Priorities for classes, admissions and payments. Open each count to see its source.')),refresh,status,body);
- let classesOffset=0,followupsOffset=0;
+ let classesOffset=0,followupsOffset=0,attendanceOffset=0;
  function queue(id,title,data,empty,changePage){
   const {items,count,pagination}=data;
   const previous=el('button',{type:'button',class:'btn-secondary',disabled:!pagination?.offset},t('Oldingi','Previous'));
@@ -21,7 +21,9 @@ export function academyToday(ctx){
   return el('details',{id,class:'card space-y-3 p-4'},el('summary',{class:'cursor-pointer font-semibold'},title),
    el('p',{class:'text-sm'},t('Ko‘rsatilgan: ','Showing: ')+items.length+' / '+count),
    items.length?el('ul',{class:'space-y-3'},items.map(row=>el('li',{},el('a',{href:row.href,class:'underline font-semibold'},row.name),
-    el('p',{class:'text-sm'},row.startsAt?paymentDate(row.startsAt,ctx.locale,'—')+' · '+row.branch:paymentDate(row.dueAt,ctx.locale,'—'))))):el('p',{},empty),
+    el('p',{class:'text-sm'},row.startsAt?paymentDate(row.startsAt,ctx.locale,'—')+' · '+row.branch:paymentDate(row.dueAt,ctx.locale,'—')),
+    row.unmarked!==undefined?el('p',{class:'text-sm'},t('Belgilanmagan: ','Unmarked: ')+row.unmarked+
+     (row.canMark===false?t(' · Xodim tuzatishi kerak',' · Staff correction required'):'')):null))):el('p',{},empty),
    el('div',{class:'flex gap-2'},previous,next));
  }
  function card(title,count,href,detail){
@@ -33,11 +35,17 @@ export function academyToday(ctx){
  async function load(openId){
   if(refresh.disabled)return;refresh.disabled=true;status.textContent=ctx.dict.common.loading;
   try{
-   const query=new URLSearchParams({classesOffset,followupsOffset});
+   const query=new URLSearchParams({classesOffset,followupsOffset,attendanceOffset});
    const data=await api.request('/api/staff/academy/today?'+query,{signal:ctx.signal,fresh:true});if(ctx.signal.aborted)return;
    const classes=queue('today-classes',t('Bugungi darslar','Today’s classes'),data.classes,t('Bu sahifada dars yo‘q.','No classes on this page.'),
     offset=>{if(refresh.disabled)return;classesOffset=offset;void load('today-classes');});
    const cards=[card(t('Bugungi darslar','Today’s classes'),data.classes.count,'#today-classes',classes)],lists=[classes];
+   if(data.attendance){
+    const pending=queue('today-attendance',t('Tugallanmagan davomat · oxirgi 7 kun','Incomplete attendance · last 7 days'),data.attendance,
+     t('Oxirgi 7 kunda tugallanmagan davomat yo‘q.','No incomplete attendance in the last 7 days.'),
+     offset=>{if(refresh.disabled)return;attendanceOffset=offset;void load('today-attendance');});
+    cards.push(card(t('Davomatni yakunlash','Complete attendance'),data.attendance.count,'#today-attendance',pending));lists.push(pending);
+   }
    if(data.balances)cards.push(card(t('To‘lanmagan hisoblar','Outstanding accounts'),data.balances.count,data.balances.href));
    if(data.followUps){
     const leads=queue('today-followups',t('Bog‘lanish vaqti kelgan nomzodlar','Admissions follow-ups due'),data.followUps,t('Bu sahifada nomzod yo‘q.','No follow-ups on this page.'),

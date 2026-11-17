@@ -1730,6 +1730,11 @@
     "name": "finance_aging"
   },
   {
+    "method": "GET",
+    "path": "/api/staff/finance/balance-packets.zip",
+    "name": "finance_balance_packet"
+  },
+  {
     "method": "POST",
     "path": "/api/staff/finance/charges",
     "name": "create_charge"

@@ -11,6 +11,7 @@ export function financeDebtors(ctx,onSelect){
  const status=el('p',{role:'status'}),rows=el('div',{class:'space-y-3'});
  const button=(label,props={})=>el('button',{type:'button',class:'btn-secondary',...props},label);
  const submit=button(t('Qidirish','Search'),{type:'submit'}),prev=button(t('Oldingi','Previous')),next=button(t('Keyingi','Next'));
+ const download=el('a',{class:'btn-secondary',hidden:true,download:true,'data-balance-packet':''},t('Shu sahifadagi hisoblarni ZIP qilish','Download this page’s accounts as ZIP'));
  const form=el('form',{class:'flex flex-wrap items-end gap-3'},
   el('label',{class:'grid gap-1'},t('Ism yoki email','Name or email'),q),
   el('label',{class:'grid gap-1'},t('Filial (ixtiyoriy)','Branch (optional)'),branch),
@@ -19,10 +20,12 @@ export function financeDebtors(ctx,onSelect){
   el('h3',{class:'font-semibold'},t('To‘lanmagan hisoblar','Outstanding accounts')),
   el('p',{},t('Qoldiq barcha davrlar bo‘yicha hozirgi hisobdan olinadi. Filtr o‘quvchining joriy filialiga qaraydi.',
     'Balances are current across all billing periods. Branch filters use current memberships.')),form,status,rows,
+  el('p',{class:'text-sm'},t('ZIP har bir hisob uchun CSV va tekshirish manifestini yaratadi. Faqat joriy qoldiqlar, bir sahifada ko‘pi bilan 20 hisob.',
+   'The ZIP contains one CSV per account and a verification manifest. Current balances only, at most 20 accounts on this page.')),download,
   el('div',{class:'flex gap-2'},prev,next));
  let offset=0,ticket=0;
  async function load(){
-  const request=++ticket;submit.disabled=true;status.textContent=ctx.dict.common.loading;
+  const request=++ticket;submit.disabled=true;download.hidden=true;download.removeAttribute('href');status.textContent=ctx.dict.common.loading;
   try{
    const result=await api.request('/api/staff/finance/debtors?'+new URLSearchParams({q:q.value.trim(),branch:branch.value.trim(),overdueOnly:overdue.checked,offset,limit:20}),{signal:ctx.signal,fresh:true});
    if(ctx.signal.aborted||request!==ticket)return;
@@ -34,6 +37,10 @@ export function financeDebtors(ctx,onSelect){
       el('p',{class:'text-sm'},t('Muddati o‘tgan: ','Overdue: ')+paymentMoney(row.overdueMinor,ctx.locale))),open);
    }));
    if(!result.items.length)rows.append(el('p',{},t('Bu filtrda to‘lanmagan hisob topilmadi.','No outstanding accounts match these filters.')));
+   if(result.items.length){
+    download.href='/api/staff/finance/balance-packets.zip?'+new URLSearchParams({studentIds:result.items.map(row=>row.studentId).join(',')});
+    download.hidden=false;
+   }
    status.textContent=t('Hisob sanasi: ','Business date: ')+paymentDate(result.asOf,ctx.locale,'—')+' · '+t('Topildi: ','Found: ')+result.total;
    prev.disabled=offset===0;next.disabled=!result.pagination.hasMore;
   }catch{if(!ctx.signal.aborted&&request===ticket){status.textContent=t('Ro‘yxat yuklanmadi. Filtrni qayta yuboring.','Could not load accounts. Retry the filter.');}}

@@ -48,12 +48,51 @@ can select another family. A promoted staff account or suspended learner cannot
 remain eligible through an old student link. Teacher briefs omit monetary evidence. Parent drafts
 require an assigned learner and a linked parent.
 
-The optional model may only rank known evidence IDs. Values, units, sources,
+The optional model may only prioritize known evidence and role-permitted workflow IDs. Values, units, sources,
 links, approval flags and draft text come from deterministic server services.
 Unknown/duplicate evidence IDs, extra properties, timeouts and vendor errors fall
-back to the complete local facts. Free-form questions, names, identity IDs,
+back to the complete local facts and guidance. Prioritization never drops the remaining
+financial facts. Free-form questions, names, identity IDs,
 source URLs and message text are not sent to this optional ranking provider.
 No connection or guardian row lock is held while the model is awaited.
+
+## Shared process context and deterministic automation
+
+`riwi_workflows.py` supplies nine reviewed procedures to local RIWI, Academy
+guidance and optional external providers. It records triggers, required inputs,
+deterministic steps, review boundaries and outputs. The server selects roles and
+live module/payment-method availability. Free-form Academy questions select a
+known topic locally; an explicit `workflowId` remains pinned. Unknown topics are
+shown as general guidance, not falsely answered questions. Guardian payment links
+retain the currently authorized child.
+
+The ordinary external tutor also receives a compact current process description
+through the existing guarded instruction payload. This is runtime context, not
+parameter training. The process version includes reviewed definitions and the
+generated source catalogue. The catalogue now fingerprints the ledger, payment,
+prepaid, workbench and workflow implementation as well as the frontend; the same
+build generates and packages it. No credential or private record enters that
+static description. Existing external rollout/verification gates remain unchanged.
+
+Today additionally finds unmarked frozen rosters for held sessions within the
+last seven Tashkent calendar days. It checks the current session-teacher link,
+pages ten sessions at a time and distinguishes an expired correction window.
+Unmarked never means absent. These reads work independently of RIWI/model flags.
+
+GET `/api/staff/finance/balance-packets.zip` is an owner/admin-only private export
+for at most twenty explicit student IDs, limited to six requests per identity per
+minute. One repeatable-read, read-only snapshot supplies all account positions.
+The pure renderer creates readable, safe per-student CSV filenames, combined CSV
+and a SHA-256 manifest in deterministic ZIP metadata. It reports whole UZS,
+current-position scope and no historical opening balance/fiscal claim. Unknown,
+duplicate, oversized or non-student selections fail without a partial packet.
+No model, financial posting, external send, scheduler or extra database table is
+needed. The UI downloads only the accounts on the displayed debtor page and
+removes the previous download link while refreshing or after an error.
+
+The [video comparison](../verification/VIDEO_RIWI_AUTOMATION_20261117.md) records
+timestamped lessons, preserved safeguards, implemented changes and remaining
+integration/acceptance boundaries.
 
 Owner/admin briefs also expose current active-group and available-seat counts,
 open admissions and scheduled-trial counts. Available seats use the existing

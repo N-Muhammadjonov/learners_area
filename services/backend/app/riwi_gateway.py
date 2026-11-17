@@ -173,7 +173,10 @@ async def handle_riwi_chat(
     if not any(req.get(k) for k in ('material','attachments','targetUserId','occurrenceId','topicId','lessonId','attemptId')):
         from .riwi_new_questions import reply as new_question_reply
         from .riwi_dialogues import reply as dialogue_reply
-        reviewed = await dialogue_reply(conn, actor, message, locale, conversation_id)
+        from .riwi_workflows import reply as workflow_reply
+        reviewed = workflow_reply(actor, message, locale)
+        if not reviewed:
+            reviewed = await dialogue_reply(conn, actor, message, locale, conversation_id)
         if not reviewed:
             reviewed = new_question_reply(actor, message, locale)
         if not reviewed:
@@ -191,7 +194,7 @@ async def handle_riwi_chat(
             reviewed = None
         if reviewed:
             from .riwi_help import navigation as help_navigation
-            reviewed['navigationLinks'] = help_navigation(actor, message, reviewed['provider']) if reviewed['provenance'] != 'policy_refusal' else []
+            reviewed['navigationLinks'] = reviewed.get('navigationLinks',help_navigation(actor, message, reviewed['provider'])) if reviewed['provenance'] != 'policy_refusal' else []
             if reviewed['provenance'] == 'unavailable':
                 from .riwi_help import suggestions as help_suggestions
                 reviewed['questionSuggestions'] = help_suggestions(actor, message, locale)
@@ -473,6 +476,7 @@ async def handle_riwi_chat(
 
     rollout = read_riwi_rollout(env)
     if not material_item and not study and not reference and (not understood or understood.get("provenance") == "unavailable") and not faq and rollout.external_ai and external_runner is not None and intent_info.intent in ("grammar_help", "general_learning_question"):
+        from .riwi_workflows import external_summary as workflow_summary
         history = await get_tutoring_history(conn, actor, conversation_id, now=now) if conversation_id else []
         task_key = "grammar.explanation" if intent_info.intent == "grammar_help" else select_instruction_task(message)
         import os
@@ -491,7 +495,7 @@ async def handle_riwi_chat(
                     "language": locale,
                     "message": message,
                     "history": history,
-                    "instructions": compose_teaching_prompt(get_assessment_contract(task_key)),
+                    "instructions": compose_teaching_prompt(get_assessment_contract(task_key)) + '\n\n' + workflow_summary(actor.role),
                     "knowledge": [
                         {
                             "ref": str(u["ref"]),

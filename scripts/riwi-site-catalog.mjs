@@ -25,7 +25,9 @@ function walk(dir){for(const entry of fs.readdirSync(path.join(root,dir),{withFi
  else if(/\.(js|css)$/.test(name))sources[name]=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');
 }}
 for(const dir of ['frontend/vanilla/js','frontend/vanilla/modules','frontend/vanilla/css'])walk(dir);
-for(const file of ['browser_staff.py','browser_authoring.py','admin_authoring_port.py','riwi_capabilities.py','riwi_site.py']){
+for(const file of ['browser_staff.py','browser_authoring.py','admin_authoring_port.py','riwi_capabilities.py','riwi_site.py',
+ 'riwi_workflows.py','academy_workbench.py','academy_workbench_port.py','academy_ai_tools.py','academy_assistant.py',
+ 'academy_assistant_port.py','tuition_ledger.py','prepaid_services.py','self_service_payments.py','finance_balance_packets.py']){
  const name='services/backend/app/'+file;sources[name]=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');
 }
 const args=process.argv.slice(2);
