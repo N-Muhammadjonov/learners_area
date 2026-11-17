@@ -7,7 +7,7 @@
 | Statistika kartasidan bo‘lim ochilmaydi | Kartalar mavjud bo‘lmagan `result-history` yakoriga olib borgan. Tanlangan modulning alohida natijalar jadvali bo‘lmagan. | Owner uchun faqat o‘quvchilarning haqiqiy yozuvlari, 25 tadan sahifalash, o‘quvchi profiliga modulni saqlaydigan havola. |
 | Profil ichidagi o‘quv natijalari yuklanmay qoladi | `queueMicrotask` sahifa hali router staging daraxtida turganda `isConnected` sabab yuklashni to‘xtatgan. | Yuklash va kech kelgan javob himoyasi route AbortSignal va so‘rov raqamiga bog‘landi. |
 | Statistika havolasidan keyin bo‘lim ko‘rinmaydi | `pushState`dan keyin yangi yoki kech yuklangan DOM yakoriga o‘tish bajarilmagan. | Router joriy sahifadagi yakorni ko‘rsatadi va unga fokus beradi. Kuzatuvchi marshrut tugashi bilan tozalanadi. |
-| Moliya va boshqaruv maydonlari sezilmaydi yoki siqiladi | Maydon sirtining chegarasi kuchsiz, flex ichidagi label uchun kenglik bazasi yo‘q. | Umumiy staff qoidalari: 44px balandlik, ajralib turadigan fon/chegara, 14rem flex bazasi, tor ekranda qator ko‘chishi. |
+| Moliya va boshqaruv maydonlari sezilmaydi yoki siqiladi | `campus.css` barcha search input chegarasini `!important` bilan olib tashlagan va sirtni karta foniga tenglashtirgan. Flex ichidagi label uchun kenglik bazasi ham yo‘q. | Staff maydonlari uchun kuchliroq, tor doiradagi fon/chegara/fokus qoidalari, 44px balandlik, 14rem flex bazasi, tor ekranda qator ko‘chishi. |
 | Kunlik coin oynasi chiqmaydi | Workspace claim POST yuborgan, ammo javobni ko‘rsatmagan. | Server tasdiqlagan 7 kunlik oyna, balans, ertangi mukofot va tegishli sahifa havolalari. Hisob + server sanasi bo‘yicha bir marta ko‘rsatiladi. |
 | Landing natijasidan so‘ng profil darajasi vaqtincha bo‘sh | Fon importi va profil GET so‘rovi parallel bajarilgan. Davom etayotgan in-app test javobida `currentLevel` bo‘lmagan. | Profil mavjud importni kutadi. Davom etayotgan test DTOsi saqlangan darajani ham qaytaradi. |
 
@@ -28,7 +28,7 @@ Coin berishning mavjud tranzaksiyali server qoidalari saqlanadi. Oyna yangi coin
 - Yangi regressiyalar: stagingdagi natijalar, modul kartalari, kech DOM yakori, import/GET ketma-ketligi, yetti kunlik oyna, hisob/sana izolyatsiyasi, boshqa dialog va fokus imtihoni, transport/abort, Tashkent yarim tuni va 7→1 davr.
 - TypeScript tekshiruvi va Python native asset build muvaffaqiyatli.
 - Migratsiya kontraktlari o‘tdi. Ushbu tuzatish DB sxemasini o‘zgartirmaydi.
-- CI browser dalillari 390/1440 px, kunduz/tun, besh rol uchun olinadi. Oyna ko‘rinishi, shu kuni reload bilan qayta chiqmasligi, maydon o‘lchamlari va statistika kartasidan o‘tish tekshiriladi. Natijalar CI artefaktida saqlanadi.
+- CI browser dalillari 390/1440 px, kunduz/tun, besh rol uchun olinadi. Oyna ko‘rinishi, shu kuni reload bilan qayta chiqmasligi, maydon o‘lchamlari, mavjud chegara, karta sirtidan farqli fon va statistika kartasidan o‘tish tekshiriladi. Birinchi CI ekranlari eski `!important` ustunligini aniqlash uchun ko‘rib chiqildi, yakuniy tekshiruv shu holatni alohida rad etadi. Natijalar CI artefaktida saqlanadi.
 
 ## Haqiqiy sayt bo‘yicha bajarilmagan qism
 

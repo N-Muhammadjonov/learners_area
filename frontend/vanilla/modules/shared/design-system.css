@@ -296,8 +296,8 @@ html[data-theme="night"] #root [data-ui-system] :is(input,select,textarea){color
    A percentage-width input cannot give an otherwise empty flex label its width. */
 html[data-theme] #root [data-ui-system]:is([data-workspace-skill="management"],[data-workspace-skill="admin"],[data-workspace-skill="owner"],[data-workspace-skill="teacher"]) .input{
  box-sizing:border-box;min-width:0;max-width:100%;min-height:44px;
- border:1px solid rgb(var(--workspace-muted));border-radius:10px;
- background:rgb(var(--workspace-sunken));color:rgb(var(--workspace-ink));
+ border:1px solid rgb(var(--workspace-muted))!important;border-radius:10px;
+ background:rgb(var(--workspace-sunken))!important;color:rgb(var(--workspace-ink))!important;
  padding:.65rem .8rem;font-size:1rem;line-height:1.5;
 }
 html[data-theme] #root [data-ui-system]:is([data-workspace-skill="management"],[data-workspace-skill="admin"],[data-workspace-skill="owner"],[data-workspace-skill="teacher"]) label:has(> .input){
@@ -305,6 +305,10 @@ html[data-theme] #root [data-ui-system]:is([data-workspace-skill="management"],[
 }
 html[data-theme] #root [data-ui-system]:is([data-workspace-skill="management"],[data-workspace-skill="admin"],[data-workspace-skill="owner"],[data-workspace-skill="teacher"]) :is(form,fieldset,section,article){min-width:0}
 html[data-theme] #root [data-ui-system]:is([data-workspace-skill="management"],[data-workspace-skill="admin"],[data-workspace-skill="owner"],[data-workspace-skill="teacher"]) .input::placeholder{color:rgb(var(--workspace-muted));opacity:1}
+html[data-theme] #root [data-ui-system]:is([data-workspace-skill="management"],[data-workspace-skill="admin"],[data-workspace-skill="owner"],[data-workspace-skill="teacher"]) .input:focus-visible{
+ outline:3px solid var(--la-focus)!important;outline-offset:2px;
+ box-shadow:0 0 0 4px color-mix(in srgb,var(--la-focus) 15%,transparent)!important;
+}
 
 /* Verified exercise rewards: one gold coin treatment in day and night mode. */
 .la-coin-reward{display:inline-flex;align-items:center;gap:.42rem;align-self:flex-start;max-width:100%;padding:.36rem .6rem;border:1px solid #d6ab35;border-radius:999px;background:color-mix(in srgb,#d49a24 12%,transparent);color:inherit;font-size:.77rem;font-weight:650;line-height:1.35;white-space:normal}

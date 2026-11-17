@@ -48,10 +48,10 @@ try {
    }
    if(['owner','admin'].includes(role)){
     metrics.fields=await page.locator('main .input').evaluateAll(nodes=>nodes.filter(n=>n.getClientRects().length).map(n=>{
-     const r=n.getBoundingClientRect(),s=getComputedStyle(n);return {type:n.type,width:r.width,height:r.height,left:r.left,right:r.right,background:s.backgroundColor,color:s.color,border:s.borderTopWidth};
+     const r=n.getBoundingClientRect(),s=getComputedStyle(n),card=n.closest('.card,.panel');return {type:n.type,width:r.width,height:r.height,left:r.left,right:r.right,background:s.backgroundColor,surface:card?getComputedStyle(card).backgroundColor:null,color:s.color,border:s.borderTopWidth};
     }));
     assert(metrics.fields.length>0);
-    for(const field of metrics.fields){assert(field.width>=96&&field.height>=44,JSON.stringify({role,width,field}));assert(field.left>=0&&field.right<=width,JSON.stringify(field));assert.notEqual(field.background,'rgba(0, 0, 0, 0)');}
+    for(const field of metrics.fields){assert(field.width>=96&&field.height>=44,JSON.stringify({role,width,field}));assert(field.left>=0&&field.right<=width,JSON.stringify(field));assert.notEqual(field.background,'rgba(0, 0, 0, 0)');assert.notEqual(field.border,'0px',JSON.stringify(field));if(field.surface)assert.notEqual(field.background,field.surface,JSON.stringify(field));}
    }
    const actualPath=new URL(page.url()).pathname;
    if(role==='owner'&&width===1440){
