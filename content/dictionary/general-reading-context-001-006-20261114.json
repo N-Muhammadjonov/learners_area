@@ -1,0 +1,2011 @@
+{
+  "version": 1,
+  "release": "general-reading-context-20261114",
+  "repository": "N-Muhammadjonov/learners_area",
+  "passages": {
+    "1-1": "400a46244f6309060b50c44d8cade0cf48c1aeaa920db936817eec7e42618ce8",
+    "1-2": "a7230c26b44cf1d1276f0c7213dbd708ebf87c0e6d8b97ce798b920e8f11ad49",
+    "1-3": "2495ae60e40d8a4ef333b3bda7f6b0823090b2e2d3d4550eae41db4c5e774f14",
+    "2-1": "17af0864597c7e536f2f6f98075592b1def5cc78cdc19f235a9f9026947a957c",
+    "2-2": "ee8f0c650b020fedc6959a3ccfd76410ace92934c54ca82e53df9386c73bb8e6",
+    "2-3": "55d144d2e504ed378bc421074bda1e529bc96cdda1c86d9a717cb292ee9f7a11"
+  },
+  "terms": [
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "Roman Empire",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Rim imperiyasi",
+      "definitionEn": "the ancient Roman state that ruled territories around the Mediterranean"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "goods",
+      "partOfSpeech": "noun",
+      "translationUz": "tovarlar",
+      "definitionEn": "items transported or sold as merchandise"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "Mediterranean",
+      "partOfSpeech": "noun",
+      "translationUz": "O‘rta yer dengizi",
+      "definitionEn": "the sea between Europe Africa and Asia"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "shallow",
+      "partOfSpeech": "adjective",
+      "translationUz": "sayoz",
+      "definitionEn": "having little depth"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "riverboats",
+      "partOfSpeech": "noun",
+      "translationUz": "daryo kemalari",
+      "definitionEn": "boats designed to travel on rivers"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "supply",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’minlamoq",
+      "definitionEn": "to provide goods or resources needed by people"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "northern",
+      "partOfSpeech": "adjective",
+      "translationUz": "shimoliy",
+      "definitionEn": "situated in the north"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "polluted",
+      "partOfSpeech": "adjective",
+      "translationUz": "ifloslangan",
+      "definitionEn": "contaminated by harmful substances"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "ignored",
+      "partOfSpeech": "verb",
+      "translationUz": "e’tiborsiz qoldirilgan",
+      "definitionEn": "not given attention or consideration"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "persuaded",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘ndirdi",
+      "definitionEn": "convinced someone to do something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "diver",
+      "partOfSpeech": "noun",
+      "translationUz": "g‘avvos",
+      "definitionEn": "a person who swims or works underwater"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "dive",
+      "partOfSpeech": "verb",
+      "translationUz": "suvga sho‘ng‘imoq",
+      "definitionEn": "to go below the surface of water"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "diving",
+      "partOfSpeech": "noun",
+      "translationUz": "suv ostiga sho‘ng‘ish",
+      "definitionEn": "the activity of going below the surface of water"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "reluctantly",
+      "partOfSpeech": "adverb",
+      "translationUz": "istamay",
+      "definitionEn": "in an unwilling or hesitant manner"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "chilly",
+      "partOfSpeech": "adjective",
+      "translationUz": "sovuq",
+      "definitionEn": "uncomfortably cold"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "cloudy",
+      "partOfSpeech": "adjective",
+      "translationUz": "loyqa",
+      "definitionEn": "not clear because suspended particles obstruct visibility"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "foul-smelling",
+      "partOfSpeech": "adjective",
+      "translationUz": "badbo‘y",
+      "definitionEn": "having a very unpleasant smell"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "depth",
+      "partOfSpeech": "noun",
+      "translationUz": "chuqurlik",
+      "definitionEn": "the distance down below a surface"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "sunken",
+      "partOfSpeech": "adjective",
+      "translationUz": "cho‘kib ketgan",
+      "definitionEn": "having sunk below the surface of water"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "truck",
+      "partOfSpeech": "noun",
+      "translationUz": "yuk mashinasi",
+      "definitionEn": "a large road vehicle for carrying goods"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "driver's seat",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "haydovchi o‘rindig‘i",
+      "definitionEn": "the seat occupied by the person driving a vehicle"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "containers",
+      "partOfSpeech": "noun",
+      "translationUz": "idishlar",
+      "definitionEn": "objects used for holding or transporting substances"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "transport",
+      "partOfSpeech": "verb",
+      "translationUz": "tashimoq",
+      "definitionEn": "to carry goods from one place to another"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "olive oil",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "zaytun moyi",
+      "definitionEn": "oil obtained from olives"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "fish sauce",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "baliq sousi",
+      "definitionEn": "a liquid seasoning made from fish"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "products",
+      "partOfSpeech": "noun",
+      "translationUz": "mahsulotlar",
+      "definitionEn": "goods produced or offered for use"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "located",
+      "partOfSpeech": "verb",
+      "translationUz": "topib aniqlagan",
+      "definitionEn": "found the location of something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "rubbish dump",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "chiqindixona",
+      "definitionEn": "a place where waste is discarded"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "mapping",
+      "partOfSpeech": "verb",
+      "translationUz": "xaritasini tuzish",
+      "definitionEn": "recording positions to make a map"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "colleagues",
+      "partOfSpeech": "noun",
+      "translationUz": "hamkasblar",
+      "definitionEn": "people working in the same profession"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "archaeologist",
+      "partOfSpeech": "noun",
+      "translationUz": "arxeolog",
+      "definitionEn": "a specialist studying past societies through physical remains"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "survey",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘rganish va tekshirish",
+      "definitionEn": "a systematic examination of a location"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "statues",
+      "partOfSpeech": "noun",
+      "translationUz": "haykallar",
+      "definitionEn": "figures carved or formed to represent people or animals"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "leak out",
+      "partOfSpeech": "phrasal verb",
+      "translationUz": "xabar tarqalib ketmoq",
+      "definitionEn": "to become known when previously kept secret"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "customs police",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "bojxona politsiyasi",
+      "definitionEn": "officials enforcing laws concerning goods crossing borders"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "thieves",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘g‘rilar",
+      "definitionEn": "people who steal"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "operation",
+      "partOfSpeech": "noun",
+      "translationUz": "qidiruv ishlari",
+      "definitionEn": "an organised activity carried out for a purpose"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "rare",
+      "partOfSpeech": "adjective",
+      "translationUz": "noyob",
+      "definitionEn": "uncommon and difficult to find"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "emperor",
+      "partOfSpeech": "noun",
+      "translationUz": "imperator",
+      "definitionEn": "the ruler of an empire"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "garage",
+      "partOfSpeech": "noun",
+      "translationUz": "garaj",
+      "definitionEn": "a building used for keeping a vehicle"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "astonishing",
+      "partOfSpeech": "adjective",
+      "translationUz": "hayratlanarli",
+      "definitionEn": "very surprising or impressive"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "politicians",
+      "partOfSpeech": "noun",
+      "translationUz": "siyosatchilar",
+      "definitionEn": "people engaged in political affairs"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "economic return",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "iqtisodiy daromad",
+      "definitionEn": "financial benefit obtained from an investment or activity"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "autumn",
+      "partOfSpeech": "noun",
+      "translationUz": "kuz",
+      "definitionEn": "the season between summer and winter"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "European Capital of Culture",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "Yevropa madaniyat poytaxti",
+      "definitionEn": "a European city or region officially chosen for a year of cultural events"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "suddenly",
+      "partOfSpeech": "adverb",
+      "translationUz": "to‘satdan",
+      "definitionEn": "unexpectedly and quickly"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "wing",
+      "partOfSpeech": "noun",
+      "translationUz": "binoning qo‘shimcha qanoti",
+      "definitionEn": "a separate section extending from a main building"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "deadline",
+      "partOfSpeech": "noun",
+      "translationUz": "oxirgi muddat",
+      "definitionEn": "the latest time by which something must be completed"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "wood",
+      "partOfSpeech": "noun",
+      "translationUz": "yog‘och",
+      "definitionEn": "material obtained from trees"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "cells",
+      "partOfSpeech": "noun",
+      "translationUz": "hujayralar",
+      "definitionEn": "the smallest structural units of living material"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "structure",
+      "partOfSpeech": "noun",
+      "translationUz": "tuzilma",
+      "definitionEn": "the arrangement of parts that make up an object"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "collapse",
+      "partOfSpeech": "verb",
+      "translationUz": "parchalanib ketmoq",
+      "definitionEn": "to break down or fall apart"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "gradually",
+      "partOfSpeech": "adverb",
+      "translationUz": "asta-sekin",
+      "definitionEn": "in small stages over time"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "process",
+      "partOfSpeech": "noun",
+      "translationUz": "jarayon",
+      "definitionEn": "a series of actions producing a result"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "impossible",
+      "partOfSpeech": "adjective",
+      "translationUz": "imkonsiz",
+      "definitionEn": "not able to be done"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "current",
+      "partOfSpeech": "noun",
+      "translationUz": "daryo oqimi",
+      "definitionEn": "the steady movement of water in a particular direction"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "gentle",
+      "partOfSpeech": "adjective",
+      "translationUz": "sokin",
+      "definitionEn": "not strong or forceful"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "undiveable",
+      "partOfSpeech": "adjective",
+      "translationUz": "sho‘ng‘ib bo‘lmaydigan",
+      "definitionEn": "too dangerous or unsuitable for underwater diving"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "stone",
+      "partOfSpeech": "noun",
+      "translationUz": "tosh",
+      "definitionEn": "hard natural mineral material"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "construction site",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "qurilish maydoni",
+      "definitionEn": "a place where buildings or other structures are being built"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "downstream",
+      "partOfSpeech": "adverb",
+      "translationUz": "oqim bo‘ylab pastga",
+      "definitionEn": "in the direction in which a river flows"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "indicating",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘rsatib turuvchi",
+      "definitionEn": "serving as evidence of something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "flood",
+      "partOfSpeech": "noun",
+      "translationUz": "toshqin",
+      "definitionEn": "an overflow of water onto normally dry land"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "coating",
+      "partOfSpeech": "noun",
+      "translationUz": "qatlam",
+      "definitionEn": "a layer covering the surface of something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "clay",
+      "partOfSpeech": "noun",
+      "translationUz": "loy",
+      "definitionEn": "fine-grained natural earth that can hold water"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "archaeologists",
+      "partOfSpeech": "noun",
+      "translationUz": "arxeologlar",
+      "definitionEn": "specialists who study remains of past societies"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "crew",
+      "partOfSpeech": "noun",
+      "translationUz": "kema ekipaji",
+      "definitionEn": "the people working together to operate a vessel"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "restorers",
+      "partOfSpeech": "noun",
+      "translationUz": "restavratsiya mutaxassislari",
+      "definitionEn": "people who repair and preserve historical objects"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "silver coin",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "kumush tanga",
+      "definitionEn": "a piece of money made of silver"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "floorboards",
+      "partOfSpeech": "noun",
+      "translationUz": "pol taxtalari",
+      "definitionEn": "boards forming a floor"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "re-emerging",
+      "partOfSpeech": "verb",
+      "translationUz": "qayta yuzaga chiqish",
+      "definitionEn": "appearing again after being hidden or submerged"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "depths",
+      "partOfSpeech": "noun",
+      "translationUz": "qa’r",
+      "definitionEn": "the deep parts of a body of water"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 1,
+      "surface": "battle",
+      "partOfSpeech": "noun",
+      "translationUz": "jang",
+      "definitionEn": "a fight between opposing military forces"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "organisms",
+      "partOfSpeech": "noun",
+      "translationUz": "organizmlar",
+      "definitionEn": "living things capable of biological processes"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "bacteria",
+      "partOfSpeech": "noun",
+      "translationUz": "bakteriyalar",
+      "definitionEn": "microscopic single-celled organisms without a true nucleus"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "algae",
+      "partOfSpeech": "noun",
+      "translationUz": "suvo‘tlar",
+      "definitionEn": "simple aquatic organisms that often photosynthesise"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "yeasts",
+      "partOfSpeech": "noun",
+      "translationUz": "xamirturushlar",
+      "definitionEn": "single-celled fungi used in fermentation"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "fungi",
+      "partOfSpeech": "noun",
+      "translationUz": "zamburug‘lar",
+      "definitionEn": "organisms such as moulds and mushrooms that obtain nutrients from other material"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "viruses",
+      "partOfSpeech": "noun",
+      "translationUz": "viruslar",
+      "definitionEn": "microscopic infectious agents that replicate inside living cells"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "viroids",
+      "partOfSpeech": "noun",
+      "translationUz": "viroidlar",
+      "definitionEn": "very small infectious RNA agents affecting plants"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "diverse",
+      "partOfSpeech": "adjective",
+      "translationUz": "turli-tuman",
+      "definitionEn": "containing many different types"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "distinctive",
+      "partOfSpeech": "adjective",
+      "translationUz": "o‘ziga xos",
+      "definitionEn": "having qualities that make it different from others"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "cellular structure",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "hujayra tuzilishi",
+      "definitionEn": "the arrangement of components within a cell"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "genetic information",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "genetik axborot",
+      "definitionEn": "hereditary instructions stored in genetic material"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "membrane",
+      "partOfSpeech": "noun",
+      "translationUz": "membrana",
+      "definitionEn": "a thin layer separating or enclosing parts of a cell"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "spherical",
+      "partOfSpeech": "adjective",
+      "translationUz": "sharsimon",
+      "definitionEn": "shaped like a sphere"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "rod-like",
+      "partOfSpeech": "adjective",
+      "translationUz": "tayoqchasimon",
+      "definitionEn": "shaped like a rod"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "spiral",
+      "partOfSpeech": "adjective",
+      "translationUz": "spiralsimon",
+      "definitionEn": "forming a curve that winds around a centre"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "clusters",
+      "partOfSpeech": "noun",
+      "translationUz": "to‘dalar",
+      "definitionEn": "groups of items gathered together"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "chains",
+      "partOfSpeech": "noun",
+      "translationUz": "zanjirlar",
+      "definitionEn": "connected sequences of cells or objects"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "configurations",
+      "partOfSpeech": "noun",
+      "translationUz": "tuzilmalar",
+      "definitionEn": "particular arrangements of parts"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "oxygen",
+      "partOfSpeech": "noun",
+      "translationUz": "kislorod",
+      "definitionEn": "the gas essential for the respiration of most complex life"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "hosts",
+      "partOfSpeech": "noun",
+      "translationUz": "xo‘jayin organizmlar",
+      "definitionEn": "organisms in which or on which other organisms live"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "disease-causing",
+      "partOfSpeech": "adjective",
+      "translationUz": "kasallik keltirib chiqaruvchi",
+      "definitionEn": "capable of producing an illness"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "suspiciously",
+      "partOfSpeech": "adverb",
+      "translationUz": "shubha bilan",
+      "definitionEn": "with distrust or uncertainty"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "bloomed",
+      "partOfSpeech": "verb",
+      "translationUz": "gurkirab ko‘paydi",
+      "definitionEn": "increased rapidly in number"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "evolved",
+      "partOfSpeech": "verb",
+      "translationUz": "evolyutsiya jarayonida rivojlandi",
+      "definitionEn": "developed gradually through evolutionary change"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "oceans",
+      "partOfSpeech": "noun",
+      "translationUz": "okeanlar",
+      "definitionEn": "the large bodies of salt water covering much of Earth"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "dramatically",
+      "partOfSpeech": "adverb",
+      "translationUz": "keskin ravishda",
+      "definitionEn": "by a very large or sudden amount"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "sustained",
+      "partOfSpeech": "verb",
+      "translationUz": "hayotini davom ettira oldi",
+      "definitionEn": "kept alive or supported over time"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "infectious",
+      "partOfSpeech": "adjective",
+      "translationUz": "yuqumli",
+      "definitionEn": "able to spread an infection"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "scientists",
+      "partOfSpeech": "noun",
+      "translationUz": "olimlar",
+      "definitionEn": "people engaged in scientific research"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "proven",
+      "partOfSpeech": "verb",
+      "translationUz": "isbotlangan",
+      "definitionEn": "shown to be true through evidence"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "decades",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘n yilliklar",
+      "definitionEn": "periods of ten years"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "crust",
+      "partOfSpeech": "noun",
+      "translationUz": "Yer qobig‘i",
+      "definitionEn": "the solid outer layer of Earth"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "deserts",
+      "partOfSpeech": "noun",
+      "translationUz": "cho‘llar",
+      "definitionEn": "very dry regions with little rainfall"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "frozen",
+      "partOfSpeech": "adjective",
+      "translationUz": "muzlagan",
+      "definitionEn": "turned into ice through cold"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "dwell",
+      "partOfSpeech": "verb",
+      "translationUz": "yashamoq",
+      "definitionEn": "to live in a particular place"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "creature",
+      "partOfSpeech": "noun",
+      "translationUz": "jonzot",
+      "definitionEn": "a living being"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "species",
+      "partOfSpeech": "noun",
+      "translationUz": "biologik turlar",
+      "definitionEn": "groups of organisms capable of reproducing within their kind"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "soil",
+      "partOfSpeech": "noun",
+      "translationUz": "tuproq",
+      "definitionEn": "the upper layer of earth in which plants grow"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "trillions",
+      "partOfSpeech": "noun",
+      "translationUz": "trillionlab",
+      "definitionEn": "numbers in groups of a thousand billion"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "estimated",
+      "partOfSpeech": "verb",
+      "translationUz": "taxmin qilingan",
+      "definitionEn": "calculated approximately"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "genes",
+      "partOfSpeech": "noun",
+      "translationUz": "genlar",
+      "definitionEn": "units of hereditary information made of DNA"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "outnumber",
+      "partOfSpeech": "verb",
+      "translationUz": "son jihatidan ko‘p bo‘lmoq",
+      "definitionEn": "to be greater in number than something else"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "intestine",
+      "partOfSpeech": "noun",
+      "translationUz": "ichak",
+      "definitionEn": "the part of the digestive system that absorbs nutrients"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "crook of the elbow",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tirsakning bukiladigan joyi",
+      "definitionEn": "the inner bend of the elbow"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "digesting",
+      "partOfSpeech": "verb",
+      "translationUz": "hazm qilish",
+      "definitionEn": "breaking down food so the body can absorb it"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "vitamins",
+      "partOfSpeech": "noun",
+      "translationUz": "vitaminlar",
+      "definitionEn": "organic nutrients required in small quantities for health"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "starch",
+      "partOfSpeech": "noun",
+      "translationUz": "kraxmal",
+      "definitionEn": "a carbohydrate stored in plants"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "infant",
+      "partOfSpeech": "noun",
+      "translationUz": "go‘dak",
+      "definitionEn": "a very young child"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "transition",
+      "partOfSpeech": "noun",
+      "translationUz": "o‘tish jarayoni",
+      "definitionEn": "the process of changing from one stage to another"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "varied diet",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "xilma-xil ovqatlanish",
+      "definitionEn": "eating a wide range of different foods"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "life-threatening",
+      "partOfSpeech": "adjective",
+      "translationUz": "hayot uchun xavfli",
+      "definitionEn": "capable of causing death"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "golden staph",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tilla rang stafilokokk",
+      "definitionEn": "a common name for the bacterium Staphylococcus aureus"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "infects",
+      "partOfSpeech": "verb",
+      "translationUz": "zararlaydi",
+      "definitionEn": "introduces a disease-causing agent into tissue or an object"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "instruments",
+      "partOfSpeech": "noun",
+      "translationUz": "tibbiy asboblar",
+      "definitionEn": "tools used for specialised medical tasks"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "devours",
+      "partOfSpeech": "verb",
+      "translationUz": "yemirib bitiradi",
+      "definitionEn": "consumes or destroys something rapidly"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "tissue",
+      "partOfSpeech": "noun",
+      "translationUz": "tirik organizm to‘qimasi",
+      "definitionEn": "a group of similar cells performing a biological function"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "toxic shock",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "toksik shok",
+      "definitionEn": "a severe reaction to toxins produced by bacteria"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "resistant",
+      "partOfSpeech": "adjective",
+      "translationUz": "chidamli",
+      "definitionEn": "able to withstand the effect of a substance"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "mould",
+      "partOfSpeech": "noun",
+      "translationUz": "mog‘or zamburug‘i",
+      "definitionEn": "a fungus growing as a fuzzy layer on material"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "penicillin",
+      "partOfSpeech": "noun",
+      "translationUz": "penitsillin",
+      "definitionEn": "an antibiotic substance originally obtained from Penicillium mould"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "vancomycin",
+      "partOfSpeech": "noun",
+      "translationUz": "vankomitsin",
+      "definitionEn": "an antibiotic used against certain bacterial infections"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "beneficial",
+      "partOfSpeech": "adjective",
+      "translationUz": "foydali",
+      "definitionEn": "producing a positive effect"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "ignorance",
+      "partOfSpeech": "noun",
+      "translationUz": "bilimsizlik",
+      "definitionEn": "lack of knowledge or information"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "inability",
+      "partOfSpeech": "noun",
+      "translationUz": "qodir emaslik",
+      "definitionEn": "lack of capacity to perform an action"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "populations",
+      "partOfSpeech": "noun",
+      "translationUz": "populyatsiyalar",
+      "definitionEn": "groups of organisms living in an area"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "analysed",
+      "partOfSpeech": "verb",
+      "translationUz": "tahlil qilingan",
+      "definitionEn": "examined systematically to understand something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "molecules",
+      "partOfSpeech": "noun",
+      "translationUz": "molekulalar",
+      "definitionEn": "groups of atoms bound together"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "volunteers",
+      "partOfSpeech": "noun",
+      "translationUz": "ko‘ngillilar",
+      "definitionEn": "people who participate willingly without compulsion"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "sequenced",
+      "partOfSpeech": "verb",
+      "translationUz": "ketma-ketligi aniqlangan",
+      "definitionEn": "determined the order of units in genetic material"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "discoveries",
+      "partOfSpeech": "noun",
+      "translationUz": "kashfiyotlar",
+      "definitionEn": "findings of things previously unknown"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "bacterium",
+      "partOfSpeech": "noun",
+      "translationUz": "bakteriya",
+      "definitionEn": "a single microscopic organism without a true nucleus"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "reared",
+      "partOfSpeech": "verb",
+      "translationUz": "laboratoriyada yetishtirilgan",
+      "definitionEn": "grown or raised under controlled conditions"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "undergoing",
+      "partOfSpeech": "verb",
+      "translationUz": "jarayondan o‘tayotgan",
+      "definitionEn": "experiencing or being subjected to a process"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "harmful",
+      "partOfSpeech": "adjective",
+      "translationUz": "zararli",
+      "definitionEn": "capable of causing damage"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "reliable",
+      "partOfSpeech": "adjective",
+      "translationUz": "ishonchli",
+      "definitionEn": "able to be depended upon"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "patenting",
+      "partOfSpeech": "verb",
+      "translationUz": "patentlash",
+      "definitionEn": "obtaining an exclusive legal right for an invention"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "strewn with failures",
+      "partOfSpeech": "phrase",
+      "translationUz": "muvaffaqiyatsizliklarga to‘la",
+      "definitionEn": "containing many unsuccessful attempts"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "reintroduce",
+      "partOfSpeech": "verb",
+      "translationUz": "qayta kiritmoq",
+      "definitionEn": "to introduce something again"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "combinations",
+      "partOfSpeech": "noun",
+      "translationUz": "birikmalar",
+      "definitionEn": "groups of things combined together"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "applications",
+      "partOfSpeech": "noun",
+      "translationUz": "amaliy qo‘llanishlar",
+      "definitionEn": "practical uses of an idea or substance"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "microbial",
+      "partOfSpeech": "adjective",
+      "translationUz": "mikroblarga oid",
+      "definitionEn": "related to microorganisms"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 2,
+      "surface": "bacterial",
+      "partOfSpeech": "adjective",
+      "translationUz": "bakteriyalarga oid",
+      "definitionEn": "relating to bacteria"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "scientific discovery",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ilmiy kashfiyot",
+      "definitionEn": "the finding of previously unknown scientific knowledge"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "anticipated",
+      "partOfSpeech": "verb",
+      "translationUz": "oldindan kutilgan",
+      "definitionEn": "expected something to happen before it occurred"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "notion",
+      "partOfSpeech": "noun",
+      "translationUz": "tushuncha",
+      "definitionEn": "an idea or belief about something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "philosophy",
+      "partOfSpeech": "noun",
+      "translationUz": "falsafa",
+      "definitionEn": "the systematic study of knowledge reality and reasoning"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "extremes",
+      "partOfSpeech": "noun",
+      "translationUz": "ikki qarama-qarshi qutb",
+      "definitionEn": "opposite ends of a range of possibilities"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "purist",
+      "partOfSpeech": "adjective",
+      "translationUz": "sof qoidaga qat’iy amal qiluvchi",
+      "definitionEn": "strictly adhering to the original principles of an approach"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "outcome",
+      "partOfSpeech": "noun",
+      "translationUz": "natija",
+      "definitionEn": "the result of an action or process"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "logically",
+      "partOfSpeech": "adverb",
+      "translationUz": "mantiqan",
+      "definitionEn": "in a way consistent with valid reasoning"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "expectations",
+      "partOfSpeech": "noun",
+      "translationUz": "kutilmalar",
+      "definitionEn": "beliefs about what will happen"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "whatsoever",
+      "partOfSpeech": "adverb",
+      "translationUz": "umuman hech qanday",
+      "definitionEn": "at all in any respect"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "ideal",
+      "partOfSpeech": "adjective",
+      "translationUz": "eng maqbul",
+      "definitionEn": "representing the best possible choice"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "reside",
+      "partOfSpeech": "verb",
+      "translationUz": "yotmoq yoki joylashmoq",
+      "definitionEn": "to exist or be found in a particular place"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "ignorant",
+      "partOfSpeech": "adjective",
+      "translationUz": "bexabar",
+      "definitionEn": "not knowing something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "entertain",
+      "partOfSpeech": "verb",
+      "translationUz": "ko‘rib chiqmoq",
+      "definitionEn": "to consider an idea or possibility"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "alternative outcomes",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "muqobil natijalar",
+      "definitionEn": "other possible results of a process"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "accidental",
+      "partOfSpeech": "adjective",
+      "translationUz": "tasodifiy",
+      "definitionEn": "happening without a deliberate plan"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "aspect",
+      "partOfSpeech": "noun",
+      "translationUz": "jihat",
+      "definitionEn": "one part or characteristic of a situation"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "fascinating",
+      "partOfSpeech": "adjective",
+      "translationUz": "juda qiziqarli",
+      "definitionEn": "extremely interesting"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "sociology",
+      "partOfSpeech": "noun",
+      "translationUz": "sotsiologiya",
+      "definitionEn": "the scientific study of society"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "compose",
+      "partOfSpeech": "verb",
+      "translationUz": "yozib yaratmoq",
+      "definitionEn": "to produce a written work"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "biography",
+      "partOfSpeech": "noun",
+      "translationUz": "tarjimai hol",
+      "definitionEn": "an account of a person's life"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "cultural historian",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "madaniyat tarixchisi",
+      "definitionEn": "a researcher who studies the history of culture"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "published literature",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "chop etilgan adabiyotlar",
+      "definitionEn": "written works made publicly available"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "century",
+      "partOfSpeech": "noun",
+      "translationUz": "asr",
+      "definitionEn": "a period of one hundred years"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "happy accident",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "baxtli tasodif",
+      "definitionEn": "an unexpected event that brings a beneficial result"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "pleasant surprise",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "yoqimli kutilmagan hodisa",
+      "definitionEn": "a welcome event that happens unexpectedly"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "fairy tale",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "ertak",
+      "definitionEn": "a traditional story with imaginary events or characters"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "heroes",
+      "partOfSpeech": "noun",
+      "translationUz": "qahramonlar",
+      "definitionEn": "central figures in a story"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "curiosities",
+      "partOfSpeech": "noun",
+      "translationUz": "noyob buyumlar",
+      "definitionEn": "rare or unusual objects of interest"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "unexpected",
+      "partOfSpeech": "adjective",
+      "translationUz": "kutilmagan",
+      "definitionEn": "not anticipated in advance"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "capacity",
+      "partOfSpeech": "noun",
+      "translationUz": "qobiliyat",
+      "definitionEn": "the ability to do something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "community",
+      "partOfSpeech": "noun",
+      "translationUz": "hamjamiyat",
+      "definitionEn": "a group sharing a common interest or activity"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "vigorously",
+      "partOfSpeech": "adverb",
+      "translationUz": "qizg‘in tarzda",
+      "definitionEn": "with great force or intensity"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "contested",
+      "partOfSpeech": "verb",
+      "translationUz": "bahsga sabab bo‘lgan",
+      "definitionEn": "disputed or challenged"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "unplanned",
+      "partOfSpeech": "adjective",
+      "translationUz": "rejalashtirilmagan",
+      "definitionEn": "not arranged or intended in advance"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "emphasise",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’kidlamoq",
+      "definitionEn": "to give special importance to something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "physiologist",
+      "partOfSpeech": "noun",
+      "translationUz": "fiziolog olim",
+      "definitionEn": "a scientist studying how living organisms function"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "immunologist",
+      "partOfSpeech": "noun",
+      "translationUz": "immunolog olim",
+      "definitionEn": "a scientist specialising in the immune system"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "unintentionally",
+      "partOfSpeech": "adverb",
+      "translationUz": "bexosdan",
+      "definitionEn": "without intending to do something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "current-carrying wire",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "tok o‘tkazuvchi sim",
+      "definitionEn": "a wire through which electric current flows"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "magnetic needle",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "magnit mili",
+      "definitionEn": "a narrow magnetic pointer responding to a magnetic field"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "sufficiency",
+      "partOfSpeech": "noun",
+      "translationUz": "yetarlilik",
+      "definitionEn": "the quality of being enough for a purpose"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "rational",
+      "partOfSpeech": "adjective",
+      "translationUz": "oqilona",
+      "definitionEn": "based on reason and logical thought"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "method",
+      "partOfSpeech": "noun",
+      "translationUz": "usul",
+      "definitionEn": "a systematic way of doing something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "insisted",
+      "partOfSpeech": "verb",
+      "translationUz": "qat’iy ta’kidladi",
+      "definitionEn": "stated firmly and persistently"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "collectors",
+      "partOfSpeech": "noun",
+      "translationUz": "yig‘uvchilar",
+      "definitionEn": "people who collect objects as a hobby or profession"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "skill",
+      "partOfSpeech": "noun",
+      "translationUz": "mahorat",
+      "definitionEn": "the ability to do something well"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "exploited",
+      "partOfSpeech": "verb",
+      "translationUz": "foydalandi",
+      "definitionEn": "used something to achieve a purpose"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "stress",
+      "partOfSpeech": "verb",
+      "translationUz": "alohida urg‘u bermoq",
+      "definitionEn": "to place special emphasis on something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "significant",
+      "partOfSpeech": "adjective",
+      "translationUz": "sezilarli",
+      "definitionEn": "important or large enough to matter"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "dangerous",
+      "partOfSpeech": "adjective",
+      "translationUz": "xavfli",
+      "definitionEn": "likely to cause harm"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "basis",
+      "partOfSpeech": "noun",
+      "translationUz": "asos",
+      "definitionEn": "the underlying support or reason for something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "notice",
+      "partOfSpeech": "verb",
+      "translationUz": "payqamoq",
+      "definitionEn": "to become aware of something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "potential",
+      "partOfSpeech": "adjective",
+      "translationUz": "ehtimoliy yoki mumkin bo‘lgan",
+      "definitionEn": "possible but not yet realised"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "constructive",
+      "partOfSpeech": "adjective",
+      "translationUz": "foydali va amaliy",
+      "definitionEn": "helping to achieve a positive result"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "systematic",
+      "partOfSpeech": "adjective",
+      "translationUz": "tizimli",
+      "definitionEn": "carried out according to an organised method"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "preparation",
+      "partOfSpeech": "noun",
+      "translationUz": "tayyorgarlik",
+      "definitionEn": "the act of getting ready for something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "closer inspection",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "chuqurroq tekshiruv",
+      "definitionEn": "a more careful examination"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "resonance",
+      "partOfSpeech": "noun",
+      "translationUz": "kuchli aks-sado",
+      "definitionEn": "a lasting influence or response"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "planned science",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "rejalashtirilgan ilmiy tadqiqot",
+      "definitionEn": "research conducted according to predetermined plans"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "inhabitants",
+      "partOfSpeech": "noun",
+      "translationUz": "yashovchilar",
+      "definitionEn": "people who live in a particular place"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "pioneers",
+      "partOfSpeech": "noun",
+      "translationUz": "kashshoflar",
+      "definitionEn": "people who are among the first in a field"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "industrial research",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sanoat tadqiqotlari",
+      "definitionEn": "scientific investigation conducted for industrial purposes"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "overly rigid",
+      "partOfSpeech": "adjective phrase",
+      "translationUz": "haddan tashqari qattiq",
+      "definitionEn": "too strict or inflexible"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "planning",
+      "partOfSpeech": "noun",
+      "translationUz": "rejalashtirish",
+      "definitionEn": "the process of making plans"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "rationality",
+      "partOfSpeech": "noun",
+      "translationUz": "oqilonalik",
+      "definitionEn": "the quality of being based on reason"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "uncertainty",
+      "partOfSpeech": "noun",
+      "translationUz": "noaniqlik",
+      "definitionEn": "the state of not knowing what will happen"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "satisfactory",
+      "partOfSpeech": "adjective",
+      "translationUz": "qoniqarli",
+      "definitionEn": "meeting an acceptable standard"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "drifting",
+      "partOfSpeech": "verb",
+      "translationUz": "shamol yo‘nalishida oqib ketish",
+      "definitionEn": "moving without controlling the direction"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "determinate",
+      "partOfSpeech": "adjective",
+      "translationUz": "aniq belgilangan",
+      "definitionEn": "having clearly defined limits or results"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "cause and effect",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "sabab va oqibat",
+      "definitionEn": "a relationship in which one event produces another"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "bowels",
+      "partOfSpeech": "noun",
+      "translationUz": "ichki qatlamlar",
+      "definitionEn": "the deepest interior parts of something"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "corporate capitalism",
+      "partOfSpeech": "noun phrase",
+      "translationUz": "korporativ kapitalizm",
+      "definitionEn": "an economic system dominated by corporations"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "productive",
+      "partOfSpeech": "adjective",
+      "translationUz": "samarali",
+      "definitionEn": "producing useful results"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "evidence",
+      "partOfSpeech": "noun",
+      "translationUz": "dalillar",
+      "definitionEn": "information supporting a conclusion"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "criteria",
+      "partOfSpeech": "noun",
+      "translationUz": "mezonlar",
+      "definitionEn": "standards used to make a judgment"
+    },
+    {
+      "testNo": 2,
+      "passageNo": 3,
+      "surface": "consequences",
+      "partOfSpeech": "noun",
+      "translationUz": "oqibatlar",
+      "definitionEn": "results of actions or events"
+    }
+  ],
+  "corrections": [
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "win",
+      "partOfSpeech": "verb",
+      "translationUz": "g‘alaba qozonmoq",
+      "definitionEn": "to defeat an opponent in a battle or competition"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "established",
+      "partOfSpeech": "verb",
+      "translationUz": "ta’sis etdi",
+      "definitionEn": "to set up or institute something officially"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "shower",
+      "partOfSpeech": "verb",
+      "translationUz": "dush qabul qilmoq",
+      "definitionEn": "to wash the body under running water"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "employed",
+      "partOfSpeech": "verb",
+      "translationUz": "qo‘llanilgan",
+      "definitionEn": "to make use of a method or substance"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "technology",
+      "partOfSpeech": "noun",
+      "translationUz": "texnologiya",
+      "definitionEn": "the practical application of scientific knowledge to industry"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 1,
+      "surface": "heated",
+      "partOfSpeech": "verb",
+      "translationUz": "qizdirilgan",
+      "definitionEn": "made hotter by applying heat"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 2,
+      "surface": "capital",
+      "partOfSpeech": "noun",
+      "translationUz": "poytaxt",
+      "definitionEn": "the city that serves as the seat of national government"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 2,
+      "surface": "insurance",
+      "partOfSpeech": "noun",
+      "translationUz": "falokatga qarshi ehtiyot chorasi",
+      "definitionEn": "an arrangement that protects against a possible future loss"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 2,
+      "surface": "perfect",
+      "partOfSpeech": "adjective",
+      "translationUz": "juda mos",
+      "definitionEn": "ideally suited to a particular purpose"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 2,
+      "surface": "environmental",
+      "partOfSpeech": "adjective",
+      "translationUz": "atrof-muhitga oid",
+      "definitionEn": "related to the conditions of the natural surroundings"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 3,
+      "surface": "product",
+      "partOfSpeech": "noun",
+      "translationUz": "natija",
+      "definitionEn": "something that results from a process or cause"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 3,
+      "surface": "vehicle",
+      "partOfSpeech": "noun",
+      "translationUz": "ifodalash vositasi",
+      "definitionEn": "a means by which ideas or information are communicated"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 3,
+      "surface": "contrast",
+      "partOfSpeech": "noun",
+      "translationUz": "qarama-qarshilik",
+      "definitionEn": "a clear difference between two things being compared"
+    },
+    {
+      "testNo": 1,
+      "passageNo": 3,
+      "surface": "truth",
+      "partOfSpeech": "noun",
+      "translationUz": "haqiqat",
+      "definitionEn": "a fact or principle that is accepted as true"
+    }
+  ],
+  "offsetRepairs": [
+    {
+      "testNo": 1,
+      "passageNo": 2,
+      "id": "9f3f5c58-7146-4823-ad5d-655007d77169",
+      "surface": "predator",
+      "expectedStart": 176,
+      "matchOrdinal": 1
+    },
+    {
+      "testNo": 1,
+      "passageNo": 2,
+      "id": "47ed1da8-865f-4a1e-8cf5-d33dbdfd8da6",
+      "surface": "sanctuary",
+      "expectedStart": 1172,
+      "matchOrdinal": 5
+    },
+    {
+      "testNo": 1,
+      "passageNo": 3,
+      "id": "f7b348f2-d361-49d6-8468-4fcac40cee9e",
+      "surface": "non-verbal",
+      "expectedStart": 11,
+      "matchOrdinal": 1
+    }
+  ]
+}
