@@ -3046,12 +3046,15 @@ export default {
     "fluencyGame": {
         "eyebrow": "Ravon gapirish o‘yini",
         "intro": "Jimlikda xavf yaqinlashadi. Gapirsangiz, turgan joyida to‘xtaydi.",
-        "privacy": "Nutq mazmuni tahlil qilinmaydi va saqlanmaydi. Bu ravon gapirish mashqi, imtihon emas.",
+        "privacy": "Javobingiz shu qurilmada yozib olinadi. Uni raund tugagach tinglashingiz mumkin.",
+        "readQuestion": "Savolni o‘qing", "finishAnswer": "Javobni yakunlash", "finished": "Javob yakunlandi",
+        "recording": "Javobingiz yozib olinmoqda", "recordingUnavailable": "Bu qurilmada ovoz yozib olish imkoni bo‘lmadi",
+        "partialRecording": "Javobingizning bir qismini yozib olish imkoni bo‘lmadi.",
         "limitation": "Nutq qurilmangizda aniqlanadi. Atrofdagi boshqa odamlarning ovozi va ayrim baland tovushlar natijaga ta’sir qilishi mumkin. Audio qurilmangizda qoladi.",
         "question": "Savol", "timer": "Raundda qolgan vaqt", "sec": "SON", "arena": "Gapirib, qahramonga yaqinlashayotgan arrani to‘xtating.",
         "chooseLevel": "Qiyinlik darajasini tanlang", "start": "Boshlash", "retry": "Qayta urinish", "resume": "Davom ettirish", "quit": "Chiqish", "again": "Yana o‘ynash", "changeLevel": "Darajani o‘zgartirish",
         "silent": "Jimlik — xavf yaqinlashmoqda", "speaking": "Gapiryapsiz — xavf to‘xtadi", "paused": "Pauza. Vaqt va joylashuv saqlandi. Mikrofonni ochish uchun Davom ettirish tugmasini bosing.",
-        "micOn": "Mikrofon yoqilgan · faqat lokal faollik", "micOff": "Mikrofon o‘chirilgan", "micRequest": "Mikrofon ruxsati kutilmoqda. Istalgan payt chiqishingiz mumkin.",
+        "micOn": "Mikrofon yoqilgan", "micOff": "Mikrofon o‘chirilgan", "micRequest": "Mikrofon ruxsati kutilmoqda. Istalgan payt chiqishingiz mumkin.",
         "won": "Siz omon qoldingiz!", "wonBody": "Gapirishda davom etdingiz. Yangi savolda ham fikrlaringizni davom ettiring.",
         "lost": "Xavf yetib keldi.", "lostBody": "Gap mukammal bo‘lmasa ham davom eting. Bu o‘yinda mazmun baholanmaydi.",
         "levels": {
@@ -3059,7 +3062,7 @@ export default {
             "intermediate": {"title": "O‘rta", "body": "Xavf bir maromda · faqat qisqa pauzalar"},
             "advanced": {"title": "Yuqori", "body": "Xavf tez yaqinlashadi · o‘ylashga vaqt oz"}
         },
-        "status": {"idle": "Darajani tanlab, o‘yinni boshlang.", "requesting_permission": "O‘ynash uchun mikrofonga ruxsat bering.", "calibrating": "Mikrofon sozlanayotganda bir oz jim turing.", "ready": "Tayyor — gapirishda davom eting!"},
+        "status": {"idle": "Darajani tanlab, o‘yinni boshlang.", "requesting_permission": "O‘ynash uchun mikrofonga ruxsat bering.", "calibrating": "Mikrofon sozlanayotganda bir oz jim turing.", "ready": "Vaqt tugagach gapirishni boshlang."},
         "errors": {
             "permission_denied": "Mikrofonga ruxsat berilmadi. Brauzer sozlamalarida ruxsat berib, qayta urinib ko‘ring.",
             "permission_timeout": "Mikrofon ruxsati hali kutilmoqda. Ruxsat berishga tayyor bo‘lgach qayta urinib ko‘ring.",
