@@ -5,7 +5,7 @@ export const DIFFICULTIES=Object.freeze({
  intermediate:Object.freeze({gracePeriodMs:1100,dangerSpeed:.075,speechActivationMs:110,speechReleaseMs:260,sensitivity:1}),
  advanced:Object.freeze({gracePeriodMs:450,dangerSpeed:.12,speechActivationMs:130,speechReleaseMs:210,sensitivity:.95})
 });
-/** @typedef {'idle'|'requesting_permission'|'calibrating'|'ready'|'running'|'paused'|'won'|'lost'|'quit'|'error'} GamePhase */
+/** @typedef {'idle'|'requesting_permission'|'calibrating'|'ready'|'running'|'paused'|'won'|'lost'|'finished'|'quit'|'error'} GamePhase */
 /** @param {{level?:string,now?:()=>number,durationMs?:number,collisionAt?:number}} options */
 export function createFluencyEngine({level='intermediate',now=()=>performance.now(),durationMs=ROUND_MS,collisionAt=1}={}){
  if(!DIFFICULTIES[level]||!Number.isFinite(durationMs)||durationMs<=0||!Number.isFinite(collisionAt)||collisionAt<=0||collisionAt>1)throw Error('invalid_game_configuration');
@@ -27,11 +27,15 @@ export function createFluencyEngine({level='intermediate',now=()=>performance.no
  }
  return {
   snapshot,reset,advance,
-  request(){if(phase==='paused'){phase='requesting_permission';error=null;return true;}if(!['idle','won','lost','quit','error'].includes(phase))return false;reset();phase='requesting_permission';return true;},
+  request(){if(phase==='paused'){phase='requesting_permission';error=null;return true;}if(!['idle','won','lost','finished','quit','error'].includes(phase))return false;reset();phase='requesting_permission';return true;},
   permissionGranted(){if(phase==='requesting_permission')phase='calibrating';return snapshot();},
   calibrated(){if(phase==='calibrating')phase='ready';return snapshot();},
   start(at=now()){if(phase==='ready'){phase='running';last=at;speaking=false;}return snapshot();},
   pause(at=now()){if(phase==='running')advance(at,speaking);if(['running','requesting_permission','calibrating','ready'].includes(phase)){phase='paused';speaking=false;}return snapshot();},
+  finish(at=now()){
+   if(phase==='running'){advance(at,speaking);if(phase==='running'){phase='finished';speaking=false;}}
+   return snapshot();
+  },
   quit(){phase='quit';speaking=false;return snapshot();},
   fail(code){if(!['won','lost','quit'].includes(phase)){phase='error';error=code;speaking=false;}return snapshot();}
  };

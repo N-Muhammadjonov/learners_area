@@ -3046,12 +3046,15 @@ export default {
     "fluencyGame": {
         "eyebrow": "Fluency game",
         "intro": "Silence lets the danger approach. Speaking freezes it where it stands.",
-        "privacy": "No speech content is analysed or saved — this is a warm-up for fluency, not a test.",
+        "privacy": "Your answer is recorded on this device for playback after the round.",
+        "readQuestion": "Read the question", "finishAnswer": "Finish answer", "finished": "Answer finished",
+        "recording": "Recording your answer", "recordingUnavailable": "Recording unavailable on this device",
+        "partialRecording": "Part of your answer could not be recorded.",
         "limitation": "Speech detection runs on your device. Other voices and some loud sounds can still affect it. Audio stays on your device.",
         "question": "Question", "timer": "Round time remaining", "sec": "SEC", "arena": "Speaking stops the approaching blade before it reaches your companion.",
         "chooseLevel": "Choose difficulty", "start": "Start", "retry": "Try again", "resume": "Resume", "quit": "Quit", "again": "Play again", "changeLevel": "Change level",
         "silent": "Silent — danger closing in", "speaking": "Speaking — danger stopped", "paused": "Paused. Your time and position are safe. Press Resume to reopen the microphone.",
-        "micOn": "Microphone on · local activity only", "micOff": "Microphone off", "micRequest": "Waiting for microphone permission. You can Quit at any time.",
+        "micOn": "Microphone on", "micOff": "Microphone off", "micRequest": "Waiting for microphone permission. You can Quit at any time.",
         "won": "You survived!", "wonBody": "You kept going. Try a new question and keep your ideas moving.",
         "lost": "It got you.", "lostBody": "Keep going even when the sentence is not perfect — the content does not matter.",
         "levels": {
@@ -3059,7 +3062,7 @@ export default {
             "intermediate": {"title": "Intermediate", "body": "Steady pace · short pauses only"},
             "advanced": {"title": "Advanced", "body": "Danger races in · no time to think"}
         },
-        "status": {"idle": "Choose a level, then start.", "requesting_permission": "Allow microphone access to play.", "calibrating": "Stay quiet for a moment while the microphone settles.", "ready": "Ready — keep speaking!"},
+        "status": {"idle": "Choose a level, then start.", "requesting_permission": "Allow microphone access to play.", "calibrating": "Stay quiet for a moment while the microphone settles.", "ready": "Speaking starts after the countdown."},
         "errors": {
             "permission_denied": "Microphone access was denied. Allow it in your browser settings, then try again.",
             "permission_timeout": "Microphone permission is still pending. Try again when you are ready to allow it.",

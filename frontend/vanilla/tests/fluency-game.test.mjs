@@ -11,7 +11,7 @@ function game(options={}){
  let clock=0,level=.002,nextFrame=0,questionNumber=0,visible='visible';const frames=new Map(),inputs=[];
  Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>visible});
  const deps={now:()=>clock,requestFrame:fn=>{const id=++nextFrame;frames.set(id,fn);return id;},cancelFrame:id=>frames.delete(id),questionPicker:{async next(){questionNumber++;return {id:ID(800+questionNumber),part:'part3',promptText:'Synthetic test question '+questionNumber+': explain your choice.',cueCard:null};}},
-  voiceFactory:args=>{const input={args,disposed:false,opens:0,async open(){this.opens++;},sample(){assert(!this.disposed);return {rms:level,samples:Float32Array.from({length:128},(_,i)=>i%2?level:-level)};},dispose(){this.disposed=true;}};inputs.push(input);return input;}};
+  voiceFactory:args=>{const input={args,stream:{},disposed:false,opens:0,async open(){this.opens++;},sample(){assert(!this.disposed);return {rms:level,samples:Float32Array.from({length:128},(_,i)=>i%2?level:-level)};},dispose(){this.disposed=true;}};inputs.push(input);return input;}};
  const state=mount(h.ctx,{...deps,...options.dependencies});
  return {...h,...state,inputs,frames,deps,get now(){return clock;},setVolume(v){level=v;},step(ms=20){clock+=ms;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(clock));},steps(n,ms=20){for(let i=0;i<n;i++)this.step(ms);},async start(){h.click(h.q('[data-fluency-start]'));await tick();this.steps(315);assert.equal(state.engine.snapshot().phase,'running');},hide(){visible='hidden';document.dispatchEvent(new h.dom.window.Event('visibilitychange'));},show(){visible='visible';document.dispatchEvent(new h.dom.window.Event('visibilitychange'));}};
 }
@@ -25,7 +25,14 @@ test('idle is microphone-free, keyboard levels select real configurations, and r
 test('question is readable for five seconds before the 60-second game starts',async()=>{
  const h=game();
  try{
-  h.click(h.q('[data-fluency-start]'));await tick();
+  const timer=h.q('.fluency-timer');
+  assert(timer.hidden);
+  h.click(h.q('[data-fluency-start]'));
+  assert.equal(h.engine.snapshot().phase,'requesting_permission');
+  assert(timer.hidden);
+  await tick();
+  assert.equal(h.engine.snapshot().phase,'calibrating');
+  assert(timer.hidden);
   for(let i=0;i<100&&h.engine.snapshot().phase==='calibrating';i++)h.step();
   const readyAt=h.now;
   assert.equal(h.engine.snapshot().phase,'ready');
@@ -72,4 +79,86 @@ test('question picker uses only authorized bounded GET data and avoids immediate
 });
 test('empty or failed bank never invents a production question',async()=>{
  const h=setup();try{h.stub({'/api/speaking/practice/questions':{prompts:[]}});await assert.rejects(createQuestionPicker().next(h.ctx.signal),error=>error.code==='question_empty');assert.equal(h.calls.length,3);assert(h.calls.every(call=>call.method==='GET'));}finally{h.dispose();}
+});
+
+test('answer recording starts with speaking and supports playback, same-question retry and deletion',async()=>{
+ const h=game(),original=globalThis.MediaRecorder,streams=[];
+ const media=h.dom.window.HTMLMediaElement.prototype;
+ media.load=()=>{};
+ media.pause=()=>{};
+ class Recorder extends h.dom.window.EventTarget{
+  constructor(stream){super();this.stream=stream;this.mimeType='audio/webm';this.state='inactive';}
+  start(){streams.push(this.stream);this.state='recording';}
+  stop(){
+   this.state='inactive';
+   queueMicrotask(()=>{
+    const chunk=new Event('dataavailable');
+    chunk.data=new Blob(['test audio'],{type:this.mimeType});
+    this.dispatchEvent(chunk);
+    this.dispatchEvent(new Event('stop'));
+   });
+  }
+ }
+ globalThis.MediaRecorder=Recorder;
+ try{
+  h.click(h.q('[data-fluency-start]'));
+  await tick();
+  h.steps(310);
+  assert.equal(h.engine.snapshot().phase,'ready');
+  assert.equal(streams.length,0);
+  h.steps(5);
+  assert.deepEqual(streams,[h.inputs[0].stream]);
+  const question=h.q('.fluency-question h2').textContent;
+  h.click(h.q('[data-fluency-finish]'));
+  await tick();
+  assert.equal(h.engine.snapshot().phase,'finished');
+  assert(h.inputs[0].disposed);
+  const url=h.q('.fluency-result audio').src;
+  assert.equal(await (await fetch(url)).text(),'test audio');
+  assert.equal(h.q('[data-fluency-delete]').hidden,false);
+  h.click(h.q('[data-fluency-rerecord]'));
+  await assert.rejects(fetch(url));
+  await tick();
+  assert.equal(h.q('.fluency-question h2').textContent,question);
+  h.steps(315);
+  h.hide();h.show();
+  h.click(h.q('[data-fluency-resume]'));
+  await tick();h.steps(315);
+  assert.deepEqual(streams,h.inputs.map(input=>input.stream));
+  for(let i=0;i<160&&h.engine.snapshot().phase==='running';i++)h.step(100);
+  assert.equal(h.engine.snapshot().phase,'lost');
+  await tick();
+  const clips=h.qa('.fluency-result audio').map(audio=>audio.src);
+  assert.equal(clips.length,2);
+  h.click(h.q('[data-fluency-delete]'));
+  assert.equal(h.q('.fluency-result audio'),null);
+  for(const clip of clips)await assert.rejects(fetch(clip));
+  assert(h.q('[data-fluency-delete]').hidden);
+  h.click(h.q('[data-fluency-again]'));
+  await tick();
+  assert.notEqual(h.q('.fluency-question h2').textContent,question);
+ }finally{
+  h.dispose();
+  if(original===undefined)delete globalThis.MediaRecorder;
+  else globalThis.MediaRecorder=original;
+ }
+});
+
+test('a late recorder stop cannot restore playback after leaving the results',async()=>{
+ let finalize;
+ const h=game({dependencies:{recorderFactory:()=>({
+  start(){},stop(){return new Promise(resolve=>{finalize=resolve;});},cancel(){}
+ })}});
+ try{
+  await h.start();
+  h.setVolume(.08);
+  for(let i=0;i<610&&h.engine.snapshot().phase==='running';i++)h.step(100);
+  assert.equal(h.engine.snapshot().phase,'won');
+  h.click(h.q('[data-fluency-change-level]'));
+  const blob=new Blob(['late audio']);
+  finalize({blob,size:blob.size});
+  await tick();
+  assert.equal(h.q('.fluency-result audio'),null);
+  assert(h.q('[data-fluency-delete]').hidden);
+ }finally{h.dispose();}
 });
