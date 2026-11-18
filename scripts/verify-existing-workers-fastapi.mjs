@@ -2,6 +2,29 @@
  * no Cloudflare network, deploy, configuration, buckets or production secrets. */
 import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import {pathToFileURL} from 'node:url';import {createHash} from 'node:crypto';import {spawn} from 'node:child_process';import {createInterface} from 'node:readline';
 const root=process.env.LEARNERS_ROOT||path.resolve(import.meta.dirname,'..');
+// This suite runs under Node. Enforce the Worker runtime's byte-count contract.
+const streamSizes=new WeakMap();
+globalThis.FixedLengthStream=class extends TransformStream {
+ constructor(size){
+  let written=0;
+  super({
+   transform(chunk,controller){
+    written+=chunk.byteLength;
+    if(written>size)throw Error('Media stream exceeded its declared length');
+    controller.enqueue(chunk);
+   },
+   flush(){if(written!==size)throw Error('Media stream ended early');},
+  });
+  streamSizes.set(this.readable,size);
+ }
+};
+const responseStreams=new WeakMap();
+globalThis.Response=class extends Response{
+ constructor(body,init){
+  super(body,init);
+  if(streamSizes.has(body))responseStreams.set(this,streamSizes.get(body));
+ }
+};
 const load=f=>import(pathToFileURL(path.join(root,f)).href),{serveMedia}=await load('workers/learnersarea-media/index.ts'),{createMediaCapability,mediaCapabilityUrl}=await load('workers/shared/media/protocol.ts'),{serveDictionary}=await load('workers/learnersarea-dictionary/handler.ts'),{buildSearchIndex,indexKey}=await load('workers/shared/dictionary/search-index.ts'),{encodeShard,shardKey}=await load('workers/shared/dictionary/shards.ts'),{entryContentHash}=await load('workers/shared/dictionary/model.ts');
 const secret='isolated-worker-contract-fixture-secret-32-bytes',python=process.env.BACKEND_PYTHON;if(!python)throw Error('BACKEND_PYTHON is required');
 const {dictionaryProof}=await load('workers/shared/dictionary/worker-protocol.ts');
@@ -18,8 +41,8 @@ try{
  const mediaEnv={MEDIA_SIGNING_SECRET:secret,MEDIA_BUCKET:{async head(key){eq(key,'audio/contract.mp3');bucketReads++;return info;},async get(key,opts){eq(opts.onlyIf.get('If-Match'),etag);bucketReads++;return {...info,body:new Response(opts.range?bytes.subarray(opts.range.offset,opts.range.offset+opts.range.length):bytes).body};}}};
  const authorize=async(target,init)=>{eq(target,'https://learnersarea.uz/api/media/authorize');eq(init.redirect,'manual');authorizations++;const r=await rpc('http',{method:'POST',path:'/api/media/authorize',body:Buffer.from(init.body).toString('base64'),headers:init.headers});return new Response(Buffer.from(r.body,'base64'),{status:r.status,headers:r.headers});};
  const read=(headers={},method='GET',target=url)=>serveMedia(new Request(target,{method,headers:{origin:'https://learnersarea.uz',...headers}}),mediaEnv,authorize);
- let r=await read();eq(r.status,200);eq(await r.text(),bytes.toString());eq(r.headers.get('Cache-Control'),'private, no-store');
- r=await read({range:'bytes=3-6'});eq(r.status,206);eq(r.headers.get('Content-Range'),'bytes 3-6/16');eq(await r.text(),'3456');
+ let r=await read();eq(r.status,200);eq(responseStreams.get(r),bytes.length);eq(await r.text(),bytes.toString());eq(r.headers.get('Cache-Control'),'private, no-store');
+ r=await read({range:'bytes=3-6'});eq(r.status,206);eq(responseStreams.get(r),4);eq(r.headers.get('Content-Range'),'bytes 3-6/16');eq(await r.text(),'3456');
  r=await read({range:'bytes=-4'});eq(r.status,206);eq(await r.text(),'cdef');
  r=await read({range:'bytes=0-999'});eq(r.status,206);eq(r.headers.get('Content-Length'),'16');
  r=await read({range:'bytes=999-1000'});eq(r.status,416);eq(r.headers.get('Content-Range'),'bytes */16');

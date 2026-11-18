@@ -1,5 +1,8 @@
 import {createMediaAuthorizationProof,decodeMediaKey,parseMediaRange,verifyMediaCapability} from '../shared/media/protocol';
 
+// Cloudflare's runtime uses this stream's byte length as the wire Content-Length.
+declare const FixedLengthStream: new (length: number) => TransformStream<Uint8Array, Uint8Array>;
+
 type ObjectInfo = {size:number;httpEtag:string;uploaded:Date;httpMetadata?:{contentType?:string};writeHttpMetadata(headers:Headers):void};
 type ObjectBody = ObjectInfo & {body:ReadableStream<Uint8Array>};
 export type MediaEnvironment = {
@@ -60,8 +63,10 @@ export async function serveMedia(request:Request,env:MediaEnvironment,authorizeF
   const result=await env.MEDIA_BUCKET.get(key,{onlyIf:new Headers({'If-Match':object.httpEtag}),...(range?{range:{offset:range.start,length:size}}:{})});
   if(!result)return reject(404);
   if(!('body' in result))return reject(412);
-  // R2's readable body is passed directly; never materialize a complete file.
-  return new Response(result.body,{status:range?206:200,headers});
+  const {readable,writable}=new FixedLengthStream(size);
+  // Piping transfers with backpressure. The readable side surfaces a truncated body.
+  void result.body.pipeTo(writable).catch(()=>{});
+  return new Response(readable,{status:range?206:200,headers});
  } catch {return reject(503);}
 }
 const worker={async fetch(request:Request,env:MediaEnvironment):Promise<Response> {

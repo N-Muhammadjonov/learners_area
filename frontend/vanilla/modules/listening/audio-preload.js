@@ -23,9 +23,40 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
  }
  async function download(job,version){
   const controller=new AbortController();job.abort=controller;
-  const timer=setTimeout(()=>controller.abort(),timeout);let response,reader;
-  const cancel=()=>{void reader?.cancel().catch(()=>{});};controller.signal.addEventListener('abort',cancel,{once:true});
+  const timer=setTimeout(()=>controller.abort(),timeout);
   const current=()=>version===epoch&&owner===scope.scope&&!controller.signal.aborted;
+  async function readRecording(url,resource,direct){
+   let response,reader;
+   const cancel=()=>{void reader?.cancel().catch(()=>{});};
+   controller.signal.addEventListener('abort',cancel,{once:true});
+   try{
+    response=await fetcher(url,{credentials:direct?'omit':'same-origin',mode:direct?'cors':'same-origin',
+     cache:'no-store',redirect:'error',signal:controller.signal,priority:job.priority>=2?'high':'low',headers:{Accept:'audio/*'}});
+    if(!current())throw Error('Cancelled');
+    if(response.status!==200)throw Error('Audio unavailable');
+    const declared=(response.headers.get('Content-Type')||'').split(';')[0].trim().toLowerCase(),total=Number(response.headers.get('Content-Length'));
+    // Older private uploads can have generic metadata. Reject non-audio responses.
+    const known={mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',ogg:'audio/ogg',opus:'audio/opus'};
+    const mime=['application/octet-stream','binary/octet-stream'].includes(declared)?known[resource.split('.').at(-1).toLowerCase()]??declared:declared;
+    if(!/^audio\/[a-z0-9.+-]+$/.test(mime)||!Number.isSafeInteger(total)||total<1||total>maxFileBytes)throw Error('Invalid audio response');
+    job.total=total;job.loaded=0;notify(job);reader=response.body?.getReader();if(!reader)throw Error('Missing audio body');
+    const chunks=[];
+    for(;;){
+     const {done,value}=await reader.read();
+     if(!current())throw Error('Cancelled');
+     if(done)break;
+     job.loaded+=value.byteLength;
+     if(job.loaded>total)throw Error('Oversized audio');
+     chunks.push(value);notify(job);
+    }
+    if(job.loaded!==total)throw Error('Incomplete audio');
+    return new Blob(chunks,{type:mime});
+   }finally{
+    controller.signal.removeEventListener('abort',cancel);
+    if(reader){void reader.cancel().catch(()=>{});reader.releaseLock();}
+    else if(response?.body&&!response.body.locked)void response.body.cancel().catch(()=>{});
+   }
+  }
   try{
    let resource=job.resource,downloadUrl;
    if(!resource){
@@ -42,25 +73,18 @@ export function createAudioPreloader({scope=privateScope,fetcher=(...a)=>globalT
    let target;try{target=new URL(downloadUrl,origin());}catch{target=new URL(resource+'?stream=1',origin());}
    const direct=target.origin==='https://learnersarea-media.owneruchunla.workers.dev'&&target.pathname.startsWith('/v1/media/');
    if(!direct&&target.origin!==origin())throw Error('Invalid audio origin');
+   let blob;
    if(direct){
-    try{response=await fetcher(target.href,{credentials:'omit',mode:'cors',cache:'no-store',redirect:'error',signal:controller.signal,priority:job.priority>=2?'high':'low',headers:{Accept:'audio/*'}});if(!response.ok){await response.body?.cancel().catch(()=>{});response=null;}}catch(error){if(controller.signal.aborted)throw error;}
+    try{blob=await readRecording(target.href,resource,true);}
+    catch(error){if(!current())throw error;}
    }
-   if(!response)response=await fetcher(resource+'?stream=1',{credentials:'same-origin',mode:'same-origin',cache:'no-store',redirect:'error',signal:controller.signal,priority:job.priority>=2?'high':'low',headers:{Accept:'audio/*'}});
-   if(response.status!==200)throw Error('Audio unavailable');
-   const declared=(response.headers.get('Content-Type')||'').split(';')[0].trim().toLowerCase(),total=Number(response.headers.get('Content-Length'));
-   // Older private uploads may have generic object metadata. Preserve their
-   // audio format without accepting HTML/JSON error pages as recordings.
-   const known={mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',ogg:'audio/ogg',opus:'audio/opus'};
-   const mime=['application/octet-stream','binary/octet-stream'].includes(declared)?known[resource.split('.').at(-1).toLowerCase()]??declared:declared;
-   if(!/^audio\/[a-z0-9.+-]+$/.test(mime)||!Number.isSafeInteger(total)||total<1||total>maxFileBytes)throw Error('Invalid audio response');
-   job.total=total;job.loaded=0;notify(job);reader=response.body?.getReader();if(!reader)throw Error('Missing audio body');
-   const chunks=[];
-   for(;;){const {done,value}=await reader.read();if(!current())throw Error('Cancelled');if(done)break;job.loaded+=value.byteLength;if(job.loaded>total)throw Error('Oversized audio');chunks.push(value);notify(job);}
-   if(job.loaded!==total)throw Error('Incomplete audio');
-   if(!trim(total,job.priority)){job.state='idle';settle(job,null);notify(job);return;}
-   const blob=new Blob(chunks,{type:mime});job.blob=blob;job.url=createURL(blob);bytes+=total;job.state='ready';settle(job,job.url);notify(job);
+   if(!blob)blob=await readRecording(resource+'?stream=1',resource,false);
+   if(!current())throw Error('Cancelled');
+   if(!trim(blob.size,job.priority)){job.state='idle';settle(job,null);notify(job);return;}
+   job.blob=blob;job.url=createURL(blob);bytes+=blob.size;job.state='ready';settle(job,job.url);notify(job);
   }catch(error){if(version===epoch){job.state=controller.signal.aborted?'idle':'error';settle(job,null);notify(job);}}
-  finally{clearTimeout(timer);controller.signal.removeEventListener('abort',cancel);if(reader){void reader.cancel().catch(()=>{});try{reader.releaseLock();}catch{}}else if(response?.body&&!response.body.locked)void response.body.cancel().catch(()=>{});}
+  finally{clearTimeout(timer);}
+
  }
  function pump(){
   if(!identity())return;

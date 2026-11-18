@@ -92,11 +92,17 @@ test('catalogue transfers the complete recording directly from Cloudflare withou
  assert.equal(pool.blob(path('one')).size,64);scope.setScope(null);assert.equal(pool.blob(path('one')),null);pool.dispose();
 });
 
-for(const failure of ['network','denied'])test('direct '+failure+' falls back to the authenticated stream',async()=>{
+for(const failure of ['network','denied','missing-length','truncated','invalid-mime'])test('direct '+failure+' falls back to the authenticated stream',async()=>{
  const direct='https://learnersarea-media.owneruchunla.workers.dev/v1/media/listening/academic/one/full.mp3?token=synthetic';
  const {pool,calls}=fixture(async url=>{
   if(url.includes('/authored?'))return Response.json({audioUrl:path('one'),downloadUrl:direct});
-  if(url===direct){if(failure==='network')throw new TypeError('Failed to fetch');return new Response(null,{status:403});}
+  if(url===direct){
+   if(failure==='network')throw new TypeError('Failed to fetch');
+   if(failure==='missing-length')return new Response(new Uint8Array(64),{headers:{'Content-Type':'audio/mpeg'}});
+   if(failure==='truncated')return response(4,64);
+   if(failure==='invalid-mime')return response(64,64,'text/html');
+   return new Response(null,{status:403});
+  }
   return response(64);
  });
  pool.warm([{testId:'one',locked:false}]);assert.equal((await done(pool,'one')).state,'ready');
