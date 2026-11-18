@@ -2,6 +2,7 @@
 from datetime import datetime, timezone
 from uuid import UUID
 
+import pytest
 from fastapi.testclient import TestClient
 from app import main as core
 from app.speaking_catalog_port import (_b64, parse_prompt_cursor, parse_topic_cursor,
@@ -12,6 +13,7 @@ client = TestClient(core.app)
 UID = UUID('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa')
 PROMPT = UUID('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb')
 DATE = '2026-10-22T12:12:12.670005Z'
+TIMESTAMP = datetime.fromisoformat(DATE)
 
 
 def prompt_row(i=0, *, full=False):
@@ -108,7 +110,7 @@ def test_paged_questions_has_total_order_and_no_heavy_study_support(monkeypatch)
     assert data['pageSize'] == 100 and data['matching'] == 257
     assert 'studySupport' not in data['prompts'][0]
     cursor = parse_prompt_cursor(data['nextCursor'])
-    assert cursor[0] == 'part1' and cursor[3] == DATE and cursor[2] == 'P1-0099'
+    assert cursor == ('part1', False, 'P1-0099', TIMESTAMP, PROMPT)
     sql, args = db.calls[0][1:]
     assert 'LIMIT 101' in sql and 'ORDER BY p.part' in sql
     assert "'[\"ai\"]'::jsonb" in sql and "'practice_alone'" not in sql
@@ -118,23 +120,33 @@ def test_paged_questions_has_total_order_and_no_heavy_study_support(monkeypatch)
     assert count_args == args
 
 
-def test_keyset_cursor_includes_postgres_microseconds(monkeypatch):
-    db = SpeakingDB(); setup(monkeypatch, db)
-    cursor = _b64(['part1', False, 'P1-0040', DATE, str(PROMPT)])
-    response = client.get('/api/speaking/practice/questions', params={'cursor': cursor})
+@pytest.mark.parametrize('part', ['part1', 'part2', 'part3'])
+def test_keyset_cursor_binds_microsecond_timestamp_from_first_page(monkeypatch, part):
+    db = SpeakingDB()
+    setup(monkeypatch, db)
+    db.page = [dict(prompt_row(i), part=part) for i in range(101)]
+    path = '/api/speaking/practice/questions'
+    first = client.get(path, params={'part': part})
+    cursor = first.json()['nextCursor']
+
+    db.calls.clear()
+    db.page = [dict(prompt_row(100), part=part)]
+    response = client.get(path, params={'part': part, 'cursor': cursor})
     assert response.status_code == 200
-    q, args = db.calls[0][1:]
-    assert '::timestamptz' in q and 'p.id) >' in q
-    assert args[-5:] == ('part1', False, 'P1-0040', DATE, str(PROMPT)) or args[-5:] == ['part1', False, 'P1-0040', DATE, str(PROMPT)]
-    assert response.json()['hasMore'] is False and response.json()['nextCursor'] is None
-    count_args = db.calls[1][2]
-    assert len(count_args) == 1  # cursor never changes the total matching count
+    sql, args = db.calls[0][1:]
+    assert '::timestamptz' in sql and 'p.id) >' in sql
+    assert args[-5:] == (part, False, 'P1-0099', TIMESTAMP, PROMPT)
+    data = response.json()
+    assert [row['promptText'] for row in data['prompts']] == ['Question 100']
+    assert data['hasMore'] is False and data['nextCursor'] is None
+    assert db.calls[1][2] == args[:-5]
 
 
 def test_invalid_cursor_refused_not_silent_restart(monkeypatch):
     db = SpeakingDB(); setup(monkeypatch, db)
     for text in ('!', 'a', '', _b64(['part1', False]), _b64(['invalid', False, '', DATE, str(PROMPT)]),
-                 _b64(['part1', False, '', 'wrong date', str(PROMPT)])):
+                 _b64(['part1', False, '', 'wrong date', str(PROMPT)]),
+                 _b64(['part1', False, '', DATE, 'wrong id'])):
         r = client.get('/api/speaking/practice/questions', params={'cursor': text})
         assert r.status_code == 400 and r.json() == {'error': 'invalid_cursor'}
     assert db.calls == []

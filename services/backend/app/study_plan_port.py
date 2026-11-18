@@ -190,7 +190,7 @@ async def reward_state(con, uid) -> dict:
 
 @router.get("/rewards")
 async def rewards(req: Request) -> JSONResponse:
-    user,error = await student(req)
+    user,error = await plan_participant(req)
     if error is not None:
         return error
     db = await core.pool()
@@ -201,7 +201,7 @@ async def rewards(req: Request) -> JSONResponse:
 
 @router.put("/rewards/{item_key}")
 async def redeem(req: Request,item_key: str) -> JSONResponse:
-    user,error = await student(req)
+    user,error = await plan_participant(req)
     if error is not None:
         return error
     item = MARKET.get(item_key)
