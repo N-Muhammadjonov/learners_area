@@ -10,7 +10,7 @@ function game(options={}){
  const h=setup({path:'/app/speaking/speak-or-die',role:'student',...options});
  let clock=0,level=.002,nextFrame=0,questionNumber=0,visible='visible';const frames=new Map(),inputs=[];
  Object.defineProperty(document,'visibilityState',{configurable:true,get:()=>visible});
- const deps={now:()=>clock,requestFrame:fn=>{const id=++nextFrame;frames.set(id,fn);return id;},cancelFrame:id=>frames.delete(id),questionPicker:{async next(){questionNumber++;return {id:ID(800+questionNumber),part:'part3',promptText:'Synthetic test question '+questionNumber+': explain your choice.',cueCard:null};}},
+ const deps={now:()=>clock,requestFrame:fn=>{const id=++nextFrame;frames.set(id,fn);return id;},cancelFrame:id=>frames.delete(id),questionPicker:{async next(part){questionNumber++;return {id:ID(800+questionNumber),part,promptText:'Synthetic test question '+questionNumber+': explain your choice.',cueCard:null};}},
   voiceFactory:args=>{const input={args,stream:{},disposed:false,opens:0,async open(){this.opens++;},sample(){assert(!this.disposed);return {rms:level,samples:Float32Array.from({length:128},(_,i)=>i%2?level:-level)};},dispose(){this.disposed=true;}};inputs.push(input);return input;}};
  const state=mount(h.ctx,{...deps,...options.dependencies});
  return {...h,...state,inputs,frames,deps,get now(){return clock;},setVolume(v){level=v;},step(ms=20){clock+=ms;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(clock));},steps(n,ms=20){for(let i=0;i<n;i++)this.step(ms);},async start(){h.click(h.q('[data-fluency-start]'));await tick();this.steps(315);assert.equal(state.engine.snapshot().phase,'running');},hide(){visible='hidden';document.dispatchEvent(new h.dom.window.Event('visibilitychange'));},show(){visible='visible';document.dispatchEvent(new h.dom.window.Event('visibilitychange'));}};
@@ -74,11 +74,85 @@ test('suspended audio during opening offers an explicit Resume and cleans the fa
 test('late background notification pauses at the last trustworthy sample rather than penalizing throttling',async()=>{
  const h=game();try{await h.start();h.steps(12,100);const before=h.engine.snapshot().elapsedMs;h.deps.cancelFrame([...h.frames.keys()][0]);h.step(50000);h.hide();assert.equal(h.engine.snapshot().phase,'paused');assert.equal(h.engine.snapshot().elapsedMs,before);assert(h.inputs[0].disposed);}finally{h.dispose();}
 });
-test('question picker uses only authorized bounded GET data and avoids immediate repeats',async()=>{
- const h=setup();try{h.stub({'/api/speaking/practice/questions':{prompts:[{id:ID(601),part:'part3',promptText:'Why is this a synthetic test question?'},{id:ID(602),part:'part3',promptText:'How would you explain this synthetic case?'}]}});const p=createQuestionPicker(),first=await p.next(h.ctx.signal),second=await p.next(h.ctx.signal),third=await p.next(h.ctx.signal);assert.notEqual(first.id,second.id);assert.notEqual(second.id,third.id);assert.equal(h.calls.length,1);assert(h.calls.every(call=>call.method==='GET'));assert(h.calls[0].path.includes('channel=practice_alone'));}finally{h.dispose();}
+const bankPath='/api/speaking/practice/questions';
+const prompt=(part,id,topic)=>({id:ID(id),part,topic,promptText:'Why '+topic+'?',cueCard:part==='part2'?'Describe '+topic:null});
+
+for(const [level,part] of [['beginner','part1'],['intermediate','part2'],['advanced','part3']]){
+ test(level+' opens only '+part+' in the game and keeps the same prompt on rerecord',async()=>{
+  const h=game({dependencies:{questionPicker:createQuestionPicker()}});
+  try{
+   h.stub({[bankPath]:{prompts:[prompt(part,601,'Travel')]}});
+   h.click(h.q('[data-fluency-level="'+level+'"]'));
+   await h.start();
+   assert.equal(h.calls.length,1);
+   const params=new URL(h.calls[0].path,'https://fixture.invalid').searchParams;
+   assert.equal(h.calls[0].method,'GET');
+   assert.equal(params.get('part'),part);
+   assert.equal(params.get('channel'),'practice_alone');
+   assert.equal(h.q('.fluency-question h2').textContent,'Why Travel?');
+   assert.equal(h.q('.fluency-question .fluency-eyebrow').textContent,'Travel');
+   assert.equal(h.q('.fluency-cue').hidden,part!=='part2');
+   assert(h.q('.fluency-level-label').textContent.includes(h.ctx.dict.speakingPractice.part[part]));
+   h.click(h.q('[data-fluency-finish]'));
+   h.click(h.q('[data-fluency-rerecord]'));
+   await tick();
+   assert.equal(h.calls.length,1);
+   assert.equal(h.q('.fluency-question h2').textContent,'Why Travel?');
+  }finally{h.dispose();}
+ });
+}
+
+for(const part of ['part1','part3'])test(part+' exhausts each topic across pages, remounts and level changes',async()=>{
+ const h=setup();
+ try{
+  const page1=[prompt(part,1,'Work'),prompt(part,2,'Food'),prompt(part,3,'Music')];
+  const page2=[prompt(part,4,' WORK '),prompt(part,5,'Food'),prompt(part,6,'Music'),page1[0]];
+  h.stub({[bankPath]:path=>{
+   const params=new URL(path,'https://fixture.invalid').searchParams;
+   if(params.get('part')==='part2')return {prompts:[prompt('part2',7,'Places')]};
+   return params.has('cursor')?{prompts:page2}:{prompts:page1,hasMore:true,nextCursor:'page2'};
+  }});
+  let picker=createQuestionPicker('student');
+  const draw=()=>picker.next(part,h.ctx.signal);
+  const rounds=[await draw()];
+  await picker.next('part2',h.ctx.signal);
+  picker=createQuestionPicker('student');
+  for(let i=1;i<7;i++)rounds.push(await draw());
+  const topics=rounds.map(row=>row.topic.trim().toLowerCase());
+  assert.equal(new Set(rounds.slice(0,6).map(row=>row.id)).size,6);
+  for(const i of [0,2,4])assert.equal(topics[i],topics[i+1]);
+  assert.equal(new Set([topics[0],topics[2],topics[4]]).size,3);
+  assert.notEqual(topics[5],topics[6]);
+  assert.equal(h.calls.length,5);
+ }finally{h.dispose();}
 });
-test('empty or failed bank never invents a production question',async()=>{
- const h=setup();try{h.stub({'/api/speaking/practice/questions':{prompts:[]}});await assert.rejects(createQuestionPicker().next(h.ctx.signal),error=>error.code==='question_empty');assert.equal(h.calls.length,3);assert(h.calls.every(call=>call.method==='GET'));}finally{h.dispose();}
+
+test('Part 2 draws individual cue cards and avoids immediate repeats between cycles',async()=>{
+ const h=setup();
+ try{
+  const cards=[prompt('part2',601,'Travel'),prompt('part2',602,'Travel')];
+  h.stub({[bankPath]:{prompts:cards}});
+  const picker=createQuestionPicker(),draw=()=>picker.next('part2',h.ctx.signal);
+  const first=await draw(),second=await draw(),third=await draw();
+  assert.notEqual(first.id,second.id);
+  assert.notEqual(second.id,third.id);
+  assert.equal(first.cueCard,'Describe Travel');
+  assert.equal(h.calls.length,1);
+ }finally{h.dispose();}
+});
+
+test('empty parts never fall back to another part and malformed paging can be retried',async()=>{
+ const h=setup();
+ try{
+  const picker=createQuestionPicker(),draw=()=>picker.next('part1',h.ctx.signal);
+  h.stub({[bankPath]:{prompts:[prompt('part3',1,'Wrong part')]}});
+  await assert.rejects(draw(),{code:'question_empty'});
+  assert.equal(h.calls.length,1);
+  h.stub({[bankPath]:{prompts:[prompt('part1',1,'Work')],hasMore:true,nextCursor:'loop'}});
+  await assert.rejects(draw(),{code:'question_unavailable'});
+  h.stub({[bankPath]:{prompts:[prompt('part1',2,'Food')]}});
+  assert.equal((await draw()).id,ID(2));
+ }finally{h.dispose();}
 });
 
 test('answer recording starts with speaking and supports playback, same-question retry and deletion',async()=>{

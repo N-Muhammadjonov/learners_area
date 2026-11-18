@@ -1,9 +1,9 @@
 /** DOM-free, monotonic game physics. Values are LA tuning, not Mentora parameters. */
 export const ROUND_MS=60000;
 export const DIFFICULTIES=Object.freeze({
- beginner:Object.freeze({gracePeriodMs:2100,dangerSpeed:.045,speechActivationMs:80,speechReleaseMs:320,sensitivity:1.15}),
- intermediate:Object.freeze({gracePeriodMs:1100,dangerSpeed:.075,speechActivationMs:110,speechReleaseMs:260,sensitivity:1}),
- advanced:Object.freeze({gracePeriodMs:450,dangerSpeed:.12,speechActivationMs:130,speechReleaseMs:210,sensitivity:.95})
+ beginner:Object.freeze({part:'part1',gracePeriodMs:2100,dangerSpeed:.045,speechActivationMs:80,speechReleaseMs:320,sensitivity:1.15}),
+ intermediate:Object.freeze({part:'part2',gracePeriodMs:1100,dangerSpeed:.075,speechActivationMs:110,speechReleaseMs:260,sensitivity:1}),
+ advanced:Object.freeze({part:'part3',gracePeriodMs:450,dangerSpeed:.12,speechActivationMs:130,speechReleaseMs:210,sensitivity:.95})
 });
 /** @typedef {'idle'|'requesting_permission'|'calibrating'|'ready'|'running'|'paused'|'won'|'lost'|'finished'|'quit'|'error'} GamePhase */
 /** @param {{level?:string,now?:()=>number,durationMs?:number,collisionAt?:number}} options */
