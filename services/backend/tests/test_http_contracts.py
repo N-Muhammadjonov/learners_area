@@ -32,12 +32,29 @@ def test_theme_cookie():
     assert client.post('/api/theme', json={'theme':'dark'}).json() == {'error': 'invalid_theme'}
 
 
-def test_https_partitioned_cookie():
+def test_https_first_party_cookie_persists_without_chips():
     r = client.post('/api/locale', json={'locale': 'en'}, headers={'x-forwarded-proto': 'https'})
     assert r.status_code == 200
     assert 'Secure' in r.headers['set-cookie']
-    assert 'SameSite=None' in r.headers['set-cookie']
-    assert 'Partitioned' in r.headers['set-cookie']
+    assert 'SameSite=Lax' in r.headers['set-cookie']
+    assert 'Partitioned' not in r.headers['set-cookie']
+
+
+def test_https_embedded_cookie_keeps_partitioned_policy():
+    headers = {'x-forwarded-proto': 'https', 'x-learners-embedded': '1'}
+    r = client.post('/api/locale', json={'locale': 'en'}, headers=headers)
+    assert 'SameSite=None; Secure; Partitioned' in r.headers['set-cookie']
+    r = client.post('/api/locale', json={'locale': 'en'}, headers={
+        'x-forwarded-proto': 'https', 'sec-fetch-dest': 'iframe'
+    })
+    assert 'SameSite=None; Secure; Partitioned' in r.headers['set-cookie']
+
+
+def test_logout_clears_both_cookie_variants_on_https():
+    r = client.post('/api/auth/logout', headers={'x-forwarded-proto': 'https'})
+    cookies = r.headers.get_list('set-cookie')
+    assert any('la_session=; Path=/; Max-Age=0; SameSite=Lax; Secure' in c for c in cookies)
+    assert any('la_session=; Path=/; Max-Age=0; SameSite=None; Secure; Partitioned' in c for c in cookies)
 
 
 def test_locale_invalid():

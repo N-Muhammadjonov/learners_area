@@ -1,26 +1,9 @@
 /**
- * How this application writes cookies.
- *
- * The centre's app is not always opened as a top-level website. The Arena preview
- * embeds it in a frame on a *different site*, and a `SameSite=Lax` cookie is never
- * stored in that situation: the browser drops the `Set-Cookie` from the sign-in
- * response, so the very next request arrives without a session and the visitor is
- * thrown back to the login screen — the sign-in "does nothing" while the server
- * logs a perfectly successful 200.
- *
- * So the browser's own context decides:
- *
- *   served over HTTPS  →  SameSite=None; Secure; Partitioned
- *   served over HTTP   →  SameSite=Lax            (unchanged, for local work)
- *
- * `Partitioned` (CHIPS) is not decoration. It keeps the cookie inside the
- * top-level site it was issued for, which is what makes this safe: a page on
- * another site that frames the app gets its own partition, and a cookie issued in
- * one partition is never sent in another — so removing `Lax` does not open a
- * cross-site request-forgery hole the way a bare `SameSite=None` would. It is also
- * the one cookie kind that survives third-party cookie blocking.
- *
- * Pure module: no server imports, so the rules can be unit tested directly.
+ * First-party sign-in must use an unpartitioned, persistent HttpOnly cookie.
+ * A cross-site iframe needs SameSite=None; Secure; Partitioned (CHIPS).
+ * Safari versions without CHIPS support can reject partitioned cookies, even
+ * for first-party use, so HTTPS alone must never select the embedded policy.
+ * Keep this pure contract aligned with services/backend/app/security.py.
  */
 
 export type CookiePolicy = {
@@ -37,10 +20,10 @@ export type RequestLike = {
 };
 
 /** The cookie rules for a given transport. */
-export function cookiePolicyFor(https: boolean): CookiePolicy {
-  return https
+export function cookiePolicyFor(https: boolean, embedded = false): CookiePolicy {
+  return https && embedded
     ? { sameSite: "none", secure: true, partitioned: true }
-    : { sameSite: "lax", secure: false, partitioned: false };
+    : { sameSite: "lax", secure: https, partitioned: false };
 }
 
 function firstValue(header: string | null): string | null {
@@ -74,7 +57,9 @@ export function requestIsHttps(req: RequestLike): boolean {
 }
 
 export function cookiePolicyForRequest(req: RequestLike): CookiePolicy {
-  return cookiePolicyFor(requestIsHttps(req));
+  const embedded = req.headers.get("x-learners-embedded") === "1" ||
+    ["iframe", "frame"].includes((req.headers.get("sec-fetch-dest") ?? "").toLowerCase());
+  return cookiePolicyFor(requestIsHttps(req), embedded);
 }
 
 /**

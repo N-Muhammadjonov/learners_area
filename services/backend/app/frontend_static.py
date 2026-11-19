@@ -20,6 +20,15 @@ PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset
 PREFIXES = ('/api', '/_frontend', '/.git', '/.env', '/services', '/src', '/drizzle', '/node_modules')
 
 
+def entry_destination(user: dict | None) -> str | None:
+    """Restore a valid session instead of serving sign-in or marketing again."""
+    if not user:
+        return None
+    if user['account_status'] != 'active':
+        return '/pending'
+    return '/app/progress' if user['role'] == 'guardian' else '/app'
+
+
 class StaticFrontend:
     def __init__(self):
         self._cache = None
@@ -148,7 +157,16 @@ class StaticFrontend:
                         re.fullmatch(pattern, path) for pattern in manifest['routes'])
                     if matched:
                         user = None
-                        if path not in PUBLIC_PAGES:
+                        if path in ('/', '/login') and req.cookies.get(core.SESSION_COOKIE):
+                            try:
+                                user = await core.current_user(req)
+                            except Exception as exc:
+                                response = core.db_failure(exc)
+                            if response is None:
+                                destination = entry_destination(user)
+                                if destination:
+                                    response = RedirectResponse(destination, 303, headers=core.PRIVATE)
+                        if response is None and path not in PUBLIC_PAGES:
                             try:
                                 user = await core.current_user(req)
                             except Exception as exc:

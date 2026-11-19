@@ -18,3 +18,22 @@ test('missing or excessive Retry-After is not retried and abort cancels the wait
  const pending=client.request('/api/auth/login',{method:'POST',signal:controller.signal});
  setTimeout(()=>controller.abort(),5);await assert.rejects(pending,error=>error.name==='AbortError');assert.equal(calls,1);
 });
+
+test('iframe API calls explicitly request CHIPS while Safari tabs keep first-party cookies',async()=>{
+ const previous=globalThis.window;
+ const headers=[],client=createApi(async(_path,options)=>{
+  headers.push(options.headers);
+  return response(200,null);
+ });
+ try{
+  globalThis.window={top:{}};
+  await client.request('/api/auth/login',{method:'POST',body:{email:'a@example.test',password:'test'}});
+  assert.equal(headers[0]['X-Learners-Embedded'],'1');
+  const firstParty={};firstParty.top=firstParty;firstParty.self=firstParty;globalThis.window=firstParty;
+  await client.request('/api/auth/login',{method:'POST',body:{email:'a@example.test',password:'test'}});
+  assert.equal('X-Learners-Embedded' in headers[1],false);
+ }finally{
+  if(previous===undefined)delete globalThis.window;
+  else globalThis.window=previous;
+ }
+});

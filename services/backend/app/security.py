@@ -172,17 +172,28 @@ def is_https(req: Request) -> bool:
 
 def cookie_attrs(req: Request) -> tuple[str, bool, bool]:
     secure = is_https(req)
-    return ('None' if secure else 'Lax', secure, secure)
+    # First-party Safari sessions must not depend on CHIPS support.
+    # Only an explicit embedded client or iframe navigation needs CHIPS.
+    embedded = (req.headers.get('x-learners-embedded') == '1' or
+                req.headers.get('sec-fetch-dest', '').lower() in ('iframe', 'frame'))
+    partitioned = secure and embedded
+    return ('None' if partitioned else 'Lax', secure, partitioned)
 
 
 def clear_session_cookie(response: Response, req: Request) -> None:
-    samesite, secure, partitioned = cookie_attrs(req)
-    clear = f'{SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite={samesite}'
-    if secure: clear += '; Secure'
-    if partitioned: clear += '; Partitioned'
-    response.headers.append('set-cookie', clear)
-    if partitioned:
-        response.headers.append('set-cookie', f'{SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax')
+    # Retire both the old unconditional CHIPS session and the first-party
+    # session, including when the browser moves between iframe and top-level.
+    if is_https(req):
+        response.headers.append(
+            'set-cookie', f'{SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite=None; Secure; Partitioned'
+        )
+        response.headers.append(
+            'set-cookie', f'{SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax; Secure'
+        )
+    else:
+        response.headers.append(
+            'set-cookie', f'{SESSION_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax'
+        )
 
 
 def write_cookie(response: Response, req: Request, name: str, value: str, ttl: int, http_only=False) -> None:

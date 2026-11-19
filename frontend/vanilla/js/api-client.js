@@ -18,13 +18,18 @@ function retryWait(delay,signal){
   signal?.addEventListener('abort',abort,{once:true});
  });
 }
+/** Same-origin iframe sessions use CHIPS; normal browser tabs use first-party cookies. */
+function embeddedContext(){
+ try{return typeof window!=='undefined'&&window.top!==window.self;}
+ catch{return true;}
+}
 /** Same-origin transport; only the login POST retries an explicit 503 Retry-After. */
 export function createApi(fetcher=globalThis.fetch.bind(globalThis),onUnauthorized=()=>{},onMutation=()=>{}){
  const pending=new Map();let epoch=0;
  async function execute(path,{method='GET',body,signal,maxBytes,keepalive=false}={}){
   if(!path.startsWith('/api/')||/[\\\u0000-\u001f]/.test(path))throw new TypeError('Only same-origin /api paths accepted');
   const multipart=typeof FormData!=='undefined'&&body instanceof FormData;
-  const options={method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(body===undefined||multipart?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:multipart?body:JSON.stringify(body),signal,...keepalive?{keepalive:true}:{}};
+  const options={method,credentials:'same-origin',cache:'no-store',redirect:'error',headers:{Accept:'application/json',...(embeddedContext()?{'X-Learners-Embedded':'1'}:{}),...(body===undefined||multipart?{}:{'Content-Type':'application/json'})},body:body===undefined?undefined:multipart?body:JSON.stringify(body),signal,...keepalive?{keepalive:true}:{}};
   let response;
   for(let attempt=0;;attempt++){
    response=await fetcher(path,options);

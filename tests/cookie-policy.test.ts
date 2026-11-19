@@ -22,8 +22,9 @@ function request(headers: Record<string, string>, protocol?: string) {
   return { headers: { get: (name: string) => bag.get(name.toLowerCase()) ?? null }, nextUrl: protocol ? { protocol } : undefined };
 }
 
-test("over TLS the cookie is SameSite=None, Secure and partitioned", () => {
-  assert.deepEqual(cookiePolicyFor(true), { sameSite: "none", secure: true, partitioned: true });
+test("over TLS a first-party cookie is Lax, Secure and not partitioned", () => {
+  assert.deepEqual(cookiePolicyFor(true), { sameSite: "lax", secure: true, partitioned: false });
+  assert.deepEqual(cookiePolicyFor(true, true), { sameSite: "none", secure: true, partitioned: true });
 });
 
 test("over plain HTTP the cookie keeps the protective Lax default", () => {
@@ -48,19 +49,28 @@ test("the request URL is the last signal", () => {
   assert.equal(requestIsHttps(request({}, "https:")), true);
   assert.equal(requestIsHttps(request({}, "http:")), false);
   assert.deepEqual(cookiePolicyForRequest(request({ "x-forwarded-proto": "https" })), {
-    sameSite: "none",
+    sameSite: "lax",
     secure: true,
-    partitioned: true,
+    partitioned: false,
   });
+  for (const headers of [
+    { "x-forwarded-proto": "https", "x-learners-embedded": "1" },
+    { "x-forwarded-proto": "https", "sec-fetch-dest": "iframe" },
+  ]) {
+    assert.deepEqual(cookiePolicyForRequest(request(headers)), {
+      sameSite: "none", secure: true, partitioned: true,
+    });
+  }
 });
 
 test("a partitioned cookie is retired only by a matching expiry", () => {
-  const partitioned = serializeCookieClear("la_session", cookiePolicyFor(true));
+  const partitioned = serializeCookieClear("la_session", cookiePolicyFor(true, true));
   assert.equal(partitioned, "la_session=; Path=/; Max-Age=0; SameSite=None; Secure; Partitioned");
 
   // The pre-partition shape of the same cookie, so signing out ends all of it.
-  const plain = serializeCookieClear("la_session", cookiePolicyFor(false));
-  assert.equal(plain, "la_session=; Path=/; Max-Age=0; SameSite=Lax");
-  assert.ok(!plain.includes("Secure"));
+  const plain = serializeCookieClear("la_session", cookiePolicyFor(true));
+  assert.equal(plain, "la_session=; Path=/; Max-Age=0; SameSite=Lax; Secure");
   assert.ok(!plain.includes("Partitioned"));
+  const local = serializeCookieClear("la_session", cookiePolicyFor(false));
+  assert.equal(local, "la_session=; Path=/; Max-Age=0; SameSite=Lax");
 });
