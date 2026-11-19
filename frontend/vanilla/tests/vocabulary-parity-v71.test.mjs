@@ -3,10 +3,22 @@ import {setup,tick,ID} from './staff-final30/harness.mjs';
 import {mountWords} from '../modules/vocabulary/words.js';
 import {mountUse} from '../modules/vocabulary/use.js';
 import {mount} from '../modules/vocabulary/index.js';
+import {moduleLayout} from '../modules/shell/module-layout.js';
 import {flashcards} from '../modules/vocabulary/game-flashcards.js';
 const word=n=>({id:ID(n),term:'word '+n,definitionEn:'meaning '+n,mastery:'new',translationUz:'tarjima '+n,folderId:ID(700)});
 const folder={id:ID(700),name:'Food',count:144};
 function library(h,mutate=()=>({ok:true})){h.stub({'/api/vocabulary/folders':(p,o)=>o.method==='POST'?mutate(o.body):{folders:[folder]},'/api/vocabulary/packs':(p,o)=>o.method==='POST'?mutate(o.body):{packs:[{id:'food',label:{en:'Food',uz:'Oziq-ovqat'},wordCount:144}]},'/api/vocabulary/summary':{summary:{total:2,byMastery:{new:2},bySource:{manual:2}}},'/api/vocabulary/leaderboard':{points:0,rank:0,streak:0,name:'Learner',level:'B2',top:[]},'/api/vocabulary':{words:[word(1),word(2)],hasMore:false}});}
+test('the mounted Vocabulary route shows exactly one coin reward',async()=>{
+ const h=setup({path:'/app/vocabulary',role:'student',locale:'uz'});
+ try{
+  library(h);
+  const staging=document.createElement('div');
+  mount({...h.ctx,root:staging});
+  h.ctx.root.append(moduleLayout(h.ctx,[...staging.childNodes]));
+  await tick(5);
+  assert.equal(h.qa('[data-coin-reward-for="vocabulary"]').length,1);
+ }finally{h.dispose();}
+});
 test('ready-made pack never mutates before confirmation and cancel sends no request',async()=>{const h=setup({path:'/app/vocabulary',role:'student'});try{let posts=[];library(h,b=>{posts.push(b);return {ok:true,added:144};});mountWords(h.ctx,h.ctx.root);await tick(8);h.click(h.q('[data-pack=food]'));assert.equal(posts.length,0);let d=document.querySelector('[data-vocabulary-dialog]');assert(d.open&&d.textContent.includes('144'));h.click([...d.querySelectorAll('button')].find(b=>b.textContent==='Cancel'));assert.equal(posts.length,0);assert.equal(document.querySelector('dialog'),null);h.click(h.q('[data-pack=food]'));d=document.querySelector('dialog');h.submit(d.querySelector('form'));await tick(8);assert.deepEqual(posts,[{packId:'food'}]);assert.equal(document.querySelector('dialog'),null);}finally{h.dispose();}});
 test('folder controls rename the selected folder and deletion requires its own confirmation',async()=>{const h=setup({path:'/app/vocabulary',role:'student'});try{let bodies=[];library(h,b=>{bodies.push(b);return {ok:true,deletedWords:2};});mountWords(h.ctx,h.ctx.root);await tick(8);assert.equal(h.q('[data-folder-rename]'),null);h.click(h.q('[data-folder="'+folder.id+'"]'));h.click(h.q('[data-folder-rename]'));let d=document.querySelector('dialog');h.input(d.querySelector('input'),'Meals');h.submit(d.querySelector('form'));await tick(8);assert.deepEqual(bodies[0],{action:'rename',folderId:folder.id,newName:'Meals'});h.click(h.q('[data-folder-delete]'));d=document.querySelector('dialog');assert(d.textContent.includes('all words in this folder'));assert.equal(bodies.length,1);h.submit(d.querySelector('form'));await tick(8);assert.deepEqual(bodies[1],{action:'delete',folderId:folder.id});assert.equal(h.qa('.vocabulary-word-card').length,2);assert(h.qa('.vocabulary-word-card').every(n=>n.parentElement.tagName==='UL'));}finally{h.dispose();}});
 test('board route has no library search or empty sidebar and retains own name without disclosing a level',async()=>{const h=setup({path:'/app/vocabulary?tab=board',role:'student'});try{library(h);mount(h.ctx);await tick(5);assert.equal(h.q('#vocab-search'),null);assert.equal(h.q('aside'),null);assert(h.q('[data-board-own-standing]').textContent.includes('Learner'));assert(!h.q('[data-board-own-standing]').textContent.includes('B2'));assert.equal(h.qa('[data-leaderboard]').length,1);}finally{h.dispose();}});

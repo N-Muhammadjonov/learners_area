@@ -20,8 +20,10 @@ document.addEventListener('click',event=>{const a=event.target.closest('a');if(a
 const frame=page=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
 const geometry=page=>page.evaluate(()=>{
  const nav=document.querySelector('.module-dock__glass'),dock=nav.parentElement,links=[...nav.querySelectorAll('a')],bounds=nav.getBoundingClientRect();
+ const leading=links[0].getBoundingClientRect().left-bounds.left;
+ const trailing=bounds.right-links.at(-1).getBoundingClientRect().right;
  const inside=link=>{const b=link.getBoundingClientRect();return b.left>=bounds.left&&b.right<=bounds.right;};
- return {width:innerWidth,documentWidth:document.documentElement.scrollWidth,dockLeft:dock.getBoundingClientRect().left,dockRight:dock.getBoundingClientRect().right,toolsLeft:document.querySelector('[data-fixture-tools]').getBoundingClientRect().left,client:nav.clientWidth,total:nav.scrollWidth,visible:links.filter(inside).length,first:inside(links[0]),last:inside(links.at(-1)),scroll:nav.scrollLeft,keys:links.map(a=>a.dataset.dockModule)};
+ return {leading,trailing,width:innerWidth,documentWidth:document.documentElement.scrollWidth,dockLeft:dock.getBoundingClientRect().left,dockRight:dock.getBoundingClientRect().right,toolsLeft:document.querySelector('[data-fixture-tools]').getBoundingClientRect().left,client:nav.clientWidth,total:nav.scrollWidth,visible:links.filter(inside).length,first:inside(links[0]),last:inside(links.at(-1)),scroll:nav.scrollLeft,keys:links.map(a=>a.dataset.dockModule)};
 });
 
 test('Dock fits available width, scrolls both ways and keeps all modules reachable on phones/tablets',async t=>{
@@ -36,11 +38,12 @@ test('Dock fits available width, scrolls both ways and keeps all modules reachab
  let browser;
  try{
   browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE?{executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE}:{channel:'chrome'})});
-  for(const [width,height]of [[320,568],[390,844],[600,960],[768,1024],[820,1180],[1024,1366],[1366,768]]){
+  for(const [width,height]of [[320,568],[390,844],[600,960],[768,1024],[820,1180],[900,768],[1024,1366],[1100,768],[1101,768],[1366,768]]){
    const context=await browser.newContext({viewport:{width,height},hasTouch:true}),page=await context.newPage();
    try{
     await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);await frame(page);
-    const first=await geometry(page);assert.equal(first.documentWidth,width);assert(first.dockLeft>=0);assert(first.dockRight<=first.toolsLeft-2);assert(first.first);assert(first.visible>=3);assert.equal(first.keys.length,13);
+    const first=await geometry(page);assert.equal(first.documentWidth,width);assert(first.dockLeft>=0);assert(first.dockRight<=first.toolsLeft-2);assert(first.first);assert(first.visible>=3);assert.equal(first.keys.length,14);
+    if(first.total<=first.client+1)assert(Math.abs(first.leading-first.trailing)<=1, width+': Dock should fit its icons');
     if(first.total>first.client+1){
      const partial=await page.locator('.module-dock__glass').evaluate(async nav=>{
       const link=nav.firstElementChild,bounds=nav.getBoundingClientRect(),item=link.getBoundingClientRect();
@@ -59,7 +62,7 @@ test('Dock fits available width, scrolls both ways and keeps all modules reachab
     }
     await page.evaluate(()=>window.fixtureDock.update(new URL('/app/management',location.origin)));await frame(page);assert((await geometry(page)).last);
     await page.setViewportSize({width:height,height:width});await frame(page);assert((await geometry(page)).last,`${width}: active module lost after rotation`);
-    t.diagnostic(`${width}x${height}: ${first.visible}/13 visible, ${first.total>first.client?'horizontal scroll':'all fit'}`);
+    t.diagnostic(`${width}x${height}: ${first.visible}/${first.keys.length} visible, ${first.total>first.client?'horizontal scroll':'all fit'}`);
    }finally{await context.close();}
   }
   const context=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true}),page=await context.newPage();

@@ -249,6 +249,7 @@ html.has-mouse #cursorSpot{opacity:1}
 nav .w{width:min(1200px,100% - 24px)}
 .nv{gap:14px}
 .nav-actions{display:flex;align-items:center;gap:10px}
+.nav-cta{display:flex;align-items:stretch;gap:inherit;min-width:0}
 .nav-actions .btn{white-space:nowrap;min-height:45px;min-width:164px}
 .lang-switch{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.15);border-radius:999px;overflow:hidden;padding:3px;gap:2px;flex:none}
 .lang-switch button{border:0;border-radius:999px;background:transparent;color:var(--mut);font:inherit;font-size:12px;font-weight:750;padding:7px 10px;cursor:pointer}
@@ -676,18 +677,29 @@ body.intro-inverted .mq{overflow:hidden}
  body.intro-inverted .cinematic-hero-flow .hero .stage svg.ch{max-height:62px}
  body.intro-inverted .cinematic-hero-flow .hero h1{font-size:clamp(33px,7vw,55px)!important}
 }
+/* Give the brand, language switch and login their own row on narrow screens. */
+@media(max-width:740px){
+ html:has(body.intro-inverted){scroll-padding-top:calc(120px + env(safe-area-inset-top))}
+ body.intro-inverted nav .w{
+  display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+  gap:6px 8px;padding:7px 9px!important;border-radius:18px;
+ }
+ body.intro-inverted nav .br{
+  width:auto;min-width:0;white-space:normal;overflow-wrap:anywhere;line-height:1.15;
+  font-size:clamp(9px,2.6vw,12px)!important;gap:6px!important;justify-content:start;
+ }
+ body.intro-inverted nav .br img{height:24px!important;width:24px;min-width:24px;flex:none}
+ body.intro-inverted nav .nv,body.intro-inverted nav .nav-actions{display:contents}
+ body.intro-inverted nav .lang-switch{grid-column:2;grid-row:1}
+ body.intro-inverted nav .nv>a[href="/login"]{grid-column:3;grid-row:1}
+ body.intro-inverted nav .nav-cta{
+  grid-column:1 / -1;grid-row:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;
+ }
+ body.intro-inverted nav .nav-actions a.la-roll-button{
+  font-size:clamp(11px,2.75vw,13px)!important;padding:6px 8px!important;gap:5px!important;
+ }
+}
 @media(max-width:440px){
- body.intro-inverted nav .w{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:5px 8px;padding:7px 10px!important;border-radius:18px}
- body.intro-inverted nav .br{grid-column:1;grid-row:1;font-size:10px!important;letter-spacing:.08em;gap:6px!important;justify-self:start}
- body.intro-inverted nav .br img{height:24px!important;min-width:22px}
- body.intro-inverted nav .nv{display:contents!important}
- body.intro-inverted nav .nv>a:not(.btn){display:none!important}
- body.intro-inverted nav .nav-actions{display:contents!important}
- body.intro-inverted nav .nav-actions .lang-switch{grid-column:2;grid-row:1;justify-self:end}
- body.intro-inverted nav .nav-actions>a.btn:nth-of-type(1){grid-column:1;grid-row:2;width:100%!important;justify-content:center}
- body.intro-inverted nav .nav-actions>a.btn:nth-of-type(2){grid-column:2;grid-row:2;width:100%!important;justify-content:center}
- body.intro-inverted nav .nav-actions a.la-roll-button{font-size:clamp(10px,2.75vw,12px)!important;min-width:0!important;padding:4px 6px!important;gap:5px!important;overflow:visible!important}
- body.intro-inverted nav .nav-actions .la-roll-arrow{width:21px!important;height:21px!important;font-size:13px!important}
  body.intro-inverted .cinematic-hero-flow{padding-top:115px;padding-bottom:38px}
  body.intro-inverted .cinematic-hero-flow .hero{width:calc(100% - 28px)!important}
  body.intro-inverted .cinematic-hero-flow .hero h1{font-size:clamp(31px,7.6vw,41px)!important}
@@ -704,9 +716,6 @@ body.intro-inverted .mq{overflow:hidden}
  body.intro-inverted .cinematic-hero-flow .hero .stage .tk{font-size:10px}
 }
 @media(max-width:350px){
- body.intro-inverted nav .w{gap:3px 5px;padding:5px 7px!important}
- body.intro-inverted nav .br{font-size:9px!important}
- body.intro-inverted nav .nav-actions a.la-roll-button{font-size:10px!important;gap:4px!important;padding:4px 4px!important}
  body.intro-inverted nav .nav-actions .la-roll-arrow{width:19px!important;height:19px!important}
  body.intro-inverted .cinematic-hero-flow .hero .stage{grid-auto-rows:minmax(128px,auto)}
  body.intro-inverted .cinematic-hero-flow .hero .stage .pn{min-height:128px}
@@ -725,15 +734,6 @@ body.intro-inverted nav .nv>a[href="/login"]:focus-visible{background:rgba(255,2
 @media(max-width:740px){
  body.intro-inverted nav .nv>a[href="/login"]{padding:4px 6px!important;font-size:11px!important}
 }
-@media(max-width:440px){
- body.intro-inverted nav .w{grid-template-columns:minmax(54px,1fr) auto minmax(116px,1.5fr)!important;grid-template-rows:auto auto!important;column-gap:6px!important;row-gap:6px!important}
- body.intro-inverted nav .br{grid-column:1!important;grid-row:1!important}
- body.intro-inverted nav .nav-actions .lang-switch{grid-column:2!important;grid-row:1!important;justify-self:center!important}
- body.intro-inverted nav .nv>a[href="/login"]{grid-column:3!important;grid-row:1!important;justify-self:end!important;padding:4px 10px!important;min-height:30px!important}
- body.intro-inverted nav .nav-actions>a.btn:nth-of-type(1){grid-column:1 / 3!important;grid-row:2!important}
- body.intro-inverted nav .nav-actions>a.btn:nth-of-type(2){grid-column:3!important;grid-row:2!important}
-}
-
 /* v2 panoramic camera: single viewport background with four intersecting environments. */
 body.intro-inverted #cinematicTrack>.cinematic-panel{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important}
 body.intro-inverted #cinematicDunes{z-index:4!important}
@@ -813,8 +813,6 @@ body.intro-inverted nav .nav-actions a.la-roll-button{
  body.intro-inverted .cinematic-hero-flow .hero a.hc.o{
   display:flex!important;max-width:max-content!important;margin:7px auto!important
  }
- body.intro-inverted nav .nav-actions a.la-roll-button{min-width:0!important;width:auto!important}
- body.intro-inverted nav .nav-actions a.la-roll-button .la-roll-clip{min-width:0!important;max-width:100%!important}
 }
 
 /* Overscan photos, not viewport layers: eliminate exposed edge strips during scroll. */
@@ -1048,4 +1046,34 @@ body.intro-inverted .reversed-finale .band-story-main p:not(.ey){
   min-width:min(280px,calc(100vw - 28px))!important;
   padding-left:13px!important;
  }
+}
+
+@media(max-width:740px){
+ body.intro-inverted .band-story-card{grid-template-columns:minmax(0,1fr)}
+ body.intro-inverted .band-story-main{min-width:0;padding:clamp(18px,5vw,28px)}
+ body.intro-inverted .band-story-side{
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;
+  border-left:0;border-top:1px dashed var(--ln);padding:18px;
+ }
+ body.intro-inverted .band-story-side strong{margin:0;overflow-wrap:anywhere}
+ body.intro-inverted .band-story-side small{grid-column:1 / -1}
+ body.intro-inverted .band-story-actions{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:8px;
+ }
+ body.intro-inverted :is(nav .nav-cta,.band-story-actions) a.la-roll-button{
+  min-width:0!important;width:100%!important;max-width:100%;
+  min-height:44px!important;white-space:normal;text-align:center;
+ }
+ /* A wrapped title needs the natural line height of the button on phones. */
+ body.intro-inverted :is(nav .nav-cta,.band-story-actions) a.la-roll-button :is(.la-roll-clip,.la-roll-track,.la-roll-label){
+  flex:0 1 auto!important;min-width:0!important;width:auto!important;
+  max-width:100%!important;height:auto!important;white-space:normal!important;
+  transform:none!important;
+ }
+ body.intro-inverted :is(nav .nav-cta,.band-story-actions) .la-roll-label[aria-hidden]{display:none!important}
+ body.intro-inverted #test .hd{flex-wrap:wrap;gap:5px 12px}
+ body.intro-inverted #test :is(.q,.opt,blockquote){overflow-wrap:anywhere}
+ body.intro-inverted #test .au small{min-width:min(200px,100%)}
+ body.intro-inverted #test .fm :is(label,select,input){min-width:0;max-width:100%}
+ body.intro-inverted .shot-dialog-foot{flex-wrap:wrap;overflow-wrap:anywhere}
 }
