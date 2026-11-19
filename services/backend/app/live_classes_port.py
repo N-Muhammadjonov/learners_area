@@ -2173,7 +2173,7 @@ def _check_ws_origin(ws: WebSocket) -> bool:
 async def _authenticate_ws(ws: WebSocket) -> dict[str, Any] | None:
     token_str = ws.cookies.get(SESSION_COOKIE)
     token = verify_token(token_str)
-    if not token:
+    if not token or token.get('secondOwner'):
         return None
     expires_at = token.get('expiresAt')
     if isinstance(expires_at, (int, float)) and expires_at <= time.time():

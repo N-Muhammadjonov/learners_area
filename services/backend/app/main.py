@@ -128,10 +128,16 @@ async def _load_authority(req: Request):
           SELECT id, name, email, role, account_status, locale,
                  onboarding_completed_at, status_reason, auth_version
           FROM users
-          WHERE id = $1 AND auth_version = $2
+          WHERE id = $1 AND auth_version = $2 AND second_owner_only = $4
+            AND (NOT $4 OR EXISTS (
+              SELECT 1 FROM second_owner_access access JOIN users owner_account ON owner_account.id = access.owner_id
+              WHERE access.learner_id = $1 AND access.session_expires_at > now()
+                AND owner_account.role = 'owner' AND owner_account.account_status = 'active'
+                AND owner_account.auth_version = access.owner_auth_version
+            ))
             AND NOT EXISTS (SELECT 1 FROM auth_session_revocations r
               WHERE r.token_hash = $3 AND r.user_id = $1 AND r.expires_at > NOW())
-          LIMIT 1''', identifier, token['authVersion'], token['sessionKey'])
+          LIMIT 1''', identifier, token['authVersion'], token['sessionKey'], token.get('secondOwner', False))
     if not row: return None
     user = dict(row)
     if user['role'] == 'guardian':
@@ -141,7 +147,8 @@ async def _load_authority(req: Request):
         from fastapi import HTTPException
         if req.url.path.startswith('/api/') and not guardian_path_allowed(req.url.path):
             raise HTTPException(403, 'forbidden')
-    return {'user': user, 'expiresAt': token['expiresAt'], 'sessionKey': token['sessionKey'], 'authVersion': token['authVersion']}
+    return {'user': user, 'expiresAt': token['expiresAt'], 'sessionKey': token['sessionKey'],
+            'authVersion': token['authVersion'], 'secondOwner': token.get('secondOwner', False)}
 
 
 def forget_authority(req: Request):
@@ -184,6 +191,14 @@ async def secure_transport(request: Request, call_next):
             response = j({'error': 'invalid_origin', 'reason': reason}, 403)
             add_security_headers(response, request)
             return response
+        if request.method not in ('GET', 'HEAD', 'OPTIONS'):
+            token = verify_token(request.cookies.get(SESSION_COOKIE))
+            if token and token.get('secondOwner'):
+                from .second_owner_port import observer_write_allowed
+                if not observer_write_allowed(request.method, request.url.path):
+                    response = j({'error': 'second_owner_read_only'}, 403, PRIVATE)
+                    add_security_headers(response, request)
+                    return response
     try:
         response = await call_next(request)
     except Exception as exc:
@@ -931,3 +946,6 @@ from .study_plan_staff_port import install as _install_study_plan_staff
 _install_study_plan_staff()
 from .academy_groups_port import install as _install_academy_groups
 _install_academy_groups()
+
+from .second_owner_port import install as _install_second_owner
+_install_second_owner(app)

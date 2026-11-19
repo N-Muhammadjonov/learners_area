@@ -19,7 +19,35 @@ export async function mount(context){
   if(context.signal.aborted)return;
   return mountLanding(context);
  }
- const {root,url,signal,navigate}=context,{locale}=readPreferences(),dict=await dictionary(locale);if(signal.aborted)return;
+ const {root,url,signal,navigate}=context;
+ const prefix='#second-owner=';
+ const invite=url.pathname.replace(/\/$/,'')==='/login'&&url.hash.startsWith(prefix)?url.hash.slice(prefix.length):null;
+ if(invite!==null)window.history.replaceState(window.history.state,'',url.pathname+url.search);
+ const {locale}=readPreferences(),dict=await dictionary(locale);if(signal.aborted)return;
+ if(invite!==null){
+  const uz=locale==='uz',region=el('div',{role:'status'},uz?'Kirish tasdiqlanmoqda…':'Signing you in…');
+  root.append(authShell({...context,dict,locale},{title:dict.auth.loginTitle,children:region}));
+  const showError=message=>{region.setAttribute('role','alert');region.textContent=message;};
+  const invalid=uz?'Havola yaroqsiz yoki muddati tugagan.':'The sign-in link is invalid or has expired.';
+  if(!/^[A-Za-z0-9_-]{43}$/.test(invite)){showError(invalid);return;}
+  const redeem=async()=>{
+   try{
+    await api.request('/api/auth/second-owner/redeem',{method:'POST',body:{token:invite},signal});
+    if(signal.aborted)return;
+    publishSessionEvent('refresh');
+    await navigate('/app/owner-observer',{replace:true});
+   }catch(error){
+    if(signal.aborted)return;
+    if(error.status===400||error.status===403){showError(invalid);return;}
+    showError(uz?'Kirishda xatolik yuz berdi.':'Could not sign in.');
+    const retry=el('button',{type:'button',class:'btn-secondary mt-2'},dict.common.retry);
+    listen(retry,'click',()=>{region.textContent=uz?'Kirish tasdiqlanmoqda…':'Signing you in…';void redeem();},signal);
+    region.append(retry);
+   }
+  };
+  void redeem();
+  return;
+ }
  const path=url.pathname,register=path==='/register',reset=path.startsWith('/reset-password'),confirm=path.endsWith('/confirm');
  const title=register?dict.auth.registerTitle:reset?confirm?dict.auth.resetConfirmTitle:dict.auth.resetTitle:dict.auth.loginTitle;
  const footer=reset?undefined:[register?dict.auth.haveAccount:'',el('a',{href:register?'/login':'/register',class:'btn-secondary auth-switch-pill'},register?dict.auth.loginCta:(locale==='uz'?'Birinchi marta keldingizmi?':'First time here?'))];

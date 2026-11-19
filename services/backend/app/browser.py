@@ -66,6 +66,7 @@ async def session(req: Request):
                  'locale': user['locale'], 'onboarded': bool(user['onboarding_completed_at']),
                  'photoPresent': has_photo, 'statusReason': user['status_reason']},
         'expiresAt': current['expiresAt'], 'accessEventsEnabled': bool(os.getenv('AUTH_EVENTS_DATABASE_URL','').strip() or os.getenv('DATABASE_URL','').strip()),
+        **({'secondOwner': True} if current.get('secondOwner') else {}),
         'diagnostics': diagnostics_enabled(),
         'academyEnabled': academy_enabled(),
         'paymentsEnabled': payments_enabled(),
