@@ -93,7 +93,7 @@ function inspection(context,t){
   const params=new URLSearchParams({section:key});
   if(query)params.set('q',query);
   if(n>1)params.set('page',String(n));
-  return '/app/owner-observer?'+params;
+  return '/app/observer?'+params;
  };
  const search=el('input',{class:'input min-w-0 flex-1',type:'search',maxlength:120,
   'aria-label':t('Qidirish','Search'),value:q});

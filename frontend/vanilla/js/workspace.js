@@ -29,7 +29,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
   if(url.pathname.replace(/\/+$/,'')==='/app/management/guardians'&&!['teacher','admin','owner'].includes(session.user.role))return {redirect:'/app/management'};
   if(session.user.role==='guardian'&&session.user.accountStatus==='active'&&!['/app/progress','/app/leaderboard','/app/payments'].includes(url.pathname.replace(/\/+$/,'')))return {redirect:'/app/progress'};
   if(context.route?.requiresPayments&&(session.paymentsEnabled!==true||!['student','guardian'].includes(session.user.role)))return {redirect:'/app/progress'};
-  if(url.pathname.replace(/\/+$/,'')==='/app/owner-observer'&&!session.secondOwner)return {redirect:'/app'};
+  if(url.pathname.replace(/\/+$/,'')==='/app/observer'&&!session.secondOwner)return {redirect:'/app'};
   if(/^\/app\/owner(?:\/|$)/.test(url.pathname)&&session.user.role!=='owner')return {redirect:'/app'};
   if(/^\/app\/(teacher|management|admin)(?:\/|$)/.test(url.pathname)&&session.user.role==='student')return {redirect:'/app'};
   if(context.route?.requiresAcademy&&session.academyEnabled===false)return {redirect:'/app/management'};

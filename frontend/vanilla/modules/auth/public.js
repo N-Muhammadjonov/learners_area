@@ -35,7 +35,7 @@ export async function mount(context){
     await api.request('/api/auth/second-owner/redeem',{method:'POST',body:{token:invite},signal});
     if(signal.aborted)return;
     publishSessionEvent('refresh');
-    await navigate('/app/owner-observer',{replace:true});
+    await navigate('/app/observer',{replace:true});
    }catch(error){
     if(signal.aborted)return;
     if(error.status===400||error.status===403){showError(invalid);return;}

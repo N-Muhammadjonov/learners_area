@@ -27,7 +27,7 @@ test('the sign-in link exchanges its fragment without email and clears browser h
    signal:controller.signal,
    navigate:(path,options)=>finish({path,options}),
   });
-  assert.deepEqual(await destination,{path:'/app/owner-observer',options:{replace:true}});
+  assert.deepEqual(await destination,{path:'/app/observer',options:{replace:true}});
   assert.deepEqual(requests,[{path:'/api/auth/second-owner/redeem',method:'POST',body:{token},hash:''}]);
   assert.equal(window.location.href,'https://learners.test/login');
   assert.equal(window.document.querySelector('input[type=email]'),null);

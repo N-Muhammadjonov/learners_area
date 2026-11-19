@@ -3,6 +3,7 @@ import asyncio
 import hashlib
 import json
 import os
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 
@@ -79,6 +80,10 @@ assert session['secondOwner'] is True
 assert account['role'] == 'student' and account['email'] is None and account['id'] != str(primary['id'])
 assert owner.get('/api/owner/second-owner').json()['sessionExpiresAt']
 assert recipient.get('/api/owner/second-owner').status_code == 403
+if Path('../../frontend/vanilla/build/asset-manifest.json').is_file():
+    assert recipient.get('/app/observer', follow_redirects=False).status_code == 200
+    assert learner.get('/app/observer', follow_redirects=False).headers['location'] == '/app'
+    assert owner.get('/app/owner/second-owner', follow_redirects=False).status_code == 200
 
 for section in INSPECTION_VIEWS:
     response = recipient.get('/api/second-owner/inspection', params={'section': section})
