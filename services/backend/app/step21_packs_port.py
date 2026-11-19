@@ -27,16 +27,16 @@ async def add_pack(req:Request):
                 'exampleSentence':r['example_sentence'] or '', 'collocations':r['collocations'],'authored':True} for r in words]
         else:
             has_any=await con.fetchval("SELECT id FROM vocabulary_topic_packs WHERE publication_state='published' LIMIT 1")
-            # Only the new Art pack can fall back while older DB packs are published.
+            # New content-authored packs can fall back when older DB packs are published.
             # Existing published pack definitions remain canonical.
-            if has_any and pack_id != 'art':return core.j({'error':'unknown_pack'},400)
+            if has_any and pack_id not in ('art','environment'):return core.j({'error':'unknown_pack'},400)
             built=json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
             pack=next((p for p in built if p['id']==pack_id),None)
             if not pack:return core.j({'error':'unknown_pack'},400)
             folder_name=pack['label']['en']
             pack_words=[{'term':w['term'],'partOfSpeech':w.get('partOfSpeech',''),'definitionEn':w['definitionEn'],
                 'translationUz':w.get('translationUz',''),'exampleSentence':w.get('example',''),
-                'collocations':w.get('collocations'),'authored':True} for w in pack['words']]
+                'collocations':w.get('collocations'),'acceptedTranslations':w.get('acceptedTranslations',[]),'authored':True} for w in pack['words']]
         async with con.transaction():
             # Match the batch engine's user lock before creating a child folder.
             await con.fetchrow('SELECT id FROM users WHERE id=$1 FOR UPDATE',u['id'])

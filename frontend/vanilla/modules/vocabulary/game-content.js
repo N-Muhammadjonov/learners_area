@@ -4,10 +4,16 @@ export const sentenceFor=word=>String(word.exampleSentence??'').trim()||String(w
 export function gapPrompt(word){
  const term=String(word.term??'').trim(),sentence=sentenceFor(word);
  if(!term||!sentence)return null;
- const escaped=term.split(/\s+/).map(part=>part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s+');
+ for(const variant of term.split(/\s+\/\s+/)){
+  for(const candidate of [variant,variant.replace(/^(?:a|an|the)\s+/i,'')]){
+   if(!candidate.trim())continue;
+ const escaped=candidate.split(/\s+/).map(part=>part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('\\s+');
  const pattern=new RegExp('(^|[^\\p{L}\\p{N}_])'+escaped+'(?=$|[^\\p{L}\\p{N}_])','giu');
  const replaced=sentence.replace(pattern,(_,prefix)=>prefix+'______');
- return replaced===sentence?null:replaced;
+ if(replaced!==sentence)return replaced;
+  }
+ }
+ return null;
 }
 export function eligibleWords(words,game){
  const ids=new Set(),terms=new Set(),meanings=new Set();

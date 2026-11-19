@@ -11,12 +11,25 @@ BATCH_SIZE=10
 def source_groups():
     root=Path(__file__).parent
     groups=json.loads((root/'vocabulary_pack_groups.json').read_text())
+    from .step21_vocab_batch import sense_key
     result={}
+    built_in=None
     for pack,parts in groups.items():
         for index,g in enumerate(parts):
-            # These identities belong to the authored source revision. Never
-            # apply its headings to the same offsets in a replacement pack.
-            for offset,key in enumerate(g['senseKeys']):
+            keys=g.get('senseKeys')
+            if keys is None:
+                # Resolve exact source senses rather than assigning headings by
+                # user insertion order; unknown senses stay in normal batches.
+                if built_in is None:
+                    built_in={p['id']:p['words'] for p in json.loads(
+                        (root/'vocabulary_builtin_packs.json').read_text(encoding='utf-8'))}
+                words=built_in.get(pack,[])
+                if not 0<=g['start']<g['end']<=len(words):
+                    raise ValueError('invalid pack group bounds: '+pack)
+                keys=[sense_key(w) for w in words[g['start']:g['end']]]
+            if len(keys)!=g['end']-g['start']:
+                raise ValueError('invalid pack group coverage: '+pack)
+            for offset,key in enumerate(keys):
                 result[(pack,key)]=(index,g['label'],g['start']+offset)
     return result
 

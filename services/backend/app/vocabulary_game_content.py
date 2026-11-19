@@ -10,9 +10,14 @@ def sentence_for(word):
 def gap_prompt(word):
     term=str(word.get('term') or '').strip();sentence=sentence_for(word)
     if not term or not sentence:return None
-    pattern=r'(?<!\w)'+r'\s+'.join(re.escape(part) for part in term.split())+r'(?!\w)'
-    replaced=re.sub(pattern,'______',sentence,flags=re.I)
-    return replaced if replaced!=sentence else None
+    for variant in re.split(r'\s+/\s+',term):
+        if not variant.strip():continue
+        for candidate in (variant,re.sub(r'^(?:a|an|the)\s+','',variant,flags=re.I)):
+            if not candidate.strip():continue
+            pattern=r'(?<!\w)'+r'\s+'.join(re.escape(part) for part in candidate.split())+r'(?!\w)'
+            replaced=re.sub(pattern,'______',sentence,flags=re.I)
+            if replaced!=sentence:return replaced
+    return None
 
 def eligible_words(words,game):
     result=[];ids=set();terms=set();meanings=set()
