@@ -14032,5 +14032,1103 @@
         "example": "The band developed a cult following despite limited radio play."
       }
     ]
+  },
+  {
+    "id": "environment",
+    "label": {
+      "en": "Environment",
+      "uz": "Environment"
+    },
+    "words": [
+      {
+        "term": "acid rain",
+        "partOfSpeech": "",
+        "definitionEn": "Unusually acidic precipitation formed when certain air pollutants react in the atmosphere.",
+        "translationUz": "kislotali yomg‘ir",
+        "example": "Acid rain can damage lakes and buildings."
+      },
+      {
+        "term": "air pollution",
+        "partOfSpeech": "",
+        "definitionEn": "Contamination of the air by harmful substances.",
+        "translationUz": "havoning ifloslanishi",
+        "example": "The city monitors air pollution near busy roads."
+      },
+      {
+        "term": "water pollution",
+        "partOfSpeech": "",
+        "definitionEn": "Contamination of rivers, lakes, seas or other water sources.",
+        "translationUz": "suvning ifloslanishi",
+        "example": "The survey measured water pollution downstream."
+      },
+      {
+        "term": "global warming",
+        "partOfSpeech": "",
+        "definitionEn": "The long-term rise in Earth’s average surface temperature.",
+        "translationUz": "global isish",
+        "example": "The lesson explains the causes of global warming."
+      },
+      {
+        "term": "climate change",
+        "partOfSpeech": "",
+        "definitionEn": "Persistent changes in climate patterns, including temperature and rainfall.",
+        "translationUz": "iqlim o‘zgarishi",
+        "example": "Farmers are planning for the effects of climate change."
+      },
+      {
+        "term": "greenhouse effect",
+        "partOfSpeech": "",
+        "definitionEn": "Warming caused when atmospheric gases absorb and re-emit infrared radiation from Earth.\nUsage: The natural process and its strengthening by increased greenhouse gas concentrations are distinct.",
+        "translationUz": "issiqxona effekti",
+        "example": "The greenhouse effect helps keep Earth warm."
+      },
+      {
+        "term": "carbon dioxide",
+        "partOfSpeech": "",
+        "definitionEn": "A gas with the formula CO₂, produced by processes including respiration and combustion.",
+        "translationUz": "karbonat angidrid",
+        "example": "Burning fossil fuels releases carbon dioxide."
+      },
+      {
+        "term": "greenhouse gas",
+        "partOfSpeech": "",
+        "definitionEn": "A gas that absorbs and emits infrared radiation and contributes to the greenhouse effect.",
+        "translationUz": "issiqxona gazi",
+        "example": "Carbon dioxide is a greenhouse gas."
+      },
+      {
+        "term": "the atmosphere",
+        "partOfSpeech": "",
+        "definitionEn": "The layer of gases surrounding a planet.",
+        "translationUz": "atmosfera",
+        "example": "Different gases in the atmosphere absorb radiation."
+      },
+      {
+        "term": "ozone layer",
+        "partOfSpeech": "",
+        "definitionEn": "A region of the stratosphere with relatively high ozone concentrations that absorbs much of the Sun’s harmful ultraviolet radiation.",
+        "translationUz": "ozon qatlami",
+        "example": "The ozone layer helps protect living organisms."
+      },
+      {
+        "term": "ozone depletion",
+        "partOfSpeech": "",
+        "definitionEn": "A reduction in the amount of ozone in the stratosphere.",
+        "translationUz": "ozon qatlamining yemirilishi",
+        "example": "The lesson distinguishes ozone depletion from global warming."
+      },
+      {
+        "term": "smog",
+        "partOfSpeech": "",
+        "definitionEn": "A haze of air pollution often found in cities.",
+        "translationUz": "tutunli tuman, smog",
+        "example": "Smog reduced visibility across the city."
+      },
+      {
+        "term": "hazardous waste",
+        "partOfSpeech": "",
+        "definitionEn": "Discarded material that poses a significant risk to people or the environment.",
+        "translationUz": "xavfli chiqindilar",
+        "example": "The facility handles hazardous waste separately."
+      },
+      {
+        "term": "overpopulation",
+        "partOfSpeech": "",
+        "definitionEn": "A condition in which population size exceeds what available resources or services can support under given conditions.",
+        "translationUz": "aholining haddan tashqari ko‘payishi",
+        "example": "The study examines how overpopulation can strain local resources."
+      },
+      {
+        "term": "overpopulated",
+        "partOfSpeech": "",
+        "definitionEn": "Having more inhabitants than local resources or services can comfortably support under given conditions.",
+        "translationUz": "aholisi haddan tashqari ko‘p",
+        "example": "The writer described the district as overpopulated."
+      },
+      {
+        "term": "rainforest destruction",
+        "partOfSpeech": "",
+        "definitionEn": "The loss or severe damage of forests in high-rainfall regions.",
+        "translationUz": "tropik yomg‘ir o‘rmonlarining vayron qilinishi",
+        "example": "The report examines the causes of rainforest destruction."
+      },
+      {
+        "term": "polar ice caps",
+        "partOfSpeech": "",
+        "definitionEn": "Large masses of ice covering land in polar regions.\nUsage: Distinguish large land ice masses from floating sea ice.",
+        "translationUz": "qutb muz qoplamlari",
+        "example": "The lesson discusses changes to the polar ice caps."
+      },
+      {
+        "term": "thawing",
+        "partOfSpeech": "",
+        "definitionEn": "The process of becoming unfrozen as temperature rises.",
+        "translationUz": "muzning erishi",
+        "example": "The thawing of frozen ground can damage roads."
+      },
+      {
+        "term": "species",
+        "partOfSpeech": "",
+        "definitionEn": "A group of organisms classified as a distinct biological kind.\nUsage: The singular and plural forms are both species.",
+        "translationUz": "biologik tur",
+        "example": "The reserve protects many species of plants."
+      },
+      {
+        "term": "endangered species",
+        "partOfSpeech": "",
+        "definitionEn": "A species at serious risk of extinction.",
+        "translationUz": "yo‘qolib ketish xavfi ostidagi tur",
+        "example": "The programme monitors an endangered species."
+      },
+      {
+        "term": "extinct",
+        "partOfSpeech": "",
+        "definitionEn": "No longer existing as a species because no living individuals remain.",
+        "translationUz": "qirilib ketgan, yo‘qolib ketgan",
+        "example": "The species is now extinct."
+      },
+      {
+        "term": "overfishing",
+        "partOfSpeech": "",
+        "definitionEn": "Catching fish at a rate that populations cannot sustain.",
+        "translationUz": "me’yoridan ortiq baliq ovlash",
+        "example": "Local fishing rules aim to reduce overfishing."
+      },
+      {
+        "term": "fossil fuels",
+        "partOfSpeech": "",
+        "definitionEn": "Fuels such as coal, oil and natural gas formed from ancient organic matter.",
+        "translationUz": "qazilma yoqilg‘ilar",
+        "example": "The plan would reduce reliance on fossil fuels."
+      },
+      {
+        "term": "the environment",
+        "partOfSpeech": "",
+        "definitionEn": "The natural surroundings and conditions in which people and other organisms live.",
+        "translationUz": "atrof-muhit",
+        "example": "The project aims to protect the environment."
+      },
+      {
+        "term": "environmentalist",
+        "partOfSpeech": "",
+        "definitionEn": "A person who actively supports protection of the natural world.",
+        "translationUz": "tabiatni muhofaza qilish faoli",
+        "example": "An environmentalist spoke at the meeting."
+      },
+      {
+        "term": "environmental",
+        "partOfSpeech": "",
+        "definitionEn": "Relating to the natural world or the conditions around us.",
+        "translationUz": "atrof-muhitga oid",
+        "example": "The team assessed the environmental impact."
+      },
+      {
+        "term": "environmentally friendly",
+        "partOfSpeech": "",
+        "definitionEn": "Designed or intended to cause relatively little harm to the environment.",
+        "translationUz": "ekologik toza, atrof-muhitga kam zararli",
+        "example": "The company tested a more environmentally friendly packaging option."
+      },
+      {
+        "term": "ecologically sound",
+        "partOfSpeech": "",
+        "definitionEn": "Consistent with protecting ecosystems and their functioning.",
+        "translationUz": "ekologik jihatdan maqbul",
+        "example": "The team sought an ecologically sound way to restore the site."
+      },
+      {
+        "term": "green party",
+        "partOfSpeech": "",
+        "definitionEn": "A political party that places a strong emphasis on environmental protection.",
+        "translationUz": "yashillar partiyasi",
+        "example": "A green party proposed the measure."
+      },
+      {
+        "term": "green policies",
+        "partOfSpeech": "",
+        "definitionEn": "Policies aimed at protecting the environment or reducing environmental harm.",
+        "translationUz": "ekologik siyosatlar",
+        "example": "The council reviewed its green policies."
+      },
+      {
+        "term": "conservation organisation",
+        "partOfSpeech": "",
+        "definitionEn": "A group that works to protect nature or natural resources.",
+        "translationUz": "tabiatni muhofaza qilish tashkiloti",
+        "example": "A conservation organisation manages the site."
+      },
+      {
+        "term": "nature reserve",
+        "partOfSpeech": "",
+        "definitionEn": "An area managed to protect wildlife and habitats.",
+        "translationUz": "qo‘riqxona",
+        "example": "A footpath runs through the nature reserve."
+      },
+      {
+        "term": "organic food",
+        "partOfSpeech": "",
+        "definitionEn": "Food produced under organic farming standards.\nUsage: Organic standards can permit certain pesticides and other inputs. Organic does not mean pesticide-free.",
+        "translationUz": "organik oziq-ovqat",
+        "example": "The shop sells organic food and explains how it is certified."
+      },
+      {
+        "term": "dispose of waste",
+        "partOfSpeech": "",
+        "definitionEn": "Get rid of discarded material.",
+        "translationUz": "chiqindilarni utilizatsiya qilmoq",
+        "example": "Staff must dispose of waste in designated containers."
+      },
+      {
+        "term": "waste disposal",
+        "partOfSpeech": "",
+        "definitionEn": "The process of getting rid of discarded materials.",
+        "translationUz": "chiqindilarni utilizatsiya qilish",
+        "example": "The town reviewed its waste disposal system."
+      },
+      {
+        "term": "disposable",
+        "partOfSpeech": "",
+        "definitionEn": "Designed to be thrown away after use.",
+        "translationUz": "bir martalik, ishlatib tashlanadigan",
+        "example": "They replaced disposable cups with reusable ones."
+      },
+      {
+        "term": "recycling",
+        "partOfSpeech": "",
+        "definitionEn": "Processing used materials so they can be used again.",
+        "translationUz": "qayta ishlash",
+        "example": "The school expanded its recycling programme."
+      },
+      {
+        "term": "carbon footprint",
+        "partOfSpeech": "",
+        "definitionEn": "The total greenhouse gas emissions associated with an activity, product, person or organisation, usually expressed as CO₂ equivalents.\nUsage: Usually includes more than carbon dioxide alone.",
+        "translationUz": "uglerod izi",
+        "example": "The company measured its carbon footprint."
+      },
+      {
+        "term": "cut down on",
+        "partOfSpeech": "",
+        "definitionEn": "Use or do less of something.",
+        "translationUz": "iste’molni yoki miqdorni kamaytirmoq",
+        "example": "We aim to cut down on unnecessary journeys."
+      },
+      {
+        "term": "reduce",
+        "partOfSpeech": "",
+        "definitionEn": "Make something smaller in amount, size or degree.",
+        "translationUz": "kamaytirmoq",
+        "example": "The proposal aims to reduce emissions."
+      },
+      {
+        "term": "reduction",
+        "partOfSpeech": "",
+        "definitionEn": "A decrease in amount, size or degree.",
+        "translationUz": "kamayish, qisqarish",
+        "example": "The changes led to a reduction in waste."
+      },
+      {
+        "term": "reduced",
+        "partOfSpeech": "",
+        "definitionEn": "Made smaller or lower than before.",
+        "translationUz": "kamaytirilgan",
+        "example": "The system runs on a reduced supply of water."
+      },
+      {
+        "term": "pollution",
+        "partOfSpeech": "",
+        "definitionEn": "Harmful contamination of the environment.",
+        "translationUz": "ifloslanish",
+        "example": "The river showed visible signs of pollution."
+      },
+      {
+        "term": "pollutant",
+        "partOfSpeech": "",
+        "definitionEn": "A substance that causes pollution.",
+        "translationUz": "ifloslantiruvchi modda",
+        "example": "The test identified a pollutant in the water."
+      },
+      {
+        "term": "pollute",
+        "partOfSpeech": "",
+        "definitionEn": "Contaminate air, water or land with harmful substances.",
+        "translationUz": "ifloslantirmoq",
+        "example": "Leaks can pollute nearby water sources."
+      },
+      {
+        "term": "polluting",
+        "partOfSpeech": "",
+        "definitionEn": "Causing pollution.",
+        "translationUz": "ifloslantiruvchi",
+        "example": "The town replaced several highly polluting vehicles."
+      },
+      {
+        "term": "destruction",
+        "partOfSpeech": "",
+        "definitionEn": "Severe damage or the act of destroying something.",
+        "translationUz": "vayronagarchilik",
+        "example": "The storm caused widespread destruction."
+      },
+      {
+        "term": "destroy",
+        "partOfSpeech": "",
+        "definitionEn": "Damage something so severely that it ceases to exist or cannot be used.",
+        "translationUz": "vayron qilmoq",
+        "example": "Fire can destroy buildings within minutes."
+      },
+      {
+        "term": "destructive",
+        "partOfSpeech": "",
+        "definitionEn": "Causing or likely to cause serious damage.",
+        "translationUz": "vayronkor, zarar yetkazuvchi",
+        "example": "The flood had a destructive impact on the riverbank."
+      },
+      {
+        "term": "destructively",
+        "partOfSpeech": "",
+        "definitionEn": "In a way that causes damage.",
+        "translationUz": "vayronkor tarzda",
+        "example": "The waves struck destructively against the sea wall."
+      },
+      {
+        "term": "environmentally",
+        "partOfSpeech": "",
+        "definitionEn": "In a way that relates to the environment or its protection.",
+        "translationUz": "ekologik jihatdan",
+        "example": "The options differ in how environmentally sustainable they are."
+      },
+      {
+        "term": "globalisation",
+        "partOfSpeech": "",
+        "definitionEn": "Increasing economic, social and cultural connections across the world.",
+        "translationUz": "globallashuv",
+        "example": "The course explores how globalisation affects local industries."
+      },
+      {
+        "term": "globalise",
+        "partOfSpeech": "",
+        "definitionEn": "Make an activity or system worldwide in reach, or become worldwide in reach.",
+        "translationUz": "globallashtirmoq",
+        "example": "The company plans to globalise its operations."
+      },
+      {
+        "term": "global",
+        "partOfSpeech": "",
+        "definitionEn": "Relating to the whole world.",
+        "translationUz": "global, butunjahon",
+        "example": "The report takes a global view of the issue."
+      },
+      {
+        "term": "globally",
+        "partOfSpeech": "",
+        "definitionEn": "Across the world or from a worldwide perspective.",
+        "translationUz": "butun dunyo bo‘ylab",
+        "example": "The product is sold globally."
+      },
+      {
+        "term": "rainfall",
+        "partOfSpeech": "",
+        "definitionEn": "The amount of rain falling in a particular place over a period.",
+        "translationUz": "yog‘in miqdori",
+        "example": "The station records monthly rainfall."
+      },
+      {
+        "term": "wet season",
+        "partOfSpeech": "",
+        "definitionEn": "The part of the year when a region typically receives most of its rain.",
+        "translationUz": "yomg‘irli mavsum",
+        "example": "The roads are harder to use during the wet season."
+      },
+      {
+        "term": "dry season",
+        "partOfSpeech": "",
+        "definitionEn": "The part of the year when a region normally receives little rain.",
+        "translationUz": "quruq mavsum",
+        "example": "Water use rises during the dry season."
+      },
+      {
+        "term": "arid",
+        "partOfSpeech": "",
+        "definitionEn": "Very dry, with little rainfall.",
+        "translationUz": "qurg‘oqchil",
+        "example": "The plants can survive in an arid climate."
+      },
+      {
+        "term": "prone to",
+        "partOfSpeech": "",
+        "definitionEn": "Likely to experience or suffer from a particular problem.",
+        "translationUz": "muayyan muammoga moyil bo‘lmoq",
+        "example": "The low-lying district is prone to flooding."
+      },
+      {
+        "term": "drought",
+        "partOfSpeech": "",
+        "definitionEn": "A prolonged shortage of water caused by unusually low precipitation or related conditions.",
+        "translationUz": "qurg‘oqchilik",
+        "example": "The region experienced a serious drought."
+      },
+      {
+        "term": "tundra",
+        "partOfSpeech": "",
+        "definitionEn": "A cold, mostly treeless biome where low-growing plants predominate.\nUsage: Permafrost is common in Arctic tundra, but is not a requirement for every type of tundra.",
+        "translationUz": "tundra",
+        "example": "Few trees can grow on the tundra."
+      },
+      {
+        "term": "vegetation",
+        "partOfSpeech": "",
+        "definitionEn": "The plants growing in a particular place.",
+        "translationUz": "o‘simlik qoplami",
+        "example": "Dense vegetation covers the slope."
+      },
+      {
+        "term": "coniferous forest",
+        "partOfSpeech": "",
+        "definitionEn": "A forest dominated by cone-bearing trees such as pines or firs.\nUsage: Most conifers are evergreen, but some, such as larches, are deciduous.",
+        "translationUz": "ignabargli o‘rmon",
+        "example": "The trail crosses a coniferous forest."
+      },
+      {
+        "term": "evergreen",
+        "partOfSpeech": "",
+        "definitionEn": "Keeping leaves or needles throughout the year.",
+        "translationUz": "doim yashil, bargini yil bo‘yi saqlaydigan",
+        "example": "An evergreen tree gives the garden colour in winter."
+      },
+      {
+        "term": "deciduous",
+        "partOfSpeech": "",
+        "definitionEn": "Losing leaves seasonally.",
+        "translationUz": "mavsumiy barg to‘kuvchi",
+        "example": "A deciduous tree sheds its leaves during part of the year."
+      },
+      {
+        "term": "taiga",
+        "partOfSpeech": "",
+        "definitionEn": "The broad belt of mainly coniferous forest in northern regions.",
+        "translationUz": "tayga",
+        "example": "The taiga stretches across large parts of Canada and Eurasia."
+      },
+      {
+        "term": "prairie",
+        "partOfSpeech": "",
+        "definitionEn": "A large expanse of North American grassland.",
+        "translationUz": "Shimoliy Amerika dashti, preriya",
+        "example": "The prairie stretches towards the horizon."
+      },
+      {
+        "term": "steppe",
+        "partOfSpeech": "",
+        "definitionEn": "An extensive, usually dry grassland, especially in Eurasia.",
+        "translationUz": "dasht",
+        "example": "The road crosses open steppe."
+      },
+      {
+        "term": "pampas",
+        "partOfSpeech": "",
+        "definitionEn": "The broad grassland plains of parts of southern South America.",
+        "translationUz": "Janubiy Amerikadagi keng maysazor tekisliklar, pampalar",
+        "example": "The documentary follows wildlife on the pampas."
+      },
+      {
+        "term": "temperate forest",
+        "partOfSpeech": "",
+        "definitionEn": "A forest in a region with a generally moderate climate and seasonal variation.",
+        "translationUz": "mo‘tadil iqlim mintaqasi o‘rmoni",
+        "example": "The reserve contains an old temperate forest."
+      },
+      {
+        "term": "paddy field",
+        "partOfSpeech": "",
+        "definitionEn": "A field used for growing rice, often deliberately flooded.",
+        "translationUz": "sholi dalasi",
+        "example": "Water covered the paddy field."
+      },
+      {
+        "term": "crop",
+        "partOfSpeech": "",
+        "definitionEn": "Plants grown for harvest, or the produce gathered at one time.",
+        "translationUz": "ekin, hosil",
+        "example": "Rice is the main crop in the valley."
+      },
+      {
+        "term": "harvest",
+        "partOfSpeech": "",
+        "definitionEn": "Gather a mature crop.",
+        "translationUz": "hosilni yig‘ib olmoq",
+        "example": "Farmers harvest the grain when it is ready."
+      },
+      {
+        "term": "cereals",
+        "partOfSpeech": "",
+        "definitionEn": "Grasses grown for edible grain, or their grains collectively.",
+        "translationUz": "donli ekinlar",
+        "example": "The farm grows cereals such as wheat and barley."
+      },
+      {
+        "term": "tend livestock",
+        "partOfSpeech": "",
+        "definitionEn": "Look after farm animals.",
+        "translationUz": "chorva mollarini parvarish qilmoq",
+        "example": "The family hires workers to tend livestock."
+      },
+      {
+        "term": "plantation",
+        "partOfSpeech": "",
+        "definitionEn": "A large area managed for growing a particular crop or trees.",
+        "translationUz": "plantatsiya",
+        "example": "The road passes through a tea plantation."
+      },
+      {
+        "term": "manufacturing industry",
+        "partOfSpeech": "",
+        "definitionEn": "The sector that makes goods from materials or components.",
+        "translationUz": "ishlab chiqarish sanoati",
+        "example": "The city has a large manufacturing industry."
+      },
+      {
+        "term": "chemical industry",
+        "partOfSpeech": "",
+        "definitionEn": "Businesses that produce chemicals and related products.",
+        "translationUz": "kimyo sanoati",
+        "example": "The report examines waste from the chemical industry."
+      },
+      {
+        "term": "at the forefront of",
+        "partOfSpeech": "",
+        "definitionEn": "In a leading position in a field or activity.",
+        "translationUz": "sohaning yetakchi saflarida bo‘lmoq",
+        "example": "The lab is at the forefront of materials research."
+      },
+      {
+        "term": "generate electricity",
+        "partOfSpeech": "",
+        "definitionEn": "Produce electrical energy.",
+        "translationUz": "elektr energiyasi ishlab chiqarmoq",
+        "example": "The installation uses wind to generate electricity."
+      },
+      {
+        "term": "developed nation",
+        "partOfSpeech": "",
+        "definitionEn": "A broad label often used for a country with a relatively advanced economy and infrastructure.",
+        "translationUz": "rivojlangan davlat",
+        "example": "The author explains what counts as a developed nation in the study."
+      },
+      {
+        "term": "developing country",
+        "partOfSpeech": "",
+        "definitionEn": "A broad label applied to countries in some economic development classifications.",
+        "translationUz": "rivojlanayotgan mamlakat",
+        "example": "The report explains how it classifies a developing country."
+      },
+      {
+        "term": "sovereign nation",
+        "partOfSpeech": "",
+        "definitionEn": "A nation or state that governs itself and is not subject to another state’s authority.\nUsage: Compare independent nation, a close equivalent in this context.",
+        "translationUz": "suveren davlat",
+        "example": "The treaty recognises it as a sovereign nation."
+      },
+      {
+        "term": "be descended from",
+        "partOfSpeech": "",
+        "definitionEn": "Have a particular person or group among one’s ancestors.",
+        "translationUz": "nasl-nasabi ...ga borib taqalmoq",
+        "example": "She is believed to be descended from early settlers."
+      },
+      {
+        "term": "Indigenous",
+        "partOfSpeech": "",
+        "definitionEn": "Relating to peoples with historical ties to a place predating colonisation or later settlement; more generally, native to a place.",
+        "translationUz": "tubjoy xalqlarga oid",
+        "example": "The exhibition was developed with Indigenous communities."
+      },
+      {
+        "term": "ancestor",
+        "partOfSpeech": "",
+        "definitionEn": "A person in an earlier generation of one’s family.",
+        "translationUz": "ajdod",
+        "example": "An ancestor of hers lived in the village."
+      },
+      {
+        "term": "descendant",
+        "partOfSpeech": "",
+        "definitionEn": "A person related by descent to someone from an earlier generation.",
+        "translationUz": "avlod, zurriyot",
+        "example": "He is a descendant of the original owner."
+      },
+      {
+        "term": "migrant",
+        "partOfSpeech": "",
+        "definitionEn": "A person who moves from one place to another to live, temporarily or permanently.",
+        "translationUz": "ko‘chib keluvchi yoki ketuvchi shaxs, migrant",
+        "example": "The survey interviewed a migrant who had moved within the country."
+      },
+      {
+        "term": "emigrant",
+        "partOfSpeech": "",
+        "definitionEn": "A person who leaves a country to live elsewhere, viewed from the country of departure.",
+        "translationUz": "o‘z mamlakatidan ko‘chib ketgan kishi, emigrant",
+        "example": "The letter describes life as an emigrant."
+      },
+      {
+        "term": "immigrant",
+        "partOfSpeech": "",
+        "definitionEn": "A person who comes into another country to live there, viewed from the destination.",
+        "translationUz": "boshqa mamlakatga ko‘chib kelgan kishi, immigrant",
+        "example": "The book follows an immigrant settling in a new city."
+      },
+      {
+        "term": "settle",
+        "partOfSpeech": "",
+        "definitionEn": "Make one’s home in a place.",
+        "translationUz": "joylashmoq, yashab qolmoq",
+        "example": "The family decided to settle near the coast."
+      },
+      {
+        "term": "colonial power",
+        "partOfSpeech": "",
+        "definitionEn": "A state that controls or has controlled colonies.",
+        "translationUz": "mustamlakachi davlat",
+        "example": "The archive contains maps drawn by the former colonial power."
+      },
+      {
+        "term": "chilly / nippy",
+        "partOfSpeech": "",
+        "definitionEn": "Noticeably cold, but not necessarily extremely cold.\nUsage: Nippy is informal, especially in British English.",
+        "translationUz": "salqinroq, ancha sovuq",
+        "example": "It felt chilly by the coast.",
+        "acceptedTranslations": [
+          "chilly",
+          "nippy"
+        ]
+      },
+      {
+        "term": "freezing",
+        "partOfSpeech": "",
+        "definitionEn": "Extremely cold in everyday speech, or at or below the freezing point in a technical context.",
+        "translationUz": "juda sovuq, muzdek",
+        "example": "It was freezing on the platform."
+      },
+      {
+        "term": "boiling / roasting",
+        "partOfSpeech": "",
+        "definitionEn": "Very hot, in informal speech about weather or how someone feels.",
+        "translationUz": "jazirama issiq",
+        "example": "It was boiling outside by midday.",
+        "acceptedTranslations": [
+          "boiling",
+          "roasting"
+        ]
+      },
+      {
+        "term": "sweltering",
+        "partOfSpeech": "",
+        "definitionEn": "Uncomfortably hot.",
+        "translationUz": "o‘ta issiq va dim",
+        "example": "We waited in the sweltering heat."
+      },
+      {
+        "term": "breezy",
+        "partOfSpeech": "",
+        "definitionEn": "With a noticeable, often fairly gentle wind.",
+        "translationUz": "yengil shamolli",
+        "example": "It was a breezy afternoon by the sea."
+      },
+      {
+        "term": "blowy",
+        "partOfSpeech": "",
+        "definitionEn": "Windy, especially in informal British English.",
+        "translationUz": "shamolli",
+        "example": "It was too blowy for a picnic."
+      },
+      {
+        "term": "humid",
+        "partOfSpeech": "",
+        "definitionEn": "Containing a relatively large amount of moisture in the air.",
+        "translationUz": "nam, namligi yuqori",
+        "example": "The weather was warm and humid."
+      },
+      {
+        "term": "muggy / sticky",
+        "partOfSpeech": "",
+        "definitionEn": "Unpleasantly warm and humid.",
+        "translationUz": "dim va nam",
+        "example": "It felt muggy before the storm.",
+        "acceptedTranslations": [
+          "muggy",
+          "sticky"
+        ]
+      },
+      {
+        "term": "clammy",
+        "partOfSpeech": "",
+        "definitionEn": "Unpleasantly damp; often used of skin or surfaces that feel cool and moist.",
+        "translationUz": "sovuq-nam, namxush",
+        "example": "Her hands felt clammy."
+      },
+      {
+        "term": "sultry",
+        "partOfSpeech": "",
+        "definitionEn": "Hot and humid, often with little air movement.",
+        "translationUz": "issiq va dim",
+        "example": "Clouds gathered on a sultry afternoon."
+      },
+      {
+        "term": "oppressive weather",
+        "partOfSpeech": "",
+        "definitionEn": "Weather that feels uncomfortably hot, humid or heavy.",
+        "translationUz": "dim, bo‘g‘uvchi ob-havo",
+        "example": "We stayed indoors during the oppressive weather."
+      },
+      {
+        "term": "stifling / close / heavy",
+        "partOfSpeech": "",
+        "definitionEn": "Uncomfortably hot or stuffy, with little sense of fresh air.",
+        "translationUz": "dim, havosi og‘ir",
+        "example": "The room felt stifling by noon.",
+        "acceptedTranslations": [
+          "stifling",
+          "close",
+          "heavy"
+        ]
+      },
+      {
+        "term": "downpour",
+        "partOfSpeech": "",
+        "definitionEn": "A spell of very heavy rain.",
+        "translationUz": "jala, kuchli yomg‘ir",
+        "example": "We waited for the downpour to pass."
+      },
+      {
+        "term": "deluge",
+        "partOfSpeech": "",
+        "definitionEn": "An exceptionally heavy fall of rain or a flood; often more emphatic than downpour.",
+        "translationUz": "juda kuchli jala, sel",
+        "example": "A sudden deluge flooded the path."
+      },
+      {
+        "term": "it’s pouring / it’s chucking it down",
+        "partOfSpeech": "",
+        "definitionEn": "It is raining heavily.\nUsage: Chucking it down is colloquial British English.",
+        "translationUz": "jala quyayapti",
+        "example": "Take an umbrella: it’s pouring.",
+        "acceptedTranslations": [
+          "it’s pouring",
+          "it’s chucking it down"
+        ]
+      },
+      {
+        "term": "thundery",
+        "partOfSpeech": "",
+        "definitionEn": "With thunder or likely to develop thunderstorms.",
+        "translationUz": "momaqaldiroqli",
+        "example": "The afternoon turned warm and thundery."
+      },
+      {
+        "term": "climatic region",
+        "partOfSpeech": "",
+        "definitionEn": "An area grouped by its climate characteristics.",
+        "translationUz": "iqlimiy mintaqa",
+        "example": "The map places the coast in a different climatic region."
+      },
+      {
+        "term": "mean annual temperature",
+        "partOfSpeech": "",
+        "definitionEn": "The average temperature over a year.",
+        "translationUz": "o‘rtacha yillik harorat",
+        "example": "The station calculates the mean annual temperature."
+      },
+      {
+        "term": "precipitation",
+        "partOfSpeech": "",
+        "definitionEn": "Water falling from the atmosphere, such as rain, snow or hail.",
+        "translationUz": "atmosfera yog‘inlari",
+        "example": "The forecast includes possible precipitation."
+      },
+      {
+        "term": "seasonality",
+        "partOfSpeech": "",
+        "definitionEn": "Regular variation associated with the seasons.",
+        "translationUz": "mavsumiylik",
+        "example": "The authors examined seasonality in rainfall."
+      },
+      {
+        "term": "latitude",
+        "partOfSpeech": "",
+        "definitionEn": "Angular distance north or south of the equator.",
+        "translationUz": "geografik kenglik",
+        "example": "The sites are at the same latitude."
+      },
+      {
+        "term": "elevation",
+        "partOfSpeech": "",
+        "definitionEn": "Height above a reference level, often sea level.",
+        "translationUz": "dengiz sathidan balandlik",
+        "example": "The research station is at a high elevation."
+      },
+      {
+        "term": "solar radiation",
+        "partOfSpeech": "",
+        "definitionEn": "Energy emitted by the Sun as electromagnetic waves.",
+        "translationUz": "quyosh nurlanishi",
+        "example": "Cloud cover affects how much solar radiation reaches the ground."
+      },
+      {
+        "term": "moderate temperatures",
+        "partOfSpeech": "",
+        "definitionEn": "Make temperatures less extreme.",
+        "translationUz": "haroratning keskinligini yumshatmoq",
+        "example": "The nearby sea helps moderate temperatures."
+      },
+      {
+        "term": "continental climate",
+        "partOfSpeech": "",
+        "definitionEn": "A climate typically associated with inland areas and larger seasonal temperature differences.",
+        "translationUz": "kontinental iqlim",
+        "example": "The region has a continental climate with cold winters and warm summers."
+      },
+      {
+        "term": "a climate of distrust",
+        "partOfSpeech": "",
+        "definitionEn": "An atmosphere in which people generally do not trust one another.",
+        "translationUz": "ishonchsizlik muhiti",
+        "example": "Conflicting accounts created a climate of distrust."
+      },
+      {
+        "term": "a climate of change",
+        "partOfSpeech": "",
+        "definitionEn": "A general atmosphere in which changes are taking place or are expected.",
+        "translationUz": "o‘zgarishlar muhiti",
+        "example": "The reforms created a climate of change."
+      },
+      {
+        "term": "the economic climate",
+        "partOfSpeech": "",
+        "definitionEn": "The general state of economic conditions at a particular time.\nUsage: Also financial, political, social, cultural, moral or current climate, depending on what you are describing.",
+        "translationUz": "iqtisodiy vaziyat",
+        "example": "Investment slowed in the current economic climate."
+      },
+      {
+        "term": "prevailing climate",
+        "partOfSpeech": "",
+        "definitionEn": "The dominant general atmosphere or conditions at a particular time.",
+        "translationUz": "hukmron muhit, umumiy kayfiyat",
+        "example": "The prevailing climate made negotiation difficult."
+      },
+      {
+        "term": "a sunny disposition",
+        "partOfSpeech": "",
+        "definitionEn": "A naturally cheerful and positive temperament.",
+        "translationUz": "xushchaqchaq fe’l-atvor",
+        "example": "Her sunny disposition made the team feel welcome."
+      },
+      {
+        "term": "a sunny outlook",
+        "partOfSpeech": "",
+        "definitionEn": "A positive or hopeful view of what is likely to happen.",
+        "translationUz": "ijobiy qarash, umidli nuqtayi nazar",
+        "example": "The business report took a sunny outlook on next year."
+      },
+      {
+        "term": "a frosty reception",
+        "partOfSpeech": "",
+        "definitionEn": "An unfriendly or unenthusiastic response.",
+        "translationUz": "sovuq kutib olish",
+        "example": "The proposal received a frosty reception."
+      },
+      {
+        "term": "snowed under with work",
+        "partOfSpeech": "",
+        "definitionEn": "Overwhelmed by having too much work to do.",
+        "translationUz": "ishga ko‘milib ketgan",
+        "example": "I’m snowed under with work this week."
+      },
+      {
+        "term": "under a cloud",
+        "partOfSpeech": "",
+        "definitionEn": "In circumstances involving suspicion, disapproval or damaged reputation.",
+        "translationUz": "shubha ostida, obro‘siga putur yetgan",
+        "example": "He left the organisation under a cloud."
+      },
+      {
+        "term": "cloud your judgement",
+        "partOfSpeech": "",
+        "definitionEn": "Make it harder to think clearly and make a sound decision.",
+        "translationUz": "xolis fikrlashga xalaqit bermoq",
+        "example": "Personal feelings can cloud your judgement."
+      },
+      {
+        "term": "a hail of bullets",
+        "partOfSpeech": "",
+        "definitionEn": "A rapid shower of many bullets.",
+        "translationUz": "o‘qlar yomg‘iri",
+        "example": "The historical account describes a hail of bullets."
+      },
+      {
+        "term": "a hail of abuse / a storm of abuse",
+        "partOfSpeech": "",
+        "definitionEn": "A sudden, intense outpouring of insulting language.",
+        "translationUz": "haqoratlar yog‘ilishi",
+        "example": "The official faced a storm of abuse.",
+        "acceptedTranslations": [
+          "a hail of abuse",
+          "a storm of abuse"
+        ]
+      },
+      {
+        "term": "a hazy memory",
+        "partOfSpeech": "",
+        "definitionEn": "An unclear or incomplete recollection.",
+        "translationUz": "xira xotira",
+        "example": "I have a hazy memory of the room."
+      },
+      {
+        "term": "in the mists of history",
+        "partOfSpeech": "",
+        "definitionEn": "In a distant past about which little is clearly known.",
+        "translationUz": "uzoq tarix qa’rida",
+        "example": "The custom’s origins are lost in the mists of history."
+      },
+      {
+        "term": "a whirlwind of speculation",
+        "partOfSpeech": "",
+        "definitionEn": "A rapid burst of widespread guessing or discussion.",
+        "translationUz": "taxminlar girdobi",
+        "example": "The announcement triggered a whirlwind of speculation."
+      },
+      {
+        "term": "a whirlwind romance",
+        "partOfSpeech": "",
+        "definitionEn": "A romantic relationship that develops very quickly and intensely.",
+        "translationUz": "juda tez rivojlangan ishqiy munosabat",
+        "example": "They married after a whirlwind romance."
+      },
+      {
+        "term": "thunder down",
+        "partOfSpeech": "",
+        "definitionEn": "Move quickly while making a loud, deep noise.",
+        "translationUz": "gumburlab o‘tmoq",
+        "example": "We heard the train thunder down the track."
+      },
+      {
+        "term": "thunderous applause",
+        "partOfSpeech": "",
+        "definitionEn": "Extremely loud clapping.",
+        "translationUz": "gulduros qarsaklar",
+        "example": "The performance ended with thunderous applause."
+      },
+      {
+        "term": "the winds of change",
+        "partOfSpeech": "",
+        "definitionEn": "Signs or forces suggesting that major change is coming.",
+        "translationUz": "o‘zgarish shamollari",
+        "example": "The winds of change were already evident in the industry."
+      },
+      {
+        "term": "dense forest",
+        "partOfSpeech": "",
+        "definitionEn": "Forest in which the trees grow very close together.",
+        "translationUz": "qalin o‘rmon",
+        "example": "The trail runs through dense forest."
+      },
+      {
+        "term": "deciduous forest",
+        "partOfSpeech": "",
+        "definitionEn": "A forest dominated by trees that lose their leaves seasonally.",
+        "translationUz": "barg to‘kuvchi daraxtlar o‘rmoni",
+        "example": "We walked through a deciduous forest."
+      },
+      {
+        "term": "rainforest",
+        "partOfSpeech": "",
+        "definitionEn": "A forest found in a region with very high rainfall.",
+        "translationUz": "yomg‘ir o‘rmoni",
+        "example": "The research team surveyed the rainforest."
+      },
+      {
+        "term": "mixed forest",
+        "partOfSpeech": "",
+        "definitionEn": "A forest containing a mixture of tree types, often conifers and broad-leaved trees.",
+        "translationUz": "aralash o‘rmon",
+        "example": "The path passes through a mixed forest."
+      },
+      {
+        "term": "wheat field",
+        "partOfSpeech": "",
+        "definitionEn": "A field planted with wheat.",
+        "translationUz": "bug‘doy dalasi",
+        "example": "The farmer inspected the wheat field."
+      },
+      {
+        "term": "oil field",
+        "partOfSpeech": "",
+        "definitionEn": "An area with underground oil deposits that can be extracted.",
+        "translationUz": "neft koni",
+        "example": "Work at the oil field began many years ago."
+      },
+      {
+        "term": "magnetic field",
+        "partOfSpeech": "",
+        "definitionEn": "A region in which magnetic forces act.",
+        "translationUz": "magnit maydoni",
+        "example": "A compass aligns with Earth’s magnetic field."
+      },
+      {
+        "term": "pharmaceutical industry",
+        "partOfSpeech": "",
+        "definitionEn": "Businesses that develop or manufacture medicines.",
+        "translationUz": "farmatsevtika sanoati",
+        "example": "The report examines research in the pharmaceutical industry."
+      },
+      {
+        "term": "textile industry",
+        "partOfSpeech": "",
+        "definitionEn": "Businesses that produce fabrics and other textile products.",
+        "translationUz": "to‘qimachilik sanoati",
+        "example": "The region was once a centre of the textile industry."
+      },
+      {
+        "term": "steel industry",
+        "partOfSpeech": "",
+        "definitionEn": "Businesses involved in making or processing steel.",
+        "translationUz": "po‘lat sanoati",
+        "example": "The steel industry supplies material for construction."
+      },
+      {
+        "term": "coffee plantation",
+        "partOfSpeech": "",
+        "definitionEn": "A large area where coffee plants are cultivated.",
+        "translationUz": "qahva plantatsiyasi",
+        "example": "The farm includes a coffee plantation."
+      },
+      {
+        "term": "rubber plantation",
+        "partOfSpeech": "",
+        "definitionEn": "A large area planted with trees grown for natural rubber.",
+        "translationUz": "kauchuk plantatsiyasi",
+        "example": "Workers collected latex on the rubber plantation."
+      },
+      {
+        "term": "tea plantation",
+        "partOfSpeech": "",
+        "definitionEn": "A large area planted with tea bushes.",
+        "translationUz": "choy plantatsiyasi",
+        "example": "The hillsides are covered by a tea plantation."
+      },
+      {
+        "term": "sugar plantation",
+        "partOfSpeech": "",
+        "definitionEn": "A large area where a crop such as sugar cane is grown for sugar.",
+        "translationUz": "shakarqamish plantatsiyasi",
+        "example": "The archive records the history of a sugar plantation."
+      },
+      {
+        "term": "independent nation",
+        "partOfSpeech": "",
+        "definitionEn": "A country that governs itself rather than being controlled by another country.",
+        "translationUz": "mustaqil davlat",
+        "example": "It became an independent nation after the agreement."
+      }
+    ]
   }
 ]

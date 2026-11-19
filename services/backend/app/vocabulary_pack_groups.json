@@ -2538,5 +2538,42 @@
         "v2:675928c6e6d1ff1c62b3000a78d2e8b18a8815b86766b9072b89cebf7611b7b5"
       ]
     }
+  ],
+  "environment": [
+    {
+      "label": "Environmental problems and their causes",
+      "start": 0,
+      "end": 23
+    },
+    {
+      "label": "Protection and environmental word families",
+      "start": 23,
+      "end": 55
+    },
+    {
+      "label": "Landscapes, farming and industry",
+      "start": 55,
+      "end": 84
+    },
+    {
+      "label": "Population and settlement",
+      "start": 84,
+      "end": 93
+    },
+    {
+      "label": "Weather and climate",
+      "start": 93,
+      "end": 118
+    },
+    {
+      "label": "Weather metaphors and figurative language",
+      "start": 118,
+      "end": 137
+    },
+    {
+      "label": "Further collocations from the source exercises",
+      "start": 137,
+      "end": 152
+    }
   ]
 }
