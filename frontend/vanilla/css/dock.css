@@ -38,3 +38,12 @@ html[data-theme] #root [data-shell-utilities="true"] [data-focus-toggle][aria-pr
 html[data-theme] #root [data-shell-utilities="true"] [data-focus-toggle] :is(span,svg){color:inherit!important}
 .shell-focus-indicator{align-self:center;display:block;padding:3px 9px;border:0;border-radius:999px;background:linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%);color:#000!important;font-size:11.55px;font-weight:600;line-height:1.3;pointer-events:auto;cursor:pointer}
 .shell-focus-indicator:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* Opaque touch Dock avoids GPU-intensive live background blur. */
+@media(hover:none) and (pointer:coarse){
+ .module-dock::before{
+  backdrop-filter:none;-webkit-backdrop-filter:none;
+  background:rgba(236,243,255,.95);
+ }
+ html[data-theme="night"] .module-dock::before{background:rgba(32,34,52,.96)}
+}

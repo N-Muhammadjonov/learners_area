@@ -68,7 +68,17 @@ export function sectionHeader(context,title,moduleName){
    if(menu){refs.current=[...menu.querySelectorAll('a')];nav.append(menu);node.hidden=false;}
   }
  }
- observer=new MutationObserver(()=>{if(content)attach(content);});
+ // Ignore unrelated card/list mutations instead of rescanning whole route trees.
+ const headerSources='h1,[data-module-sections],[data-writing-tablist],[data-video-header-sections],[data-video-detail-heading],[data-listening-section-heading]';
+ function changesHeader(record){
+  const target=record.target;
+  if(target?.nodeType===1&&(target.matches?.(headerSources)||target.closest?.(headerSources)))return true;
+  for(const node of [...record.addedNodes,...record.removedNodes]){
+   if(node.nodeType===1&&(node.matches(headerSources)||node.querySelector(headerSources)))return true;
+  }
+  return false;
+ }
+ observer=new MutationObserver(records=>{if(content&&records.some(changesHeader))attach(content);});
  function watch(root){observer.disconnect();attach(root);observer.observe(root,{childList:true,subtree:true});}
  signal.addEventListener('abort',()=>{observer.disconnect();node.remove();},{once:true});
  function updateLocation(next){
