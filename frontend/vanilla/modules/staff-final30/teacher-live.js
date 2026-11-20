@@ -68,7 +68,7 @@ function newClassForm(ctx,view,availableStudents=[]){
  const cancel=el('button',{type:'button',class:'btn-ghost'},dict.common.cancel);
  listen(cancel,'click',()=>{S.open=false;view.rerender();},signal);
 
- const form=el('form',{class:'card flex flex-col gap-3 p-4','data-new-class-form':''},
+ const form=el('form',{class:'card flex w-full min-w-0 flex-col gap-3 p-4','data-new-class-form':''},
   el('div',{},lab('title',f.title),title),
   el('div',{},lab('topic',f.topicOptional),topic),
   el('div',{class:'grid grid-cols-1 gap-3 sm:grid-cols-2'},
@@ -155,11 +155,11 @@ function statusControls(ctx,c,view){
   put(box,btn(t.markCompleted,{status:'completed'},{'data-mark-completed':c.id}));
  }
  if(c.status==='completed'||c.status==='ended'||c.status==='recorded'){
-  const i=el('input',{class:'input w-56',placeholder:'https://... recording','aria-label':t.recording,'data-focus-key':'rec-'+c.id});
+  const i=el('input',{class:'input w-56 max-w-full',placeholder:'https://... recording','aria-label':t.recording,'data-focus-key':'rec-'+c.id});
   i.value=S.recordingUrl;
   const add=el('button',{type:'submit',class:'btn-secondary',disabled:S.pending||!S.recordingUrl},t.addRecording);
   listen(i,'input',()=>{S.recordingUrl=i.value;add.disabled=S.pending||!i.value;},signal);
-  const form=el('form',{class:'flex items-center gap-2'},i,add);
+  const form=el('form',{class:'flex min-w-0 max-w-full flex-wrap items-center gap-2'},i,add);
   listen(form,'submit',e=>{e.preventDefault();void patch({recordingUrl:S.recordingUrl,status:'recorded'});},signal);
   put(box,form);
   if(c.hasYoutubeVideo){
@@ -185,7 +185,7 @@ export const listMount=mountStaff({
  render(ctx,data,view){
   const {dict,locale}=ctx,t=dict.liveClasses;
   return el('div',{class:'mx-auto flex max-w-3xl flex-col gap-4'},
-   el('div',{class:'flex items-center justify-between'},
+   el('div',{class:'flex flex-wrap items-center justify-between gap-2'},
     el('h1',{class:'font-display text-2xl text-ink-900'},t.manageTitle),
     newClassForm(ctx,view,data.availableStudents||[])),
    youtubeSetupGuide(dict),
@@ -202,7 +202,7 @@ export const listMount=mountStaff({
       (c.youtubeVideoId?` · YouTube ID: ${c.youtubeVideoId}`:'')),
      el('div',{class:'flex flex-wrap items-center justify-between gap-2'},
       statusControls(ctx,c,view),
-      el('div',{class:'flex items-center gap-2'},
+      el('div',{class:'flex flex-wrap items-center gap-2'},
        c.status!=='cancelled'?el('a',{href:`/app/live-classes/${c.id}`,class:'btn-ghost text-xs','data-open-live-room':c.id},t.openLessonRoom||'Open Live Room'):null,
        el('a',{href:`/app/teacher/live-classes/${c.id}`,class:'btn-secondary','data-class-roster-link':c.id},`${t.attendance} →`))));
    })));

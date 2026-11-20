@@ -48,7 +48,7 @@ test('Dock fits available width, scrolls both ways and keeps all modules reachab
      const partial=await page.locator('.module-dock__glass').evaluate(async nav=>{
       const link=nav.firstElementChild,bounds=nav.getBoundingClientRect(),item=link.getBoundingClientRect();
       const edge=bounds.left+parseFloat(getComputedStyle(nav).getPropertyValue('--dock-edge-inset'));
-      const offset=Math.round(item.left+item.width/2-edge);
+      const offset=Math.min(nav.scrollWidth-nav.clientWidth,Math.round(item.left+item.width/2-edge));
       nav.scrollLeft=offset;
       await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
       const y=item.top+item.height/2;

@@ -4,7 +4,8 @@ const STAFF=['teacher','admin','owner'];
 function form(ctx,lessons,view){
  const {dict,signal}=ctx,t=dict.videoLessonAdmin,S=(ctx.state.video??={lessonId:'',title:'',videoUrl:'',before:'',duration:'',notes:'',transcriptText:'',transcriptSource:'authored',vocabularyText:'',busy:false,message:null});
  const bind=(n,k,evt='input')=>{n.value=S[k];listen(n,evt,()=>{const had=S.transcriptText.trim()!=='';S[k]=n.value;if(k==='transcriptText'&&had!==(S.transcriptText.trim()!==''))view.rerender();},signal);return n;};
- const lab=(text,node,help)=>el('label',{class:'flex flex-col gap-1 text-sm'},text,node,help?el('span',{class:'text-xs text-ink-500'},help):null);
+ const lab=(text,node,help)=>el('label',{class:'block space-y-1 text-sm'},
+  el('span',{class:'block'},text),node,help?el('span',{class:'block text-xs text-ink-500'},help):null);
  const sel=bind(el('select',{class:'input','data-video-lesson-select':''},el('option',{value:''},t.standaloneOption),lessons.map(l=>el('option',{value:l.id},l.title))),'lessonId','change');
  const f=el('form',{class:'flex flex-col gap-3','data-video-admin-form':''},el('p',{class:'text-sm text-ink-600'},t.intro),
   lab(t.videoUrl,bind(el('input',{class:'input',placeholder:'https://www.youtube.com/watch?v=…',required:'','data-video-url-input':'','data-focus-key':'v-url'}),'videoUrl')),

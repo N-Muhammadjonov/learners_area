@@ -17,6 +17,9 @@ const VIEW_STYLE = `
 .la-exam-scroll [data-listening-source-question]{scroll-margin-top:70px}
 .la-exam-feedback{padding:0 18px;font-size:13px;color:#555}
 .la-exam-feedback:empty{display:none}
+.la-paper-table-scroll{max-width:100%;min-width:0;overflow-x:auto}
+.la-exam-scroll .map-layout>*{min-width:0}
+.la-exam-scroll .option-row,.la-exam-scroll .choice-buttons{flex-wrap:wrap;gap:6px}
 `;
 
 const formatTime=seconds=>{
@@ -144,6 +147,13 @@ export function authoredCdView(data,{questions,imageUrl,notes,saveWorkspace,sign
    part=next;needsPaper=false;
    const fragment=document.createElement('template');
    fragment.innerHTML=data.parts[part-1];
+   // Keep wide answer grids scrollable independently of the timer and part controls.
+   for(const table of fragment.content.querySelectorAll('table')){
+    if(table.parentElement?.closest('table,.matrix-wrap'))continue;
+    const wrapper=el('div',{class:'la-paper-table-scroll'});
+    table.replaceWith(wrapper);
+    wrapper.append(table);
+   }
    for(const img of fragment.content.querySelectorAll('img')){
     img.referrerPolicy='no-referrer';
     if(imageUrl)img.src=imageUrl;
