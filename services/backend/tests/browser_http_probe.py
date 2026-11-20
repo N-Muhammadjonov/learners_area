@@ -47,7 +47,7 @@ def check(path, status=200):
                 route=urlsplit(p['route'][0])
                 return await read_view(req,user,route.path,route.query,p.get('region',[None])[0])
             asyncio.run(diagnose())
-        assert r.status_code==status,f'{r.status_code}: {r.text[:300]}'
+        assert r.status_code==status,f'{path}: expected {status}, got {r.status_code}: {r.text[:300]}'
         checks += 1
         if status==200:
             key=path
@@ -138,24 +138,32 @@ try:
     assert r.status_code==503 and 'isolated outage marker' not in r.text
     checks+=1
 finally:core.pool=pool
-asyncio.run(con.execute("UPDATE users SET role='owner' WHERE id=$1",UID))
-check('/api/frontend/session',401)
-assert client.post('/api/auth/login',json={'email':'browser@example.test','password':PASSWORD},headers={'origin':'http://preview.test'}).status_code==200
 # Original entry presentation is independent of the existing recording transport.
 fixture_test=id('listening-academic');fixture_attempt=id('original-listening-entry-attempt')
+authored_path=f'/api/listening/full/{fixture_test}/authored'
 audio_before=asyncio.run(con.fetchrow('SELECT t.audio_url,p.audio_object_key,p.source_id FROM listening_tests t JOIN listening_packages p ON p.test_id=t.id WHERE t.id=$1',fixture_test))
+audio_url=f"/api/resources/{audio_before['audio_object_key']}?download=1"
 try:
     asyncio.run(con.execute("INSERT INTO listening_attempts(id,user_id,test_id,status,total_questions) VALUES($1,$2,$3,'in_progress',40)",fixture_attempt,UID,fixture_test))
     for number in (1,7):
         asyncio.run(con.execute('UPDATE listening_packages SET source_id=$2 WHERE test_id=$1',fixture_test,f'listening-test-{number}'))
-        gate=check('/api/listening/full/'+fixture_test+'/authored')
-        assert gate['kind']=='exam_required' and gate['attemptId']==fixture_attempt
+        gate=check(authored_path)
+        assert gate is not None and gate['kind']=='exam_required' and gate['attemptId']==fixture_attempt
         assert f'Listening<br>Test {number}' in gate['originalLayout']['shell']
         assert len(gate['originalLayout']['activities'])==9
         assert 'runtime' not in gate and 'data:audio' not in json.dumps(gate)
-        warmup=check('/api/listening/full/'+fixture_test+'/authored?warmup=1')
-        assert warmup['audioUrl']=='/api/resources/'+audio_before['audio_object_key']+'?download=1'
+        warmup=check(authored_path+'?warmup=1')
+        assert warmup is not None and warmup['audioUrl']==audio_url
         checks+=4
+
+    # The same unfinished attempt does not gate staff review of a native test.
+    asyncio.run(con.execute("UPDATE users SET role='owner' WHERE id=$1",UID))
+    check('/api/frontend/session',401)
+    assert client.post('/api/auth/login',json={'email':'browser@example.test','password':PASSWORD},headers={'origin':'http://preview.test'}).status_code==200
+    staff_runtime=check(authored_path)
+    assert staff_runtime is not None and staff_runtime['nativePersistence'] is True
+    assert staff_runtime['runtime']['files'] and staff_runtime['audioUrl']==audio_url
+    checks+=2
 finally:
     asyncio.run(con.execute('DELETE FROM listening_attempts WHERE id=$1',fixture_attempt))
     asyncio.run(con.execute('UPDATE listening_packages SET source_id=$2 WHERE test_id=$1',fixture_test,audio_before['source_id']))
@@ -170,7 +178,7 @@ for kind,params in (
     ('admissions',{}),('people',{}),('roster',{}),('teacher-students',{}),('teacher-homework',{}),('teacher-actions',{}),('support-inbox',{}),('teacher-live-classes',{}),
     ('owner-overview',{}),('owner-integrations',{}),('owner-retention',{}),('owner-transfer',{}),
     ('grammar-topics',{}),('reading-passages',{}),('listening-library',{}),('listening-import',{}),('speaking-manage',{}),('video-admin',{}),
-    ('writing-admin',{}),('writing-admin-new',{'kind':'pattern'}),('reading-retention',{'level':'A2'}),('retention-staged',{'level':'A2'}),('centre-statistics',{})):
+    ('writing-admin',{}),('writing-admin-new',{'kind':'pattern'}),('reading-retention',{'level':'A2'}),('retention-staged',{'level':'A2'}),('centre-statistics',{'page':1})):
     check('/api/frontend/staff/'+kind+('?' + urlencode(params) if params else ''))
 check('/api/frontend/staff/teacher-students?page=1')
 for kind in ('lesson','reading','listening','writing','speaking','grammar','assignment','live_class'):
