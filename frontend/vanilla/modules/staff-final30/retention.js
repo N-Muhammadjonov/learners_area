@@ -9,17 +9,17 @@ const href=(level,filter,sort,page=1)=>`/app/admin/reading/retention?level=${lev
 const lab=(text,node,cls='flex flex-col gap-1')=>el('label',{class:cls},el('span',{},text),node);
 /** Accessible row menu: labelled trigger, role=menu items, Arrow/Home/End roving focus, Escape + outside press close, focus returns to trigger. */
 function rowMenu({label,items,disabled,signal}){
- const id=nextId('rm');let open=false;const wrap=el('div',{class:'relative inline-block','data-retention-row-menu':''});
+ const id=nextId('rm');let open=false;const wrap=el('div',{class:'flex flex-col items-end','data-retention-row-menu':''});
  const trigger=el('button',{type:'button',class:'btn-secondary min-h-[40px] min-w-[40px] px-2','aria-label':label,'aria-haspopup':'menu','aria-expanded':'false',disabled,'data-retention-row-menu-trigger':''},el('span',{'aria-hidden':'true'},'⋯'));
  put(wrap,trigger);let menu=null,btns=[];
  const close=ret=>{open=false;trigger.setAttribute('aria-expanded','false');trigger.removeAttribute('aria-controls');menu?.remove();menu=null;if(ret)trigger.focus();};
  const onDown=e=>{if(open&&!wrap.contains(e.target))close(false);};document.addEventListener('pointerdown',onDown);signal.addEventListener('abort',()=>document.removeEventListener('pointerdown',onDown),{once:true});
  function show(){open=true;trigger.setAttribute('aria-expanded','true');trigger.setAttribute('aria-controls',id);
   btns=items.map(it=>{const b=el('button',{type:'button',role:'menuitem',tabindex:'-1',class:'rounded px-3 py-2 text-left text-sm text-ink-700 hover:bg-paper-sunken focus:bg-paper-sunken',...it.marker},it.label);listen(b,'click',()=>{close(true);it.onSelect();},signal);return b;});
-  menu=el('div',{id,role:'menu','aria-label':label,class:'absolute right-0 z-10 mt-1 flex min-w-[10rem] flex-col rounded-md border border-ink-100 bg-paper-raised p-1 shadow-card'},btns);
+  menu=el('div',{id,role:'menu','aria-label':label,class:'mt-1 flex min-w-[10rem] flex-col rounded-md border border-ink-100 bg-paper-raised p-1 shadow-card'},btns);
   listen(menu,'keydown',e=>{const i=btns.indexOf(document.activeElement),last=btns.length-1,f=n=>btns[n]?.focus();
    if(e.key==='Escape'){e.preventDefault();close(true);}else if(e.key==='ArrowDown'){e.preventDefault();f(i>=last?0:i+1);}else if(e.key==='ArrowUp'){e.preventDefault();f(i<=0?last:i-1);}else if(e.key==='Home'){e.preventDefault();f(0);}else if(e.key==='End'){e.preventDefault();f(last);}else if(e.key==='Tab')close(false);},signal);
-  put(wrap,menu);btns[0]?.focus();}
+  put(wrap,menu);btns[0]?.focus();menu.scrollIntoView?.({block:'nearest',inline:'nearest'});}
  listen(trigger,'click',()=>open?close(false):show(),signal);listen(trigger,'keydown',e=>{if(e.key==='ArrowDown'&&!open){e.preventDefault();show();}},signal);
  return wrap;
 }
@@ -137,7 +137,7 @@ export const bankMount=mountStaff({name:'retention-admin',roles:ROLES,load:c=>ba
   const tab=(key,label,h,attr)=>el('a',{href:h,class:(attr==='filter'?filter:sort)===key?'tab tab-active':'tab',[`data-retention-${attr}`]:key},label);
   const add=el('button',{type:'button',class:'btn-primary w-fit','data-retention-add':''},t.addText);listen(add,'click',()=>openEditor({mode:'add'}),signal);
   const rows=d.bank.rows;
-  const table=rows.length===0?el('p',{class:'body-text','data-retention-bank-empty':''},t.emptyBank):el('div',{class:'overflow-x-auto'},el('table',{class:'w-full text-left text-sm','data-retention-bank-table':''},el('thead',{},el('tr',{class:'text-xs uppercase tracking-wide text-ink-300'},[t.tableLabel,t.tableWords,t.tableVersion,t.tableCurrentUses,t.tableLifetimeUses].map(x=>el('th',{scope:'col'},x)),el('th',{scope:'col'},el('span',{class:'sr-only'},t.tableActions)))),
+  const table=rows.length===0?el('p',{class:'body-text','data-retention-bank-empty':''},t.emptyBank):el('div',{class:'relative overflow-x-auto'},el('table',{class:'w-full text-left text-sm','data-retention-bank-table':''},el('thead',{},el('tr',{class:'text-xs uppercase tracking-wide text-ink-300'},[t.tableLabel,t.tableWords,t.tableVersion,t.tableCurrentUses,t.tableLifetimeUses].map(x=>el('th',{scope:'col'},x)),el('th',{scope:'col'},el('span',{class:'sr-only'},t.tableActions)))),
    el('tbody',{},rows.map(r=>el('tr',{class:'border-t border-ink-100 align-top','data-retention-row':r.textId,'data-retention-row-active':String(r.active)},el('td',{class:'py-2 pr-3'},el('div',{class:'flex flex-wrap items-center gap-2'},el('span',{class:'text-ink-900'},r.internalLabel),el('span',{class:`rounded-full px-2 py-0.5 text-xs ${r.active?'bg-paper-sunken text-ink-700':'text-signal-600'}`,'data-retention-row-status':r.active?'active':'archived'},r.active?t.activeBadge:t.archivedBadge)),r.preview?el('p',{class:'meta-text mt-1 line-clamp-2 max-w-[36rem]','data-retention-row-preview':''},r.preview):null),
     el('td',{class:'py-2 text-ink-500'},String(r.wordCount)),el('td',{class:'py-2 text-ink-500'},fill(t.versionBadge,{n:r.versionNumber})),el('td',{class:'py-2 text-ink-500','data-retention-row-current-uses':String(r.currentVersionUses)},String(r.currentVersionUses)),el('td',{class:'py-2 text-ink-500','data-retention-row-lifetime-uses':String(r.lifetimeUses)},String(r.lifetimeUses)),
     el('td',{class:'py-2'},rowMenu({label:fill(t.rowActions,{label:r.internalLabel}),disabled:S.busy===r.textId,signal,items:[{key:'change',label:t.change,marker:{'data-retention-change':r.textId},onSelect:()=>openEditor({mode:'change',textId:r.textId,label:r.internalLabel})},r.active?{key:'archive',label:t.archive,marker:{'data-retention-archive':r.textId},onSelect:()=>void toggle(r,false)}:{key:'restore',label:t.restore,marker:{'data-retention-restore':r.textId},onSelect:()=>void toggle(r,true)},...(canPermanentlyDelete?[{key:'delete',label:t.deleteAction,marker:{'data-retention-delete':r.textId},onSelect:()=>void removeForever(r)}]:[])]})))))));

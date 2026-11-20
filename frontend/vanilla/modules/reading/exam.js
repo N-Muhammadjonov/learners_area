@@ -180,13 +180,15 @@ export function mountExam(context,p){
   ],pane:state.pane});
   paintSave();
  }
+ function setPane(pane){state.pane=pane;ws.update({pane});}
  function focusQuestion(questionId){
+  setPane('questions');
   const input=document.getElementById(`answer-${questionId}`);
   const target=input??[...host.querySelectorAll('[data-question]')].find(node=>node.dataset.question===questionId);
   target?.scrollIntoView?.({block:'center',behavior:'smooth'});
   if(input instanceof HTMLElement)input.focus({preventScroll:true});
  }
- const ws=createWorkspace({labels:dict.readingWorkspace,title:p.testTitle??p.passageTitle,brand:dict.marketing.title,state,setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:v=>{state.fontSize=Math.max(14,Math.min(22,v));ws.update({});}});
+ const ws=createWorkspace({labels:dict.readingWorkspace,title:p.testTitle??p.passageTitle,brand:dict.marketing.title,state,setPane,setFont:v=>{state.fontSize=Math.max(14,Math.min(22,v));ws.update({});}});
  host.replaceChildren(ws.root);
  draw();
 }

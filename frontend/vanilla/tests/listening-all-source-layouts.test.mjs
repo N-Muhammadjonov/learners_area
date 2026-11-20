@@ -47,6 +47,11 @@ for(let number=1;number<=32;number++)test('Listening '+number+' preserves all fo
    const paper=root.getElementById('examQuestionHost');
    const original=document.createElement('template');original.innerHTML=parts[part];
    assert.equal(paper.childElementCount,original.content.childElementCount,'Original paper replaced by generated question rows');
+   const tables=paper.querySelectorAll('table');
+   assert.equal(tables.length,original.content.querySelectorAll('table').length);
+   for(const table of tables){
+    assert.ok(table.closest('.la-paper-table-scroll,.matrix-wrap'),'Answer tables must scroll inside the paper');
+   }
    assert.equal(root.querySelectorAll('[data-qnav]').length,40);
    assert.equal(root.querySelectorAll('[data-qgroup]:not(.hidden) [data-qnav]').length,10);
    assert.equal(root.getElementById('examPartTitle').textContent,'SECTION '+part);

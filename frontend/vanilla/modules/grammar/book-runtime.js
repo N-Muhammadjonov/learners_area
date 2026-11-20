@@ -42,7 +42,19 @@ function exCard(u,si,ei,e){
   };
   if(kind==='mcq'||kind==='judge'){let answered=0;e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('div','q',esc(it.q)));const box=$('div');const fb=$('div','fb');
     const opts=kind==='mcq'?it.opts:["To'g'ri","Noto'g'ri"];opts.forEach(o=>{const b=$('button','opt',esc(o));b.onclick=()=>{if(box.dataset.d)return;box.dataset.d=1;const good=kind==='mcq'?o===it.a:((o==="To'g'ri")===it.t);b.dataset.userChoice='true';b.classList.add(good?'ok':'no');if(!good){[...box.children].forEach(x=>{if(kind==='mcq'?x.textContent===it.a:((x.textContent==="To'g'ri")===it.t))x.classList.add('ok')});if(kind==='judge'&&it.fix)fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.fix);fb.className='fb no'}if(good)correct++;answered++;if(answered===e.items.length)finish()};box.append(b)});m.append(box,fb);row.append(m);body.append(row)})}
-  else if(kind==='match'){const sels=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('span','',esc(it.l)+'  →  '));const s=$('select','s');s.append(new Option('— tanlang —',''));e.rights.forEach(r=>s.append(new Option(r,r)));m.append(s);const fb=$('span','fb');m.append(fb);sels.push([s,it,fb]);row.append(m);body.append(row)});
+  else if(kind==='match'){
+    const sels=[];
+    e.items.forEach((item,index)=>{
+      const row=$('div','item'),main=$('div','main'),select=$('select','s'),feedback=$('span','fb');
+      // Shadow-root styles load asynchronously. Cap native choices from their first paint.
+      select.style.maxWidth='100%';
+      select.append(new Option('— tanlang —',''));
+      for(const right of e.rights)select.append(new Option(right,right));
+      main.append($('span','',esc(item.l)+'  →  '),select,feedback);
+      row.append($('div','num',index+1),main);
+      body.append(row);
+      sels.push([select,item,feedback]);
+    });
     const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;sels.forEach(([s,it,fb])=>{const g=s.value===it.r;if(g)correct++;s.style.borderColor=g?'#2f7d5b':'#c0394b';fb.className='fb '+(g?'ok':'no');fb.innerHTML=g?' ✓':' ✗ <b>'+esc(it.r)+'</b>'});finish()};body.append(b)}
   else if(kind==='bank'){const chips=$('div','chips');const blanks=[];let act=null;
     e.bank.forEach(w=>{const c=$('span','chip',esc(w));c.onclick=()=>{if(c.classList.contains('used'))return;let t=act&&!act.dataset.v?act:blanks.find(x=>!x.dataset.v);if(!t)return;t.dataset.v=w;t.textContent=w;t.dataset.c=c.dataset.id=c.dataset.id||Math.random();c.classList.add('used');t._chip=c;act=null;blanks.forEach(x=>x.classList.remove('act'))};chips.append(c)});body.append(chips);

@@ -3,6 +3,7 @@ import asyncio
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from aiohttp.test_utils import make_mocked_request
 from aiohttp.web import HTTPServiceUnavailable
 from aiogram.filters.command import CommandObject
 from aiogram.types import Update
@@ -21,15 +22,22 @@ async def test_webhook_secret_and_outage_response_are_not_background_acknowledge
     dispatcher.feed_webhook_update = AsyncMock(side_effect=HTTPServiceUnavailable(text='temporarily unavailable'))
     bot = Bot('123456:fixture-token')
     handler = service.webhook_handler(dispatcher, bot)
-    request = MagicMock()
-    request.json = AsyncMock(return_value={'update_id':903})
-    request.headers = {}
-    assert (await handler.handle(request)).status == 401
-    dispatcher.feed_webhook_update.assert_not_awaited()
-    request.headers = {'X-Telegram-Bot-Api-Secret-Token':'fixture-secret'}
-    with pytest.raises(HTTPServiceUnavailable):
-        await handler.handle(request)
-    await bot.session.close()
+    payload = MagicMock()
+    payload.readany = AsyncMock(side_effect=[b'{"update_id":903}', b''])
+    headers = {'Content-Type': 'application/json'}
+    try:
+        request = make_mocked_request('POST', '/webhook', headers, payload=payload)
+        assert (await handler.handle(request)).status == 401
+        payload.readany.assert_not_awaited()
+        dispatcher.feed_webhook_update.assert_not_awaited()
+
+        headers['X-Telegram-Bot-Api-Secret-Token'] = 'fixture-secret'
+        request = make_mocked_request('POST', '/webhook', headers, payload=payload)
+        with pytest.raises(HTTPServiceUnavailable):
+            await handler.handle(request)
+        dispatcher.feed_webhook_update.assert_awaited_once_with(bot, {'update_id': 903})
+    finally:
+        await bot.session.close()
 
 
 @pytest.fixture(autouse=True)
