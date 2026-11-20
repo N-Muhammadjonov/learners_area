@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import mimetypes
 import os
 import re
@@ -12,10 +13,11 @@ from urllib.parse import urlencode, parse_qsl
 from fastapi import Request
 from fastapi.responses import FileResponse, RedirectResponse, Response
 from . import main as core
-from .security import add_security_headers, build_csp
+from .security import add_security_headers, build_csp, verify_token
 from .seo import robots_document, sitemap_document, public_document, private_document
 
 ROOT = Path(__file__).resolve().parents[3]
+LOG = logging.getLogger(__name__)
 PUBLIC_PAGES = frozenset(('/', '/login', '/register', '/reset-password', '/reset-password/confirm', '/auth/recovery', '/landing', '/study-plan/shared'))
 PREFIXES = ('/api', '/_frontend', '/.git', '/.env', '/services', '/src', '/drizzle', '/node_modules')
 
@@ -157,15 +159,15 @@ class StaticFrontend:
                         re.fullmatch(pattern, path) for pattern in manifest['routes'])
                     if matched:
                         user = None
-                        if path in ('/', '/login') and req.cookies.get(core.SESSION_COOKIE):
+                        if path in ('/', '/login') and verify_token(req.cookies.get(core.SESSION_COOKIE)):
                             try:
                                 user = await core.current_user(req)
                             except Exception as exc:
-                                response = core.db_failure(exc)
-                            if response is None:
-                                destination = entry_destination(user)
-                                if destination:
-                                    response = RedirectResponse(destination, 303, headers=core.PRIVATE)
+                                # Session recovery is optional on these public pages.
+                                LOG.warning('Public entry session lookup unavailable: %s', type(exc).__name__)
+                            destination = entry_destination(user)
+                            if destination:
+                                response = RedirectResponse(destination, 303, headers=core.PRIVATE)
                         if response is None and path not in PUBLIC_PAGES:
                             try:
                                 user = await core.current_user(req)

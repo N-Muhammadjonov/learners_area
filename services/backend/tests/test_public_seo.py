@@ -3,12 +3,14 @@ import importlib.util
 import json
 from pathlib import Path
 import re
+from uuid import UUID
 import xml.etree.ElementTree as ET
 
 import pytest
 from fastapi.testclient import TestClient
 from app import main as core
 from app.asgi import application
+from app.security import issue_token
 
 ROOT = Path(__file__).resolve().parents[3]
 client = TestClient(application)
@@ -58,6 +60,30 @@ def test_home_is_indexable_without_javascript_or_session_queries(monkeypatch):
         structured_data = [json.loads(block) for block in re.findall(r'<script[^>]+type="application/ld\+json">(.*?)</script>', html, re.S)]
         assert any(item.get('@type') == 'Organization' for item in structured_data)
         assert not any(item.get('@type') == 'FAQPage' for item in structured_data)
+
+
+def test_public_entry_survives_database_outage_with_signed_cookie(monkeypatch):
+    monkeypatch.setenv('AUTH_SECRET', 'fixture-secret-for-public-entry')
+    token = issue_token({'id': UUID(int=1), 'role': 'student', 'name': 'Test User', 'locale': 'uz'})
+    headers = {'cookie': 'la_session=' + token}
+
+    async def unavailable_pool():
+        raise OSError('database offline')
+
+    monkeypatch.setattr(core, 'pool', unavailable_pool)
+    home = client.get('/', headers=headers, follow_redirects=False)
+    assert home.status_code == 200
+    assert home.headers['x-robots-tag'] == 'index, follow'
+    assert home.headers['cache-control'] == 'private, no-store'
+    assert '<link rel="canonical" href="https://learnersarea.uz/">' in home.text
+
+    login = client.get('/login', headers=headers, follow_redirects=False)
+    assert login.status_code == 200
+    assert login.headers['x-robots-tag'] == 'noindex, nofollow, noarchive'
+
+    protected = client.get('/app', headers=headers, follow_redirects=False)
+    assert protected.status_code == 503
+    assert protected.json()['error'] == 'service_unavailable'
 
 
 @pytest.mark.parametrize('path', ['/app/speaking/shadowing', '/app/speaking/shadowing?from=old', '/app/speaking/shadowing/'])

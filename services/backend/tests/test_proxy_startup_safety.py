@@ -28,10 +28,17 @@ def test_both_origin_consumers_share_explicit_proxy_trust(monkeypatch, trusted, 
     assert view['embedOrigin'] == expected
 
 
-def test_cookie_secure_is_preserved_with_untrusted_proxy_headers(monkeypatch):
+@pytest.mark.parametrize('scheme,transport_headers', [
+    ('http', [(b'x-forwarded-proto', b'https')]),
+    ('https', []),
+])
+def test_https_cookie_policy_preserves_secure_without_trusting_forwarded_origin(monkeypatch, scheme, transport_headers):
     monkeypatch.setenv('TRUST_PROXY_HEADERS', 'false')
-    assert security.cookie_attrs(request([(b'x-forwarded-proto', b'https')])) == ('None', True, True)
-    assert security.cookie_attrs(request(scheme='https')) == ('None', True, True)
+    first_party = request(transport_headers, scheme=scheme)
+    iframe = request([*transport_headers, (b'sec-fetch-dest', b'iframe')], scheme=scheme)
+    assert security.request_origin(first_party) == f'{scheme}://local.example'
+    assert security.cookie_attrs(first_party) == ('Lax', True, False)
+    assert security.cookie_attrs(iframe) == ('None', True, True)
 
 
 def test_startup_warnings_once_without_changing_hard_minimum(monkeypatch, caplog):
