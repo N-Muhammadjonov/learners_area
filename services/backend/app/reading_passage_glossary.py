@@ -112,6 +112,7 @@ _PASSAGES = {
     '93493538-aaae-5d02-826e-555a834f8746': '102-the-fluoridation-controversy',
     '00cfe9bf-4274-5565-8118-32a00dc356f0': '103-the-history-of-the-chicken',
     'd11b2783-be63-571a-8664-005bd6f0fca9': '104-renewable-energy',
+    '96805efc-7729-5d0a-8b27-caa4ca7f6dd9': '105-amateur-naturalists',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
