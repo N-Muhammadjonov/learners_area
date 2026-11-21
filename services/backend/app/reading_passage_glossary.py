@@ -64,6 +64,8 @@ _PASSAGES = {
     '9c400e88-f76f-5406-818c-efc8bd65947a': '54-temperament',
     '149edd8a-3c24-45e3-b76e-0eb83ecce15c': '55-socotra-island',
     'bdfccfc4-c464-4691-95d8-82ce68c76653': '56-a-unique-golden-textile',
+    '23544198-5bb4-5286-8f5b-a43bee825dfc': '57-how-should-reading-be-taught',
+    '423d6dd6-8038-4d2b-979a-dcb36e8768ee': '58-this-is-very-much-the-story-of-a-story',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
