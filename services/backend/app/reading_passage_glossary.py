@@ -102,6 +102,8 @@ _PASSAGES = {
     '2a24c01b-6c50-46ad-b697-4e3a18f939b3': '92-orientation-of-birds',
     'db1cdff3-50de-4942-a0e2-32ff45fde9d0': '93-the-contradictions-of-tourism',
     'd5a37e57-47a9-4582-be4d-d138d89cdec5': '94-optimism-and-health',
+    '136a75d7-4318-4b8d-9f9a-166e9d2d5693': '95-the-remarkable-power-of-placebos',
+    '918c17d9-0a85-40f7-a7f3-5b9b72a2f379': '96-what-are-the-1-000-foods-to-eat-before-you-die',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
