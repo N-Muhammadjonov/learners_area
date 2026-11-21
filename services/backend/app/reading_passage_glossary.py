@@ -58,6 +58,8 @@ _PASSAGES = {
     '2d8e4da9-1945-5ad1-8a82-0081b9e5b905': '48-conformity',
     '21cce8bc-069a-4409-a570-ad89d1df90e2': '49-book-review-triumph-of-the-city',
     '4cb177f6-133c-5cc0-8012-eb364d1de9c6': '50-mammoth-kill',
+    '1e4adbc9-4032-4be0-83f9-71dffb23ed24': '51-the-benefits-of-learning-an-instrument',
+    '59fea739-f3ab-4472-a596-e9f06c443e2e': '52-traditional-maori-medicine',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
