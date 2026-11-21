@@ -68,7 +68,13 @@ def is_verified_reading_gloss(body: str, row: Mapping[str, object]) -> bool:
             return True
         neighbor = index + direction
         return char in "'’\u2011-" and 0 <= neighbor < len(body) and bool(re.match(r'[A-Za-z]', body[neighbor]))
-    return not (joined(start - 1, -1) or joined(end, 1))
+    # Some source HTML stores a labelled paragraph as "AFew ...".
+    after_paragraph_label = (
+        start >= 1
+        and (start == 1 or body[start - 3:start - 1] == '\n\n')
+        and re.fullmatch(r'[A-Z][A-Z][a-z ]', body[start - 1:start + 2]) is not None
+    )
+    return not joined(end, 1) and (after_paragraph_label or not joined(start - 1, -1))
 
 
 def reading_glosses(body: str, rows: list[Mapping[str, object]]) -> list[Mapping[str, object]]:

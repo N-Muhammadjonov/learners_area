@@ -10,6 +10,11 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
   for(const attr of [...node.attributes])if(!['class','type','value','placeholder','colspan','rowspan','alt','src','data-source-numbers'].includes(attr.name))node.removeAttribute(attr.name);
   if(node.localName==='img'&&!/^data:image\/(png|jpe?g|webp);base64,/i.test(node.getAttribute('src')||''))node.removeAttribute('src');
  }
+ if(lexicalContext){
+  for(const label of doc.body.querySelectorAll('.para-letter')){
+   if(/^\p{L}/u.test(label.nextSibling?.textContent??''))label.after(doc.createTextNode(' '));
+  }
+ }
  if(skipTitle)doc.body.querySelector('.pass-title')?.remove();
  root.append(...doc.body.childNodes);
  if(lexicalContext&&sourceId&&typeof sourceBody==='string'){

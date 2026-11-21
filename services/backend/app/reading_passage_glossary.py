@@ -14,6 +14,8 @@ _PASSAGES = {
     '818290cd-9f13-4f06-b453-6e1012552c63': '04-is-graffiti-art-or-crime',
     '22a5f6cd-d48d-4ea0-b2db-e87748a23955': '05-life-casting-and-art',
     '94e45a16-0f2b-4de0-b6f7-80f74ccfeb43': '06-hypnotism',
+    '39b59e1e-1895-50a7-83be-7cc712c89272': '07-fishbourne-roman-palace',
+    'd4e2ae83-5835-5fc1-8548-357bb1ab31ae': '08-preserving-antarctic-history',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
@@ -23,7 +25,7 @@ def has_passage_html(passage_id: object) -> bool:
     return str(passage_id) in _PASSAGES
 
 
-@lru_cache(maxsize=16)
+@lru_cache(maxsize=64)
 def _read_glossary(dist: Path, source: str) -> dict | None:
     path = dist / 'modules' / 'reading' / 'passage-assets' / (_PASSAGES[source] + '.html')
     try:

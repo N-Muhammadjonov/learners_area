@@ -52,3 +52,27 @@ test('rich Reading context double-click sends the exact source occurrence',async
     assert(h.dom.window.document.querySelector('[data-word-popover]')?.textContent.includes('taklif qilmoq'));
   }finally{h.dispose();}
 });
+
+test('a labelled paragraph links every part of a reviewed expression, including its pronoun', async()=>{
+  const h=setup({path:'/app/reading/general/'+ID(2),role:'student'});
+  globalThis.DOMParser=h.dom.window.DOMParser;
+  const phrase='on their own',passage='ATry it '+phrase+'.';
+  const occurrence={id:ID(5),startChar:8,endChar:20,surfaceForm:phrase,
+    definitionEn:'without other people helping',translationUz:'mustaqil ravishda',partOfSpeech:'idiom'};
+  h.stub({'/api/vocabulary/folders':{folders:[]},
+    '/api/vocabulary/lookup':{status:'resolved',contextual:{term:phrase},known:null}});
+  try{
+    const source=sourceDocument('<p><span class="para-letter">A</span>Try it on <em>their</em> own.</p>',{
+      lexicalContext:h.ctx,sourceId:ID(1),sourceBody:passage,occurrences:[occurrence]
+    });
+    h.ctx.root.append(source);
+    assert.equal(source.querySelector('[data-word=it]'),null);
+    const inside=source.querySelector('em [data-word=their]');
+    assert.equal(inside?.dataset.occurrenceId,ID(5));
+    inside.dispatchEvent(new h.dom.window.MouseEvent('dblclick',{bubbles:true,button:0}));
+    await tick(5);
+    const popup=h.dom.window.document.querySelector('[data-word-popover]');
+    assert.equal(popup?.getAttribute('aria-label'),phrase);
+    assert(popup?.textContent.includes('mustaqil ravishda'));
+  }finally{h.dispose();}
+});
