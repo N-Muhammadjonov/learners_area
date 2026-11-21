@@ -80,6 +80,8 @@ _PASSAGES = {
     'f26e0ab4-d612-54e1-8c72-1fd2a6112319': '70-the-wonder-plant',
     '54bf9826-c9ef-4651-8731-c8860876da39': '71-the-development-of-television-and-its-introduction-in-britain',
     '6931b470-dc7b-4d69-89ae-bfb2c460e3ce': '72-communicating-styles-and-conflict',
+    '321324b8-8b58-5a6c-8808-9ee87c2259ce': '73-new-perspectives-on-food-production',
+    'ee2205ea-88a3-4fb7-b0b8-bf86b3d8eec0': '74-should-space-be-explored-by-robots-or-by-humans',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
