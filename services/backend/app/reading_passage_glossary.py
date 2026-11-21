@@ -24,6 +24,8 @@ _PASSAGES = {
     'b5785e74-2761-5a9a-8abf-acb6077b3f77': '14-born-to-trade',
     'd603e4d4-d8ec-4c30-a8f9-b0a08d38332e': '15-decision-decision',
     'f07e1599-b53b-4cae-85a5-4638138b5089': '16-ahead-of-its-time',
+    'd060dc0e-6cc0-417b-bc52-6bbf316f84c1': '17-iq-scores',
+    '97a38d78-0fa8-47f6-91f7-8dde225c4ef3': '18-sir-francis-ronalds-and-telegraph',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
