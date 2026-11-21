@@ -62,6 +62,8 @@ _PASSAGES = {
     '59fea739-f3ab-4472-a596-e9f06c443e2e': '52-traditional-maori-medicine',
     'd14626b4-b338-4f9b-9b8e-7c0d93a6744e': '53-keeping-the-water-away',
     '9c400e88-f76f-5406-818c-efc8bd65947a': '54-temperament',
+    '149edd8a-3c24-45e3-b76e-0eb83ecce15c': '55-socotra-island',
+    'bdfccfc4-c464-4691-95d8-82ce68c76653': '56-a-unique-golden-textile',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
