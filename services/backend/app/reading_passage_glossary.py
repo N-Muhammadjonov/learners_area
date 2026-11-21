@@ -70,6 +70,8 @@ _PASSAGES = {
     '48baa65b-7e98-48be-977c-767d556d9e32': '60-a-closer-examination-of-a-study-on-verbal-and-non-verbal-messages',
     '4df2929c-0590-5604-8be6-3ee72396a776': '61-answers-underground',
     '3ca44393-8611-4ae7-b9ca-273451676e7f': '62-from-a-novice-to-an-expert',
+    'c97e1b72-e833-4954-84d4-5e6a8b9f1724': '63-sea-change-for-salinity',
+    '1396b625-707c-57f9-8efa-738e2d265fcc': '64-bovids',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
