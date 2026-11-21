@@ -78,6 +78,8 @@ _PASSAGES = {
     '435bca39-ffc7-4097-a2e0-f3a6b539a124': '68-the-aerofoil',
     '4738d64b-190c-4b03-93b4-d20511f267d0': '69-language-diversity',
     'f26e0ab4-d612-54e1-8c72-1fd2a6112319': '70-the-wonder-plant',
+    '54bf9826-c9ef-4651-8731-c8860876da39': '71-the-development-of-television-and-its-introduction-in-britain',
+    '6931b470-dc7b-4d69-89ae-bfb2c460e3ce': '72-communicating-styles-and-conflict',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
