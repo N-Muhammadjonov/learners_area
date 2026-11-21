@@ -61,13 +61,15 @@ def secret() -> bytes:
     return key.encode('utf8')
 
 
-def issue_token(user: dict) -> str:
+def issue_token(user: dict, *, ttl: int = SESSION_TTL, second_owner: bool = False) -> str:
     now = int(time.time())
     header = {'alg': 'HS256', 'typ': 'JWT'}
     body = {'sub': str(user['id']), 'authVersion': user.get('auth_version', 0), 'role': user['role'],
             'name': user['name'], 'locale': user['locale'],
             'onboarded': bool(user.get('onboarding_completed_at')), 'jti': str(uuid.uuid4()),
-            'iat': now, 'exp': now + SESSION_TTL}
+            'iat': now, 'exp': now + ttl}
+    if second_owner:
+        body['secondOwner'] = True
     signed = '.'.join((_b64(json.dumps(header, separators=(',', ':')).encode()),
                        _b64(json.dumps(body, separators=(',', ':')).encode())))
     return signed + '.' + _b64(hmac.digest(secret(), signed.encode('ascii'), 'sha256'))
@@ -101,6 +103,8 @@ def verify_token(token: str | None) -> dict | None:
             not 0 <= version <= JS_MAX_SAFE_INTEGER or
             type(exp) is not int or not 0 <= exp <= JS_MAX_SAFE_INTEGER or exp <= int(time.time()) or
             (payload.get('nbf') is not None and payload.get('nbf') > time.time())):
+            return None
+        if 'secondOwner' in payload and (payload['secondOwner'] is not True or payload['role'] != 'student'):
             return None
         payload['authVersion'] = version
         payload['expiresAt'] = exp

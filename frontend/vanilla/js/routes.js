@@ -172,6 +172,8 @@ if(route.pattern==='/app/listening')return {...route,protected:true,redirectOnly
 
 // Management routes are also authorized by the server.
 export default [...mapped,
+ {pattern:'/app/owner/second-owner',protected:true,load:()=>import('../modules/staff-final30/second-owner.js')},
+ {pattern:'/app/observer',protected:true,load:()=>import('../modules/staff-final30/second-owner.js')},
  {...staffRoutes.find(route=>route.pattern==='/app/management/study-plans'),protected:true},
  {...staffRoutes.find(route=>route.pattern==='/app/management/groups'),protected:true},
  {pattern:'/app/management/capacity',protected:true,requiresAcademy:true,roles:['owner'],load:()=>import('../modules/staff-final30/academy-capacity.js')},

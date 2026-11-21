@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse
 
 RULES = {
     'login_account': (8, 900), 'login_ip': (40, 900), 'register': (10, 3600),
+    'second_owner_redeem_ip': (30, 900),
     'admission_request': (10, 3600), 'presence': (8, 60),
     'upload_intent': (120, 900),
     'ai_evaluation': (60, 900), 'text_evaluation': (180, 60),

@@ -182,6 +182,8 @@ class StaticFrontend:
                                     response = RedirectResponse('/app', 303)
                                 elif user['role']=='guardian' and user['account_status']=='active' and path not in ('/app/progress','/app/leaderboard','/app/payments'):
                                     response = RedirectResponse('/app/progress',303)
+                                elif path == '/app/observer' and not (await core.current_authority(req)).get('secondOwner'):
+                                    response = RedirectResponse('/app', 303)
                                 elif path.startswith('/app/owner') and user['role'] != 'owner':
                                     response = RedirectResponse('/app', 303)
                                 elif path.startswith('/app/admin') and not re.match(r'^/app/admin/(materials|video-lessons)(/|$)',path) and user['role'] not in ('admin','owner'):

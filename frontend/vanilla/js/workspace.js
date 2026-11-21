@@ -29,6 +29,7 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
   if(url.pathname.replace(/\/+$/,'')==='/app/management/guardians'&&!['teacher','admin','owner'].includes(session.user.role))return {redirect:'/app/management'};
   if(session.user.role==='guardian'&&session.user.accountStatus==='active'&&!['/app/progress','/app/leaderboard','/app/payments'].includes(url.pathname.replace(/\/+$/,'')))return {redirect:'/app/progress'};
   if(context.route?.requiresPayments&&(session.paymentsEnabled!==true||!['student','guardian'].includes(session.user.role)))return {redirect:'/app/progress'};
+  if(url.pathname.replace(/\/+$/,'')==='/app/observer'&&!session.secondOwner)return {redirect:'/app'};
   if(/^\/app\/owner(?:\/|$)/.test(url.pathname)&&session.user.role!=='owner')return {redirect:'/app'};
   if(/^\/app\/(teacher|management|admin)(?:\/|$)/.test(url.pathname)&&session.user.role==='student')return {redirect:'/app'};
   if(context.route?.requiresAcademy&&session.academyEnabled===false)return {redirect:'/app/management'};
@@ -41,8 +42,11 @@ export function createWorkspace(root){let pendingScroll,lastPresentation;let she
  function ensureAuthority(context){const current=context.session;if(!current)return;const next=current.user.id+':'+current.user.role+':'+current.user.accountStatus+':'+current.expiresAt;
   if(authorityKey===next)return;closeAuthority();authorityController=new AbortController();authorityKey=next;const persistent={...context,signal:authorityController.signal,scope:privateScope,refresh:()=>{invalidate();return context.refresh();}};
   release=privateScope.own(()=>{session=null;api.clear();scroll.clear();closeShell();closeAuthority();root.replaceChildren();});
-  rewards=dailyReward({session:current,signal:persistent.signal,client:api});
-  watchAuthority(current,persistent);watchPresence(persistent);watchStudyTime(persistent);
+  watchAuthority(current,persistent);
+  if(!current.secondOwner){
+   rewards=dailyReward({session:current,signal:persistent.signal,client:api});
+   watchPresence(persistent);watchStudyTime(persistent);
+  }
  }
  function commit(staging,context){const {url}=context,protectedRoute=!!context.session;const ordinary=protectedRoute&&url.pathname.startsWith('/app')&&context.route?.layout!=='focus';
   if(!protectedRoute){closeShell();closeAuthority();session=null;privateScope.setScope(null);scroll.clear();root.replaceChildren(...staging.childNodes);return;}
