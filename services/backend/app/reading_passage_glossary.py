@@ -20,6 +20,8 @@ _PASSAGES = {
     '1a5dca1f-fd5e-4f86-8dae-b1183a40cc83': '10-the-development-of-plastics',
     '5735409a-78f2-4b4a-832e-d5417e41a1f9': '11-australian-parrots-and-their-adaptation-to-habitat-change',
     '5d7d99b4-56e4-4156-9d14-3d5e6a567fd2': '12-the-science-of-sleep',
+    '36692ee8-3270-550e-8db1-b2df4f2ebd5a': '13-the-pesticide-free-village',
+    'b5785e74-2761-5a9a-8abf-acb6077b3f77': '14-born-to-trade',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
