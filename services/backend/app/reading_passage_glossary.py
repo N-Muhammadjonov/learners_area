@@ -84,6 +84,8 @@ _PASSAGES = {
     'ee2205ea-88a3-4fb7-b0b8-bf86b3d8eec0': '74-should-space-be-explored-by-robots-or-by-humans',
     'cdd6e63d-3fb3-4082-8a17-c1e8f15635dd': '75-saving-the-skink',
     '5fe70860-1e76-4744-9d9c-6dbfdcb15841': '76-australia-s-cane-toad-problem',
+    '4339e49a-652f-41b7-b52c-04914a05d551': '77-a-great-leap-forward',
+    '42eab54b-a10a-5015-8839-216ed491b72e': '78-keeping-the-fun-in-funfairs',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
