@@ -29,3 +29,16 @@
 
 .lexical-dotted-word { text-decoration-line:underline; text-decoration-style:dotted; text-decoration-thickness:1px; text-underline-offset:.2em; text-decoration-color:#4cafff; cursor:help; }
 .lexical-dotted-word[data-lexical-saved="true"] { text-decoration-color:#f8ba36; }
+
+html[data-theme]:has([data-general-reading]) .dictionary-context-panel[data-word-source="reading"] {
+  --accent: inherit;
+  --accent-strong: inherit;
+}
+html[data-theme]:has([data-general-reading]) body .dictionary-context-panel[data-word-source="reading"] :is(.btn-primary,.btn-ghost) {
+  background: rgb(var(--accent)) !important;
+  border-color: rgb(var(--accent));
+  color: rgb(var(--accent-contrast)) !important;
+}
+html[data-theme]:has([data-general-reading]) body .dictionary-context-panel[data-word-source="reading"] :is(.btn-primary,.btn-ghost):hover:not(:disabled) {
+  background: rgb(var(--accent-strong)) !important;
+}

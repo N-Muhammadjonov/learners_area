@@ -10,14 +10,20 @@ const flat=value=>[value].flat(Infinity).filter(node=>node!=null);
 function stopHighlights(node){for(const host of node.querySelectorAll('[data-highlight-host]'))host.stop?.();}
 /** Identity of a control across a rebuild: its tag and its stable data attributes (values such as the answered flag change). */
 function signature(node){return [node.tagName,...[...node.attributes].filter(a=>a.name.startsWith('data-')&&!VOLATILE.has(a.name)).map(a=>`${a.name}=${a.value}`)].join('|');}
-export function createWorkspace({labels,brand,title,state,setPane,setFont}){
+export function createWorkspace({labels,brand,title,state,setPane,setFont,compactHeader}){
  const root=el('div',{class:'reading-workspace','data-reading-workspace':true});
  const brandNode=el('span',{class:'reading-workspace-brand'},brand),titleNode=el('h1',{},title);
  const toolsBox=el('div',{class:'reading-workspace-tools'});
  const fontButton=(label,delta)=>{const b=el('button',{type:'button','aria-label':label},delta<0?'A−':'A+');b.addEventListener('click',()=>setFont(state.fontSize+delta));return b;};
  const smaller=fontButton(labels.smaller,-1),larger=fontButton(labels.larger,1);
  const fontControls=el('div',{class:'reading-font-controls'},smaller,larger);
- root.append(el('header',{class:'reading-workspace-header'},el('div',{class:'reading-workspace-identity'},brandNode,titleNode),toolsBox));
+ if(compactHeader){
+  toolsBox.append(compactHeader.clock,fontControls);
+  root.append(el('header',{class:'reading-workspace-header reading-workspace-header--compact'},
+   el('p',{class:'reading-workspace-dictionary-hint'},compactHeader.hint),toolsBox));
+ }else{
+  root.append(el('header',{class:'reading-workspace-header'},el('div',{class:'reading-workspace-identity'},brandNode,titleNode),toolsBox));
+ }
  const tabs=el('div',{class:'reading-mobile-tabs',role:'tablist','aria-label':title});
  const tabButtons={};
  for(const key of ['passage','questions']){const b=el('button',{type:'button',role:'tab','aria-controls':`reading-${key}-pane`},labels[key]);b.addEventListener('click',()=>setPane(key));tabButtons[key]=b;tabs.append(b);}

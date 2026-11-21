@@ -176,3 +176,20 @@ html[data-theme] #root .reading-focus .reading-workspace :is(
 ) {
   color-scheme: inherit;
 }
+
+.reading-workspace-header--compact {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
+  column-gap: clamp(6px, 1vw, 16px);
+}
+.reading-workspace-dictionary-hint {
+  color: rgb(var(--ink-900));
+  font-size: clamp(11px, 1.1vw, 14px);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+.reading-workspace-header--compact .reading-workspace-tools {
+  flex-wrap: nowrap;
+  gap: clamp(8px, 1.5vw, 20px);
+  margin-inline-start: 0;
+}

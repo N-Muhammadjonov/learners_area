@@ -151,10 +151,10 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
   const checkButton=passage.questions.length>0?(()=>{const b=el('button',{type:'button',class:'btn-primary','data-general-check':true,disabled:busy?true:null},state.status==='checking'?t.checking:t.check);b.addEventListener('click',requestCheck);return b;})():null;
   return [shownScore&&shownScore.total!==null?el('span',{'data-general-score':true},t.score.replace('{score}',String(shownScore.score??0)).replace('{total}',String(shownScore.total))):null,checkButton];
  }
- function buildTools(){
+ function buildBackButton(){
   const back=el('button',{type:'button',class:'reading-back','data-general-back':true,disabled:state.leaving?true:null,'aria-label':t.back},`← ${dict.common.back}`);
   back.addEventListener('click',()=>void leave());
-  return [back,elapsedNode,el('span',{role:'status','aria-live':'polite','data-general-save-state':state.status},state.status==='saving'?t.saving:state.status==='saved'?t.saved:'')];
+  return back;
  }
  function focusQuestion(questionId){
   const input=document.getElementById(`answer-${questionId}`);
@@ -164,13 +164,16 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  }
  // One persistent workspace: a save, an answer or a check patches the slots that changed; the scroll position and
  // the focused control survive the patch.
- const ws=createWorkspace({labels:dict.readingWorkspace,title:passage.title,brand:dict.marketing.title,state,
-  setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:f=>{state.fontSize=f;ws.update({});}});
+ const ws=createWorkspace({labels:dict.readingWorkspace,title:passage.title,state,
+  compactHeader:{hint:t.dictionaryHint,clock:elapsedNode},
+  setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:f=>{state.fontSize=Math.max(14,Math.min(22,f));ws.update({});}});
  host.replaceChildren(ws.root);
  const passagePane=buildPassage();
  function draw(){
   if(signal.aborted)return;
-  ws.update({passagePane,tools:buildTools(),questionsPane:buildQuestions(),navigation:buildNavigation(),action:buildAction(),pane:state.pane});
+  const saveStatus=el('span',{class:'sr-only',role:'status','data-general-save-state':state.status},
+   state.status==='saving'?t.saving:state.status==='saved'?t.saved:'');
+  ws.update({passagePane,questionsPane:buildQuestions(),navigation:[buildBackButton(),buildNavigation(),saveStatus],action:buildAction(),pane:state.pane});
  }
  draw();
 }

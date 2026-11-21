@@ -71,12 +71,47 @@ try{
  }else{
  await page.goto(base+'/app/reading/general/33333333-3333-4333-8333-333333333333?passage=1');
  await page.locator('[data-word="find"]').first().waitFor({timeout:20000});
+ const header=page.locator('.reading-workspace-header--compact');
+ assert.equal(await header.locator('.reading-workspace-dictionary-hint').innerText(),'Bilmagan so‘zingiz ustiga 2 marta bosing.');
+ assert.deepEqual(await header.locator('button').allTextContents(),['A−','A+']);
+ assert.equal(await header.locator('h1, [data-general-back], [data-general-save-state]').count(),0);
+ for(const width of [320,768,1360]){
+  await page.setViewportSize({width,height:900});
+  const bounds=await header.boundingBox(),tools=await header.locator('.reading-workspace-tools').boundingBox();
+  assert(Math.abs((bounds.x+bounds.width/2)-(tools.x+tools.width/2))<1,`timer and font controls should stay centered at ${width}px`);
+ }
+ const workspace=page.locator('[data-reading-workspace]');
+ const fontSize=()=>workspace.evaluate(node=>node.style.getPropertyValue('--reading-font-size'));
+ assert.equal(await fontSize(),'16px');
+ await header.locator('button').last().click();
+ assert.equal(await fontSize(),'17px');
+ await header.locator('button').first().click();
+ assert.equal(await fontSize(),'16px');
+ const clock=header.locator('[data-general-elapsed]');
+ const previousTime=await clock.innerText();
+ await page.waitForFunction(previous=>document.querySelector('[data-general-elapsed]')?.textContent!==previous,previousTime);
+
  assert.equal(await page.locator('[data-word="They"]').count(),0);
  assert.equal(await page.locator('[data-word="find"]').count(),2);
  await page.locator('[data-word="find"]').last().dblclick();
  const popup=page.locator('[data-word-popover]');await popup.waitFor();
  assert.equal(await popup.getAttribute('aria-label'),'find out');
  await page.getByText('bilib olmoq',{exact:true}).waitFor();
+ const popupBounds=await popup.boundingBox();
+ assert(popupBounds.y<24 && 1360-popupBounds.x-popupBounds.width<24,'context dictionary opens at the top right');
+ for(const theme of ['day','night']){
+  const colors=await popup.locator('[data-word-save]').evaluate((button,theme)=>{
+   document.documentElement.dataset.theme=theme;
+   const probe=document.createElement('span');
+   probe.style.backgroundColor='rgb(var(--accent))';
+   document.body.append(probe);
+   const result={actual:getComputedStyle(button).backgroundColor,expected:getComputedStyle(probe).backgroundColor};
+   probe.remove();
+   return result;
+  },theme);
+  assert.equal(colors.actual,colors.expected,`dictionary button follows the ${theme} accent`);
+ }
+
  assert.equal(await page.locator('[data-context-alternative]').count(),0);
  await popup.locator('[data-word-save]').click();
  await popup.locator('[data-word-saved]').waitFor();

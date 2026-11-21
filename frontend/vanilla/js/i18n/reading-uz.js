@@ -198,6 +198,7 @@ const uz = {
         title: "General Reading",
         subtitle: "O'quv rejimi: o'z sur'atingizda o'qing, javoblaringizni tekshiring va so'zlarni matnning o'zida ko'ring.",
         learningNote: "O'quv rejimi — so'z yordami yoqilgan. So'zni bosing yoki Enter tugmasini bosing: uning shu yerdagi ma'nosi chiqadi.",
+        dictionaryHint: "Bilmagan so‘zingiz ustiga 2 marta bosing.",
         empty: "Hozircha General Reading to'plamlari yo'q.",
         emptyHint: "O'qituvchi General Reading to'plamini e'lon qilganda, u shu yerda paydo bo'ladi.",
         choose: "Bu to'plamni qanday o'rganmoqchisiz?",

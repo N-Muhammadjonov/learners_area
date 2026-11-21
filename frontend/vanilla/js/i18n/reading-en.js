@@ -198,6 +198,7 @@ const en = {
         title: "General Reading",
         subtitle: "Learning mode: read at your own pace, check your answers, and look up words right in the text.",
         learningNote: "Learning mode — word help is on. Tap or press Enter on a word to see what it means here.",
+        dictionaryHint: "Double-click any word you don’t know.",
         empty: "No General Reading sets yet.",
         emptyHint: "When a teacher publishes a General Reading set, it will appear here.",
         choose: "How do you want to study this set?",
