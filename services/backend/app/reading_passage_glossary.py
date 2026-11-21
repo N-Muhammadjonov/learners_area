@@ -74,6 +74,8 @@ _PASSAGES = {
     '1396b625-707c-57f9-8efa-738e2d265fcc': '64-bovids',
     'a3210714-c104-49fa-8e85-5313de66bfa8': '65-homo-ergaster',
     '016b9998-572d-40d1-a38e-fe074a5050e0': '66-flower-power',
+    '855e2004-1867-52a7-8b20-874e6cfae7d2': '67-a-brief-history-of-humans-and-food',
+    '435bca39-ffc7-4097-a2e0-f3a6b539a124': '68-the-aerofoil',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
