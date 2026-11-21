@@ -56,6 +56,8 @@ _PASSAGES = {
     '3da11ebe-3430-455f-977f-8b45f4a95f71': '46-katherine-mansfield',
     '17040884-1af0-4104-8694-ee94bdf4050a': '47-jellyfish-the-dominant-species',
     '2d8e4da9-1945-5ad1-8a82-0081b9e5b905': '48-conformity',
+    '21cce8bc-069a-4409-a570-ad89d1df90e2': '49-book-review-triumph-of-the-city',
+    '4cb177f6-133c-5cc0-8012-eb364d1de9c6': '50-mammoth-kill',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
