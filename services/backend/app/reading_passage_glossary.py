@@ -54,6 +54,8 @@ _PASSAGES = {
     '192192cb-8cd0-5fea-8d5e-6632101e2e10': '44-the-dingo-debate',
     'c5bcc96b-e03f-4026-bf59-431d6b067f5a': '45-what-makes-a-musical-expert',
     '3da11ebe-3430-455f-977f-8b45f4a95f71': '46-katherine-mansfield',
+    '17040884-1af0-4104-8694-ee94bdf4050a': '47-jellyfish-the-dominant-species',
+    '2d8e4da9-1945-5ad1-8a82-0081b9e5b905': '48-conformity',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
