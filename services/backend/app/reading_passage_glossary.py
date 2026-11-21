@@ -104,6 +104,8 @@ _PASSAGES = {
     'd5a37e57-47a9-4582-be4d-d138d89cdec5': '94-optimism-and-health',
     '136a75d7-4318-4b8d-9f9a-166e9d2d5693': '95-the-remarkable-power-of-placebos',
     '918c17d9-0a85-40f7-a7f3-5b9b72a2f379': '96-what-are-the-1-000-foods-to-eat-before-you-die',
+    '9c36ff5c-493e-549e-876a-b90c8f9782dd': '97-the-origin-of-paper',
+    '5f1cf76d-acc7-43c2-9e6e-eb4e2b876f55': '98-a-new-perspective-on-bacteria',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
