@@ -106,6 +106,8 @@ _PASSAGES = {
     '918c17d9-0a85-40f7-a7f3-5b9b72a2f379': '96-what-are-the-1-000-foods-to-eat-before-you-die',
     '9c36ff5c-493e-549e-876a-b90c8f9782dd': '97-the-origin-of-paper',
     '5f1cf76d-acc7-43c2-9e6e-eb4e2b876f55': '98-a-new-perspective-on-bacteria',
+    'b125b10b-f81f-5f97-8fda-5bb96a8f0344': '99-the-placebo-effect',
+    '768dd438-e198-4e50-b3c2-30403a24b580': '100-how-printed-books-began',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
