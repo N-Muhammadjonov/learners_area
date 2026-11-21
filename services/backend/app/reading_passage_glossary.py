@@ -38,6 +38,8 @@ _PASSAGES = {
     '4ec97757-ff70-50a0-8ce0-3f65101b4a0e': '28-listening-to-the-ocean',
     '4af93fc7-94d0-4b3b-858a-ef9aaa868392': '29-skyscraper-farming',
     '11c1b328-7f5c-5aba-87d7-6e80a579591b': '30-marketing-and-the-information-age',
+    'eff317d4-3539-5aef-88e5-48c8e6a6521d': '31-multiple-intelligences',
+    '280253ac-d3b2-4ffa-9610-575898921399': '32-the-importance-of-law',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
