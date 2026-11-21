@@ -44,6 +44,8 @@ _PASSAGES = {
     '1c078bff-1dac-5b27-83e4-3409b2b20c6b': '34-sorry-who-are-you',
     '664cd028-f71d-469d-8aa3-93ed0928c671': '35-bestcom-considerate-computing',
     'b98c6797-4fc5-52d9-8bc1-91cb3481cd7b': '36-a-new-stage-in-the-study-and-teaching-of-history',
+    'b728ae0a-e8ae-55ed-8207-6d3c26c55a0e': '37-computer-games',
+    '78bea3b5-e207-51b0-8fd9-6fb412475c96': '38-art-and-engineering',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
