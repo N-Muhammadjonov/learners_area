@@ -50,6 +50,8 @@ _PASSAGES = {
     '68eadedc-a8b4-4627-a081-e8870251a514': '40-when-maps-were-made-for-the-public',
     '8301c30b-2f7e-435b-b172-dd8a1218b2c6': '41-can-we-prevent-the-poles-from-melting',
     'e297f950-f8b1-510a-8508-b398ab94ebd3': '42-crossing-the-threshold',
+    '5cd2c851-83f2-41d1-89c6-08d0b689119b': '43-studies-in-the-history-of-art-and-visual-culture',
+    '192192cb-8cd0-5fea-8d5e-6632101e2e10': '44-the-dingo-debate',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
