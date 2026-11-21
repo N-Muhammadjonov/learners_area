@@ -32,6 +32,8 @@ _PASSAGES = {
     'fb9cb14b-b121-4da7-a88d-d2ab80f915c5': '22-the-origins-of-weather-forecasting',
     '1beabd1f-7573-5aee-89c1-f85a5bbc9b34': '23-the-horseshoe-crab',
     'c8b101f0-309f-4488-bf91-1ba27610bf27': '24-the-long-view',
+    '1c34e3d3-4d33-4f14-b9f8-a0af1c074fc2': '25-the-terracotta-army',
+    'c8c67ae2-2fcc-4f98-8ecc-474b8ab4e50a': '26-why-are-so-few-tigers-man-eaters',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
