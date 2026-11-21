@@ -66,6 +66,8 @@ _PASSAGES = {
     'bdfccfc4-c464-4691-95d8-82ce68c76653': '56-a-unique-golden-textile',
     '23544198-5bb4-5286-8f5b-a43bee825dfc': '57-how-should-reading-be-taught',
     '423d6dd6-8038-4d2b-979a-dcb36e8768ee': '58-this-is-very-much-the-story-of-a-story',
+    '7d224b19-1aaa-57df-809f-4cf9b1cf5142': '59-intelligent-behaviour-in-birds',
+    '48baa65b-7e98-48be-977c-767d556d9e32': '60-a-closer-examination-of-a-study-on-verbal-and-non-verbal-messages',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
