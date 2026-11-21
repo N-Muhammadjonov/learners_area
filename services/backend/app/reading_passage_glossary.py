@@ -90,6 +90,8 @@ _PASSAGES = {
     '2303ce97-9f29-4e8f-9cc7-149433908549': '80-the-fashion-industry',
     'eb7b9c85-e236-5073-8b3f-43970430903d': '81-the-dark-side-of-the-technological-boom',
     '90e5b4b4-1962-4277-b44a-ba8e215a989f': '82-the-history-of-early-cinema',
+    '9568d6bb-e010-5a19-828f-edc144d7a760': '83-science-and-the-stradivarius-uncovering-the-secret-of-quality',
+    'c1381306-e108-553a-8974-2fc0d8eeed59': '84-when-people-are-deaf-to-music',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
