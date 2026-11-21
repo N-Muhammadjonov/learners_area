@@ -94,6 +94,8 @@ _PASSAGES = {
     'c1381306-e108-553a-8974-2fc0d8eeed59': '84-when-people-are-deaf-to-music',
     'f57793b1-d74a-5d3d-8d91-aa67fc5f0940': '85-classifying-societies',
     'c15f50ab-2eb7-5fb1-8b80-e475e8a337fd': '86-what-is-an-unfair-advantage-in-sport',
+    '7b23ae24-c6af-4028-8d56-00221324a950': '87-the-ability-to-communicate-using-language',
+    'c2350e6a-6fbf-4b70-8176-30c19f63fb40': '88-the-history-of-the-pencil',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
