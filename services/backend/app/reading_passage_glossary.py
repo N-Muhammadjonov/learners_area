@@ -52,6 +52,8 @@ _PASSAGES = {
     'e297f950-f8b1-510a-8508-b398ab94ebd3': '42-crossing-the-threshold',
     '5cd2c851-83f2-41d1-89c6-08d0b689119b': '43-studies-in-the-history-of-art-and-visual-culture',
     '192192cb-8cd0-5fea-8d5e-6632101e2e10': '44-the-dingo-debate',
+    'c5bcc96b-e03f-4026-bf59-431d6b067f5a': '45-what-makes-a-musical-expert',
+    '3da11ebe-3430-455f-977f-8b45f4a95f71': '46-katherine-mansfield',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
