@@ -40,7 +40,7 @@ async def seed():
             await con.execute('INSERT INTO general_reading_passages(passage_id,set_id,passage_no) VALUES($1,$2,1)',pid,sid)
             for position,text in enumerate(p['body_text'].split('\n\n')):
                 await con.execute('INSERT INTO reading_passage_paragraphs(passage_id,position,text) VALUES($1,$2,$3)',pid,position,text)
-            for r in p['occurrences']:
+            for r in p.get('occurrences', []):
                 await con.execute('INSERT INTO lexemes(id,term,part_of_speech,definition_en,translation_uz,sense_key,provenance,verification_status) VALUES($1,$2,$3,$4,$5,$6,$7,$8) ON CONFLICT(id) DO NOTHING',UUID(r['lexeme_id']),r['term'],r['part_of_speech'],r['definition_en'],r['translation_uz'],r['sense_key'],r['provenance'],r['verification_status'])
                 await con.execute("INSERT INTO lexical_occurrences(id,passage_id,lexeme_id,start_char,end_char,surface_form,source_type,resolution_status,is_target_vocabulary) VALUES($1,$2,$3,$4,$5,$6,'reading','resolved',$7)",UUID(r['id']),pid,UUID(r['lexeme_id']),r['start_char'],r['end_char'],r['surface_form'],r['is_target_vocabulary'])
         return

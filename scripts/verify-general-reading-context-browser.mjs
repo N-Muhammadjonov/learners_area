@@ -57,8 +57,12 @@ try{
     assert.equal(await popup.locator('[data-context-alternative]').count(),0);
     if(caseIndex===0){
      await popup.locator('[data-word-save]').click();await popup.locator('[data-word-saved]').waitFor();
-     const saved=(await db.query('SELECT u.*,f.name folder_name FROM user_vocabulary u JOIN vocab_folders f ON f.id=u.folder_id WHERE u.lexeme_id=$1',[c.lexeme_id])).rows;
+     const saved=(await db.query("SELECT u.*,f.name folder_name,l.translation_uz FROM user_vocabulary u JOIN vocab_folders f ON f.id=u.folder_id JOIN lexemes l ON l.id=u.lexeme_id WHERE u.source_snapshot->>'occurrenceId'=$1",[c.id])).rows;
      assert.equal(saved.length,1);assert.equal(saved[0].folder_name,p.title);
+     assert.equal(saved[0].translation_uz,c.translation_uz);
+     if(c.lexeme_id)assert.equal(saved[0].lexeme_id,c.lexeme_id);
+     const state=await page.evaluate(async(id)=>fetch('/api/vocabulary/source-saved?sourceType=reading&sourceId='+id).then(r=>r.json()),p.id);
+     assert(state.savedOccurrences.some(row=>row.occurrenceId===c.id));
      assert.equal(saved[0].source_snapshot.occurrenceId,c.id);
     }
     clicked++;await page.keyboard.press('Escape');

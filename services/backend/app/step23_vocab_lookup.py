@@ -4,7 +4,8 @@ Source: src/app/api/vocabulary/lookup/route.ts and lib/services/lexical/context.
 from __future__ import annotations
 from fastapi import APIRouter, Request
 from . import main as core
-from .step21_vocabulary_create import resolve_occurrence
+from .step21_vocabulary_create import occurrence_item, resolve_occurrence
+from .step21_vocab_batch import sense_key
 
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
@@ -30,11 +31,15 @@ async def lookup(req:Request):
         if resolved['status']=='unresolved':
             return core.j({'status':'unresolved','occurrenceId':oid,'surfaceForm':resolved['snapshot']['surfaceForm'],'contextual':None,'known':None},headers=PRIVATE)
         lex=resolved['lexeme']
-        known=await con.fetchrow('''SELECT id,mastery FROM user_vocabulary WHERE user_id=$1 AND lexeme_id=$2 LIMIT 1''',user['id'],lex['id'])
+        if lex['id']:
+            known=await con.fetchrow('SELECT id,mastery FROM user_vocabulary WHERE user_id=$1 AND lexeme_id=$2 LIMIT 1',user['id'],lex['id'])
+        else:
+            key=sense_key(occurrence_item(lex))
+            known=await con.fetchrow('SELECT id,mastery FROM user_vocabulary WHERE user_id=$1 AND sense_key=$2 LIMIT 1',user['id'],key)
         extra=await lexical_detail(con,lex)
         # Dictionary catalogue study content is OPTIONAL.  An external dictionary failure
         # cannot suppress the authored sense, and can never substitute another sense.
-        return core.j({'status':'resolved','occurrenceId':oid,'senseId':str(lex['id']),
+        return core.j({'status':'resolved','occurrenceId':oid,'senseId':str(lex['id']) if lex['id'] else None,
           'contextual':{'term':lex['term'],'definitionEn':lex['definition_en'],'translationUz':lex['translation_uz'],
           'partOfSpeech':lex['part_of_speech'],'provenance':lex['provenance'],'verificationStatus':lex['verification_status'],
           **extra},'known':{'id':str(known['id']),'mastery':known['mastery']} if known else None},headers=PRIVATE)

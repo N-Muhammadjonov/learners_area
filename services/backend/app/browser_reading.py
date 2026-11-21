@@ -2,6 +2,7 @@
 from .reading_presentation import for_passage
 from .reading_lexical_policy import reading_glosses, paragraph_offsets
 from .reading_draft import draft_hash
+from .reading_passage_glossary import passage_glosses
 import hashlib
 import math
 import re
@@ -72,7 +73,10 @@ async def section(con, passage_id, reveal=False, inline_glosses=False):
     paragraphs = await con.fetch('SELECT * FROM reading_passage_paragraphs WHERE passage_id=$1 ORDER BY position,id',passage_id)
     if inline_glosses:
         paragraphs = paragraph_offsets(passage['body_text'], paragraphs)
-    if inline_glosses:
+    embedded = passage_glosses(passage_id, passage['body_text']) if inline_glosses else None
+    if embedded is not None:
+        occurrences = embedded
+    elif inline_glosses:
         occurrence_rows = await con.fetch('''SELECT o.id,o.start_char,o.end_char,o.surface_form,
            l.definition_en,l.translation_uz,l.part_of_speech
            FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id

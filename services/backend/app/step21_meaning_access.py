@@ -5,6 +5,8 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .db import PooledReads
 from .rate_limit import async_counter as counter,RULES
+from .reading_passage_glossary import passage_glosses
+from .step21_vocab_batch import sense_key
 from .step17_mcq_port import live,staff
 from .step20_retention_transitions_port import phase
 router=APIRouter()
@@ -132,8 +134,10 @@ async def source_saved(req:Request):
             if access!='allowed':
                 return core.j({'error':'lexical_assistance_locked' if access=='locked' else 'source_not_found'},
                               403 if access=='locked' else 404,PRIVATE)
+            embedded_glosses = None
             if source=='reading':
                 body=await con.fetchval('SELECT body_text FROM reading_passages WHERE id=$1',source_id)
+                embedded_glosses = passage_glosses(source_id,body)
                 parts=[body if isinstance(body,str) else '']
                 query="""SELECT o.id,o.start_char,o.end_char,o.surface_form,o.section_number
                    FROM lexical_occurrences o JOIN user_vocabulary v
@@ -166,6 +170,17 @@ async def source_saved(req:Request):
                     continue
                 saved.append({'occurrenceId':str(row['id']),'startChar':start,'endChar':end,
                               'section':section})
+            if embedded_glosses:
+                keys = {row['id']:sense_key({'term':row['surface_form'],
+                    'partOfSpeech':row['part_of_speech'], 'definitionEn':row['definition_en']})
+                    for row in embedded_glosses}
+                known = {row['sense_key'] for row in await con.fetch(
+                    'SELECT sense_key FROM user_vocabulary WHERE user_id=$1 AND sense_key=ANY($2::text[])',
+                    user['id'],list(set(keys.values())))}
+                ids = {row['occurrenceId'] for row in saved}
+                saved = [{'occurrenceId':row['id'],'startChar':row['start_char'],
+                          'endChar':row['end_char'],'section':1} for row in embedded_glosses
+                         if row['id'] in ids or keys[row['id']] in known]
         return core.j({'savedOccurrences':saved},headers=PRIVATE)
     except Exception:
         return core.j({'error':'temporarily_unavailable'},503,PRIVATE)

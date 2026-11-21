@@ -8,6 +8,7 @@ import json,re
 from fastapi import APIRouter,Request
 from . import main as core
 from .step21_meaning_access import text_access
+from .reading_passage_glossary import has_passage_html, passage_glosses
 from .step21_vocab_batch import add_batch,normalize_term
 from .step17_listening_start_port import test_detail
 
@@ -44,10 +45,53 @@ async def lookup_catalogue(con, term):
                AND (provenance IS NULL OR provenance<>'user_provided') ORDER BY term LIMIT 2''',normalize_term(term),"‘’ʼʻ","''''")
     return dict(rows[0]) if len(rows)==1 else None
 
+def occurrence_item(lexeme: dict) -> dict:
+    item = {'term': lexeme['term'], 'definitionEn': lexeme['definition_en'],
+            'translationUz': lexeme.get('translation_uz'),
+            'partOfSpeech': lexeme.get('part_of_speech')}
+    if lexeme.get('id'):
+        item['canonicalLexemeId'] = lexeme['id']
+    return item
+
+
+async def resolve_embedded_reading(con, source_id: str, occurrence_id: str) -> dict | None:
+    if not has_passage_html(source_id):
+        return None
+    pid = core.uuid_value(source_id)
+    passage = await con.fetchrow('SELECT body_text,title FROM reading_passages WHERE id=$1',pid)
+    if not passage:
+        return None
+    body = passage['body_text']
+    occurrence = next((row for row in passage_glosses(pid,body) or []
+                       if row['id'] == occurrence_id), None)
+    if not occurrence:
+        return None
+    # Reuse the canonical ID only when it already represents this exact sense.
+    canonical = await con.fetchrow('''SELECT l.* FROM lexical_occurrences o JOIN lexemes l ON l.id=o.lexeme_id
+        WHERE o.id=$1 AND o.passage_id=$2 AND o.source_type='reading' AND o.resolution_status='resolved'
+          AND o.start_char=$3 AND o.end_char=$4 AND l.definition_en=$5 AND l.translation_uz=$6
+          AND l.part_of_speech IS NOT DISTINCT FROM $7''',
+        core.uuid_value(occurrence_id),pid,occurrence['start_char'],occurrence['end_char'],
+        occurrence['definition_en'],occurrence['translation_uz'],occurrence['part_of_speech'])
+    lexeme = dict(canonical) if canonical else {
+        **occurrence, 'id':None, 'term':occurrence['surface_form'],
+        'provenance':'authored', 'verification_status':'verified',
+    }
+    snapshot = {'occurrenceId':occurrence_id, 'lexemeId':str(lexeme['id']) if lexeme['id'] else None,
+        'sourceTitle':passage['title'][:240], 'surfaceForm':occurrence['surface_form'],
+        'sentenceText':body[max(0,occurrence['start_char']-160):occurrence['end_char']+160],
+        'sourceType':'reading', 'attemptId':None, 'passageId':source_id}
+    return {'status':'resolved', 'snapshot':snapshot, 'lexeme':lexeme}
+
+
 async def resolve_occurrence(con,u,source,source_id,oid):
     # Do not trust an occurrence id alone: authorize the study source first.
     access=await text_access(con,u,source,core.uuid_value(source_id))
     if access!='allowed':return {'status':'locked' if access=='locked' else 'missing'}
+    if source=='reading':
+        embedded = await resolve_embedded_reading(con,source_id,oid)
+        if embedded:
+            return embedded
     row=await con.fetchrow('SELECT * FROM lexical_occurrences WHERE id=$1',core.uuid_value(oid))
     if not row:return {'status':'missing'}
     r=dict(row)
@@ -148,8 +192,7 @@ async def create_vocabulary(req:Request):
             if resolved['status']=='missing':return core.j({'error':'source_not_found'},404)
             if resolved['status']=='locked':return core.j({'error':'lexical_assistance_locked'},403)
             if resolved['status']=='unresolved':return core.j({'ok':False,'error':'needs_definition','needsDefinition':[resolved['snapshot']['surfaceForm']]},422)
-            lex=resolved['lexeme'];items=[{'term':lex['term'],'definitionEn':lex['definition_en'],'translationUz':lex.get('translation_uz'),
-                'partOfSpeech':lex.get('part_of_speech'),'canonicalLexemeId':lex['id'],'sourceSnapshot':resolved['snapshot']}]
+            items=[{**occurrence_item(resolved['lexeme']), 'sourceSnapshot':resolved['snapshot']}]
         if source in SOURCED and any(not x.get('definitionEn') for x in items):
             return core.j({'ok':False,'error':'needs_definition','needsDefinition':[x['term'] for x in items if not x.get('definitionEn')]},422)
         unresolved=[]
