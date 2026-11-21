@@ -100,6 +100,8 @@ _PASSAGES = {
     '39c20f1c-5dd9-5082-83bd-d3c54baed1d4': '90-the-power-of-persuasion',
     'e539968e-2c4e-4121-8cbf-c4df078dd928': '91-the-father-of-english-geology',
     '2a24c01b-6c50-46ad-b697-4e3a18f939b3': '92-orientation-of-birds',
+    'db1cdff3-50de-4942-a0e2-32ff45fde9d0': '93-the-contradictions-of-tourism',
+    'd5a37e57-47a9-4582-be4d-d138d89cdec5': '94-optimism-and-health',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
