@@ -48,6 +48,8 @@ _PASSAGES = {
     '78bea3b5-e207-51b0-8fd9-6fb412475c96': '38-art-and-engineering',
     '527ab881-aa59-5158-8eab-51454415d003': '39-inside-the-mind-of-a-fan',
     '68eadedc-a8b4-4627-a081-e8870251a514': '40-when-maps-were-made-for-the-public',
+    '8301c30b-2f7e-435b-b172-dd8a1218b2c6': '41-can-we-prevent-the-poles-from-melting',
+    'e297f950-f8b1-510a-8508-b398ab94ebd3': '42-crossing-the-threshold',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
