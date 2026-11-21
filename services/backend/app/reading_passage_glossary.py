@@ -86,6 +86,8 @@ _PASSAGES = {
     '5fe70860-1e76-4744-9d9c-6dbfdcb15841': '76-australia-s-cane-toad-problem',
     '4339e49a-652f-41b7-b52c-04914a05d551': '77-a-great-leap-forward',
     '42eab54b-a10a-5015-8839-216ed491b72e': '78-keeping-the-fun-in-funfairs',
+    'c6de3f05-9940-5051-8a4f-b31d663fc840': '79-starting-school-later-has-positive-effects-on-teens',
+    '2303ce97-9f29-4e8f-9cc7-149433908549': '80-the-fashion-industry',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
