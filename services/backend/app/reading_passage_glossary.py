@@ -28,6 +28,8 @@ _PASSAGES = {
     '97a38d78-0fa8-47f6-91f7-8dde225c4ef3': '18-sir-francis-ronalds-and-telegraph',
     '310881c8-372d-4909-917e-d4f8ccdd5c55': '19-deep-sea-discovery',
     'b7b3121e-5be7-44f0-980d-37f82e6d9817': '20-walking-and-shoes-in-eighteenth-century-london',
+    '32f7b422-dad6-5e10-8617-305ce4e0379d': '21-pacific-navigation-and-voyaging',
+    'fb9cb14b-b121-4da7-a88d-d2ab80f915c5': '22-the-origins-of-weather-forecasting',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
