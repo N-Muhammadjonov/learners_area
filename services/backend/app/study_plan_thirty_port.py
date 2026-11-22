@@ -12,10 +12,14 @@ from fastapi.responses import JSONResponse
 from . import main as core
 from .study_plan_evidence import EVENTS
 from .study_plan_port import failure, response, plan_participant
-from .study_plan_thirty import DAYS, SUPPORTED_DURATIONS, make_thirty_day_schedule, normalize_level
-from .study_plan_materials import assign_materials, load_material_pools
+from .study_plan_thirty import (DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES,
+    OWNER_TARGET_MINUTES, make_thirty_day_schedule, normalize_level)
+from .study_plan_materials import (assign_materials, load_material_pools,
+    assign_owner_vocabulary, load_owner_pack_pool)
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
+OWNER_BASELINE_BANDS = {"listening": 6.5, "reading": 7.0, "writing": 5.5, "speaking": 5.5}
+OWNER_TARGET_BAND = 8.0
 CYCLE = "SELECT * FROM study_plan_30_cycles WHERE user_id=$1 FOR UPDATE"
 CURRENT = """SELECT day_number,slot,kind,title,href,source_key,minutes,
              stage_index,block_weights,completed_at FROM study_plan_30_tasks
@@ -105,7 +109,7 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
         return cycle
     uid, cid, day = cycle["user_id"], cycle["id"], cycle["current_day"]
     tasks = await con.fetch(CURRENT, cid, day)
-    if len(tasks) != 6 or sum(task["minutes"] for task in tasks) != 120:
+    if len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in (TARGET_MINUTES, OWNER_TARGET_MINUTES):
         raise ValueError("invalid_current_day_tasks")
     pending = {task["kind"]: task for task in tasks
                if task["completed_at"] is None and task["kind"] != "grammar"}
@@ -228,8 +232,8 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
             "href": task["href"] if can_open and not completed else None,
             "status": "completed" if completed else "ready" if can_open else "locked",
         })
-    if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) != 120
-           for tasks in groups.values()):
+    if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in
+           (TARGET_MINUTES, OWNER_TARGET_MINUTES) for tasks in groups.values()):
         raise ValueError("incomplete_plan_schedule")
     zone = _timezone(cycle["timezone"])
     today = now.astimezone(zone).date()
@@ -261,7 +265,7 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
         result.append({
             "day": day, "date": display_date, "originalDate": original_date,
             "rescheduled": display_date != original_date,
-            "status": status, "minutes": 120, "tasks": tasks,
+            "status": status, "minutes": sum(task["minutes"] for task in tasks), "tasks": tasks,
         })
     return {
         "state": cycle["status"], "cycleId": cycle["id"],
@@ -272,17 +276,22 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
     }
 
 
-async def _current(con, uid, now: datetime) -> dict:
+async def _current(con, uid, now: datetime, *, owner: bool = False) -> dict:
     cycle = await con.fetchrow(CYCLE, uid)
     if cycle:
         state = await _sync(con, dict(cycle), now)
-        return await _present(con, state, now)
+        payload = await _present(con, state, now)
+        return {**payload, "baselineBands": OWNER_BASELINE_BANDS,
+                "targetBand": OWNER_TARGET_BAND} if owner else payload
     level, _ = await _profile(con, uid)
     if level is None:
         return {"state": "level_required", "choices": ["placement_test", "profile"],
                 "durationOptions": list(SUPPORTED_DURATIONS)}
-    return {"state": "available", "level": level, "totalDays": DAYS,
-            "durationOptions": list(SUPPORTED_DURATIONS), "dailyMinutes": 120}
+    payload = {"state": "available", "level": level, "totalDays": DAYS,
+               "durationOptions": list(SUPPORTED_DURATIONS),
+               "dailyMinutes": OWNER_TARGET_MINUTES if owner else TARGET_MINUTES}
+    return {**payload, "baselineBands": OWNER_BASELINE_BANDS,
+            "targetBand": OWNER_TARGET_BAND} if owner else payload
 
 
 @router.get("")
@@ -293,7 +302,7 @@ async def read_plan(req: Request) -> JSONResponse:
     now = datetime.now(timezone.utc)
     pool = await core.pool()
     async with pool.acquire() as con, con.transaction():
-        return response(await _current(con, user["id"], now))
+        return response(await _current(con, user["id"], now, owner=user["role"] == "owner"))
 
 
 @router.post("/start")
@@ -313,14 +322,17 @@ async def start_plan(req: Request) -> JSONResponse:
     pool = await core.pool()
     async with pool.acquire() as con, con.transaction():
         if await con.fetchrow(CYCLE, user["id"]):
-            return response(await _current(con, user["id"], now))
+            return response(await _current(con, user["id"], now, owner=is_owner))
         level, zone = await _profile(con, user["id"])
         if level is None:
             return failure("level_required", 409)
         today = now.astimezone(zone).date()
+        is_owner = user["role"] == "owner"
         plan = assign_materials(
-            make_thirty_day_schedule(level, today, days=days),
-            await load_material_pools(con, user, level))
+            make_thirty_day_schedule(level, today, days=days, intensive=is_owner),
+            await load_material_pools(con, user, level), intensive=is_owner)
+        if is_owner:
+            plan = assign_owner_vocabulary(plan, await load_owner_pack_pool(con))
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
            (user_id,started_on,timezone,cefr_level,opened_at,duration_days)
            VALUES($1,$2,$3,$4,$5,$6)
@@ -328,7 +340,7 @@ async def start_plan(req: Request) -> JSONResponse:
            user["id"], today, zone.key, level, now, days)
         if cid is not None:
             await con.executemany(INSERT_TASK, _records(cid, plan))
-        return response(await _current(con, user["id"], now), 201 if cid is not None else 200)
+        return response(await _current(con, user["id"], now, owner=is_owner), 201 if cid is not None else 200)
 
 
 @router.post("/regenerate")
@@ -356,10 +368,15 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         level, _ = await _profile(con, user["id"])
         if level is None:
             return failure("level_required", 409)
+        is_owner = user["role"] == "owner"
         plan = assign_materials(
-            make_thirty_day_schedule(level, row["started_on"],
-                                     revision=row["revision"] + 1, days=days),
-            await load_material_pools(con, user, level), revision=row["revision"] + 1)
+            make_thirty_day_schedule(
+                level, row["started_on"], revision=row["revision"] + 1,
+                days=days, intensive=is_owner),
+            await load_material_pools(con, user, level),
+            revision=row["revision"] + 1, intensive=is_owner)
+        if is_owner:
+            plan = assign_owner_vocabulary(plan, await load_owner_pack_pool(con))
         # Preserve today's attempts and all prior days. Only untouched future
         # days are replaced. No student earns completion by regeneration.
         await con.execute("""DELETE FROM study_plan_30_tasks
