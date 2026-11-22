@@ -15550,6 +15550,20 @@
         "example": "The city plans to reduce fossil fuel consumption."
       },
       {
+        "term": "wildlife preserve",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A protected area where wild animals and their habitats are conserved.",
+        "translationUz": "yovvoyi hayvonlar qo‘riqxonasi",
+        "example": "The wildlife preserve shelters endangered birds."
+      },
+      {
+        "term": "national park",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A legally protected natural area managed for conservation and public enjoyment.",
+        "translationUz": "milliy tabiat bog‘i",
+        "example": "The national park protects forests and mountain wildlife."
+      },
+      {
         "term": "renewable energy",
         "partOfSpeech": "noun phrase",
         "definitionEn": "Energy from naturally replenishing sources such as sun, wind and waves.",
