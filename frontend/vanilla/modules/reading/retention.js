@@ -141,7 +141,8 @@ function retentionSession(context,initial,onTerminal){
  const {dict,signal,navigate,refresh}=context,t=dict.retentionMemory;
  const terminalSeen=new Set();
  const host=el('div',{'data-retention-session':true});
- const state={payload:initial,selected:'A2',busy:false,error:null,unknown:false,rechecking:false,refreshFailed:false,skew:initial?Date.parse(initial.serverNow)-Date.now():0};
+ const planLevel=context.url?.searchParams?.get('level');
+ const state={payload:initial,selected:LEVELS.includes(planLevel)?planLevel:'A2',busy:false,error:null,unknown:false,rechecking:false,refreshFailed:false,skew:initial?Date.parse(initial.serverNow)-Date.now():0};
  let ticker=null,poll=null,inFlight=null;
  const alive=()=>!signal.aborted;
  // Navigating away invalidates the unfinished attempt. The server owns the final-state check.
