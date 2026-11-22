@@ -58,6 +58,7 @@ try {
    const actualPath=new URL(page.url()).pathname;
    if(role==='owner'&&width===1440){
     await page.goto(origin+'/app/admin/statistics');
+    await dismissDailyReward(page);
     await page.locator('[data-result-module="reading"]').click();
     await page.locator('[data-centre-result-history] h2').filter({hasText:'Reading'}).waitFor();
     assert.equal(new URL(page.url()).searchParams.get('module'),'reading');
