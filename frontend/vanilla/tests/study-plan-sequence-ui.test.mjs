@@ -64,6 +64,45 @@ test('validated plan requires exactly thirty consistent days and never exposes l
   assert.equal(validateSequence(activePlan(1,0,7)).days.length,7);
 });
 
+test('owner weekly workload and daily verified retention remain separate from student plan',async()=>{
+  const data=activePlan();
+  const budgets={
+    0:[15,25,40,40,40,20],
+    1:[20,75,75,90,90,40],
+    2:[15,25,40,40,40,20],
+    3:[20,75,75,90,90,40],
+    4:[15,25,40,40,40,20],
+    5:[20,75,75,90,90,40],
+    6:[20,80,90,90,90,50],
+  };
+  for(const day of data.days){
+    const weekday=new Date(day.date+'T00:00:00Z').getUTCDay();
+    const dayIndex=(weekday+6)%7;
+    day.tasks.forEach((task,index)=>{task.minutes=budgets[dayIndex][index];});
+    day.minutes=day.tasks.reduce((sum,task)=>sum+task.minutes,0);
+    day.retention={
+      requiredReviews:10,reviewDays:[1,3,7,14].filter(n=>n<day.day),
+      previousTopics:day.day>1?['Topic 1: Art']:[],
+      minutesIncludedInVocabulary:day.tasks[5].minutes,
+      status:day.tasks[5].status,
+      href:day.status==='active'?'/app/vocabulary?tab=revision':null,
+    };
+  }
+  assert.equal(validateSequence(data),data);
+  api.request=async()=>data;
+  mountSequenceAssignments(context('owner'),host);
+  await flush();
+  assert.equal(host.querySelectorAll('[data-sequence-day]').length,30);
+  assert.match(host.textContent,/Mon\/Wed\/Fri 180 min/);
+  assert.match(host.textContent,/Daily retention/);
+  assert.equal(host.querySelector('[data-sequence-retention-open]').getAttribute('href'),
+    '/app/vocabulary?tab=revision');
+  const broken=structuredClone(data);
+  broken.days[1].retention.href='/app/vocabulary?tab=revision';
+  assert.throws(()=>validateSequence(broken),/invalid_retention/);
+});
+
+
 test('calendar shows thirty dates, six ready tasks and disabled future days',async()=>{
   const paths=[];
   api.request=async path=>{paths.push(path);return activePlan();};
