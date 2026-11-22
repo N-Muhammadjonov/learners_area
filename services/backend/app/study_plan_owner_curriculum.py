@@ -71,6 +71,17 @@ ARTICLES: dict[str, str] = {
     "sleep-wellbeing": "Sleep and wellbeing",
 }
 
+def owner_media_assignments(days: list[dict]) -> dict[int, tuple[str, str, str]]:
+    """Assign authored media in order only to actual Tue/Thu/Sat intensive dates.
+
+    Study days can be rebased or future dates shifted without placing TED
+    on a learner's in-person course day or Sunday full-mock block.
+    """
+    heavy_days = [day["day"] for day in days
+                  if date.fromisoformat(day["date"]).weekday() in (1, 3, 5)]
+    return dict(zip(heavy_days, OWNER_MEDIA_DAYS.values()))
+
+
 SRS_DELAYS: tuple[int, ...] = (1, 3, 7, 16)
 RETENTION_LEVEL_CHANGE_DAY = 21
 RETENTION_MINUTES = {"course": 12, "intensive": 15, "sunday": 20}
@@ -112,6 +123,7 @@ def enrich_owner_plan(days: list[dict], videos: dict[str, dict],
     if level != "B2":
         return days
     result = []
+    media_assignments = owner_media_assignments(days)
     for day in days:
         number = day["day"]
         if number <= after_day:
@@ -138,7 +150,7 @@ def enrich_owner_plan(days: list[dict], videos: dict[str, dict],
             "/app/reading/retention?level=" + retention_level,
             "retention:" + retention_level, minutes,
         ))
-        media = OWNER_MEDIA_DAYS.get(number)
+        media = media_assignments.get(number)
         if media:
             kind, key, objective = media
             if kind == "article":
