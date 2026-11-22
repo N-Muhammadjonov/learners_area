@@ -95,7 +95,9 @@ test('owner weekly workload and daily verified retention remain separate from st
   await flush();
   assert.equal(host.querySelectorAll('[data-sequence-day]').length,30);
   assert.match(host.textContent,/Mon\/Wed\/Fri 180 min/);
-  assert.match(host.textContent,/Daily retention/);
+  assert.match(host.textContent,/Vocabulary SRS/);
+  assert(host.querySelector('[data-sequence-task-kind="vocabulary"] [data-sequence-srs]'),
+    'SRS must be nested under Vocabulary rather than shown as a separate Retention pane');
   assert.equal(host.querySelector('[data-sequence-retention-open]').getAttribute('href'),
     '/app/vocabulary?tab=revision');
   assert.equal(host.querySelector('[data-sequence-retention-games]').getAttribute('href'),
@@ -108,6 +110,54 @@ test('owner weekly workload and daily verified retention remain separate from st
   assert.throws(()=>validateSequence(broken),/invalid_retention/);
 });
 
+
+test('owner curriculum displays actual daily Retention and date-bound Article/TED alongside embedded SRS',async()=>{
+  const data=activePlan();
+  for(const day of data.days){
+    const weekday=new Date(day.date+'T00:00:00Z').getUTCDay();
+    const course=[1,3,5].includes(weekday),sunday=weekday===0;
+    const budgets=course?[15,20,33,40,40,20]:sunday?
+      [20,70,80,90,90,50]:[20,68,67,90,90,40];
+    day.tasks.forEach((task,index)=>{task.minutes=budgets[index];});
+    const minutes=course?12:sunday?20:15;
+    const status=day.status==='active'?'ready':day.status==='completed'?'completed':'locked';
+    day.tasks.push({slot:6,kind:'retention',title:'Retention — B2 blind recall',
+      href:status==='ready'?'/app/reading/retention?level=B2':null,
+      status,stage:null,minutes});
+    if([3,5].includes(day.day)){
+      const article=day.day===3,kind=article?'article':'video';
+      const link=article?'/app/reading/articles/advertising':
+        '/app/video-lessons/d4bf7b1f-2281-46b2-a044-c456bb1326cb';
+      day.tasks[article?1:2].minutes-=20;
+      day.tasks.push({slot:7,kind,
+        title:article?'Article — Advertising':'TED — Better Cities',
+        href:status==='ready'?link:null,status,stage:null,minutes:20});
+    }
+    day.minutes=day.tasks.reduce((sum,task)=>sum+task.minutes,0);
+    day.retention={requiredReviews:10,reviewDays:[1,3,7,16].filter(n=>n<day.day),
+      previousTopics:day.day>1?['Topic 1: Food']:[],
+      minutesIncludedInVocabulary:day.tasks[5].minutes,status:day.tasks[5].status,
+      href:status==='ready'?'/app/vocabulary?tab=revision':null,
+      gamesHref:status==='ready'?'/app/vocabulary/games':null};
+  }
+  assert.equal(validateSequence(data),data);
+  api.request=async()=>data;
+  mountSequenceAssignments(context('owner'),host);
+  await flush();
+  assert.equal(host.querySelectorAll('[data-sequence-task-open]').length,7);
+  assert.equal(host.querySelector('[data-sequence-task-open="retention"]').getAttribute('href'),
+    '/app/reading/retention?level=B2');
+  assert(host.querySelector('[data-sequence-task-kind="vocabulary"] [data-sequence-srs]'));
+  assert.equal(host.querySelectorAll('[data-sequence-day="3"] .sequence-day-dots i').length,8);
+  assert.equal(host.querySelectorAll('[data-sequence-day="5"] .sequence-day-dots i').length,8);
+  assert.equal(host.querySelector('[data-sequence-day="3"]').disabled,true);
+  const invalid=structuredClone(data);
+  invalid.days[1].tasks[6].href='/app/reading/retention?level=B2';
+  assert.throws(()=>validateSequence(invalid),/locked_route_exposed/);
+  invalid.days[1].tasks[6].href=null;
+  invalid.days[0].tasks[6].href='/app/reading/retention?level=A2';
+  assert.throws(()=>validateSequence(invalid),/invalid_retention_route/);
+});
 
 test('calendar shows thirty dates, six ready tasks and disabled future days',async()=>{
   const paths=[];
