@@ -75,12 +75,14 @@ export function validateSequence(value) {
     if (day.retention) {
       const rt=day.retention;
       if (rt.requiredReviews!==10 || !Array.isArray(rt.reviewDays) ||
-          !rt.reviewDays.every(v=>[1,3,7,14].includes(v)) ||
+          !rt.reviewDays.every(v=>[1,3,7,16].includes(v)) ||
           !Array.isArray(rt.previousTopics) ||
           !rt.previousTopics.every(topic=>typeof topic==='string') ||
           rt.status!==day.tasks[5].status ||
           (rt.href!=null && (day.status!=='active' ||
-            rt.href!=='/app/vocabulary?tab=revision')))
+            rt.href!=='/app/vocabulary?tab=revision')) ||
+          (rt.gamesHref!=null && (day.status!=='active' ||
+            rt.gamesHref!=='/app/vocabulary/games')))
         throw Error('invalid_retention');
     }
   }
@@ -148,8 +150,8 @@ function retentionPanel(ctx, day) {
   const uz=ctx.locale==='uz';
   const name=uz?'Kunlik retention — faol eslash':'Daily retention — active recall';
   const detail=uz
-    ?'Vocabulary SRS da kamida 10 ta haqiqiy savolni takrorlang. Bu vaqt Vocabulary blokiga kiritilgan.'
-    :'Complete at least 10 real Vocabulary SRS recall questions. This time is already included in Vocabulary.';
+    ?'SRS da kamida 10 ta due so‘zni takrorlang yoki 10 ta turli so‘z bo‘yicha tekshirilgan vocabulary game javobini to‘g‘ri bajaring. Vaqt Vocabulary blokiga kiritilgan.'
+    :'Complete 10 due SRS reviews or correctly answer 10 distinct server-verified vocabulary game questions. Time is included in Vocabulary.';
   const previous=review.previousTopics.length
     ?h('p',{class:'sequence-subtitle'},
       (uz?'Oldingi mavzular: ':'Previous topics: ')+review.previousTopics.join(' · '))
@@ -170,7 +172,10 @@ function retentionPanel(ctx, day) {
         :'Also revisit Listening, Reading, Writing and Speaking mistakes. These self-reviews are not separately auto-graded.'),
     review.href?h('a',{class:'btn-secondary',href:review.href,
       'data-sequence-retention-open':''},
-      uz?'SRS takrorlashni ochish':'Open SRS review'):null);
+      uz?'SRS takrorlashni ochish':'Open SRS review'):null,
+    review.gamesHref?h('a',{class:'btn-secondary',href:review.gamesHref,
+      'data-sequence-retention-games':''},
+      uz?'Tekshiriladigan Vocabulary o‘yinlari':'Verified Vocabulary games'):null);
 }
 
 function calendar(ctx, data, state) {
