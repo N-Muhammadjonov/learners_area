@@ -90,7 +90,7 @@ test('English handoff names are complete phrases and do not contain a detached s
 test('handoff buttons share source tile gradients with accessible states and a mobile layout',()=>{
  const css=readFileSync(fileURLToPath(new URL('../css/global.css',import.meta.url)),'utf8');
  for(const key of GAMES.slice(1)){
-  assert.match(css,new RegExp('vocabulary-game-switch-button\\\\[data-game="'+key+'"\\\\]'));
+  assert(css.includes('.vocabulary-game-switch-button[data-game="'+key+'"]'),key+' must have the same color as its hub tile');
  }
  assert.match(css,/\.vocabulary-game-switch-icon\s*\{/);
  assert.match(css,/\.vocabulary-game-switch-label\s*\{/);
