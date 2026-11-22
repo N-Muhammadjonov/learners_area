@@ -21,6 +21,8 @@ export function mount(ctx){const {root,url,dict,navigate,signal}=ctx;const path=
  function select(next){
   child?.abort('vocabulary-tab-left');child=new window.AbortController();const own={...ctx,url:next,signal:child.signal};
   tab=['use','board','revision','dictionary'].includes(next.searchParams.get('tab'))?next.searchParams.get('tab'):'words';ctx.url=next;
+  // Keep the owner's unsent draft mounted, but expose the publisher only in My words.
+  publisher.hidden=tab!=='words';
   main.dataset.vocabularyPanel=tab;main.setAttribute('aria-label',t.tab[tab]);main.replaceChildren();
   tabs.replaceChildren(vocabularyHubTabs(ctx,tab));
   top.replaceChildren(h('div',{class:'flex flex-col gap-2'},h('h1',{class:'font-display text-2xl text-ink-900','data-vocabulary-title':''},t.title),tab==='dictionary'?null:h('p',{class:'mt-1 text-sm text-ink-500'},tab==='board'?t.board.hint:t.search.hint)));
