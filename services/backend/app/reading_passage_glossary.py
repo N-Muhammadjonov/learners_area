@@ -117,6 +117,8 @@ _PASSAGES = {
     '9ad0eda4-9fed-481a-8e9f-290a5b596122': '107-the-hidden-lives-of-solitary-bees',
     '5b13b6a2-8436-4767-869d-b1f7c9e2f88f': '108-the-significant-role-of-mother-tongue-in-education',
     '0b8e732b-5ebe-5d40-8fe2-bdaf6f86880e': '109-what-lucy-taught-us',
+    '60ba9c0d-f002-57f3-8f12-263761aea90e': '110-corporate-social-responsibility',
+    'd80a1be3-6cdf-49b1-a6ae-8f22a50d8325': '111-childs-play-in-medieval-england',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
