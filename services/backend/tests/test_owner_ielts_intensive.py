@@ -15,6 +15,7 @@ from app.study_plan_materials import (
     listening_plan_materials, assign_materials,
 )
 from app.listening_order import material_order
+from app.step19_vocab_srs_port import DAYS as SRS_INTERVALS
 from app.study_plan_thirty_port import _present, _sync
 from app.vocabulary_packs_port import validate_public_pack
 
@@ -124,18 +125,70 @@ def test_owner_server_retention_is_real_and_locked_links_are_hidden():
         Fake(), cycle, datetime(2026, 11, 22, 9, tzinfo=timezone.utc),
         owner=True))
     assert payload["days"][0]["retention"]["requiredReviews"] == 10
+    assert tuple(SRS_INTERVALS[:4]) == (1, 3, 7, 16)
     assert payload["days"][0]["retention"]["href"] == "/app/vocabulary?tab=revision"
+    assert payload["days"][0]["retention"]["gamesHref"] == "/app/vocabulary/games"
     for index, day in enumerate(payload["days"]):
         assert day["minutes"] == owner_total_minutes(
             date.fromisoformat(day["originalDate"].isoformat()))
         assert day["retention"]["minutesIncludedInVocabulary"] == day["tasks"][5]["minutes"]
         assert day["retention"]["reviewDays"] == [
-            n for n in (1, 3, 7, 14) if index >= n
+            n for n in (1, 3, 7, 16) if index >= n
         ]
         if index:
             assert day["retention"]["href"] is None
+            assert day["retention"]["gamesHref"] is None
             assert day["status"] == "locked"
     assert payload["days"][8]["retention"]["previousTopics"]
+
+
+@pytest.mark.parametrize("correct_distinct,accepted", [(9, False), (10, True)])
+def test_owner_retention_game_fallback_requires_ten_distinct_verified_correct_answers(
+        correct_distinct, accepted):
+    now = datetime(2026, 11, 22, 12, tzinfo=timezone.utc)
+    tasks = make_thirty_day_schedule("B2", START, intensive=True)[0]["tasks"]
+
+    class Fake:
+        def __init__(self):
+            self.writes = []
+
+        async def fetch(self, sql, *args):
+            if "FROM study_plan_30_tasks" in sql:
+                return [
+                    {"kind": task.kind, "minutes": task.minutes,
+                     "source_key": task.source_key, "completed_at": None}
+                    for task in tasks
+                ]
+            return []
+
+        async def fetchrow(self, sql, *args):
+            if "VOCAB_GAME_PRACTICED" in sql:
+                assert "DISTINCT payload->>'entryId'" in sql
+                assert "payload->>'verified'='true'" in sql
+                assert "payload->>'correct'='true'" in sql
+                return {"completed": correct_distinct, "at": now}
+            return None
+
+        async def fetchval(self, sql, *args):
+            return 1
+
+        async def execute(self, sql, *args):
+            self.writes.append((sql, args))
+
+    cycle = {
+        "status": "active", "user_id": "user", "id": "cycle",
+        "current_day": 1, "started_on": START,
+        "timezone": "Asia/Tashkent", "opened_at": now - timedelta(hours=1),
+    }
+    con = Fake()
+    asyncio.run(_sync(con, cycle, now, owner=True))
+    proof = [
+        args for sql, args in con.writes
+        if "UPDATE study_plan_30_tasks" in sql and args[2] == "vocabulary"
+    ]
+    assert bool(proof) is accepted
+    if accepted:
+        assert proof[0][4]["source"] == "vocab_game_recall"
 
 
 def test_student_budget_rejects_owner_intensive_rows():
