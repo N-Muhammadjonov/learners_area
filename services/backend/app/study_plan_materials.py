@@ -168,11 +168,22 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
             elif index < len(available):
                 chosen = available[index]
                 cursors[kind] = index + 1
+            elif intensive and available and kind in (
+                "listening", "reading", "general_reading", "writing_exam",
+                "speaking_part1", "speaking_part2", "speaking_part3"
+            ):
+                # Never silently fall back to generic proof after published
+                # material is exhausted. A fresh, verified repeat attempt
+                # for this exact source is still required by the plan engine.
+                chosen = available[index % len(available)]
+                cursors[kind] = index + 1
             else:
                 continue
             if not _usable(chosen):
                 continue
             title = chosen["title"]
+            if intensive and index >= len(available):
+                title = "Repeat for retention — " + title
             if intensive:
                 coaching = {
                     "reading": "Timed practice, then analyse wrong answers",
