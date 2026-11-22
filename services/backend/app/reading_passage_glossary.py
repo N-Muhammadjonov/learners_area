@@ -123,6 +123,8 @@ _PASSAGES = {
     '0eb40b99-504a-4458-9ba9-a08e22d8d8c0': '113-roller-coaster-the-great-fairground-attraction',
     '11074340-bdd5-4271-961a-45aed548e43e': '114-unlocking-the-mystery-of-dreams',
     '592f8751-f9f1-54b7-8f3b-3fecd73c9dfd': '115-advertising-needs-attention',
+    '45dc2c30-524c-5b17-8466-18b59838cc92': '116-new-filter-promises-clean-water-for-millions',
+    '0efc32f5-26ca-5f43-8572-3e262b9201ea': '117-yawning',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
