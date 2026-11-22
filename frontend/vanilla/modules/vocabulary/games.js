@@ -4,7 +4,6 @@ import {privateScope} from '../../js/private-scope.js';
 import {flashcards} from './game-flashcards.js';
 import {classicGame,matchingGame} from './game-classic.js';
 import {typingRace} from './game-race.js';
-import {vocabularyHubTabs} from './hub-tabs.js';
 import {nextHandoffWord,handoffSlice,handoffSourceDeck,mergeHandoffState,completedHandoffWords} from './game-handoff.js';
 export const gameURL=(id,set,folderId,topicPack,extras={})=>`/app/vocabulary/games/${id}?${params({set,...set==='folder'?{folderId}:{},...set==='topic'?{topicPack}:{},...extras})}`;
 const setQuery=(set,folder,pack)=>params({set,...set==='folder'?{folderId:folder}:{},...set==='topic'?{topicPack:pack}:{}});
@@ -39,9 +38,8 @@ export function mountGames(ctx,host,id=null){
   const status=h('p',{class:id?'text-xs text-ink-500 sm:col-span-2':'mt-3 text-xs text-ink-500',
    'data-game-set-status':'','aria-live':'polite'},
    loading?dict.common.loading:failed?g.loadError:`${source()} · ${data?.total??0} ${t.packs.words}${!id&&data?` · ${data.due??0} ${t.summary.dueToday}`:''}`);
-  const back=h('a',{href:id?'/app/vocabulary/games?'+setQuery(selected,folder,pack):'/app/vocabulary',
-   class:'btn-ghost w-fit',...(id?{'data-game-back':''}:{'data-games-back-to-vocabulary':''})},
-   '← '+(id?g.backToGames:dict.nav.vocabulary));
+  const back=id?h('a',{href:'/app/vocabulary/games?'+setQuery(selected,folder,pack),
+   class:'btn-ghost w-fit','data-game-back':''},'← '+g.backToGames):null;
   const heading=h('header',{class:id?'flex flex-wrap items-end justify-between gap-3':''},
    h('div',{},h('h1',{class:'font-display text-2xl text-ink-900'},id?g[id]:g.title),
     h('p',{class:'mt-1 text-sm text-ink-500',...(id?{'data-game-source':''}:{})},
@@ -54,7 +52,7 @@ export function mountGames(ctx,host,id=null){
    ?h('section',{class:'card grid gap-2 p-4 sm:grid-cols-2','aria-label':g.set.label,'data-game-set-controls':''},controls,status)
    :h('section',{class:'card p-4','aria-label':g.set.label},
      h('div',{class:'grid gap-2 sm:grid-cols-2'},controls),status);
-  head.replaceChildren(back,...(id?[]:[vocabularyHubTabs(ctx,'games',setQuery(selected,folder,pack))]),heading,picker);
+  head.replaceChildren(...(back?[back]:[]),heading,picker);
  }
  function library(data){
   const total=data?.total??0;
@@ -66,9 +64,20 @@ export function mountGames(ctx,host,id=null){
       h('strong',{class:'vocabulary-game-tile-title'},g[key]),
       h('span',{class:'vocabulary-game-tile-hint'},g[key+'Hint']),
       ...(!total?[h('span',{class:'vocabulary-game-tile-status'},g.noWordsInSet)]:[]))));
+  const tip=ctx.locale==='uz'
+   ?{
+    title:'O‘yinlar orqali mashq qiling',
+    body:'Server tasdiqlagan to‘g‘ri javoblar kunlik reytingga ball berishi mumkin. Har bir so‘z barcha o‘yinlarda kuniga faqat bir marta ball oladi. So‘zning takrorlash jadvali faqat Takrorlash bo‘limida yangilanadi.'
+   }:{
+    title:'Practise words through games',
+    body:'Server-verified correct answers may earn daily leaderboard points. Each word can earn points only once per day across all games. Only scheduled Revision updates a word’s review dates.'
+   };
   game.replaceChildren(cards,
    ...(!total?[h('p',{class:'text-sm text-ink-500'},g.noWords)]:[]),
-   h('p',{class:'text-xs text-ink-500'},g.casualNote));
+   h('aside',{class:'vocabulary-games-practice-note','data-games-practice-note':'',
+    'aria-label':tip.title},
+    h('h2',{class:'text-sm font-medium text-ink-900'},tip.title),
+    h('p',{class:'mt-2 text-sm text-ink-500'},tip.body)));
  }
  async function restartAttempt(){
   if(!id||!attempt||roundLife?.signal.aborted)return;
