@@ -85,7 +85,7 @@ test('multiple choice inherits section cursor, scores one word and returns to fl
   const target=new URL(h.nav[0].path,'https://fixture.invalid');
   assert.equal(target.searchParams.get('cursor'),group[3].id);
   assert.equal(target.searchParams.get('batch'),'2');
-  assert(!target.searchParams.has('from')===false);
+  assert.equal(target.searchParams.get('from'),'choice');
  }finally{h.dispose();}
 });
 
