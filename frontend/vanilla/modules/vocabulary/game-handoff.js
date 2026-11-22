@@ -12,9 +12,9 @@ export function nextHandoffWord(gameId, state = {}, sourceDeck = []) {
     const pending = deck.find(id => !matched.has(id) && sourceDeck.includes(id));
     if (pending) return pending;
   } else {
-    const index = Number.isSafeInteger(state.index)
-      ? Math.max(0, Math.min(state.index, deck.length))
-      : 0;
+    const index = gameId === 'race' && state.finished === true
+      ? deck.length : Number.isSafeInteger(state.index)
+        ? Math.max(0, Math.min(state.index, deck.length)) : 0;
     if (index < deck.length && sourceDeck.includes(deck[index])) return deck[index];
   }
   const final = deck.at(-1);
