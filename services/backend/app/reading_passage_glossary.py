@@ -127,6 +127,8 @@ _PASSAGES = {
     '0efc32f5-26ca-5f43-8572-3e262b9201ea': '117-yawning',
     '66309077-3139-44d9-b8fb-98831a5c599b': '118-economic-evolution',
     'f4cbe447-9f2e-5068-85fa-530a73954944': '119-saving-the-bittern',
+    'c6fe5614-ccec-4b21-8a2c-f7b258285c37': '120-life-on-mars',
+    'b3cec795-3200-5264-85a2-5975465c1619': '121-a-brief-introduction-to-pepper',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
