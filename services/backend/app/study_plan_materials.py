@@ -107,9 +107,10 @@ def owner_writing_order(items: list[dict]) -> list[dict]:
 def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                      *, revision: int = 1,
                      intensive: bool = False) -> list[dict]:
-    """Sunday: one Academic full Reading test. Other days: one General passage.
+    """Owner IELTS Academic: full Reading on intensive days, one passage on course days.
 
-    Listening and Sunday Academic Reading start from Test 1 for each new cycle.
+    Student schedules retain their existing Sunday full-test rule.
+    Listening and Academic Reading start from Test 1 for each new cycle.
     A new numbered test is not offered on an unlocked day until prior-day work
     has been verified; the 30-day engine enforces that prerequisite.
     """
@@ -134,7 +135,9 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
             if intensive else SPEAKING_PATTERN[week][day_of_week]
         )
         choices = {
-            "reading": "reading" if day_date.weekday() == 6 else "general_reading",
+            "reading": ("reading" if (day_date.weekday() == 6 or
+                                    intensive and day_date.weekday() not in (0, 2, 4))
+                        else "general_reading"),
             "listening": "listening",
             "writing": writing_kind,
             "speaking": speaking_kind,
