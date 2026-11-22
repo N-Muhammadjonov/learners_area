@@ -10,6 +10,8 @@ export const ASSIGNMENTS_PATH = '/app/assignments#study-plan-30';
 const TOTAL_DAYS = 30;
 const DURATIONS = [7, TOTAL_DAYS];
 const DAILY_MINUTES = 120;
+const OWNER_MINUTES = 300;
+const ALLOWED_DAILY_MINUTES = [DAILY_MINUTES,OWNER_MINUTES];
 const KINDS = ['grammar','reading','listening','writing','speaking','vocabulary'];
 const STATES = ['ready','locked','completed'];
 const DAY_STATES = ['active','locked','completed'];
@@ -41,7 +43,7 @@ export function validateSequence(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw Error('invalid_plan');
   if (value.state === 'level_required') return value;
   if (value.state === 'available') {
-    if (value.totalDays !== TOTAL_DAYS || value.dailyMinutes !== DAILY_MINUTES ||
+    if (value.totalDays !== TOTAL_DAYS || !ALLOWED_DAILY_MINUTES.includes(value.dailyMinutes) ||
         typeof value.level !== 'string') throw Error('invalid_plan');
     return value;
   }
@@ -54,7 +56,7 @@ export function validateSequence(value) {
   for (const [index, day] of value.days.entries()) {
     if (!day || day.day !== index + 1 || !DAY_STATES.includes(day.status) ||
         typeof day.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day.date) ||
-        day.minutes !== DAILY_MINUTES || !Array.isArray(day.tasks) ||
+        !ALLOWED_DAILY_MINUTES.includes(day.minutes) || !Array.isArray(day.tasks) ||
         day.tasks.length !== KINDS.length) throw Error('invalid_day');
     let total = 0;
     for (const [slot, task] of day.tasks.entries()) {
@@ -68,7 +70,7 @@ export function validateSequence(value) {
             !validRoute(task.href)) throw Error('invalid_unlocked_task');
       } else if (task.href != null) throw Error('locked_route_exposed');
     }
-    if (total !== DAILY_MINUTES || (day.status === 'locked' &&
+    if (total !== day.minutes || (day.status === 'locked' &&
         day.tasks.some(task => task.status === 'ready'))) throw Error('invalid_workload');
   }
   return value;
@@ -216,9 +218,21 @@ export function mountSequenceAssignments(ctx, root) {
     const title=h('h2',{},text(ctx,
       'Sizning '+selectedDays+' kunlik rejangiz','Your '+selectedDays+'-day plan'));
     const lead=h('p',{class:'sequence-subtitle'},
-      text(ctx,'Kuniga kamida 120 daqiqa ajrating. Barcha vazifalar tugagach keyingi kun ochiladi.',
-        'Allocate at least 120 minutes each day. The next day unlocks after all tasks are completed.'));
-    const toolbar=h('div',{class:'sequence-heading'},h('div',{},title,lead));
+      text(ctx,
+        ctx.session?.user?.role==='owner'
+          ?'IELTS 8.0 intensiv rejasi: kuniga 300 daqiqa. Barcha vazifalar tugagach keyingi kun ochiladi.'
+          :'Kuniga kamida 120 daqiqa ajrating. Barcha vazifalar tugagach keyingi kun ochiladi.',
+        ctx.session?.user?.role==='owner'
+          ?'IELTS 8.0 intensive: 300 minutes daily. The next day unlocks after all tasks are completed.'
+          :'Allocate at least 120 minutes each day. The next day unlocks after all tasks are completed.'));
+    const ownerBands=ctx.session?.user?.role==='owner'&&data?.baselineBands
+      ?h('p',{class:'sequence-subtitle','data-owner-ielts-target':''},
+        'L '+data.baselineBands.listening+' → '+data.targetBand+
+        ' · R '+data.baselineBands.reading+' → '+data.targetBand+
+        ' · W '+data.baselineBands.writing+' → '+data.targetBand+
+        ' · S '+data.baselineBands.speaking+' → '+data.targetBand)
+      :null;
+    const toolbar=h('div',{class:'sequence-heading'},h('div',{},title,lead,ownerBands));
     if (state.pending && !data) {
       panel.replaceChildren(toolbar,h('p',{role:'status'},ctx.dict.common.loading));return;
     }
@@ -248,7 +262,7 @@ export function mountSequenceAssignments(ctx, root) {
       panel.replaceChildren(toolbar,h('div',{class:'sequence-empty'},
         durationPicker(ctx,state.selectedDuration,days=>{state.selectedDuration=days;paint();},1,state.pending),
         metric(text(ctx,'Kun','Days'),state.selectedDuration),metric(text(ctx,'Kunlik minimum ajratishingiz kerak bo‘lgan vaqt',
-          'Minimum daily study time to allocate'),'120 min'),
+          'Minimum daily study time to allocate'),String(data.dailyMinutes)+' min'),
         h('p',{},text(ctx,'Daraja: ','Level: ')+data.level),
         launch),...(state.error?[h('p',{role:'alert'},state.error)]:[]));
       return;
