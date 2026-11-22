@@ -34,7 +34,9 @@ try {
     await page.screenshot({path:resolve(directory,`daily-${role}-${theme}-${width}.png`)});
     await dismissDailyReward(page);
     await page.reload();await page.waitForLoadState('networkidle');
-    assert.equal(await page.locator('[data-daily-reward]').count(),0,'same-day reload does not reopen receipt');
+    assert.equal(await page.locator('[data-daily-reward]').count(),1,
+     'dismissed but unclaimed reward remains available on reload');
+    await dismissDailyReward(page);
    }
    const filename=`${role}-${theme}-${width}.png`;
    await page.screenshot({path:resolve(directory,filename),fullPage:true});
