@@ -89,7 +89,7 @@ html[data-theme] #root [data-ui-system] :is(.btn,.btn-primary,.btn-secondary,.bt
  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;
  max-width:100%;padding:10px 17px;border:1px solid rgb(var(--workspace-line));border-radius:var(--la-radius-control);
  font:600 .9rem/1.4 var(--font-ui),system-ui,sans-serif;text-align:center;text-decoration:none;
- white-space:normal;overflow-wrap:anywhere;box-shadow:none;backdrop-filter:none;
+ min-width:min-content;white-space:normal;overflow-wrap:normal;word-break:normal;box-shadow:none;backdrop-filter:none;
  color:rgb(var(--workspace-ink));background:rgb(var(--workspace-raised));
  transition:transform var(--la-transition),background-color var(--la-transition),border-color var(--la-transition),box-shadow var(--la-transition),filter var(--la-transition);
  transition-duration:var(--la-transition-duration)!important;
@@ -364,15 +364,15 @@ html[data-theme="night"] .daily-reward-dialog .btn-secondary{background:#23314b!
   align-items:center;max-width:100%;min-width:0;gap:5px 8px;
  }
  html[data-theme] #root [data-campus-shell] [data-campus-module-name]{
-  max-width:100%;flex:0 1 auto;min-width:0;overflow:visible;text-overflow:clip;
-  white-space:normal;overflow-wrap:anywhere;font-size:clamp(15px,3.8vw,18px);line-height:1.2;
+  max-width:100%;flex:0 1 auto;min-width:min-content;overflow:visible;text-overflow:clip;
+  white-space:normal;overflow-wrap:normal;word-break:normal;font-size:clamp(15px,3.8vw,18px);line-height:1.2;
  }
  html[data-theme] #root [data-campus-shell] [data-campus-section-title]{
-  flex:1 1 auto;min-width:0;max-width:100%;align-items:center;
+  flex:1 1 min-content;min-width:min-content;max-width:100%;align-items:center;
  }
  html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-campus-section-title] .native-module-title{
-  max-width:100%;min-width:0;margin:0;padding:0;overflow:visible;text-overflow:clip;
-  white-space:normal;overflow-wrap:anywhere;font-size:clamp(17px,4.5vw,22px);line-height:1.2;
+  max-width:100%;min-width:min-content;margin:0;padding:0;overflow:visible;text-overflow:clip;
+  white-space:normal;overflow-wrap:normal;word-break:normal;font-size:clamp(17px,4.5vw,22px);line-height:1.2;
  }
  /* A page-specific heading supersedes raw route segments such as "notifications". */
  html[data-theme] #root [data-campus-shell] [data-campus-header-identity]:has([data-module-section-heading$=":page"]) [data-campus-module-name]{display:none}

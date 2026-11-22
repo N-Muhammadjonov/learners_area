@@ -39,3 +39,18 @@ test('mobile search is icon-first, expands to a focusable input and has a close 
  assert.match(search,/function show\(\)\{[^}]*input\.focus\(\)/);
  assert.match(search,/listen\(close,'click',\(\)=>hide\(\)/);
 });
+
+test('shared labels wrap at word boundaries and people statuses reserve their intrinsic width',()=>{
+ const campus=readFileSync(new URL('../css/campus.css',import.meta.url),'utf8');
+ const design=readFileSync(new URL('../modules/shared/design-system.css',import.meta.url),'utf8');
+ assert.match(campus,/min-width:min-content;max-width:100%;min-height:44px;height:auto;white-space:normal;overflow-wrap:normal;word-break:normal/);
+ assert.match(design,/min-width:min-content;white-space:normal;overflow-wrap:normal;word-break:normal;box-shadow:none/);
+ assert.match(campus,/\[data-people-directory\] table \[data-account-status\]\{min-width:max-content;white-space:nowrap\}/);
+ assert.match(campus,/\[data-people-directory\] table\{table-layout:auto;min-width:52rem\}/);
+ assert.match(campus,/\[data-campus-header-identity\]\{display:flex;flex-wrap:wrap/);
+ for(const css of [campus,design]){
+  const titles=[...css.matchAll(/\[data-campus-section-title\] \.native-module-title\s*\{([^}]+)\}/g)];
+  assert(titles.length>0);
+  assert(titles.every(([,rule])=>/overflow-wrap:normal;word-break:normal/.test(rule)));
+ }
+});
