@@ -182,7 +182,7 @@ export function mountGames(ctx,host,id=null){
    const gameCtx={...ctx,signal:roundSignal};
    let saveQueue=Promise.resolve(true);
    const save=state=>{
-    const nextState=mergeHandoffState(id,state,sessionDeck,sessionBatch);
+    const nextState=mergeHandoffState(id,{...state,_handoff:attempt.state?._handoff},sessionDeck,sessionBatch);
     saveQueue=saveQueue.catch(()=>false).then(async()=>{
      if(roundSignal.aborted||current!==sequence)return false;
      const payload=await request('/api/vocabulary/games',{method:'POST',body:{
