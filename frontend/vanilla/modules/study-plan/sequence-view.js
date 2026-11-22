@@ -11,7 +11,7 @@ const TOTAL_DAYS = 30;
 const DURATIONS = [7, TOTAL_DAYS];
 const DAILY_MINUTES = 120;
 const OWNER_MINUTES = 300;
-const ALLOWED_DAILY_MINUTES = [DAILY_MINUTES,OWNER_MINUTES];
+const ALLOWED_DAILY_MINUTES = [DAILY_MINUTES,180,OWNER_MINUTES,390,420];
 const KINDS = ['grammar','reading','listening','writing','speaking','vocabulary'];
 const STATES = ['ready','locked','completed'];
 const DAY_STATES = ['active','locked','completed'];
@@ -72,6 +72,17 @@ export function validateSequence(value) {
     }
     if (total !== day.minutes || (day.status === 'locked' &&
         day.tasks.some(task => task.status === 'ready'))) throw Error('invalid_workload');
+    if (day.retention) {
+      const rt=day.retention;
+      if (rt.requiredReviews!==10 || !Array.isArray(rt.reviewDays) ||
+          !rt.reviewDays.every(v=>[1,3,7,14].includes(v)) ||
+          !Array.isArray(rt.previousTopics) ||
+          !rt.previousTopics.every(topic=>typeof topic==='string') ||
+          rt.status!==day.tasks[5].status ||
+          (rt.href!=null && (day.status!=='active' ||
+            rt.href!=='/app/vocabulary?tab=revision')))
+        throw Error('invalid_retention');
+    }
   }
   return value;
 }
@@ -131,6 +142,37 @@ function taskList(ctx, day) {
         statusLabel(ctx,task.status)))));
 }
 
+function retentionPanel(ctx, day) {
+  const review=day.retention;
+  if (!review) return null;
+  const uz=ctx.locale==='uz';
+  const name=uz?'Kunlik retention — faol eslash':'Daily retention — active recall';
+  const detail=uz
+    ?'Vocabulary SRS da kamida 10 ta haqiqiy savolni takrorlang. Bu vaqt Vocabulary blokiga kiritilgan.'
+    :'Complete at least 10 real Vocabulary SRS recall questions. This time is already included in Vocabulary.';
+  const previous=review.previousTopics.length
+    ?h('p',{class:'sequence-subtitle'},
+      (uz?'Oldingi mavzular: ':'Previous topics: ')+review.previousTopics.join(' · '))
+    :h('p',{class:'sequence-subtitle'},
+      uz?'Avvalgi mavzular yo‘q: bugungi so‘zlar va mavjud SRS navbatini takrorlang.'
+        :'No previous topics yet: review today’s words and any existing SRS due items.');
+  const offsets=review.reviewDays.length
+    ?h('p',{class:'sequence-subtitle'},
+      (uz?'Qayta eslash oralig‘i: ':'Retrieval intervals: ')+
+      review.reviewDays.map(n=>'D+'+n).join(' · '))
+    :null;
+  return h('section',{class:'sequence-notice','data-sequence-retention':day.day},
+    h('strong',{},name),
+    h('p',{class:'sequence-subtitle'},detail),
+    previous,offsets,
+    h('p',{class:'sequence-subtitle'},
+      uz?'Listening, Reading, Writing va Speaking xatolarini qayta ko‘rish ham tavsiya etiladi. Ular alohida avtomatik baholanmaydi.'
+        :'Also revisit Listening, Reading, Writing and Speaking mistakes. These self-reviews are not separately auto-graded.'),
+    review.href?h('a',{class:'btn-secondary',href:review.href,
+      'data-sequence-retention-open':''},
+      uz?'SRS takrorlashni ochish':'Open SRS review'):null);
+}
+
 function calendar(ctx, data, state) {
   const selected = state.selectedDay ?? data.currentDay;
   const host = h('div', {class:'sequence-detail'});
@@ -180,7 +222,7 @@ function calendar(ctx, data, state) {
               'Complete every task to unlock the next day.'))),
         h('strong',{},selectedDay.tasks.filter(task=>task.status==='completed').length+
           ' / '+selectedDay.tasks.length)),
-      taskList(ctx,selectedDay));
+      taskList(ctx,selectedDay),retentionPanel(ctx,selectedDay));
   }
   drawSelected();
   const selector = h('div',{class:'sequence-calendar-scroll'},
@@ -218,19 +260,20 @@ export function mountSequenceAssignments(ctx, root) {
     const title=h('h2',{},text(ctx,
       'Sizning '+selectedDays+' kunlik rejangiz','Your '+selectedDays+'-day plan'));
     const isOwner=ctx.session?.user?.role==='owner';
-    const legacyOwnerCycle=isOwner && (data?.state==='active'||data?.state==='completed')
-      && data.days?.some(day=>day.minutes===DAILY_MINUTES);
+    const legacyOwnerCycle=isOwner && data?.state==='active' &&
+      data.days?.some(day=>day.day>data.currentDay &&
+        [DAILY_MINUTES,OWNER_MINUTES].includes(day.minutes));
     const lead=h('p',{class:'sequence-subtitle'},
       text(ctx,
         isOwner
           ?legacyOwnerCycle
-            ?'Hozirgi rejangizda 120 daqiqalik kunlar bor. Intensiv 300 daqiqalik kelgusi kunlarni faollashtirish uchun «Rejani qayta tuzish»ni tanlang. Joriy va tugallangan kunlar saqlanadi.'
-            :'IELTS 8.0 intensiv rejasi: kuniga 300 daqiqa. Barcha vazifalar tugagach keyingi kun ochiladi.'
+            ?'Oldingi rejadagi kelajak kunlarini kurs jadvaliga moslashtirish uchun «Rejani qayta tuzish»ni tanlang. Joriy va bajarilgan kunlar saqlanadi.'
+            :'IELTS 8.0: Du/Ch/Ju 180 daqiqa, Se/Pa/Sh 390 daqiqa, Ya 420 daqiqa. Har kuni SRS retention.'
           :'Kuniga kamida 120 daqiqa ajrating. Barcha vazifalar tugagach keyingi kun ochiladi.',
         isOwner
           ?legacyOwnerCycle
-            ?'Your existing plan has 120-minute days. Select Regenerate to activate 300-minute future days. Current and completed work is preserved.'
-            :'IELTS 8.0 intensive: 300 minutes daily. The next day unlocks after all tasks are completed.'
+            ?'Regenerate future days to use the new course-day schedule. Current and completed work is preserved.'
+            :'IELTS 8.0: Mon/Wed/Fri 180 min; Tue/Thu/Sat 390 min; Sunday 420 min. Daily SRS retention.'
           :'Allocate at least 120 minutes each day. The next day unlocks after all tasks are completed.'));
     const ownerBands=ctx.session?.user?.role==='owner'&&data?.baselineBands
       ?h('p',{class:'sequence-subtitle','data-owner-ielts-target':''},
