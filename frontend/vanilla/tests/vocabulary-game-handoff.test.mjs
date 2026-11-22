@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {nextHandoffWord,handoffSlice,handoffSourceDeck,mergeHandoffState} from '../modules/vocabulary/game-handoff.js';
+import {nextHandoffWord,handoffSlice,handoffSourceDeck,mergeHandoffState,completedHandoffWords} from '../modules/vocabulary/game-handoff.js';
 
 const source=Array.from({length:24},(_,i)=>'word-'+(i+1));
 
@@ -44,4 +44,21 @@ test('matching pairs resume their unmatched word even when clicked out of order'
  const state={left:source.slice(4,10),matched:['word-5','word-8','word-9']};
  assert.equal(nextHandoffWord('match',state,source),'word-6');
  assert.equal(nextHandoffWord('match',{left:[],matched:[]},source),'word-1');
+});
+
+test('matching out of order remembers all completed IDs so a new game cannot force a repeat',()=>{
+ const attempt={state:{left:source.slice(8,14),matched:['word-11','word-13'],
+  _handoff:{sourceDeck:source,completed:source.slice(0,8)}}};
+ const done=completedHandoffWords('match',attempt,source);
+ assert.equal(done.length,10);
+ assert(done.includes('word-11'));
+ assert(done.includes('word-13'));
+ const next=nextHandoffWord('match',attempt.state,source);
+ assert.equal(next,'word-9');
+ const allowed=handoffSlice(source,next,24).filter(id=>!done.includes(id));
+ assert(!allowed.includes('word-11'));
+ assert(!allowed.includes('word-13'));
+ assert.equal(allowed[0],'word-9');
+ const carry=mergeHandoffState('choice',{_handoff:{completed:done,sourceDeck:source}},source,2);
+ assert.deepEqual(carry._handoff.completed,done);
 });
