@@ -77,6 +77,14 @@ async def complete_article(req: Request, article_id: str) -> JSONResponse:
         await con.execute('''INSERT INTO activity_events(id,user_id,type,payload) VALUES($1,$2,$3,jsonb_build_object($4::text,true))
           ON CONFLICT(id) DO UPDATE SET payload=coalesce(activity_events.payload,'{}'::jsonb) || excluded.payload
           WHERE activity_events.user_id=excluded.user_id AND activity_events.type=excluded.type''', progress_id(user['id']), user['id'], EVENT_TYPE, article_id)
+        # Immutable, per-submission proof for dated owner plans. The legacy
+        # per-user completion map has no per-article timestamps, so it cannot
+        # establish that a specific assigned article was done today.
+        # Only a fully answered authored article reaches this point.
+        await con.execute("""INSERT INTO activity_events(user_id,type,payload)
+            VALUES($1,'READING_ARTICLE_PLAN_COMPLETED',
+                   jsonb_build_object('articleId',$2::text,'answerCount',$3::int))""",
+            user['id'], article_id, expected)
         awarded = False
         from .coin_rewards import article_question_count, award_answers
         expected = article_question_count(article_id)
