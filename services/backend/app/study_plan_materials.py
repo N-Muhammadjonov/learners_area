@@ -16,6 +16,7 @@ from .browser_common import live
 from .browser_listening import catalogue as listening_catalogue
 from .browser_reading import academic_catalogue
 from .study_plan_thirty import level_range, read_grammar_catalog
+from .vocabulary_packs_port import built_in_summaries
 
 LOG = logging.getLogger(__name__)
 
@@ -59,8 +60,31 @@ def _stable_mix(items: list[dict], seed: str) -> list[dict]:
         (seed + ":" + item["source_key"]).encode("utf-8")).hexdigest())
 
 
+def owner_writing_order(items: list[dict]) -> list[dict]:
+    """Interleave two Task 2 prompts for each Task 1, where available.
+
+    Task 2 counts twice in the official IELTS Writing score. Unknown metadata
+    remains usable without an invented classification.
+    """
+    part1 = [item for item in items
+             if re.search(r"task[\s_-]*1\b", str(item.get("task_type") or ""), re.I)]
+    part2 = [item for item in items
+             if re.search(r"task[\s_-]*2\b", str(item.get("task_type") or ""), re.I)]
+    known = {id(item) for item in part1 + part2}
+    other = [item for item in items if id(item) not in known]
+    if not part1 or not part2:
+        return items
+    result = []
+    while part1 or part2:
+        for bucket in (part2, part2, part1):
+            if bucket:
+                result.append(bucket.pop(0))
+    return result + other
+
+
 def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
-                     *, revision: int = 1) -> list[dict]:
+                     *, revision: int = 1,
+                     intensive: bool = False) -> list[dict]:
     """Sunday: one Academic full Reading test. Other days: one General passage.
 
     Listening and Sunday Academic Reading start from Test 1 for each new cycle.
@@ -68,6 +92,7 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
     has been verified; the 30-day engine enforces that prerequisite.
     """
     cursors: dict[str, int] = {}
+    owner_writing = owner_writing_order(pools.get("writing_exam") or []) if intensive else []
     result: list[dict] = []
     general = sorted((pools.get("general_reading") or []), key=_general_order)
     general_tiers = [
@@ -81,8 +106,11 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
         offset = day["day"] - 1
         week = min(3, offset // 7)
         day_of_week = offset % 7
-        writing_kind = WRITING_PATTERN[week][day_of_week]
-        speaking_kind = SPEAKING_PATTERN[week][day_of_week]
+        writing_kind = "writing_exam" if intensive else WRITING_PATTERN[week][day_of_week]
+        speaking_kind = (
+            ("speaking_part1", "speaking_part2", "speaking_part3")[offset % 3]
+            if intensive else SPEAKING_PATTERN[week][day_of_week]
+        )
         choices = {
             "reading": "reading" if day_date.weekday() == 6 else "general_reading",
             "listening": "listening",
@@ -98,6 +126,8 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                 available = general_tiers[week]
                 if not available:
                     available = general
+            elif intensive and kind == "writing_exam":
+                available = owner_writing
             else:
                 available = pools.get(kind) or []
             if not available and kind in ("writing_lesson", "typing"):
@@ -120,7 +150,17 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                 continue
             if not _usable(chosen):
                 continue
-            tasks[slot] = replace(task, title=chosen["title"][:350],
+            title = chosen["title"]
+            if intensive:
+                coaching = {
+                    "reading": "Timed practice, then analyse wrong answers",
+                    "listening": "Transcript, distractors and spelling review",
+                    "writing": "Task 1/2 timed, rubric analysis, then rewrite",
+                    "speaking": "Record, self-transcribe, correct and re-record",
+                }.get(task.kind)
+                if coaching:
+                    title = f"{title} · {coaching}"
+            tasks[slot] = replace(task, title=title[:350],
                                   href=chosen["href"], source_key=chosen["source_key"])
         if day_date.weekday() != 6 and tasks[1].source_key == "reading":
             tasks[1] = replace(tasks[1], title="General Reading — one passage",
@@ -128,6 +168,50 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
         elif day_date.weekday() == 6 and tasks[1].source_key == "reading":
             tasks[1] = replace(tasks[1], title="Academic Reading — full test",
                                href="/app/reading/academic")
+        result.append({**day, "tasks": tasks})
+    return result
+
+
+async def load_owner_pack_pool(con) -> list[dict[str, str]]:
+    """Schedule only published topics, with the original built-in fallback."""
+    rows = await con.fetch("""SELECT slug,label_en FROM vocabulary_topic_packs
+        WHERE publication_state='published'
+        ORDER BY position ASC,label_en ASC""")
+    packs = [{"slug": row["slug"], "title": row["label_en"]} for row in rows]
+    builtins = built_in_summaries()
+    if not rows:
+        packs = [{"slug": item["id"], "title": item["label"]}
+                 for item in builtins]
+    else:
+        existing = {item["slug"] for item in packs}
+        for item in builtins:
+            if item["id"] in ("art", "environment") and item["id"] not in existing:
+                packs.append({"slug": item["id"], "title": item["label"]})
+    return packs
+
+
+def assign_owner_vocabulary(schedule: list[dict],
+                            packs: list[dict[str, str]]) -> list[dict]:
+    """One topic for two days, reviewed on the second day.
+
+    Regeneration incorporates newly published topics in untouched future days.
+    The source key stays 'vocab' for server-verified SRS evidence.
+    """
+    if not packs:
+        return schedule
+    result = []
+    for day in schedule:
+        index = (day["day"] - 1) // 2
+        pack = packs[index % len(packs)]
+        activity = ("Learn, recall and create example sentences"
+                    if day["day"] % 2 else "Spaced recall, games and active use")
+        tasks = [
+            replace(task,
+                    title=f"Topic {index + 1}: {pack['title']} · {activity}"[:350],
+                    href="/app/vocabulary")
+            if task.kind == "vocabulary" else task
+            for task in day["tasks"]
+        ]
         result.append({**day, "tasks": tasks})
     return result
 
@@ -217,6 +301,7 @@ async def load_material_pools(con, user: dict, level: str = "B1") -> dict[str, l
                 "source_key": "writing:" + prompt_id,
                 "title": "Writing — " + str(row["category"] or row["task_type"] or "Task"),
                 "href": "/app/writing/prompts/" + prompt_id,
+                "task_type": str(row["task_type"] or ""),
             })
     except Exception:
         LOG.exception("Writing plan catalogue unavailable")

@@ -1,6 +1,7 @@
 """Deterministic 30-day learning schedule built from authentic Grammar catalogues.
 
-The daily workload is exactly 120 estimated minutes. Completion is never inferred
+The standard daily workload is 120 estimated minutes; the owner IELTS intensive
+track uses 300 minutes. Completion is never inferred
 from opening a link, spending time on the website, or a client-side checkbox.
 """
 from __future__ import annotations
@@ -14,6 +15,7 @@ from pathlib import Path
 DAYS = 30
 SUPPORTED_DURATIONS = (7, DAYS)
 TARGET_MINUTES = 120
+OWNER_TARGET_MINUTES = 300
 STAGE_NAMES = ("Tushunish", "Mustahkamlash", "Qo‘llash", "Erkin qo‘llash")
 LEVELS = ("A0", "A1", "A2", "B1", "B2", "C1", "C2")
 LEVEL_ALIASES = {
@@ -33,6 +35,18 @@ SUNDAY_WORKLOAD = {
     "grammar": 10, "reading": 60, "listening": 20, "writing": 10,
     "speaking": 10, "vocabulary": 10,
 }
+# Writing/Speaking are the weakest baseline bands; allocate them 55% of
+# the 5-hour daily practice budget, without neglecting receptive skills.
+OWNER_WORKLOAD = {
+    "grammar": 20, "reading": 45, "listening": 45, "writing": 90,
+    "speaking": 75, "vocabulary": 25,
+}
+OWNER_FULL_MOCK_WORKLOAD = {
+    "grammar": 10, "reading": 60, "listening": 45, "writing": 90,
+    "speaking": 70, "vocabulary": 25,
+}
+OWNER_PHASES = ("Diagnose and repair", "Build accuracy", "Timed performance",
+                "Exam transfer", "Final consolidation")
 PRACTICE = {
     "reading": ("Reading — complete a passage and submit answers",
                 "/app/reading", "reading"),
@@ -131,13 +145,16 @@ def eligible_grammar(level: str, catalog: list[dict]) -> list[dict]:
 def make_thirty_day_schedule(level: str, start: date,
                             catalog: list[dict] | None = None,
                             revision: int = 1,
-                            days: int = DAYS) -> list[dict]:
+                            days: int = DAYS,
+                             intensive: bool = False) -> list[dict]:
     if not isinstance(start, date):
         raise ValueError("invalid_start")
     if type(revision) is not int or revision < 1:
         raise ValueError("invalid_revision")
     if type(days) is not int or days not in SUPPORTED_DURATIONS:
         raise ValueError("invalid_duration")
+    if type(intensive) is not bool:
+        raise ValueError("invalid_intensive_flag")
     units = eligible_grammar(level, catalog if catalog is not None else read_grammar_catalog())
     if not units:
         raise ValueError("insufficient_grammar_content")
@@ -161,8 +178,13 @@ def make_thirty_day_schedule(level: str, start: date,
                 raise ValueError("insufficient_verified_grammar")
             unit = legacy[(position + (revision - 1) * 7) % len(legacy)]
         calendar_day = start + timedelta(days=offset)
-        minutes = (SUNDAY_WORKLOAD if calendar_day.weekday() == 6
-                   else WORKLOADS[offset % len(WORKLOADS)])
+        minutes = (
+            OWNER_FULL_MOCK_WORKLOAD if calendar_day.weekday() == 6
+            else OWNER_WORKLOAD
+        ) if intensive else (
+            SUNDAY_WORKLOAD if calendar_day.weekday() == 6
+            else WORKLOADS[offset % len(WORKLOADS)]
+        )
         grammar = PlanTask(
             day=day_number, slot=0, kind="grammar",
             title=f"Grammar — {unit['title']} · {STAGE_NAMES[stage]}",
@@ -178,7 +200,26 @@ def make_thirty_day_schedule(level: str, start: date,
             title, href, event_kind = PRACTICE[kind]
             tasks.append(PlanTask(day_number, slot, kind, title, href, event_kind,
                                   minutes[kind]))
-        if sum(task.minutes for task in tasks) != TARGET_MINUTES:
+        if intensive:
+            phase = OWNER_PHASES[min(offset // 7, len(OWNER_PHASES) - 1)]
+            reminders = {
+                "reading": "Timed accuracy; log every incorrect answer",
+                "listening": "Review transcript, distractors and spelling",
+                "writing": "Timed Task 1/2; assess four IELTS criteria and rewrite",
+                "speaking": "Record, transcribe, correct and re-record",
+                "vocabulary": "Learn, recall and use the assigned topic",
+            }
+            tasks = [
+                task if task.kind == "grammar" else PlanTask(
+                    day=task.day, slot=task.slot, kind=task.kind,
+                    title=f"{task.title} · {phase}: {reminders[task.kind]}",
+                    href=task.href, source_key=task.source_key,
+                    minutes=task.minutes,
+                )
+                for task in tasks
+            ]
+        expected_minutes = OWNER_TARGET_MINUTES if intensive else TARGET_MINUTES
+        if sum(task.minutes for task in tasks) != expected_minutes:
             raise ValueError("invalid_daily_budget")
         result.append({"day": day_number, "date": (start + timedelta(days=offset)).isoformat(),
                        "tasks": tasks})
