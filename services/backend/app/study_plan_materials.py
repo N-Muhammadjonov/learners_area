@@ -235,7 +235,7 @@ def assign_owner_vocabulary(schedule: list[dict],
     """One published topic over two days, with verified SRS recall every day.
 
     Newly published topics can be incorporated in untouched future days.
-    Completion stays tied to at least 10 real VOCAB_REVIEWED events.
+    Completion requires either 10 due SRS reviews or 10 distinct verified game recalls.
     """
     if not packs:
         return schedule
@@ -243,13 +243,13 @@ def assign_owner_vocabulary(schedule: list[dict],
     for day in schedule:
         index = (day["day"] - 1) // 2
         pack = packs[index % len(packs)]
-        activity = ("Learn the pack, then complete 10+ real SRS reviews"
+        activity = ("Learn the pack, then complete 10+ real SRS reviews or verified game recalls"
                     if day["day"] % 2 else
-                    "Retrieve yesterday's words, then complete 10+ SRS reviews")
+                    "Retrieve yesterday's words, then complete 10+ SRS reviews or verified game recalls")
         course_day = date.fromisoformat(day["date"]).weekday() in (0, 2, 4)
         depth = ("brief recall session" if course_day
                  else "extended recall, active example sentences and usage drills")
-        retention = ("Retain previous errors (days 1, 3, 7 and 14)"
+        retention = ("Retain previous errors (days 1, 3, 7 and 16)"
                      + " · " + depth)
         tasks = [
             replace(task,
