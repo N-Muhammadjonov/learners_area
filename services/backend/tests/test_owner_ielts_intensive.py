@@ -9,7 +9,7 @@ from app import main as core
 from app.study_plan_thirty import (
     OWNER_TARGET_MINUTES, TARGET_MINUTES, make_thirty_day_schedule,
 )
-from app.study_plan_materials import assign_owner_vocabulary
+from app.study_plan_materials import assign_owner_vocabulary, owner_writing_order
 from app.vocabulary_packs_port import validate_public_pack
 
 START = date(2026, 11, 22)
@@ -51,6 +51,19 @@ def test_owner_vocabulary_two_day_topic_windows_with_only_published_packs():
         assert first.source_key == second.source_key == "vocab"
         assert first.href == second.href == "/app/vocabulary"
     assert assign_owner_vocabulary(plan, []) == plan
+
+
+def test_intensive_writing_favors_task_two_by_two_to_one():
+    original = [
+        *({"task_type": "task_1", "source_key": f"one:{i}"} for i in range(3)),
+        *({"task_type": "Task 2", "source_key": f"two:{i}"} for i in range(6)),
+    ]
+    ordered = owner_writing_order(original)
+    assert [item["source_key"].split(":")[0] for item in ordered] == [
+        "two", "two", "one", "two", "two", "one", "two", "two", "one"
+    ]
+    assert len(original) == 9
+    assert owner_writing_order(original[:3]) == original[:3]
 
 
 def valid_input():
