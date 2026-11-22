@@ -51,7 +51,7 @@ export function dailyReward({session,signal,client,storage}){
    if(!dialog||claimButton.disabled||signal.aborted||state.claimed)return;
    claimButton.disabled=true;message.hidden=true;
    try{
-    const result=await client.request('/api/coins/daily',{signal});
+    const result=await client.request('/api/coins/daily/claim',{method:'POST',signal});
     if(signal.aborted||!dialog)return;
     if(!valid(result)||!result.claimed||result.date!==state.date)throw Error('invalid_daily_claim');
     state=result;markSeen(result.date);
@@ -92,7 +92,7 @@ export function dailyReward({session,signal,client,storage}){
   if(pending||requested===day){show();return;}
   pending=true;requested=day;
   try{
-   const result=await client.request('/api/coins/daily/claim',{method:'POST',signal});
+   const result=await client.request('/api/coins/daily',{signal});
    if(signal.aborted)return;
    if(!valid(result))throw Error('invalid_daily_reward');
    if(state?.date!==result.date)remove();
