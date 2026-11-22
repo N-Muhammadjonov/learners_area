@@ -45,6 +45,29 @@ test('focus exams and other modals defer the reward until the ordinary workspace
   other.close();await tick();assert(document.querySelector('[data-daily-reward]')?.open);
  }finally{h.dispose();}
 });
+test('closing unclaimed reward is not recorded as a claim and can reopen after reload',async()=>{
+ const h=setup({role:'student'});
+ const storage=h.dom.window.localStorage;
+ try{
+  const {rewards,calls}=begin(h,{storage});
+  rewards.update(h.ctx);await tick();
+  const dialog=document.querySelector('[data-daily-reward]');
+  assert(dialog?.open);
+  dialog.querySelector('.daily-reward-close').click();await tick();
+  assert.equal(document.querySelector('[data-daily-reward]'),null);
+  assert.equal(calls.filter(x=>x.path.endsWith('/claim')).length,0);
+  assert.equal(storage.getItem('la:daily-reward-seen:v2:'+ID(1)+':2026-11-17'),null);
+  h.controller.abort();
+  const life=new h.dom.window.AbortController();
+  const again=dailyReward({
+   session:h.ctx.session,signal:life.signal,storage,
+   client:{request:async path=>path==='/api/coins/daily'?available():{balance:0}},
+  });
+  again.update({...h.ctx,signal:life.signal});await tick();
+  assert(document.querySelector('[data-daily-reward]')?.open);
+  life.abort();
+ }finally{h.dispose();}
+});
 test('blocked storage, failed transport and an aborted account never manufacture a reward',async()=>{
  const h=setup({role:'student'});let answer,requests=0;
  try{
