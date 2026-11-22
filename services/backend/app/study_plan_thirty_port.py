@@ -13,7 +13,8 @@ from . import main as core
 from .study_plan_evidence import EVENTS
 from .study_plan_port import failure, response, plan_participant
 from .study_plan_thirty import (DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES,
-    OWNER_TARGET_MINUTES, make_thirty_day_schedule, normalize_level)
+    OWNER_TARGET_MINUTES, OWNER_LIGHT_MINUTES, VALID_DAILY_TOTALS,
+    make_thirty_day_schedule, normalize_level)
 from .study_plan_materials import (assign_materials, load_material_pools,
     assign_owner_vocabulary, load_owner_pack_pool)
 
@@ -104,12 +105,13 @@ def _score_skill_stage(source_key: str, answers: object) -> dict | None:
             "total": [len(group) for group in expected]}
 
 
-async def _sync(con, cycle: dict, now: datetime) -> dict:
+async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict:
     if cycle["status"] != "active":
         return cycle
     uid, cid, day = cycle["user_id"], cycle["id"], cycle["current_day"]
     tasks = await con.fetch(CURRENT, cid, day)
-    if len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in (TARGET_MINUTES, OWNER_TARGET_MINUTES):
+    allowed = VALID_DAILY_TOTALS if owner else {TARGET_MINUTES}
+    if len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in allowed:
         raise ValueError("invalid_current_day_tasks")
     pending = {task["kind"]: task for task in tasks
                if task["completed_at"] is None and task["kind"] != "grammar"}
@@ -214,7 +216,7 @@ async def _sync(con, cycle: dict, now: datetime) -> dict:
     return cycle
 
 
-async def _present(con, cycle: dict, now: datetime) -> dict:
+async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict:
     rows = await con.fetch("""SELECT day_number,slot,kind,title,href,source_key,
       minutes,stage_index,completed_at FROM study_plan_30_tasks
       WHERE cycle_id=$1 ORDER BY day_number,slot""", cycle["id"])
@@ -232,8 +234,9 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
             "href": task["href"] if can_open and not completed else None,
             "status": "completed" if completed else "ready" if can_open else "locked",
         })
-    if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in
-           (TARGET_MINUTES, OWNER_TARGET_MINUTES) for tasks in groups.values()):
+    allowed = VALID_DAILY_TOTALS if owner else {TARGET_MINUTES}
+    if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in allowed
+           for tasks in groups.values()):
         raise ValueError("incomplete_plan_schedule")
     zone = _timezone(cycle["timezone"])
     today = now.astimezone(zone).date()
@@ -262,11 +265,40 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
             display_date = current_date + timedelta(days=day - current_index)
         else:
             display_date = original_date
-        result.append({
+        daily = {
             "day": day, "date": display_date, "originalDate": original_date,
             "rescheduled": display_date != original_date,
-            "status": status, "minutes": sum(task["minutes"] for task in tasks), "tasks": tasks,
-        })
+            "status": status, "minutes": sum(task["minutes"] for task in tasks),
+            "tasks": tasks,
+        }
+        if owner:
+            # SRS review is an actual required vocabulary task (>=10 verified
+            # VOCAB_REVIEWED answers). The prompts below also recall content
+            # introduced 1, 3, 7 and 14 study days previously. Other skills'
+            # self-reviews are guidance, not falsely marked server-verified.
+            topics = []
+            for offset in (1, 3, 7, 14):
+                previous = groups.get(day - offset, [])
+                vocab = next((item for item in previous
+                              if item["kind"] == "vocabulary"), None)
+                if vocab:
+                    topic = vocab["title"].split(" · ", 1)[0]
+                    if topic not in topics:
+                        topics.append(topic)
+            vocab_now = next(item for item in tasks
+                             if item["kind"] == "vocabulary")
+            daily["retention"] = {
+                "reviewDays": [offset for offset in (1, 3, 7, 14)
+                               if day - offset >= 1],
+                "previousTopics": topics,
+                "requiredReviews": 10,
+                "minutesIncludedInVocabulary": vocab_now["minutes"],
+                "status": vocab_now["status"],
+                "href": ("/app/vocabulary?tab=revision"
+                         if status == "active"
+                         and vocab_now["status"] == "ready" else None),
+            }
+        result.append(daily)
     return {
         "state": cycle["status"], "cycleId": cycle["id"],
         "level": cycle["cefr_level"], "totalDays": duration, "currentDay": cycle["current_day"],
@@ -279,8 +311,8 @@ async def _present(con, cycle: dict, now: datetime) -> dict:
 async def _current(con, uid, now: datetime, *, owner: bool = False) -> dict:
     cycle = await con.fetchrow(CYCLE, uid)
     if cycle:
-        state = await _sync(con, dict(cycle), now)
-        payload = await _present(con, state, now)
+        state = await _sync(con, dict(cycle), now, owner=owner)
+        payload = await _present(con, state, now, owner=owner)
         return {**payload, "baselineBands": OWNER_BASELINE_BANDS,
                 "targetBand": OWNER_TARGET_BAND} if owner else payload
     level, _ = await _profile(con, uid)
@@ -289,7 +321,7 @@ async def _current(con, uid, now: datetime, *, owner: bool = False) -> dict:
                 "durationOptions": list(SUPPORTED_DURATIONS)}
     payload = {"state": "available", "level": level, "totalDays": DAYS,
                "durationOptions": list(SUPPORTED_DURATIONS),
-               "dailyMinutes": OWNER_TARGET_MINUTES if owner else TARGET_MINUTES}
+               "dailyMinutes": OWNER_LIGHT_MINUTES if owner else TARGET_MINUTES}
     return {**payload, "baselineBands": OWNER_BASELINE_BANDS,
             "targetBand": OWNER_TARGET_BAND} if owner else payload
 
@@ -369,9 +401,15 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         if level is None:
             return failure("level_required", 409)
         is_owner = user["role"] == "owner"
+        # Rebalance future workload according to its projected real weekday
+        # after missed days; completed/current assignments remain untouched.
+        local_today = now.astimezone(_timezone(row["timezone"])).date()
+        projected_start = (max(row["started_on"],
+                               local_today - timedelta(days=row["current_day"] - 1))
+                           if is_owner else row["started_on"])
         plan = assign_materials(
             make_thirty_day_schedule(
-                level, row["started_on"], revision=row["revision"] + 1,
+                level, projected_start, revision=row["revision"] + 1,
                 days=days, intensive=is_owner),
             await load_material_pools(con, user, level),
             revision=row["revision"] + 1, intensive=is_owner)
@@ -386,7 +424,7 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         await con.execute("""UPDATE study_plan_30_cycles SET cefr_level=$2,
            revision=revision+1,updated_at=$3,duration_days=$4 WHERE id=$1""",
             row["id"], level, now, days)
-        return response(await _current(con, user["id"], now))
+        return response(await _current(con, user["id"], now, owner=is_owner))
 
 
 @router.post("/grammar/verify")
