@@ -1,15 +1,22 @@
 """Owner-only IELTS intensive and public Vocabulary publication contracts."""
-from datetime import date
-from unittest.mock import AsyncMock
+import asyncio
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 from fastapi.testclient import TestClient
 
 from app import main as core
 from app.study_plan_thirty import (
-    OWNER_TARGET_MINUTES, TARGET_MINUTES, make_thirty_day_schedule,
+    TARGET_MINUTES, OWNER_LIGHT_MINUTES, OWNER_HEAVY_MINUTES,
+    OWNER_SUNDAY_MINUTES, owner_total_minutes, make_thirty_day_schedule,
 )
-from app.study_plan_materials import assign_owner_vocabulary, owner_writing_order
+from app.study_plan_materials import (
+    assign_owner_vocabulary, owner_writing_order,
+    listening_plan_materials, assign_materials,
+)
+from app.listening_order import material_order
+from app.step19_vocab_srs_port import DAYS as SRS_INTERVALS
+from app.study_plan_thirty_port import _present, _sync
 from app.vocabulary_packs_port import validate_public_pack
 
 START = date(2026, 11, 22)
@@ -18,15 +25,23 @@ START = date(2026, 11, 22)
 def test_owner_schedule_retains_all_six_verified_tasks_for_30_days():
     days = make_thirty_day_schedule("B2", START, intensive=True)
     assert len(days) == 30
-    assert OWNER_TARGET_MINUTES == 300
+    assert (OWNER_LIGHT_MINUTES, OWNER_HEAVY_MINUTES, OWNER_SUNDAY_MINUTES) == (180, 390, 420)
     for day in days:
         tasks = {task.kind: task for task in day["tasks"]}
+        actual_date = date.fromisoformat(day["date"])
         assert len(tasks) == 6
-        assert sum(task.minutes for task in tasks.values()) == OWNER_TARGET_MINUTES
-        assert tasks["writing"].minutes >= 90
-        assert tasks["speaking"].minutes >= 70
-        assert tasks["vocabulary"].minutes == 25
+        assert sum(task.minutes for task in tasks.values()) == owner_total_minutes(actual_date)
+        assert tasks["writing"].minutes >= 40
+        assert tasks["speaking"].minutes >= 40
+        assert 20 <= tasks["vocabulary"].minutes <= 50
+        assert all(0 < task.minutes <= 90 for task in tasks.values())
         assert tasks["grammar"].source_key.startswith(("grammar-book:", "skill-grammar:"))
+        if actual_date.weekday() in (0, 2, 4):
+            assert sum(task.minutes for task in tasks.values()) == OWNER_LIGHT_MINUTES
+        elif actual_date.weekday() == 6:
+            assert sum(task.minutes for task in tasks.values()) == OWNER_SUNDAY_MINUTES
+        else:
+            assert sum(task.minutes for task in tasks.values()) == OWNER_HEAVY_MINUTES
     assert days == make_thirty_day_schedule("B2", START, intensive=True)
 
 
@@ -47,10 +62,147 @@ def test_owner_vocabulary_two_day_topic_windows_with_only_published_packs():
         second = next(t for t in result[window * 2 + 1]["tasks"] if t.kind == "vocabulary")
         assert f"Topic {window % 11}" in first.title
         assert f"Topic {window % 11}" in second.title
-        assert "Learn" in first.title and "Spaced recall" in second.title
+        assert "Learn" in first.title and "Retrieve" in second.title
+        assert "10+ real SRS reviews" in first.title
+        assert "10+ SRS reviews" in second.title
         assert first.source_key == second.source_key == "vocab"
         assert first.href == second.href == "/app/vocabulary"
     assert assign_owner_vocabulary(plan, []) == plan
+
+
+def test_listening_order_uses_original_manifest_instead_of_title_sorting():
+    cards = [
+        {"source_id": "listening-test-2", "id": "test2",
+         "title": "Test 2", "testId": "test2"},
+        {"source_id": "listening-test-1", "id": "test1",
+         "title": "Unnumbered foundation", "testId": "test1"},
+        {"source_id": "listening-test-3", "id": "test3",
+         "title": "Test 3", "testId": "test3"},
+    ]
+    ordered = sorted(cards, key=material_order)
+    assert ordered[0]["testId"] == "test1"
+    pool = listening_plan_materials(ordered)
+    assert [material["source_key"] for material in pool] == [
+        "listening:test1", "listening:test2", "listening:test3",
+    ]
+    days = make_thirty_day_schedule("B2", START, intensive=True)
+    assigned = assign_materials(days, {"listening": pool}, intensive=True)
+    assert [day["tasks"][2].source_key for day in assigned[:3]] == [
+        "listening:test1", "listening:test2", "listening:test3",
+    ]
+    assert assigned[3]["tasks"][2].source_key == "listening:test1"
+    assert "Repeat for retention" in assigned[3]["tasks"][2].title
+    assert assigned[3]["tasks"][2].href == "/app/listening/tests/test1/1"
+    assert "Course day" in assigned[1]["tasks"][2].title
+    assert "Intensive day" in assigned[0]["tasks"][2].title
+
+
+def test_owner_server_retention_is_real_and_locked_links_are_hidden():
+    schedule = assign_owner_vocabulary(
+        make_thirty_day_schedule("B2", START, intensive=True),
+        [{"slug": f"topic_{i}", "title": f"Pack {i}"} for i in range(15)],
+    )
+
+    class Fake:
+        async def fetch(self, query, cycle_id):
+            rows = []
+            for day in schedule:
+                for task in day["tasks"]:
+                    rows.append({
+                        "day_number": day["day"], "slot": task.slot,
+                        "kind": task.kind, "title": task.title, "href": task.href,
+                        "source_key": task.source_key, "minutes": task.minutes,
+                        "stage_index": task.stage, "completed_at": None,
+                    })
+            return rows
+
+    cycle = {
+        "id": "fixture", "status": "active", "current_day": 1,
+        "timezone": "Asia/Tashkent", "user_id": "fixture", "revision": 1,
+        "cefr_level": "B2", "duration_days": 30, "started_on": START,
+    }
+    payload = asyncio.run(_present(
+        Fake(), cycle, datetime(2026, 11, 22, 9, tzinfo=timezone.utc),
+        owner=True))
+    assert payload["days"][0]["retention"]["requiredReviews"] == 10
+    assert tuple(SRS_INTERVALS[:4]) == (1, 3, 7, 16)
+    assert payload["days"][0]["retention"]["href"] == "/app/vocabulary?tab=revision"
+    assert payload["days"][0]["retention"]["gamesHref"] == "/app/vocabulary/games"
+    for index, day in enumerate(payload["days"]):
+        assert day["minutes"] == owner_total_minutes(
+            date.fromisoformat(day["originalDate"].isoformat()))
+        assert day["retention"]["minutesIncludedInVocabulary"] == day["tasks"][5]["minutes"]
+        assert day["retention"]["reviewDays"] == [
+            n for n in (1, 3, 7, 16) if index >= n
+        ]
+        if index:
+            assert day["retention"]["href"] is None
+            assert day["retention"]["gamesHref"] is None
+            assert day["status"] == "locked"
+    assert payload["days"][8]["retention"]["previousTopics"]
+
+
+@pytest.mark.parametrize("correct_distinct,accepted", [(9, False), (10, True)])
+def test_owner_retention_game_fallback_requires_ten_distinct_verified_correct_answers(
+        correct_distinct, accepted):
+    now = datetime(2026, 11, 22, 12, tzinfo=timezone.utc)
+    tasks = make_thirty_day_schedule("B2", START, intensive=True)[0]["tasks"]
+
+    class Fake:
+        def __init__(self):
+            self.writes = []
+
+        async def fetch(self, sql, *args):
+            if "FROM study_plan_30_tasks" in sql:
+                return [
+                    {"kind": task.kind, "minutes": task.minutes,
+                     "source_key": task.source_key, "completed_at": None}
+                    for task in tasks
+                ]
+            return []
+
+        async def fetchrow(self, sql, *args):
+            if "VOCAB_GAME_PRACTICED" in sql:
+                assert "DISTINCT payload->>'entryId'" in sql
+                assert "payload->>'verified'='true'" in sql
+                assert "payload->>'correct'='true'" in sql
+                return {"completed": correct_distinct, "at": now}
+            return None
+
+        async def fetchval(self, sql, *args):
+            return 1
+
+        async def execute(self, sql, *args):
+            self.writes.append((sql, args))
+
+    cycle = {
+        "status": "active", "user_id": "user", "id": "cycle",
+        "current_day": 1, "started_on": START,
+        "timezone": "Asia/Tashkent", "opened_at": now - timedelta(hours=1),
+    }
+    con = Fake()
+    asyncio.run(_sync(con, cycle, now, owner=True))
+    proof = [
+        args for sql, args in con.writes
+        if "UPDATE study_plan_30_tasks" in sql and args[2] == "vocabulary"
+    ]
+    assert bool(proof) is accepted
+    if accepted:
+        assert proof[0][4]["source"] == "vocab_game_recall"
+
+
+def test_student_budget_rejects_owner_intensive_rows():
+    class Fake:
+        async def fetch(self, *args):
+            return [
+                {"kind": task.kind, "minutes": task.minutes,
+                 "completed_at": None}
+                for task in make_thirty_day_schedule("B2", START, intensive=True)[0]["tasks"]
+            ]
+    cycle = {"status": "active", "user_id": "fixture", "id": "cycle",
+             "current_day": 1, "started_on": START, "timezone": "Asia/Tashkent"}
+    with pytest.raises(ValueError, match="invalid_current_day_tasks"):
+        asyncio.run(_sync(Fake(), cycle, datetime.now(timezone.utc)))
 
 
 def test_intensive_writing_favors_task_two_by_two_to_one():

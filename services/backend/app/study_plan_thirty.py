@@ -1,8 +1,8 @@
 """Deterministic 30-day learning schedule built from authentic Grammar catalogues.
 
 The standard daily workload is 120 estimated minutes; the owner IELTS intensive
-track uses 300 minutes. Completion is never inferred
-from opening a link, spending time on the website, or a client-side checkbox.
+track alternates 180-minute course days with 390/420-minute intensive days.
+Completion is never inferred from opening a link or a client-side checkbox.
 """
 from __future__ import annotations
 
@@ -15,7 +15,14 @@ from pathlib import Path
 DAYS = 30
 SUPPORTED_DURATIONS = (7, DAYS)
 TARGET_MINUTES = 120
-OWNER_TARGET_MINUTES = 300
+OWNER_TARGET_MINUTES = 300  # Historical owner cycles remain readable.
+OWNER_LIGHT_MINUTES = 180
+OWNER_HEAVY_MINUTES = 390
+OWNER_SUNDAY_MINUTES = 420
+VALID_DAILY_TOTALS = frozenset((
+    TARGET_MINUTES, OWNER_TARGET_MINUTES, OWNER_LIGHT_MINUTES,
+    OWNER_HEAVY_MINUTES, OWNER_SUNDAY_MINUTES,
+))
 STAGE_NAMES = ("Tushunish", "Mustahkamlash", "Qo‘llash", "Erkin qo‘llash")
 LEVELS = ("A0", "A1", "A2", "B1", "B2", "C1", "C2")
 LEVEL_ALIASES = {
@@ -35,16 +42,33 @@ SUNDAY_WORKLOAD = {
     "grammar": 10, "reading": 60, "listening": 20, "writing": 10,
     "speaking": 10, "vocabulary": 10,
 }
-# Writing/Speaking are the weakest baseline bands; allocate them 55% of
-# the 5-hour daily practice budget, without neglecting receptive skills.
+# Independent study only: Mon/Wed/Fri are in-person course days.
+OWNER_COURSE_WORKLOAD = {
+    "grammar": 15, "reading": 25, "listening": 40, "writing": 40,
+    "speaking": 40, "vocabulary": 20,
+}
 OWNER_WORKLOAD = {
-    "grammar": 20, "reading": 45, "listening": 45, "writing": 90,
-    "speaking": 75, "vocabulary": 25,
+    "grammar": 20, "reading": 75, "listening": 75, "writing": 90,
+    "speaking": 90, "vocabulary": 40,
 }
 OWNER_FULL_MOCK_WORKLOAD = {
-    "grammar": 10, "reading": 60, "listening": 45, "writing": 90,
-    "speaking": 70, "vocabulary": 25,
+    "grammar": 20, "reading": 80, "listening": 90, "writing": 90,
+    "speaking": 90, "vocabulary": 50,
 }
+
+
+def owner_workload_for_date(day: date) -> dict[str, int]:
+    """Course days are lighter than independent-practice days."""
+    if day.weekday() in (0, 2, 4):
+        return OWNER_COURSE_WORKLOAD
+    if day.weekday() == 6:
+        return OWNER_FULL_MOCK_WORKLOAD
+    return OWNER_WORKLOAD
+
+
+def owner_total_minutes(day: date) -> int:
+    return sum(owner_workload_for_date(day).values())
+
 OWNER_PHASES = ("Diagnose and repair", "Build accuracy", "Timed performance",
                 "Exam transfer", "Final consolidation")
 PRACTICE = {
@@ -178,10 +202,7 @@ def make_thirty_day_schedule(level: str, start: date,
                 raise ValueError("insufficient_verified_grammar")
             unit = legacy[(position + (revision - 1) * 7) % len(legacy)]
         calendar_day = start + timedelta(days=offset)
-        minutes = (
-            OWNER_FULL_MOCK_WORKLOAD if calendar_day.weekday() == 6
-            else OWNER_WORKLOAD
-        ) if intensive else (
+        minutes = owner_workload_for_date(calendar_day) if intensive else (
             SUNDAY_WORKLOAD if calendar_day.weekday() == 6
             else WORKLOADS[offset % len(WORKLOADS)]
         )
@@ -218,7 +239,7 @@ def make_thirty_day_schedule(level: str, start: date,
                 )
                 for task in tasks
             ]
-        expected_minutes = OWNER_TARGET_MINUTES if intensive else TARGET_MINUTES
+        expected_minutes = owner_total_minutes(calendar_day) if intensive else TARGET_MINUTES
         if sum(task.minutes for task in tasks) != expected_minutes:
             raise ValueError("invalid_daily_budget")
         result.append({"day": day_number, "date": (start + timedelta(days=offset)).isoformat(),

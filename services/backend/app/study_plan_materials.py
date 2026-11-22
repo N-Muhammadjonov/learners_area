@@ -60,6 +60,28 @@ def _stable_mix(items: list[dict], seed: str) -> list[dict]:
         (seed + ":" + item["source_key"]).encode("utf-8")).hexdigest())
 
 
+def listening_plan_materials(cards: list[dict]) -> list[dict]:
+    """Preserve the authoritative catalogue order, including source ordinals.
+
+    browser_listening.catalogue sorts via listening_order.material_order,
+    which knows original source IDs and the numbered test manifest. Re-sorting
+    titles here previously broke order for renamed and unnumbered tests.
+    """
+    result = []
+    seen = set()
+    for card in cards:
+        test_id = str(card.get("testId") or "")
+        if not test_id or test_id in seen:
+            continue
+        seen.add(test_id)
+        result.append({
+            "source_key": "listening:" + test_id,
+            "title": "Listening — " + str(card.get("title") or "Academic Test"),
+            "href": "/app/listening/tests/" + test_id + "/1",
+        })
+    return result
+
+
 def owner_writing_order(items: list[dict]) -> list[dict]:
     """Interleave two Task 2 prompts for each Task 1, where available.
 
@@ -146,20 +168,38 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
             elif index < len(available):
                 chosen = available[index]
                 cursors[kind] = index + 1
+            elif intensive and available and kind in (
+                "listening", "reading", "general_reading", "writing_exam",
+                "speaking_part1", "speaking_part2", "speaking_part3"
+            ):
+                # Never silently fall back to generic proof after published
+                # material is exhausted. A fresh, verified repeat attempt
+                # for this exact source is still required by the plan engine.
+                chosen = available[index % len(available)]
+                cursors[kind] = index + 1
             else:
                 continue
             if not _usable(chosen):
                 continue
             title = chosen["title"]
+            if intensive and index >= len(available):
+                title = "Repeat for retention — " + title
             if intensive:
-                coaching = {
-                    "reading": "Timed practice, then analyse wrong answers",
-                    "listening": "Transcript, distractors and spelling review",
-                    "writing": "Task 1/2 timed, rubric analysis, then rewrite",
-                    "speaking": "Record, self-transcribe, correct and re-record",
-                }.get(task.kind)
+                course_day = day_date.weekday() in (0, 2, 4)
+                coaching = ({
+                    "reading": "One passage, annotate recurring errors",
+                    "listening": "One verified test, review misheard answers",
+                    "writing": "One timed response, check four rubric criteria",
+                    "speaking": "One recording, transcribe and fix key errors",
+                } if course_day else {
+                    "reading": "Timed test, detailed answer and evidence analysis",
+                    "listening": "Full test, transcript, spelling and distractor drill",
+                    "writing": "Timed response, rubric analysis and paragraph rewrite",
+                    "speaking": "Record, transcribe, correct, re-record and expand answers",
+                }).get(task.kind)
                 if coaching:
-                    title = f"{title} · {coaching}"
+                    intensity = "Course day" if course_day else "Intensive day"
+                    title = f"{title} · {intensity}: {coaching}"
             tasks[slot] = replace(task, title=title[:350],
                                   href=chosen["href"], source_key=chosen["source_key"])
         if day_date.weekday() != 6 and tasks[1].source_key == "reading":
@@ -192,10 +232,10 @@ async def load_owner_pack_pool(con) -> list[dict[str, str]]:
 
 def assign_owner_vocabulary(schedule: list[dict],
                             packs: list[dict[str, str]]) -> list[dict]:
-    """One topic for two days, reviewed on the second day.
+    """One published topic over two days, with verified SRS recall every day.
 
-    Regeneration incorporates newly published topics in untouched future days.
-    The source key stays 'vocab' for server-verified SRS evidence.
+    Newly published topics can be incorporated in untouched future days.
+    Completion requires either 10 due SRS reviews or 10 distinct verified game recalls.
     """
     if not packs:
         return schedule
@@ -203,11 +243,17 @@ def assign_owner_vocabulary(schedule: list[dict],
     for day in schedule:
         index = (day["day"] - 1) // 2
         pack = packs[index % len(packs)]
-        activity = ("Learn, recall and create example sentences"
-                    if day["day"] % 2 else "Spaced recall, games and active use")
+        activity = ("Learn the pack, then complete 10+ real SRS reviews or verified game recalls"
+                    if day["day"] % 2 else
+                    "Retrieve yesterday's words, then complete 10+ SRS reviews or verified game recalls")
+        course_day = date.fromisoformat(day["date"]).weekday() in (0, 2, 4)
+        depth = ("brief recall session" if course_day
+                 else "extended recall, active example sentences and usage drills")
+        retention = ("Retain previous errors (days 1, 3, 7 and 16)"
+                     + " · " + depth)
         tasks = [
             replace(task,
-                    title=f"Topic {index + 1}: {pack['title']} · {activity}"[:350],
+                    title=f"Topic {index + 1}: {pack['title']} · {activity} · {retention}"[:350],
                     href="/app/vocabulary")
             if task.kind == "vocabulary" else task
             for task in day["tasks"]
@@ -274,16 +320,7 @@ async def load_material_pools(con, user: dict, level: str = "B1") -> dict[str, l
         LOG.exception("General Reading plan catalogue unavailable")
     try:
         listening = await listening_catalogue(con, user, "academic_full_test", {})
-        for row in listening.get("cards", []):
-            if not row.get("testId"):
-                continue
-            test_id = str(row["testId"])
-            pools["listening"].append({
-                "source_key": "listening:" + test_id,
-                "title": "Listening — " + str(row.get("title") or "Academic Test"),
-                "href": "/app/listening/tests/" + test_id + "/1",
-            })
-        pools["listening"].sort(key=_test_order)
+        pools["listening"] = listening_plan_materials(listening.get("cards", []))
     except Exception:
         LOG.exception("Listening plan catalogue unavailable")
     try:
