@@ -5,7 +5,7 @@ import {flashcards} from './game-flashcards.js';
 import {classicGame,matchingGame} from './game-classic.js';
 import {typingRace} from './game-race.js';
 import {vocabularyHubTabs} from './hub-tabs.js';
-import {nextHandoffWord,handoffSlice,handoffSourceDeck,mergeHandoffState} from './game-handoff.js';
+import {nextHandoffWord,handoffSlice,handoffSourceDeck,mergeHandoffState,completedHandoffWords} from './game-handoff.js';
 export const gameURL=(id,set,folderId,topicPack,extras={})=>`/app/vocabulary/games/${id}?${params({set,...set==='folder'?{folderId}:{},...set==='topic'?{topicPack}:{},...extras})}`;
 const setQuery=(set,folder,pack)=>params({set,...set==='folder'?{folderId:folder}:{},...set==='topic'?{topicPack:pack}:{}});
 
@@ -72,7 +72,10 @@ export function mountGames(ctx,host,id=null){
   try{
    if(await pendingSave===false)throw Error('unsaved_attempt');
    const full=handoffSourceDeck(attempt,sessionDeck);
-   const next=nextHandoffWord(id,attempt.state??{},full);
+   const completed=new Set(completedHandoffWords(id,attempt,full));
+   const preferred=nextHandoffWord(id,attempt.state??{},full);
+   const next=preferred&&!completed.has(preferred)?preferred:
+    full.find(wordId=>!completed.has(wordId))??null;
    if(!full.length)throw Error('empty_attempt');
    const extras={
     ...(Number.isSafeInteger(sessionBatch)?{batch:sessionBatch}:{}),
@@ -106,6 +109,7 @@ export function mountGames(ctx,host,id=null){
     if(roundSignal.aborted||current!==sequence)return;
     if(!source.attempt)throw Error('handoff_source_missing');
     let full=handoffSourceDeck(source.attempt);
+    const completed=completedHandoffWords(from,source.attempt,full);
     let section=null;
     if(batch!==null){
      section=await request('/api/vocabulary/games?'+query+'&game=cards&batches=1&batch='+batch,options);
@@ -125,14 +129,15 @@ export function mountGames(ctx,host,id=null){
       h('a',{class:'btn-primary w-fit',href:gameURL('cards',selected,folder,pack,batch!==null?{batch}:{})},g.cards)));
      renderSwitcher();return;
     }
-    if(!cursor||!full.includes(cursor))throw Error('handoff_cursor_changed');
-    handoff={sourceDeck:full,cursor,batchIndex:batch};
+    if(!cursor||!full.includes(cursor)||completed.includes(cursor))throw Error('handoff_cursor_changed');
+    handoff={sourceDeck:full,cursor,batchIndex:batch,completed:completed.filter(wordId=>full.includes(wordId))};
     if(id==='cards'){
      data=section??await request('/api/vocabulary/games?'+query+'&game=cards&batches=1'+(batch!==null?'&batch='+batch:''),options);
     }else{
-     const ids=handoffSlice(full,cursor,24);
+     const ids=handoffSlice(full,cursor,24).filter(wordId=>!handoff.completed.includes(wordId));
      if(!ids.length)throw Error('handoff_deck_empty');
      data=await request('/api/vocabulary/games?'+query+'&limit=24&game='+id+'&entryIds='+encodeURIComponent(ids.join(',')),options);
+     if(!guardArray(data,'words').some(word=>word.id===cursor))throw Error('handoff_word_not_eligible');
     }
    }else{
     data=await request('/api/vocabulary/games?'+query+
@@ -179,8 +184,9 @@ export function mountGames(ctx,host,id=null){
    if(!attempt){
     const initial=handoff
      ?mergeHandoffState(id,id==='cards'
-       ?{deck:handoff.sourceDeck,index:handoff.sourceDeck.indexOf(handoff.cursor)}
-       :{},sessionDeck,sessionBatch)
+       ?{deck:handoff.sourceDeck,index:handoff.sourceDeck.indexOf(handoff.cursor),
+         _handoff:{completed:handoff.completed}}
+       :{_handoff:{completed:handoff.completed}},sessionDeck,sessionBatch)
      :initialGroup?mergeHandoffState(id,{},sessionDeck,sessionBatch):{};
     const created=await request('/api/vocabulary/games',{method:'POST',body:{
      ...scope(),action:'start',deck:words.map(w=>w.id),state:initial
@@ -230,11 +236,16 @@ export function mountGames(ctx,host,id=null){
    else if(id==='match')matchingGame(gameCtx,game,props);
    else classicGame(gameCtx,game,props);
    renderSwitcher();
-  }catch{
+  }catch(error){
    if(!signal.aborted&&current===sequence){
     renderHead(null,false,true);
     game.replaceChildren(h('div',{class:'card flex items-center gap-3 p-4 text-sm text-band-bad',role:'alert'},
-     h('p',{},g.loadError),h('button',{type:'button',class:'btn-secondary','data-game-load-retry':'',
+     h('p',{},error?.message==='handoff_word_not_eligible'
+       ?ctx.locale==='uz'
+        ?'Joriy so‘z bu o‘yinga mos emas. Boshqa o‘yinni tanlang yoki Flashcards’da davom eting.'
+        :'This word is not supported by this game. Choose another game or continue in Flashcards.'
+       :g.loadError),
+      h('button',{type:'button',class:'btn-secondary','data-game-load-retry':'',
       onClick:()=>metaFailed?void init():void load()},dict.errorPage.retry)));
    }
   }
