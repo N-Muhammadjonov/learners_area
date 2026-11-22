@@ -67,9 +67,9 @@ def owner_writing_order(items: list[dict]) -> list[dict]:
     remains usable without an invented classification.
     """
     part1 = [item for item in items
-             if re.search(r"task[\\s_-]*1\\b", str(item.get("task_type") or ""), re.I)]
+             if re.search(r"task[\s_-]*1\b", str(item.get("task_type") or ""), re.I)]
     part2 = [item for item in items
-             if re.search(r"task[\\s_-]*2\\b", str(item.get("task_type") or ""), re.I)]
+             if re.search(r"task[\s_-]*2\b", str(item.get("task_type") or ""), re.I)]
     known = {id(item) for item in part1 + part2}
     other = [item for item in items if id(item) not in known]
     if not part1 or not part2:
