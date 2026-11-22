@@ -60,6 +60,28 @@ def _stable_mix(items: list[dict], seed: str) -> list[dict]:
         (seed + ":" + item["source_key"]).encode("utf-8")).hexdigest())
 
 
+def listening_plan_materials(cards: list[dict]) -> list[dict]:
+    """Preserve the authoritative catalogue order, including source ordinals.
+
+    browser_listening.catalogue sorts via listening_order.material_order,
+    which knows original source IDs and the numbered test manifest. Re-sorting
+    titles here previously broke order for renamed and unnumbered tests.
+    """
+    result = []
+    seen = set()
+    for card in cards:
+        test_id = str(card.get("testId") or "")
+        if not test_id or test_id in seen:
+            continue
+        seen.add(test_id)
+        result.append({
+            "source_key": "listening:" + test_id,
+            "title": "Listening — " + str(card.get("title") or "Academic Test"),
+            "href": "/app/listening/tests/" + test_id + "/1",
+        })
+    return result
+
+
 def owner_writing_order(items: list[dict]) -> list[dict]:
     """Interleave two Task 2 prompts for each Task 1, where available.
 
@@ -192,10 +214,10 @@ async def load_owner_pack_pool(con) -> list[dict[str, str]]:
 
 def assign_owner_vocabulary(schedule: list[dict],
                             packs: list[dict[str, str]]) -> list[dict]:
-    """One topic for two days, reviewed on the second day.
+    """One published topic over two days, with verified SRS recall every day.
 
-    Regeneration incorporates newly published topics in untouched future days.
-    The source key stays 'vocab' for server-verified SRS evidence.
+    Newly published topics can be incorporated in untouched future days.
+    Completion stays tied to at least 10 real VOCAB_REVIEWED events.
     """
     if not packs:
         return schedule
@@ -203,11 +225,13 @@ def assign_owner_vocabulary(schedule: list[dict],
     for day in schedule:
         index = (day["day"] - 1) // 2
         pack = packs[index % len(packs)]
-        activity = ("Learn, recall and create example sentences"
-                    if day["day"] % 2 else "Spaced recall, games and active use")
+        activity = ("Learn the pack, then complete 10+ real SRS reviews"
+                    if day["day"] % 2 else
+                    "Retrieve yesterday's words, then complete 10+ SRS reviews")
+        retention = "Retain previous errors (days 1, 3, 7 and 14)"
         tasks = [
             replace(task,
-                    title=f"Topic {index + 1}: {pack['title']} · {activity}"[:350],
+                    title=f"Topic {index + 1}: {pack['title']} · {activity} · {retention}"[:350],
                     href="/app/vocabulary")
             if task.kind == "vocabulary" else task
             for task in day["tasks"]
@@ -274,16 +298,7 @@ async def load_material_pools(con, user: dict, level: str = "B1") -> dict[str, l
         LOG.exception("General Reading plan catalogue unavailable")
     try:
         listening = await listening_catalogue(con, user, "academic_full_test", {})
-        for row in listening.get("cards", []):
-            if not row.get("testId"):
-                continue
-            test_id = str(row["testId"])
-            pools["listening"].append({
-                "source_key": "listening:" + test_id,
-                "title": "Listening — " + str(row.get("title") or "Academic Test"),
-                "href": "/app/listening/tests/" + test_id + "/1",
-            })
-        pools["listening"].sort(key=_test_order)
+        pools["listening"] = listening_plan_materials(listening.get("cards", []))
     except Exception:
         LOG.exception("Listening plan catalogue unavailable")
     try:
