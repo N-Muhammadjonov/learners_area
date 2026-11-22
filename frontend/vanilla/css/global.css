@@ -61,6 +61,21 @@ html[data-theme="night"] #root [data-owner-academic-filters] input[type="search"
   display:grid; grid-template-columns:repeat(1,minmax(0,1fr));
   gap:14px; align-items:stretch; width:100%; min-width:0;
 }
+/* Practice guidance follows the game grid instead of competing with the cards. */
+.vocabulary-games-practice-note {
+  margin-top:clamp(36px,4.5vw,64px);
+  padding:18px 4px 4px;
+  border-top:1px solid rgb(var(--ink-100));
+  max-width:62rem;
+}
+.vocabulary-games-practice-note h2 {
+  margin:0;
+}
+.vocabulary-games-practice-note p {
+  margin-top:8px;
+  max-width:75ch;
+  line-height:1.65;
+}
 .vocabulary-game-tile {
   position:relative; display:flex; min-width:0; min-height:206px;
   flex-direction:column; align-items:flex-start; gap:8px;
