@@ -156,14 +156,18 @@ def enrich_owner_plan(days: list[dict], videos: dict[str, dict],
             if kind == "article":
                 if key not in ARTICLES:
                     raise ValueError("unknown_owner_article")
-                tasks[1] = replace(tasks[1], minutes=tasks[1].minutes - MEDIA_MINUTES)
+                # Preserve enough time for a 60-minute full Academic Reading
+                # assessment. Use part of the extended Vocabulary allowance.
+                tasks[5] = replace(tasks[5], minutes=tasks[5].minutes - MEDIA_MINUTES)
                 tasks.append(PlanTask(
                     number, 7, "article",
                     f"Article — {ARTICLES[key]} · {objective}; complete all questions"[:350],
                     "/app/reading/articles/" + key, "article:" + key, MEDIA_MINUTES,
                 ))
             elif video := videos.get(key):
-                tasks[2] = replace(tasks[2], minutes=tasks[2].minutes - MEDIA_MINUTES)
+                # Listening is itself a full 40-question timed paper; keep
+                # sufficient minutes for the recording and transcript review.
+                tasks[5] = replace(tasks[5], minutes=tasks[5].minutes - MEDIA_MINUTES)
                 tasks.append(PlanTask(
                     number, 7, "video",
                     f"TED — {video['title']} · {objective}; shadow and summarise"[:350],
