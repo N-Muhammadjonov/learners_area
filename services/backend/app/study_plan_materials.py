@@ -185,14 +185,21 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
             if intensive and index >= len(available):
                 title = "Repeat for retention — " + title
             if intensive:
-                coaching = {
-                    "reading": "Timed practice, then analyse wrong answers",
-                    "listening": "Transcript, distractors and spelling review",
-                    "writing": "Task 1/2 timed, rubric analysis, then rewrite",
-                    "speaking": "Record, self-transcribe, correct and re-record",
-                }.get(task.kind)
+                course_day = day_date.weekday() in (0, 2, 4)
+                coaching = ({
+                    "reading": "One passage, annotate recurring errors",
+                    "listening": "One verified test, review misheard answers",
+                    "writing": "One timed response, check four rubric criteria",
+                    "speaking": "One recording, transcribe and fix key errors",
+                } if course_day else {
+                    "reading": "Timed test, detailed answer and evidence analysis",
+                    "listening": "Full test, transcript, spelling and distractor drill",
+                    "writing": "Timed response, rubric analysis and paragraph rewrite",
+                    "speaking": "Record, transcribe, correct, re-record and expand answers",
+                }).get(task.kind)
                 if coaching:
-                    title = f"{title} · {coaching}"
+                    intensity = "Course day" if course_day else "Intensive day"
+                    title = f"{title} · {intensity}: {coaching}"
             tasks[slot] = replace(task, title=title[:350],
                                   href=chosen["href"], source_key=chosen["source_key"])
         if day_date.weekday() != 6 and tasks[1].source_key == "reading":
@@ -239,7 +246,11 @@ def assign_owner_vocabulary(schedule: list[dict],
         activity = ("Learn the pack, then complete 10+ real SRS reviews"
                     if day["day"] % 2 else
                     "Retrieve yesterday's words, then complete 10+ SRS reviews")
-        retention = "Retain previous errors (days 1, 3, 7 and 14)"
+        course_day = date.fromisoformat(day["date"]).weekday() in (0, 2, 4)
+        depth = ("brief recall session" if course_day
+                 else "extended recall, active example sentences and usage drills")
+        retention = ("Retain previous errors (days 1, 3, 7 and 14)"
+                     + " · " + depth)
         tasks = [
             replace(task,
                     title=f"Topic {index + 1}: {pack['title']} · {activity} · {retention}"[:350],
