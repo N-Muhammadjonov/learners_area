@@ -40,7 +40,7 @@ export function dailyReward({session,signal,client,storage}){
   const claimButton=el('button',{type:'button',class:'btn-primary daily-reward-claim','data-daily-reward-claim':''},t('Olish','Claim'));
   const link=(label,href)=>{const a=el('a',{href,class:'btn-secondary'},label);listen(a,'click',event=>{
    if(event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-   event.preventDefault();remove();void context.navigate(href);
+   event.preventDefault();seen.add(state.date);remove();void context.navigate(href);
   },signal);return a;};
   dialog=el('dialog',{class:'daily-reward-dialog','data-daily-reward':'','aria-labelledby':'daily-reward-title','aria-describedby':'daily-reward-description'},
    close,goldCoin(),el('h2',{id:'daily-reward-title'},t('Kunlik mukofot','Daily reward')),
@@ -70,10 +70,10 @@ export function dailyReward({session,signal,client,storage}){
    }
   }
   listen(claimButton,'click',()=>void claim(),signal);
-  const dismiss=()=>{markSeen(state.date);remove();};
+  const dismiss=()=>{seen.add(state.date);remove();};
   listen(close,'click',dismiss,signal);
   listen(dialog,'cancel',event=>{event.preventDefault();dismiss();},signal);
-  listen(dialog,'close',()=>{markSeen(state.date);remove();},signal);
+  listen(dialog,'close',()=>{seen.add(state.date);remove();},signal);
   returnFocus=document.activeElement;
   document.body.append(dialog);
   try{
