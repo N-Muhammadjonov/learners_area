@@ -87,6 +87,10 @@ def test_retention_article_ted_are_real_tasks_with_no_extra_time():
         assert len(before["tasks"]) == 6
         assert sum(task.minutes for task in after["tasks"]) == owner_total_minutes(
             date.fromisoformat(after["date"]))
+        on = date.fromisoformat(after["date"])
+        if on.weekday() not in (0, 2, 4):
+            assert after["tasks"][1].minutes >= 60, "A full Academic Reading paper needs an hour"
+            assert after["tasks"][2].minutes >= 60, "Listening and transcript analysis need adequate time"
         assert [task.source_key for task in before["tasks"]] == [
             task.source_key for task in after["tasks"][:6]]
         assert [task.href for task in before["tasks"]] == [
