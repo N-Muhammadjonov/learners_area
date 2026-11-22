@@ -17,22 +17,22 @@ def words():
     packs=json.loads((ROOT/'vocabulary_builtin_packs.json').read_text(encoding='utf-8'))
     return next(p['words'] for p in packs if p['id']=='environment')
 
-def test_221_translations_are_complete_and_playable_in_all_seven_games():
+def test_223_translations_are_complete_and_playable_in_all_seven_games():
     entries=words()
-    assert len(entries)==221
+    assert len(entries)==223
     assert entries[0]['term']=='acid rain'
     assert entries[151]['term']=='independent nation'
     assert entries[-1]['term']=='semi-arid'
     assert {'agricultural runoff','deforestation','critically endangered species',
             'renewable energy','monsoon','IUCN Red List'} <= {w['term'] for w in entries}
-    assert len({sense_key(w) for w in entries})==221
+    assert len({sense_key(w) for w in entries})==223
     for entry in entries:
         for key,maxlen in (('term',120),('definitionEn',500),('translationUz',500),('example',500)):
             assert isinstance(entry[key],str) and 0<len(entry[key])<=maxlen
         assert len(entry.get('acceptedTranslations',[]))<=4
     projected=[{'id':str(i+1),'exampleSentence':w['example'],**w} for i,w in enumerate(entries)]
     for game in ('cards','choice','match','gap','race','translation','builder'):
-        assert len(eligible_words(projected,game))==221,game
+        assert len(eligible_words(projected,game))==223,game
     assert gap_prompt(projected[93])=='It felt ______ by the coast.'
     assert gap_prompt(projected[107])=='Take an umbrella: ______.'
     assert gap_prompt(projected[120])=='Investment slowed in the current ______.'
@@ -44,8 +44,8 @@ def test_source_groups_keep_original_152_words_and_all_added_sections():
     entries=words()
     groups=json.loads((ROOT/'vocabulary_pack_groups.json').read_text(encoding='utf-8'))['environment']
     assert len(groups)==11
-    assert [g['end']-g['start'] for g in groups]==[23,32,29,9,25,19,15,24,24,12,9]
-    assert groups[0]['start']==0 and groups[-1]['end']==221
+    assert [g['end']-g['start'] for g in groups]==[23,32,29,9,25,19,15,24,24,14,9]
+    assert groups[0]['start']==0 and groups[-1]['end']==223
     assert groups[6]['end']==152
     assert all(groups[i]['end']==groups[i+1]['start'] for i in range(10))
     source_groups.cache_clear()
@@ -60,9 +60,9 @@ def test_source_groups_keep_original_152_words_and_all_added_sections():
     parts=named_parts(records)
     assert [label for label,_ in parts]==[g['label'] for g in groups]
     ordered=[entry for _,part in parts for entry in part]
-    assert ordered==[str(i+1) for i in range(221)]
+    assert ordered==[str(i+1) for i in range(223)]
     plan=batch_plan(ordered,{},parts)
-    assert len(plan)==11 and sum(p['count'] for p in plan)==221
+    assert len(plan)==11 and sum(p['count'] for p in plan)==223
     assert [p['unlocked'] for p in plan]==[True]+[False]*10
 
 def test_environment_fallback_import_preserves_translations_and_synonyms():
@@ -91,14 +91,14 @@ def test_environment_fallback_import_preserves_translations_and_synonyms():
         with patch.object(port.core,'current_user',AsyncMock(return_value={'id':actor})),\
              patch.object(port.core,'payload',AsyncMock(return_value={'packId':'environment'})),\
              patch.object(port.core,'pool',AsyncMock(return_value=Pool())),\
-             patch.object(port,'add_batch',AsyncMock(return_value={'ok':True,'added':221,'duplicates':0,'points':0})) as add:
+             patch.object(port,'add_batch',AsyncMock(return_value={'ok':True,'added':223,'duplicates':0,'points':0})) as add:
             req=Request({'type':'http','method':'POST','path':'/api/vocabulary/packs',
                          'query_string':b'','headers':[],'scheme':'https','server':('test.invalid',443)})
             response=await port.add_pack(req)
             assert response.status_code==200
-            assert json.loads(response.body)=={'ok':True,'added':221,'duplicates':0,'points':0}
+            assert json.loads(response.body)=={'ok':True,'added':223,'duplicates':0,'points':0}
             items=add.call_args.args[2]
-            assert len(items)==221
+            assert len(items)==223
             assert items[93]['acceptedTranslations']==['chilly','nippy']
             assert all(w['authored'] is True and w['translationUz'] for w in items)
             assert add.call_args.kwargs=={'topic_pack':'environment','source_type':'topic_pack','folder_id':folder}
