@@ -92,6 +92,8 @@ def test_listening_order_uses_original_manifest_instead_of_title_sorting():
     assert assigned[3]["tasks"][2].source_key == "listening:test1"
     assert "Repeat for retention" in assigned[3]["tasks"][2].title
     assert assigned[3]["tasks"][2].href == "/app/listening/tests/test1/1"
+    assert "Course day" in assigned[1]["tasks"][2].title
+    assert "Intensive day" in assigned[0]["tasks"][2].title
 
 
 def test_owner_server_retention_is_real_and_locked_links_are_hidden():
