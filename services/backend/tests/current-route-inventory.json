@@ -2315,6 +2315,11 @@
     "name": "add_pack"
   },
   {
+    "method": "POST",
+    "path": "/api/vocabulary/packs/public",
+    "name": "publish_public_pack"
+  },
+  {
     "method": "DELETE",
     "path": "/api/vocabulary/packs/{pack_id}",
     "name": "remove_pack"
