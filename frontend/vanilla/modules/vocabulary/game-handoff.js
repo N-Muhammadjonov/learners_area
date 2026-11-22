@@ -28,6 +28,21 @@ export function handoffSlice(sourceDeck, cursor, limit = 24) {
   return sourceDeck.slice(sourceDeck.indexOf(cursor), sourceDeck.indexOf(cursor) + Math.min(24, Math.max(1, limit)));
 }
 
+/** Includes previously played words and non-linear matching pairs without data loss. */
+export function completedHandoffWords(gameId,attempt,sourceDeck=[]) {
+  const state=attempt?.state??{},all=new Set(sourceDeck),
+    completed=new Set(Array.isArray(state._handoff?.completed)?state._handoff.completed:[]);
+  if(gameId==='match'){
+    for(const id of Array.isArray(state.matched)?state.matched:[])completed.add(id);
+  }else{
+    const deck=Array.isArray(state.deck)?state.deck:[],
+      index=gameId==='race'&&state.finished===true?deck.length:
+        Number.isSafeInteger(state.index)?Math.max(0,Math.min(deck.length,state.index)):0;
+    for(const id of deck.slice(0,index))completed.add(id);
+  }
+  return [...completed].filter(id=>all.has(id));
+}
+
 export function handoffSourceDeck(attempt, fallback = []) {
   const stored = attempt?.state?._handoff?.sourceDeck;
   const source = Array.isArray(stored) && stored.length ? stored : (
@@ -50,6 +65,8 @@ export function mergeHandoffState(gameId, state, sourceDeck, batchIndex) {
     ...state,
     _handoff: {
       sourceDeck: canonical,
+      ...(Array.isArray(state?._handoff?.completed)
+        ? {completed:state._handoff.completed.filter(id=>canonical.includes(id))} : {}),
       ...(Number.isSafeInteger(batchIndex) ? {batchIndex} : {})
     }
   };
