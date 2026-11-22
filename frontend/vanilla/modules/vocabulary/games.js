@@ -221,7 +221,7 @@ export function mountGames(ctx,host,id=null){
     finally{busyAnswers=Math.max(0,busyAnswers-1);if(!roundSignal.aborted)renderSwitcher();}
    };
    const props={id,words,source:source(),marks:data.selfAssessments??{},answer,
-    batches:data.batches,batchIndex:data.batchIndex,ordered:!!handoff||!!initialGroup,
+    batches:data.batches,batchIndex:data.batchIndex,ordered:id==='cards'?!!handoff:true,
     progress:attempt.state??{},save,onRetry:restartAttempt,
     onBatch:next=>{batch=next;from=null;cursor=null;address();void load();}
    };
