@@ -41,9 +41,9 @@ export function handoffSourceDeck(attempt, fallback = []) {
 export function mergeHandoffState(gameId, state, sourceDeck, batchIndex) {
   const prior = state?._handoff?.sourceDeck;
   // A fresh flashcard pass may shuffle its deck; that is the order to preserve.
-  const roundOrder = gameId === 'match' ? state?.left : state?.deck;
+  const roundOrder = state?.deck;
   const canonical = Array.isArray(prior) && prior.length ? prior :
-    Array.isArray(roundOrder) && roundOrder.length
+    gameId === 'cards' && Array.isArray(roundOrder) && roundOrder.length
       ? [...roundOrder,...sourceDeck.filter(id => !roundOrder.includes(id))]
       : sourceDeck;
   return {
