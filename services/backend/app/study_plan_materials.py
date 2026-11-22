@@ -60,6 +60,28 @@ def _stable_mix(items: list[dict], seed: str) -> list[dict]:
         (seed + ":" + item["source_key"]).encode("utf-8")).hexdigest())
 
 
+def owner_writing_order(items: list[dict]) -> list[dict]:
+    """Interleave two Task 2 prompts for each Task 1, where available.
+
+    Task 2 counts twice in the official IELTS Writing score. Unknown metadata
+    remains usable without an invented classification.
+    """
+    part1 = [item for item in items
+             if re.search(r"task[\\s_-]*1\\b", str(item.get("task_type") or ""), re.I)]
+    part2 = [item for item in items
+             if re.search(r"task[\\s_-]*2\\b", str(item.get("task_type") or ""), re.I)]
+    known = {id(item) for item in part1 + part2}
+    other = [item for item in items if id(item) not in known]
+    if not part1 or not part2:
+        return items
+    result = []
+    while part1 or part2:
+        for bucket in (part2, part2, part1):
+            if bucket:
+                result.append(bucket.pop(0))
+    return result + other
+
+
 def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                      *, revision: int = 1,
                      intensive: bool = False) -> list[dict]:
@@ -70,6 +92,7 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
     has been verified; the 30-day engine enforces that prerequisite.
     """
     cursors: dict[str, int] = {}
+    owner_writing = owner_writing_order(pools.get("writing_exam") or []) if intensive else []
     result: list[dict] = []
     general = sorted((pools.get("general_reading") or []), key=_general_order)
     general_tiers = [
@@ -103,6 +126,8 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                 available = general_tiers[week]
                 if not available:
                     available = general
+            elif intensive and kind == "writing_exam":
+                available = owner_writing
             else:
                 available = pools.get(kind) or []
             if not available and kind in ("writing_lesson", "typing"):
@@ -276,6 +301,7 @@ async def load_material_pools(con, user: dict, level: str = "B1") -> dict[str, l
                 "source_key": "writing:" + prompt_id,
                 "title": "Writing — " + str(row["category"] or row["task_type"] or "Task"),
                 "href": "/app/writing/prompts/" + prompt_id,
+                "task_type": str(row["task_type"] or ""),
             })
     except Exception:
         LOG.exception("Writing plan catalogue unavailable")
