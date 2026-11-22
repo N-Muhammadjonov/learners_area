@@ -16,6 +16,7 @@ from .browser_common import live
 from .browser_listening import catalogue as listening_catalogue
 from .browser_reading import academic_catalogue
 from .study_plan_thirty import level_range, read_grammar_catalog
+from .vocabulary_packs_port import built_in_summaries
 
 LOG = logging.getLogger(__name__)
 
@@ -60,7 +61,8 @@ def _stable_mix(items: list[dict], seed: str) -> list[dict]:
 
 
 def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
-                     *, revision: int = 1) -> list[dict]:
+                     *, revision: int = 1,
+                     intensive: bool = False) -> list[dict]:
     """Sunday: one Academic full Reading test. Other days: one General passage.
 
     Listening and Sunday Academic Reading start from Test 1 for each new cycle.
@@ -81,8 +83,11 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
         offset = day["day"] - 1
         week = min(3, offset // 7)
         day_of_week = offset % 7
-        writing_kind = WRITING_PATTERN[week][day_of_week]
-        speaking_kind = SPEAKING_PATTERN[week][day_of_week]
+        writing_kind = "writing_exam" if intensive else WRITING_PATTERN[week][day_of_week]
+        speaking_kind = (
+            ("speaking_part1", "speaking_part2", "speaking_part3")[offset % 3]
+            if intensive else SPEAKING_PATTERN[week][day_of_week]
+        )
         choices = {
             "reading": "reading" if day_date.weekday() == 6 else "general_reading",
             "listening": "listening",
@@ -120,7 +125,17 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                 continue
             if not _usable(chosen):
                 continue
-            tasks[slot] = replace(task, title=chosen["title"][:350],
+            title = chosen["title"]
+            if intensive:
+                coaching = {
+                    "reading": "Timed practice, then analyse wrong answers",
+                    "listening": "Transcript, distractors and spelling review",
+                    "writing": "Task 1/2 timed, rubric analysis, then rewrite",
+                    "speaking": "Record, self-transcribe, correct and re-record",
+                }.get(task.kind)
+                if coaching:
+                    title = f"{title} · {coaching}"
+            tasks[slot] = replace(task, title=title[:350],
                                   href=chosen["href"], source_key=chosen["source_key"])
         if day_date.weekday() != 6 and tasks[1].source_key == "reading":
             tasks[1] = replace(tasks[1], title="General Reading — one passage",
@@ -128,6 +143,50 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
         elif day_date.weekday() == 6 and tasks[1].source_key == "reading":
             tasks[1] = replace(tasks[1], title="Academic Reading — full test",
                                href="/app/reading/academic")
+        result.append({**day, "tasks": tasks})
+    return result
+
+
+async def load_owner_pack_pool(con) -> list[dict[str, str]]:
+    """Schedule only published topics, with the original built-in fallback."""
+    rows = await con.fetch("""SELECT slug,label_en FROM vocabulary_topic_packs
+        WHERE publication_state='published'
+        ORDER BY position ASC,label_en ASC""")
+    packs = [{"slug": row["slug"], "title": row["label_en"]} for row in rows]
+    builtins = built_in_summaries()
+    if not rows:
+        packs = [{"slug": item["id"], "title": item["label"]}
+                 for item in builtins]
+    else:
+        existing = {item["slug"] for item in packs}
+        for item in builtins:
+            if item["id"] in ("art", "environment") and item["id"] not in existing:
+                packs.append({"slug": item["id"], "title": item["label"]})
+    return packs
+
+
+def assign_owner_vocabulary(schedule: list[dict],
+                            packs: list[dict[str, str]]) -> list[dict]:
+    """One topic for two days, reviewed on the second day.
+
+    Regeneration incorporates newly published topics in untouched future days.
+    The source key stays 'vocab' for server-verified SRS evidence.
+    """
+    if not packs:
+        return schedule
+    result = []
+    for day in schedule:
+        index = (day["day"] - 1) // 2
+        pack = packs[index % len(packs)]
+        activity = ("Learn, recall and create example sentences"
+                    if day["day"] % 2 else "Spaced recall, games and active use")
+        tasks = [
+            replace(task,
+                    title=f"Topic {index + 1}: {pack['title']} · {activity}"[:350],
+                    href="/app/vocabulary")
+            if task.kind == "vocabulary" else task
+            for task in day["tasks"]
+        ]
         result.append({**day, "tasks": tasks})
     return result
 
