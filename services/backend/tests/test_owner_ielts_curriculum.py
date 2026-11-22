@@ -11,6 +11,7 @@ from app.study_plan_thirty import make_thirty_day_schedule, owner_total_minutes
 from app.study_plan_owner_curriculum import (
     ARTICLES, MEDIA_MINUTES, OWNER_GRAMMAR_SEQUENCE, OWNER_MEDIA_DAYS,
     SRS_DELAYS, enrich_owner_plan, select_owner_grammar,
+    owner_media_assignments,
 )
 from app.study_plan_thirty_port import _owner_slots_valid, _sync
 
@@ -83,6 +84,21 @@ def test_retention_article_ted_are_real_tasks_with_no_extra_time():
             else:
                 assert media.href.startswith("/app/video-lessons/")
                 assert media.source_key == "video:" + video_pool()[source]["id"]
+
+
+def test_media_stays_on_real_intensive_days_after_owner_start_date_rebase():
+    monday = date(2026, 11, 23)
+    base = make_thirty_day_schedule("B2", monday, intensive=True)
+    media = owner_media_assignments(base)
+    assert len(media) == len(OWNER_MEDIA_DAYS) == 12
+    assert sorted(media) == [2, 4, 6, 9, 11, 13, 16, 18, 20, 23, 25, 27]
+    assert all(date.fromisoformat(base[day - 1]["date"]).weekday() in (1, 3, 5)
+               for day in media)
+    plan = enrich_owner_plan(base, video_pool(), level="B2")
+    assert [day["day"] for day in plan if len(day["tasks"]) == 8] == list(media)
+    for day in plan:
+        assert sum(task.minutes for task in day["tasks"]) == owner_total_minutes(
+            date.fromisoformat(day["date"]))
 
 
 def test_owner_supplements_are_not_fabricated_when_video_is_unpublished():
