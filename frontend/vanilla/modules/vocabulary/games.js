@@ -94,7 +94,7 @@ export function mountGames(ctx,host,id=null){
   try{
    const query=setQuery(selected,folder,pack);
    const options={signal:roundSignal,timeoutMs:12000};
-   let data,handoff=null;
+   let data,handoff=null,initialGroup=null;
    if(id&&from){
     const sourceScope={
      gameId:from,set:selected,
@@ -152,6 +152,16 @@ export function mountGames(ctx,host,id=null){
    }
    if(roundSignal.aborted||current!==sequence)return;
    if(!id){renderHead(data);library(data);return;}
+   if(!handoff&&!attempt&&id!=='cards'&&['topic','folder'].includes(selected)){
+    initialGroup=await request('/api/vocabulary/games?'+query+'&game=cards&batches=1',options);
+    if(roundSignal.aborted||current!==sequence)return;
+    const all=guardArray(initialGroup,'words').map(word=>word.id);
+    // A matching game's source deck must remain in the same authored section.
+    if(all.length){
+     data=await request('/api/vocabulary/games?'+query+'&limit=24&game='+id+
+      '&entryIds='+encodeURIComponent(all.slice(0,24).join(',')),options);
+    }
+   }
    let words=guardArray(data,'words');
    if(attempt){
     const lookup=new Map(words.map(w=>[w.id,w]));
@@ -159,8 +169,9 @@ export function mountGames(ctx,host,id=null){
     words=attempt.deck.map(entry=>lookup.get(entry));
    }
    sessionBatch=Number.isSafeInteger(data.batchIndex)?data.batchIndex:
-    Number.isSafeInteger(attempt?.state?._handoff?.batchIndex)?attempt.state._handoff.batchIndex:batch;
-   sessionDeck=handoff?.sourceDeck??handoffSourceDeck(attempt,words.map(w=>w.id));
+    Number.isSafeInteger(attempt?.state?._handoff?.batchIndex)?attempt.state._handoff.batchIndex:
+    Number.isSafeInteger(initialGroup?.batchIndex)?initialGroup.batchIndex:batch;
+   sessionDeck=handoff?.sourceDeck??(initialGroup?initialGroup.words.map(w=>w.id):handoffSourceDeck(attempt,words.map(w=>w.id)));
    if(!words.length){
     renderHead(data);game.replaceChildren(h('p',{class:'card p-4 text-sm text-ink-500',role:'status','data-game-empty':''},
      data.total?g.noEligible:g.noWordsInSet));renderSwitcher();return;
@@ -170,7 +181,7 @@ export function mountGames(ctx,host,id=null){
      ?mergeHandoffState(id,id==='cards'
        ?{deck:handoff.sourceDeck,index:handoff.sourceDeck.indexOf(handoff.cursor)}
        :{},sessionDeck,sessionBatch)
-     :{};
+     :initialGroup?mergeHandoffState(id,{},sessionDeck,sessionBatch):{};
     const created=await request('/api/vocabulary/games',{method:'POST',body:{
      ...scope(),action:'start',deck:words.map(w=>w.id),state:initial
     },signal:roundSignal,timeoutMs:12000});
@@ -210,7 +221,7 @@ export function mountGames(ctx,host,id=null){
     finally{busyAnswers=Math.max(0,busyAnswers-1);if(!roundSignal.aborted)renderSwitcher();}
    };
    const props={id,words,source:source(),marks:data.selfAssessments??{},answer,
-    batches:data.batches,batchIndex:data.batchIndex,ordered:!!handoff,
+    batches:data.batches,batchIndex:data.batchIndex,ordered:!!handoff||!!initialGroup,
     progress:attempt.state??{},save,onRetry:restartAttempt,
     onBatch:next=>{batch=next;from=null;cursor=null;address();void load();}
    };
