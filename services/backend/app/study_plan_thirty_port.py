@@ -321,13 +321,13 @@ async def start_plan(req: Request) -> JSONResponse:
     now = datetime.now(timezone.utc)
     pool = await core.pool()
     async with pool.acquire() as con, con.transaction():
+        is_owner = user["role"] == "owner"
         if await con.fetchrow(CYCLE, user["id"]):
             return response(await _current(con, user["id"], now, owner=is_owner))
         level, zone = await _profile(con, user["id"])
         if level is None:
             return failure("level_required", 409)
         today = now.astimezone(zone).date()
-        is_owner = user["role"] == "owner"
         plan = assign_materials(
             make_thirty_day_schedule(level, today, days=days, intensive=is_owner),
             await load_material_pools(con, user, level), intensive=is_owner)
