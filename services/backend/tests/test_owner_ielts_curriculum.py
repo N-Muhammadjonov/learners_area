@@ -14,6 +14,7 @@ from app.study_plan_owner_curriculum import (
     owner_media_assignments,
 )
 from app.study_plan_thirty_port import _owner_slots_valid, _sync
+from app.study_plan_materials import assign_materials
 
 
 START = date(2026, 11, 22)
@@ -41,6 +42,33 @@ def test_grammar_is_source_authored_and_exam_accuracy_first():
                    for day in make_thirty_day_schedule("B1", START))
     assert not any("IELTS 7+ Grammar" in day["tasks"][0].title
                    for day in make_thirty_day_schedule("B2", START))
+
+
+def test_ielts_academic_reading_is_full_on_intensive_days_and_passage_on_course_days():
+    pools = {
+        "reading": [{"source_key": f"reading:test_{i}",
+                     "title": f"Academic Reading Test {i}",
+                     "href": f"/app/reading/academic/{i}"}
+                    for i in range(1, 20)],
+        "general_reading": [{"source_key": f"reading-practice:passage_{i}",
+                             "title": f"Reading Passage {i}",
+                             "href": f"/app/reading/general/{i}?passage=1",
+                             "minutes": 20, "question_count": 13}
+                            for i in range(1, 40)],
+    }
+    monday = date(2026, 11, 23)
+    days = assign_materials(make_thirty_day_schedule("B2", monday, intensive=True),
+                            pools, intensive=True)
+    for day in days:
+        on = date.fromisoformat(day["date"])
+        reading = day["tasks"][1]
+        if on.weekday() in (0, 2, 4):
+            assert reading.source_key.startswith("reading-practice:")
+        else:
+            assert reading.source_key.startswith("reading:")
+            assert reading.href.startswith("/app/reading/academic/")
+    student = assign_materials(make_thirty_day_schedule("B2", monday), pools)
+    assert student[1]["tasks"][1].source_key.startswith("reading-practice:")
 
 
 def test_retention_article_ted_are_real_tasks_with_no_extra_time():
