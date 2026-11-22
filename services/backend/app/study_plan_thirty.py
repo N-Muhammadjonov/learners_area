@@ -179,7 +179,8 @@ def make_thirty_day_schedule(level: str, start: date,
         raise ValueError("invalid_duration")
     if type(intensive) is not bool:
         raise ValueError("invalid_intensive_flag")
-    units = eligible_grammar(level, catalog if catalog is not None else read_grammar_catalog())
+    sources = catalog if catalog is not None else read_grammar_catalog()
+    units = eligible_grammar(level, sources)
     if not units:
         raise ValueError("insufficient_grammar_content")
     result = []
@@ -192,8 +193,16 @@ def make_thirty_day_schedule(level: str, start: date,
         position = offset
         selection = foundation if offset < 14 and foundation else units
         unit = selection[(position + (revision - 1) * 7) % len(selection)]
-        # Later revisions rearrange units, not their required stage depth.
-        stage = (position // len(units)) % 3
+        # The owner B2-to-C1 sequence follows examiner-relevant error priority,
+        # never flashy patterns merely to display complex syntax.
+        owner_focus = None
+        if intensive and normalize_level(level) == "B2":
+            from .study_plan_owner_curriculum import select_owner_grammar
+            authored = select_owner_grammar("B2", day_number, sources)
+            if authored:
+                unit, owner_focus = authored
+        # Keep the existing server-assessed stage for normal student plans.
+        stage = 0 if owner_focus is not None else (position // len(units)) % 3
         if unit["source"] != "legacy" and stage != 0:
             # Skill-book server grading currently covers its first stage only.
             # Use an authored legacy Grammar unit for later stages instead.
@@ -208,7 +217,8 @@ def make_thirty_day_schedule(level: str, start: date,
         )
         grammar = PlanTask(
             day=day_number, slot=0, kind="grammar",
-            title=f"Grammar — {unit['title']} · {STAGE_NAMES[stage]}",
+            title=(f"IELTS 7+ Grammar — {unit['title']} · {owner_focus} · {STAGE_NAMES[stage]}"[:350]
+                   if owner_focus else f"Grammar — {unit['title']} · {STAGE_NAMES[stage]}"),
             href=unit["href"],
             source_key=(f"grammar-book:{'b1' if unit['level'] in ('A0','A1','A2','B1') else unit['level'].lower()}:{unit['id']}:{stage}"
                         if unit['source'] == 'legacy'
