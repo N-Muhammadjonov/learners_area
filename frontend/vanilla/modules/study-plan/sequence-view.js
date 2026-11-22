@@ -261,8 +261,7 @@ function calendar(ctx, data, state) {
           day.tasks.some(task=>task.kind===kind)))].map(kind=>h('span',{
             class:'sequence-dots-legend-item'},
           h('i',{'data-kind':kind,'aria-hidden':'true'}),
-          text(ctx,...KIND_LABELS[kind]),
-            kind[0].toUpperCase()+kind.slice(1)))))),host);
+          text(ctx,...KIND_LABELS[kind]))))),host);
 }
 
 /**
