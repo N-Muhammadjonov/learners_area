@@ -89,6 +89,9 @@ def test_listening_order_uses_original_manifest_instead_of_title_sorting():
     assert [day["tasks"][2].source_key for day in assigned[:3]] == [
         "listening:test1", "listening:test2", "listening:test3",
     ]
+    assert assigned[3]["tasks"][2].source_key == "listening:test1"
+    assert "Repeat for retention" in assigned[3]["tasks"][2].title
+    assert assigned[3]["tasks"][2].href == "/app/listening/tests/test1/1"
 
 
 def test_owner_server_retention_is_real_and_locked_links_are_hidden():
