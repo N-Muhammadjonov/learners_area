@@ -13,7 +13,7 @@ export function mountGames(ctx,host,id=null){
  const {dict,signal,url}=ctx,t=dict.vocabulary,g=t.games;let folders=[],packs=[],selected=SETS.includes(url.searchParams.get('set'))?url.searchParams.get('set'):'due',folder=url.searchParams.get('folderId')??'',pack=url.searchParams.get('topicPack')??'',sequence=0,roundLife,metaFailed=false,attempt=null,batch=/^\d+$/.test(url.searchParams.get('batch')??'')?Number(url.searchParams.get('batch')):null,
  from=GAMES.includes(url.searchParams.get('from'))&&url.searchParams.get('from')!==id?url.searchParams.get('from'):null,
  cursor=url.searchParams.get('cursor')??null,sessionDeck=[],sessionBatch=null,pendingSave=Promise.resolve(true),
- busyAnswers=0,switching=false;
+ busyAnswers=0,switching=false,groupEnded=false;
  const head=h('div',{class:'flex flex-col gap-4'}),game=h('div'),
  switcher=h('nav',{'data-game-switcher':'',class:'vocabulary-game-switcher',hidden:!id}),
  node=h('div',{class:id==='cards'?'vocabulary-cards-page mx-auto flex w-full flex-col gap-4':id?'mx-auto flex w-full max-w-4xl flex-col gap-4':'flex flex-col gap-4',...(id?{'data-dedicated-game':id}:{'data-games-library':''})},head,game,switcher);host.append(node);
@@ -62,7 +62,7 @@ export function mountGames(ctx,host,id=null){
    h('p',{class:'text-xs text-ink-500'},helper),
    h('div',{class:'vocabulary-game-switch-grid'},GAMES.filter(key=>key!==id).map(key=>h('button',{
     type:'button',class:'vocabulary-game-switch-button','data-game-switch':key,
-    disabled:switching||busyAnswers>0||!attempt,
+    disabled:switching||busyAnswers>0||!attempt||groupEnded,
     onClick:()=>void switchGame(key)
    },h('span',{},g[key]),h('span',{class:'vocabulary-game-switch-action'},ctx.locale==='uz'?'da davom ettirish':'Continue here')))));
  }
@@ -88,7 +88,7 @@ export function mountGames(ctx,host,id=null){
   const current=++sequence;roundLife?.abort();roundLife=new window.AbortController();
   const roundSignal=anySignal([signal,roundLife.signal]);
   attempt=null;sessionDeck=[];sessionBatch=null;pendingSave=Promise.resolve(true);
-  switching=false;busyAnswers=0;renderHead(null,true);
+  switching=false;busyAnswers=0;groupEnded=false;renderHead(null,true);
   switcher.replaceChildren();
   game.replaceChildren(h('p',{class:'card p-4 text-sm text-ink-500',role:'status','aria-busy':'true'},dict.common.loading));
   try{
@@ -115,8 +115,7 @@ export function mountGames(ctx,host,id=null){
      if(!full.length)full=section.words.map(w=>w.id);
     }
     if(cursor==='end'){
-     sessionDeck=full;sessionBatch=batch;
-     attempt={state:{_handoff:{sourceDeck:full}},deck:full,revision:0};
+     sessionDeck=full;sessionBatch=batch;groupEnded=true;attempt=null;
      renderHead(section??{total:full.length});
      game.replaceChildren(h('section',{class:'card flex flex-col gap-3 p-5','data-game-group-complete':'',role:'status'},
       h('h2',{class:'text-lg font-medium text-ink-900'},ctx.locale==='uz'?'Guruhdagi so‘zlar tugadi':'This word group is complete'),
