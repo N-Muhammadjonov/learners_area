@@ -81,11 +81,12 @@ test('owner weekly workload and daily verified retention remain separate from st
     day.tasks.forEach((task,index)=>{task.minutes=budgets[dayIndex][index];});
     day.minutes=day.tasks.reduce((sum,task)=>sum+task.minutes,0);
     day.retention={
-      requiredReviews:10,reviewDays:[1,3,7,14].filter(n=>n<day.day),
+      requiredReviews:10,reviewDays:[1,3,7,16].filter(n=>n<day.day),
       previousTopics:day.day>1?['Topic 1: Art']:[],
       minutesIncludedInVocabulary:day.tasks[5].minutes,
       status:day.tasks[5].status,
       href:day.status==='active'?'/app/vocabulary?tab=revision':null,
+      gamesHref:day.status==='active'?'/app/vocabulary/games':null,
     };
   }
   assert.equal(validateSequence(data),data);
@@ -97,8 +98,13 @@ test('owner weekly workload and daily verified retention remain separate from st
   assert.match(host.textContent,/Daily retention/);
   assert.equal(host.querySelector('[data-sequence-retention-open]').getAttribute('href'),
     '/app/vocabulary?tab=revision');
+  assert.equal(host.querySelector('[data-sequence-retention-games]').getAttribute('href'),
+    '/app/vocabulary/games');
   const broken=structuredClone(data);
   broken.days[1].retention.href='/app/vocabulary?tab=revision';
+  assert.throws(()=>validateSequence(broken),/invalid_retention/);
+  broken.days[1].retention.href=null;
+  broken.days[1].retention.gamesHref='/app/vocabulary/games';
   assert.throws(()=>validateSequence(broken),/invalid_retention/);
 });
 
