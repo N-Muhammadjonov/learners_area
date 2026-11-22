@@ -1,5 +1,6 @@
 import {h,TABS,GAMES,chip,notice} from './shared.js';
 import {mountWords} from './words.js';
+import {mountPublicPack} from './public-pack.js';
 import {mountRevision} from './revision.js';
 import {mountUse} from './use.js';
 import {mountBoard} from './board.js';
@@ -15,7 +16,7 @@ export function mount(ctx){const {root,url,dict,navigate,signal}=ctx;const path=
  let tab=['use','board','revision','dictionary'].includes(query)?query:'words';
  const t=dict.vocabulary,workspace=h('div',{class:'mx-auto flex w-full min-w-0 max-w-6xl flex-col gap-4','data-route-usable':'vocabulary','data-vocabulary-route':'','data-vocabulary-workspace':''});
  const top=h('div',{class:'flex flex-wrap items-end justify-between gap-3'}),main=h('div',{id:'vocabulary-panel',role:'region',class:'flex flex-col gap-4'});
- workspace.append(top,main);root.append(workspace);let child;
+ workspace.append(top,main);root.append(workspace);mountPublicPack(ctx,workspace);let child;
  function select(next){
   child?.abort('vocabulary-tab-left');child=new window.AbortController();const own={...ctx,url:next,signal:child.signal};
   tab=['use','board','revision','dictionary'].includes(next.searchParams.get('tab'))?next.searchParams.get('tab'):'words';ctx.url=next;
