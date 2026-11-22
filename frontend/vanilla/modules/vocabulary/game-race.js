@@ -2,13 +2,13 @@ import {h,shuffle,gameButton,gameFrame,gameTimers} from './game-common.js';
 const time=value=>Math.max(0,value).toFixed(1)+' s';
 
 /** One clock per item, one verified submission and a record for every outcome. */
-export function typingRace(ctx,host,{words,answer,progress={},save=async()=>true,onRetry}){
+export function typingRace(ctx,host,{words,answer,progress={},save=async()=>true,onRetry,ordered=false}){
  const g=ctx.dict.vocabulary.games,timers=gameTimers(ctx),eligible=[...new Map(words.filter(w=>w.term.trim()&&w.definitionEn.trim()).map(w=>[w.id,w])).values()],now=ctx.gameNow??Date.now;
  let deck,index,value,startedAt,status,elapsed,lit,records,stats,finished,input,clock,counter,boxes,submitButton;
  const accuracy=()=>stats.correct+stats.incorrect?Math.round(stats.correct/(stats.correct+stats.incorrect)*100):null;
  const duration=()=>startedAt===null?0:Math.max(0,Math.round((now()-startedAt)/100)/10);
  function resetItem(){value='';startedAt=null;status=null;elapsed=0;lit=0;}
- function restart(){timers.cancel();deck=shuffle(eligible).slice(0,10);index=0;records=[];stats={correct:0,incorrect:0,skipped:0,unverified:0,characters:0,seconds:0};finished=false;resetItem();void save(snapshot());paint();}
+ function restart(){timers.cancel();deck=(ordered?eligible:shuffle(eligible)).slice(0,10);index=0;records=[];stats={correct:0,incorrect:0,skipped:0,unverified:0,characters:0,seconds:0};finished=false;resetItem();void save(snapshot());paint();}
  function snapshot(){return {deck:deck.map(w=>w.id),index,records,stats,finished};}
  function restore(){if(!Array.isArray(progress.deck)||!progress.deck.length)return false;const lookup=new Map(eligible.map(w=>[w.id,w]));deck=progress.deck.map(k=>lookup.get(k)).filter(Boolean);if(deck.length!==progress.deck.length)return false;index=Number.isSafeInteger(progress.index)?Math.max(0,Math.min(progress.index,deck.length-1)):0;records=Array.isArray(progress.records)?progress.records.slice(0,deck.length):[];stats={correct:0,incorrect:0,skipped:0,unverified:0,characters:0,seconds:0,...progress.stats};finished=progress.finished===true;resetItem();return true;}
  function clockTick(){if(status!==null||startedAt===null||ctx.signal.aborted)return;clock.textContent=time(duration());counter.textContent=`${g.raceProgress} ${index+1} / ${deck.length} · ${g.itemTime}: ${time(duration())}`;timers.later(clockTick,100);}

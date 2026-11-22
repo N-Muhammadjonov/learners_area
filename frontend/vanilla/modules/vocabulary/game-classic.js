@@ -2,9 +2,9 @@ import {h,shuffle,normalizeGameAnswer,gameButton,gameFrame,gameResult,gameTimers
 import {sentenceFor,gapPrompt,eligibleWords,choiceOptions} from './game-content.js';
 
 /** Each practice game owns its round and timer. Only the API can award ledger points. */
-export function classicGame(ctx,host,{id,words,answer,progress={},save=async()=>true,onRetry}){
+export function classicGame(ctx,host,{id,words,answer,progress={},save=async()=>true,onRetry,ordered=false}){
  const g=ctx.dict.vocabulary.games,timers=gameTimers(ctx),pool=eligibleWords(words,id);
- const deck=(Array.isArray(progress.deck)&&progress.deck.length?progress.deck.map(key=>pool.find(w=>w.id===key)).filter(Boolean):shuffle(pool)).filter(w=>id!=='choice'||choiceOptions(w,pool).length>1).slice(0,id==='builder'?8:10);let index=Number.isSafeInteger(progress.index)?Math.max(0,Math.min(deck.length,progress.index)):0,correct=Number.isSafeInteger(progress.correct)?Math.max(0,Math.min(deck.length,progress.correct)):0,value='',checked=null,picked=null,hint=false,built=[],tiles=[],options=[],busy=false,error=false,epoch=0;
+ const deck=(Array.isArray(progress.deck)&&progress.deck.length?progress.deck.map(key=>pool.find(w=>w.id===key)).filter(Boolean):(ordered?pool:shuffle(pool))).filter(w=>id!=='choice'||choiceOptions(w,pool).length>1).slice(0,id==='builder'?8:10);let index=Number.isSafeInteger(progress.index)?Math.max(0,Math.min(deck.length,progress.index)):0,correct=Number.isSafeInteger(progress.correct)?Math.max(0,Math.min(deck.length,progress.correct)):0,value='',checked=null,picked=null,hint=false,built=[],tiles=[],options=[],busy=false,error=false,epoch=0;
  const target=()=>sentenceFor(deck[index]??{}).split(/\s+/).filter(Boolean);
  function prepare(){epoch++;value='';checked=null;picked=null;hint=false;built=[];busy=false;error=false;tiles=shuffle(target().map((word,key)=>({word,key})));const w=deck[index];options=w?shuffle(choiceOptions(w,shuffle(pool))):[];}
  function advance(){timers.cancel();index++;prepare();void save({deck:deck.map(w=>w.id),index,correct});paint();}
@@ -46,9 +46,9 @@ export function classicGame(ctx,host,{id,words,answer,progress={},save=async()=>
  prepare();if(!Array.isArray(progress.deck)&&deck.length)void save({deck:deck.map(w=>w.id),index,correct});paint();
 }
 
-export function matchingGame(ctx,host,{words,answer,progress={},save=async()=>true,onRetry}){
+export function matchingGame(ctx,host,{words,answer,progress={},save=async()=>true,onRetry,ordered=false}){
  const g=ctx.dict.vocabulary.games,timers=gameTimers(ctx);let left,right,selected=null,wrong=null,matched=new Set(),busy=false,error=false,epoch=0;
- function restart(){epoch++;timers.cancel();left=shuffle(eligibleWords(words,'match')).slice(0,6);right=shuffle(left);selected=null;wrong=null;matched=new Set();busy=false;error=false;void save({left:left.map(w=>w.id),right:right.map(w=>w.id),matched:[]});paint();}
+ function restart(){epoch++;timers.cancel();left=(ordered?eligibleWords(words,'match'):shuffle(eligibleWords(words,'match'))).slice(0,6);right=shuffle(left);selected=null;wrong=null;matched=new Set();busy=false;error=false;void save({left:left.map(w=>w.id),right:right.map(w=>w.id),matched:[]});paint();}
  async function choose(word){
   if(!selected||matched.has(word.id)||wrong||busy)return;const chosen=selected,current=epoch;busy=true;error=false;paint();
   let result;try{result=await answer(chosen.id,{kind:'pair',pairEntryId:word.id});}catch{result=null;}
