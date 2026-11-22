@@ -125,6 +125,8 @@ _PASSAGES = {
     '592f8751-f9f1-54b7-8f3b-3fecd73c9dfd': '115-advertising-needs-attention',
     '45dc2c30-524c-5b17-8466-18b59838cc92': '116-new-filter-promises-clean-water-for-millions',
     '0efc32f5-26ca-5f43-8572-3e262b9201ea': '117-yawning',
+    '66309077-3139-44d9-b8fb-98831a5c599b': '118-economic-evolution',
+    'f4cbe447-9f2e-5068-85fa-530a73954944': '119-saving-the-bittern',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
