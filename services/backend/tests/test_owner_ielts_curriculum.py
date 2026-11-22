@@ -113,10 +113,13 @@ def test_daily_completion_demands_server_evidence(kind, source_key):
     ]
     rows[1]["minutes"] -= 7
     rows[2]["minutes"] -= 8
-    rows.append({"kind": kind, "source_key": source_key, "minutes": 15,
-                 "completed_at": None})
-    # Article and video supplements ordinarily occupy slot 7 after Retention.
-    # For this proof-focused fake, only the pending verification path matters.
+    rows.append({"kind": "retention", "source_key": "retention:B2",
+                 "minutes": 15, "completed_at": None})
+    if kind in ("article", "video"):
+        rows.append({"kind": kind, "source_key": source_key, "minutes": 20,
+                     "completed_at": None})
+        rows[1 if kind == "article" else 2]["minutes"] -= 20
+    # Real owner supplements always follow the first six primary slots.
     async def run(eligible: bool):
         class Connection:
             def __init__(self):
