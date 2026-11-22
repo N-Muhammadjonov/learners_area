@@ -37,7 +37,7 @@ def test_vocab_packs_query_published_pack_summaries_only(monkeypatch):
         {'id':'new-pack','label':{'en':'Renewable Energy','uz':'Qayta tiklanuvchi'},'wordCount':12,'added':False},
         {'id':'some','label':{'en':'No Uzbek','uz':'No Uzbek'},'wordCount':1,'added':False},
         {'id':'art','label':{'en':'Art','uz':'San’at'},'wordCount':175,'added':False},
-        {'id':'environment','label':{'en':'Environment','uz':'Environment'},'wordCount':152,'added':False}]}
+        {'id':'environment','label':{'en':'Environment','uz':'Environment'},'wordCount':221,'added':False}]}
     sql,args=db.calls[0]
     assert "publication_state='published'" in sql and 'ORDER BY position' in sql
     assert 'INNER JOIN lexemes' in sql and 'SELECT count(*)' in sql
