@@ -253,15 +253,18 @@ function calendar(ctx, data, state) {
     h('div',{class:'sequence-calendar',role:'group',
       'aria-label':text(ctx,data.totalDays+' kunlik kalendar',data.totalDays+'-day calendar')},
       headers,blanks,buttons));
+  const visibleKinds = [...KINDS,...OWNER_EXTRAS.filter(kind =>
+    data.days.some(day => day.tasks.some(task => task.kind === kind)))];
+  const legend = h('div',{
+    class:'sequence-dots-legend',
+    'aria-label':text(ctx,'Mashq ranglari','Exercise colors'),
+  }, visibleKinds.map(kind => h('span',{
+    class:'sequence-dots-legend-item',
+  }, h('i',{'data-kind':kind,'aria-hidden':'true'}),
+    text(ctx,...KIND_LABELS[kind]))));
   return h('div',{class:'sequence-calendar-layout'},
-    h('div',{class:'sequence-calendar-column'},selector,
-      h('div',{class:'sequence-dots-legend',
-        'aria-label':text(ctx,'Mashq ranglari','Exercise colors')},
-        [...KINDS,...OWNER_EXTRAS.filter(kind=>data.days.some(day=>
-          day.tasks.some(task=>task.kind===kind)))].map(kind=>h('span',{
-            class:'sequence-dots-legend-item'},
-          h('i',{'data-kind':kind,'aria-hidden':'true'}),
-          text(ctx,...KIND_LABELS[kind]))))),host);
+    h('div',{class:'sequence-calendar-column'},selector,legend),
+    host);
 }
 
 /**
