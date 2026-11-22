@@ -15,7 +15,7 @@ const sourceAttempt={
 };
 const section={ok:true,batchIndex:2,total:152,due:0,words:group,
  selfAssessments:{},batches:[{index:2,count:14,complete:false,unlocked:true}]};
-function fixtures(initialAttempt=sourceAttempt){
+function fixtures(initialAttempt=sourceAttempt,targetAttempt=null){
  let attempt=null;const starts=[];
  return {
   starts,
@@ -38,7 +38,7 @@ function fixtures(initialAttempt=sourceAttempt){
     }
     const url=new URL(path,'https://fixture.invalid');
     if(url.searchParams.get('attempt')==='1'){
-     return {ok:true,attempt:url.searchParams.get('gameId')==='cards'?initialAttempt:attempt};
+     return {ok:true,attempt:url.searchParams.get('gameId')==='cards'?initialAttempt:targetAttempt??attempt};
     }
     if(url.searchParams.get('batches')==='1')return section;
     const ids=url.searchParams.get('entryIds');
@@ -96,5 +96,22 @@ test('missing source attempt cannot silently start another game at a random word
   mountGames(h.ctx,h.ctx.root,'match');await tick(18);
   assert(h.q('[data-game-load-retry]'));
   assert.equal(f.starts.length,0);
+ }finally{h.dispose();}
+});
+
+test('reloading a handed-off game resumes the saved word and does not restart the group',async()=>{
+ const saved={attemptId:ID(802),revision:5,deck:group.slice(2,12).map(w=>w.id),
+  state:{deck:group.slice(2,12).map(w=>w.id),index:3,correct:2,
+   _handoff:{sourceDeck:group.map(w=>w.id),batchIndex:2}}};
+ const h=setup({path:'/app/vocabulary/games/choice?set=topic&topicPack=environment&batch=2',role:'student'});
+ try{
+  const f=fixtures(sourceAttempt,saved);h.stub(f.routes);
+  mountGames(h.ctx,h.ctx.root,'choice');await tick(18);
+  assert.match(h.q('[data-mcq-prompt]').textContent,/distinct meaning 6/);
+  assert.equal(f.starts.length,0);
+  h.click(h.q('[data-game-switch=cards]'));await tick(6);
+  const target=new URL(h.nav[0].path,'https://fixture.invalid');
+  assert.equal(target.searchParams.get('cursor'),group[5].id);
+  assert.equal(target.searchParams.get('batch'),'2');
  }finally{h.dispose();}
 });
