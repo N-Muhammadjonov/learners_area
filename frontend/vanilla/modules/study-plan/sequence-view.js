@@ -217,13 +217,20 @@ export function mountSequenceAssignments(ctx, root) {
       ? data.totalDays : state.selectedDuration;
     const title=h('h2',{},text(ctx,
       'Sizning '+selectedDays+' kunlik rejangiz','Your '+selectedDays+'-day plan'));
+    const isOwner=ctx.session?.user?.role==='owner';
+    const legacyOwnerCycle=isOwner && (data?.state==='active'||data?.state==='completed')
+      && data.days?.some(day=>day.minutes===DAILY_MINUTES);
     const lead=h('p',{class:'sequence-subtitle'},
       text(ctx,
-        ctx.session?.user?.role==='owner'
-          ?'IELTS 8.0 intensiv rejasi: kuniga 300 daqiqa. Barcha vazifalar tugagach keyingi kun ochiladi.'
+        isOwner
+          ?legacyOwnerCycle
+            ?'Hozirgi rejangizda 120 daqiqalik kunlar bor. Intensiv 300 daqiqalik kelgusi kunlarni faollashtirish uchun «Rejani qayta tuzish»ni tanlang. Joriy va tugallangan kunlar saqlanadi.'
+            :'IELTS 8.0 intensiv rejasi: kuniga 300 daqiqa. Barcha vazifalar tugagach keyingi kun ochiladi.'
           :'Kuniga kamida 120 daqiqa ajrating. Barcha vazifalar tugagach keyingi kun ochiladi.',
-        ctx.session?.user?.role==='owner'
-          ?'IELTS 8.0 intensive: 300 minutes daily. The next day unlocks after all tasks are completed.'
+        isOwner
+          ?legacyOwnerCycle
+            ?'Your existing plan has 120-minute days. Select Regenerate to activate 300-minute future days. Current and completed work is preserved.'
+            :'IELTS 8.0 intensive: 300 minutes daily. The next day unlocks after all tasks are completed.'
           :'Allocate at least 120 minutes each day. The next day unlocks after all tasks are completed.'));
     const ownerBands=ctx.session?.user?.role==='owner'&&data?.baselineBands
       ?h('p',{class:'sequence-subtitle','data-owner-ielts-target':''},
