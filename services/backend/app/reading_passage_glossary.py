@@ -119,6 +119,8 @@ _PASSAGES = {
     '0b8e732b-5ebe-5d40-8fe2-bdaf6f86880e': '109-what-lucy-taught-us',
     '60ba9c0d-f002-57f3-8f12-263761aea90e': '110-corporate-social-responsibility',
     'd80a1be3-6cdf-49b1-a6ae-8f22a50d8325': '111-childs-play-in-medieval-england',
+    '1a9bc19b-545a-5062-8b3d-21ccc72510b3': '112-building-a-castle',
+    '0eb40b99-504a-4458-9ba9-a08e22d8d8c0': '113-roller-coaster-the-great-fairground-attraction',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
