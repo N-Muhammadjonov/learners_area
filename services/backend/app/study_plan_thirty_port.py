@@ -360,9 +360,12 @@ async def start_plan(req: Request) -> JSONResponse:
         if level is None:
             return failure("level_required", 409)
         today = now.astimezone(zone).date()
+        pools = await load_material_pools(con, user, level)
+        if is_owner and not pools["listening"]:
+            return failure("published_listening_tests_required", 409)
         plan = assign_materials(
             make_thirty_day_schedule(level, today, days=days, intensive=is_owner),
-            await load_material_pools(con, user, level), intensive=is_owner)
+            pools, intensive=is_owner)
         if is_owner:
             plan = assign_owner_vocabulary(plan, await load_owner_pack_pool(con))
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
@@ -407,12 +410,14 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         projected_start = (max(row["started_on"],
                                local_today - timedelta(days=row["current_day"] - 1))
                            if is_owner else row["started_on"])
+        pools = await load_material_pools(con, user, level)
+        if is_owner and not pools["listening"]:
+            return failure("published_listening_tests_required", 409)
         plan = assign_materials(
             make_thirty_day_schedule(
                 level, projected_start, revision=row["revision"] + 1,
                 days=days, intensive=is_owner),
-            await load_material_pools(con, user, level),
-            revision=row["revision"] + 1, intensive=is_owner)
+            pools, revision=row["revision"] + 1, intensive=is_owner)
         if is_owner:
             plan = assign_owner_vocabulary(plan, await load_owner_pack_pool(con))
         # Preserve today's attempts and all prior days. Only untouched future
