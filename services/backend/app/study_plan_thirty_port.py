@@ -134,6 +134,24 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
             if kind not in verified or item["happened_at"] < verified[kind][0]:
                 verified[kind] = (item["happened_at"], item["source_key"])
 
+        if owner and "vocabulary" in pending and "vocabulary" not in verified:
+            # The SRS engine rejects reviews before next_review_at. If fewer
+            # than ten entries are due, a learner must still be able to
+            # finish the day through ten DISTINCT server-verified recall
+            # game answers, rather than being permanently locked.
+            game_recall = await con.fetchrow("""SELECT
+                COUNT(DISTINCT payload->>'entryId')::int AS completed,
+                MAX(created_at) AS at
+                FROM activity_events
+                WHERE user_id=$1 AND type='VOCAB_GAME_PRACTICED'
+                  AND created_at >= $2 AND created_at <= $3
+                  AND payload->>'verified'='true'
+                  AND payload->>'correct'='true'
+                  AND NULLIF(payload->>'entryId','') IS NOT NULL""",
+                uid, cycle["opened_at"], now)
+            if game_recall and game_recall["completed"] >= 10:
+                verified["vocabulary"] = (game_recall["at"], "vocab_game_recall")
+
         # Writing must be a substantive submitted response, not a one-word draft.
         if "writing" in verified:
             selected = pending["writing"]["source_key"]
@@ -274,10 +292,10 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
         if owner:
             # SRS review is an actual required vocabulary task (>=10 verified
             # VOCAB_REVIEWED answers). The prompts below also recall content
-            # introduced 1, 3, 7 and 14 study days previously. Other skills'
+            # introduced 1, 3, 7 and 16 study days previously. Other skills'
             # self-reviews are guidance, not falsely marked server-verified.
             topics = []
-            for offset in (1, 3, 7, 14):
+            for offset in (1, 3, 7, 16):
                 previous = groups.get(day - offset, [])
                 vocab = next((item for item in previous
                               if item["kind"] == "vocabulary"), None)
@@ -288,7 +306,7 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
             vocab_now = next(item for item in tasks
                              if item["kind"] == "vocabulary")
             daily["retention"] = {
-                "reviewDays": [offset for offset in (1, 3, 7, 14)
+                "reviewDays": [offset for offset in (1, 3, 7, 16)
                                if day - offset >= 1],
                 "previousTopics": topics,
                 "requiredReviews": 10,
@@ -297,6 +315,9 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
                 "href": ("/app/vocabulary?tab=revision"
                          if status == "active"
                          and vocab_now["status"] == "ready" else None),
+                "gamesHref": ("/app/vocabulary/games"
+                              if status == "active"
+                              and vocab_now["status"] == "ready" else None),
             }
         result.append(daily)
     return {
