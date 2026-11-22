@@ -56,7 +56,7 @@ try{
  assert.equal((await rpc('CreateTransaction',{id:'prepaid-browser',time:Date.now(),amount:13753100,account:{order_id:intent.intentId}})).result.state,1);
  assert.equal((await rpc('PerformTransaction',{id:'prepaid-browser'})).result.state,2);
  assert.equal((await rpc('PerformTransaction',{id:'prepaid-browser'})).result.state,2);
- await student.page.reload();await student.page.locator('#payment-service option[value="'+policy.id+'"]').waitFor({state:'attached'});
+ await student.page.reload();await dismissDailyReward(student.page);await student.page.locator('#payment-service option[value="'+policy.id+'"]').waitFor({state:'attached'});
  await student.page.locator('#payment-service').selectOption(policy.id);
  await student.page.locator('.pay-account .pay-balance').filter({hasText:'19 days'}).waitFor();
  await student.page.screenshot({path:resolve(directory,'student-configured-paid-mobile-night.png')});
@@ -64,7 +64,7 @@ try{
  const account=summary.serviceAccounts.find(p=>p.id===policy.id);
  assert.equal(account.remainingUnits,19);assert.equal(account.unappliedCreditMinor,0);assert.equal(account.unspentMinor,137531);
  assert.equal(summary.position.balanceDueMinor,462469);
- await admin.page.reload();await admin.page.locator('[data-finance-debtors] article').filter({hasText:'QA Student'}).getByRole('button',{name:'Open account',exact:true}).click();
+ await admin.page.reload();await dismissDailyReward(admin.page);await admin.page.locator('[data-finance-debtors] article').filter({hasText:'QA Student'}).getByRole('button',{name:'Open account',exact:true}).click();
  await admin.page.locator('[data-prepaid-contracts]').getByText('Owner configurable tariff · QA Prepaid Course',{exact:true}).waitFor();
  await admin.page.locator('[data-prepaid-contracts]').scrollIntoViewIfNeeded();
  await admin.page.screenshot({path:resolve(directory,'admin-configured-tariff-desktop-day.png')});

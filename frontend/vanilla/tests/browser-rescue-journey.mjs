@@ -76,6 +76,7 @@ try {
   await card.getByText('Case status · Claimed', {exact: true}).waitFor();
   assert.equal((await saveAction('resolve', 'Learner attended the review')).status, 'resolved');
   await assigned.reload();
+  await dismissDailyReward(assigned);
   await card.getByText('Case status · Resolved', {exact: true}).waitFor();
   await card.getByText('Action history').click();
   await card.getByText(/Learner attended the review/).waitFor();

@@ -15128,6 +15128,503 @@
         "definitionEn": "A country that governs itself rather than being controlled by another country.",
         "translationUz": "mustaqil davlat",
         "example": "It became an independent nation after the agreement."
+      },
+      {
+        "term": "contamination",
+        "partOfSpeech": "noun",
+        "definitionEn": "The presence of harmful or unwanted substances in a place or material.",
+        "translationUz": "zararli moddalar bilan ifloslanish",
+        "example": "Contamination made the drinking water unsafe."
+      },
+      {
+        "term": "noise pollution",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Unwanted or excessive sound that disturbs people or wildlife.",
+        "translationUz": "shovqin ifloslanishi",
+        "example": "Noise pollution affects residents living near airports."
+      },
+      {
+        "term": "soil pollution",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The presence of harmful chemicals or waste in soil.",
+        "translationUz": "tuproqning ifloslanishi",
+        "example": "Soil pollution can reduce crop yields."
+      },
+      {
+        "term": "light pollution",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Excessive artificial lighting that brightens the night environment.",
+        "translationUz": "yorug‘lik ifloslanishi",
+        "example": "Light pollution makes it harder to see stars."
+      },
+      {
+        "term": "chemical pollution",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Environmental contamination caused by harmful chemical substances.",
+        "translationUz": "kimyoviy ifloslanish",
+        "example": "Chemical pollution threatens fish in the river."
+      },
+      {
+        "term": "plastic pollution",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The accumulation of discarded plastic in natural environments.",
+        "translationUz": "plastik chiqindilar bilan ifloslanish",
+        "example": "Plastic pollution harms marine animals."
+      },
+      {
+        "term": "radioactive pollution",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Contamination of an environment by radioactive substances.",
+        "translationUz": "radioaktiv ifloslanish",
+        "example": "Radioactive pollution requires careful monitoring."
+      },
+      {
+        "term": "deplete",
+        "partOfSpeech": "verb",
+        "definitionEn": "To use up or greatly reduce a supply or resource.",
+        "translationUz": "tugatmoq, kamaytirib yubormoq",
+        "example": "Overuse can deplete underground water reserves."
+      },
+      {
+        "term": "resource depletion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The reduction of natural resources through consumption or overuse.",
+        "translationUz": "tabiiy resurslarning kamayib ketishi",
+        "example": "Resource depletion is a concern in dry regions."
+      },
+      {
+        "term": "overexploitation of nature",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Using natural resources faster than ecosystems can recover.",
+        "translationUz": "tabiat resurslaridan haddan tashqari foydalanish",
+        "example": "Overexploitation of nature damages fragile habitats."
+      },
+      {
+        "term": "smoke",
+        "partOfSpeech": "noun",
+        "definitionEn": "Visible gases and tiny particles produced by burning.",
+        "translationUz": "tutun",
+        "example": "Smoke from the fire filled the air."
+      },
+      {
+        "term": "agricultural runoff",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Water flowing off farmland and carrying soil, fertilizers or pesticides.",
+        "translationUz": "qishloq xo‘jaligi dalalaridan oqib ketuvchi iflos suv",
+        "example": "Agricultural runoff can pollute nearby lakes."
+      },
+      {
+        "term": "laden with chemicals",
+        "partOfSpeech": "adjective phrase",
+        "definitionEn": "Containing or carrying a large amount of chemical substances.",
+        "translationUz": "kimyoviy moddalar bilan to‘yingan",
+        "example": "The runoff was laden with chemicals."
+      },
+      {
+        "term": "overcrowding",
+        "partOfSpeech": "noun",
+        "definitionEn": "A situation in which too many people occupy a limited space.",
+        "translationUz": "odamlarning haddan tashqari tiqilinchligi",
+        "example": "Overcrowding increases pressure on city services."
+      },
+      {
+        "term": "congestion",
+        "partOfSpeech": "noun",
+        "definitionEn": "Overcrowding or excessive traffic that blocks normal movement.",
+        "translationUz": "tirbandlik, tiqilinchlik",
+        "example": "Congestion raises emissions during rush hour."
+      },
+      {
+        "term": "emissions",
+        "partOfSpeech": "noun",
+        "definitionEn": "Gases or particles released into the air by an activity or process.",
+        "translationUz": "atmosferaga chiqariladigan gazlar va zarralar",
+        "example": "Vehicle emissions worsen urban air quality."
+      },
+      {
+        "term": "fumes",
+        "partOfSpeech": "noun",
+        "definitionEn": "Strong-smelling gases or vapors that may be unpleasant or harmful.",
+        "translationUz": "zararli yoki o‘tkir hidli bug‘ va gazlar",
+        "example": "Workers wore masks to avoid breathing in fumes."
+      },
+      {
+        "term": "carbon monoxide",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A poisonous colorless gas produced by incomplete combustion.",
+        "translationUz": "is gazi, uglerod oksidi",
+        "example": "Carbon monoxide detectors improve household safety."
+      },
+      {
+        "term": "emit",
+        "partOfSpeech": "verb",
+        "definitionEn": "To send out gas, heat, light or another substance.",
+        "translationUz": "chiqarmoq, tarqatmoq",
+        "example": "Older engines emit more harmful gases."
+      },
+      {
+        "term": "discharge pollutants",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To release harmful substances into water, air or soil.",
+        "translationUz": "ifloslantiruvchi moddalarni chiqarib yubormoq",
+        "example": "Factories must not discharge pollutants into rivers."
+      },
+      {
+        "term": "give off",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To produce and release a gas, smell, heat or light.",
+        "translationUz": "ajratib chiqarmoq",
+        "example": "Burning plastic can give off toxic fumes."
+      },
+      {
+        "term": "harmful gas emissions",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The release of gases that damage health or the environment.",
+        "translationUz": "zararli gazlarning atmosferaga chiqarilishi",
+        "example": "Regulations aim to reduce harmful gas emissions."
+      },
+      {
+        "term": "rising sea levels",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An increase in the average height of the world's oceans.",
+        "translationUz": "dengiz sathining ko‘tarilishi",
+        "example": "Rising sea levels threaten low-lying islands."
+      },
+      {
+        "term": "coastal flooding",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Flooding of land near the sea.",
+        "translationUz": "sohilbo‘yi hududlarini suv bosishi",
+        "example": "Coastal flooding damaged several homes."
+      },
+      {
+        "term": "vulnerable species",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A species facing a high risk of extinction in the wild.",
+        "translationUz": "yo‘qolib ketish xavfi ostidagi zaif tur",
+        "example": "The conservation plan protects vulnerable species."
+      },
+      {
+        "term": "critically endangered species",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A species facing an extremely high risk of extinction in the wild.",
+        "translationUz": "yo‘qolib ketish xavfi nihoyatda yuqori bo‘lgan tur",
+        "example": "The animal is classified as a critically endangered species."
+      },
+      {
+        "term": "on the brink of extinction",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Very close to disappearing completely as a species.",
+        "translationUz": "yo‘qolib ketish arafasida",
+        "example": "The population was on the brink of extinction."
+      },
+      {
+        "term": "die out",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To disappear completely as a species or group.",
+        "translationUz": "butunlay yo‘qolib ketmoq",
+        "example": "Without protection, the species could die out."
+      },
+      {
+        "term": "rhinoceros",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large wild mammal with one or two horns on its nose.",
+        "translationUz": "karkidon",
+        "example": "A rhinoceros needs a large protected habitat."
+      },
+      {
+        "term": "deforestation",
+        "partOfSpeech": "noun",
+        "definitionEn": "The clearing of forests, often to make land available for farming.",
+        "translationUz": "o‘rmonlarning kesilishi",
+        "example": "Deforestation destroys habitats and releases carbon."
+      },
+      {
+        "term": "habitat loss",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The destruction or reduction of the natural home of a species.",
+        "translationUz": "yashash muhitining yo‘qolishi",
+        "example": "Habitat loss threatens many forest animals."
+      },
+      {
+        "term": "desertification",
+        "partOfSpeech": "noun",
+        "definitionEn": "The process in which fertile land becomes increasingly desert-like.",
+        "translationUz": "cho‘llanish",
+        "example": "Poor land management can accelerate desertification."
+      },
+      {
+        "term": "soil erosion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The removal of topsoil by water, wind or human activity.",
+        "translationUz": "tuproq eroziyasi",
+        "example": "Planting trees helps limit soil erosion."
+      },
+      {
+        "term": "landslide",
+        "partOfSpeech": "noun",
+        "definitionEn": "A sudden movement of rock and soil down a slope.",
+        "translationUz": "yer ko‘chkisi",
+        "example": "Heavy rain triggered a landslide."
+      },
+      {
+        "term": "non-biodegradable waste",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Waste that does not readily break down through natural biological processes.",
+        "translationUz": "tabiiy parchalanmaydigan chiqindi",
+        "example": "Plastic packaging is often non-biodegradable waste."
+      },
+      {
+        "term": "biodegradable waste",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Waste that can be broken down naturally by living organisms.",
+        "translationUz": "tabiiy parchalanadigan chiqindi",
+        "example": "Food scraps are a form of biodegradable waste."
+      },
+      {
+        "term": "crop rotation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Growing different crops on the same land in a planned sequence.",
+        "translationUz": "ekinlarni almashlab ekish",
+        "example": "Crop rotation can improve soil health."
+      },
+      {
+        "term": "wind erosion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The removal of soil by the force of wind.",
+        "translationUz": "shamol eroziyasi",
+        "example": "Wind erosion is severe on exposed dry farmland."
+      },
+      {
+        "term": "water erosion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The removal of soil by flowing or falling water.",
+        "translationUz": "suv eroziyasi",
+        "example": "Terracing reduces water erosion on hillsides."
+      },
+      {
+        "term": "natural disaster",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A destructive event caused by a natural hazard.",
+        "translationUz": "tabiiy ofat",
+        "example": "The region has prepared for several types of natural disaster."
+      },
+      {
+        "term": "flood",
+        "partOfSpeech": "noun",
+        "definitionEn": "An overflow of water onto land that is usually dry.",
+        "translationUz": "suv toshqini",
+        "example": "The flood forced families to leave their homes."
+      },
+      {
+        "term": "earthquake",
+        "partOfSpeech": "noun",
+        "definitionEn": "A sudden shaking of the ground caused by movement in the Earth's crust.",
+        "translationUz": "zilzila",
+        "example": "The earthquake damaged several roads."
+      },
+      {
+        "term": "thunderstorm",
+        "partOfSpeech": "noun",
+        "definitionEn": "A storm with thunder and lightning, often with heavy rain.",
+        "translationUz": "momaqaldiroqli bo‘ron",
+        "example": "A thunderstorm interrupted the outdoor event."
+      },
+      {
+        "term": "hurricane",
+        "partOfSpeech": "noun",
+        "definitionEn": "A powerful tropical cyclone with very strong winds.",
+        "translationUz": "kuchli tropik dovul",
+        "example": "The hurricane damaged buildings along the coast."
+      },
+      {
+        "term": "tsunami",
+        "partOfSpeech": "noun",
+        "definitionEn": "A series of large sea waves usually caused by an underwater earthquake.",
+        "translationUz": "sunami",
+        "example": "The tsunami warning prompted people to move inland."
+      },
+      {
+        "term": "bacteria",
+        "partOfSpeech": "plural noun",
+        "definitionEn": "Microscopic single-celled organisms, some of which cause disease.",
+        "translationUz": "bakteriyalar",
+        "example": "Certain bacteria can contaminate drinking water."
+      },
+      {
+        "term": "animal species",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A distinct group of animals that can be identified as one species.",
+        "translationUz": "hayvon turi",
+        "example": "Several animal species depend on the wetland."
+      },
+      {
+        "term": "plant species",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A distinct kind of plant found in a natural or cultivated habitat.",
+        "translationUz": "o‘simlik turi",
+        "example": "The reserve protects rare plant species."
+      },
+      {
+        "term": "go green",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To change habits or policies to reduce environmental harm.",
+        "translationUz": "ekologik toza turmush tarziga o‘tmoq",
+        "example": "Many families want to go green by saving energy."
+      },
+      {
+        "term": "environmental legislation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Laws made to protect the environment and regulate pollution.",
+        "translationUz": "atrof-muhitni muhofaza qiluvchi qonunchilik",
+        "example": "Environmental legislation limits industrial waste."
+      },
+      {
+        "term": "conservation efforts",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Actions taken to protect wildlife, habitats and natural resources.",
+        "translationUz": "tabiatni asrash bo‘yicha sa’y-harakatlar",
+        "example": "Conservation efforts helped the species recover."
+      },
+      {
+        "term": "animal rights group",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An organization campaigning for better treatment of animals.",
+        "translationUz": "hayvonlar huquqlarini himoya qiluvchi tashkilot",
+        "example": "An animal rights group protested against illegal hunting."
+      },
+      {
+        "term": "awareness campaign",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Organized activities designed to inform people about an issue.",
+        "translationUz": "xabardorlikni oshirish kampaniyasi",
+        "example": "Students started an awareness campaign about plastic waste."
+      },
+      {
+        "term": "poacher",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who illegally hunts or captures wild animals.",
+        "translationUz": "noqonuniy ovchi, brakonyer",
+        "example": "Rangers arrested a poacher near the reserve."
+      },
+      {
+        "term": "poach",
+        "partOfSpeech": "verb",
+        "definitionEn": "To hunt or capture wild animals illegally.",
+        "translationUz": "noqonuniy ov qilmoq",
+        "example": "Some criminals poach endangered animals."
+      },
+      {
+        "term": "enforce environmental laws",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To make sure people and businesses obey environmental rules.",
+        "translationUz": "ekologik qonunlarga rioya etilishini ta’minlamoq",
+        "example": "Officials must enforce environmental laws consistently."
+      },
+      {
+        "term": "establish a nature reserve",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To create a protected area for habitats and wildlife.",
+        "translationUz": "tabiat qo‘riqxonasi tashkil etmoq",
+        "example": "The government plans to establish a nature reserve."
+      },
+      {
+        "term": "IUCN Red List",
+        "partOfSpeech": "proper noun",
+        "definitionEn": "An international assessment of the extinction risk of species.",
+        "translationUz": "IUCNning yo‘qolib ketish xavfi ro‘yxati",
+        "example": "Researchers consulted the IUCN Red List."
+      },
+      {
+        "term": "recycle plastic bags and bottles",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To collect and process used plastic items into reusable material.",
+        "translationUz": "plastik paket va idishlarni qayta ishlamoq",
+        "example": "Residents are encouraged to recycle plastic bags and bottles."
+      },
+      {
+        "term": "reduce fossil fuel consumption",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To use less coal, oil and natural gas.",
+        "translationUz": "qazilma yoqilg‘i iste’molini kamaytirmoq",
+        "example": "The city plans to reduce fossil fuel consumption."
+      },
+      {
+        "term": "wildlife preserve",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A protected area where wild animals and their habitats are conserved.",
+        "translationUz": "yovvoyi hayvonlar qo‘riqxonasi",
+        "example": "The wildlife preserve shelters endangered birds."
+      },
+      {
+        "term": "national park",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A legally protected natural area managed for conservation and public enjoyment.",
+        "translationUz": "milliy tabiat bog‘i",
+        "example": "The national park protects forests and mountain wildlife."
+      },
+      {
+        "term": "renewable energy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Energy from naturally replenishing sources such as sun, wind and waves.",
+        "translationUz": "qayta tiklanuvchi energiya",
+        "example": "Renewable energy can reduce dependence on fossil fuels."
+      },
+      {
+        "term": "alternative energy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Energy sources used instead of conventional fossil fuels.",
+        "translationUz": "muqobil energiya",
+        "example": "The region is investing in alternative energy."
+      },
+      {
+        "term": "solar energy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Energy obtained from sunlight.",
+        "translationUz": "quyosh energiyasi",
+        "example": "Solar energy powers the school's new lights."
+      },
+      {
+        "term": "wave energy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Energy captured from the movement of ocean waves.",
+        "translationUz": "dengiz to‘lqinlari energiyasi",
+        "example": "Wave energy projects are being tested offshore."
+      },
+      {
+        "term": "wind energy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Energy obtained from moving air using wind turbines.",
+        "translationUz": "shamol energiyasi",
+        "example": "Wind energy supplies power to nearby villages."
+      },
+      {
+        "term": "nuclear energy",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Energy released by reactions in atomic nuclei; usually low-carbon but not renewable.",
+        "translationUz": "atom energiyasi",
+        "example": "Nuclear energy generates electricity without burning coal."
+      },
+      {
+        "term": "monsoon",
+        "partOfSpeech": "noun",
+        "definitionEn": "A seasonal wind pattern often associated with heavy rainfall.",
+        "translationUz": "musson, mavsumiy kuchli shamol va yomg‘irlar",
+        "example": "The summer monsoon brings heavy rain."
+      },
+      {
+        "term": "tropical rain",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Rainfall occurring in warm tropical climates.",
+        "translationUz": "tropik yomg‘ir",
+        "example": "Tropical rain supports dense rainforests."
+      },
+      {
+        "term": "semi-arid",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Having relatively little rainfall, but not as dry as a desert.",
+        "translationUz": "yarim qurg‘oqchil",
+        "example": "The region has a semi-arid climate."
       }
     ]
   }

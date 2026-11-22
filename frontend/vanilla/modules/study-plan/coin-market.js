@@ -67,10 +67,7 @@ async function earnPanel(ctx, host, options) {
   host.replaceChildren(loading(ctx));
   const results = await Promise.allSettled([
     api.request('/api/coins/wallet', {signal: ctx.signal}),
-    api.request('/api/coins/daily/claim', {method:'POST',signal: ctx.signal}).catch(error=>{
-      if(ctx.signal.aborted)throw error;
-      return api.request('/api/coins/daily',{signal:ctx.signal});
-    }),
+    api.request('/api/coins/daily', {signal:ctx.signal}),
     api.request('/api/coins/referral-link', {method: 'POST', signal: ctx.signal}),
     api.request('/api/study-plan/rewards', {signal: ctx.signal}),
   ]);

@@ -2574,6 +2574,26 @@
       "label": "Further collocations from the source exercises",
       "start": 137,
       "end": 152
+    },
+    {
+      "label": "Pollution, emissions and resource depletion",
+      "start": 152,
+      "end": 176
+    },
+    {
+      "label": "Species, land degradation and natural disasters",
+      "start": 176,
+      "end": 200
+    },
+    {
+      "label": "Conservation, policy and practical action",
+      "start": 200,
+      "end": 214
+    },
+    {
+      "label": "Renewable energy and world climate",
+      "start": 214,
+      "end": 223
     }
   ]
 }

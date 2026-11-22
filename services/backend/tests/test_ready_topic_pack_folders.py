@@ -95,14 +95,14 @@ def test_uploaded_ready_packs_keep_all_ten_names_and_source_counts():
     from pathlib import Path
     from app.vocabulary_packs_port import built_in_summaries
     expected={'Food':302,'Health':225,'Shopping':97,'Sports':125,
-        'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':161,'Art':175,'Environment':152}
+        'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':161,'Art':175,'Environment':223}
     summaries=built_in_summaries()
     assert {p['label']:p['wordCount'] for p in summaries}==expected
     assert all(p['labelUz']==p['label'] for p in summaries if p['id']!='art')
     assert next(p for p in summaries if p['id']=='art')['labelUz']=='San’at'
     path=Path(port.__file__).with_name('vocabulary_builtin_packs.json')
     packs=json.loads(path.read_text(encoding='utf-8'))
-    assert len(packs)==11 and sum(len(p['words']) for p in packs)==2144
+    assert len(packs)==11 and sum(len(p['words']) for p in packs)==2215
     assert {p['id'] for p in packs}=={name.lower() for name in expected}
     food = next(pack for pack in packs if pack['id'] == 'food')
     assert food['words'][0]['term'] == 'Staple food'
