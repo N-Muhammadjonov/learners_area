@@ -139,6 +139,8 @@ _PASSAGES = {
     '47918e00-9c76-5bea-8ecb-0de782f0c00f': '129-fear-of-the-unknown',
     '1d215fa8-0d03-4202-ba20-1766b03f3ae6': '130-the-blockbuster-phenomenon-a-new-museum-trend',
     '937e7d8a-b511-5356-8a27-b4eb4644caf9': '131-ideal-homes',
+    'f7817580-bfd5-4423-aae5-f087bb0e5a3d': '132-tasmanias-museum-of-old-and-new-art',
+    '4fd2825e-259e-4381-bc3a-38128e4fae33': '133-dirty-river-but-clean-water',
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
