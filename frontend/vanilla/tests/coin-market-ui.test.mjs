@@ -47,18 +47,27 @@ afterEach(() => {
     'File', 'FormData']) delete globalThis[name];
 });
 
-test('direct earn entry shows the committed daily receipt and balance together',async()=>{
-  api.request=async path=>{
+test('earn panel reads daily status and pays only after explicit Claim click',async()=>{
+  const calls=[];
+  api.request=async (path,options={})=>{
+    calls.push({path,method:options.method||'GET'});
     if(path==='/api/coins/wallet')return {balance:10};
+    if(path==='/api/coins/daily')return {date:'2026-11-17',claimed:false,streak:2,todayCoins:0,nextCoins:3,cycle:7};
     if(path==='/api/coins/daily/claim')return {date:'2026-11-17',claimed:true,streak:3,todayCoins:3,nextCoins:0,cycle:7,wallet:{balance:13}};
     if(path==='/api/coins/referral-link')return {url:null,count:0};
     if(path==='/api/study-plan/rewards')return {totalEarned:0};
     throw Error('Unexpected route: '+path);
   };
   await showCoinFeature(base(),'earn',root);
+  assert.match(root.querySelector('[data-coin-balances]').textContent,/10/);
+  assert.equal(calls.filter(c=>c.path==='/api/coins/daily/claim').length,0);
+  assert(root.querySelector('[data-coin-daily-claim]'));
+  assert.equal(root.querySelector('[data-coin-streak]').dataset.coinStreak,'2');
+  root.querySelector('[data-coin-daily-claim]').click();
+  await new Promise(resolve=>setTimeout(resolve,0));
+  assert.equal(calls.filter(c=>c.path==='/api/coins/daily/claim'&&c.method==='POST').length,1);
   assert.match(root.querySelector('[data-coin-balances]').textContent,/13/);
   assert.equal(root.querySelector('[data-coin-daily-claim]'),null);
-  assert.equal(root.querySelector('[data-coin-streak]').dataset.coinStreak,'3');
 });
 
 test('buyer confirms exact price with Ha, then sees the success receipt', async () => {
