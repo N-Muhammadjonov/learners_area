@@ -8,6 +8,17 @@ import {vocabularyHubTabs} from './hub-tabs.js';
 import {nextHandoffWord,handoffSlice,handoffSourceDeck,mergeHandoffState,completedHandoffWords} from './game-handoff.js';
 export const gameURL=(id,set,folderId,topicPack,extras={})=>`/app/vocabulary/games/${id}?${params({set,...set==='folder'?{folderId}:{},...set==='topic'?{topicPack}:{},...extras})}`;
 const setQuery=(set,folder,pack)=>params({set,...set==='folder'?{folderId:folder}:{},...set==='topic'?{topicPack:pack}:{}});
+export const GAME_ICONS=Object.freeze({cards:'🃏',choice:'✅',match:'🧩',gap:'✏️',race:'⌨️',translation:'📖',builder:'🧱'});
+export const GAME_CONTINUE_UZ=Object.freeze({
+ cards:'Kartochkalarda davom ettirish',
+ choice:'Testda davom ettirish',
+ match:'Juftlarni topishda davom ettirish',
+ gap:"Bo‘sh joyni to‘ldirishda davom ettirish",
+ race:'Tez yozishda davom ettirish',
+ translation:'Tarjima bellashuvida davom ettirish',
+ builder:'Gap qurishda davom ettirish'
+});
+export const gameContinueLabel=(locale,key,label)=>locale==='uz'?GAME_CONTINUE_UZ[key]:`Continue in ${label}`;
 
 export function mountGames(ctx,host,id=null){
  const {dict,signal,url}=ctx,t=dict.vocabulary,g=t.games;let folders=[],packs=[],selected=SETS.includes(url.searchParams.get('set'))?url.searchParams.get('set'):'due',folder=url.searchParams.get('folderId')??'',pack=url.searchParams.get('topicPack')??'',sequence=0,roundLife,metaFailed=false,attempt=null,batch=/^\d+$/.test(url.searchParams.get('batch')??'')?Number(url.searchParams.get('batch')):null,
@@ -20,21 +31,44 @@ export function mountGames(ctx,host,id=null){
  function source(){const detail=selected==='folder'?folders.find(x=>x.id===folder)?.name:selected==='topic'?packs.find(x=>x.id===pack)?.label:null;return [g.set[selected],detail].filter(Boolean).join(' · ');}
  function address(){const next=new URL(window.location.href),query=new URLSearchParams(setQuery(selected,folder,pack));if(batch!==null)query.set('batch',String(batch));if(from){query.set('from',from);if(cursor)query.set('cursor',cursor);}next.search=query.toString();window.history.replaceState(window.history.state,'',next.pathname+next.search);ctx.url.search=next.search;}
  function select(label,options,current,change,attrs={}){return h('label',{class:'flex flex-col gap-1 text-xs text-ink-500'},label,h('select',{class:'input','aria-label':label,value:current,...attrs,onChange:event=>{change(event.target.value);batch=null;from=null;cursor=null;address();renderHead();void load();}},options.map(o=>h('option',{value:o.value},o.label))));}
- function renderHead(data=null,loading=false,failed=false){const controls=[select(g.set.label,SETS.map(value=>({value,label:g.set[value]})),selected,value=>selected=value,{'data-game-set':''})];
+
+ function renderHead(data=null,loading=false,failed=false){
+  const controls=[select(g.set.label,SETS.map(value=>({value,label:g.set[value]})),selected,value=>selected=value,{'data-game-set':''})];
   if(selected==='folder'&&folders.length)controls.push(select(t.folders.title,folders.map(x=>({value:x.id,label:`${x.name} · ${x.count??0}`})),folder,value=>folder=value));
   if(selected==='topic'&&packs.length)controls.push(select(t.packs.title,packs.map(x=>({value:x.id,label:`${x.label} · ${x.wordCount??0}`})),pack,value=>pack=value));
-  const status=h('p',{class:id?'text-xs text-ink-500 sm:col-span-2':'mt-3 text-xs text-ink-500','data-game-set-status':'','aria-live':'polite'},loading?dict.common.loading:failed?g.loadError:`${source()} · ${data?.total??0} ${t.packs.words}${!id&&data?` · ${data.due??0} ${t.summary.dueToday}`:''}`);
-  head.replaceChildren(h('a',{href:id?'/app/vocabulary/games?'+setQuery(selected,folder,pack):'/app/vocabulary',class:'btn-ghost w-fit',...(id?{'data-game-back':''}:{'data-games-back-to-vocabulary':''})},'← '+(id?g.backToGames:dict.nav.vocabulary)),id?null:vocabularyHubTabs(ctx,'games',setQuery(selected,folder,pack)),h('header',{class:id?'flex flex-wrap items-end justify-between gap-3':''},h('div',{},h('h1',{class:'font-display text-2xl text-ink-900'},id?g[id]:g.title),h('p',{class:'mt-1 text-sm text-ink-500',...(id?{'data-game-source':''}:{})},id?g.source+': '+source():g.hint)),id&&data?h('div',{class:'flex flex-wrap items-center gap-2'},h('span',{class:'text-xs text-ink-500'},String(data.total??0)+' '+t.packs.words),attempt?h('button',{type:'button',class:'btn-secondary','data-game-restart':'',onClick:()=>void restartAttempt()},ctx.locale==='uz'?'Qayta urinish':'Try again'):null):null),id?h('section',{class:'card grid gap-2 p-4 sm:grid-cols-2','aria-label':g.set.label,'data-game-set-controls':''},controls,status):h('section',{class:'card p-4','aria-label':g.set.label},h('div',{class:'grid gap-2 sm:grid-cols-2'},controls),status));
+  const status=h('p',{class:id?'text-xs text-ink-500 sm:col-span-2':'mt-3 text-xs text-ink-500',
+   'data-game-set-status':'','aria-live':'polite'},
+   loading?dict.common.loading:failed?g.loadError:`${source()} · ${data?.total??0} ${t.packs.words}${!id&&data?` · ${data.due??0} ${t.summary.dueToday}`:''}`);
+  const back=h('a',{href:id?'/app/vocabulary/games?'+setQuery(selected,folder,pack):'/app/vocabulary',
+   class:'btn-ghost w-fit',...(id?{'data-game-back':''}:{'data-games-back-to-vocabulary':''})},
+   '← '+(id?g.backToGames:dict.nav.vocabulary));
+  const heading=h('header',{class:id?'flex flex-wrap items-end justify-between gap-3':''},
+   h('div',{},h('h1',{class:'font-display text-2xl text-ink-900'},id?g[id]:g.title),
+    h('p',{class:'mt-1 text-sm text-ink-500',...(id?{'data-game-source':''}:{})},
+     id?g.source+': '+source():g.hint)),
+   ...(id&&data?[h('div',{class:'flex flex-wrap items-center gap-2'},
+    h('span',{class:'text-xs text-ink-500'},String(data.total??0)+' '+t.packs.words),
+    ...(attempt?[h('button',{type:'button',class:'btn-secondary','data-game-restart':'',
+     onClick:()=>void restartAttempt()},ctx.locale==='uz'?'Qayta urinish':'Try again')]:[]))]:[]));
+  const picker=id
+   ?h('section',{class:'card grid gap-2 p-4 sm:grid-cols-2','aria-label':g.set.label,'data-game-set-controls':''},controls,status)
+   :h('section',{class:'card p-4','aria-label':g.set.label},
+     h('div',{class:'grid gap-2 sm:grid-cols-2'},controls),status);
+  head.replaceChildren(back,...(id?[]:[vocabularyHubTabs(ctx,'games',setQuery(selected,folder,pack))]),heading,picker);
  }
- function library(data){const total=data?.total??0,icons={cards:'🃏',choice:'✅',match:'🧩',gap:'✏️',race:'⌨️',translation:'📖',builder:'🧱'};
-  game.replaceChildren(h('div',{class:'vocabulary-game-grid','data-vocabulary-games':''},GAMES.map(key=>h('a',{
-   href:gameURL(key,selected,folder,pack),'data-game':key,'data-available':String(total>0),class:'vocabulary-game-tile'
-  },h('span',{class:'vocabulary-game-tile-icon','aria-hidden':'true'},icons[key]),
-     h('strong',{class:'vocabulary-game-tile-title'},g[key]),
-     h('span',{class:'vocabulary-game-tile-hint'},g[key+'Hint']),
-     !total?h('span',{class:'vocabulary-game-tile-status'},g.noWordsInSet):null))),
-    !total?h('p',{class:'text-sm text-ink-500'},g.noWords):null,
-    h('p',{class:'text-xs text-ink-500'},g.casualNote));
+ function library(data){
+  const total=data?.total??0;
+  const cards=h('div',{class:'vocabulary-game-grid','data-vocabulary-games':''},
+   GAMES.map(key=>h('a',{
+    href:gameURL(key,selected,folder,pack),'data-game':key,
+    'data-available':String(total>0),class:'vocabulary-game-tile'
+   },h('span',{class:'vocabulary-game-tile-icon','aria-hidden':'true'},GAME_ICONS[key]),
+      h('strong',{class:'vocabulary-game-tile-title'},g[key]),
+      h('span',{class:'vocabulary-game-tile-hint'},g[key+'Hint']),
+      ...(!total?[h('span',{class:'vocabulary-game-tile-status'},g.noWordsInSet)]:[]))));
+  game.replaceChildren(cards,
+   ...(!total?[h('p',{class:'text-sm text-ink-500'},g.noWords)]:[]),
+   h('p',{class:'text-xs text-ink-500'},g.casualNote));
  }
  async function restartAttempt(){
   if(!id||!attempt||roundLife?.signal.aborted)return;
@@ -61,10 +95,11 @@ export function mountGames(ctx,host,id=null){
   switcher.replaceChildren(h('h2',{class:'text-base font-medium text-ink-900'},title),
    h('p',{class:'text-xs text-ink-500'},helper),
    h('div',{class:'vocabulary-game-switch-grid'},GAMES.filter(key=>key!==id).map(key=>h('button',{
-    type:'button',class:'vocabulary-game-switch-button','data-game-switch':key,
+    type:'button',class:'vocabulary-game-switch-button','data-game':key,'data-game-switch':key,
     disabled:switching||busyAnswers>0||!attempt||groupEnded,
     onClick:()=>void switchGame(key)
-   },h('span',{},g[key]),h('span',{class:'vocabulary-game-switch-action'},ctx.locale==='uz'?'da davom ettirish':'Continue here')))));
+   },h('span',{class:'vocabulary-game-switch-icon','aria-hidden':'true'},GAME_ICONS[key]),
+      h('span',{class:'vocabulary-game-switch-label'},gameContinueLabel(ctx.locale,key,g[key]))))));
  }
  async function switchGame(nextGame){
   if(!id||!attempt||switching||busyAnswers>0||roundLife?.signal.aborted)return;
