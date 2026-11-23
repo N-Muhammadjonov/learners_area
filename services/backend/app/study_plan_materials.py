@@ -251,9 +251,9 @@ def assign_owner_vocabulary(schedule: list[dict],
         return schedule
     result = []
     for day in schedule:
-        index = (day["day"] - 1) % len(packs)
+        index = min((day["day"] - 1) // 2, len(packs) - 1)
         pack = packs[index]
-        first_exposure = day["day"] <= len(packs)
+        first_exposure = day["day"] <= 2 * len(packs) and day["day"] % 2 == 1
         activity = ("Learn this published pack, write 3 usable examples and complete 10+ verified SRS/game recalls"
                     if first_exposure else
                     "Review earlier vocabulary, correct errors, use 5 collocations in Speaking/Writing and complete 10+ verified recalls")
