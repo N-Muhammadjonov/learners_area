@@ -2062,7 +2062,7 @@
     "frontend/vanilla/modules/speaking/lessons.js": "9b33a61becf31c443b569d04e893e90294950064cdf5a84b2a403b2acf616696",
     "frontend/vanilla/modules/speaking/live-partner.js": "3a6d214aee9fa5e49ca7bc70b3cf746ccbd9e1c0a102c033b21cb51319d592a2",
     "frontend/vanilla/modules/speaking/media.js": "b15ddbc0a2cf4119cb480735789777f809243ab532dc4fc41106891ef13b2b5f",
-    "frontend/vanilla/modules/speaking/microphone.js": "997460b24c6a85c861ee7a39f6fdd9510f604596b92e99ad48a6bdc2a1a7b96a",
+    "frontend/vanilla/modules/speaking/microphone.js": "d681c3ab9af66e882c48dfaf83ab914057e915283f25ab269a3943f733a332af",
     "frontend/vanilla/modules/speaking/partner-activities.js": "54c6981a066d0e029d78cd5ffaf47834e9ad6b567dab41e51ca665f29aefc7f3",
     "frontend/vanilla/modules/speaking/partner-copy.js": "bbe26ba031d3d388c790005c872868a6789a3ee4abb4aa6e230a5295a1c4ff27",
     "frontend/vanilla/modules/speaking/partner-history.js": "7ca1a1e83bfbb075f6cc89d88183c120332bec703b25459641945522c559b699",
