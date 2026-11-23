@@ -68,6 +68,15 @@ export function validateSequence(value) {
       !Number.isInteger(value.completedDays) || value.completedDays < 0 ||
       value.completedDays > value.totalDays || !Array.isArray(value.days) ||
       value.days.length !== value.totalDays) throw Error('invalid_plan');
+  if(value.sundayProgramme){
+    const sunday=value.sundayProgramme;
+    if(sunday.separateFromMainCycle!==true||sunday.minutes!==420||
+       typeof sunday.active!=='boolean'||!Array.isArray(sunday.tasks)||
+       sunday.tasks.length!==7||sunday.tasks.reduce((total,t)=>total+t.minutes,0)!==420||
+       !sunday.tasks.every(t=>typeof t.title==='string'&&t.title.trim()&&
+         Number.isInteger(t.minutes)&&t.minutes>0&&t.minutes<=90&&validRoute(t.href)))
+      throw Error('invalid_sunday_programme');
+  }
   for (const [index, day] of value.days.entries()) {
     if (!day || day.day !== index + 1 || !DAY_STATES.includes(day.status) ||
         typeof day.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day.date) ||
@@ -386,7 +395,7 @@ export function mountSequenceAssignments(ctx, root) {
             onClick:()=>void change('regenerate')},
             text(ctx,'Tasdiqlash','Confirm')))):null;
     panel.replaceChildren(...[
-      toolbar,summary,confirm,
+      toolbar,summary,confirm,sundayPanel,
       data.state==='completed'?h('p',{role:'status',class:'sequence-notice'},
         text(ctx,data.totalDays+' kunlik reja yakunlandi.',data.totalDays+'-day plan completed.')):null,
       calendar(ctx,data,state),
