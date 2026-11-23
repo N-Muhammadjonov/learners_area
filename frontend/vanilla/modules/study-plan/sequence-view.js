@@ -208,7 +208,14 @@ function calendar(ctx, data, state) {
   const startDay = new Date(data.days[0].date+'T00:00:00Z').getUTCDay();
   const offset = (startDay + 6)%7;
   const blanks = Array.from({length:offset},()=>h('span',{'aria-hidden':'true'}));
+  let previousProjectedDate=null;
   for (const day of data.days) {
+    if (previousProjectedDate) {
+      const gap=Math.min(7,Math.max(0,Math.round(
+        (Date.parse(day.date+'T00:00:00Z')-Date.parse(previousProjectedDate+'T00:00:00Z'))/86400000)-1));
+      for(let n=0;n<gap;n++)buttons.push(h('span',{'aria-hidden':'true','data-sequence-gap':''}));
+    }
+    previousProjectedDate=day.date;
     const locked = day.status === 'locked';
     const button = h('button', {
       type:'button',class:'sequence-day', 'data-sequence-day':day.day,
@@ -287,27 +294,19 @@ export function mountSequenceAssignments(ctx, root) {
     const title=h('h2',{},text(ctx,
       'Sizning '+selectedDays+' kunlik rejangiz','Your '+selectedDays+'-day plan'));
     const isOwner=ctx.session?.user?.role==='owner';
-    const legacyOwnerCycle=isOwner && data?.state==='active' &&
-      data.days?.some(day=>day.day>data.currentDay &&
-        [DAILY_MINUTES,OWNER_MINUTES].includes(day.minutes));
     const lead=h('p',{class:'sequence-subtitle'},
       text(ctx,
         isOwner
-          ?legacyOwnerCycle
-            ?'Oldingi rejadagi kelajak kunlarini kurs jadvaliga moslashtirish uchun «Rejani qayta tuzish»ni tanlang. Joriy va bajarilgan kunlar saqlanadi.'
-            :'IELTS 8.0: Du/Ch/Ju 180 daqiqa, Se/Pa/Sh 390 daqiqa, Ya 420 daqiqa. Har kuni SRS retention.'
+          ?'IELTS 8.0: asosiy reja 3 soatlik yengil va 7 soatlik og‘ir kunlardan iborat. Yakshanba alohida. Tugallanmagan kun saqlanadi, keyingi bosqich ochilmaydi.'
           :'Kuniga kamida 120 daqiqa ajrating. Barcha vazifalar tugagach keyingi kun ochiladi.',
         isOwner
-          ?legacyOwnerCycle
-            ?'Regenerate future days to use the new course-day schedule. Current and completed work is preserved.'
-            :'IELTS 8.0: Mon/Wed/Fri 180 min; Tue/Thu/Sat 390 min; Sunday 420 min. Daily SRS retention.'
+          ?'IELTS 8.0: alternate 3-hour light and 7-hour heavy study steps. Sundays are separate; missed work never disappears.'
           :'Allocate at least 120 minutes each day. The next day unlocks after all tasks are completed.'));
-    const ownerBands=ctx.session?.user?.role==='owner'&&data?.baselineBands
+    const ownerBands=isOwner&&data?.baselineBands
       ?h('p',{class:'sequence-subtitle','data-owner-ielts-target':''},
-        'L '+data.baselineBands.listening+' → '+data.targetBand+
-        ' · R '+data.baselineBands.reading+' → '+data.targetBand+
-        ' · W '+data.baselineBands.writing+' → '+data.targetBand+
-        ' · S '+data.baselineBands.speaking+' → '+data.targetBand)
+        'L '+data.baselineBands.listening+' → 8.5 · R '+data.baselineBands.reading+
+        ' → 8.5 · W '+data.baselineBands.writing+' → 7.0 · S '+
+        data.baselineBands.speaking+' → 7.0 · Overall target 8.0')
       :null;
     const toolbar=h('div',{class:'sequence-heading'},h('div',{},title,lead,ownerBands));
     if (state.pending && !data) {
@@ -352,6 +351,19 @@ export function mountSequenceAssignments(ctx, root) {
         disabled:state.pending,onClick:()=>{state.confirming=!state.confirming;state.selectedDuration=data.totalDays;paint();}},
         text(ctx,'Rejani qayta tuzish','Regenerate plan')):null);
     toolbar.append(buttons);
+    const sunday=data.sundayProgramme;
+    const sundayPanel=isOwner&&sunday&&sunday.active?
+      h('section',{class:'sequence-confirm','data-owner-sunday-programme':'',role:'region',
+        'aria-label':text(ctx,'Yakshanba dasturi','Sunday programme')},
+        h('h3',{},sunday.title),
+        h('p',{class:'sequence-subtitle'},text(ctx,
+          'Yakshanba 30 kunlik asosiy navbatdan mustaqil. Shanbadagi tugallanmagan vazifalar dushanba kuni davom etadi.',
+          'Sunday is separate. Incomplete Saturday work resumes on Monday.')),
+        h('ul',{class:'sequence-task-list'},sunday.tasks.map(task=>
+          h('li',{class:'sequence-task'},h('div',{class:'sequence-task-description'},
+            h('strong',{},task.title),h('span',{class:'sequence-subtitle'},task.minutes+' min')),
+            h('a',{href:task.href,class:'btn-secondary sequence-task-action'},
+              text(ctx,'Mashqni ochish','Open practice')))))):null;
     const current=data.days[data.currentDay-1];
     const summary=h('div',{class:'sequence-metrics'},
       metric(text(ctx,'Jami kun','Days'),data.totalDays),
