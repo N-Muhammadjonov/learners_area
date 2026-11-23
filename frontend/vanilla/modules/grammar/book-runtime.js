@@ -17,10 +17,37 @@ function clearScore(u,si,ei){const st=S[u.id]?.[si];if(!st||!Object.prototype.ha
 function cls(p){return p>=80?'hi':p>=50?'mid':'lo'}
 function refresh(u,auto){const allDone=u.stages.every((s,i)=>done(u,i));const rtb=root.getElementById('rt-'+u.id);if(rtb){rtb.style.display=allDone?'':'none';if(!allDone)delete rtb.dataset.opened}if(rtb&&allDone){rtb.style.display='';const sc=root.getElementById('u-'+u.id);if(auto&&sc&&sc._sel&&!rtb.dataset.opened){rtb.dataset.opened=1;sc._sel(4)}}const tabs=root.querySelectorAll('#tabs-'+u.id+' .tab');u.stages.forEach((s,i)=>{const em=tabs[i].querySelector('em');if(done(u,i)){const p=pct(u,i);em.textContent=p+'%';em.className=cls(p)}else{em.textContent='';em.className=''}});const side=root.getElementById('pc-'+u.id);const ps=u.stages.map((s,i)=>pct(u,i));const a=Math.round(ps.reduce((x,y)=>x+y,0)/4);side.textContent=a?a+'%':''}
 function exCard(u,si,ei,e){
-  const card=$('div','exc');const h=$('div','exh');h.append($('div','exl',e.letter));h.append($('div','ins','<b>'+esc(e.instr.split('. ')[0]+(e.instr.includes('. ')?'.':''))+'</b> '+esc(e.instr.includes('. ')?e.instr.split('. ').slice(1).join('. '):'')+(e.note?'<div class="note">'+esc(e.note)+'</div>':'')));card.append(h);
+  const card=$('div','exc');card.dataset.grammarExercise=si+':'+ei;const h=$('div','exh');h.append($('div','exl',e.letter));h.append($('div','ins','<b>'+esc(e.instr.split('. ')[0]+(e.instr.includes('. ')?'.':''))+'</b> '+esc(e.instr.includes('. ')?e.instr.split('. ').slice(1).join('. '):'')+(e.note?'<div class="note">'+esc(e.note)+'</div>':'')));card.append(h);
   const body=$('div');card.append(body);const kind=e.kind;let correct=0;const marks=[];
+  const retry=$('button','btn ghost grammar-exercise-retry','Qayta ishlash');
+  retry.type='button';retry.dataset.grammarExerciseRetry=si+':'+ei;
+  retry.hidden=!Object.prototype.hasOwnProperty.call(stat(u)[si]||{},ei);
+  retry.onclick=()=>{
+    stageAnswers.get(u.id+':'+si)?.delete(ei);
+    clearScore(u,si,ei);
+    card.replaceWith(exCard(u,si,ei,e));
+  };
+  const proofStatus=$('span','grammar-exercise-proof');
+  proofStatus.setAttribute('role','status');proofStatus.hidden=true;
+  async function submitEvidence(submitted){
+    proofStatus.hidden=false;proofStatus.textContent='Natija serverda tekshirilmoqda…';
+    try{
+      const response=await fetch('/api/coins/grammar-book/complete',{
+        method:'POST',credentials:'same-origin',
+        headers:{Accept:'application/json','Content-Type':'application/json'},
+        keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:submitted})
+      });
+      if(!response.ok)throw Error('grammar_evidence_http_error');
+      const result=await response.json();
+      if(!result?.ok||result.reason==='incomplete'||result.reason==='audio_not_verified')
+        throw Error('grammar_evidence_rejected');
+      proofStatus.textContent='Serverda tasdiqlandi';
+    }catch{
+      if(!signal?.aborted)proofStatus.textContent='Serverda saqlanmadi. Ushbu blokni qayta ishlang.';
+    }
+  }
   function collect(){
-    if(kind==='mcq'||kind==='judge')return [...body.querySelectorAll('.item')].map(row=>{const picked=row.querySelector('button.opt[data-user-choice="true"]')?.textContent||'';return kind==='judge'?(picked==="To'g'ri"?'To‘g‘ri':picked==="Noto'g'ri"?'Xato':''):picked;});
+    if(kind==='mcq'||kind==='judge')return [...body.querySelectorAll('.item')].map(row=>{const picked=row.querySelector('button.opt[data-user-choice="true"]')?.textContent||'';return kind==='judge'&&!level?(picked==="To'g'ri"?'To‘g‘ri':picked==="Noto'g'ri"?'Xato':''):picked;});
     if(kind==='match')return [...body.querySelectorAll('select')].map(select=>select.value||'');
     if(kind==='bank')return [...body.querySelectorAll('.blank')].map(blank=>blank.dataset.v||'');
     if(kind==='order')return [...body.querySelectorAll('.line')].map(line=>[...line.children].map(node=>node.textContent).join(' '));
@@ -28,7 +55,7 @@ function exCard(u,si,ei,e){
   }
   const finish=()=>{
     const submitted=collect();
-    setScore(u,si,ei,correct);
+    setScore(u,si,ei,correct);retry.hidden=false;
     if(typeof onStageComplete==='function'&&si===0){
       const key=u.id+':'+si,blocks=stageAnswers.get(key)||new Map();
       blocks.set(ei,submitted);
@@ -37,11 +64,60 @@ function exCard(u,si,ei,e){
         onStageComplete({unitId:u.id,stage:si,answers:[0,1,2].map(index=>blocks.get(index))});
       }
     }
-    if(!level||kind==='speak')return;
-    fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:submitted})}).catch(()=>{});
+    if(level&&kind!=='speak')void submitEvidence(submitted);
   };
-  if(kind==='mcq'||kind==='judge'){let answered=0;e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');m.append($('div','q',esc(it.q)));const box=$('div');const fb=$('div','fb');
-    const opts=kind==='mcq'?it.opts:["To'g'ri","Noto'g'ri"];opts.forEach(o=>{const b=$('button','opt',esc(o));b.onclick=()=>{if(box.dataset.d)return;box.dataset.d=1;const good=kind==='mcq'?o===it.a:((o==="To'g'ri")===it.t);b.dataset.userChoice='true';b.classList.add(good?'ok':'no');if(!good){[...box.children].forEach(x=>{if(kind==='mcq'?x.textContent===it.a:((x.textContent==="To'g'ri")===it.t))x.classList.add('ok')});if(kind==='judge'&&it.fix)fb.innerHTML='<b>To\'g\'ri:</b> '+esc(it.fix);fb.className='fb no'}if(good)correct++;answered++;if(answered===e.items.length)finish()};box.append(b)});m.append(box,fb);row.append(m);body.append(row)})}
+  if(kind==='mcq'||kind==='judge'){
+    const rows=[],check=$('button','btn','Tekshirish');
+    check.type='button';check.disabled=true;
+    e.items.forEach((it,i)=>{
+      const row=$('div','item');row.append($('div','num',i+1));
+      const main=$('div','main');main.append($('div','q',esc(it.q)));
+      const box=$('div'),feedback=$('div','fb');
+      const options=kind==='mcq'?it.opts:["To'g'ri","Noto'g'ri"];
+      options.forEach(option=>{
+        const button=$('button','opt',esc(option));button.type='button';
+        button.setAttribute('aria-pressed','false');
+        button.onclick=()=>{
+          if(box.dataset.d)return;
+          for(const choice of box.querySelectorAll('button.opt')){
+            choice.dataset.userChoice='false';
+            choice.setAttribute('aria-pressed','false');
+            choice.classList.remove('selected');
+          }
+          button.dataset.userChoice='true';button.setAttribute('aria-pressed','true');
+          button.classList.add('selected');
+          check.disabled=!rows.every(entry=>entry.box.querySelector('button.opt[data-user-choice="true"]'));
+        };
+        box.append(button);
+      });
+      main.append(box,feedback);row.append(main);body.append(row);
+      rows.push({box,feedback,it});
+    });
+    check.onclick=()=>{
+      if(check.disabled||check.dataset.d)return;
+      check.dataset.d='1';check.disabled=true;
+      for(const {box,feedback,it} of rows){
+        box.dataset.d='1';
+        const selected=box.querySelector('button.opt[data-user-choice="true"]');
+        const good=kind==='mcq'?selected.textContent===it.a:
+          ((selected.textContent==="To'g'ri")===it.t);
+        selected.classList.add(good?'ok':'no');
+        if(good)correct++;
+        else{
+          for(const choice of box.querySelectorAll('button.opt')){
+            if(kind==='mcq'?choice.textContent===it.a:
+              ((choice.textContent==="To'g'ri")===it.t))choice.classList.add('ok');
+          }
+          if(kind==='judge'&&it.fix){
+            feedback.innerHTML='<b>To\'g\'ri:</b> '+esc(it.fix);
+            feedback.className='fb no';
+          }
+        }
+      }
+      finish();
+    };
+    body.append(check);
+  }
   else if(kind==='match'){
     const sels=[];
     e.items.forEach((item,index)=>{
@@ -168,11 +244,12 @@ function exCard(u,si,ei,e){
       main.append(record,remove,sample,feedback,player);row.append(main);body.append(row);
     });
   }
-  else if(kind==='write'){const ta=$('textarea','t');ta.placeholder=e.placeholder;const cnt=$('div','note','0 ta so\'z · kamida '+e.min);ta.oninput=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=n+' ta so\'z · kamida '+e.min};const b=$('button','btn','Yakunlash →');const mod=$('div','fb');b.onclick=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;if(n<e.min){cnt.style.color='#c0394b';return}mod.className='fb';mod.innerHTML='<b>Namuna:</b> '+esc(e.model);setScore(u,si,ei,1);if(level)fetch('/api/coins/grammar-book/complete',{method:'POST',credentials:'same-origin',headers:{Accept:'application/json','Content-Type':'application/json'},keepalive:true,body:JSON.stringify({level,unitId:u.id,stage:si,exercise:ei,answers:[ta.value]})}).catch(()=>{});};body.append(ta,cnt,b,mod)}
+  else if(kind==='write'){const ta=$('textarea','t');ta.placeholder=e.placeholder;const cnt=$('div','note','0 ta so\'z · kamida '+e.min);ta.oninput=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=n+' ta so\'z · kamida '+e.min};const b=$('button','btn','Yakunlash →');const mod=$('div','fb');b.onclick=()=>{const n=(ta.value.trim().match(/\S+/g)||[]).length;if(n<e.min){cnt.style.color='#c0394b';return}mod.className='fb';mod.innerHTML='<b>Namuna:</b> '+esc(e.model);correct=1;b.disabled=true;finish();};body.append(ta,cnt,b,mod)}
   else{const items=[];e.items.forEach((it,i)=>{const row=$('div','item');row.append($('div','num',i+1));const m=$('div','main');const isTr=kind==='tr';
     if(isTr||kind==='transform'||kind==='fix'||kind==='typed'){m.append($('div',isTr?'prompt':'',esc(it.q)))}
     const inp=$('input','t');inp.placeholder=isTr?'':'';const fb=$('div','fb');m.append(inp,fb);inp.onkeydown=ev=>{if(ev.key==='Enter'){const n=inp.closest('.exc').querySelector('.btn');n&&n.click()}};items.push([inp,it,fb]);row.append(m);body.append(row)});
     const b=$('button','btn','Tekshirish');b.onclick=()=>{if(b.dataset.d)return;b.dataset.d=1;items.forEach(([inp,it,fb])=>{const g=ok(inp.value,it.a,e.strict);inp.readOnly=true;inp.classList.add(g?'ok':'no');if(g)correct++;fb.className='fb '+(g?'ok':'no');fb.innerHTML=g?'✓':'<b>To\'g\'ri emas.</b> '+esc(it.a[0])+' ';if(!g){const o=$('button','opt','Mening javobim ham to\'g\'ri');o.onclick=()=>{o.remove();correct++;fb.className='fb ok';fb.innerHTML='✓ (qabul qilindi)';inp.classList.remove('no');inp.classList.add('ok');finish()};fb.append(o)}});finish()};body.append(b)}
+  body.append(retry,proofStatus);
   return card}
 function build(){const main=root.getElementById('units');const side=root.getElementById('nav');
   let lastC='';U.forEach((u,ui)=>{if(u.code!==lastC){lastC=u.code;side.append($('div','grp',u.code))}const a=$('a','',`<span>${u.id.split('-')[1]}. ${esc(u.title)}</span><span class="pc" id="pc-${u.id}"></span>`);a.href='#'+u.id;a.onclick=ev=>{ev.preventDefault();show(u.id)};side.append(a);
