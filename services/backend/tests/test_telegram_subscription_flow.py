@@ -1,6 +1,7 @@
 """Login and registration must keep phone verification separate from membership."""
 import asyncio
 import hashlib
+import json
 from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock, Mock, ANY
 from uuid import UUID
@@ -9,6 +10,8 @@ import pytest
 from fastapi.testclient import TestClient
 from app import main as core
 from app import step18_telegram_admission_port as admission
+from app import telegram_settings_port as settings
+from app import guardian_port as guardian
 from app import step19_telegram_exchange_port as exchange
 from app.rate_limit import BUCKETS
 from test_migration_phase2 import FakePool
@@ -166,3 +169,56 @@ def test_new_registration_without_valid_gender_cannot_create_account(monkeypatch
     assert r.json()['error']==('gender_required' if gender is None else 'invalid_input')
     assert 'set-cookie' not in r.headers;issue.assert_not_called()
     assert not any(q.lstrip().startswith(('INSERT','UPDATE','DELETE')) for _,q,_ in con.calls)
+
+
+PARENT_CHANNEL={'id':'-1009090909090','title':'Ota-onalar','url':'https://t.me/parent_channel'}
+
+
+def test_legacy_parent_channel_is_excluded_from_student_subscription_gate(monkeypatch):
+    import httpx
+    monkeypatch.setenv('TELEGRAM_ACCESS_GATES_ENABLED','true')
+    monkeypatch.setenv('TELEGRAM_BOT_TOKEN','test-bot-token')
+    monkeypatch.setenv('GUARDIAN_REQUIRED_CHANNEL_ID',PARENT_CHANNEL['id'])
+    con=DB()
+    con.rows['SELECT phone_number']={'phone_number':'+998900000000','phone_verified_at':datetime.now(timezone.utc)}
+    con.rows['SELECT role FROM users']={'role':'student'}
+    con.rows["key='required_channels'"]={'value':json.dumps([PARENT_CHANNEL,CHANNEL])}
+    response=Mock(is_success=True)
+    response.json.return_value={'ok':True,'result':{'status':'member'}}
+    client=AsyncMock()
+    client.__aenter__.return_value=client
+    client.get.return_value=response
+    monkeypatch.setattr(httpx,'AsyncClient',Mock(return_value=client))
+    assert asyncio.run(settings.list_channels(con))==[CHANNEL]
+    assert asyncio.run(admission.gates(con,'12345')) is None
+    client.get.assert_awaited_once()
+    assert client.get.call_args.kwargs['params']['chat_id']==CHANNEL['id']
+
+
+def test_parent_channel_alone_never_blocks_ordinary_user(monkeypatch):
+    monkeypatch.setenv('TELEGRAM_ACCESS_GATES_ENABLED','true')
+    monkeypatch.setenv('GUARDIAN_REQUIRED_CHANNEL_ID',PARENT_CHANNEL['id'])
+    con=DB()
+    con.rows['SELECT phone_number']={'phone_number':'+998900000000','phone_verified_at':datetime.now(timezone.utc)}
+    con.rows['SELECT role FROM users']={'role':'student'}
+    con.rows["key='required_channels'"]={'value':json.dumps([PARENT_CHANNEL])}
+    assert asyncio.run(admission.gates(con,'12345')) is None
+
+
+@pytest.mark.parametrize('linked',[True,False])
+def test_guardian_channel_is_required_only_while_child_is_linked(monkeypatch,linked):
+    monkeypatch.setenv('TELEGRAM_ACCESS_GATES_ENABLED','true')
+    con=DB()
+    con.rows['SELECT phone_number']={'phone_number':'+998900000000','phone_verified_at':datetime.now(timezone.utc)}
+    con.rows['SELECT role FROM users']={'role':'guardian'}
+    con.fetchval=AsyncMock(return_value=1 if linked else None)
+    guard=AsyncMock(return_value={'error':'not_subscribed','requiredChannels':[PARENT_CHANNEL]})
+    monkeypatch.setattr(guardian,'guardian_channel_gate',guard)
+    result=asyncio.run(admission.gates(con,'12345'))
+    if linked:
+        assert result=={'error':'not_subscribed','requiredChannels':[PARENT_CHANNEL]}
+        guard.assert_awaited_once_with('12345')
+    else:
+        assert result is None
+        guard.assert_not_awaited()
+    assert "l.status='linked'" in con.fetchval.call_args.args[0]
