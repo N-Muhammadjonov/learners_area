@@ -452,6 +452,10 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
  color:#000!important;
  border-color:transparent!important;
 }
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-campus-header-profile]>a[href="/app/notifications"] {
+ background:linear-gradient(var(--la-topbar-control-bg),var(--la-topbar-control-bg)) padding-box,var(--la-topbar-gradient) border-box!important;
+ border:1px solid transparent!important;
+}
 html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] {
  background:var(--la-topbar-gradient)!important;
  color:#000!important;
