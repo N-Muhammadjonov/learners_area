@@ -109,6 +109,9 @@ def test_replayed_media_slices_do_not_mint_coins():
 
 def test_grammar_rejects_fabricated_choices_and_non_audio_confirmation():
     assert grammar_submission_ok({"kind": "judge", "items": [{"t": True}]}, ["To'g'ri"])
+    assert grammar_submission_ok({"kind": "judge", "items": [{"t": False}]}, ["Noto'g'ri"])
+    assert not grammar_submission_ok({"kind": "judge", "items": [{"t": False}]}, ["Xato"])
+    assert not grammar_submission_ok({"kind": "judge", "items": [{"t": True}]}, ["To‘g‘ri"])
     assert not grammar_submission_ok({"kind": "judge", "items": [{"t": True}]}, ["random"])
     assert grammar_submission_ok({"kind": "match", "items": [{"l": "x"}], "rights": ["yes"]}, ["yes"])
     assert not grammar_submission_ok({"kind": "match", "items": [{"l": "x"}], "rights": ["yes"]}, ["fake"])
