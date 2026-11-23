@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import replace
 from datetime import date
 
-from .study_plan_thirty import PlanTask, owner_total_minutes
+from .study_plan_thirty import PlanTask, owner_total_minutes_step
 
 # B2 fundamentals -> functional complex grammar -> C1 precision and transfer.
 # Every ID is an existing published Grammar unit with server-graded exercises.
@@ -47,19 +47,43 @@ OWNER_GRAMMAR_SEQUENCE: tuple[tuple[str, str], ...] = (
 
 # Existing in-product reading articles and published TED/YouTube lesson videos.
 # Supplements are concentrated on intensive, non-course days.
+# Published YouTube lessons, ordered to match the 30-step owner progression.
+# The source pool verifies publication before any task is assigned.
+OWNER_VIDEO_ORDER: tuple[str, ...] = (
+    "iG9CE55wbtY",
+    "hJP5GqnTrNo",
+    "_6xlNyWPpB8",
+    "RcGyVTAoXEU",
+    "5XD2kNopsUs",
+    "lEXBxijQREo",
+    "t7Xr3AsBEK4",
+    "D9Ihs241zeg",
+    "qp0HIF3SfI4",
+    "IFjD3NMv6Kw",
+    "R7vmHGAshi8",
+    "ubEadhXWwV4",
+    "hmFQqjMF_f0",
+    "L8YJtvHGeUU",
+    "8KkKuTCFvzI",
+    "R0JKCYZ8hng",
+    "RKK7wGAYP6k",
+    "PsihkFWDt3Y",
+    "hiIcwt88o94",
+    "BiSYoeqb_VY",
+    "6ibCtsHgz3Y",
+    "dqONk48l5vY",
+    "n3kNlFMXslo",
+    "arj7oStGLkU",
+    "vhhgI4tSMwc",
+)
 OWNER_MEDIA_DAYS: dict[int, tuple[str, str, str]] = {
-    3: ("article", "advertising", "Identify assertion, concession and fragment-free examples"),
-    5: ("video", "iG9CE55wbtY", "Recast three broad claims as precise academic propositions"),
-    7: ("article", "air-pollution", "Paraphrase causes and effects with varied sentence forms"),
-    10: ("video", "RKK7wGAYP6k", "Explain a hypothesis using accurate conditionals"),
-    12: ("article", "remote-work-wars", "Extract balanced claims and nominalise causes"),
-    14: ("video", "qp0HIF3SfI4", "Separate evidence from opinion and hedge conclusions"),
-    17: ("article", "unemployment", "Construct nuanced claims about conditional outcomes"),
-    19: ("video", "D9Ihs241zeg", "Report a speaker's argument accurately and attribute ideas"),
-    21: ("article", "artificial-intelligence", "Qualify uncertain future predictions"),
-    24: ("video", "_6xlNyWPpB8", "Summarise processes using accurate passive clauses"),
-    26: ("article", "sleep-wellbeing", "Compare evidence, limitations and alternative views"),
-    28: ("video", "n3kNlFMXslo", "Contrast time-management approaches without overclaiming"),
+    **{day: ("video", video_id, "Extract 3-5 natural collocations, shadow and use one in output")
+       for day, video_id in enumerate(OWNER_VIDEO_ORDER, 1)},
+    26: ("article", "advertising", "Distinguish claims from examples and rewrite one paragraph"),
+    27: ("article", "unemployment", "Practise balanced causal claims and topic sentences"),
+    28: ("article", "air-pollution", "Contrast viewpoints and identify evidence"),
+    29: ("article", "sleep-wellbeing", "Review nuanced academic collocations"),
+    30: ("article", "artificial-intelligence", "Summarise evidence and reassess uncertain claims"),
 }
 
 ARTICLES: dict[str, str] = {
@@ -72,19 +96,14 @@ ARTICLES: dict[str, str] = {
 }
 
 def owner_media_assignments(days: list[dict]) -> dict[int, tuple[str, str, str]]:
-    """Assign authored media in order only to actual Tue/Thu/Sat intensive dates.
-
-    Study days can be rebased or future dates shifted without placing TED
-    on a learner's in-person course day or Sunday full-mock block.
-    """
-    heavy_days = [day["day"] for day in days
-                  if date.fromisoformat(day["date"]).weekday() in (1, 3, 5)]
-    return dict(zip(heavy_days, OWNER_MEDIA_DAYS.values()))
+    """Assign media by logical learning step; a missed day never changes inputs."""
+    return {day["day"]: OWNER_MEDIA_DAYS[day["day"]] for day in days
+            if day["day"] in OWNER_MEDIA_DAYS}
 
 
 SRS_DELAYS: tuple[int, ...] = (1, 3, 7, 16)
 RETENTION_LEVEL_CHANGE_DAY = 21
-RETENTION_MINUTES = {"course": 12, "intensive": 15, "sunday": 20}
+RETENTION_MINUTES = 15
 MEDIA_MINUTES = 20
 
 
@@ -131,15 +150,11 @@ def enrich_owner_plan(days: list[dict], videos: dict[str, dict],
             continue
         if len(day["tasks"]) != 6:
             raise ValueError("invalid_owner_base_tasks")
-        on = date.fromisoformat(day["date"])
-        course = on.weekday() in (0, 2, 4)
-        sunday = on.weekday() == 6
-        mode = "course" if course else "sunday" if sunday else "intensive"
         tasks = list(day["tasks"])
-        minutes = RETENTION_MINUTES[mode]
+        minutes = RETENTION_MINUTES
         # Retention replaces part of existing receptive-skill practice;
         # total independent study time remains exactly the user's weekly chart.
-        read_cut = 5 if course else 10 if sunday else 7
+        read_cut = 5
         listen_cut = minutes - read_cut
         tasks[1] = replace(tasks[1], minutes=tasks[1].minutes - read_cut)
         tasks[2] = replace(tasks[2], minutes=tasks[2].minutes - listen_cut)
@@ -174,11 +189,20 @@ def enrich_owner_plan(days: list[dict], videos: dict[str, dict],
                     "/app/video-lessons/" + video["id"],
                     "video:" + video["id"], MEDIA_MINUTES,
                 ))
-            # If a video is unpublished, do not claim an unusable lesson or
-            # silently remove minutes from the original listening assignment.
+            else:
+                # A missing or unpublished video is replaced by a verified
+                # in-site article rather than becoming a dead, locked step.
+                article_key = "advertising"
+                tasks[5] = replace(tasks[5], minutes=tasks[5].minutes - MEDIA_MINUTES)
+                tasks.append(PlanTask(
+                    number, 7, "article",
+                    f"Article — {ARTICLES[article_key]} · Extract evidence and reformulate claims",
+                    "/app/reading/articles/" + article_key,
+                    "article:" + article_key, MEDIA_MINUTES,
+                ))
         if any(task.minutes <= 0 or task.minutes > 90 for task in tasks):
             raise ValueError("invalid_owner_slot_minutes")
-        if sum(task.minutes for task in tasks) != owner_total_minutes(on):
+        if sum(task.minutes for task in tasks) != owner_total_minutes_step(number):
             raise ValueError("invalid_owner_daily_total")
         result.append({**day, "tasks": tasks})
     return result
