@@ -17,6 +17,7 @@ from .study_plan_thirty import (DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES,
     make_thirty_day_schedule, normalize_level)
 from .study_plan_materials import (assign_materials, load_material_pools,
     assign_owner_vocabulary, load_owner_pack_pool)
+from .study_plan_owner_curriculum import enrich_owner_plan, load_owner_video_pool
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
 OWNER_BASELINE_BANDS = {"listening": 6.5, "reading": 7.0, "writing": 5.5, "speaking": 5.5}
@@ -54,6 +55,14 @@ def _records(cycle_id, days: list[dict], after_day: int = 0) -> list[tuple]:
          list(task.blocks) if task.stage is not None else None)
         for day in days if day["day"] > after_day for task in day["tasks"]
     ]
+
+
+def _owner_slots_valid(tasks: list) -> bool:
+    kinds = [task["kind"] for task in tasks]
+    return (kinds[:6] == ["grammar", "reading", "listening", "writing", "speaking", "vocabulary"]
+            and (len(kinds) == 6 or
+                 len(kinds) in (7, 8) and kinds[6] == "retention"
+                 and (len(kinds) == 7 or kinds[7] in ("article", "video"))))
 
 
 def _event_kind(key: str) -> str | None:
@@ -111,7 +120,10 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
     uid, cid, day = cycle["user_id"], cycle["id"], cycle["current_day"]
     tasks = await con.fetch(CURRENT, cid, day)
     allowed = VALID_DAILY_TOTALS if owner else {TARGET_MINUTES}
-    if len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in allowed:
+    if ((not _owner_slots_valid(tasks) if owner else
+         len(tasks) != 6 or [task["kind"] for task in tasks] !=
+         ["grammar", "reading", "listening", "writing", "speaking", "vocabulary"])
+            or sum(task["minutes"] for task in tasks) not in allowed):
         raise ValueError("invalid_current_day_tasks")
     pending = {task["kind"]: task for task in tasks
                if task["completed_at"] is None and task["kind"] != "grammar"}
@@ -183,6 +195,41 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
                 if finished_at is not None:
                     verified["writing"] = (finished_at, typing_task["source_key"])
 
+        if owner:
+            retention_task = pending.get("retention")
+            if retention_task and retention_task["source_key"] in ("retention:B2", "retention:C1"):
+                completed_at = await con.fetchval("""SELECT MIN(completed_at)
+                    FROM retention_attempts WHERE user_id=$1 AND level=$2
+                      AND status='completed' AND score >= 50
+                      AND length(btrim(coalesce(recall_text,''))) >= 30
+                      AND completed_at >= $3 AND completed_at <= $4""",
+                    uid, retention_task["source_key"].split(":")[1], cycle["opened_at"], now)
+                if completed_at is not None:
+                    verified["retention"] = (completed_at, retention_task["source_key"])
+
+            article_task = pending.get("article")
+            if article_task and article_task["source_key"].startswith("article:"):
+                article_id = article_task["source_key"].split(":", 1)[1]
+                completed_at = await con.fetchval("""SELECT MIN(created_at)
+                    FROM activity_events
+                    WHERE user_id=$1 AND type='READING_ARTICLE_PLAN_COMPLETED'
+                      AND payload->>'articleId'=$2 AND created_at >= $3
+                      AND created_at <= $4 AND (payload->>'answerCount')::int > 0""",
+                    uid, article_id, cycle["opened_at"], now)
+                if completed_at is not None:
+                    verified["article"] = (completed_at, article_task["source_key"])
+
+            video_task = pending.get("video")
+            if video_task and video_task["source_key"].startswith("video:"):
+                target_id = core.uuid_value(video_task["source_key"].split(":", 1)[1])
+                if target_id is not None:
+                    completed_at = await con.fetchval("""SELECT MIN(completed_at)
+                        FROM video_lesson_progress WHERE user_id=$1 AND video_lesson_id=$2
+                          AND state='completed' AND completed_at >= $3
+                          AND completed_at <= $4""", uid, target_id, cycle["opened_at"], now)
+                    if completed_at is not None:
+                        verified["video"] = (completed_at, video_task["source_key"])
+
         for kind, (completed_at, source) in verified.items():
             await con.execute("""UPDATE study_plan_30_tasks
               SET completed_at=$4,proof=$5 WHERE cycle_id=$1 AND day_number=$2
@@ -253,7 +300,10 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
             "status": "completed" if completed else "ready" if can_open else "locked",
         })
     allowed = VALID_DAILY_TOTALS if owner else {TARGET_MINUTES}
-    if any(len(tasks) != 6 or sum(task["minutes"] for task in tasks) not in allowed
+    if any((not _owner_slots_valid(tasks) if owner else
+            len(tasks) != 6 or [task["kind"] for task in tasks] !=
+            ["grammar", "reading", "listening", "writing", "speaking", "vocabulary"])
+           or sum(task["minutes"] for task in tasks) not in allowed
            for tasks in groups.values()):
         raise ValueError("incomplete_plan_schedule")
     zone = _timezone(cycle["timezone"])
@@ -389,6 +439,8 @@ async def start_plan(req: Request) -> JSONResponse:
             pools, intensive=is_owner)
         if is_owner:
             plan = assign_owner_vocabulary(plan, await load_owner_pack_pool(con))
+            plan = enrich_owner_plan(
+                plan, await load_owner_video_pool(con), level=level)
         cid = await con.fetchval("""INSERT INTO study_plan_30_cycles
            (user_id,started_on,timezone,cefr_level,opened_at,duration_days)
            VALUES($1,$2,$3,$4,$5,$6)
@@ -441,6 +493,9 @@ async def regenerate_plan(req: Request) -> JSONResponse:
             pools, revision=row["revision"] + 1, intensive=is_owner)
         if is_owner:
             plan = assign_owner_vocabulary(plan, await load_owner_pack_pool(con))
+            plan = enrich_owner_plan(
+                plan, await load_owner_video_pool(con), level=level,
+                after_day=row["current_day"])
         # Preserve today's attempts and all prior days. Only untouched future
         # days are replaced. No student earns completion by regeneration.
         await con.execute("""DELETE FROM study_plan_30_tasks

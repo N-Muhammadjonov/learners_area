@@ -63,5 +63,6 @@
  "1130_preserve_rescue_account_erasure.sql": "0650d18235578914926e49785a324aa8e42a41c7c3eeaee5582a2742d20b531a",
  "1131_academy_attempt_lookup_indexes.sql": "4a9e4c2e6d12034e821bac1c29622b07ae158f8ff545f43e32b6a1e932c30f8f",
  "20261115200716_academy_self_service_payments.sql": "c82b03476709febcb7d30ee5dd0adec52633f82157dd3b7bac7bb751bcc168d0",
- "20261116081748_academy_prepaid_service_policies.sql": "6ac9b1fb6b5d82c926ae7eafcf09f513b8ac6b4ae432e5614537d6fc6bb40921"
+ "20261116081748_academy_prepaid_service_policies.sql": "6ac9b1fb6b5d82c926ae7eafcf09f513b8ac6b4ae432e5614537d6fc6bb40921",
+ "20261123091500_owner_curriculum_task_slots.sql": "401b8f8bbba44c7b7885079b66e1b1264b573de77cb3fb800445b48177342b8c"
 }

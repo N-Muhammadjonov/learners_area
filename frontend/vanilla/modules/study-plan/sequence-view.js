@@ -13,6 +13,21 @@ const DAILY_MINUTES = 120;
 const OWNER_MINUTES = 300;
 const ALLOWED_DAILY_MINUTES = [DAILY_MINUTES,180,OWNER_MINUTES,390,420];
 const KINDS = ['grammar','reading','listening','writing','speaking','vocabulary'];
+const OWNER_EXTRAS = ['retention','article','video'];
+const KIND_LABELS = {
+  grammar:['Grammatika','Grammar'],reading:['O‘qish','Reading'],
+  listening:['Tinglash','Listening'],writing:['Yozish','Writing'],
+  speaking:['Gapirish','Speaking'],vocabulary:['Lug‘at','Vocabulary'],
+  retention:['Matnni eslab yozish','Retention'],
+  article:['Maqola','Article'],video:['TED video','TED video'],
+};
+function ownerDayKinds(tasks) {
+  const kinds=tasks.map(task=>task.kind);
+  return kinds.length>=7&&kinds.length<=8&&
+    KINDS.every((kind,index)=>kinds[index]===kind)&&
+    kinds[6]==='retention'&&
+    (kinds.length===7||['article','video'].includes(kinds[7]));
+}
 const STATES = ['ready','locked','completed'];
 const DAY_STATES = ['active','locked','completed'];
 const text = (ctx, uz, en) => ctx.locale === 'uz' ? uz : en;
@@ -57,10 +72,13 @@ export function validateSequence(value) {
     if (!day || day.day !== index + 1 || !DAY_STATES.includes(day.status) ||
         typeof day.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(day.date) ||
         !ALLOWED_DAILY_MINUTES.includes(day.minutes) || !Array.isArray(day.tasks) ||
-        day.tasks.length !== KINDS.length) throw Error('invalid_day');
+        !(day.tasks.length === KINDS.length ||
+          ownerDayKinds(day.tasks))) throw Error('invalid_day');
     let total = 0;
     for (const [slot, task] of day.tasks.entries()) {
-      if (!task || task.slot !== slot || task.kind !== KINDS[slot] ||
+      if (!task || task.slot !== slot ||
+          (slot < KINDS.length ? task.kind !== KINDS[slot] :
+            !OWNER_EXTRAS.includes(task.kind)) ||
           typeof task.title !== 'string' || !task.title.trim() ||
           !STATES.includes(task.status) || !Number.isInteger(task.minutes) ||
           task.minutes <= 0 || task.minutes > 90) throw Error('invalid_task');
@@ -68,6 +86,15 @@ export function validateSequence(value) {
       if (task.status === 'ready') {
         if (day.status !== 'active' || day.day !== value.currentDay ||
             !validRoute(task.href)) throw Error('invalid_unlocked_task');
+        if (task.kind==='retention' &&
+            !/^\/app\/reading\/retention\?level=(B2|C1)$/.test(task.href))
+          throw Error('invalid_retention_route');
+        if (task.kind==='article' &&
+            !/^\/app\/reading\/articles\/[a-z0-9-]+$/.test(task.href))
+          throw Error('invalid_article_route');
+        if (task.kind==='video' &&
+            !/^\/app\/video-lessons\/[0-9a-f-]{36}$/.test(task.href))
+          throw Error('invalid_video_route');
       } else if (task.href != null) throw Error('locked_route_exposed');
     }
     if (total !== day.minutes || (day.status === 'locked' &&
@@ -122,6 +149,28 @@ function statusLabel(ctx, status) {
   })[status];
 }
 
+function vocabularySrs(ctx, day) {
+  const review=day.retention;
+  if (!review) return null;
+  const uz=ctx.locale==='uz';
+  const topic=review.previousTopics.length
+    ?(uz?'Oldingi mavzular: ':'Earlier packs: ')+review.previousTopics.join(' · ')
+    :(uz?'Bugungi mavzudan boshlang.':'Start with today’s pack.');
+  return h('div',{class:'sequence-srs-inline','data-sequence-srs':day.day},
+    h('strong',{},uz?'Vocabulary SRS — 10 ta tekshirilgan eslash':'Vocabulary SRS — 10 verified recalls'),
+    h('span',{class:'sequence-subtitle'},topic),
+    h('span',{class:'sequence-subtitle'},(uz?'Takrorlash: ':'Spaced recall: ')+
+      (review.reviewDays.length?review.reviewDays.map(n=>'D+'+n).join(' · '):
+        (uz?'bugungi so‘zlar':'today’s words'))),
+    h('span',{class:'sequence-subtitle'},uz
+      ?'SRS yoki 10 ta turli so‘z bo‘yicha tekshirilgan o‘yin javobi. Vaqt Vocabulary ichida.'
+      :'SRS or 10 distinct verified game answers. Time is included in Vocabulary.'),
+    review.href?h('a',{class:'btn-secondary',href:review.href,
+      'data-sequence-retention-open':''},uz?'SRS ochish':'Open SRS'):null,
+    review.gamesHref?h('a',{class:'btn-secondary',href:review.gamesHref,
+      'data-sequence-retention-games':''},uz?'So‘z o‘yinlari':'Vocabulary games'):null);
+}
+
 function taskList(ctx, day) {
   return h('ul', {class:'sequence-task-list', 'data-sequence-day-tasks':day.day},
     day.tasks.map(task=>h('li', {
@@ -133,8 +182,12 @@ function taskList(ctx, day) {
     h('div', {class:'sequence-task-description'},
       h('strong', {}, task.title),
       h('span', {class:'sequence-subtitle'},
-        task.kind[0].toUpperCase()+task.kind.slice(1)+' · '+task.minutes+' '+
-        text(ctx,'daqiqa','min'))),
+        text(ctx,...KIND_LABELS[task.kind])+' · '+task.minutes+' '+
+        text(ctx,'daqiqa','min')),
+      task.kind==='vocabulary'?vocabularySrs(ctx,day):null,
+      task.kind==='retention'?h('span',{class:'sequence-subtitle'},
+        text(ctx,'Matnni o‘qing, yopib xotiradan yozing va natijani kamida 50 ballga yetkazing.',
+          'Read, recall without the text and reach at least 50 points.')):null),
     task.status === 'ready' ?
       h('a', {href:task.href.startsWith('/app/grammar')?
           grammarPracticeHref(task.href,{fromPlan:true}):task.href,
@@ -142,40 +195,6 @@ function taskList(ctx, day) {
         'data-sequence-task-open':task.kind}, statusLabel(ctx,task.status)) :
       h('span', {class:'sequence-task-status','data-sequence-task-label':task.status},
         statusLabel(ctx,task.status)))));
-}
-
-function retentionPanel(ctx, day) {
-  const review=day.retention;
-  if (!review) return null;
-  const uz=ctx.locale==='uz';
-  const name=uz?'Kunlik retention — faol eslash':'Daily retention — active recall';
-  const detail=uz
-    ?'SRS da kamida 10 ta due so‘zni takrorlang yoki 10 ta turli so‘z bo‘yicha tekshirilgan vocabulary game javobini to‘g‘ri bajaring. Vaqt Vocabulary blokiga kiritilgan.'
-    :'Complete 10 due SRS reviews or correctly answer 10 distinct server-verified vocabulary game questions. Time is included in Vocabulary.';
-  const previous=review.previousTopics.length
-    ?h('p',{class:'sequence-subtitle'},
-      (uz?'Oldingi mavzular: ':'Previous topics: ')+review.previousTopics.join(' · '))
-    :h('p',{class:'sequence-subtitle'},
-      uz?'Avvalgi mavzular yo‘q: bugungi so‘zlar va mavjud SRS navbatini takrorlang.'
-        :'No previous topics yet: review today’s words and any existing SRS due items.');
-  const offsets=review.reviewDays.length
-    ?h('p',{class:'sequence-subtitle'},
-      (uz?'Qayta eslash oralig‘i: ':'Retrieval intervals: ')+
-      review.reviewDays.map(n=>'D+'+n).join(' · '))
-    :null;
-  return h('section',{class:'sequence-notice','data-sequence-retention':day.day},
-    h('strong',{},name),
-    h('p',{class:'sequence-subtitle'},detail),
-    previous,offsets,
-    h('p',{class:'sequence-subtitle'},
-      uz?'Listening, Reading, Writing va Speaking xatolarini qayta ko‘rish ham tavsiya etiladi. Ular alohida avtomatik baholanmaydi.'
-        :'Also revisit Listening, Reading, Writing and Speaking mistakes. These self-reviews are not separately auto-graded.'),
-    review.href?h('a',{class:'btn-secondary',href:review.href,
-      'data-sequence-retention-open':''},
-      uz?'SRS takrorlashni ochish':'Open SRS review'):null,
-    review.gamesHref?h('a',{class:'btn-secondary',href:review.gamesHref,
-      'data-sequence-retention-games':''},
-      uz?'Tekshiriladigan Vocabulary o‘yinlari':'Verified Vocabulary games'):null);
 }
 
 function calendar(ctx, data, state) {
@@ -227,22 +246,25 @@ function calendar(ctx, data, state) {
               'Complete every task to unlock the next day.'))),
         h('strong',{},selectedDay.tasks.filter(task=>task.status==='completed').length+
           ' / '+selectedDay.tasks.length)),
-      taskList(ctx,selectedDay),retentionPanel(ctx,selectedDay));
+      taskList(ctx,selectedDay));
   }
   drawSelected();
   const selector = h('div',{class:'sequence-calendar-scroll'},
     h('div',{class:'sequence-calendar',role:'group',
       'aria-label':text(ctx,data.totalDays+' kunlik kalendar',data.totalDays+'-day calendar')},
       headers,blanks,buttons));
+  const visibleKinds = [...KINDS,...OWNER_EXTRAS.filter(kind =>
+    data.days.some(day => day.tasks.some(task => task.kind === kind)))];
+  const legend = h('div',{
+    class:'sequence-dots-legend',
+    'aria-label':text(ctx,'Mashq ranglari','Exercise colors'),
+  }, visibleKinds.map(kind => h('span',{
+    class:'sequence-dots-legend-item',
+  }, h('i',{'data-kind':kind,'aria-hidden':'true'}),
+    text(ctx,...KIND_LABELS[kind]))));
   return h('div',{class:'sequence-calendar-layout'},
-    h('div',{class:'sequence-calendar-column'},selector,
-      h('div',{class:'sequence-dots-legend',
-        'aria-label':text(ctx,'Mashq ranglari','Exercise colors')},
-        KINDS.map(kind=>h('span',{class:'sequence-dots-legend-item'},
-          h('i',{'data-kind':kind,'aria-hidden':'true'}),
-          text(ctx,({grammar:'Grammatika',reading:'O‘qish',listening:'Tinglash',
-            writing:'Yozish',speaking:'Gapirish',vocabulary:'Lug‘at'})[kind],
-            kind[0].toUpperCase()+kind.slice(1)))))),host);
+    h('div',{class:'sequence-calendar-column'},selector,legend),
+    host);
 }
 
 /**

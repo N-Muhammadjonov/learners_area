@@ -46,12 +46,20 @@ def test_completion_is_account_scoped_validated_and_idempotently_merged(monkeypa
     monkeypatch.setattr(coin_rewards, 'award_answers', AsyncMock(return_value=False))
     result = asyncio.run(progress.complete_article(REQUEST, 'dreams'))
     assert result.status_code == 200
-    sql, args = con.calls[-1]
-    assert 'ON CONFLICT(id) DO UPDATE' in sql and 'activity_events.user_id=excluded.user_id' in sql
+    # The existing idempotent per-account progress is unchanged.
+    # A separate, dated evidence event is required for an owner-only
+    # study-plan article task. Never conflate the two audit records.
+    assert len(con.calls) == 2
+    sql, args = con.calls[0]
+    assert 'ON CONFLICT(id) DO UPDATE' in sql
+    assert 'activity_events.user_id=excluded.user_id' in sql
     assert args == (progress.progress_id(USER), USER, progress.EVENT_TYPE, 'dreams')
+    evidence_sql, evidence_args = con.calls[1]
+    assert "'READING_ARTICLE_PLAN_COMPLETED'" in evidence_sql
+    assert evidence_args == (USER, 'dreams', 1)
     assert progress.progress_id(USER) != progress.progress_id(OTHER)
     assert asyncio.run(progress.complete_article(REQUEST, 'unknown')).status_code == 404
-    assert len(con.calls) == 1
+    assert len(con.calls) == 2
     con.value = json.dumps({'dreams': True, 'unknown': True, 'plastic-bags': False})
     response = asyncio.run(progress.get_progress(REQUEST))
     assert json.loads(response.body) == {'completed': ['dreams']}
