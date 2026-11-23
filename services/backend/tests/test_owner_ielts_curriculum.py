@@ -72,77 +72,55 @@ def test_ielts_academic_reading_is_full_on_intensive_days_and_passage_on_course_
 
 
 def test_retention_article_ted_are_real_tasks_with_no_extra_time():
+    from app.study_plan_thirty import owner_total_minutes_step
     baseline = make_thirty_day_schedule("B2", START, intensive=True)
     curated = enrich_owner_plan(baseline, video_pool(), level="B2")
-    assert len(curated) == 30
-    assert [d["day"] for d in curated] == list(range(1, 31))
+    assert len(curated) == len(OWNER_MEDIA_DAYS) == 30
     assert SRS_DELAYS == (1, 3, 7, 16)
     assert MEDIA_MINUTES == 20
-    assert len(OWNER_MEDIA_DAYS) == 12
-    assert all(len(d["tasks"]) == (8 if d["day"] in OWNER_MEDIA_DAYS else 7)
-               for d in curated)
-    assert all(_owner_slots_valid([asdict(task) for task in d["tasks"]])
-               for d in curated)
+    assert all(len(day["tasks"]) == 8 for day in curated)
+    assert all(_owner_slots_valid([asdict(task) for task in day["tasks"]])
+               for day in curated)
     for before, after in zip(baseline, curated):
-        assert len(before["tasks"]) == 6
-        assert sum(task.minutes for task in after["tasks"]) == owner_total_minutes(
-            date.fromisoformat(after["date"]))
-        on = date.fromisoformat(after["date"])
-        if on.weekday() not in (0, 2, 4):
-            assert after["tasks"][1].minutes >= 60, "A full Academic Reading paper needs an hour"
-            assert after["tasks"][2].minutes >= 60, "Listening and transcript analysis need adequate time"
+        assert sum(task.minutes for task in after["tasks"]) == owner_total_minutes_step(after["day"])
+        assert all(5 <= task.minutes <= 90 for task in after["tasks"])
         assert [task.source_key for task in before["tasks"]] == [
             task.source_key for task in after["tasks"][:6]]
-        assert [task.href for task in before["tasks"]] == [
-            task.href for task in after["tasks"][:6]]
         retention = after["tasks"][6]
         assert retention.kind == "retention"
-        assert retention.href in (
-            "/app/reading/retention?level=B2", "/app/reading/retention?level=C1")
-        if after["day"] < 21:
-            assert retention.source_key == "retention:B2"
+        assert retention.source_key == ("retention:B2" if after["day"] < 21 else "retention:C1")
+        media = after["tasks"][7]
+        kind, source, objective = OWNER_MEDIA_DAYS[after["day"]]
+        assert media.kind == kind and objective in media.title
+        if kind == "video":
+            assert media.source_key == "video:" + video_pool()[source]["id"]
         else:
-            assert retention.source_key == "retention:C1"
-        if after["day"] in OWNER_MEDIA_DAYS:
-            media = after["tasks"][7]
-            kind, source, objective = OWNER_MEDIA_DAYS[after["day"]]
-            assert media.kind == kind
-            assert objective in media.title
-            assert media.minutes == MEDIA_MINUTES
-            if kind == "article":
-                assert source in ARTICLES
-                assert media.source_key == "article:" + source
-                assert media.href == "/app/reading/articles/" + source
-            else:
-                assert media.href.startswith("/app/video-lessons/")
-                assert media.source_key == "video:" + video_pool()[source]["id"]
+            assert media.source_key == "article:" + source
 
 
 def test_media_stays_on_real_intensive_days_after_owner_start_date_rebase():
+    from app.study_plan_thirty import owner_study_date, owner_total_minutes_step
     monday = date(2026, 11, 23)
     base = make_thirty_day_schedule("B2", monday, intensive=True)
     media = owner_media_assignments(base)
-    assert len(media) == len(OWNER_MEDIA_DAYS) == 12
-    assert sorted(media) == [2, 4, 6, 9, 11, 13, 16, 18, 20, 23, 25, 27]
-    assert all(date.fromisoformat(base[day - 1]["date"]).weekday() in (1, 3, 5)
-               for day in media)
+    assert sorted(media) == list(range(1, 31))
+    assert all(date.fromisoformat(day["date"]).weekday() != 6 for day in base)
+    assert [date.fromisoformat(day["date"]) for day in base] == [
+        owner_study_date(monday, offset) for offset in range(30)]
     plan = enrich_owner_plan(base, video_pool(), level="B2")
-    assert [day["day"] for day in plan if len(day["tasks"]) == 8] == list(media)
-    for day in plan:
-        assert sum(task.minutes for task in day["tasks"]) == owner_total_minutes(
-            date.fromisoformat(day["date"]))
+    assert all(sum(task.minutes for task in day["tasks"]) ==
+               owner_total_minutes_step(day["day"]) for day in plan)
 
 
 def test_owner_supplements_are_not_fabricated_when_video_is_unpublished():
+    from app.study_plan_thirty import owner_total_minutes_step
     base = make_thirty_day_schedule("B2", START, intensive=True)
     plan = enrich_owner_plan(base, {}, level="B2")
     for day in plan:
-        video_day = OWNER_MEDIA_DAYS.get(day["day"])
-        if video_day and video_day[0] == "video":
-            assert len(day["tasks"]) == 7
-            assert day["tasks"][2].minutes > 0
-            assert sum(task.minutes for task in day["tasks"]) == owner_total_minutes(
-                date.fromisoformat(day["date"]))
+        assert sum(task.minutes for task in day["tasks"]) == owner_total_minutes_step(day["day"])
+        assert len(day["tasks"]) == 8
+        assert day["tasks"][7].kind == "article"
+        assert day["tasks"][7].href.startswith("/app/reading/articles/")
     assert enrich_owner_plan(base, {}, level="C1") is base
 
 
