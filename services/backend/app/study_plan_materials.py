@@ -137,6 +137,7 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
         )
         choices = {
             "reading": ("reading" if (owner_heavy if intensive else day_date.weekday() == 6)
+                        else "academic_passage" if intensive and pools.get("academic_passage")
                         else "general_reading"),
             "listening": "listening",
             "writing": writing_kind,
@@ -158,6 +159,10 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                 available = general_tiers[week]
                 if not available:
                     available = general
+            elif intensive and kind == "academic_passage":
+                academic_passages = pools.get("academic_passage") or []
+                available = (academic_passages[15:] if len(academic_passages) > 15
+                             else academic_passages)
             elif intensive and kind == "writing_exam":
                 available = owner_writing
             else:
@@ -273,7 +278,7 @@ def assign_owner_vocabulary(schedule: list[dict],
 
 async def load_material_pools(con, user: dict, level: str = "B1") -> dict[str, list[dict]]:
     pools: dict[str, list[dict]] = {
-        "reading": [], "general_reading": [], "listening": [],
+        "reading": [], "academic_passage": [], "general_reading": [], "listening": [],
         "writing_exam": [], "writing_lesson": [], "typing": [
             {"source_key": "typing:30", "title": "Writing — Typing (30 seconds)",
              "href": "/app/writing?tab=typing"},
@@ -299,6 +304,23 @@ async def load_material_pools(con, user: dict, level: str = "B1") -> dict[str, l
                 "href": "/app/reading/academic/" + test_id,
             })
         pools["reading"].sort(key=_test_order)
+        # Passages selected from verified full Academic sets carry the usual
+        # server-graded reading-practice evidence, not General IELTS content.
+        if pools["reading"]:
+            academic_ids = [item["source_key"].split(":", 1)[1]
+                            for item in pools["reading"]]
+            first_passages = await con.fetch("""SELECT g.set_id,g.passage_id
+                FROM general_reading_passages g
+                WHERE g.set_id::text = ANY($1::text[]) AND g.passage_no=1""",
+                academic_ids)
+            by_set = {str(item["set_id"]): str(item["passage_id"])
+                      for item in first_passages}
+            pools["academic_passage"] = [{
+                "source_key": "reading-practice:" + by_set[item["source_key"].split(":", 1)[1]],
+                "title": "Academic Reading passage — " + item["title"],
+                "href": item["href"].replace("/reading/academic/", "/reading/general/") + "?passage=1",
+            } for item in pools["reading"]
+               if item["source_key"].split(":", 1)[1] in by_set]
     except Exception:
         LOG.exception("Academic Reading plan catalogue unavailable")
     try:
