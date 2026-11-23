@@ -49,3 +49,8 @@ input.t,textarea.t{background:#eef2ff;border:1px solid #c7d2fe;border-bottom:2px
 .grammar-book .aud-delete[hidden]{display:none!important}
 .grammar-book .aud-delete:hover{background:color-mix(in srgb,var(--red) 12%,var(--card))}
 .grammar-book .aud audio{max-width:100%}
+
+.grammar-book .opt.selected:not(.ok):not(.no){outline:2px solid var(--blue);outline-offset:1px}
+.grammar-book .grammar-exercise-retry:not([hidden]){margin-left:8px;white-space:normal}
+.grammar-book .grammar-exercise-proof:not([hidden]){display:inline-block;margin-left:10px;font-size:13px;color:var(--mut)}
+.grammar-book .btn:disabled{opacity:.56;cursor:not-allowed}
