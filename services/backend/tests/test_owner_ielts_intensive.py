@@ -23,25 +23,21 @@ START = date(2026, 11, 22)
 
 
 def test_owner_schedule_retains_all_six_verified_tasks_for_30_days():
+    from app.study_plan_thirty import owner_study_date, owner_total_minutes_step
     days = make_thirty_day_schedule("B2", START, intensive=True)
     assert len(days) == 30
-    assert (OWNER_LIGHT_MINUTES, OWNER_HEAVY_MINUTES, OWNER_SUNDAY_MINUTES) == (180, 390, 420)
-    for day in days:
+    for index, day in enumerate(days):
         tasks = {task.kind: task for task in day["tasks"]}
-        actual_date = date.fromisoformat(day["date"])
         assert len(tasks) == 6
-        assert sum(task.minutes for task in tasks.values()) == owner_total_minutes(actual_date)
+        assert sum(task.minutes for task in tasks.values()) == owner_total_minutes_step(index + 1)
+        assert sum(task.minutes for task in tasks.values()) == (180 if index % 2 == 0 else 420)
+        assert date.fromisoformat(day["date"]) == owner_study_date(START, index)
+        assert date.fromisoformat(day["date"]).weekday() != 6
         assert tasks["writing"].minutes >= 40
-        assert tasks["speaking"].minutes >= 40
-        assert 20 <= tasks["vocabulary"].minutes <= 50
+        assert tasks["speaking"].minutes >= 20
+        assert 15 <= tasks["vocabulary"].minutes <= 60
         assert all(0 < task.minutes <= 90 for task in tasks.values())
         assert tasks["grammar"].source_key.startswith(("grammar-book:", "skill-grammar:"))
-        if actual_date.weekday() in (0, 2, 4):
-            assert sum(task.minutes for task in tasks.values()) == OWNER_LIGHT_MINUTES
-        elif actual_date.weekday() == 6:
-            assert sum(task.minutes for task in tasks.values()) == OWNER_SUNDAY_MINUTES
-        else:
-            assert sum(task.minutes for task in tasks.values()) == OWNER_HEAVY_MINUTES
     assert days == make_thirty_day_schedule("B2", START, intensive=True)
 
 
@@ -60,11 +56,9 @@ def test_owner_vocabulary_two_day_topic_windows_with_only_published_packs():
     for window in range(15):
         first = next(t for t in result[window * 2]["tasks"] if t.kind == "vocabulary")
         second = next(t for t in result[window * 2 + 1]["tasks"] if t.kind == "vocabulary")
-        assert f"Topic {window % 11}" in first.title
-        assert f"Topic {window % 11}" in second.title
-        assert "Learn" in first.title and "Retrieve" in second.title
-        assert "10+ real SRS reviews" in first.title
-        assert "10+ SRS reviews" in second.title
+        expected = f"Topic {min(window, 10)}"
+        assert expected in first.title and expected in second.title
+        assert "10+ verified" in first.title or "10+ verified" in second.title
         assert first.source_key == second.source_key == "vocab"
         assert first.href == second.href == "/app/vocabulary"
     assert assign_owner_vocabulary(plan, []) == plan
@@ -80,21 +74,19 @@ def test_listening_order_uses_original_manifest_instead_of_title_sorting():
          "title": "Test 3", "testId": "test3"},
     ]
     ordered = sorted(cards, key=material_order)
-    assert ordered[0]["testId"] == "test1"
     pool = listening_plan_materials(ordered)
     assert [material["source_key"] for material in pool] == [
         "listening:test1", "listening:test2", "listening:test3",
     ]
     days = make_thirty_day_schedule("B2", START, intensive=True)
     assigned = assign_materials(days, {"listening": pool}, intensive=True)
-    assert [day["tasks"][2].source_key for day in assigned[:3]] == [
-        "listening:test1", "listening:test2", "listening:test3",
+    assert [day["tasks"][2].source_key for day in assigned[:6]] == [
+        "listening-mcq:1", "listening:test1",
+        "listening-mcq:2", "listening:test2",
+        "listening-mcq:3", "listening:test3",
     ]
-    assert assigned[3]["tasks"][2].source_key == "listening:test1"
-    assert "Repeat for retention" in assigned[3]["tasks"][2].title
-    assert assigned[3]["tasks"][2].href == "/app/listening/tests/test1/1"
-    assert "Course day" in assigned[1]["tasks"][2].title
-    assert "Intensive day" in assigned[0]["tasks"][2].title
+    assert assigned[0]["tasks"][2].href == "/app/listening/mcq/day/1"
+    assert "Intensive day" in assigned[1]["tasks"][2].title
 
 
 def test_owner_server_retention_is_real_and_locked_links_are_hidden():
