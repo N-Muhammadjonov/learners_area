@@ -978,6 +978,7 @@ html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-she
 }
 html[data-theme="night"] #root [data-shell-topbar] [data-profile-name] {
   --la-profile-name-ink: #ffffff;
+  color: #ffffff !important;
 }
 
 

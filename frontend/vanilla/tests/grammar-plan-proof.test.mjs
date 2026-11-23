@@ -36,6 +36,10 @@ test('Grammar plan proof preserves actual incorrect choices and all three first-
    const button=[...mcqRows[i].querySelectorAll('button.opt')].find(b=>b.textContent===choice);
    assert(button,'MCQ option exists');button.click();
   }
+  const mcqCheck=[...mcq.querySelectorAll('button.btn')].find(button=>button.textContent==='Tekshirish');
+  assert(mcqCheck&&!mcqCheck.disabled);
+  assert.equal(sent.length,0,'selection alone must not submit the MCQ block');
+  mcqCheck.click();
   assert.equal(sent.length,0,'one completed block never completes a stage');
 
   const judge=groups[1];
@@ -43,6 +47,9 @@ test('Grammar plan proof preserves actual incorrect choices and all three first-
    const button=[...row.querySelectorAll('button.opt')].find(b=>b.textContent==="Noto'g'ri");
    assert(button);button.click();
   }
+  const judgeCheck=[...judge.querySelectorAll('button.btn')].find(button=>button.textContent==='Tekshirish');
+  assert(judgeCheck&&!judgeCheck.disabled);
+  judgeCheck.click();
   assert.equal(sent.length,0,'two completed blocks never complete a stage');
 
   const match=groups[2],matches=unit.stages[0].ex[2];
