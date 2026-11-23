@@ -279,7 +279,7 @@ BEGIN
                 OR href NOT LIKE '/app/%' OR minutes NOT BETWEEN 1 AND 90))
  OR EXISTS(SELECT 1 FROM study_plan_30_tasks t JOIN _owner_days d
             ON d.day_number=t.day_number WHERE t.cycle_id=active_cycle
-            GROUP BY t.day_number,d.course,d.sunday
+            GROUP BY t.day_number,d.course,d.sunday,d.weekday
             HAVING count(*)<>CASE WHEN d.weekday IN(2,4,6) AND t.day_number IN
               (SELECT day_number FROM _owner_media_tasks) THEN 8 ELSE 7 END
             OR sum(t.minutes)<>CASE WHEN d.course THEN 180 WHEN d.sunday THEN 420 ELSE 390 END)
