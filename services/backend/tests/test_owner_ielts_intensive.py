@@ -261,3 +261,28 @@ def test_owner_invalid_pack_rejected_before_database(monkeypatch):
     payload["words"][0]["translationUz"] = ""
     result = TestClient(core.app).post("/api/vocabulary/packs/public", json=payload)
     assert result.status_code == 400
+
+
+def test_owner_sunday_is_not_a_main_study_step_and_sat_work_resumes_monday():
+    from app.study_plan_thirty import owner_study_date, owner_total_minutes_step
+
+    saturday = date(2026, 11, 28)
+    assert owner_study_date(saturday, 0) == saturday
+    assert owner_study_date(saturday, 1) == date(2026, 11, 30)
+    assert owner_study_date(date(2026, 11, 29), 0) == date(2026, 11, 30)
+    assert owner_total_minutes_step(1) == 180
+    assert owner_total_minutes_step(2) == 420
+
+    class MustNotQuery:
+        async def fetch(self, *args):
+            raise AssertionError("Sunday must not reconcile main-cycle evidence")
+
+    cycle = {
+        "id": "fixture", "status": "active", "current_day": 4,
+        "timezone": "Asia/Tashkent", "user_id": "fixture",
+        "started_on": date(2026, 11, 25),
+    }
+    sunday = datetime(2026, 11, 29, 10, tzinfo=timezone.utc)
+    after = asyncio.run(_sync(MustNotQuery(), cycle, sunday, owner=True))
+    assert after == cycle and after["current_day"] == 4
+    assert cycle["status"] == "active"
