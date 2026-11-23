@@ -80,17 +80,46 @@ test('blocked storage, failed transport and an aborted account never manufacture
   assert.equal(document.querySelector('[data-daily-reward]'),null);
  }finally{h.dispose();}
 });
-test('seen markers are scoped to the account and authoritative server date',async()=>{
+test('seen markers are scoped to the current account and server date without hiding unclaimed rewards',async()=>{
  const h=setup({role:'student'});
  try{
   const storage=h.dom.window.localStorage;
+  const currentKey='la:daily-reward-seen:v2:'+ID(1)+':2026-11-17';
   storage.setItem('la:daily-reward-seen:v2:'+ID(2)+':2026-11-17','1');
   storage.setItem('la:daily-reward-seen:v2:'+ID(1)+':2026-11-16','1');
-  const {rewards}=begin(h);rewards.update(h.ctx);await tick();assert(document.querySelector('[data-daily-reward]'));
+  const {rewards}=begin(h);
+  rewards.update(h.ctx);
+  await tick();
+  assert(document.querySelector('[data-daily-reward]')?.open,
+   'another account and the previous day must not suppress this reward');
+  assert.equal(storage.getItem(currentKey),null,
+   'displaying an unclaimed reward must not mark it claimed or seen');
   h.controller.abort();
+
   const life=new h.dom.window.AbortController();
-  const again=dailyReward({session:h.ctx.session,signal:life.signal,storage,client:{request:async()=>available()}});
-  again.update(h.ctx);await tick();assert.equal(document.querySelector('[data-daily-reward]'),null);life.abort();
+  try{
+   const again=dailyReward({
+    session:h.ctx.session,signal:life.signal,storage,
+    client:{request:async()=>available()},
+   });
+   again.update({...h.ctx,signal:life.signal});
+   await tick();
+   assert(document.querySelector('[data-daily-reward]')?.open,
+    'an unclaimed reward remains available after remounting');
+  }finally{life.abort();}
+
+  storage.setItem(currentKey,'1');
+  const scopedLife=new h.dom.window.AbortController();
+  try{
+   const suppressed=dailyReward({
+    session:h.ctx.session,signal:scopedLife.signal,storage,
+    client:{request:async()=>available()},
+   });
+   suppressed.update({...h.ctx,signal:scopedLife.signal});
+   await tick();
+   assert.equal(document.querySelector('[data-daily-reward]'),null,
+    'only a matching account and authoritative server-date marker suppresses the popup');
+  }finally{scopedLife.abort();}
  }finally{h.dispose();}
 });
 test('visible tab crossing Tashkent midnight checks status without auto-claiming',async t=>{
