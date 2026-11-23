@@ -149,7 +149,3 @@ html[data-theme="night"] #root [data-owner-academic-filters] input[type="search"
   .vocabulary-hub-tab {padding:7px 9px;}
   .vocabulary-game-switcher {padding:12px;}
 }
-@media(prefers-reduced-motion:reduce) {
-  .vocabulary-game-tile,.vocabulary-game-switch-button {transition:none;}
-  .vocabulary-game-tile:hover,.vocabulary-game-switch-button:hover:not(:disabled) {transform:none;}
-}
