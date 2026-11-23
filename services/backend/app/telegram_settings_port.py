@@ -50,9 +50,18 @@ async def bot_owner(conn, actor):
     return audit_id,None
 
 
+def guardian_channel_id() -> str | None:
+    """Reserve the dedicated parent channel outside general admission settings."""
+    channel_id = os.getenv('GUARDIAN_REQUIRED_CHANNEL_ID', '').strip()
+    return channel_id if CHANNEL_ID.fullmatch(channel_id) else None
+
+
 async def list_channels(conn):
     row=await conn.fetchrow("SELECT value FROM telegram_bot_settings WHERE key='required_channels'")
-    return decode(jsonb(row['value']) if row else None)
+    channels=decode(jsonb(row['value']) if row else None)
+    # Legacy settings may contain the parent channel. Never gate students on it.
+    parent_channel_id=guardian_channel_id()
+    return [channel for channel in channels if channel['id'] != parent_channel_id]
 
 
 @router.get('/api/internal/telegram/required-channels')
@@ -86,6 +95,8 @@ async def post_required_channels(req:Request):
         if action=='add' and (not isinstance(c.get('title'),str) or not isinstance(c.get('url'),str)):
             return core.j({'error':'invalid_input'},400)
         if not CHANNEL_ID.fullmatch(c['id']):return core.j({'error':'invalid_channel'},400)
+        if action=='add' and c['id']==guardian_channel_id():
+            return core.j({'error':'guardian_channel_reserved'},409)
         if action=='add' and (not 1<=len(c['title'])<=120 or not LINK.fullmatch(c['url'])):
             return core.j({'error':'invalid_channel'},400)
         # The transaction-level lock and current read keep additions below 4.
