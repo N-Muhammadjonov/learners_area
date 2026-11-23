@@ -90,6 +90,7 @@ def test_listening_order_uses_original_manifest_instead_of_title_sorting():
 
 
 def test_owner_server_retention_is_real_and_locked_links_are_hidden():
+    from app.study_plan_thirty import owner_total_minutes_step
     schedule = assign_owner_vocabulary(
         make_thirty_day_schedule("B2", START, intensive=True),
         [{"slug": f"topic_{i}", "title": f"Pack {i}"} for i in range(15)],
@@ -97,32 +98,29 @@ def test_owner_server_retention_is_real_and_locked_links_are_hidden():
 
     class Fake:
         async def fetch(self, query, cycle_id):
-            rows = []
-            for day in schedule:
-                for task in day["tasks"]:
-                    rows.append({
-                        "day_number": day["day"], "slot": task.slot,
-                        "kind": task.kind, "title": task.title, "href": task.href,
-                        "source_key": task.source_key, "minutes": task.minutes,
-                        "stage_index": task.stage, "completed_at": None,
-                    })
-            return rows
+            return [
+                {"day_number": day["day"], "slot": task.slot,
+                 "kind": task.kind, "title": task.title, "href": task.href,
+                 "source_key": task.source_key, "minutes": task.minutes,
+                 "stage_index": task.stage, "completed_at": None}
+                for day in schedule for task in day["tasks"]
+            ]
 
     cycle = {
         "id": "fixture", "status": "active", "current_day": 1,
         "timezone": "Asia/Tashkent", "user_id": "fixture", "revision": 1,
         "cefr_level": "B2", "duration_days": 30, "started_on": START,
     }
-    payload = asyncio.run(_present(
-        Fake(), cycle, datetime(2026, 11, 22, 9, tzinfo=timezone.utc),
-        owner=True))
+    monday = datetime(2026, 11, 23, 9, tzinfo=timezone.utc)
+    payload = asyncio.run(_present(Fake(), cycle, monday, owner=True))
     assert payload["days"][0]["retention"]["requiredReviews"] == 10
     assert tuple(SRS_INTERVALS[:4]) == (1, 3, 7, 16)
     assert payload["days"][0]["retention"]["href"] == "/app/vocabulary?tab=revision"
     assert payload["days"][0]["retention"]["gamesHref"] == "/app/vocabulary/games"
+    assert payload["sundayProgramme"]["minutes"] == 420
+    assert payload["sundayProgramme"]["separateFromMainCycle"]
     for index, day in enumerate(payload["days"]):
-        assert day["minutes"] == owner_total_minutes(
-            date.fromisoformat(day["originalDate"].isoformat()))
+        assert day["minutes"] == owner_total_minutes_step(index + 1)
         assert day["retention"]["minutesIncludedInVocabulary"] == day["tasks"][5]["minutes"]
         assert day["retention"]["reviewDays"] == [
             n for n in (1, 3, 7, 16) if index >= n
@@ -137,7 +135,7 @@ def test_owner_server_retention_is_real_and_locked_links_are_hidden():
 @pytest.mark.parametrize("correct_distinct,accepted", [(9, False), (10, True)])
 def test_owner_retention_game_fallback_requires_ten_distinct_verified_correct_answers(
         correct_distinct, accepted):
-    now = datetime(2026, 11, 22, 12, tzinfo=timezone.utc)
+    now = datetime(2026, 11, 23, 12, tzinfo=timezone.utc)
     tasks = make_thirty_day_schedule("B2", START, intensive=True)[0]["tasks"]
 
     class Fake:
