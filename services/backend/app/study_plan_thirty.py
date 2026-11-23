@@ -55,6 +55,38 @@ OWNER_FULL_MOCK_WORKLOAD = {
     "grammar": 20, "reading": 80, "listening": 90, "writing": 90,
     "speaking": 90, "vocabulary": 50,
 }
+# Owner-only sequential workload. Day numbers refer to completed study slots,
+# never the parity of a calendar date or the weekday.
+OWNER_SEQUENCE_LIGHT = {
+    "grammar": 25, "reading": 35, "listening": 25,
+    "writing": 40, "speaking": 20, "vocabulary": 35,
+}
+OWNER_SEQUENCE_HEAVY = {
+    "grammar": 25, "reading": 90, "listening": 85,
+    "writing": 90, "speaking": 70, "vocabulary": 60,
+}
+
+
+def owner_study_date(start: date, offset: int) -> date:
+    """Project an owner study slot onto Mon-Sat; Sunday is never consumed."""
+    if offset < 0:
+        raise ValueError("invalid_study_offset")
+    current = start + timedelta(days=int(start.weekday() == 6))
+    for _ in range(offset):
+        current += timedelta(days=1)
+        if current.weekday() == 6:
+            current += timedelta(days=1)
+    return current
+
+
+def owner_workload_for_step(day_number: int) -> dict[str, int]:
+    if not 1 <= day_number <= DAYS:
+        raise ValueError("invalid_owner_day_number")
+    return OWNER_SEQUENCE_LIGHT if day_number % 2 else OWNER_SEQUENCE_HEAVY
+
+
+def owner_total_minutes_step(day_number: int) -> int:
+    return sum(owner_workload_for_step(day_number).values())
 
 
 def owner_workload_for_date(day: date) -> dict[str, int]:
@@ -210,8 +242,8 @@ def make_thirty_day_schedule(level: str, start: date,
             if not legacy:
                 raise ValueError("insufficient_verified_grammar")
             unit = legacy[(position + (revision - 1) * 7) % len(legacy)]
-        calendar_day = start + timedelta(days=offset)
-        minutes = owner_workload_for_date(calendar_day) if intensive else (
+        calendar_day = owner_study_date(start, offset) if intensive else start + timedelta(days=offset)
+        minutes = owner_workload_for_step(day_number) if intensive else (
             SUNDAY_WORKLOAD if calendar_day.weekday() == 6
             else WORKLOADS[offset % len(WORKLOADS)]
         )
@@ -249,10 +281,10 @@ def make_thirty_day_schedule(level: str, start: date,
                 )
                 for task in tasks
             ]
-        expected_minutes = owner_total_minutes(calendar_day) if intensive else TARGET_MINUTES
+        expected_minutes = owner_total_minutes_step(day_number) if intensive else TARGET_MINUTES
         if sum(task.minutes for task in tasks) != expected_minutes:
             raise ValueError("invalid_daily_budget")
-        result.append({"day": day_number, "date": (start + timedelta(days=offset)).isoformat(),
+        result.append({"day": day_number, "date": calendar_day.isoformat(),
                        "tasks": tasks})
     return result
 
