@@ -24,6 +24,11 @@ async def gates(conn,tg):
         return {'error':'phone_required'}
     holder=await conn.fetchrow('SELECT role FROM users WHERE telegram_id=$1',tg)
     if holder and holder.get('role')=='guardian':
+        linked=await conn.fetchval('''SELECT 1 FROM guardian_links l
+            JOIN guardian_profiles p ON p.id=l.guardian_profile_id
+            WHERE p.telegram_user_id=$1 AND l.status='linked' LIMIT 1''',tg)
+        if not linked:
+            return None
         from .guardian_port import guardian_channel_gate
         return await guardian_channel_gate(tg)
     channels=await list_channels(conn)
