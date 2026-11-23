@@ -181,3 +181,25 @@ def test_daily_completion_demands_server_evidence(kind, source_key):
 
     assert kind not in asyncio.run(run(False))
     assert kind in asyncio.run(run(True))
+
+
+def test_owner_academic_passages_are_preferred_on_light_steps_regardless_of_weekday():
+    start = date(2026, 11, 24)  # Tuesday: never infer heavy work from weekday.
+    plan = make_thirty_day_schedule("B2", start, intensive=True)
+    pools = {
+        "reading": [{"source_key": "reading:full-1",
+                     "title": "Academic Reading Test 1",
+                     "href": "/app/reading/academic/full-1"}],
+        "academic_passage": [{"source_key": "reading-practice:academic-1",
+                              "title": "Academic Reading passage 1",
+                              "href": "/app/reading/general/academic-1?passage=1"}],
+        "general_reading": [{"source_key": "reading-practice:general-1",
+                             "title": "General practice",
+                             "href": "/app/reading/general/general-1?passage=1"}],
+    }
+    assigned = assign_materials(plan, pools, intensive=True)
+    assert assigned[0]["tasks"][1].source_key == "reading-practice:academic-1"
+    assert assigned[1]["tasks"][1].source_key == "reading:full-1"
+    assert assigned[2]["tasks"][1].source_key == "reading-practice:academic-1"
+    assert assigned[0]["tasks"][2].source_key == "listening-mcq:1"
+    assert assigned[2]["tasks"][2].source_key == "listening-mcq:2"
