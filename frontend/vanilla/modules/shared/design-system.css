@@ -421,3 +421,45 @@ html[data-theme="night"] .daily-reward-dialog .btn-secondary{background:#23314b!
   min-width:40px;width:40px;min-height:40px;height:40px;
  }
 }
+
+/* One fixed topbar palette for ordinary and detached practice workspaces. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] {
+ --la-topbar-bg:#112244;
+ --la-topbar-control-bg:#191624;
+ --la-topbar-control-border:#4b4564;
+ --la-topbar-gradient:linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%);
+ --la-topbar-text:#f3f7ff;
+ background:#112244!important;
+ color:var(--la-topbar-text)!important;
+ backdrop-filter:none!important;
+ -webkit-backdrop-filter:none!important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+ [data-theme-toggle] .theme-btn,
+ [data-locale-switcher] button,
+ [data-campus-header-profile]>a[href="/app/notifications"],
+ [data-global-search-trigger]
+) {
+ background:var(--la-topbar-control-bg)!important;
+ color:var(--la-topbar-text)!important;
+ border-color:var(--la-topbar-control-border)!important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+ [data-theme-toggle] .theme-btn-active,
+ [data-locale-switcher] button[aria-pressed="true"]
+) {
+ background:var(--la-topbar-gradient)!important;
+ color:#000!important;
+ border-color:transparent!important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] {
+ background:var(--la-topbar-gradient)!important;
+ color:#000!important;
+ border-color:transparent!important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-name] {
+ color:#000!important;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-locale-switcher] [role="group"] {
+ border-color:var(--la-topbar-control-border);
+}
