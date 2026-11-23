@@ -251,19 +251,18 @@ def assign_owner_vocabulary(schedule: list[dict],
         return schedule
     result = []
     for day in schedule:
-        index = (day["day"] - 1) // 2
-        pack = packs[index % len(packs)]
-        activity = ("Learn the pack, then complete 10+ real SRS reviews or verified game recalls"
-                    if day["day"] % 2 else
-                    "Retrieve yesterday's words, then complete 10+ SRS reviews or verified game recalls")
-        course_day = day["day"] % 2 == 1
-        depth = ("brief recall session" if course_day
-                 else "extended recall, active example sentences and usage drills")
-        retention = ("Retain previous errors (days 1, 3, 7 and 16)"
-                     + " · " + depth)
+        index = (day["day"] - 1) % len(packs)
+        pack = packs[index]
+        first_exposure = day["day"] <= len(packs)
+        activity = ("Learn this published pack, write 3 usable examples and complete 10+ verified SRS/game recalls"
+                    if first_exposure else
+                    "Review earlier vocabulary, correct errors, use 5 collocations in Speaking/Writing and complete 10+ verified recalls")
+        intensity = ("focused micro-practice" if day["day"] % 2 else
+                     "extended active recall and applied usage")
+        retention = "Revisit errors at 1, 3, 7 and 16 subsequent study steps"
         tasks = [
             replace(task,
-                    title=f"Topic {index + 1}: {pack['title']} · {activity} · {retention}"[:350],
+                    title=f"{'New pack' if first_exposure else 'Revisit pack'}: {pack['title']} · {activity} · {retention} · {intensity}"[:350],
                     href="/app/vocabulary")
             if task.kind == "vocabulary" else task
             for task in day["tasks"]
