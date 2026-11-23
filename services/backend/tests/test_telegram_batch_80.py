@@ -1,5 +1,6 @@
 """Source-derived behavior tests for 10 new Telegram backend HTTP methods."""
 import os
+import json
 from datetime import datetime, timezone
 from uuid import UUID
 from fastapi.testclient import TestClient
@@ -155,3 +156,22 @@ def test_owner_only_bot_settings_not_delegated(monkeypatch):
     assert r.status_code==403
     r=C.get('/api/internal/telegram/ops?actorTelegramId=789&view=audit',headers=H)
     assert r.status_code==200
+
+
+def test_parent_channel_cannot_be_added_to_global_required_channels(monkeypatch):
+    parent={'id':'-1009090909090','title':'Ota-onalar','url':'https://t.me/parent_channel'}
+    general={'id':'-100123456','title':'English','url':'https://t.me/english123'}
+    extra={'id':'-100999999','title':'IELTS','url':'https://t.me/ieltspractice'}
+    monkeypatch.setenv('GUARDIAN_REQUIRED_CHANNEL_ID',parent['id'])
+    db=stub(monkeypatch)
+    db.rows["key='required_channels'"]={'value':json.dumps([parent,general])}
+    url='/api/internal/telegram/required-channels'
+    result=C.get(url+'?actorTelegramId=1234',headers=H)
+    assert result.status_code==200 and result.json()['channels']==[general]
+    blocked=C.post(url,json={'actorTelegramId':'1234','action':'add','channel':parent},headers=H)
+    assert blocked.status_code==409 and blocked.json()['error']=='guardian_channel_reserved'
+    assert not any("INSERT INTO telegram_bot_settings" in q for _,q,_ in db.calls)
+    allowed=C.post(url,json={'actorTelegramId':'1234','action':'add','channel':extra},headers=H)
+    assert allowed.status_code==200 and allowed.json()['channels']==[general,extra]
+    saved=[args[0] for action,q,args in db.calls if action=='execute' and 'INSERT INTO telegram_bot_settings' in q]
+    assert json.loads(saved[-1])==[general,extra]
