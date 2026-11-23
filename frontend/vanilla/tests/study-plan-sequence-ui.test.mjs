@@ -66,19 +66,11 @@ test('validated plan requires exactly thirty consistent days and never exposes l
 
 test('owner weekly workload and daily verified retention remain separate from student plan',async()=>{
   const data=activePlan();
-  const budgets={
-    0:[15,25,40,40,40,20],
-    1:[20,75,75,90,90,40],
-    2:[15,25,40,40,40,20],
-    3:[20,75,75,90,90,40],
-    4:[15,25,40,40,40,20],
-    5:[20,75,75,90,90,40],
-    6:[20,80,90,90,90,50],
-  };
+  const light=[25,30,15,40,20,15];
+  const heavy=[25,85,75,90,70,40];
   for(const day of data.days){
-    const weekday=new Date(day.date+'T00:00:00Z').getUTCDay();
-    const dayIndex=(weekday+6)%7;
-    day.tasks.forEach((task,index)=>{task.minutes=budgets[dayIndex][index];});
+    const budget=day.day%2?light:heavy;
+    day.tasks.forEach((task,index)=>{task.minutes=budget[index];});
     day.minutes=day.tasks.reduce((sum,task)=>sum+task.minutes,0);
     day.retention={
       requiredReviews:10,reviewDays:[1,3,7,16].filter(n=>n<day.day),
@@ -94,7 +86,7 @@ test('owner weekly workload and daily verified retention remain separate from st
   mountSequenceAssignments(context('owner'),host);
   await flush();
   assert.equal(host.querySelectorAll('[data-sequence-day]').length,30);
-  assert.match(host.textContent,/Mon\/Wed\/Fri 180 min/);
+  assert.match(host.textContent,/alternate 3-hour light and 7-hour heavy study steps/);
   assert.match(host.textContent,/Vocabulary SRS/);
   assert(host.querySelector('[data-sequence-task-kind="vocabulary"] [data-sequence-srs]'),
     'SRS must be nested under Vocabulary rather than shown as a separate Retention pane');
