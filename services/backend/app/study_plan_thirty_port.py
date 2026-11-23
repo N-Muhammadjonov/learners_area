@@ -14,13 +14,13 @@ from .study_plan_evidence import EVENTS
 from .study_plan_port import failure, response, plan_participant
 from .study_plan_thirty import (DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES,
     OWNER_TARGET_MINUTES, OWNER_LIGHT_MINUTES, VALID_DAILY_TOTALS,
-    make_thirty_day_schedule, normalize_level)
+    make_thirty_day_schedule, normalize_level, owner_study_date)
 from .study_plan_materials import (assign_materials, load_material_pools,
     assign_owner_vocabulary, load_owner_pack_pool)
 from .study_plan_owner_curriculum import enrich_owner_plan, load_owner_video_pool
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
-OWNER_BASELINE_BANDS = {"listening": 6.5, "reading": 7.0, "writing": 5.5, "speaking": 5.5}
+OWNER_BASELINE_BANDS = {"listening": 6.5, "reading": 7.0, "writing": 5.5, "speaking": 6.0}
 OWNER_TARGET_BAND = 8.0
 CYCLE = "SELECT * FROM study_plan_30_cycles WHERE user_id=$1 FOR UPDATE"
 CURRENT = """SELECT day_number,slot,kind,title,href,source_key,minutes,
@@ -117,6 +117,9 @@ def _score_skill_stage(source_key: str, answers: object) -> dict | None:
 async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict:
     if cycle["status"] != "active":
         return cycle
+    # Sunday has a separate owner programme and never advances this sequence.
+    if owner and now.astimezone(_timezone(cycle["timezone"])).weekday() == 6:
+        return cycle
     uid, cid, day = cycle["user_id"], cycle["id"], cycle["current_day"]
     tasks = await con.fetch(CURRENT, cid, day)
     allowed = VALID_DAILY_TOTALS if owner else {TARGET_MINUTES}
@@ -196,6 +199,15 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
                     verified["writing"] = (finished_at, typing_task["source_key"])
 
         if owner:
+            mcq_task = pending.get("listening")
+            if mcq_task and mcq_task["source_key"].startswith("listening-mcq:"):
+                from .step17_mcq_port import programme_snapshot
+                ordinal = int(mcq_task["source_key"].split(":", 1)[1])
+                programme = await programme_snapshot(con, {"id": uid})
+                if (1 <= ordinal <= len(programme) and
+                        programme[ordinal - 1]["status"]["state"] == "completed"):
+                    # Completion is calculated from all server-owned question stages.
+                    verified["listening"] = (now, mcq_task["source_key"])
             retention_task = pending.get("retention")
             if retention_task and retention_task["source_key"] in ("retention:B2", "retention:C1"):
                 completed_at = await con.fetchval("""SELECT MIN(completed_at)
@@ -271,8 +283,12 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
     if not isinstance(last_completed, datetime):
         raise ValueError("invalid_completion_timestamp")
     finished_on = last_completed.astimezone(_timezone(cycle["timezone"])).date()
-    opens_on = max(cycle["started_on"] + timedelta(days=day),
-                   finished_on + timedelta(days=1))
+    opens_on = max(
+        owner_study_date(cycle["started_on"], day) if owner
+        else cycle["started_on"] + timedelta(days=day),
+        owner_study_date(finished_on + timedelta(days=1), 0) if owner
+        else finished_on + timedelta(days=1),
+    )
     if today >= opens_on:
         await con.execute("""UPDATE study_plan_30_cycles SET
             current_day=$2,opened_at=$3,updated_at=$3 WHERE id=$1""",
@@ -292,7 +308,8 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
     for task in rows:
         number = task["day_number"]
         completed = task["completed_at"] is not None
-        can_open = cycle["status"] == "active" and cycle["current_day"] == number
+        can_open = (cycle["status"] == "active" and cycle["current_day"] == number
+                    and not (owner and now.astimezone(_timezone(cycle["timezone"])).weekday() == 6))
         groups[number].append({
             "slot": task["slot"], "kind": task["kind"], "title": task["title"],
             "minutes": task["minutes"], "stage": task["stage_index"],
@@ -312,7 +329,8 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
     # The server projects future dates from that day; task IDs and evidence
     # never change, so an unfinished day cannot be skipped or marked done.
     current_index = cycle["current_day"]
-    current_date = max(today, cycle["started_on"] + timedelta(days=current_index - 1))
+    current_date = (owner_study_date(max(today, cycle["started_on"]), 0) if owner
+                    else max(today, cycle["started_on"] + timedelta(days=current_index - 1)))
     completed_dates: dict[int, object] = {}
     for row in rows:
         if row["completed_at"] is not None:
@@ -326,11 +344,13 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
         status = ("completed" if complete else "active"
                   if cycle["status"] == "active" and day == current_index
                   else "locked")
-        original_date = cycle["started_on"] + timedelta(days=day - 1)
+        original_date = (owner_study_date(cycle["started_on"], day - 1) if owner
+                         else cycle["started_on"] + timedelta(days=day - 1))
         if complete:
             display_date = completed_dates.get(day, original_date)
         elif cycle["status"] == "active":
-            display_date = current_date + timedelta(days=day - current_index)
+            display_date = (owner_study_date(current_date, day - current_index) if owner
+                            else current_date + timedelta(days=day - current_index))
         else:
             display_date = original_date
         daily = {
@@ -370,7 +390,29 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
                               and vocab_now["status"] == "ready" else None),
             }
         result.append(daily)
+    sunday_programme = {
+        "title": "Yakshanba — mustaqil 7 soatlik haftalik tahlil",
+        "active": today.weekday() == 6,
+        "minutes": 420,
+        "separateFromMainCycle": True,
+        "tasks": [
+            {"title": "Retention va SRS", "minutes": 30, "href": "/app/vocabulary?tab=revision"},
+            {"title": "Reading/Listening xatolarini dalil bilan qayta ishlash",
+             "minutes": 90, "href": "/app/reading"},
+            {"title": "Writing: 4 IELTS mezoni bo‘yicha audit va paragraph rewrite",
+             "minutes": 90, "href": "/app/writing"},
+            {"title": "Speaking: audio, transkripsiya va qayta aytish",
+             "minutes": 60, "href": "/app/speaking/ai"},
+            {"title": "Shaxsiy grammatik xatolarni tuzatish",
+             "minutes": 45, "href": "/app/grammar"},
+            {"title": "TED/Article va language stealing",
+             "minutes": 45, "href": "/app/video-lessons"},
+            {"title": "Haftalik audit va eng zaif skill mashqi",
+             "minutes": 60, "href": "/app/assignments"},
+        ],
+    }
     return {
+        **({"sundayProgramme": sunday_programme} if owner else {}),
         "state": cycle["status"], "cycleId": cycle["id"],
         "level": cycle["cefr_level"], "totalDays": duration, "currentDay": cycle["current_day"],
         "completedDays": sum(day["status"] == "completed" for day in result),
@@ -431,6 +473,8 @@ async def start_plan(req: Request) -> JSONResponse:
         if level is None:
             return failure("level_required", 409)
         today = now.astimezone(zone).date()
+        if is_owner:
+            today = owner_study_date(today, 0)
         pools = await load_material_pools(con, user, level)
         if is_owner and not pools["listening"]:
             return failure("published_listening_tests_required", 409)
@@ -480,9 +524,7 @@ async def regenerate_plan(req: Request) -> JSONResponse:
         # Rebalance future workload according to its projected real weekday
         # after missed days; completed/current assignments remain untouched.
         local_today = now.astimezone(_timezone(row["timezone"])).date()
-        projected_start = (max(row["started_on"],
-                               local_today - timedelta(days=row["current_day"] - 1))
-                           if is_owner else row["started_on"])
+        projected_start = row["started_on"]
         pools = await load_material_pools(con, user, level)
         if is_owner and not pools["listening"]:
             return failure("published_listening_tests_required", 409)
