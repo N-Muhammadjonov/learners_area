@@ -126,6 +126,7 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
     ]
     for day in schedule:
         day_date = date.fromisoformat(day["date"])
+        owner_heavy = intensive and day["day"] % 2 == 0
         offset = day["day"] - 1
         week = min(3, offset // 7)
         day_of_week = offset % 7
@@ -135,8 +136,7 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
             if intensive else SPEAKING_PATTERN[week][day_of_week]
         )
         choices = {
-            "reading": ("reading" if (day_date.weekday() == 6 or
-                                    intensive and day_date.weekday() not in (0, 2, 4))
+            "reading": ("reading" if (owner_heavy if intensive else day_date.weekday() == 6)
                         else "general_reading"),
             "listening": "listening",
             "writing": writing_kind,
@@ -144,6 +144,13 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
         }
         tasks = list(day["tasks"])
         for slot, task in enumerate(tasks):
+            if intensive and not owner_heavy and task.kind == "listening":
+                mcq_day = (day["day"] + 1) // 2
+                tasks[slot] = replace(task,
+                    title=f"Listening MCQ #{mcq_day} — complete every question and explain distractors",
+                    href=f"/app/listening/mcq/day/{mcq_day}",
+                    source_key=f"listening-mcq:{mcq_day}")
+                continue
             kind = choices.get(task.kind)
             if kind is None:
                 continue
@@ -188,7 +195,7 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
             if intensive and index >= len(available):
                 title = "Repeat for retention — " + title
             if intensive:
-                course_day = day_date.weekday() in (0, 2, 4)
+                course_day = not owner_heavy
                 coaching = ({
                     "reading": "One passage, annotate recurring errors",
                     "listening": "One verified test, review misheard answers",
@@ -205,10 +212,10 @@ def assign_materials(schedule: list[dict], pools: dict[str, list[dict]],
                     title = f"{title} · {intensity}: {coaching}"
             tasks[slot] = replace(task, title=title[:350],
                                   href=chosen["href"], source_key=chosen["source_key"])
-        if day_date.weekday() != 6 and tasks[1].source_key == "reading":
+        if (not intensive and day_date.weekday() != 6 or intensive and not owner_heavy) and tasks[1].source_key == "reading":
             tasks[1] = replace(tasks[1], title="General Reading — one passage",
                                href="/app/reading/general")
-        elif day_date.weekday() == 6 and tasks[1].source_key == "reading":
+        elif (not intensive and day_date.weekday() == 6 or intensive and owner_heavy) and tasks[1].source_key == "reading":
             tasks[1] = replace(tasks[1], title="Academic Reading — full test",
                                href="/app/reading/academic")
         result.append({**day, "tasks": tasks})
@@ -249,7 +256,7 @@ def assign_owner_vocabulary(schedule: list[dict],
         activity = ("Learn the pack, then complete 10+ real SRS reviews or verified game recalls"
                     if day["day"] % 2 else
                     "Retrieve yesterday's words, then complete 10+ SRS reviews or verified game recalls")
-        course_day = date.fromisoformat(day["date"]).weekday() in (0, 2, 4)
+        course_day = day["day"] % 2 == 1
         depth = ("brief recall session" if course_day
                  else "extended recall, active example sentences and usage drills")
         retention = ("Retain previous errors (days 1, 3, 7 and 16)"
