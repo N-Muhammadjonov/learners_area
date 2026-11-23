@@ -66,8 +66,8 @@ test('validated plan requires exactly thirty consistent days and never exposes l
 
 test('owner weekly workload and daily verified retention remain separate from student plan',async()=>{
   const data=activePlan();
-  const light=[25,30,15,40,20,15];
-  const heavy=[25,85,75,90,70,40];
+  const light=[25,35,25,40,20,35];
+  const heavy=[25,90,85,90,70,60];
   for(const day of data.days){
     const budget=day.day%2?light:heavy;
     day.tasks.forEach((task,index)=>{task.minutes=budget[index];});
