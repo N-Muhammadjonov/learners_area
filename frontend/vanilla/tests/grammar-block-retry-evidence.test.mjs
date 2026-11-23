@@ -9,14 +9,15 @@ test('a completed Grammar block can be rechecked without resetting other scores,
   url:'https://example.test/app/grammar/lessons?book=b2-1'
  });
  const names=['window','document','navigator','localStorage','Option','fetch'];
- const previous=Object.fromEntries(names.map(name=>[name,globalThis[name]]));
+ const previous=Object.fromEntries(names.map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
  const requests=[];
  try{
-  for(const name of names.slice(0,-1))globalThis[name]=dom.window[name];
-  globalThis.fetch=async (url,options)=>{
+  for(const name of names.slice(0,-1))
+   Object.defineProperty(globalThis,name,{configurable:true,writable:true,value:dom.window[name]});
+  Object.defineProperty(globalThis,'fetch',{configurable:true,writable:true,value:async (url,options)=>{
    requests.push({url,body:JSON.parse(options.body)});
    return {ok:true,json:async()=>({ok:true,awarded:false,reason:'already_rewarded'})};
-  };
+  }});
   const unit=b2Units.find(item=>item.id==='b2-1');
   assert(unit);
   const store='grammar:evidence:retry';
@@ -70,8 +71,8 @@ test('a completed Grammar block can be rechecked without resetting other scores,
  }finally{
   dom.window.close();
   for(const name of names){
-   if(previous[name]===undefined)delete globalThis[name];
-   else globalThis[name]=previous[name];
+   if(previous[name])Object.defineProperty(globalThis,name,previous[name]);
+   else delete globalThis[name];
   }
  }
 });
@@ -81,10 +82,12 @@ test('server-rejected grammar evidence is never shown as verified',async()=>{
   url:'https://example.test/app/grammar/lessons?book=b2-1'
  });
  const names=['window','document','navigator','localStorage','Option','fetch'];
- const previous=Object.fromEntries(names.map(name=>[name,globalThis[name]]));
+ const previous=Object.fromEntries(names.map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]));
  try{
-  for(const name of names.slice(0,-1))globalThis[name]=dom.window[name];
-  globalThis.fetch=async()=>({ok:true,json:async()=>({ok:true,awarded:false,reason:'incomplete'})});
+  for(const name of names.slice(0,-1))
+   Object.defineProperty(globalThis,name,{configurable:true,writable:true,value:dom.window[name]});
+  Object.defineProperty(globalThis,'fetch',{configurable:true,writable:true,
+   value:async()=>({ok:true,json:async()=>({ok:true,awarded:false,reason:'incomplete'})})});
   const unit=b2Units.find(item=>item.id==='b2-1');
   const shadow=document.getElementById('host').attachShadow({mode:'open'});
   shadow.innerHTML='<div id="nav"></div><div id="units"></div>';
@@ -99,8 +102,8 @@ test('server-rejected grammar evidence is never shown as verified',async()=>{
  }finally{
   dom.window.close();
   for(const name of names){
-   if(previous[name]===undefined)delete globalThis[name];
-   else globalThis[name]=previous[name];
+   if(previous[name])Object.defineProperty(globalThis,name,previous[name]);
+   else delete globalThis[name];
   }
  }
 });
