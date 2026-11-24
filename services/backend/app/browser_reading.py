@@ -16,6 +16,38 @@ from .step17_mcq_port import staff
 
 SECRET = {'correctAnswer','acceptedAnswers','evidenceQuote','explanation','answerKey'}
 
+# The Reading 30 import replaced these five standalone passages with reviewed copies.
+# Old practice links still point at the retired single-passage wrappers.
+STANDALONE_REPLACEMENTS = {
+    'reading105:standalone:07117a0c-16a0-567d-8cf9-d8781e2f8e21':
+        'learnersarea-reading-105-child-s-play-in-medieval-england',
+    'reading105:standalone:1f82de94-6423-5cf2-9b4b-6bd2e7669664':
+        'learnersarea-reading-100-roller-coaster-the-great-fairground-attraction',
+    'reading105:standalone:8ebdf9b8-7876-5896-b7c8-cc3191c270a7':
+        'learnersarea-reading-103-tasmania-s-museum-of-old-and-new-art',
+    'reading105:standalone:b89cab7d-d727-5b0b-b3ba-09eaeab212ef':
+        'learnersarea-reading-101-the-contradictions-of-tourism',
+    'reading105:standalone:f7b93027-ee58-5cdc-ba39-18a9f784a111':
+        'learnersarea-reading-104-why-good-ideas-fail',
+}
+
+
+async def standalone_replacement(con, source_ref: str | None) -> list:
+    external_id = STANDALONE_REPLACEMENTS.get(source_ref)
+    if not external_id:
+        return []
+    rows = await con.fetch(f"""SELECT p.id AS passage_id, 1 AS passage_no
+        FROM reading_passages p
+        JOIN general_reading_passages g ON g.passage_id=p.id
+        JOIN general_reading_sets s ON s.id=g.set_id
+        WHERE p.external_id=$1 AND {live('p')} AND {live('s')}
+          AND EXISTS(SELECT 1 FROM reading_questions q WHERE q.passage_id=p.id)
+          AND NOT EXISTS(SELECT 1 FROM activity_events d
+              WHERE d.type='CONTENT_DELETED' AND d.id IN
+                (md5('deleted-content:'||p.id::text)::uuid, md5('deleted-content:'||s.id::text)::uuid))
+        LIMIT 2""", external_id)
+    return rows if len(rows) == 1 else []
+
 
 def academic_question_count():
     # The existing start endpoint omits exactly one reviewed item in four
@@ -239,6 +271,10 @@ async def read(req, user, path, q):
             if not row: raise HTTPException(404,'not_found')
             slots = await con.fetch(f'SELECT g.passage_id,g.passage_no FROM general_reading_passages g JOIN reading_passages p ON p.id=g.passage_id WHERE g.set_id=$1 AND {live("p")} ORDER BY g.passage_no',id)
             if len(slots)!=await con.fetchval('SELECT count(*)::int FROM general_reading_passages WHERE set_id=$1',id): raise HTTPException(404,'not_found')
+            if not slots and not academic:
+                slots = await standalone_replacement(con, row['source_ref'])
+            if not slots:
+                raise HTTPException(404,'not_found')
             if academic:
                 if not await eligible(con,row): raise HTTPException(404,'not_found')
                 if await academic_locked(con,user,row): raise HTTPException(403,'sequence_locked')

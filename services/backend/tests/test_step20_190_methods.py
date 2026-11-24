@@ -223,7 +223,7 @@ def test_retention_early_finish_moves_deadline_to_server_now(env):
     r=C.post('/api/retention/attempts/'+str(RID)+'/finish-reading')
     assert r.status_code==200 and r.json()['idempotent'] is False
     updates=[x for x in env.calls if 'UPDATE retention_attempts' in x[1]]
-    assert updates and updates[0][2][2]-updates[0][2][1]==timedelta(seconds=180)
+    assert updates and updates[0][2][2]-updates[0][2][1]==timedelta(minutes=5)
 
 def test_retention_late_autosave_refused(env):
     env.data['retention']=recall_row({'write_ends_at':now-timedelta(seconds=1)})
