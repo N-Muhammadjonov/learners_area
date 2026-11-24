@@ -115,9 +115,10 @@ jobs:
           export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
           test -n "$CHROMIUM_EXECUTABLE"
           node tests/browser-motion-parity.mjs
-      - name: General Reading Check visibility and shared header in Chromium
+      - name: General and Academic Reading CD review in Chromium
         working-directory: frontend/vanilla
         run: |
           export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
           test -n "$CHROMIUM_EXECUTABLE"
           READING_LOCAL_FIXTURE=1 TEST_FILTER="Completion refresh" node tests/browser-reading-v45.mjs
+          READING_LOCAL_FIXTURE=1 TEST_FILTER="Academic CD review" node tests/browser-reading-v45.mjs
