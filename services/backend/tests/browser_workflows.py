@@ -64,8 +64,18 @@ def run(client, check, uid, password, con):
         sid=session['session']['id']
         assert session['options'] is None and session['correctAnswer'] is None
         call('PATCH','/api/listening/mcq/'+sid,{'step':'reasoned','text':'Cannot skip the sequence'},409)
-        for step,text in (('notes','Authored notes'),('committed','A'),('revealed',None),('chosen','A'),('reasoned','Because the recording supports option A.')):
-            session=call('PATCH','/api/listening/mcq/'+sid,{'step':step,**({'text':text} if text else {})})
+        assert session['next'] == {'to':'revealed','field':'ownAnswer','minLength':1}
+        if i == 1:
+            for step,text in (('notes','Legacy notes'),('committed','A')):
+                session=call('PATCH','/api/listening/mcq/'+sid,{'step':step,'text':text})
+            assert session['options'] is None
+        session=call('PATCH','/api/listening/mcq/'+sid,{'step':'revealed','text':'A'})
+        assert session['options'] and session['correctAnswer'] is None
+        assert session['session']['ownAnswer'] == 'A'
+        session=call('PATCH','/api/listening/mcq/'+sid,{'step':'chosen','text':'A'})
+        assert session['next']['to'] == 'reasoned'
+        session=call('PATCH','/api/listening/mcq/'+sid,{
+            'step':'reasoned','text':'Because the recording supports option A.'})
         assert session['session']['stage']=='reasoned'
     program=view('/app/listening/mcq')
     assert program['days'][0]['status']['state']=='completed'

@@ -10,6 +10,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
 router=APIRouter()
+RECALL_SECONDS = 300
 STATUS={'retention_no_content':404,'retention_invalid_level':400,'retention_invalid_structure':422,'retention_scoring_failed':500,'retention_attempt_not_found':404,'retention_expired':410,'retention_wrong_phase':409,
         'retention_invalid_input':400,'retention_unavailable':500}
 
@@ -85,7 +86,7 @@ async def finish_reading(req:Request,id:str):
             state=phase(row,now)
             idempotent=True
             if state=='reading':
-                next_at=now+timedelta(seconds=180)
+                next_at=now+timedelta(seconds=RECALL_SECONDS)
                 updated=await con.fetchrow('''UPDATE retention_attempts SET read_ends_at=$2,write_started_at=$2,
                    write_ends_at=$3,updated_at=$2 WHERE id=$1 RETURNING *''',row['id'],now,next_at)
                 row=updated

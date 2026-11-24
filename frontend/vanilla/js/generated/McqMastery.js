@@ -37,6 +37,7 @@ export function render(scope) {
                     !isOpen && (h(Button, { variant: "secondary", onClick: () => openDrill(q.id), disabled: busy, "data-mcq-open": q.id }, q.stage === "listen" ? dict.listening.mcqStart : dict.listening.mcqResume))),
                 isOpen && payload && payload.question.id === q.id && (h("div", { className: "mt-3 rounded-sm border border-ink-100 p-3" },
                     audioUrl && h("audio", { key: q.id, src: audioSrc ? `${audioSrc}#t=${q.at ?? 0}` : undefined, controls: true, preload: "auto", "data-mcq-audio": q.id, "data-mcq-at": q.at ?? 0, className: "mb-3 max-w-full", "aria-label": `${dict.fullListeningHub.research.listenPart} · ${q.order}` }),
+                    !audioUrl && dayNavigation && h("p", { className: "mb-2 text-sm text-ink-500", role: "status" }, dict.listening.mcqAudioMissing),
                     !payload.options && (h("p", { className: "mb-2 text-xs text-ink-300", "data-mcq-options-hidden": true }, dict.listening.mcqHiddenNote)),
                     payload.next?.field && payload.next.field !== "chosenAnswer" && (h(fragment, null,
                         h("label", { className: "mb-1 block text-xs font-medium text-ink-500", htmlFor: `mcq-${q.id}` }, dict.listening[FIELD_LABEL[payload.next.field]]),
@@ -70,7 +71,9 @@ export function render(scope) {
                         payload.next ? (h(Button, { onClick: advance, disabled: busy ||
                                 (payload.next.field !== null && text.trim().length < payload.next.minLength), "data-mcq-advance": payload.next.to }, payload.next.to === "revealed"
                             ? dict.listening.mcqReveal
-                            : dict.listening.mcqContinue)) : (h("span", { className: "text-sm text-band-good", "data-mcq-done": true }, dict.listening.mcqDone)),
+                            : payload.next.to === "reasoned" && dayNavigation
+                                ? (dayNavigation.nextHref ? dict.listening.mcqSaveAndNext : dict.listening.mcqFinishDay)
+                                : dict.listening.mcqContinue)) : (h("span", { className: "text-sm text-band-good", "data-mcq-done": true }, dict.listening.mcqDone)),
                         !payload.next && dayNavigation && h(Link, { className: "btn-primary", href: dayNavigation.nextHref ?? "/app/listening/mcq", "data-mcq-next": true }, dayNavigation.nextHref ? dict.fullListeningHub.research.next : dict.listening.mcqProgram.backToDays),
                         h("span", { className: "text-xs text-ink-300" }, dict.listening.mcqPracticeOnly)),
                     error && h("p", { className: "mt-2 text-sm text-band-bad" }, error)))));

@@ -88,7 +88,10 @@ def test_retention_article_ted_are_real_tasks_with_no_extra_time():
             task.source_key for task in after["tasks"][:6]]
         retention = after["tasks"][6]
         assert retention.kind == "retention"
-        assert retention.source_key == ("retention:B2" if after["day"] < 21 else "retention:C1")
+        level = 'A2' if after['day'] <= 10 else 'B1' if after['day'] <= 20 else 'B2'
+        assert retention.source_key == 'retention:' + level
+        assert retention.href == '/app/reading/retention?level=' + level
+        assert '5 min' in retention.title
         media = after["tasks"][7]
         kind, source, objective = OWNER_MEDIA_DAYS[after["day"]]
         assert media.kind == kind and objective in media.title
@@ -125,7 +128,10 @@ def test_owner_supplements_are_not_fabricated_when_video_is_unpublished():
 
 
 @pytest.mark.parametrize("kind,source_key", [
+    ("retention", "retention:A2"),
+    ("retention", "retention:B1"),
     ("retention", "retention:B2"),
+    ("retention", "retention:C1"),
     ("article", "article:advertising"),
     ("video", "video:10000000-0000-4000-8000-000000000005"),
 ])
@@ -139,7 +145,7 @@ def test_daily_completion_demands_server_evidence(kind, source_key):
     ]
     rows[1]["minutes"] -= 7
     rows[2]["minutes"] -= 8
-    rows.append({"kind": "retention", "source_key": "retention:B2",
+    rows.append({"kind": "retention", "source_key": source_key if kind == 'retention' else 'retention:A2',
                  "minutes": 15, "completed_at": None})
     if kind in ("article", "video"):
         rows.append({"kind": kind, "source_key": source_key, "minutes": 20,
