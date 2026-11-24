@@ -264,8 +264,10 @@ for(const theme of ['day','night'])await check('Academic CD review ('+theme+'): 
   assert.equal(await page.locator('[data-reading-evidence-mark],[data-reading-inline-review]').count(),0,'no answer key or evidence before grading');
   assert.equal(await page.locator('#reading-questions-pane table tr').count(),3,'authored table remains in exam');
   assert.equal(await page.locator('[data-submit-attempt]').count(),1,'timed exam retains its submit action');
+  assert.equal(await page.locator('[data-reading-review-shell]').count(),0,'no ordinary shell inserted into live exam');
   finished=true;await page.reload();
   await page.locator('[data-reading-inline-review="'+Q2+'"]').waitFor();
+  await page.locator('[data-reading-review-shell] [data-shell-topbar]').waitFor();
   assert.equal(await page.locator('#reading-questions-pane table tr').count(),3,'same table remains in review');
   assert.equal(await page.locator('#answer-'+Q2).inputValue(),'90');
   assert.equal(await page.locator('#answer-'+Q2).isDisabled(),true);

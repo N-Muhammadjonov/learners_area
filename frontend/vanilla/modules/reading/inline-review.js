@@ -75,7 +75,7 @@ function feedback(dict,q,row,answer,expanded){
  details.addEventListener('toggle',()=>{if(details.open)expanded.add(id);else expanded.delete(id);});
  const alternatives=(row.acceptedAnswers??[]).filter(v=>String(v).trim().toLowerCase()!==String(row.correctAnswer??'').trim().toLowerCase());
  return el('div',{'data-reading-inline-review':id,'data-review-question':id,'data-general-question':id,'data-general-result':correct?'correct':'incorrect',class:'reading-inline-review'},
-  el('p',{class:'reading-review-student'},el('span',{'aria-label':correct?dict.reading.correct:dict.reading.incorrect},correct?'✓':'✗'),' ',dict.reading.yourAnswer+': ',el('strong',{},format(q,answer))),
+  el('p',{class:'reading-review-student'},el('span',{class:'reading-review-number'},'Q'+number(q)+' '),el('span',{'aria-label':correct?dict.reading.correct:dict.reading.incorrect},correct?'✓':'✗'),' ',dict.reading.yourAnswer+': ',el('strong',{},format(q,answer))),
   !correct?el('p',{class:'reading-review-correct'},dict.reading.correctAnswer+': ',el('strong',{},format(q,row.correctAnswer))):null,
   !correct&&alternatives.length?el('p',{class:'reading-review-alternatives'},dict.readingPractice.acceptedAnswers+': '+alternatives.join(' / ')):null,
   details);
@@ -87,8 +87,13 @@ export function inlineReview(root,{dict,questions,rows,answers,expanded=new Set(
  for(const q of questions){
   const row=byId.get(q.id);if(!row)continue;
   const verdict=row.isCorrect===true?'correct':'incorrect',own=targets.filter(n=>n.dataset.question===q.id);
-  const fields=controls.filter(n=>(n.dataset.readingQuestionIds||'').split(' ').includes(q.id)||n.dataset.answerInput===q.id||n.id==='answer-'+q.id||n.name==='answer-'+q.id||n.id.startsWith('answer-'+q.id+'-')||(n.closest('[data-question]')?.dataset.question===q.id));
-  for(const field of fields){field.dataset.readingVerdict=verdict;if(readonly)field.disabled=true;}
+  const fields=controls.filter(n=>n.dataset.readingQuestionIds?n.dataset.readingQuestionIds.split(' ').includes(q.id):n.dataset.answerInput===q.id||n.id==='answer-'+q.id||n.name==='answer-'+q.id||n.id.startsWith('answer-'+q.id+'-')||n.closest('[data-question]')?.dataset.question===q.id);
+  for(const field of fields){
+   const multiple=(field.dataset.readingQuestionIds||'').split(' ').filter(Boolean).length>1;
+   const chosen=field.type==='checkbox'||field.type==='radio'?field.checked:field.getAttribute('role')==='radio'?field.getAttribute('aria-checked')==='true':true;
+   if(chosen&&(!multiple||String(field.value).trim().toUpperCase()===String(answers[q.id]??'').trim().toUpperCase()))field.dataset.readingVerdict=verdict;
+   if(readonly)field.disabled=true;
+  }
   const anchor=fields[0]?.closest('td,th')??own[0]??fields[0]?.closest('[data-answer-slot],p,label,li,.qitem')??null;
   const result=feedback(dict,q,row,answers[q.id],expanded);
   if(anchor){
