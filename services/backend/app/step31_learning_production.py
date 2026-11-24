@@ -4,11 +4,14 @@ RIWI's actual Python evaluator and the configured provider/owner policy.
 """
 from __future__ import annotations
 import hashlib,json,re
+from datetime import datetime, timezone
+
 from fastapi import APIRouter,Request
+
 from . import main as core
 from . import step31_coach as coach
-
 from .rate_limit import evaluation_limit
+from .step19_vocab_srs_port import record_due_review
 router=APIRouter()
 
 async def _query(sql,*params):
@@ -132,10 +135,10 @@ def _mastery(entry,extra):
     return 'learning'
 
 async def _confirm(con,uid,usage_id,accepted,evaluation_id):
-    usage=await con.fetchrow('SELECT * FROM vocabulary_usages WHERE id=$1 AND user_id=$2',usage_id,uid)
+    usage=await con.fetchrow('SELECT * FROM vocabulary_usages WHERE id=$1 AND user_id=$2 FOR UPDATE',usage_id,uid)
     if not usage:return {'ok':False,'error':'not_found'}
     if usage['origin']!='manual':return {'ok':False,'error':'already_evaluated'}
-    entry=await con.fetchrow('SELECT * FROM user_vocabulary WHERE id=$1',usage['user_vocabulary_id'])
+    entry=await con.fetchrow('SELECT * FROM user_vocabulary WHERE id=$1 AND user_id=$2 FOR UPDATE',usage['user_vocabulary_id'],uid)
     if not entry:return {'ok':False,'error':'not_found'}
     dedupe=f'sentence:{uid}:{entry["id"]}:{_sentence_hash(usage["sentence"])}'
     inserted=False
@@ -149,9 +152,14 @@ async def _confirm(con,uid,usage_id,accepted,evaluation_id):
     await con.execute("""UPDATE vocabulary_usages SET origin='riwi',riwi_accepted=$2,evaluation_id=$3,
                            points_awarded=$4 WHERE id=$1""",usage_id,accepted,evaluation_id,points)
     if inserted:
-        await con.execute('''UPDATE user_vocabulary SET active_use_count=active_use_count+1,mastery=$2,
-                  mastered_at=CASE WHEN $2='mastered' THEN now() ELSE mastered_at END WHERE id=$1''',entry['id'],mastery)
-    return {'ok':True,'mastery':mastery,'points':points}
+        await con.execute('''UPDATE user_vocabulary SET active_use_count=active_use_count+1,mastery=$2::text,
+                  mastered_at=CASE WHEN $2::text='mastered' THEN now() ELSE mastered_at END WHERE id=$1''',entry['id'],mastery)
+    revision=None
+    if accepted:
+        review_entry={**entry,'active_use_count':entry['active_use_count']+int(inserted)}
+        revision=await record_due_review(con,review_entry,uid,'correct',datetime.now(timezone.utc),source='use')
+    return {'ok':True,'mastery':revision['mastery'] if revision else mastery,'points':points,
+            'revisionPoints':revision['points'] if revision else 0}
 
 @router.post('/api/vocabulary/{id}/use')
 async def vocab_use(req:Request,id:str):
@@ -189,6 +197,7 @@ async def vocab_use(req:Request,id:str):
               user['id'],json.dumps({'lexemeId':str(lexeme['id']),'verdict':ev['verdict'],'accepted':accepted}))
     return core.j({'ok':True,'usageId':str(usage_id),'verdict':ev['verdict'],'accepted':accepted,
         'checkedBy':'RIWI','mastery':confirmed['mastery'] if confirmed['ok'] else None,
-        'points':confirmed['points'] if confirmed['ok'] else 0})
+        'points':confirmed['points'] if confirmed['ok'] else 0,
+        **({'revisionPoints':confirmed['revisionPoints']} if confirmed.get('revisionPoints') else {})})
 
 def install():core.app.include_router(router)

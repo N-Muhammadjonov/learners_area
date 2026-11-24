@@ -9,8 +9,8 @@ export function canonicalPath(url){
  if(!destination){const module=PRIVATE_MODULES.find(m=>url.pathname==='/'+m.segment||url.pathname.startsWith('/'+m.segment+'/'));if(module)destination=module.destination+url.pathname.slice(module.segment.length+1);}
  if(!destination&&!['/app/listening','/app/reading','/app/grammar'].includes(url.pathname))return null;destination??=url.pathname;
  let to=new URL(destination,url.origin);for(const [k,v] of url.searchParams)if(!to.searchParams.has(k))to.searchParams.append(k,v);to.hash=url.hash;
- if(to.pathname==='/app/listening')to.pathname='/app/listening/lessons';
+ if(to.pathname==='/app/listening')to.pathname='/app/listening/tests';
  if(to.pathname==='/app/grammar'&&!to.searchParams.get('tab'))to.pathname='/app/grammar/lessons';
- if(to.pathname==='/app/reading'){const target=readingLegacyDestination(Object.fromEntries(to.searchParams));const next=new URL(!target||target==='/app/reading'?'/app/reading/lessons':target,url.origin);next.hash=to.hash;to=next;}
+ if(to.pathname==='/app/reading'){const target=readingLegacyDestination(Object.fromEntries(to.searchParams));const next=new URL(!target||target==='/app/reading'?'/app/reading/academic':target,url.origin);next.hash=to.hash;to=next;}
  const output=to.pathname+to.search+to.hash;return output===url.pathname+url.search+url.hash?null:output;
 }

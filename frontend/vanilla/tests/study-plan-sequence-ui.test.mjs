@@ -113,8 +113,9 @@ test('owner curriculum displays actual daily Retention and date-bound Article/TE
     day.tasks.forEach((task,index)=>{task.minutes=budgets[index];});
     const minutes=course?12:sunday?20:15;
     const status=day.status==='active'?'ready':day.status==='completed'?'completed':'locked';
-    day.tasks.push({slot:6,kind:'retention',title:'Retention — B2 blind recall',
-      href:status==='ready'?'/app/reading/retention?level=B2':null,
+    const level=day.day<=10?'A2':day.day<=20?'B1':'B2';
+    day.tasks.push({slot:6,kind:'retention',title:'Retention — '+level+' blind recall',
+      href:status==='ready'?'/app/reading/retention?level='+level:null,
       status,stage:null,minutes});
     if([3,5].includes(day.day)){
       const article=day.day===3,kind=article?'article':'video';
@@ -138,7 +139,7 @@ test('owner curriculum displays actual daily Retention and date-bound Article/TE
   await flush();
   assert.equal(host.querySelectorAll('[data-sequence-task-open]').length,7);
   assert.equal(host.querySelector('[data-sequence-task-open="retention"]').getAttribute('href'),
-    '/app/reading/retention?level=B2');
+    '/app/reading/retention?level=A2');
   assert(host.querySelector('[data-sequence-task-kind="vocabulary"] [data-sequence-srs]'));
   assert.equal(host.querySelectorAll('[data-sequence-day="3"] .sequence-day-dots i').length,8);
   assert.equal(host.querySelectorAll('[data-sequence-day="5"] .sequence-day-dots i').length,8);
@@ -147,7 +148,11 @@ test('owner curriculum displays actual daily Retention and date-bound Article/TE
   invalid.days[1].tasks[6].href='/app/reading/retention?level=B2';
   assert.throws(()=>validateSequence(invalid),/locked_route_exposed/);
   invalid.days[1].tasks[6].href=null;
-  invalid.days[0].tasks[6].href='/app/reading/retention?level=A2';
+  for (const level of ['B1','B2','C1']) {
+    invalid.days[0].tasks[6].href='/app/reading/retention?level='+level;
+    assert.equal(validateSequence(invalid),invalid);
+  }
+  invalid.days[0].tasks[6].href='/app/reading/retention?level=C2';
   assert.throws(()=>validateSequence(invalid),/invalid_retention_route/);
 });
 

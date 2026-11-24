@@ -6,7 +6,7 @@ import {pageGuide} from '../shared/page-guide.js';
 import {academyAiPanel} from '../shared/academy-ai.js';
 
 /** Each operational queue links directly to the workspace that handles it. */
-export function academyToday(ctx){
+export async function academyToday(ctx){
  const uz=ctx.locale==='uz',t=(a,b)=>uz?a:b,teacher=ctx.session.user.role==='teacher';
  const body=el('div',{class:'space-y-4'}),status=el('p',{role:'status'}),refresh=el('button',{type:'button',class:'btn-secondary'},t('Yangilash','Refresh'));
  const host=el('section',{class:'space-y-4','data-academy-today':''},el('h1',{class:'font-display text-3xl'},t('Bugun','Today')),
@@ -32,7 +32,7 @@ export function academyToday(ctx){
   if(refresh.disabled)return;refresh.disabled=true;status.textContent=ctx.dict.common.loading;
   try{
    const query=new URLSearchParams({classesOffset,followupsOffset,attendanceOffset});
-   const data=await api.request('/api/staff/academy/today?'+query,{signal:ctx.signal,fresh:true});if(ctx.signal.aborted)return;
+   const data=await api.request('/api/staff/academy/today?'+query,{signal:ctx.signal,fresh:true,timeoutMs:8000});if(ctx.signal.aborted)return;
    const lists=[queue('today-classes',t('Bugungi darslar','Today’s classes'),'/app/management/groups',data.classes,
     offset=>{if(refresh.disabled)return;classesOffset=offset;void load(0);})];
    if(data.attendance)lists.push(queue('today-attendance',t('Tugallanmagan davomat · oxirgi 7 kun','Incomplete attendance · last 7 days'),
@@ -59,5 +59,5 @@ export function academyToday(ctx){
   }catch{if(!ctx.signal.aborted)status.textContent=t('Ma’lumot yuklanmadi. Yangilashni bosing.','Could not load priorities. Select Refresh.');}
   finally{refresh.disabled=false;}
  }
- listen(refresh,'click',()=>void load(),ctx.signal);void load();return host;
+ listen(refresh,'click',()=>void load(),ctx.signal);await load();return host;
 }

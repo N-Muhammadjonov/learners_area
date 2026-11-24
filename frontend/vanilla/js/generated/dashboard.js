@@ -32,7 +32,7 @@ export function render(scope) {
                 h(StatCard,{label:dict.dashboard.vocabDue,value:data.vocabDueCount===null?'—':String(data.vocabDueCount)})),
             h('section',{'data-dashboard-skills':true},
                 h('h2',{className:'mb-3 section-title'},dict.dashboard.skillSummary),
-                h('div',{},SKILLS.map(skill=>h(Link,{href:({listening:'/app/listening/lessons',reading:'/app/reading/lessons',writing:'/app/writing',speaking:'/app/speaking'})[skill],className:'card la-skill-shortcut','data-skill':skill,'data-ui-skill':skill,'data-ui-card':'module'},
+                h('div',{},SKILLS.map(skill=>h(Link,{href:({listening:'/app/listening/tests',reading:'/app/reading/academic',writing:'/app/writing',speaking:'/app/speaking'})[skill],className:'card la-skill-shortcut','data-skill':skill,'data-ui-skill':skill,'data-ui-card':'module'},
                     h('span',{className:'la-skill-icon'},h(ModuleEmoji,{kind:skill})),
                     h('span',{className:'font-semibold text-ink-900'},dict.nav[skill]),
                     data.skillCounts[skill]===null?h('span',{'data-skill-unavailable':true,className:'text-xs text-ink-500'},'—'):

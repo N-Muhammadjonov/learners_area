@@ -33,7 +33,7 @@ export async function mount(context){
  if(path==='/app/reading'){
   // Original src/app/app/(shell)/reading/page.tsx: a server redirect that keeps legacy query links working.
   const params=Object.fromEntries(url.searchParams);
-  void navigate(readingLegacyDestination(params)??'/app/reading/lessons',{replace:true});
+  void navigate(readingLegacyDestination(params)??'/app/reading/academic',{replace:true});
   return;
  }
  if(path==='/app/reading/articles')return (await import('./articles.js')).mountArticles(ctx);

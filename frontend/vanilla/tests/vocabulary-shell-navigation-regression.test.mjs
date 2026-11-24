@@ -57,7 +57,7 @@ test('Games library relies on shell navigation and has no redundant Lug‘at ret
    assert.equal(cards.querySelectorAll('[data-game]').length,7);
    assert(cards.compareDocumentPosition(note)&Node.DOCUMENT_POSITION_FOLLOWING);
    assert.equal(note.querySelectorAll('h2').length,1);
-   assert.match(note.textContent,locale==='uz'?/Takrorlash bo‘limida/:/scheduled Revision/);
+   assert.match(note.textContent,locale==='uz'?/takrorlangan deb hisoblanadi/:/counts as a review/);
    assert(!note.textContent.includes(h.ctx.dict.vocabulary.games.casualNote));
   }finally{h.dispose();}
  }
