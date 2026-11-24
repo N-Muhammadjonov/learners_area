@@ -517,6 +517,24 @@ async def presence(req: Request):
             str(user['id']))
     return Response(status_code=204, headers=PRIVATE)
 
+def _profile_avatar(content: bytes) -> bytes | None:
+    from io import BytesIO
+    from PIL import Image, ImageOps
+
+    try:
+        with Image.open(BytesIO(content), formats=('PNG', 'JPEG')) as original:
+            if original.width * original.height > 1024 * 1024:
+                return None
+            with ImageOps.exif_transpose(original) as oriented:
+                oriented.thumbnail((96, 96), Image.Resampling.LANCZOS)
+                with oriented.convert('RGBA') as pixels:
+                    thumbnail = BytesIO()
+                    pixels.save(thumbnail, format='WEBP', quality=78)
+    except (OSError, ValueError, Image.DecompressionBombError):
+        return None
+    return thumbnail.getvalue() if thumbnail.tell() < len(content) else None
+
+
 @app.get('/api/profile/photo/{id}')
 async def get_profile_photo(req: Request, id: str):
     import base64
@@ -533,8 +551,15 @@ async def get_profile_photo(req: Request, id: str):
                 FROM user_profile_photos p INNER JOIN users u ON u.id=p.user_id
                 WHERE u.id=$1 AND u.account_status='active' LIMIT 1''', uuid.UUID(id))
         if not photo: return Response(status_code=404)
-        return Response(content=base64.b64decode(photo['image_base64']), media_type=photo['content_type'],
-                        headers=PRIVATE)
+        content = base64.b64decode(photo['image_base64'])
+        if req.query_params.get('variant') == 'avatar':
+            try:
+                avatar = await run_blocking(_profile_avatar, content)
+            except WorkBusy:
+                avatar = None
+            if avatar is not None:
+                return Response(content=avatar, media_type='image/webp', headers=PRIVATE)
+        return Response(content=content, media_type=photo['content_type'], headers=PRIVATE)
     except Exception:
         return Response(status_code=503)
 
