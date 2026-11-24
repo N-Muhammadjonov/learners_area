@@ -478,6 +478,12 @@ async def post_notifications(req: Request):
 async def presence(req: Request):
     user = await current_user(req, active=True)
     if not user: return auth_error()
+    submitted = await payload(req)
+    location = submitted.get('path') if isinstance(submitted, dict) else None
+    # Never store arbitrary user-controlled URLs or query strings in presence.
+    location = (location if isinstance(location, str) and len(location) <= 180
+                and location.startswith('/app/') and '?' not in location
+                and '#' not in location else '/app')
     conn_pool = await pool()
     async with conn_pool.acquire() as conn:
         delay = await counter('presence', 'presence:' + str(user['id']), consume=True, connection=conn)
@@ -485,7 +491,7 @@ async def presence(req: Request):
         await conn.execute('''
           INSERT INTO activity_events(id,user_id,type,payload,created_at)
           SELECT md5('site-presence:'||$1::text)::uuid,$1::uuid,'SITE_PRESENCE',
-            jsonb_build_object('since',NOW(),'visitStartedAt',NOW(),'visitSeconds',0,'totalSeconds',0),NOW()
+            jsonb_build_object('since',NOW(),'visitStartedAt',NOW(),'visitSeconds',0,'totalSeconds',0,'path',$2::text),NOW()
           WHERE NOT EXISTS(SELECT 1 FROM activity_events fresh
             WHERE fresh.id=md5('site-presence:'||$1::text)::uuid AND fresh.created_at>NOW()-interval '15 seconds')
           ON CONFLICT(id) DO UPDATE SET created_at=NOW(),payload=jsonb_build_object(
@@ -497,9 +503,18 @@ async def presence(req: Request):
                    LEAST(45,GREATEST(0,FLOOR(EXTRACT(epoch FROM NOW()-activity_events.created_at))::int)) END,
             'totalSeconds',COALESCE((activity_events.payload->>'totalSeconds')::bigint,0)+
                 CASE WHEN NOW()-activity_events.created_at>interval '90 seconds' THEN 0
-                  ELSE LEAST(45,GREATEST(0,FLOOR(EXTRACT(epoch FROM NOW()-activity_events.created_at))::int)) END)
+                  ELSE LEAST(45,GREATEST(0,FLOOR(EXTRACT(epoch FROM NOW()-activity_events.created_at))::int)) END,
+            'path',$2::text)
           WHERE activity_events.user_id=$1::uuid AND activity_events.type='SITE_PRESENCE'
-            AND activity_events.created_at<=NOW()-interval '15 seconds' ''', str(user['id']))
+            AND activity_events.created_at<=NOW()-interval '15 seconds' ''', str(user['id']), location)
+        # Store only one sample per user per 5-minute window. Historical
+        # concurrency is never fabricated from the overwritten presence row.
+        await conn.execute("""INSERT INTO site_presence_samples(user_id,bucket_start,last_seen_at)
+          VALUES($1::uuid, date_trunc('hour',now()) +
+            floor(extract(minute FROM now())/5)::int * interval '5 minutes',now())
+          ON CONFLICT(user_id,bucket_start) DO UPDATE
+            SET last_seen_at=greatest(site_presence_samples.last_seen_at,excluded.last_seen_at)""",
+            str(user['id']))
     return Response(status_code=204, headers=PRIVATE)
 
 @app.get('/api/profile/photo/{id}')
