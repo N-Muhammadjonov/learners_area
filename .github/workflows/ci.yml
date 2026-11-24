@@ -115,3 +115,13 @@ jobs:
           export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
           test -n "$CHROMIUM_EXECUTABLE"
           node tests/browser-motion-parity.mjs
+      - name: General Reading Check visibility and shared header in Chromium
+        working-directory: frontend/vanilla
+        run: |
+          export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
+          test -n "$CHROMIUM_EXECUTABLE"
+          node tests/phase1/preview-server.mjs --port 4173 > /tmp/reading-preview.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          curl --retry 20 --retry-connrefused --retry-delay 1 --fail --silent http://127.0.0.1:4173/ >/dev/null
+          TEST_FILTER="Completion refresh" node tests/browser-reading-v45.mjs

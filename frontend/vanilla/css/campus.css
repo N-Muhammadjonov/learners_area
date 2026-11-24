@@ -976,7 +976,14 @@ html:not(:has([data-ui-system]))[data-theme] #root [data-campus-shell] [data-she
   [data-profile-menu-trigger] > [data-profile-name] {
   color: var(--la-profile-name-ink, #000000) !important;
 }
-/* The profile gradient is fixed in both themes; its name stays black. */
+/* Keep the readable profile foreground and its paint together in the shared
+   shell stylesheet. Detached workspaces and the design-system shell use the
+   same gradient; neither depends on a night-mode foreground override. */
+html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] {
+  background: var(--dashboard-action-gradient) !important;
+  color: #000000 !important;
+  border-color: transparent !important;
+}
 html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] > [data-profile-name] {
   --la-profile-name-ink: #000000;
   color: #000000 !important;

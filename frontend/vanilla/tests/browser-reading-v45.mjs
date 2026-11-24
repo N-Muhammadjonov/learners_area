@@ -1,7 +1,6 @@
 /** V45 Reading browser checks: phrase-aware lookup, start error mapping, completion refresh without duplicate writes,
  * and passage/answer/scroll/focus preservation during autosave. Synthetic fixtures; real clicks and inputs. */
 import {chromium as playwright} from 'playwright-core';
-import chromium from '@sparticuz/chromium';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 import path from 'node:path';
@@ -9,9 +8,14 @@ import {brotliDecompressSync} from 'node:zlib';
 import {execFileSync} from 'node:child_process';
 import {publicPolicy,fixtureSession} from './fixtures.mjs';
 
-const deps=path.resolve(import.meta.dirname,'../node_modules');
-if(process.platform==='linux'){const tar=path.join(deps,'al2023.tar');fs.writeFileSync(tar,brotliDecompressSync(fs.readFileSync(path.join(deps,'@sparticuz/chromium/bin/al2023.tar.br'))));execFileSync('tar',['xf',tar,'-C',deps]);process.env.LD_LIBRARY_PATH=path.join(deps,'lib')+':'+(process.env.LD_LIBRARY_PATH??'');}
-const browser=await playwright.launch({executablePath:await chromium.executablePath(),args:chromium.args.filter(a=>!a.includes('single-process')&&!a.includes('disable-web-security')&&!a.includes('allow-running-insecure-content')),headless:true});
+async function launchBrowser(){
+ if(process.env.CHROMIUM_EXECUTABLE)return playwright.launch({executablePath:process.env.CHROMIUM_EXECUTABLE,headless:true});
+ const {default:chromium}=await import('@sparticuz/chromium');
+ const deps=path.resolve(import.meta.dirname,'../node_modules');
+ if(process.platform==='linux'){const tar=path.join(deps,'al2023.tar');fs.writeFileSync(tar,brotliDecompressSync(fs.readFileSync(path.join(deps,'@sparticuz/chromium/bin/al2023.tar.br'))));execFileSync('tar',['xf',tar,'-C',deps]);process.env.LD_LIBRARY_PATH=path.join(deps,'lib')+':'+(process.env.LD_LIBRARY_PATH??'');}
+ return playwright.launch({executablePath:await chromium.executablePath(),args:chromium.args.filter(a=>!a.includes('single-process')&&!a.includes('disable-web-security')&&!a.includes('allow-running-insecure-content')),headless:true});
+}
+const browser=await launchBrowser();
 const base=process.env.PREVIEW_URL??'http://127.0.0.1:4173';
 const out=new URL('../docs/evidence/v45/',import.meta.url);fs.mkdirSync(out,{recursive:true});
 const results=[];
@@ -142,6 +146,13 @@ await check('Completion refresh: a double-click on Check sends one check, keeps 
    const exposed=await check.evaluate(node=>{const r=node.getBoundingClientRect();return node.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));});
    assert(exposed,'Check is not covered by the support launcher');
   }
+  const headerStyle=await page.locator('[data-profile-menu-trigger]').evaluate(node=>{
+   const name=node.querySelector('[data-profile-name]'),style=getComputedStyle(name);
+   return {background:getComputedStyle(node).backgroundImage,color:style.color,fill:style.webkitTextFillColor};
+  });
+  assert.match(headerStyle.background,/linear-gradient/,'profile uses the shared gradient');
+  assert.equal(headerStyle.color,'rgb(0, 0, 0)');
+  assert.equal(headerStyle.fill,'rgb(0, 0, 0)');
   await page.locator('[data-general-check]').dblclick();
   await page.locator('[data-general-result]').first().waitFor({timeout:6000});
   await page.waitForTimeout(300);
