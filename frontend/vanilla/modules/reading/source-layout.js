@@ -51,7 +51,7 @@ export function sourceQuestions({group,questions,answers,onChange}){
  const root=sourceDocument(group.sourceHtml),byNumber=new Map(questions.map(q=>[q.sourceQuestionNo??q.questionNo,q]));
  for(const control of root.querySelectorAll('input,select')){
   const nums=(control.dataset.sourceNumbers||'').split(',').map(Number),rows=nums.map(n=>byNumber.get(n));if(!rows.length||rows.some(q=>!q)){control.disabled=true;continue;}
-  const q=rows[0];control.id='answer-'+q.id+(control.type==='radio'||control.type==='checkbox'?'-'+control.value:'');control.name='answer-'+q.id;control.autocomplete='off';control.setAttribute('aria-label','Answer '+rows.map(q=>q.questionNo).join(', '));
+  const q=rows[0];control.dataset.readingQuestionIds=rows.map(row=>row.id).join(' ');control.id='answer-'+q.id+(control.type==='radio'||control.type==='checkbox'?'-'+control.value:'');control.name='answer-'+q.id;control.autocomplete='off';control.setAttribute('aria-label','Answer '+rows.map(q=>q.questionNo).join(', '));
   const value=answers[q.id]??'',normalize=s=>String(s).replaceAll('_',' ').trim().toUpperCase();
   if(control.type==='checkbox')control.checked=rows.some(q=>normalize(answers[q.id])===normalize(control.value));
   else if(control.type==='radio')control.checked=normalize(value)===normalize(control.value);else control.value=value;
