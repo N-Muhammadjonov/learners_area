@@ -7,4 +7,15 @@ CREATE TABLE IF NOT EXISTS public.site_presence_samples (
 );
 CREATE INDEX IF NOT EXISTS site_presence_samples_bucket_idx ON public.site_presence_samples (bucket_start DESC);
 ALTER TABLE public.site_presence_samples ENABLE ROW LEVEL SECURITY;
-REVOKE ALL ON public.site_presence_samples FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON public.site_presence_samples FROM PUBLIC;
+-- Vanilla PostgreSQL does not create Supabase's anon/authenticated roles.
+DO $
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='anon') THEN
+    EXECUTE 'REVOKE ALL ON public.site_presence_samples FROM anon';
+  END IF;
+  IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname='authenticated') THEN
+    EXECUTE 'REVOKE ALL ON public.site_presence_samples FROM authenticated';
+  END IF;
+END
+$;
