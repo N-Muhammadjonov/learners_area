@@ -19,7 +19,9 @@ const browser=await launchBrowser();
 // CI uses an isolated browser route transport, with no TCP port or preview
 // server preference injection. Keep the existing external preview mode.
 const localFixture=process.env.READING_LOCAL_FIXTURE==='1';
-const base=localFixture?'http://learners-area-reading-fixture.local':process.env.PREVIEW_URL??'http://127.0.0.1:4173';
+// Loopback is a trustworthy origin in Chromium: crypto.randomUUID() is required
+// when Reading creates its contextual dictionary controls. Requests are still intercepted.
+const base=localFixture?'http://127.0.0.1:4173':process.env.PREVIEW_URL??'http://127.0.0.1:4173';
 const fixtureRoot=path.resolve(import.meta.dirname,'..');
 async function serveFixtureAsset(route){
  const url=new URL(route.request().url()),p=url.pathname;
@@ -149,6 +151,7 @@ for(const theme of (localFixture?['day','night']:['day']))await check('Completio
  const {context,page,errors,state}=await fixture({view,theme,api:async(p,{method,body})=>{if(p==='/api/reading/general/progress'&&method==='POST'){if(body.check){checked=true;return {ok:true,score:2,total:3,result:rows};}return {ok:true,updatedAt:new Date().toISOString(),score:null,total:null,result:null};}return undefined;}});
  try{
   await page.goto(base+`/app/reading/general/${GSET}?passage=1`);
+  assert.equal(await page.evaluate(()=>window.isSecureContext&&typeof crypto.randomUUID==='function'),true,'Reading requires secure-context Web Crypto');
   await page.locator(`[data-answer-input="${Q2}"]`).waitFor();
   await page.locator(`[data-answer-input="${Q2}"]`).fill('90');
   await page.locator('[data-general-save-state="saved"]').waitFor({timeout:6000});
@@ -184,6 +187,9 @@ for(const theme of (localFixture?['day','night']:['day']))await check('Completio
   assert.deepEqual(await readHeader(),headerStyle,'Reading practice and catalogue use the same topbar palette');
   assert.equal(await page.locator(`[data-passage="${GP}"] [data-passage-state]`).getAttribute('data-passage-state'),'completed','the overview shows the completed state');
   assert.deepEqual(errors,[]);
+ }catch(error){
+  console.error('Reading diagnostic',JSON.stringify({url:page.url(),text:(await page.locator('body').innerText().catch(()=>'?')).slice(0,1200),errors,requests:state.requests.map(({method,path,query})=>({method,path,query}))}));
+  throw error;
  }finally{await context.close();}
 });
 
