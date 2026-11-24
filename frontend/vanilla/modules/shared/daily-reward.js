@@ -64,6 +64,9 @@ export function dailyReward({session,signal,client,storage}){
     if(Number.isSafeInteger(result.wallet?.balance)&&result.wallet.balance>=0){
      balance.hidden=false;balance.textContent=t('Balans: ','Balance: ')+result.wallet.balance.toLocaleString(uz?'uz-UZ':'en-GB');
     }
+    // Server confirmation is authoritative: return to the current workspace.
+    // The receipt remains in the rewards history, not in a blocking dialog.
+    remove();
    }catch{
     if(!signal.aborted){claimButton.disabled=false;message.hidden=false;
      message.textContent=t('Tangani olish amalga oshmadi. Qayta urinib ko‘ring.','Unable to claim. Please retry.');}
