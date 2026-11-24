@@ -244,6 +244,51 @@ await check('Academic exam: typing keeps the passage node and the answer input, 
  }finally{await context.close();}
 });
 
+for(const theme of ['day','night'])await check('Academic CD review ('+theme+'): source layout, evidence, explanations and pre-submit answer privacy',async()=>{
+ let finished=false;
+ const sourceHtml='<div class="pass-title">Synthetic passage</div><p>Paragraph A text. Water boils at one hundred degrees.</p>';
+ const authoredGroups=[{...groups[0],sourceHtml:'<table><tr><td><span class="fqn">1</span><input data-source-numbers="1"></td></tr><tr><td><span class="fqn">2</span><input data-source-numbers="2"></td></tr><tr><td><span class="fqn">3</span><input data-source-numbers="3"></td></tr></table>'}];
+ const baseQuestions=questions.map(q=>({...q,passageId:P1}));
+ const completedQuestions=baseQuestions.map((q,i)=>({...q,correctAnswer:['TRUE','one hundred','B — Option two'][i],acceptedAnswers:[],evidenceQuote:i===0?'Paragraph A text.':i===1?'Water boils at one hundred degrees.':null,explanation:'Reason '+(i+1)}));
+ const answers=baseQuestions.map((q,i)=>({questionId:q.id,userAnswer:['true','90','B — Option two'][i],isCorrect:i!==1}));
+ const view=rt=>{
+  if(rt.split('?')[0]!== '/app/reading/attempts/'+ATT)return undefined;
+  const d=attemptBase(finished?'completed':'in_progress');
+  const qs=finished?completedQuestions:baseQuestions;
+  return {kind:'attempt',detail:{...d,attempt:{...d.attempt,score:finished?2:null,totalQuestions:3},passage:{...d.passage,id:P1},groups:authoredGroups,questions:qs,answers:finished?answers:[],sections:[{passage:{...d.passage,id:P1,sourceHtml},paragraphs:d.paragraphs,groups:authoredGroups,questions:qs}]}};
+ };
+ const {context,page,errors}=await fixture({view,theme});
+ try{
+  await page.goto(base+'/app/reading/attempts/'+ATT);
+  await page.locator('#answer-'+Q2).waitFor();
+  assert.equal(await page.locator('[data-reading-evidence-mark],[data-reading-inline-review]').count(),0,'no answer key or evidence before grading');
+  assert.equal(await page.locator('#reading-questions-pane table tr').count(),3,'authored table remains in exam');
+  assert.equal(await page.locator('[data-submit-attempt]').count(),1,'timed exam retains its submit action');
+  finished=true;await page.reload();
+  await page.locator('[data-reading-inline-review="'+Q2+'"]').waitFor();
+  assert.equal(await page.locator('#reading-questions-pane table tr').count(),3,'same table remains in review');
+  assert.equal(await page.locator('#answer-'+Q2).inputValue(),'90');
+  assert.equal(await page.locator('#answer-'+Q2).isDisabled(),true);
+  assert.equal(await page.locator('[data-reading-inline-review="'+Q1+'"] .reading-review-correct').count(),0);
+  assert.equal(await page.locator('[data-reading-inline-review="'+Q2+'"] .reading-review-correct').count(),1);
+  assert.equal(await page.locator('[data-reading-explanation]').count(),3);
+  assert.equal(await page.locator('[data-evidence-label="Q1"]').count(),1);
+  assert.equal(await page.locator('[data-evidence-label="Q2"]').count(),1);
+  await page.locator('[data-reading-explanation="'+Q1+'"] summary').click();
+  assert.equal(await page.locator('[data-reading-explanation="'+Q1+'"]').getAttribute('open'),'');
+  await page.setViewportSize({width:390,height:844});
+  await page.locator('[role=tab][aria-controls=reading-questions-pane]').click();
+  await page.locator('[data-reading-explanation="'+Q2+'"] summary').click();
+  assert.equal(await page.locator('[data-reading-explanation="'+Q2+'"]').getAttribute('open'),'');
+  await page.locator('[role=tab][aria-controls=reading-passage-pane]').click();
+  await page.locator('[data-evidence-label="Q2"]').waitFor();
+  assert.deepEqual(errors,[]);
+ }catch(error){
+  console.error('Academic review diagnostic',JSON.stringify({url:page.url(),text:(await page.locator('body').innerText().catch(()=>'?')).slice(0,1200),errors}));
+  throw error;
+ }finally{await context.close();}
+});
+
 fs.writeFileSync(new URL('browser-reading-v45-results.json',out),JSON.stringify({suite:'V45 Reading frontend',date:new Date().toISOString(),results,counts:{PASS:results.filter(r=>r.status==='PASS').length,FAIL:results.filter(r=>r.status==='FAIL').length}},null,2));
 await browser.close();
 const fails=results.filter(r=>r.status==='FAIL').length;
