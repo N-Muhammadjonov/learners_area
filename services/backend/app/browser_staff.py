@@ -106,7 +106,7 @@ async def read_staff(req, user, kind):
         db = await core.pool()
         async with db.acquire() as con:
             return await build_staff_mock_queue(con, user, q)
-    if kind in ('admissions','people','roster','student-results','support-inbox','teacher-live-classes','teacher-live-class'):
+    if kind in ('admissions','people','owner-presence','roster','student-results','support-inbox','teacher-live-classes','teacher-live-class'):
         from .browser_staff_people import read
         return await read(req,user,kind,q)
     if kind in ('teacher-students','teacher-student','teacher-homework','teacher-actions','teacher-assignment','teacher-assessment'):
