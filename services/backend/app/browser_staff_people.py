@@ -96,6 +96,41 @@ async def read(req, user, kind, q):
               WHERE u.account_status='pending' AND r.decided_at IS NULL ORDER BY u.created_at LIMIT 1000""")
             recent = await con.fetch("SELECT r.id,u.name applicant_name,r.decided_at FROM access_requests r JOIN users u ON u.id=r.user_id WHERE r.decided_at IS NOT NULL ORDER BY r.decided_at DESC LIMIT 10")
             return {'pending':[camel(r) for r in pending],'recent':[camel(r) for r in recent]}
+        if kind == 'owner-presence':
+            if user['role'] != 'owner':
+                raise HTTPException(403, 'forbidden')
+            # Five-minute snapshots only exist after the sampling migration.
+            # Do not infer historical peak concurrency from current heartbeats.
+            current = """FROM activity_events a JOIN users u ON u.id=a.user_id
+              WHERE a.type='SITE_PRESENCE'
+                AND a.id=md5('site-presence:'||u.id::text)::uuid
+                AND a.created_at>now()-interval '90 seconds'
+                AND u.account_status='active'"""
+            count = await con.fetchval('SELECT count(*)::int ' + current)
+            people = await con.fetch("""SELECT u.id,u.name,u.role,a.created_at AS seen_at,
+                a.payload->>'path' AS path,
+                COALESCE((a.payload->>'visitSeconds')::int,0) AS visit_seconds
+                """ + current + """ ORDER BY a.created_at DESC,u.name,u.id LIMIT 500""")
+            today = await con.fetchval("""SELECT
+              count(DISTINCT user_id)::int FROM site_presence_samples
+              WHERE bucket_start >= date_trunc('day',now() AT TIME ZONE 'Asia/Tashkent')
+                  AT TIME ZONE 'Asia/Tashkent'""")
+            buckets = await con.fetch("""SELECT bucket_start,count(*)::int AS active_users
+              FROM site_presence_samples
+              WHERE bucket_start >= date_trunc('day',now() AT TIME ZONE 'Asia/Tashkent')
+                  AT TIME ZONE 'Asia/Tashkent'
+              GROUP BY bucket_start ORDER BY bucket_start""")
+            peak = max((row['active_users'] for row in buckets), default=0)
+            return {
+                'onlineNow':count,'todayVisitors':today,'peakFiveMinute':peak,
+                'people':[camel(row) for row in people],
+                'truncated':count>len(people),
+                'buckets':[camel(row) for row in buckets],
+                'sampleWindowMinutes':5,
+                'onlineThresholdSeconds':90,
+                'historyStartedAt':(await con.fetchval(
+                    'SELECT min(bucket_start) FROM site_presence_samples')),
+            }
         if kind == 'people':
             args,conds = [],[]
             query = q.get('q','').strip()[:100]
