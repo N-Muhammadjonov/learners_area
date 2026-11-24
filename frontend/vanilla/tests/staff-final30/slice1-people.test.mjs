@@ -55,6 +55,48 @@ test('people: sanitizes URL filters, locks self/owner rows, Admin does not open 
  assert.equal(row(ID(3)).querySelector('a[href="/app/admin/people/'+ID(3)+'"]'),null,'Admin cannot open staff academic records');
  assert(row(ID(5)).textContent.includes('spam'));assert.equal(h.qa('[data-person-id]').length,10,'table + mobile cards');
 });
+test('people: owner online badge opens a live-presence dialog with real trend and student progress links',async()=>{
+ h=setup({role:'owner',path:'/app/admin/people'});
+ const now=new Date(),bucket=new Date(Math.floor(now.getTime()/300000)*300000).toISOString();
+ h.stub({
+  '/api/frontend/staff/people':dir({actorRole:'owner',onlineCount:2,people:[person(2)]}),
+  '/api/frontend/staff/owner-presence':envelope('owner-presence',{
+   onlineNow:2,todayVisitors:3,peakFiveMinute:2,sampleWindowMinutes:5,
+   onlineThresholdSeconds:90,truncated:false,historyStartedAt:bucket,
+   people:[{id:ID(2),name:'Current Student',role:'student',seenAt:now.toISOString(),
+      path:'/app/reading',visitSeconds:122},
+     {id:ID(3),name:'Teacher One',role:'teacher',seenAt:now.toISOString(),
+      path:'/app/admin/people',visitSeconds:32}],
+   buckets:[{bucketStart:bucket,activeUsers:2}],
+  }),
+ });
+ await h.mount(people);
+ const open=h.q('[data-people-online]');assert(open);
+ h.click(open);await tick();
+ const dialog=document.querySelector('[data-online-presence-dialog]');
+ assert(dialog?.open);
+ assert(dialog.textContent.includes('Currently on the platform'));
+ assert(dialog.querySelector('[data-online-presence-chart]'));
+ assert(dialog.querySelectorAll('[data-online-presence-bar]').length>0);
+ assert(dialog.textContent.includes('Current Student'));
+ assert(dialog.textContent.includes('Reading'));
+ assert(dialog.querySelector('a[href="/app/admin/people/'+ID(2)+'"]'));
+ assert.equal(dialog.querySelector('a[href="/app/admin/people/'+ID(3)+'"]'),null);
+ h.click(dialog.querySelector('[data-online-student-progress]'));await tick();
+ assert.equal(h.nav.at(-1).path,'/app/admin/people/'+ID(2));
+ assert.equal(document.querySelector('[data-online-presence-dialog]'),null);
+});
+test('people: owner online dashboard handles unavailable evidence without inventing statistics',async()=>{
+ h=setup({role:'owner'});h.stub({
+  '/api/frontend/staff/people':dir({actorRole:'owner',onlineCount:0,people:[]}),
+  '/api/frontend/staff/owner-presence':new ApiError(503,'offline'),
+ });await h.mount(people);h.click(h.q('[data-people-online]'));await tick();
+ const modal=document.querySelector('[data-online-presence-dialog]');
+ assert(modal.open);assert(modal.querySelector('[role="alert"]'));
+ assert.equal(modal.querySelector('[data-online-presence-chart]'),null);
+ h.click(modal.querySelector('[data-online-presence-close]'));
+ assert.equal(document.querySelector('[data-online-presence-dialog]'),null);
+});
 test('people: owner may grant admin and owner options; select reverts until server acceptance',async()=>{
  h=setup({role:'owner',path:'/app/admin/people'});let role='student';h.stub({'/api/frontend/staff/people':()=>dir({actorRole:'owner',grantableRoles:['student','teacher','admin','owner'],people:[person(2,{role}),person(1,{role:'owner'})]}),'/api/admin/users/*':()=>{role='teacher';return {ok:true};}});await h.mount(people);
  const sel=h.q(`tr[data-person-id="${ID(2)}"] select`);assert.equal(sel.options.length,4);
