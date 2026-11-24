@@ -23,7 +23,7 @@ export function mountAttempt(context){
    const types=d.questions.map(q=>readingQuestionType(q.typeCode??q.type)?.id);
    const notice=requested&&types.includes(requested)?el('p',{class:'body-text','data-requested-reading-type':requested},`${dict.readingV4.requestedType}: ${questionTypeLabel(requested,locale)}. ${dict.readingV4.wholePassage}`):null;
    host.replaceChildren(notice??'');
-   const body=el('div',{class:d.attempt.status==='in_progress'?'reading-fill':''});host.append(body);
+   const body=el('div',{class:'reading-fill'});host.append(body);
    const passageMeta=d.passage.testNo!=null&&d.passage.passageNo!=null?dict.readingPractice.passageMeta.replace('{test}',String(d.passage.testNo)).replace('{passage}',String(d.passage.passageNo)):null;
    if(d.attempt.status==='in_progress'){
     const sections=d.sections;
@@ -38,7 +38,7 @@ export function mountAttempt(context){
     body.append(mountAnalysis({...context,root:body},{
      attemptId:id,score:d.attempt.score,total:d.attempt.totalQuestions,questions:d.questions,groups:d.groups,answers:d.answers,
      passageBody:d.passage.bodyText,passageTitle:d.passage.title,passageLevel:d.passage.difficultyLevel,occurrences:d.occurrences,
-     passages:d.sections.map(s=>({id:s.passage.id,title:s.passage.title,body:s.passage.bodyText,sourceHtml:s.passage.sourceHtml})),
+     passages:d.sections.map(s=>({id:s.passage.id,title:s.passage.title,body:s.passage.bodyText,sourceHtml:s.passage.sourceHtml,questionIds:s.questions.map(q=>q.id)})),
     }));
    }
   }catch(e){
