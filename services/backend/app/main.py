@@ -14,6 +14,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
+from starlette.requests import ClientDisconnect
 
 from .db import db_failure, pool, row_to_dict, close_pool
 from .runtime_config import academy_enabled, environment as runtime_environment
@@ -95,7 +96,7 @@ def uuid_value(value: str):
 
 async def payload(req: Request):
     try: return await req.json()
-    except (ValueError, UnicodeDecodeError): return None
+    except (ValueError, UnicodeDecodeError, ClientDisconnect): return None
 
 
 def is_email(value):

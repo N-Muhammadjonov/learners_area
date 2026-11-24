@@ -195,6 +195,10 @@ const uz = {
         keyboardHint: "↑↓ tanlash · Enter ochish · Esc yopish",
     },
     generalReading: {
+        draftUnsaved: "Javoblaringiz shu oynada. Ularni saqlash uchun qayta urinib ko‘ring.",
+        checkUnavailable: "Javoblaringiz shu oynada. Tekshirish uchun qayta urinib ko‘ring.",
+        retryAnswerRequest: "Qayta urinish",
+
         title: "General Reading",
         subtitle: "O'quv rejimi: o'z sur'atingizda o'qing, javoblaringizni tekshiring va so'zlarni matnning o'zida ko'ring.",
         learningNote: "O'quv rejimi — so'z yordami yoqilgan. So'zni bosing yoki Enter tugmasini bosing: uning shu yerdagi ma'nosi chiqadi.",

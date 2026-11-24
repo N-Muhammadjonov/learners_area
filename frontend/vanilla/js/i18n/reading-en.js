@@ -195,6 +195,10 @@ const en = {
         keyboardHint: "↑↓ to choose · Enter to open · Esc to close",
     },
     generalReading: {
+        draftUnsaved: "Your answers are still here. Try saving again.",
+        checkUnavailable: "Your answers are still here. Try checking them again.",
+        retryAnswerRequest: "Try again",
+
         title: "General Reading",
         subtitle: "Learning mode: read at your own pace, check your answers, and look up words right in the text.",
         learningNote: "Learning mode — word help is on. Tap or press Enter on a word to see what it means here.",

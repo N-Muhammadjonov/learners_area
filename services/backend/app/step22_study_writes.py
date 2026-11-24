@@ -18,10 +18,10 @@ async def save_listening_draft(req:Request,id:str):
     ident=core.uuid_value(id)
     if not ident:return core.j({'error':'not_found'},404)
     b=await core.payload(req)
-    if (not isinstance(b,dict) or not isinstance(b.get('answers'),dict)
+    if (not isinstance(b,dict) or not isinstance(b.get('answers'),dict) or len(b['answers'])>200
         or not all(core.uuid_value(k) and isinstance(v,str) and len(v)<=500 for k,v in b['answers'].items())
         or type(b.get('audioPosition')) not in (float,int)
-        or not math.isfinite(b['audioPosition']) or not 0<=b['audioPosition']<=7200
+        or not 0<=b['audioPosition']<=7200
         or ('startAudio' in b and type(b['startAudio']) is not bool)):
         return core.j({'error':'invalid_input'},400)
     expected=b.get('expectedDraftHash')
