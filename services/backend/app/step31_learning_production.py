@@ -152,8 +152,8 @@ async def _confirm(con,uid,usage_id,accepted,evaluation_id):
     await con.execute("""UPDATE vocabulary_usages SET origin='riwi',riwi_accepted=$2,evaluation_id=$3,
                            points_awarded=$4 WHERE id=$1""",usage_id,accepted,evaluation_id,points)
     if inserted:
-        await con.execute('''UPDATE user_vocabulary SET active_use_count=active_use_count+1,mastery=$2,
-                  mastered_at=CASE WHEN $2='mastered' THEN now() ELSE mastered_at END WHERE id=$1''',entry['id'],mastery)
+        await con.execute('''UPDATE user_vocabulary SET active_use_count=active_use_count+1,mastery=$2::text,
+                  mastered_at=CASE WHEN $2::text='mastered' THEN now() ELSE mastered_at END WHERE id=$1''',entry['id'],mastery)
     revision=None
     if accepted:
         review_entry={**entry,'active_use_count':entry['active_use_count']+int(inserted)}

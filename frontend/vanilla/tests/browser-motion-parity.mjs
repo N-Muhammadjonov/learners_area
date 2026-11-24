@@ -7,7 +7,7 @@ import {fixtureSession,publicPolicy,testId,viewFixture} from './fixtures.mjs';
 
 const root=path.resolve(fileURLToPath(new URL('../',import.meta.url)));
 const origin='http://learners-area-fixture.local';
-const catalog='/app/listening/lessons';
+const catalog='/app/listening/tests';
 const testUrl='/app/listening/tests/'+testId;
 const kinds=['grammar','reading','listening','writing','speaking','vocabulary'];
 const sequence={state:'active',totalDays:30,currentDay:1,completedDays:0,today:'2026-11-01',
@@ -77,6 +77,7 @@ async function compareState(theme,width,preference){
   if(width===390)assert(scrollable);
   if(width===390)await dockListening.tap();else await dockListening.click();
   await page.waitForURL(origin+catalog);
+  await page.locator('[data-listening-test-count]').waitFor();
   await dock.locator('[data-dock-module="listening"][aria-current="page"]').waitFor();
   await page.keyboard.press('f');
   await dock.waitFor({state:'hidden'});
