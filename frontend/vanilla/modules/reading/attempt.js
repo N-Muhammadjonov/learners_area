@@ -8,6 +8,7 @@ import {RegionFailureNotice} from '../shared/presentation.js';
 import {missing} from '../listening/catalogue-v9.js';
 import {mountExam} from './exam.js';
 import {cdReview as mountAnalysis} from './cd-review.js';
+import {createTopbar} from '../shell/layout.js';
 /** Original src/app/app/(focus)/reading/attempts/[id]/page.tsx. An open attempt is the exam; a finished one is the
  * analysis. The original's 404 rules (malformed id, unknown row) are answered by the not-found presentation. */
 export function mountAttempt(context){
@@ -35,6 +36,9 @@ export function mountAttempt(context){
      draftHash:d.draftHash,savedAnswers:Object.fromEntries(d.answers.filter(a=>a.isCorrect===null).map(a=>[a.questionId,a.userAnswer])),
      questions:d.questions.map(publicQuestion)});
    }else{
+    const {top}=createTopbar(context);
+    const reviewShell=el('div',{'data-shell':'','data-campus-shell':'','data-ui-system':'','data-reading-review-shell':'',class:'flex min-h-0 flex-1 flex-col overflow-hidden'},el('div',{'data-workspace-header':''},top),body);
+    host.append(reviewShell);
     body.append(mountAnalysis({...context,root:body},{
      attemptId:id,score:d.attempt.score,total:d.attempt.totalQuestions,questions:d.questions,groups:d.groups,answers:d.answers,
      passageBody:d.passage.bodyText,passageTitle:d.passage.title,passageLevel:d.passage.difficultyLevel,occurrences:d.occurrences,
