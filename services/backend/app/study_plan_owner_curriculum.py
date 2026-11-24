@@ -102,9 +102,17 @@ def owner_media_assignments(days: list[dict]) -> dict[int, tuple[str, str, str]]
 
 
 SRS_DELAYS: tuple[int, ...] = (1, 3, 7, 16)
-RETENTION_LEVEL_CHANGE_DAY = 21
 RETENTION_MINUTES = 15
 MEDIA_MINUTES = 20
+
+
+def owner_retention_target(day: int) -> tuple[str, str, str]:
+    level = 'A2' if day <= 10 else 'B1' if day <= 20 else 'B2'
+    return (
+        f'Retention {level} — read 2 min, recall in writing for 5 min, review missed ideas',
+        f'/app/reading/retention?level={level}',
+        f'retention:{level}',
+    )
 
 
 def select_owner_grammar(level: str, day: int, catalog: list[dict]) -> tuple[dict, str] | None:
@@ -158,13 +166,8 @@ def enrich_owner_plan(days: list[dict], videos: dict[str, dict],
         listen_cut = minutes - read_cut
         tasks[1] = replace(tasks[1], minutes=tasks[1].minutes - read_cut)
         tasks[2] = replace(tasks[2], minutes=tasks[2].minutes - listen_cut)
-        retention_level = "C1" if number >= RETENTION_LEVEL_CHANGE_DAY else "B2"
-        tasks.append(PlanTask(
-            number, 6, "retention",
-            f"Retention {retention_level} — read 2 min, blind recall 3 min, correct omissions",
-            "/app/reading/retention?level=" + retention_level,
-            "retention:" + retention_level, minutes,
-        ))
+        title, href, source_key = owner_retention_target(number)
+        tasks.append(PlanTask(number, 6, 'retention', title, href, source_key, minutes))
         media = media_assignments.get(number)
         if media:
             kind, key, objective = media

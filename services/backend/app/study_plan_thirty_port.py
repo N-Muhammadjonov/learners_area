@@ -17,7 +17,7 @@ from .study_plan_thirty import (DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES,
     make_thirty_day_schedule, normalize_level, owner_study_date)
 from .study_plan_materials import (assign_materials, load_material_pools,
     assign_owner_vocabulary, load_owner_pack_pool)
-from .study_plan_owner_curriculum import enrich_owner_plan, load_owner_video_pool
+from .study_plan_owner_curriculum import enrich_owner_plan, load_owner_video_pool, owner_retention_target
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
 OWNER_BASELINE_BANDS = {"listening": 6.5, "reading": 7.0, "writing": 5.5, "speaking": 6.0}
@@ -209,7 +209,8 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
                     # Completion is calculated from all server-owned question stages.
                     verified["listening"] = (now, mcq_task["source_key"])
             retention_task = pending.get("retention")
-            if retention_task and retention_task["source_key"] in ("retention:B2", "retention:C1"):
+            if retention_task and retention_task["source_key"] in (
+                    'retention:A2', 'retention:B1', 'retention:B2', 'retention:C1'):
                 completed_at = await con.fetchval("""SELECT MIN(completed_at)
                     FROM retention_attempts WHERE user_id=$1 AND level=$2
                       AND status='completed' AND score >= 50
@@ -425,6 +426,18 @@ async def _current(con, uid, now: datetime, *, owner: bool = False) -> dict:
     cycle = await con.fetchrow(CYCLE, uid)
     if cycle:
         state = await _sync(con, dict(cycle), now, owner=owner)
+        if owner and state['status'] == 'active':
+            days = list(range(state['current_day'], state.get('duration_days', DAYS) + 1))
+            targets = [owner_retention_target(day) for day in days]
+            await con.execute("""UPDATE study_plan_30_tasks AS task
+                SET title=target.title, href=target.href, source_key=target.source_key
+                FROM unnest($2::int[], $3::text[], $4::text[], $5::text[]) AS target(day, title, href, source_key)
+                WHERE task.cycle_id=$1 AND task.day_number=target.day
+                    AND task.kind='retention' AND task.completed_at IS NULL
+                    AND (task.title, task.href, task.source_key)
+                        IS DISTINCT FROM (target.title, target.href, target.source_key)""",
+                state['id'], days, [item[0] for item in targets],
+                [item[1] for item in targets], [item[2] for item in targets])
         payload = await _present(con, state, now, owner=owner)
         return {**payload, "baselineBands": OWNER_BASELINE_BANDS,
                 "targetBand": OWNER_TARGET_BAND} if owner else payload

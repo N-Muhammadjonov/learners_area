@@ -24,5 +24,6 @@ export function mcqDay(d,number,role){
  if(!d||d.day!==number||typeof d.title!=='string'||typeof d.draft!=='boolean'||d.draft&&role==='student'||!d.status||!['not_started','in_progress','completed'].includes(d.status.state)||!Array.isArray(d.questions))invalid();
  const {total,completed}=d.status;if(!Number.isSafeInteger(total)||total!==d.questions.length||!Number.isSafeInteger(completed)||completed<0||completed>total||d.status.state==='completed'&&completed!==total)invalid();
  if(d.questions.some(q=>typeof q.id!=='string'||typeof q.questionText!=='string'||q.stage!==null&&!stages.includes(q.stage))||new Set(d.questions.map(q=>q.id)).size!==d.questions.length)invalid();
- if(d.audioUrl!=null&&typeof d.audioUrl!=='string')invalid();return d;
+ if(d.audioUrl!=null&&typeof d.audioUrl!=='string')invalid();
+ if(d.questions.some(q=>q.audioUrl!=null&&typeof q.audioUrl!=='string'))invalid();return d;
 }

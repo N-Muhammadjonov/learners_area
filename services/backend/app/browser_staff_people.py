@@ -7,6 +7,8 @@ from .browser_common import camel, identifier, number
 from .browser_activity import mocks
 from .browser_writing import evaluation
 from .browser_reading import re_escape_like
+from .runtime_config import academy_enabled
+from .tuition_ledger import student_payment_statuses
 
 
 async def student(con, user, id):
@@ -106,11 +108,12 @@ async def read(req, user, kind, q):
                 AND a.id=md5('site-presence:'||u.id::text)::uuid
                 AND a.created_at>now()-interval '90 seconds'
                 AND u.account_status='active'"""
-            count = await con.fetchval('SELECT count(*)::int ' + current)
             people = await con.fetch("""SELECT u.id,u.name,u.role,a.created_at AS seen_at,
                 a.payload->>'path' AS path,
-                COALESCE((a.payload->>'visitSeconds')::int,0) AS visit_seconds
+                COALESCE((a.payload->>'visitSeconds')::int,0) AS visit_seconds,
+                count(*) OVER()::int AS online_count
                 """ + current + """ ORDER BY a.created_at DESC,u.name,u.id LIMIT 500""")
+            count = people[0]['online_count'] if people else 0
             today = await con.fetchval("""SELECT
               count(DISTINCT user_id)::int FROM site_presence_samples
               WHERE bucket_start >= date_trunc('day',now() AT TIME ZONE 'Asia/Tashkent')
@@ -125,7 +128,7 @@ async def read(req, user, kind, q):
                 'SELECT min(bucket_start) FROM site_presence_samples')
             return {
                 'onlineNow':count,'todayVisitors':today,'peakFiveMinute':peak,
-                'people':[camel(row) for row in people],
+                'people':[camel({key: value for key, value in dict(row).items() if key != 'online_count'}) for row in people],
                 'truncated':count>len(people),
                 'buckets':[camel(row) for row in buckets],
                 'sampleWindowMinutes':5,
@@ -157,12 +160,17 @@ async def read(req, user, kind, q):
             # Verified phone numbers and presence are visible to the owner only.
             phone = "CASE WHEN tc.phone_verified_at IS NOT NULL THEN tc.phone_number END" if user['role']=='owner' else 'NULL::text'
             if user['role']=='owner':
-                last_active='u.last_active_at';presence=f"{online} AS online,a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,(a.payload->>'totalSeconds')::bigint AS total_seconds";ordering="GREATEST(a.created_at,u.last_active_at) DESC NULLS LAST,"
+                last_active='u.last_active_at';presence=f"{online} AS online,a.created_at AS seen_at,(a.payload->>'visitSeconds')::int AS visit_seconds,(a.payload->>'totalSeconds')::bigint AS total_seconds"
             else:
-                last_active='NULL::timestamptz AS last_active_at';presence='NULL::boolean AS online,NULL::timestamptz AS seen_at,NULL::int AS visit_seconds,NULL::bigint AS total_seconds';ordering=''
+                last_active='NULL::timestamptz AS last_active_at';presence='NULL::boolean AS online,NULL::timestamptz AS seen_at,NULL::int AS visit_seconds,NULL::bigint AS total_seconds'
             rows = await con.fetch(f"""SELECT u.id,u.name,u.email,u.role,u.account_status,u.status_reason,u.created_at,{last_active},
-              u.telegram_id IS NOT NULL AS telegram_linked,tc.username,{phone} AS phone_number,{presence}"""+source+where+f" ORDER BY {ordering}u.last_active_at DESC NULLS LAST,u.created_at DESC,u.id DESC LIMIT 25 OFFSET {(page-1)*25}",*args)
-            return {'people':[camel(r) for r in rows],'filters':{'q':query,'role':role or None,'status':status or None,'online':online_only},'page':page,'pageSize':25,'total':total,'totalPages':pages,'onlineCount':online_count,'actorId':str(user['id']),'actorRole':user['role'],'grantableRoles':['student','teacher','admin','owner'] if user['role']=='owner' else ['student','teacher']}
+              u.telegram_id IS NOT NULL AS telegram_linked,tc.username,{phone} AS phone_number,{presence}"""+source+where+"""
+              ORDER BY CASE u.role WHEN 'owner' THEN 0 WHEN 'teacher' THEN 1 WHEN 'admin' THEN 2
+                                   WHEN 'student' THEN 3 ELSE 4 END,
+                       lower(btrim(u.name)),u.id LIMIT 25 OFFSET """+str((page-1)*25),*args)
+            student_ids = [row['id'] for row in rows if row['role']=='student']
+            statuses = await student_payment_statuses(con, student_ids) if student_ids and academy_enabled() else {}
+            return {'people':[{**camel(row),'paymentStatus':statuses.get(row['id'])} for row in rows],'filters':{'q':query,'role':role or None,'status':status or None,'online':online_only},'page':page,'pageSize':25,'total':total,'totalPages':pages,'onlineCount':online_count,'actorId':str(user['id']),'actorRole':user['role'],'grantableRoles':['student','teacher','admin','owner'] if user['role']=='owner' else ['student','teacher']}
         if kind == 'roster':
             teachers = [camel(r) for r in await con.fetch("SELECT id,name FROM users WHERE role='teacher' ORDER BY name,id LIMIT 1000")]
             selected = next((t for t in teachers if t['id']==q.get('teacher')),teachers[0] if teachers else None)

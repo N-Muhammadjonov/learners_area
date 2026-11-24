@@ -7,10 +7,9 @@ import json,secrets
 from datetime import datetime,timezone,timedelta
 from fastapi import APIRouter,Request
 from . import main as core
-from .step20_retention_transitions_port import learner_payload,phase,problem
+from .step20_retention_transitions_port import RECALL_SECONDS, RETENTION_LEVELS, learner_payload,phase,problem
 from .step35_retention_scoring import evaluate_recall,StructureError,VERSION
 router=APIRouter()
-LEVELS={'A2','B1','B2','C1','C2'}
 class RetentionFault(Exception):
     def __init__(self,code):self.code=code
 
@@ -69,7 +68,7 @@ async def start(req:Request):
     if not user:return core.auth_error()
     body=await core.payload(req)
     level=body.get('level') if isinstance(body,dict) else None
-    if level not in LEVELS:return problem('retention_invalid_level')
+    if not isinstance(level,str) or level not in RETENTION_LEVELS:return problem('retention_invalid_level')
     db=await core.pool()
     try:
         async with db.acquire() as con:
@@ -87,7 +86,7 @@ async def start(req:Request):
                     selected=await choose(con,level,cycle,done,last)
                     if not selected:raise RetentionFault('retention_no_content')
                     text,version,cycle,label=selected
-                    start_at=timestamp;read_end=start_at+timedelta(seconds=120);write_end=read_end+timedelta(seconds=180)
+                    start_at=timestamp;read_end=start_at+timedelta(seconds=120);write_end=read_end+timedelta(seconds=RECALL_SECONDS)
                     live=await con.fetchrow('''INSERT INTO retention_attempts(user_id,retention_text_id,retention_text_version_id,
                       retention_label_snapshot,level,rotation_cycle,status,read_started_at,read_ends_at,write_started_at,write_ends_at,recall_text)
                       VALUES($1,$2,$3,$4,$5,$6,'reading',$7,$8,$8,$9,'') RETURNING *''',

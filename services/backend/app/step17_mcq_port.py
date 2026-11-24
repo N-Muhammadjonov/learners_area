@@ -6,7 +6,15 @@ from . import main as core
 from .listening_order import material_order
 router=APIRouter()
 PRIVATE={'Cache-Control':'private, no-store'}
-FLOW=[('listen','notes','notes',3),('notes','committed','own_answer',1),('committed','revealed',None,0),('revealed','chosen','chosen_answer',1),('chosen','reasoned','reasoning',10)]
+FLOW=[
+    ('listen','revealed','own_answer',1),
+    ('notes','revealed','own_answer',1),
+    ('committed','revealed',None,0),
+    ('revealed','chosen','chosen_answer',1),
+    ('chosen','reasoned','reasoning',10),
+]
+LEGACY_TRANSITIONS={('listen','notes'):('listen','notes','notes',3),
+                    ('notes','committed'):('notes','committed','own_answer',1)}
 STAGES=['listen','notes','committed','revealed','chosen','reasoned']
 def staff(user):return user['role'] in ('teacher','admin','owner')
 def live(row):
@@ -170,8 +178,9 @@ async def advance(req:Request,id:str):
         if not q:return err('not_found')
         status=await access(con,user,q)
         if status!='ok':return err(status)
-        action=next((row for row in FLOW if row[0]==session['stage']),None)
-        if not action or body['step']!=action[1]:return core.j({'error':'out_of_order','stage':session['stage']},409)
+        action=next((row for row in FLOW if row[:2]==(session['stage'],body['step'])),None)
+        if action is None:action=LEGACY_TRANSITIONS.get((session['stage'],body['step']))
+        if not action:return core.j({'error':'out_of_order','stage':session['stage']},409)
         text=(body.get('text') or '').strip()
         if action[2] and len(text)<action[3]:return core.j({'error':'missing_text','stage':session['stage']},409)
         if action[2]=='chosen_answer' and not selected(text,json.loads(q['options']) if isinstance(q['options'],str) else q['options'] or [],q['type_code']=='mcq_multi'):

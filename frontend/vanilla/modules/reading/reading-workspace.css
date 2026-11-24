@@ -57,7 +57,14 @@
 .reading-question-numbers button { min-width: 25px; min-height: 34px; border-top: 3px solid rgb(var(--ink-100)); font-size: 14px; }
 .reading-question-numbers button[data-answered="true"] { border-top-color: rgb(var(--band-good)); background: rgb(var(--band-good) / .12); }
 .reading-workspace-action { display: flex; align-items: center; flex-shrink: 0; gap: 12px; font-size: 13px; }
-.reading-workspace-action :is(.btn-primary,button[data-submit-attempt]) { min-height: 40px; border: 1px solid rgb(var(--accent)); border-radius: 4px; padding: 8px 18px; background: rgb(var(--accent)); color: rgb(var(--accent-contrast)); font-size: 14px; }
+.reading-workspace-action :is(.btn-primary,button[data-submit-attempt]) { min-height: 40px; border: 1px solid rgb(var(--accent)); border-radius: 4px; padding: 8px 18px; background: #2949bb; color: #fff; font-size: 14px; }
+html[data-theme] #root .reading-focus .reading-workspace-action :is(.btn-primary,button[data-submit-attempt]) {
+ background:#2949bb!important; color:#fff!important; border-color:#4168da;
+ border-radius:4px; box-shadow:none; backdrop-filter:none;
+}
+html[data-theme] #root .reading-focus .reading-workspace-action :is(.btn-primary,button[data-submit-attempt]):hover:not(:disabled) {
+ background:#23419f!important;
+}
 .reading-feedback { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; font-size: 14px; }
 .reading-feedback [data-general-result] { border-left: 3px solid rgb(var(--band-bad)); padding: 10px 12px; background: rgb(var(--band-bad) / .09); }
 .reading-feedback [data-general-result="correct"] { border-color: rgb(var(--band-good)); background: rgb(var(--band-good) / .12); }
@@ -90,7 +97,6 @@
 [data-focus-workspace] .reading-session.reading-fill,
 [data-focus-workspace] .reading-session .reading-fill { flex: 1 1 0; height: auto; min-height: 0; }
 /* Leave room for the existing fixed support launcher at the lower right. */
-[data-focus-workspace]:has([data-shell-utilities]) [data-general-reading] .reading-workspace-footer { padding-inline-end: max(80px, calc(80px + env(safe-area-inset-right))); }
 [data-general-reading] .reading-workspace-action { flex-shrink: 0; }
 [data-general-reading] [data-general-check] { white-space: nowrap; }
 /* The intro and test surfaces use the same live Day/Night palette. */
@@ -228,5 +234,18 @@ html[data-theme="night"] .reading-evidence-mark{background:#294b70;color:#e4f1ff
 html[data-theme] #root .reading-focus .reading-question-blocks [data-question].card{border:0!important;border-radius:0!important;box-shadow:none!important}
 
 .reading-review-number{font-weight:700}
-[data-reading-review-shell] .reading-workspace-footer{padding-inline-end:max(80px,calc(80px + env(safe-area-inset-right)))}
+[data-focus-workspace]:has([data-shell-utilities]) .reading-workspace-footer{padding-inline-end:calc(76px + env(safe-area-inset-right))}
 [data-reading-review-shell] .reading-workspace [data-reading-verdict]:disabled{opacity:1}
+
+@media(max-width:640px){
+ .reading-workspace-footer{display:grid;grid-template-columns:minmax(0,1fr);max-height:none;overflow:visible}
+ .reading-question-navigation,.reading-part-navigation{min-width:0;max-width:100%}
+ .reading-part-navigation{width:100%}
+ .reading-question-numbers{width:100%;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-inline:contain}
+ .reading-question-numbers button{flex:0 0 36px;min-height:40px}
+ .reading-workspace-action{flex-direction:row;align-items:center;justify-content:flex-end;max-width:100%;flex-wrap:wrap}
+ .reading-workspace-action :is(.btn-primary,button[data-submit-attempt]){min-height:44px}
+ [data-focus-workspace]:has([data-shell-utilities]) .reading-workspace-footer{padding-inline-end:10px}
+ [data-focus-workspace]:has([data-shell-utilities]) .reading-workspace-action{padding-inline-end:calc(62px + env(safe-area-inset-right))}
+ .reading-workspace [data-answer-input]{min-width:0;font-size:16px}
+}

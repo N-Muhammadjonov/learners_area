@@ -29,27 +29,28 @@ export function createTopbar(context){
  chrome.update(context.url);return {top,chrome,search,profile,pref};
 }
 
-/** Reading's timed exam already owns its viewport/header; other focus details
- * get the same topbar without remounting their data, media, timers or drafts. */
+/** Keep the same app chrome around detached routes and the exam tools inside their viewport. */
 export function focusFrame(context,staging){
- const readingWorkspace=/^\/app\/reading\/(?:general|academic)\/[^/]+\/?$/.test(context.url.pathname);
- if(!readingWorkspace&&(staging.querySelector('.reading-workspace-header')||(/^\/app\/reading\/attempts\/[^/]+$/.test(context.url.pathname)&&staging.querySelector('[data-reading-full-focus]')))){staging.append(shellUtilities(context).node);return staging;}
+ const readingWorkspace=Boolean(staging.querySelector('[data-reading-full-focus]'))||
+  /^\/app\/reading\/(?:general|academic)\/[^/]+\/?$/.test(context.url.pathname);
  const listeningAttempt=/^\/app\/listening\/attempts\/[^/]+$/.test(context.url.pathname);
  const listeningWorkspace=context.url.pathname.startsWith('/app/listening/');
  const listeningTest=context.url.pathname.match(/^\/app\/listening\/tests\/([^/]+)(?:\/[^/]+)?$/);
  const listeningParent=listeningTest?(context.url.pathname.endsWith('/'+listeningTest[1])?'/app/listening/tests':`/app/listening/tests/${listeningTest[1]}`):null;
- // Listening and Reading practice share the ordinary topbar; timed Reading exams retain their own chrome.
  const frame=el('div',{'data-shell':'','data-campus-shell':'','data-focus-workspace':'','data-ui-system':listeningWorkspace||readingWorkspace,class:'flex h-dvh min-h-0 flex-col overflow-hidden bg-paper'});
  frame.style.setProperty('--workspace-accent',workspaceAccent(context.url));
  const body=el('div',{'data-shell-main':'',class:readingWorkspace?'flex min-h-0 flex-1 flex-col overflow-hidden':'min-h-0 flex-1 overflow-auto'});
  const examParent=()=>body.querySelector('[data-listening-exam-parent]')?.dataset.listeningExamParent;
- const {top}=createTopbar(listeningParent||listeningAttempt?{...context,back:fallback=>{
+ const readingGeneral=context.url.pathname.startsWith('/app/reading/general/');
+ const {top}=createTopbar(readingGeneral||listeningParent||listeningAttempt?{...context,back:fallback=>{
+  const leave=readingGeneral&&body.querySelector('[data-general-back]');
+  if(leave){leave.click();return;}
   const parent=examParent()||listeningParent;
   return parent?context.navigate(parent):context.back?.(fallback);
  }}:context);
  body.append(...staging.childNodes);
  const parent=examParent();
- if(parent)top.querySelector('[data-campus-back-link]').setAttribute('href',parent);
+ if(parent)top.querySelector('[data-campus-back-link]')?.setAttribute('href',parent);
  if(readingWorkspace){const band=el('div',{'data-workspace-header':''},top);frame.append(band,body);}else frame.append(top,body);
  if(!listeningAttempt)frame.append(shellUtilities(context).node);
  return frame;

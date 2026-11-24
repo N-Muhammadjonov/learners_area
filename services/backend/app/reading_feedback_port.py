@@ -141,9 +141,11 @@ async def save_reading_draft(req:Request,id:str):
                 if expected!=current and incoming!=current:
                     return core.j({'error':'draft_conflict'},409,core.PRIVATE)
             await con.execute('DELETE FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',id)
-            for qid,value in answer_map.items():
+            if answer_map:
                 await con.execute('''INSERT INTO reading_answers(attempt_id,question_id,user_answer,is_correct)
-                VALUES($1,$2,$3,NULL)''',id,qid,value)
+                    SELECT $1,answer.question_id,answer.value,NULL
+                    FROM unnest($2::uuid[],$3::text[]) AS answer(question_id,value)''',
+                    id,list(answer_map),list(answer_map.values()))
     result={'saved':len(answer_map),'at':datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')}
     if expected is not None:result['draftHash']=draft_hash(answer_map)
     return core.j(result)

@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import datetime,timezone
 from fastapi import APIRouter,Request
 from . import main as core
-from .step20_retention_transitions_port import learner_payload,phase
+from .step20_retention_transitions_port import RETENTION_LEVELS, learner_payload,phase,problem
 router=APIRouter()
 
 async def projection(con,row):
@@ -37,10 +37,16 @@ async def retention_attempt_detail(req:Request,id:str):
 async def retention_live(req:Request):
     u=await core.current_user(req,active=True)
     if not u:return core.auth_error()
+    level=req.query_params.get('level')
+    if level is not None and level not in RETENTION_LEVELS:
+        return problem('retention_invalid_level')
+    condition=' AND level=$2' if level is not None else ''
+    args=(u['id'],level) if level is not None else (u['id'],)
     db=await core.pool()
     async with db.acquire() as con:
         row=await con.fetchrow("""SELECT * FROM retention_attempts
-          WHERE user_id=$1 AND status IN ('reading','recall') ORDER BY created_at DESC LIMIT 1""",u['id'])
+          WHERE user_id=$1 AND status IN ('reading','recall')"""+condition+
+          " ORDER BY created_at DESC LIMIT 1",*args)
         if not row:return core.j({'active':None})
         value=await projection(con,row)
         if value is None:return core.j({'error':'retention_unavailable'},500)

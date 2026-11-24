@@ -46,6 +46,19 @@ async def mcq_rows(con, uid, id, missing=None):
             for r in rows if str(r['id']) in ids and r['type']=='multiple_choice' and r['options'] and not (r['type_code'] or '').startswith(('matching','map','plan'))]
 
 
+async def attach_programme_clips(con, day: int, test, questions: list[dict]) -> list[dict]:
+    prefix = f'listening/mcq/day-{day:02d}/question-'
+    if test['audio_url'] != f'/api/resources/{prefix}01.mp3':
+        return questions
+    keys = [f'{prefix}{question["order"]:02d}.mp3' for question in questions]
+    resources = await con.fetch("""SELECT object_key FROM resource_blocks
+        WHERE owner_type='listening' AND owner_id=$1 AND type='audio'
+          AND object_key=ANY($2::text[])""", test['id'], keys)
+    attached = {row['object_key'] for row in resources}
+    return [{**question, 'audioUrl': f'/api/resources/{key}' if key in attached else None}
+            for question, key in zip(questions, keys)]
+
+
 def day_status(questions):
     completed = sum(q['stage']=='reasoned' for q in questions)
     return {'state':'completed' if questions and completed==len(questions) else 'in_progress' if any(q['stage'] for q in questions) else 'not_started','total':len(questions),'completed':completed}
@@ -86,6 +99,7 @@ async def days(con, user, q, ordinal=None):
         t = rows[0]
         if not await sequence(con,user,t): raise HTTPException(403,'sequence_locked')
         questions = await mcq_rows(con,user['id'],t['id'])
+        questions = await attach_programme_clips(con, ordinal, t, questions)
         return {'day':ordinal,'testId':str(t['id']),'title':t['title'],'audioUrl':t['audio_url'],'draft':not is_live(t),'questions':questions,'status':day_status(questions)}
     snapshot = await programme_snapshot(con,user,include_drafts=staff(user))
     cards=[];previous_complete=True

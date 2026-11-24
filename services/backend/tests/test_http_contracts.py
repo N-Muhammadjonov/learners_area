@@ -1,5 +1,13 @@
+import base64
+from contextlib import asynccontextmanager
+from io import BytesIO
 import os
+from random import Random
+
 from fastapi.testclient import TestClient
+from PIL import Image
+
+from app import main
 from app.main import app
 from app.security import issue_token, verify_token, normalize_origin, check_origin
 
@@ -90,6 +98,58 @@ def test_unauthed_protected():
                          ('post','/api/presence'),('get','/api/profile/photo/00000000-0000-0000-0000-000000000000')]:
         r = getattr(client, method)(path)
         assert r.status_code == 401, (method,path,r.text)
+
+
+def test_profile_avatar_uses_small_private_webp_and_preserves_original(monkeypatch):
+    photo_id = '1d10c7f7-7420-4e12-a73c-fd4f6dd8607d'
+    path = '/api/profile/photo/' + photo_id
+    with Image.frombytes('RGB', (256, 256), Random(41).randbytes(256 * 256 * 3)) as photo:
+        source = BytesIO()
+        photo.save(source, 'PNG')
+    original = source.getvalue()
+
+    class PhotoPool:
+        @asynccontextmanager
+        async def acquire(self):
+            yield self
+
+        async def fetchval(self, query: str) -> str:
+            assert "to_regclass('public.user_profile_photos')" in query
+            return 'user_profile_photos'
+
+        async def fetchrow(self, query: str, photo_user_id) -> dict[str, str]:
+            assert str(photo_user_id) == photo_id and "u.account_status='active'" in query
+            return {'image_base64': base64.b64encode(original).decode('ascii'), 'content_type': 'image/png'}
+
+    async def authenticate(request, *, active: bool):
+        assert active
+        return {'id': photo_id} if request.headers.get('X-Test-Signed-In') == 'yes' else None
+
+    async def pool() -> PhotoPool:
+        return PhotoPool()
+
+    monkeypatch.setattr(main, 'current_user', authenticate)
+    monkeypatch.setattr(main, 'pool', pool)
+    assert client.get(path, params={'variant': 'avatar'}).status_code == 401
+    headers = {'X-Test-Signed-In': 'yes'}
+    thumbnail = client.get(path, params={'variant': 'avatar'}, headers=headers)
+    assert thumbnail.status_code == 200
+    assert thumbnail.headers['content-type'] == 'image/webp'
+    assert thumbnail.headers['cache-control'] == 'private, no-store'
+    assert len(thumbnail.content) < len(original) / 10
+    with Image.open(BytesIO(thumbnail.content)) as avatar:
+        assert avatar.size == (96, 96)
+    full = client.get(path, headers=headers)
+    assert full.headers['content-type'] == 'image/png'
+    assert full.content == original
+
+    with Image.new('RGB', (1025, 1025)) as oversized:
+        source = BytesIO()
+        oversized.save(source, 'PNG')
+    original = source.getvalue()
+    fallback = client.get(path, params={'variant': 'avatar'}, headers=headers)
+    assert fallback.headers['content-type'] == 'image/png'
+    assert fallback.content == original
 
 
 def test_logout_unauthenticated():
