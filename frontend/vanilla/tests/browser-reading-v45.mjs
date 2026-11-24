@@ -16,7 +16,20 @@ async function launchBrowser(){
  return playwright.launch({executablePath:await chromium.executablePath(),args:chromium.args.filter(a=>!a.includes('single-process')&&!a.includes('disable-web-security')&&!a.includes('allow-running-insecure-content')),headless:true});
 }
 const browser=await launchBrowser();
-const base=process.env.PREVIEW_URL??'http://127.0.0.1:4173';
+// CI uses an isolated browser route transport, with no TCP port or preview
+// server preference injection. Keep the existing external preview mode.
+const localFixture=process.env.READING_LOCAL_FIXTURE==='1';
+const base=localFixture?'http://learners-area-reading-fixture.local':process.env.PREVIEW_URL??'http://127.0.0.1:4173';
+const fixtureRoot=path.resolve(import.meta.dirname,'..');
+async function serveFixtureAsset(route){
+ const url=new URL(route.request().url()),p=url.pathname;
+ if(url.origin!==base)return route.abort();
+ if(p.startsWith('/api/'))return route.fulfill({status:503,json:{error:'fixture_not_configured'}});
+ const name=p==='/'||p==='/app'||p.startsWith('/app/')?'index.html':p.slice(1);
+ const file=path.resolve(fixtureRoot,name);
+ if(!file.startsWith(fixtureRoot+path.sep)||!await fs.promises.stat(file).then(stat=>stat.isFile(),()=>false))return route.fulfill({status:404});
+ return route.fulfill({path:file});
+}
 const out=new URL('../docs/evidence/v45/',import.meta.url);fs.mkdirSync(out,{recursive:true});
 const results=[];
 async function check(name,fn){if(process.env.TEST_FILTER&&!name.includes(process.env.TEST_FILTER))return;try{await fn();results.push({name,status:'PASS'});console.log('PASS',name);}catch(e){if(process.env.DEBUG&&globalThis.__lastPage){console.error('URL',globalThis.__lastPage.url(),'TEXT',(await globalThis.__lastPage.locator('body').innerText().catch(()=>'?')).slice(0,500).replace(/\n/g,' | '),'HTML',(await globalThis.__lastPage.locator('#root').innerHTML().catch(()=>'?')).slice(0,300));}results.push({name,status:'FAIL',error:String(e.message).slice(0,700)});console.error('FAIL',name,String(e.message).slice(0,700));}}
@@ -24,7 +37,8 @@ async function check(name,fn){if(process.env.TEST_FILTER&&!name.includes(process
 /** Learner context. view(route) answers the proposed projection; api(path,ctx) answers other same-origin calls;
  * undefined is a 503. Every request is recorded. */
 async function fixture({role='student',locale='en',theme='day',view,api}={}){
- const context=await browser.newContext({viewport:{width:1440,height:900}});
+ const context=await browser.newContext({viewport:{width:1440,height:900},serviceWorkers:'block'});
+ if(localFixture)await context.route('**/*',serveFixtureAsset);
  await context.addCookies([{name:'la_locale',value:locale,url:base},{name:'la_theme',value:theme,url:base}]);
  await context.addInitScript(()=>{window.open=()=>null;window.__hist=[];for(const k of ['pushState','replaceState']){const orig=history[k].bind(history);history[k]=(st,t,u)=>{window.__hist.push({k,url:u==null?null:String(u)});return orig(st,t,u);};}});
  const page=await context.newPage();page.setDefaultTimeout(8000);globalThis.__lastPage=page;
@@ -38,6 +52,7 @@ async function fixture({role='student',locale='en',theme='day',view,api}={}){
   if(p==='/api/frontend/public')return reply(publicPolicy);
   if(p==='/api/frontend/session')return reply(fixtureSession(role));
   if(p==='/api/notifications')return reply({notifications:[],unread:0});
+  if(p==='/api/auth/state')return reply({ok:true,role,accountStatus:'active',expiresAt:Math.floor(Date.now()/1000)+3600});
   if(p==='/api/frontend/view'){const rt=u.searchParams.get('route');const data=view?await view(rt):undefined;return data===undefined?reply(undefined):reply({version:1,route:rt,data});}
   if(api){const answer=await api(p,{method:r.method(),body,u,state});if(answer!==undefined)return reply(answer);}
   return reply(undefined);
@@ -127,17 +142,18 @@ await check('Start errors: a rate-limited General start shows the mapped rate-li
  }finally{await context.close();}
 });
 
-await check('Completion refresh: a double-click on Check sends one check, keeps answers, shows the result, and the overview reflects it',async()=>{
+for(const theme of (localFixture?['day','night']:['day']))await check('Completion refresh ('+theme+'): a double-click on Check sends one check, keeps answers, shows the result, and the overview reflects it',async()=>{
  let checked=false;
  const rows=[{questionId:Q1,isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:[],evidenceQuote:'Paragraph A text.',explanation:'Synthetic explanation'},{questionId:Q2,isCorrect:false,correctAnswer:'90',acceptedAnswers:[],evidenceQuote:null,explanation:null},{questionId:Q3,isCorrect:true,correctAnswer:'B — Option two',acceptedAnswers:[],evidenceQuote:null,explanation:null}];
  const view=(rt)=>{const path=rt.split('?')[0];if(path===`/app/reading/general/${GSET}`){const progress=checked?{[P1]:{answers:{[Q2]:'90'},score:2,total:3,checked:true,result:rows}}:{};return {kind:'general_set',...generalSet({progress})};}if(rt.startsWith('/app/reading/general'))return libraryData(checked?{library:{items:[{id:GP,title:'Synthetic general passage',setId:null,questionTypes:['true_false_not_given'],topicCode:'science',questionCount:3,suggestedMinutes:20,status:'completed',lastScore:2,lastAttemptId:null,passageNo:null,testNo:null}],total:1,page:1,pageCount:1}}:{});return undefined;};
- const {context,page,errors,state}=await fixture({view,api:async(p,{method,body})=>{if(p==='/api/reading/general/progress'&&method==='POST'){if(body.check){checked=true;return {ok:true,score:2,total:3,result:rows};}return {ok:true,updatedAt:new Date().toISOString(),score:null,total:null,result:null};}return undefined;}});
+ const {context,page,errors,state}=await fixture({view,theme,api:async(p,{method,body})=>{if(p==='/api/reading/general/progress'&&method==='POST'){if(body.check){checked=true;return {ok:true,score:2,total:3,result:rows};}return {ok:true,updatedAt:new Date().toISOString(),score:null,total:null,result:null};}return undefined;}});
  try{
   await page.goto(base+`/app/reading/general/${GSET}?passage=1`);
   await page.locator(`[data-answer-input="${Q2}"]`).waitFor();
   await page.locator(`[data-answer-input="${Q2}"]`).fill('90');
   await page.locator('[data-general-save-state="saved"]').waitFor({timeout:6000});
-  for(const viewport of [{width:1440,height:900},{width:390,height:844},{width:1440,height:900}]){
+  assert.equal(await page.locator('html').getAttribute('data-theme'),theme);
+  for(const viewport of [{width:1440,height:900},{width:390,height:844},{width:360,height:640},{width:1440,height:900}]){
    await page.setViewportSize(viewport);
    const check=page.locator('[data-general-check]');
    await check.waitFor({state:'visible'});
@@ -146,10 +162,12 @@ await check('Completion refresh: a double-click on Check sends one check, keeps 
    const exposed=await check.evaluate(node=>{const r=node.getBoundingClientRect();return node.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));});
    assert(exposed,'Check is not covered by the support launcher');
   }
-  const headerStyle=await page.locator('[data-profile-menu-trigger]').evaluate(node=>{
-   const name=node.querySelector('[data-profile-name]'),style=getComputedStyle(name);
-   return {background:getComputedStyle(node).backgroundImage,color:style.color,fill:style.webkitTextFillColor};
+  const readHeader=()=>page.locator('[data-shell-topbar]').evaluate(node=>{
+   const trigger=node.querySelector('[data-profile-menu-trigger]'),name=trigger.querySelector('[data-profile-name]'),style=getComputedStyle(name);
+   const css=element=>{const s=getComputedStyle(element);return [s.backgroundColor,s.backgroundImage,s.color];};
+   return {top:css(node),background:getComputedStyle(trigger).backgroundImage,color:style.color,fill:style.webkitTextFillColor,controls:[...node.querySelectorAll('[data-theme-toggle] button,[data-locale-switcher] button')].map(css)};
   });
+  const headerStyle=await readHeader();
   assert.match(headerStyle.background,/linear-gradient/,'profile uses the shared gradient');
   assert.equal(headerStyle.color,'rgb(0, 0, 0)');
   assert.equal(headerStyle.fill,'rgb(0, 0, 0)');
@@ -163,6 +181,7 @@ await check('Completion refresh: a double-click on Check sends one check, keeps 
   await page.locator('[data-general-back]').click();
   await page.waitForURL(/\/app\/reading\/general$/,{timeout:6000});
   await page.locator(`[data-passage="${GP}"] [data-passage-state]`).waitFor({timeout:6000});
+  assert.deepEqual(await readHeader(),headerStyle,'Reading practice and catalogue use the same topbar palette');
   assert.equal(await page.locator(`[data-passage="${GP}"] [data-passage-state]`).getAttribute('data-passage-state'),'completed','the overview shows the completed state');
   assert.deepEqual(errors,[]);
  }finally{await context.close();}

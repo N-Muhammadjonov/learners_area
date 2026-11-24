@@ -1,7 +1,7 @@
 // GET-only fixture preview. Tests and fixture responses are excluded by the runtime builder.
 import {createServer} from 'node:http';import fs from 'node:fs/promises';import path from 'node:path';import {fileURLToPath} from 'node:url';
 import {fixtureReply} from './fixture-projections.mjs';
-const root=fileURLToPath(new URL('../../',import.meta.url));
+const root=path.resolve(fileURLToPath(new URL('../../',import.meta.url)));
 const baseline=path.resolve(root,'../../../.phase1/baseline/frontend/vanilla');
 createServer(async(req,res)=>{
  const url=new URL(req.url,'http://fixture.invalid');
@@ -17,7 +17,7 @@ createServer(async(req,res)=>{
  if(url.pathname.startsWith('/api/')){const data=fixtureReply(url,req.headers.cookie,req.headers.referer);res.writeHead(data===undefined?503:200,{'Content-Type':'application/json'});res.end(JSON.stringify(data??{error:'fixture_unavailable'}));return;}
  const old=url.pathname.startsWith('/__baseline/')||url.searchParams.get('qa_stage')==='before',base=old?baseline:root;
  const pathname=url.pathname.replace(/^\/__baseline/,'');
- let file=path.resolve(base,'.'+pathname);if(!file.startsWith(base)){res.writeHead(403);res.end();return;}
+ let file=path.resolve(base,'.'+pathname);if(file!==base&&!file.startsWith(base+path.sep)){res.writeHead(403);res.end();return;}
  if(!path.extname(pathname))file=path.join(base,'index.html');
  try{
   let bytes=await fs.readFile(file);
@@ -25,4 +25,4 @@ createServer(async(req,res)=>{
   if(file.endsWith('index.html')){let html=bytes.toString();html=html.replace('<head>','<head><script>const q=new URL(location.href).searchParams,prefs={la_theme:q.get("qa_theme")||"day",la_locale:q.get("qa_locale")||"en"},descriptor=Object.getOwnPropertyDescriptor(Document.prototype,"cookie");Object.defineProperty(document,"cookie",{get(){return descriptor.get.call(this).split(";").filter(v=>!/^\\s*la_(theme|locale)=/.test(v)).concat(Object.entries(prefs).map(([k,v])=>k+"="+v)).join(";");},set(v){const [k,value]=v.split(";")[0].split("=");if(k in prefs)prefs[k]=value;descriptor.set.call(this,v);}});</script>');bytes=Buffer.from(html);}
   const types={'.html':'text/html','.js':'application/javascript','.mjs':'application/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.woff2':'font/woff2','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp'};res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream'});res.end(bytes);
  }catch{res.writeHead(404);res.end('Not found');}
-}).listen(Number(process.argv[process.argv.indexOf('--port')+1]||process.env.PORT||4173),'0.0.0.0',()=>console.log('Isolated Phase 1 QA fixture ready'));
+}).listen(Number(process.argv.includes('--port')?process.argv[process.argv.indexOf('--port')+1]:process.env.PORT||4173),'0.0.0.0',()=>console.log('Isolated Phase 1 QA fixture ready'));
