@@ -19,7 +19,7 @@ html[data-theme="day"] [data-ui-system] {
  --workspace-good:20 110 75;--workspace-warn:134 85 8;--workspace-bad:180 40 49;
  --workspace-accent-strong:42 78 183;--la-surface:rgb(var(--workspace-raised));
  --la-shadow:0 2px 3px #142b4f04,0 8px 28px #142b4f07;--la-shadow-hover:0 12px 30px #24458415;
- --la-glow:#3b6ef52b;--la-header:rgb(255 255 255 / .88);--la-skill-fill:#eef3ff;
+ --la-glow:#3b6ef52b;--la-header:rgb(var(--workspace-raised));--la-skill-fill:#eef3ff;
 }
 html[data-theme="night"] [data-ui-system] {
  --workspace-paper:12 18 33;--workspace-raised:21 30 49;--workspace-sunken:28 39 61;
@@ -27,7 +27,7 @@ html[data-theme="night"] [data-ui-system] {
  --workspace-good:118 222 171;--workspace-warn:245 207 126;--workspace-bad:255 155 162;
  --workspace-accent-strong:158 184 255;--la-surface:rgb(var(--workspace-raised));
  --la-shadow:0 4px 18px #00000020;--la-shadow-hover:0 12px 32px #00000035;
- --la-glow:#648bff36;--la-header:rgb(21 30 49 / .9);--la-skill-fill:#1d2d4b;
+ --la-glow:#648bff36;--la-header:rgb(var(--workspace-raised));--la-skill-fill:#1d2d4b;
  --la-listening:#6ce0dd;--la-reading:#a0bcff;--la-writing:#83dfaf;--la-speaking:#c6acff;--la-focus:#a0bcff;--la-vocabulary:#f0c66d;
 }
 html[data-theme] #root [data-ui-system] {
@@ -41,7 +41,7 @@ html[data-theme] #root [data-ui-system] [data-shell-main] {
  scrollbar-gutter:stable;
 }
 html[data-theme] #root [data-ui-system] :is([data-workspace-header],[data-shell-topbar],[data-native-module-header]) {
- background:var(--la-header);color:rgb(var(--workspace-ink));backdrop-filter:blur(18px);
+ background:var(--la-header);color:rgb(var(--workspace-ink));
 }
 html[data-theme] #root [data-ui-system] [data-workspace-header]{border-bottom:1px solid rgb(var(--workspace-line))}
 html[data-theme] #root [data-ui-system] :is(.native-module-title,[data-campus-module-name],.brand-name,.brand-tagline){color:rgb(var(--workspace-ink))}
@@ -423,28 +423,29 @@ html[data-theme="night"] .daily-reward-dialog .btn-secondary{background:#23314b!
 }
 
 /* One fixed topbar palette for ordinary and detached practice workspaces. */
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] {
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar {
  --la-topbar-bg:#112244;
  --la-topbar-control-bg:#191624;
  --la-topbar-control-border:#4b4564;
  --la-topbar-gradient:linear-gradient(90deg,#3ee6d0 0%,#3b6cff 100%);
  --la-topbar-text:#f3f7ff;
- background:#112244!important;
+ background:var(--la-topbar-bg)!important;
  color:var(--la-topbar-text)!important;
  backdrop-filter:none!important;
  -webkit-backdrop-filter:none!important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is(
  [data-theme-toggle] .theme-btn,
  [data-locale-switcher] button,
  [data-campus-header-profile]>a[href="/app/notifications"],
- [data-global-search-trigger]
+ [data-global-search-trigger],
+ [data-global-search-field]
 ) {
  background:var(--la-topbar-control-bg)!important;
  color:var(--la-topbar-text)!important;
  border-color:var(--la-topbar-control-border)!important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is(
  [data-theme-toggle] .theme-btn-active,
  [data-locale-switcher] button[aria-pressed="true"]
 ) {
@@ -452,18 +453,38 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar] :is(
  color:#000!important;
  border-color:transparent!important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-campus-header-profile]>a[href="/app/notifications"] {
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-campus-header-profile]>a[href="/app/notifications"] {
  background:linear-gradient(var(--la-topbar-control-bg),var(--la-topbar-control-bg)) padding-box,var(--la-topbar-gradient) border-box!important;
  border:1px solid transparent!important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-menu-trigger] {
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-profile-menu-trigger] {
  background:var(--la-topbar-gradient)!important;
  color:#000!important;
  border-color:transparent!important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-profile-name] {
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-profile-name] {
  color:#000!important;
 }
-html[data-theme] #root [data-campus-shell] [data-shell-topbar] [data-locale-switcher] [role="group"] {
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-locale-switcher] [role="group"] {
  border-color:var(--la-topbar-control-border);
+}
+
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is(
+ [data-campus-module-name], [data-campus-section-title] .native-module-title, .brand-name, .brand-tagline,
+ [data-global-search-field] input, [data-global-search-field] kbd
+) {
+ color:var(--la-topbar-text)!important;
+ -webkit-text-fill-color:currentColor;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-global-search-field] input::placeholder {
+ color:#bbc8de;
+ opacity:1;
+}
+html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is(
+ [data-theme-switch], [data-global-search-trigger], [data-campus-header-profile]>a, [data-profile-menu-trigger]
+){min-width:44px;min-height:44px;}
+@media(max-width:767px){
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-profile-name] {display:none;}
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-campus-header-search] {width:44px;min-width:44px;max-width:44px;}
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-global-search-trigger] {height:44px;}
 }

@@ -8,7 +8,7 @@ import {questionType} from '../../js/generated/reading-lib/question-types.js';
 import {readingQuestionType} from '../../js/generated/reading-lib/question-model.js';
 import {questionTypeLabel} from '../../js/generated/reading-lib/reading-labels.js';
 import {occurrenceSpans} from '../../js/generated/reading-lib/occurrence-spans.js';
-import {groupHeading,groupQuestions,questionCard} from './questions.js';
+import {groupHeading,groupQuestions,questionCard,patchAnswer} from './questions.js';
 import {readingHighlighted} from './lesson-text.js';
 import {createWorkspace} from './workspace.js';
 import {failure} from '../../js/request-errors.js';
@@ -90,6 +90,8 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  function setAnswer(questionId,value){
   state.revision++;state.check=null;
   state.answers={...state.answers,[questionId]:value};pendingDraft=state.answers;
+  const question=questionById.get(questionId);
+  if(question)patchAnswer(ws.root,{question,group:groupById.get(question.groupId),value});
   clearTimeout(timer);timer=setTimeout(()=>void persist(state.answers,false),SAVE_DEBOUNCE_MS);
   draw();
  }
@@ -113,6 +115,9 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
  const range=dict.readingWorkspace.questionRange.replace('{from}',String(first)).replace('{to}',String(last));
  const groups=passage.groups??[],expanded=new Set();
+ const questionById=new Map(passage.questions.map(question=>[question.id,question]));
+ const groupById=new Map(groups.map(group=>[group.id,group]));
+ const getAnswer=id=>state.answers[id]??'';
  // The passage is static for this session: it is built once and never rebuilt on an answer.
  function buildPassage(){
   return el('div',{},
@@ -131,8 +136,8 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
    el('h2',{class:'reading-pane-heading'},range),
    passage.questions.length===0?el('p',{},t.noQuestions):null,
    el('fieldset',{class:'reading-question-blocks',disabled:state.leaving?true:null},
-    groups.map(group=>el('section',{class:'reading-question-group'},groupHeading(dict,group),groupQuestions(context,{dict,group,questions:passage.questions.filter(q=>q.groupId===group.id),answers,onChange:setAnswer}))),
-    passage.questions.filter(q=>!q.groupId||!groups.some(g=>g.id===q.groupId)).map(q=>questionCard(context,{dict,question:q,group:null,value:answers[q.id]??'',onChange:v=>setAnswer(q.id,v),inputId:`answer-${q.id}`}))),
+    groups.map(group=>el('section',{class:'reading-question-group'},groupHeading(dict,group),groupQuestions(context,{dict,group,questions:passage.questions.filter(q=>q.groupId===group.id),answers,onChange:setAnswer,getAnswer}))),
+    passage.questions.filter(q=>!q.groupId||!groups.some(g=>g.id===q.groupId)).map(q=>questionCard(context,{dict,question:q,group:null,value:getAnswer(q.id),getAnswer:()=>getAnswer(q.id),onChange:v=>setAnswer(q.id,v),inputId:`answer-${q.id}`}))),
    state.error?el('p',{role:'alert',class:'reading-error'},state.error):null);
   if(state.check)inlineReview(paper,{dict,questions:passage.questions,rows:state.check.rows,answers,expanded});
   return paper;
@@ -170,13 +175,20 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  host.replaceChildren(ws.root);
  const passagePane=buildPassage();
  const evidenceRoot=passagePane.querySelector('[data-reading-source],[data-passage-body]')??passagePane;
- const updateEvidence=bindEvidence(evidenceRoot,passage.body,signal);let painted;
+ const updateEvidence=bindEvidence(evidenceRoot,passage.body,signal);let painted,questionState;
+ function questionsPatch(){
+  const previous=questionState;
+  const next={check:state.check,error:state.error,leaving:state.leaving};
+  if(previous&&previous.check===next.check&&previous.error===next.error&&previous.leaving===next.leaving)return {};
+  questionState=next;
+  return {questionsPane:buildQuestions()};
+ }
  function draw(){
   if(signal.aborted)return;
   if(painted!==state.check){painted=state.check;updateEvidence(evidenceRanges(passage.body,passage.questions,state.check?.rows??[]));}
   const saveStatus=el('span',{class:'sr-only',role:'status','data-general-save-state':state.status},
    state.status==='saving'?t.saving:state.status==='saved'?t.saved:'');
-  ws.update({passagePane,questionsPane:buildQuestions(),navigation:[buildBackButton(),buildNavigation(),saveStatus],action:buildAction(),pane:state.pane});
+  ws.update({passagePane,...questionsPatch(),navigation:[buildBackButton(),buildNavigation(),saveStatus],action:buildAction(),pane:state.pane});
  }
  draw();
 }

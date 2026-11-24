@@ -3,7 +3,7 @@ import {eligibleIntentTarget,IDLE_SHELL_PREFETCH_ROUTES,IntentPrefetchBudget} fr
  * Browser module bytes are public code, not a private-data/route-view cache. */
 export function modulePrewarm({root,routes,signal,window:win=window,document:doc=document,navigator:nav=navigator,clock=Date.now,setTimer=setTimeout,clearTimer=clearTimeout}){
  if(signal.aborted)return {warm:async()=>false,dispose(){}};
- const budget=new IntentPrefetchBudget();let timer,idleHandle,grammarTimer,index=0,inflight=0,stopped=false;
+ const budget=new IntentPrefetchBudget();let timer,idleHandle,index=0,inflight=0,stopped=false;
  const constrained=()=>nav.connection?.saveData||['2g','slow-2g','3g'].includes(nav.connection?.effectiveType)||
   (typeof nav.deviceMemory==='number'&&nav.deviceMemory<=2)||
   (typeof nav.hardwareConcurrency==='number'&&nav.hardwareConcurrency<=2);
@@ -29,13 +29,7 @@ export function modulePrewarm({root,routes,signal,window:win=window,document:doc
   };
   if(win.requestIdleCallback)idleHandle=win.requestIdleCallback(run,{timeout:1500});else run();
  }
- function warmBooks(){
-  if(!allowed()||mobile())return;
-  void import('../modules/grammar/book-skill.js')
-    .then(module=>module.warmSkillBooks(allowed))
-    .catch(()=>{/* Optional public static material never blocks navigation. */});
- }
- if(allowed()&&!mobile()){timer=setTimer(idle,2200);grammarTimer=setTimer(warmBooks,5000);}
- function dispose(){stopped=true;clearTimer(timer);clearTimer(grammarTimer);if(idleHandle!=null)win.cancelIdleCallback?.(idleHandle);for(const id of intents.values())clearTimer(id);intents.clear();root.removeEventListener('learners-area:prefetch-intent',intent);signal.removeEventListener('abort',dispose);}
+ if(allowed()&&!mobile())timer=setTimer(idle,2200);
+ function dispose(){stopped=true;clearTimer(timer);if(idleHandle!=null)win.cancelIdleCallback?.(idleHandle);for(const id of intents.values())clearTimer(id);intents.clear();root.removeEventListener('learners-area:prefetch-intent',intent);signal.removeEventListener('abort',dispose);}
  signal.addEventListener('abort',dispose,{once:true});return {warm,dispose};
 }

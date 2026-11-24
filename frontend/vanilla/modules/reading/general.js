@@ -97,7 +97,12 @@ function passageCard(context,passage,lang){
  const action=passage.status==='completed'?dict.readingHub.actionRetry:dict.readingHub.actionStart;
  const topic=topicLabel(passage.topicCode,lang);
  let actionNode;
- if(passage.setId)actionNode=el('a',{class:'btn-primary',href:`/app/reading/general/${passage.setId}?passage=${passage.passageNo}`},passage.status==='in_progress'?dict.readingHub.actionResume:action);
+ if(passage.setId){
+  const href=`/app/reading/general/${passage.setId}?passage=${passage.passageNo}`;
+  const label=passage.status==='completed'?(lang==='uz'?'Javoblarni ko‘rish':'Review answers'):
+   passage.status==='in_progress'?dict.readingHub.actionResume:action;
+  actionNode=el('a',{class:'btn-primary',href},label);
+ }
  else if(passage.status==='in_progress'&&passage.lastAttemptId)actionNode=el('a',{class:'btn-primary min-h-[var(--control-h)]',href:`/app/reading/attempts/${passage.lastAttemptId}`,'data-passage-action':'resume'},dict.readingHub.actionResume);
  else actionNode=startPassageButton(context,{passageId:passage.id,label:action});
  return el('article',{class:'panel flex h-full flex-col gap-3','data-passage':passage.id,'data-passage-status':passage.status,'data-passage-slot':passage.passageNo},
@@ -113,5 +118,5 @@ function passageCard(context,passage,lang){
   passage.questionTypes?.length?el('ul',{class:'flex flex-wrap gap-1.5','data-passage-question-types':true},passage.questionTypes.map(type=>el('li',{class:'rounded-md border border-ink-100 bg-paper-sunken px-2 py-1 text-xs text-ink-700'},questionTypeLabel(type,lang)??type))):null,
   passage.status==='completed'&&passage.lastScore!==null?el('p',{class:'text-[0.875rem] text-ink-700','data-passage-score':true},dict.readingHub.scoreShort.replace('{score}',String(passage.lastScore)).replace('{total}',String(passage.questionCount))):null,
   el('div',{class:'mt-auto flex items-center justify-between gap-3 pt-1'},actionNode,
-   passage.status==='completed'?el('a',{href:'/app/reading/history',class:'inline-flex items-center gap-1 text-[0.875rem] font-medium text-ink-500 hover:text-ink-900'},dict.reading.historyTitle,IconChevronRight({class:'text-[15px]'})):null));
+   passage.status==='completed'&&!passage.setId?el('a',{href:'/app/reading/history',class:'inline-flex items-center gap-1 text-[0.875rem] font-medium text-ink-500 hover:text-ink-900'},dict.reading.historyTitle,IconChevronRight({class:'text-[15px]'})):null));
 }

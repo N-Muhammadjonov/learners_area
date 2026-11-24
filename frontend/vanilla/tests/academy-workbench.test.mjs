@@ -36,18 +36,19 @@ test('RIWI draft requires an explicit apply and cannot execute a model command',
  }finally{h.dispose();}
 });
 
-test('Today shows the count behind a bounded list and keeps pagination open for keyboard use',async()=>{
+test('Today links directly to operational workspaces and retains keyboard pagination',async()=>{
  const h=setup();
  h.stub({'/api/staff/academy/today':path=>{
   const offset=Number(new URL(path,'https://fixture.invalid').searchParams.get('classesOffset'));
-  return {observedAt:'2026-11-16T00:00:00Z',classes:{count:11,items:[{name:offset?'Last class':'First class',startsAt:'2026-11-16T06:00:00Z',branch:'A',href:'/app/management/groups?group='+ID(2)}],pagination:{offset,hasMore:!offset}}};
+  return {observedAt:'2026-11-16T00:00:00Z',classes:{count:11,items:[{name:offset?'Last class':'First class',startsAt:'2026-11-16T06:00:00Z',branch:'A',href:'/app/management/groups?group='+ID(2)}],pagination:{offset,limit:10,hasMore:!offset}}};
  }});
  try{
   const node=academyToday(h.ctx);h.ctx.root.append(node);await tick();
-  const first=node.querySelector('#today-classes');assert.match(first.textContent,/Showing: 1 \/ 11/);
+  const first=node.querySelector('#today-classes');assert.match(first.textContent,/Today’s classes11/);
+  assert.equal(first.querySelector('[data-today-destination]').getAttribute('href'),'/app/management/groups');
   h.click([...first.querySelectorAll('button')].find(b=>b.textContent==='Next'));await tick();
-  const second=node.querySelector('#today-classes');assert(second.open);assert.match(second.textContent,/Last class/);
-  assert.equal(document.activeElement,second.querySelector('summary'));assert.match(h.calls.at(-1).path,/classesOffset=10/);
+  const second=node.querySelector('#today-classes');assert(!second.querySelector('summary'));assert.match(second.textContent,/Last class/);
+  assert.equal(document.activeElement,second.querySelector('[data-today-destination]'));assert.match(h.calls.at(-1).path,/classesOffset=10/);
  }finally{h.dispose();}
 });
 

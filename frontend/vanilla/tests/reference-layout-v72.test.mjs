@@ -49,7 +49,12 @@ test('Focus uses the flat themed section band and Writing retains the reference 
 });
 test('focus route frames put Back in the topbar and move the existing media/draft nodes intact',()=>{
  const h=env('/app/listening/tests/'+ID(1)+'/2');try{h.stub({});h.ctx.back=()=>{};const audio=document.createElement('audio'),draft=document.createElement('textarea');draft.value='An unsaved answer';h.ctx.root.append(audio,draft,BackLink({fallbackHref:'/app/listening/tests/'+ID(1),label:'Back'}));const stage=h.ctx.root,frame=focusFrame(h.ctx,stage);stage.replaceChildren(frame);assert.equal(frame.querySelector('audio'),audio);assert.equal(frame.querySelector('textarea'),draft);assert.equal(draft.value,'An unsaved answer');const back=frame.querySelector('[data-shell-topbar] [data-campus-back-link]');assert(back);assert.equal(back.getAttribute('href'),'/app/listening/tests/'+ID(1));assert.equal(returnPolicy(h.ctx.url).mode,'back');const cascade=colorCascade(document,styles);assert.equal(cascade.get(frame.querySelector('[data-shell-main] [data-back-link]')).visible,false);
-  const own=document.createElement('div');own.innerHTML='<header class="reading-workspace-header">Exam controls</header>';assert.equal(focusFrame(h.ctx,own),own);
+  const own=document.createElement('div');
+  own.innerHTML='<main data-reading-full-focus><header class="reading-workspace-header">Exam controls</header></main>';
+  const examTools=own.querySelector('header');
+  const readingFrame=focusFrame({...h.ctx,url:new URL('/app/reading/attempts/'+ID(1),h.ctx.url)},own);
+  assert.equal(readingFrame.querySelector('.reading-workspace-header'),examTools);
+  assert.equal(readingFrame.querySelectorAll('[data-shell-topbar] [data-theme-switch]').length,1);
  }finally{h.dispose();}
 });
 for(const theme of ['day','night'])for(const focus of ['off','on'])test(`${theme}/${focus}: real topbar controls and section heading retain contrast`,async()=>{
