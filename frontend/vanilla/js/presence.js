@@ -7,7 +7,8 @@ export function watchPresence({signal,session}){
  async function beat(){
   if(busy||signal.aborted||document.visibilityState==='hidden'||Date.now()-lastInput>300000)return;
   busy=true;
-  try{await fetch('/api/presence',{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',signal});}catch{}finally{busy=false;}
+  try{await fetch('/api/presence',{method:'POST',credentials:'same-origin',cache:'no-store',redirect:'error',signal,
+   headers:{'Content-Type':'application/json'},body:JSON.stringify({path:window.location.pathname})});}catch{}finally{busy=false;}
  }
  document.addEventListener('visibilitychange',()=>{if(document.visibilityState!=='hidden'){activity();void beat();}},{signal});
  const timer=setInterval(()=>void beat(),30000);signal.addEventListener('abort',()=>clearInterval(timer),{once:true});void beat();
