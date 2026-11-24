@@ -121,6 +121,8 @@ async def read(req, user, kind, q):
                   AT TIME ZONE 'Asia/Tashkent'
               GROUP BY bucket_start ORDER BY bucket_start""")
             peak = max((row['active_users'] for row in buckets), default=0)
+            first_sample = await con.fetchval(
+                'SELECT min(bucket_start) FROM site_presence_samples')
             return {
                 'onlineNow':count,'todayVisitors':today,'peakFiveMinute':peak,
                 'people':[camel(row) for row in people],
@@ -128,8 +130,7 @@ async def read(req, user, kind, q):
                 'buckets':[camel(row) for row in buckets],
                 'sampleWindowMinutes':5,
                 'onlineThresholdSeconds':90,
-                'historyStartedAt':(await con.fetchval(
-                    'SELECT min(bucket_start) FROM site_presence_samples')),
+                'historyStartedAt':first_sample.isoformat() if first_sample else None,
             }
         if kind == 'people':
             args,conds = [],[]
