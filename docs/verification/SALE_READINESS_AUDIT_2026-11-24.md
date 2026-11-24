@@ -14,16 +14,20 @@ Repo inventarida 5 838 fayl qayd etildi. Sintaksis tekshiruvi 678 Python, 1 134 
 | #4 | Mavjud yuklama sinovlari Academy va umumiy HTTP yukini tekshirar edi. O‘quvchining sessiya va imtihon amallarini 10 000 profil bilan birga sinaydigan yo‘l yo‘q edi. | `tests/load_simulation.py` vaqtinchalik PostgreSQL bazasini yaratadi. 10 000 profil, 1 000 o‘quvchi yo‘li va 128 virtual o‘quvchi standart sozlamalar hisoblanadi. |
 | #5 | General Reading saqlash va tekshirish xatolarini umumiy matn bilan chiqarardi. Qayta urinish amali ko‘rinmas edi. | Xabar javoblar oynada turganini aytadi. Qayta urinish tugmasi oxirgi amalni takrorlaydi. |
 | #6 | Mijoz JSON tanasini yuborish paytida uzilsa, Starlette istisnosi umumiy server xatosi sifatida qaytishi mumkin edi. | Tana o‘qilmagan so‘rov yozuv boshlanishidan oldin bekor qilinadi. Sinov uzilishdan keyin qoralamani saqlashni tekshiradi. |
+| #7 | 70–300 ms oralig‘idagi jadallashtirilgan yukda amallar 64 ta oddiy so‘rov chegarasiga yetdi. 4 752 so‘rovdan 449 tasi dastlab `503` oldi. | `steady` ssenariysi 600–1 600 ms oralig‘ida 128 o‘quvchi bilan ishlaydi. CI unda qayta urinish kuzatilsa xato qaytaradi. `burst` rejimi tiqilishni alohida o‘lchaydi. |
 
 ## Sinov
 
 ```bash
-python3 tests/load_simulation.py --students 10000 --learners 1000 --concurrency 128
+python3 tests/load_simulation.py --students 10000 --learners 1000 --concurrency 128 --pace steady
+python3 tests/load_simulation.py --students 10000 --learners 1000 --concurrency 128 --pace burst
 ```
 
-Baza manzili `LOAD_SIMULATION_DATABASE_URL` orqali beriladi. Skript faqat loopback manzilidagi `coin_qa` xizmatini qabul qiladi va har ishga tushganda alohida nomli baza yaratadi. Hisobotda HTTP javoblari, har endpoint uchun p95, eng katta parallel yuk, baza ulanishlari va jarayon xotirasi ko‘rinadi. Test oxirida saqlangan ball va javoblar bazadan tekshiriladi.
+Baza manzili `LOAD_SIMULATION_DATABASE_URL` orqali beriladi. Skript faqat loopback manzilidagi `coin_qa` xizmatini qabul qiladi va har ishga tushganda alohida nomli baza yaratadi. Hisobotda HTTP javoblari, har endpoint uchun p95 va qayta urinishlar, eng katta parallel yuk, baza ulanishlari va jarayon xotirasi ko‘rinadi. Test oxirida saqlangan ball va javoblar bazadan tekshiriladi.
 
 Login, logout va yangi sessiya haqiqiy autentifikatsiya handlerlaridan o‘tadi. Reading taymeridan keyin yuborilganda saqlangan qoralama baholanishi tekshiriladi. Takroriy topshirishda bitta so‘rov muvaffaqiyatli yakunlanishi va ikkinchisi 409 qaytarishi kutiladi. Tarmoq uzilishi ASGI transportida qayta yaratiladi.
+
+70–300 ms oralig‘idagi dastlabki o‘lchovda 128 parallel o‘quvchi va 1 000 yakunlangan yo‘l qayd etildi. Bir vaqtning o‘zida 65 ta HTTP so‘rovi va beshta band baza ulanishi kuzatildi. 449 ta `503` javobidan keyin barcha amallar yakunlandi. [CI jurnali](https://github.com/N-Muhammadjonov/learners_area/actions/runs/45370740122/job/138364050331)
 
 ## Sotuvga tayyorgarlik chegarasi
 

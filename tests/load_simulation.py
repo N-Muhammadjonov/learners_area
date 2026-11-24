@@ -38,6 +38,7 @@ DASHBOARD = '/api/frontend/view?route=/app&region=dashboard'
 PRACTICE = '/api/reading/general/progress'
 READING = '/api/reading/attempts'
 LISTENING = '/api/listening/attempts'
+THINK_TIME_SECONDS = {'steady': (.6, 1.6), 'burst': (.07, .30)}
 
 
 @dataclass(frozen=True)
@@ -48,11 +49,13 @@ class LoadOptions:
     seed: int = 20261124
     ramp_seconds: float = 3.0
     bcrypt_rounds: int = 12
+    pace: str = 'steady'
 
 
 class Measurements:
     def __init__(self):
         self.statuses = Counter()
+        self.retries = Counter()
         self.scenarios = Counter()
         self.latencies = defaultdict(list)
         self.inflight = 0
@@ -77,6 +80,7 @@ class Measurements:
                       if response.headers.get('content-type', '').startswith('application/json') else None)
             if response.status_code != 503 or reason != 'busy' or retry == 3:
                 raise RuntimeError(f'{name} returned {response.status_code} ({reason}), expected {sorted(expected)}')
+            self.retries[name] += 1
             await asyncio.sleep((2 ** retry) + random.uniform(.05,.45))
 
     def latency_report(self):
@@ -208,6 +212,7 @@ async def run_workload(connection, options: LoadOptions, observed_pool=None):
     require(len(learners) == options.learners, 'Incorrect learner count after seeding.')
     listening_ids = [fixture_id(f'listening-academic-{number}') for number in range(1, 41)]
     metrics = Measurements()
+    think_time = THINK_TIME_SECONDS[options.pace]
     scores = []
     busy_connections = peak_connections = 0
 
@@ -225,7 +230,7 @@ async def run_workload(connection, options: LoadOptions, observed_pool=None):
                                      headers={'Origin': ORIGIN}, trust_env=False, timeout=20) as client:
             async def hit(name, method, path, expected=frozenset({200}), **kwargs):
                 if 'submit' not in name:
-                    await asyncio.sleep(rng.uniform(.07,.30))
+                    await asyncio.sleep(rng.uniform(*think_time))
                 return await metrics.request(client, name, method, path, expected, **kwargs)
 
             scenario = index % 10
@@ -346,7 +351,9 @@ async def run_workload(connection, options: LoadOptions, observed_pool=None):
         'registered_students':registered,'active_student_journeys':len(learners),
         'configured_workers':options.concurrency,'concurrent_virtual_students':metrics.peak_learners,
         'peak_http_requests':metrics.peak_inflight,
-        'request_statuses':dict(sorted(metrics.statuses.items())),'scenarios':dict(sorted(metrics.scenarios.items())),
+        'pace':options.pace,'request_statuses':dict(sorted(metrics.statuses.items())),
+        'admission_retries':dict(sorted(metrics.retries.items())),
+        'scenarios':dict(sorted(metrics.scenarios.items())),
         'endpoint_latency':metrics.latency_report(),'elapsed_seconds':round(perf_counter()-started,2),
         'bcrypt_rounds':options.bcrypt_rounds,'transport':'ASGI','database':'disposable PostgreSQL',
         'pool_peak_connections':peak_connections if observed_pool is not None else None,
@@ -368,11 +375,12 @@ def main():
     parser.add_argument('--concurrency',type=int,default=128)
     parser.add_argument('--seed',type=int,default=20261124)
     parser.add_argument('--ramp-seconds',type=float,default=3)
+    parser.add_argument('--pace', choices=THINK_TIME_SECONDS, default='steady')
     parser.add_argument('--output',type=Path)
     args = parser.parse_args()
     if not 10 <= args.concurrency <= args.learners <= args.students <= 10_000 or not 0 <= args.ramp_seconds <= 30:
         parser.error('Require 10 <= concurrency <= learners <= students <= 10000 and a ramp from 0 to 30 seconds.')
-    options = LoadOptions(args.students,args.learners,args.concurrency,args.seed,args.ramp_seconds)
+    options = LoadOptions(args.students,args.learners,args.concurrency,args.seed,args.ramp_seconds,pace=args.pace)
     report = asyncio.run(execute(options, os.getenv('LOAD_SIMULATION_DATABASE_URL', LOCAL_DATABASE)))
     output = json.dumps(report,indent=2)
     if args.output:
