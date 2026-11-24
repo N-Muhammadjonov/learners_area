@@ -18,7 +18,7 @@ test('V63 tests catalogue adapter rejects invented totals and leaked payloads',(
 });
 test('V63 Listening module root is a replace redirect, not a second dashboard',()=>{
  let call;listeningLanding({signal:new AbortController().signal,navigate:(...args)=>call=args});
- assert.deepEqual(call,['/app/listening/lessons',{replace:true}]);
+ assert.deepEqual(call,['/app/listening/tests',{replace:true}]);
  const dead=new AbortController();dead.abort();call=null;listeningLanding({signal:dead.signal,navigate:(...args)=>call=args});assert.equal(call,null);
 });
 test('V63 shared LessonAuthoringDesk has source-specific areas and safe role gating',()=>{

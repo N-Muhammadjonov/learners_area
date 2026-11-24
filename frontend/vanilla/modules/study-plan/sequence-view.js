@@ -96,7 +96,7 @@ export function validateSequence(value) {
         if (day.status !== 'active' || day.day !== value.currentDay ||
             !validRoute(task.href)) throw Error('invalid_unlocked_task');
         if (task.kind==='retention' &&
-            !/^\/app\/reading\/retention\?level=(B2|C1)$/.test(task.href))
+            !/^\/app\/reading\/retention\?level=(A2|B1|B2|C1)$/.test(task.href))
           throw Error('invalid_retention_route');
         if (task.kind==='article' &&
             !/^\/app\/reading\/articles\/[a-z0-9-]+$/.test(task.href))

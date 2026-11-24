@@ -1,6 +1,7 @@
 import {h,button,loading,fail,request,guardArray,notifyLedger} from './shared.js';
 import {shuffle,gameTimers} from './game-common.js';
 import {anySignal} from '../../js/signals.js';
+import {privateScope} from '../../js/private-scope.js';
 
 /** Folder-wide automatic rotation and an explicit pinned-word mode share one editor. */
 export function mountUse(ctx,host){const {dict,signal}=ctx,t=dict.vocabulary.use,history=h('div'),editor=h('div');host.className='flex flex-col gap-4';host.append(editor,history);let words=[],folders=[],folder='',selected='',position=0,text='',busy=false,message=null,generation=0,loadLife;const timers=gameTimers(ctx);
@@ -9,7 +10,11 @@ export function mountUse(ctx,host){const {dict,signal}=ctx,t=dict.vocabulary.use
  async function loadWords(){const version=++generation;loadLife?.abort();loadLife=new window.AbortController();const local=anySignal([signal,loadLife.signal]);timers.cancel();selected='';text='';message=null;busy=false;position=0;editor.replaceChildren(loading(dict,'use-picker'));
   try{const pages=async()=>{const out=[];for(let offset=0;offset<=100000;offset+=100){const query=new URLSearchParams({view:'words',limit:'100',offset:String(offset)});if(folder)query.set('folderId',folder);const page=await request('/api/vocabulary/sentences?'+query,{signal:local,timeoutMs:12000});out.push(...guardArray(page,'words'));if(!page.hasMore)return out;}throw Error('too_many_pages');};const [f,all]=await Promise.all([request('/api/vocabulary/folders',{signal:local,timeoutMs:12000}),pages()]);if(local.aborted||version!==generation)return;folders=guardArray(f,'folders');words=shuffle(all);paint();}catch{if(!signal.aborted&&version===generation)editor.replaceChildren(fail(ctx,'use-words',loadWords));}
  }
- async function submit(){const word=current(),sentence=text.trim();if(!word||busy||sentence.length<3)return;const version=generation;busy=true;message=null;paint();try{const result=await request(`/api/vocabulary/${word.id}/use`,{method:'POST',body:{sentence},signal:anySignal([signal,loadLife.signal]),timeoutMs:12000});if(signal.aborted||version!==generation)return;message={tone:result.accepted?'good':'info',text:`${result.accepted?t.accepted:t.rejected} · ${t.checkedBy}: ${result.checkedBy??'RIWI'}${result.accepted?` · ${dict.vocabulary.board.points}: +${result.points??0}`:''}`};void loadHistory();if(result.accepted&&Number(result.points)>0)notifyLedger();
+ async function submit(){const word=current(),sentence=text.trim();if(!word||busy||sentence.length<3)return;const version=generation;busy=true;message=null;paint();try{const result=await request(`/api/vocabulary/${word.id}/use`,{method:'POST',body:{sentence},signal:anySignal([signal,loadLife.signal]),timeoutMs:12000});if(signal.aborted||version!==generation)return;message={tone:result.accepted?'good':'info',text:`${result.accepted?t.accepted:t.rejected} · ${t.checkedBy}: ${result.checkedBy??'RIWI'}${result.accepted?` · ${dict.vocabulary.board.points}: +${result.points??0}`:''}`};void loadHistory();if(result.revisionPoints>0){
+    privateScope.invalidate('vocabulary:');
+    message.text+=' · '+(ctx.locale==='uz'?'Takrorlash hisoblandi':'Review counted');
+   }
+   if(result.points>0||result.revisionPoints>0)notifyLedger();
    if(!selected){paint();timers.later(()=>{if(version!==generation)return;if(position+1<words.length)position++;else{words=shuffle(words);if(words.length>1&&words[0].id===word.id)words.push(words.shift());position=0;}text='';message=null;busy=false;paint();},1400);return;}if(result.accepted)text='';
   }catch{if(signal.aborted||version!==generation)return;message={tone:'bad',text:t.unavailable};}busy=false;paint();
  }

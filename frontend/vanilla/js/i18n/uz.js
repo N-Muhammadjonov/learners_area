@@ -1541,7 +1541,7 @@ export default {
         "keyboardHint": "Bo'sh joy kartani aylantiradi · ← → to'plam bo'ylab yuradi",
         "games": {
             "title": "O'yinlar",
-            "hint": "O'yinlar — mashq, taraqqiyot emas: ular takrorlash sanalarini surmaydi. Buni faqat rejadagi takrorlash qiladi.",
+            "hint": "Takrorlash vaqti kelgan so‘zga o‘yinda to‘g‘ri javob bersangiz, u takrorlangan deb hisoblanadi.",
             "set": {
                 "label": "So'z to'plami",
                 "all": "Barcha so'zlar",

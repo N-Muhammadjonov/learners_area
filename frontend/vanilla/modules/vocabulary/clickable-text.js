@@ -111,6 +111,19 @@ export function clickableText(context,{text,sourceType='listening',sourceId,inli
  listen(region,'click',e=>{if(!lexicalAssistance)return;if(doubleClickLookup&&e.detail!==0)return;const start=gesture;gesture=null;if(e.detail>1||start&&(start.cancelled||Date.now()-start.started>=500)||window.getSelection()&&!window.getSelection().isCollapsed)return;const n=e.target.closest?.('[data-token]');if(!n||!region.contains(n))return;if(e.detail===0)open(Number(n.dataset.token));else pending=setTimeout(()=>{if(!signal.aborted&&window.getSelection()?.isCollapsed)open(Number(n.dataset.token));},240);},signal);
  listen(region,'dblclick',e=>{cancelHold();if(!lexicalAssistance||!doubleClickLookup||e.button!==0||gesture?.cancelled)return;const n=e.target.closest?.('[data-token]');if(n&&region.contains(n)){clearTimeout(pending);hideControl();open(Number(n.dataset.token));}},signal);
  function hideControl(){control?.remove();control=null;selection=null;}
+ function dismissHighlight(e){
+  if(!control||control.contains(e.target))return;
+  const selected=window.getSelection();
+  if(selected?.rangeCount){
+   const range=selected.getRangeAt(0);
+   if(region.contains(range.startContainer)&&region.contains(range.endContainer))selected.removeAllRanges();
+  }
+  hideControl();
+ }
+ if(onHighlightRange){
+  listen(document,'pointerdown',dismissHighlight,signal);
+  listen(document,'click',e=>{if(!region.contains(e.target))dismissHighlight(e);},signal);
+ }
  function capture(){if(!onHighlightRange)return;const s=window.getSelection();if(!s||s.isCollapsed||!s.rangeCount){hideControl();return;}const range=s.getRangeAt(0);if(!region.contains(range.startContainer)||!region.contains(range.endContainer)){hideControl();return;}const boundary=(node,offset)=>{const exact=offsetWithin(region,node,offset);if(exact!==null)return exact;try{const r=document.createRange();r.selectNodeContents(region);r.setEnd(node,offset);return r.toString().length;}catch{return null;}};const a=boundary(range.startContainer,range.startOffset),b=boundary(range.endContainer,range.endOffset);if(a==null||b==null||Math.abs(a-b)<1||Math.max(a,b)>text.length)return;hideControl();selection={start:Math.min(a,b),end:Math.max(a,b)};let left=8,top=8;try{const rect=range.getBoundingClientRect();left=rect.left+rect.width/2;top=rect.top;}catch{}
   const existing=highlights.find(h=>selection.start<h.end&&selection.end>h.start);
   const wrap=el('span',{'data-highlight-control':'',role:'group',

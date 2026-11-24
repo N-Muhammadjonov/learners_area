@@ -20,7 +20,7 @@ def run(con,client,check,uid,password):
         checks+=1
         return r.json()
 
-    # Real Vocabulary writes, folder ownership, all seven games, and independent SRS progression.
+    # Real Vocabulary writes, folder ownership, all seven games, and shared due-word review credit.
     added=call('POST','/api/vocabulary',{'sourceType':'manual','items':[
         {'term':'run','definitionEn':'move quickly','translationUz':'yugurmoq','exampleSentence':'I run every day.'},
         {'term':'walk','definitionEn':'move on foot','translationUz':'yurmoq','exampleSentence':'We walk to school.'}]})
@@ -31,15 +31,32 @@ def run(con,client,check,uid,password):
     assert call('POST','/api/vocabulary/folders',{'entryIds':[word['id']],'folderId':folder['id']})['moved']==1
     assert check('/api/vocabulary/sentences?view=words&limit=100&offset=0&folderId='+folder['id'])['words'][0]['id']==word['id']
     stage=asyncio.run(con.fetchval('SELECT srs_stage FROM user_vocabulary WHERE id=$1',word['id']))
+    scope={'gameId':'choice','set':'due'}
+    endpoint='/api/vocabulary/games'
+    deck=[word['id'],other['id']]
+    round_data=call('POST',endpoint,{**scope,'action':'start','deck':deck})['attempt']
+    answer={**scope,'entryId':word['id'],'attemptId':round_data['attemptId']}
+    wrong=call('POST',endpoint,{**answer,'submission':{'kind':'spelling','text':'guess'}})
+    assert wrong['verified'] and not wrong['correct'] and wrong['srsUntouched']
     for game in ('cards','choice','match','gap','race','translation','builder'):
         dataset=check('/api/vocabulary/games?set=all&limit=24&random=1&game='+game)
         assert len(dataset['words'])==2
         submission=({'kind':'self','known':True} if game=='cards' else {'kind':'pair','pairEntryId':word['id']} if game=='match' else {'kind':'sentence','text':'I run every day.'} if game=='builder' else {'kind':'spelling','text':'run'})
-        result=call('POST','/api/vocabulary/games',{'entryId':word['id'],'set':'all','gameId':game,'submission':submission})
+        body={**answer,'submission':submission} if game=='choice' else {
+            'entryId':word['id'],'set':'all','gameId':game,'submission':submission}
+        result=call('POST',endpoint,body)
         assert result['correct'] is True and result['verified']==(game!='cards')
-        assert asyncio.run(con.fetchval('SELECT srs_stage FROM user_vocabulary WHERE id=$1',word['id']))==stage
-    reviewed=call('POST','/api/vocabulary/'+word['id']+'/review',{'outcome':'correct'})
-    assert reviewed['srsStage']==stage+1 and reviewed['intervalDays']>1
+        assert result['revisionPoints']==(1 if game=='choice' else 0)
+        expected=stage if game=='cards' else stage+1
+        assert asyncio.run(con.fetchval('SELECT srs_stage FROM user_vocabulary WHERE id=$1',word['id']))==expected
+    retry=call('POST',endpoint,{**answer,'submission':{'kind':'spelling','text':'run'}})
+    assert retry['correct'] and retry['srsUntouched'] and retry['revisionPoints']==0
+    resume=check(endpoint+'?game=choice&set=due&attemptId='+round_data['attemptId'])
+    assert [item['id'] for item in resume['words']]==deck
+    queue=check('/api/vocabulary/due?limit=40')['due']
+    assert word['id'] not in [item['id'] for item in queue]
+    reviewed=call('POST','/api/vocabulary/'+word['id']+'/review',{'outcome':'correct'},status=409)
+    assert reviewed['error']=='not_due'
     assert call('POST','/api/vocabulary/'+other['id']+'/review',{'outcome':'incorrect'})['srsStage']==0
     check('/api/vocabulary/summary');check('/api/vocabulary/folders');check('/api/vocabulary/leaderboard');check('/api/vocabulary/leaderboard?view=standing')
     check('/api/vocabulary/due?limit=40');check('/api/vocabulary/sentences?view=words&limit=100&offset=0')

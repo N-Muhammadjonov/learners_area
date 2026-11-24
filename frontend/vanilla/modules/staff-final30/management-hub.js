@@ -119,8 +119,8 @@ export async function mount(ctx){
  });
  const host=el('div',{class:'flex flex-col gap-8','data-management-hub':''},
   areas.length?el('div',{class:'grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3'},cards):el('p',{},dict.management.emptyForRole));
+ if(session.academyEnabled===true)host.prepend(await academyToday(ctx));
  if(signal?.aborted)return;
  root.append(host);
- if(session.academyEnabled===true&&['owner','admin','teacher'].includes(role))host.prepend(academyToday(ctx));
  signal?.addEventListener('abort',()=>host.remove(),{once:true});
 }

@@ -1,4 +1,4 @@
-"""Vocabulary casual games (no SRS state changes).
+"""Vocabulary games with server-verified answers and due-word review credit.
 The server verifies spelling/pair/sentence and deduplicates points per Tashkent day.
 """
 from __future__ import annotations
@@ -8,6 +8,7 @@ from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
+from .step19_vocab_srs_port import record_due_review
 from .vocabulary_game_content import eligible_words
 router=APIRouter()
 SETS=('all','due','weak','reading','listening','topic','folder','assigned')
@@ -58,6 +59,9 @@ async def get_games(req:Request):
     game=req.query_params.get('game')
     if game and game not in GAMES:return core.j({'error':'invalid_game'},400)
     limit=size(req.query_params.get('limit'))
+    attempt_id=req.query_params.get('attemptId')
+    if attempt_id is not None and (not core.uuid_value(attempt_id) or key not in ('due','weak') or game not in GAMES or game=='cards'):
+        return core.j({'error':'invalid_attempt'},400,PRIVATE)
     raw_ids=req.query_params.get('entryIds')
     saved_ids=None
     if raw_ids is not None:
@@ -66,11 +70,18 @@ async def get_games(req:Request):
             return core.j({'error':'invalid_entry_ids'},400,PRIVATE)
         saved_ids=[core.uuid_value(v) for v in candidates]
     args=[user['id']];where=conditions(key,folder,topic,args)
-    if saved_ids is not None:
-        args.append(saved_ids)
-        where+=f' AND uv.id=ANY(${len(args)}::uuid[])'
     db=await core.pool()
     async with db.acquire() as con:
+        if attempt_id is not None:
+            deck=await round_deck(con,user['id'],attempt_id,game,key,folder,topic)
+            if not deck:
+                return core.j({'error':'invalid_attempt'},404,PRIVATE)
+            saved_ids=[core.uuid_value(entry_id) for entry_id in deck]
+            args=[user['id']]
+            where='uv.user_id=$1'
+        if saved_ids is not None:
+            args.append(saved_ids)
+            where+=f' AND uv.id=ANY(${len(args)}::uuid[])'
         if game=='cards' and req.query_params.get('batches')=='1':
             raw=req.query_params.get('batch')
             if raw is not None and (not raw.isdecimal() or len(raw)>7):return core.j({'error':'invalid_batch'},400,PRIVATE)
@@ -122,10 +133,12 @@ async def get_games(req:Request):
         return core.j(payload)
 
 def input_valid(b):
-    if not isinstance(b,dict) or set(b)-{'entryId','set','gameId','folderId','topicPack','submission','batchIndex'}:return False
+    if not isinstance(b,dict) or set(b)-{'entryId','set','gameId','folderId','topicPack','submission','batchIndex','attemptId'}:return False
     if not core.uuid_value(b.get('entryId')) or b.get('set') not in SETS or b.get('gameId') not in GAMES:return False
     if b.get('folderId') is not None and not core.uuid_value(b['folderId']):return False
     if b.get('topicPack') is not None and (not isinstance(b['topicPack'],str) or len(b['topicPack'])>100):return False
+    if 'attemptId' in b and (b['set'] not in ('due','weak') or b['gameId']=='cards'
+                             or not core.uuid_value(b['attemptId'])):return False
     if 'batchIndex' in b and (b.get('gameId')!='cards' or type(b['batchIndex'])!=int or not 0<=b['batchIndex']<=1000000):return False
     sub=b.get('submission')
     if not isinstance(sub,dict) or sub.get('kind') not in ('spelling','sentence','pair','self'):return False
@@ -147,6 +160,14 @@ async def in_set(con,entry,key,folder,topic,user_id,now):
     if key=='topic':return entry['topic_pack']==topic and topic in builtin_ids() if topic else entry['topic_pack'] in builtin_ids()
     return False
 
+async def round_deck(con,user_id,attempt_id,game,key,folder,topic):
+    scope=attempt_scope({'gameId':game,'set':key,'folderId':folder,'topicPack':topic})
+    if scope is None:
+        return []
+    row=await latest_attempt(con,user_id,scope['scope'])
+    return row['payload']['deck'] if row and str(row['id'])==attempt_id else []
+
+
 @router.post('/api/vocabulary/games')
 async def answer_game(req:Request):
     user=await core.current_user(req,active=True)
@@ -159,7 +180,13 @@ async def answer_game(req:Request):
     async with db.acquire() as con:
         entry=await con.fetchrow('SELECT * FROM user_vocabulary WHERE id=$1 AND user_id=$2',b['entryId'],user['id'])
         if not entry:return core.j({'error':'not_found'},404)
-        if not await in_set(con,entry,b['set'],b.get('folderId'),b.get('topicPack'),user['id'],now):return core.j({'error':'not_in_set'},404)
+        deck=[]
+        if 'attemptId' in b:
+            deck=await round_deck(con,user['id'],b['attemptId'],b['gameId'],b['set'],b.get('folderId'),b.get('topicPack'))
+            if str(entry['id']) not in deck:
+                return core.j({'error':'invalid_attempt'},404,PRIVATE)
+        elif not await in_set(con,entry,b['set'],b.get('folderId'),b.get('topicPack'),user['id'],now):
+            return core.j({'error':'not_in_set'},404)
         if 'batchIndex' in b:
             from .vocabulary_flashcard_batches import load_groups,group_ids
             ids,marks,groups,due=await load_groups(con,user['id'],b['set'],b.get('folderId'),b.get('topicPack'))
@@ -183,12 +210,20 @@ async def answer_game(req:Request):
             actual=normalize(sub['text']);correct=bool(actual) and actual==normalize(lexeme['example_sentence'] or lexeme['definition_en'])
         elif verified and kind=='pair':
             pair=await con.fetchrow('SELECT * FROM user_vocabulary WHERE id=$1 AND user_id=$2',sub['pairEntryId'],user['id'])
-            if not pair or not await in_set(con,pair,b['set'],b.get('folderId'),b.get('topicPack'),user['id'],now):
+            if not pair or (str(pair['id']) not in deck if deck else
+                            not await in_set(con,pair,b['set'],b.get('folderId'),b.get('topicPack'),user['id'],now)):
                 return core.j({'error':'not_in_set'},404)
             correct=str(entry['id'])==sub['pairEntryId']
         elif kind=='self' and b['gameId']=='cards':correct=sub['known']
         awarded=False
+        revision=None
         async with con.transaction():
+            if correct and verified:
+                locked_entry=await con.fetchrow(
+                    'SELECT * FROM user_vocabulary WHERE id=$1 AND user_id=$2 FOR UPDATE',b['entryId'],user['id'])
+                if not locked_entry:
+                    return core.j({'error':'not_found'},404)
+                revision=await record_due_review(con,locked_entry,user['id'],'correct',now,source='game')
             await con.execute('''INSERT INTO activity_events(user_id,type,payload)
                  VALUES($1,'VOCAB_GAME_PRACTICED',jsonb_build_object('entryId',$2::text,'kind',$3::text,
                  'correct',$4::boolean,'verified',$5::boolean))''',user['id'],b['entryId'],kind,correct,verified)
@@ -198,9 +233,12 @@ async def answer_game(req:Request):
                   VALUES($1,'game_answer',1,$2,'user_vocabulary',$3) ON CONFLICT(dedupe_key) DO NOTHING RETURNING id''',
                   user['id'],f"game:{user['id']}:{b['entryId']}:{day}",b['entryId'])
                 awarded=bool(award)
-        try:await con.execute('''UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,NOW()) WHERE id=$1''',user['id'])
-        except Exception:pass
-        return core.j({'ok':True,'correct':bool(correct),'verified':verified,'awarded':1 if awarded else 0,'srsUntouched':True})
+            if revision is None:
+                await con.execute('''UPDATE users
+                    SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,$2)
+                    WHERE id=$1''',user['id'],now)
+        return core.j({'ok':True,'correct':bool(correct),'verified':verified,'awarded':1 if awarded else 0,
+                       'srsUntouched':revision is None,'revisionPoints':revision['points'] if revision else 0})
 
 
 def attempt_deck_limit(game_id):

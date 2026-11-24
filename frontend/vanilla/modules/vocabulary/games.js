@@ -27,6 +27,7 @@ export function mountGames(ctx,host,id=null){
  const head=h('div',{class:'flex flex-col gap-4'}),game=h('div'),
  switcher=h('nav',{'data-game-switcher':'',class:'vocabulary-game-switcher',hidden:!id}),
  node=h('div',{class:id==='cards'?'vocabulary-cards-page mx-auto flex w-full flex-col gap-4':id?'mx-auto flex w-full max-w-4xl flex-col gap-4':'flex flex-col gap-4',...(id?{'data-dedicated-game':id}:{'data-games-library':''})},head,game,switcher);host.append(node);
+ const scheduledSet=()=>id!=='cards'&&['due','weak'].includes(selected);
  function source(){const detail=selected==='folder'?folders.find(x=>x.id===folder)?.name:selected==='topic'?packs.find(x=>x.id===pack)?.label:null;return [g.set[selected],detail].filter(Boolean).join(' · ');}
  function address(){const next=new URL(window.location.href),query=new URLSearchParams(setQuery(selected,folder,pack));if(batch!==null)query.set('batch',String(batch));if(from){query.set('from',from);if(cursor)query.set('cursor',cursor);}next.search=query.toString();window.history.replaceState(window.history.state,'',next.pathname+next.search);ctx.url.search=next.search;}
  function select(label,options,current,change,attrs={}){return h('label',{class:'flex flex-col gap-1 text-xs text-ink-500'},label,h('select',{class:'input','aria-label':label,value:current,...attrs,onChange:event=>{change(event.target.value);batch=null;from=null;cursor=null;address();renderHead();void load();}},options.map(o=>h('option',{value:o.value},o.label))));}
@@ -67,10 +68,10 @@ export function mountGames(ctx,host,id=null){
   const tip=ctx.locale==='uz'
    ?{
     title:'O‘yinlar orqali mashq qiling',
-    body:'Server tasdiqlagan to‘g‘ri javoblar kunlik reytingga ball berishi mumkin. Har bir so‘z barcha o‘yinlarda kuniga faqat bir marta ball oladi. So‘zning takrorlash jadvali faqat Takrorlash bo‘limida yangilanadi.'
+    body:'Server tasdiqlagan to‘g‘ri javoblar kunlik reytingga ball berishi mumkin. Har bir so‘z barcha o‘yinlarda kuniga faqat bir marta ball oladi. Takrorlash vaqti kelgan so‘zga to‘g‘ri javob bersangiz, u takrorlangan deb hisoblanadi.'
    }:{
     title:'Practise words through games',
-    body:'Server-verified correct answers may earn daily leaderboard points. Each word can earn points only once per day across all games. Only scheduled Revision updates a word’s review dates.'
+    body:'Server-verified correct answers may earn daily leaderboard points. Each word can earn points only once per day across all games. A verified correct answer also counts as a review if the word is due.'
    };
   game.replaceChildren(cards,
    ...(!total?[h('p',{class:'text-sm text-ink-500'},g.noWords)]:[]),
@@ -82,6 +83,7 @@ export function mountGames(ctx,host,id=null){
  async function restartAttempt(){
   if(!id||!attempt||roundLife?.signal.aborted)return;
   const button=head.querySelector('[data-game-restart]');if(button)button.disabled=true;
+  if(scheduledSet()){await load({newRound:true});return;}
   try{
    const old=attempt;
    const newAttempt=await request('/api/vocabulary/games',{method:'POST',body:{...scope(),action:'start',deck:old.deck,state:{}},signal:roundLife.signal});
@@ -131,7 +133,7 @@ export function mountGames(ctx,host,id=null){
     ctx.locale==='uz'?'Davom etish uchun natijani saqlab bo‘lmadi. Qayta urinib ko‘ring.':'Could not save this position. Please try again.'));
   }finally{switching=false;if(!roundLife?.signal.aborted)renderSwitcher();}
  }
- async function load(){
+ async function load({newRound=false}={}){
   const current=++sequence;roundLife?.abort();roundLife=new window.AbortController();
   const roundSignal=anySignal([signal,roundLife.signal]);
   attempt=null;sessionDeck=[];sessionBatch=null;pendingSave=Promise.resolve(true);
@@ -190,13 +192,14 @@ export function mountGames(ctx,host,id=null){
    }
    if(roundSignal.aborted||current!==sequence)return;
    if(id==='cards'&&Number.isSafeInteger(data.batchIndex)){batch=data.batchIndex;address();}
-   if(id&&!handoff){
+   if(id&&!handoff&&!newRound){
     const saved=await request('/api/vocabulary/games?'+params({...scope(),attempt:1}),options);
     if(roundSignal.aborted||current!==sequence)return;
     attempt=saved.attempt??null;
     if(attempt&&id!=='cards'){
      data=await request('/api/vocabulary/games?'+query+'&limit=24&game='+id+
-      '&entryIds='+encodeURIComponent(attempt.deck.join(',')),options);
+      (scheduledSet()?'&attemptId='+encodeURIComponent(attempt.attemptId):
+       '&entryIds='+encodeURIComponent(attempt.deck.join(','))),options);
     }
    }
    if(roundSignal.aborted||current!==sequence)return;
@@ -260,12 +263,13 @@ export function mountGames(ctx,host,id=null){
     try{
      const result=await request('/api/vocabulary/games',{method:'POST',body:{
       entryId,set:selected,gameId:id,
+      ...(scheduledSet()?{attemptId:attempt.attemptId}:{}),
       ...id==='cards'&&Number.isSafeInteger(data.batchIndex)?{batchIndex:data.batchIndex}:{},
       ...selected==='folder'?{folderId:folder}:{},
       ...selected==='topic'?{topicPack:pack}:{},submission
      },signal:roundSignal,timeoutMs:12000});
      if(roundSignal.aborted)return null;
-     privateScope.invalidate('vocabulary:');if(result.awarded>0)notifyLedger();
+     privateScope.invalidate('vocabulary:');if(result.awarded>0||result.revisionPoints>0)notifyLedger();
      return result;
     }catch{return null;}
     finally{busyAnswers=Math.max(0,busyAnswers-1);if(!roundSignal.aborted)renderSwitcher();}

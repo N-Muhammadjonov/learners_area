@@ -13,7 +13,7 @@ export function sectionIdentity(url,dict){
   return key?{module,key,title:dict.vocabulary.tab[key],index:path==='/app/vocabulary'||path==='/app/vocabulary/games'}:null;
  }
  if(module==='writing'){
-  const segment=path.split('/')[3],key=path==='/app/writing'?(WRITING.includes(tab)?tab:'lessons'):['lessons','exam','translation','language-stealing','grade'].includes(segment)?segment:null;
+  const segment=path.split('/')[3],key=path==='/app/writing'?(WRITING.includes(tab)?tab:'exam'):['lessons','exam','translation','language-stealing','grade'].includes(segment)?segment:null;
   return key?{module,key,title:dict.writingWorkspace.tabs[key],index:path==='/app/writing'}:null;
  }
  if(module==='grammar'&&path==='/app/grammar'){const key=tab==='speaking'?'speaking':'writing';return {module,key,title:key==='speaking'?dict.grammar.forSpeaking:dict.grammar.forWriting,index:true};}

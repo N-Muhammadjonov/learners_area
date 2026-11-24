@@ -1541,7 +1541,7 @@ export default {
         "keyboardHint": "Space flips the card · ← → move through the deck",
         "games": {
             "title": "Games",
-            "hint": "Games are practice, not progress: they never move your revision dates. Only scheduled revision does that.",
+            "hint": "Correct game answers count toward scheduled revision when a word is due.",
             "set": {
                 "label": "Word set",
                 "all": "All words",

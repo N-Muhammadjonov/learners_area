@@ -3,6 +3,7 @@ import {test} from 'node:test';
 import {ApiError} from '../js/api-client.js';
 import {financeDebtors} from '../modules/staff-final30/finance-debtors.js';
 import {academyToday} from '../modules/staff-final30/academy-today.js';
+import {mount as management} from '../modules/staff-final30/management-hub.js';
 import {academyAiPanel} from '../modules/shared/academy-ai.js';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
 
@@ -21,10 +22,28 @@ test('teacher Today failure never invents zero counts and retry uses only assign
  const h=setup({role:'teacher'});let attempt=0;
  h.stub({'/api/staff/academy/today':()=>++attempt===1?new ApiError(503,'unavailable'):{observedAt:'2026-11-16T00:00:00Z',classes:{count:1,items:[{name:'Assigned class',startsAt:'2026-11-16T06:00:00Z',branch:'A',href:'/app/management/groups?group='+ID(2)}]},parents:{count:2,href:'/app/management/guardians'}}});
  try{
-  const node=academyToday(h.ctx);h.ctx.root.append(node);await tick();assert.match(node.textContent,/Could not load priorities/);assert(!node.querySelector('h2'));
+  const node=await academyToday(h.ctx);h.ctx.root.append(node);await tick();assert.match(node.textContent,/Could not load priorities/);assert(!node.querySelector('h2'));
   h.click(node.querySelector('button'));await tick();assert.match(node.textContent,/Assigned class/);assert.doesNotMatch(node.textContent,/Outstanding accounts/);
  }finally{h.dispose();}
 });
+test('Management commits Today and its cards together after the first data read',async()=>{
+ const h=setup({role:'owner',path:'/app/management'});
+ h.ctx.session.academyEnabled=true;
+ let resolveToday;
+ h.stub({'/api/staff/academy/today':()=>new Promise(resolve=>{resolveToday=resolve;})});
+ try{
+  const mounted=management(h.ctx);
+  await tick();
+  assert.equal(h.q('[data-management-hub]'),null);
+  resolveToday({observedAt:'2026-11-16T00:00:00Z',classes:{count:0,items:[]}});
+  await mounted;
+  const hub=h.q('[data-management-hub]');
+  assert.equal(hub.firstElementChild,h.q('[data-academy-today]'));
+  assert(h.q('#today-classes'));
+  assert(h.q('[data-management-area]'));
+ }finally{h.dispose();}
+});
+
 test('RIWI draft requires an explicit apply and cannot execute a model command',async()=>{
  const h=setup({role:'teacher'});h.ctx.session.assistantEnabled=true;const applied=[];
  h.stub({'/api/staff/academy/assistant/proposals':{brand:'RIWI',canExecute:false,approvalRequired:true,observedAt:'2026-11-16T00:00:00Z',evidence:[{kind:'verified_student',value:1,unit:'count',sourceHref:'/app/management/guardians'}],draftText:'Review learning together.'}});
@@ -43,7 +62,7 @@ test('Today links directly to operational workspaces and retains keyboard pagina
   return {observedAt:'2026-11-16T00:00:00Z',classes:{count:11,items:[{name:offset?'Last class':'First class',startsAt:'2026-11-16T06:00:00Z',branch:'A',href:'/app/management/groups?group='+ID(2)}],pagination:{offset,limit:10,hasMore:!offset}}};
  }});
  try{
-  const node=academyToday(h.ctx);h.ctx.root.append(node);await tick();
+  const node=await academyToday(h.ctx);h.ctx.root.append(node);await tick();
   const first=node.querySelector('#today-classes');assert.match(first.textContent,/Today’s classes11/);
   assert.equal(first.querySelector('[data-today-destination]').getAttribute('href'),'/app/management/groups');
   h.click([...first.querySelectorAll('button')].find(b=>b.textContent==='Next'));await tick();
@@ -71,7 +90,7 @@ test('Today surfaces unmarked frozen rosters as an exception rather than inferri
   attendance:{count:1,windowDays:7,items:[{id:ID(9),name:'Held class',startsAt:'2026-11-16T06:00:00Z',branch:'A',unmarked:3,canMark:false,
    href:'/app/management/groups?group='+ID(2)+'&view=sessions'}],pagination:{offset:0,hasMore:false}}}});
  try{
-  const node=academyToday(h.ctx);h.ctx.root.append(node);await tick();
+  const node=await academyToday(h.ctx);h.ctx.root.append(node);await tick();
   const pending=node.querySelector('#today-attendance');assert.match(pending.textContent,/last 7 days/);
   assert.match(pending.textContent,/Unmarked: 3/);assert.match(pending.textContent,/Staff correction required/);
   assert.doesNotMatch(pending.textContent,/Absent/);

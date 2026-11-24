@@ -48,10 +48,14 @@ async def run(output):
         check('held gap cannot be graded through a direct POST',(await student.post('/api/vocabulary/games',json={**body,'entryId':fid('p3-word-held'),'submission':{'kind':'spelling','text':'staple food'}})).status_code==409)
         async with p.acquire() as con:
             after=dict(await con.fetchrow('SELECT srs_stage,interval_days,next_review_at,correct_count,incorrect_count FROM user_vocabulary WHERE id=$1',fid('p3-word-run')))
-            check('all seven games preserve SRS history',before==after)
+            check('verified games advance a due word exactly once',
+                  after['srs_stage']==before['srs_stage']+1 and
+                  after['correct_count']==before['correct_count']+1 and
+                  after['incorrect_count']==before['incorrect_count'] and
+                  after['next_review_at']>before['next_review_at'])
             points=await con.fetchval("SELECT coalesce(sum(points),0) FROM vocab_point_events WHERE user_id=$1 AND kind='game_answer'",UID)
             check('one game award across modes per saved word/day',points==1,points=points)
-        results=await asyncio.gather(*(student.post('/api/vocabulary/'+fid('p3-word-run')+'/review',json={'outcome':'correct'}) for _ in range(2)))
+        results=await asyncio.gather(*(student.post('/api/vocabulary/'+fid('p3-word-sleep')+'/review',json={'outcome':'correct'}) for _ in range(2)))
         check('authoritative concurrent review advances once',sorted(r.status_code for r in results)==[200,409])
         # Actual unstarted -> active -> completed -> active review boundary.
         async with p.acquire() as con:

@@ -3,6 +3,7 @@ Tests fake only the database boundary; no live PostgreSQL or provider claimed.
 """
 from __future__ import annotations
 import json
+from datetime import datetime, timedelta, timezone
 from uuid import UUID
 import pytest
 from fastapi.testclient import TestClient
@@ -34,12 +35,16 @@ class Conn:
         if 'INSERT INTO vocabulary_usages' in sql:return {'id':ATTEMPT}
         if 'FROM user_vocabulary' in sql:
             return {'id':EID,'user_id':UID,'lexeme_id':LEXEME,'srs_stage':self.state.get('stage',2),'active_use_count':self.state.get('active',0),
-                    'correct_count':3,'incorrect_count':0,'mastered_at':None}
+                    'correct_count':3,'incorrect_count':0,'mastered_at':None,
+                    'next_review_at':datetime.now(timezone.utc)+timedelta(days=self.state.get('due_in_days',1))}
         if 'FROM lexemes' in sql:return {'id':LEXEME,'term':'develop','definition_en':'grow or expand'}
         if 'INSERT INTO vocabulary_usages' in sql:return {'id':ATTEMPT}
         if 'FROM vocabulary_usages' in sql:return {'id':ATTEMPT,'user_id':UID,'user_vocabulary_id':EID,'sentence':'I develop better skills every day.', 'origin':'manual'}
         if 'INSERT INTO vocab_point_events' in sql:return {'id':ATTEMPT} if self.points_new else None
         raise AssertionError('Unexpected SQL:'+sql)
+    async def fetchval(self,sql,*args):
+        row=await self.fetchrow(sql,*args)
+        return row['id'] if row else None
     async def execute(self,sql,*args):
         self.calls.append(('execute',sql,args))
         if self.break_event and 'ACTIVITY_EVENTS' in sql.upper():raise RuntimeError('transaction aborted')
@@ -160,6 +165,15 @@ def test_vocab_confirm_one_transaction_awards_2_points(setup):
     assert any('VOCABULARY_USED' in q for q in sql)
     assert any('UPDATE user_vocabulary' in q for q in sql)
     assert any(kind=='transaction_begin' for kind,*_ in setup.calls)
+
+
+def test_accepted_use_advances_due_review_in_the_same_transaction(setup):
+    setup.state['due_in_days']=-1
+    result=client.post(ROUTES[2],json=BODIES[2]).json()
+    assert result['accepted'] is True and result['revisionPoints']==1
+    reviews=[args for kind,sql,args in setup.calls if kind=='execute' and 'VOCAB_REVIEWED' in sql]
+    assert reviews==[(UID,str(EID),'correct',3,'use')]
+    assert any('FOR UPDATE' in sql and 'FROM user_vocabulary' in sql for _,sql,_ in setup.calls)
 
 
 def test_vocab_repeated_sentence_never_double_awards(setup):

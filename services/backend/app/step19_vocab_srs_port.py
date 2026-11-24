@@ -19,6 +19,30 @@ def advance(entry,outcome,now):
 
 def iso(dt):return dt.astimezone(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00','Z')
 
+async def record_due_review(con, entry, user_id, outcome, now, *, source):
+    """Apply one scheduled review to a vocabulary row locked by the caller."""
+    if entry['next_review_at'] > now:
+        return None
+    entry_id = str(entry['id'])
+    state=advance(entry,outcome,now)
+    await con.execute('''UPDATE user_vocabulary SET srs_stage=$2,mastery=$3::text,
+       correct_count=$4,incorrect_count=$5,interval_days=$6,next_review_at=$7,
+       last_reviewed_at=$8,mastered_at=CASE WHEN $3::text='mastered' THEN $8 ELSE mastered_at END,
+       state=(CASE WHEN $3::text='new' THEN 'new' WHEN $3::text='learning' THEN 'learning' ELSE 'review' END)::vocab_state
+       WHERE id=$1''',entry_id,state['srsStage'],state['mastery'],state['correctCount'],
+       state['incorrectCount'],state['intervalDays'],state['nextReviewAt'],now)
+    await con.execute('''UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,$2)
+        WHERE id=$1''',user_id,now)
+    await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'VOCAB_REVIEWED',
+      jsonb_build_object('id',$2::text,'outcome',$3::text,'stage',$4::int,'source',$5::text))''',user_id,entry_id,outcome,state['srsStage'],source)
+    key=f"revision:{user_id}:{entry_id}:{iso(entry['next_review_at'])}"
+    new=await con.fetchval('''INSERT INTO vocab_point_events(user_id,kind,points,dedupe_key,ref_type,ref_id)
+         VALUES($1,'revision',1,$2,'user_vocabulary',$3) ON CONFLICT(dedupe_key) DO NOTHING RETURNING id''',user_id,key,entry_id)
+    if entry['mastered_at'] is None and state['mastery']=='mastered':
+        from .coin_rewards import award_vocab_milestones
+        await award_vocab_milestones(con,user_id)
+    return {**state, 'points': 1 if new else 0}
+
 @router.post('/api/vocabulary/{id}/review')
 async def review(req:Request,id:str):
     if not core.uuid_value(id):return core.j({'error':'not_found'},404)
@@ -34,25 +58,9 @@ async def review(req:Request,id:str):
             entry=await con.fetchrow('''SELECT id,srs_stage,correct_count,incorrect_count,active_use_count,
                 next_review_at,mastered_at FROM user_vocabulary WHERE id=$1 AND user_id=$2 FOR UPDATE''',id,user['id'])
             if not entry:return core.j({'error':'not_found'},404)
-            if entry['next_review_at']>now:return core.j({'error':'not_due','nextReviewAt':iso(entry['next_review_at'])},409)
-            state=advance(entry,body['outcome'],now)
-            await con.execute('''UPDATE user_vocabulary SET srs_stage=$2,mastery=$3::text,
-               correct_count=$4,incorrect_count=$5,interval_days=$6,next_review_at=$7,
-               last_reviewed_at=$8,mastered_at=CASE WHEN $3::text='mastered' THEN $8 ELSE mastered_at END,
-               state=(CASE WHEN $3::text='new' THEN 'new' WHEN $3::text='learning' THEN 'learning' ELSE 'review' END)::vocab_state
-               WHERE id=$1''',id,state['srsStage'],state['mastery'],state['correctCount'],
-               state['incorrectCount'],state['intervalDays'],state['nextReviewAt'],now)
-            await con.execute('''UPDATE users SET last_meaningful_activity_at=GREATEST(last_meaningful_activity_at,$2)
-                WHERE id=$1''',user['id'],now)
-            await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'VOCAB_REVIEWED',
-              jsonb_build_object('id',$2::text,'outcome',$3::text,'stage',$4::int))''',user['id'],id,body['outcome'],state['srsStage'])
-            key=f"revision:{user['id']}:{id}:{iso(entry['next_review_at'])}"
-            new=await con.fetchval('''INSERT INTO vocab_point_events(user_id,kind,points,dedupe_key,ref_type,ref_id)
-                 VALUES($1,'revision',1,$2,'user_vocabulary',$3) ON CONFLICT(dedupe_key) DO NOTHING RETURNING id''',user['id'],key,id)
-            if entry['mastered_at'] is None and state['mastery']=='mastered':
-                from .coin_rewards import award_vocab_milestones
-                await award_vocab_milestones(con,user['id'])
+            state=await record_due_review(con,entry,user['id'],body['outcome'],now,source='revision')
+            if state is None:return core.j({'error':'not_due','nextReviewAt':iso(entry['next_review_at'])},409)
             return core.j({'ok':True,'mastery':state['mastery'],'srsStage':state['srsStage'],
-              'intervalDays':state['intervalDays'],'nextReviewAt':iso(state['nextReviewAt']), 'points':1 if new else 0})
+              'intervalDays':state['intervalDays'],'nextReviewAt':iso(state['nextReviewAt']), 'points':state['points']})
 
 def install():core.app.include_router(router)
