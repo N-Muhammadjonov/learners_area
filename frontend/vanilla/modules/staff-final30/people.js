@@ -1,10 +1,114 @@
 import {el,listen,mountStaff,heading,errorText,centreDateTime,fill,badge,confirmSelect,pager,pageParam} from './kit.js';
 import {confirmAction} from '../shared/confirm-action.js';
-import {directory,changeRole,changeStatus,deleteStudent} from '../../js/adapters/staff-final30/people.js';
+import {directory,ownerPresence,changeRole,changeStatus,deleteStudent} from '../../js/adapters/staff-final30/people.js';
 import {ROLES,STATUSES,ROLE_LABELS,STATUS_LABELS} from '../../js/adapters/staff-final30/core.js';
 /** Source: admin/people/page.tsx + PeopleTable.tsx + RoleSelect.tsx. Roles: admin, owner. */
 export function peopleHref(filters,page){const p=new URLSearchParams();if(filters.q)p.set('q',filters.q);if(filters.role)p.set('role',filters.role);if(filters.status)p.set('status',filters.status);if(filters.online)p.set('online','1');if(page>1)p.set('page',String(page));const q=p.toString();return q?`/app/admin/people?${q}`:'/app/admin/people';}
 export const queryOf=url=>{const g=k=>url.searchParams.get(k)??'';const role=g('role'),status=g('status');return {q:g('q').trim().slice(0,100),role:ROLES.includes(role)?role:'',status:STATUSES.includes(status)?status:'',online:g('online')==='1',page:pageParam(url)};};
+/** The owner-only presence window shows real samples, not inferred past traffic. */
+export function onlinePresenceWindow(ctx){
+ const {locale,signal,navigate}=ctx;
+ const uz=locale==='uz';
+ const caption=(u,e)=>uz?u:e;
+ const dialog=el('dialog',{class:'interaction-confirm-dialog','data-online-presence-dialog':'',
+  'aria-label':caption('Hozir platformada','Currently on the platform'),
+  style:{width:'min(1040px, calc(100vw - 24px))',maxWidth:'1040px',maxHeight:'min(90vh, 900px)',overflowY:'auto',padding:'22px'}});
+ const close=el('button',{type:'button',class:'btn-secondary','data-online-presence-close':''},caption('Yopish','Close'));
+ const refresh=el('button',{type:'button',class:'btn-secondary','data-online-presence-refresh':''},caption('Yangilash','Refresh'));
+ const content=el('div',{'data-online-presence-content':'',role:'status'},caption('Yuklanmoqda…','Loading…'));
+ const header=el('div',{class:'flex flex-wrap items-center justify-between gap-3'},
+  el('h2',{class:'font-display text-2xl'},caption('Hozir platformada','Currently on the platform')),
+  el('div',{class:'flex gap-2'},refresh,close));
+ dialog.append(header,content);
+ const open=()=>{if(!dialog.isConnected)document.body.append(dialog);
+  if(!dialog.open){typeof dialog.showModal==='function'?dialog.showModal():dialog.setAttribute('open','');}
+  void load();};
+ const dismiss=()=>{if(dialog.open&&typeof dialog.close==='function')dialog.close();dialog.remove();};
+ const routeLabel=path=>{
+  const part=(path||'').split('/').filter(Boolean)[1]||'dashboard';
+  const labels={reading:'Reading',listening:'Listening',writing:'Writing',
+   speaking:'Speaking',vocabulary:'Vocabulary',grammar:'Grammar',
+   assignments:'Assignments',admin:'Management',games:'Games',statistics:'Statistics'};
+  return labels[part]||'Dashboard';
+ };
+ const duration=seconds=>seconds<60?caption('Hozirgina','Just now'):Math.floor(seconds/60)+caption(' daqiqa','m');
+ const makeChip=p=>{
+  const label=el('span',{class:'text-xs text-ink-500'},routeLabel(p.path)+' · '+duration(p.visitSeconds));
+  const name=p.role==='student'
+   ?el('a',{href:'/app/admin/people/'+p.id,class:'font-medium underline-offset-2 hover:underline',
+     'data-online-student-progress':p.id},p.name)
+   :el('span',{class:'font-medium'},p.name);
+  return el('li',{class:'flex min-w-0 flex-wrap items-center gap-2 rounded-xl border border-ink-100 bg-ink-50 px-3 py-2 text-sm'},
+   name,label);
+ };
+ function render(data){
+  const stat=(heading,value,footnote)=>el('div',{class:'card flex-1 p-4'},
+   el('p',{class:'text-xs font-semibold uppercase tracking-wider text-ink-500'},heading),
+   el('strong',{class:'mt-1 block font-display text-3xl text-ink-900'},String(value)),
+   el('p',{class:'mt-1 text-xs text-ink-500'},footnote));
+  const counts=el('div',{class:'grid gap-3 sm:grid-cols-3'},
+   stat(caption('HOZIR PLATFORMADA','ONLINE NOW'),data.onlineNow,caption('Oxirgi 90 soniyada faol','Active within 90 seconds')),
+   stat(caption('BUGUN KIRGAN','VISITORS TODAY'),data.todayVisitors,caption('Kuzatuv boshlanganidan beri','Since sampling began')),
+   stat(caption('ENG KO‘P (5 DAQIQA)','PEAK PER 5 MIN'),data.peakFiveMinute,caption('Bugungi eng yuqori 5 daqiqalik hisob','Highest sampled 5-minute window')));
+  const buckets=new Map(data.buckets.map(b=>[Math.floor(b.bucketStart.getTime()/300000),b.activeUsers]));
+  const now=new Date();
+  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
+  const midnight=new Date(today+'T00:00:00+05:00');
+  const numberOfBuckets=Math.max(1,Math.min(288,Math.floor((now.getTime()-midnight.getTime())/300000)+1));
+  const max=Math.max(1,data.peakFiveMinute);
+  const bars=el('div',{class:'flex items-end gap-px overflow-hidden rounded-lg bg-ink-50 p-2',
+    style:{height:'128px'},'data-online-presence-chart':''},
+    Array.from({length:numberOfBuckets},(_,i)=>{
+     const count=buckets.get(Math.floor(midnight.getTime()/300000)+i)||0;
+     const bar=el('span',{title:count+' · '+String(i*5)+' min',
+       class:'block min-w-0 flex-1 rounded-t-sm bg-signal-500',
+       'data-online-presence-bar':'','data-count':String(count),
+       style:{height:count?Math.max(3,Math.round(100*count/max))+'%':'1px',opacity:count?'0.85':'0.16'}});
+     return bar;
+    }));
+  const history=el('section',{class:'space-y-2'},el('div',{class:'flex flex-wrap justify-between gap-2 text-xs text-ink-500'},
+    el('strong',{},caption('BUGUN — HAR 5 DAQIQADA','TODAY — EVERY 5 MINUTES')),
+    el('span',{},caption('Kuzatilgan faol foydalanuvchilar','Sampled active users'))),bars,
+    el('p',{class:'text-xs text-ink-500'},caption(
+     'Grafik faqat yozib olingan 5 daqiqalik faollikni ko‘rsatadi. Avvalgi kunlar ma’lumoti qayta yaratilmaydi.',
+     'Chart shows recorded 5-minute activity only. Previous history is not invented.')));
+  const list=el('ul',{class:'flex flex-wrap gap-2','data-online-presence-people':''},
+   data.people.length?data.people.map(makeChip):el('li',{class:'text-sm text-ink-500'},
+    caption('Hozir faol foydalanuvchi yo‘q','No active users right now')));
+  const members=el('section',{class:'space-y-2'},el('h3',{class:'font-display text-lg'},
+   caption('Hozir onlayn','Currently online')+' · '+data.onlineNow),
+   list,data.truncated?el('p',{class:'text-xs text-ink-500'},
+    caption('Birinchi 500 ta foydalanuvchi ko‘rsatilmoqda','Showing the first 500 users')):null);
+  content.replaceChildren(counts,history,members);
+  content.className='mt-4 space-y-5';
+  content.removeAttribute('role');
+ }
+ async function load(){
+  if(signal.aborted||refresh.disabled)return;
+  refresh.disabled=true;
+  try{
+   const data=await ownerPresence(signal);
+   if(!signal.aborted&&dialog.isConnected)render(data);
+  }catch{
+   if(!signal.aborted&&dialog.isConnected){
+    content.className='mt-4 text-sm text-band-bad';
+    content.setAttribute('role','alert');
+    content.textContent=caption('Onlayn ma’lumotlarni yuklab bo‘lmadi. Qayta urinib ko‘ring.',
+     'Unable to load presence data. Try again.');
+   }
+  }finally{refresh.disabled=false;}
+ }
+ listen(close,'click',dismiss,signal);
+ listen(dialog,'cancel',e=>{e.preventDefault();dismiss();},signal);
+ listen(refresh,'click',()=>void load(),signal);
+ listen(dialog,'click',e=>{
+  const a=e.target.closest?.('[data-online-student-progress]');
+  if(!a||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+  e.preventDefault();dismiss();void navigate(a.getAttribute('href'));
+ },signal);
+ signal.addEventListener('abort',()=>dialog.remove(),{once:true});
+ return {dialog,open};
+}
 export const mount=mountStaff({name:'management-people',roles:['admin','owner'],pollMs:30000,
  load:ctx=>directory(queryOf(ctx.url),ctx.signal),
  render(ctx,data,view){
@@ -66,7 +170,11 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
   const status=el('select',{id:'people-status',name:'status',class:'input w-full'},el('option',{value:''},t.allStatuses),STATUSES.map(s=>el('option',{value:s},label(STATUS_LABELS,s))));status.value=f.status??'';
   const lab=(id,text)=>el('label',{for:id,class:'mb-1.5 block text-sm font-medium text-ink-700'},text);
   const form=el('form',{class:'panel flex flex-wrap items-end gap-3','data-people-search-form':''},f.online?el('input',{type:'hidden',name:'online',value:'1'}):null,el('div',{class:'min-w-[min(100%,16rem)] flex-1'},lab('people-search',t.searchLabel),q),el('button',{type:'submit',class:'btn-primary'},t.searchAction),el('div',{class:'min-w-[9rem] flex-1 sm:flex-none'},lab('people-role',t.role),role),el('div',{class:'min-w-[9rem] flex-1 sm:flex-none'},lab('people-status',t.status),status),el('a',{href:'/app/admin/people',class:'btn-secondary'},t.clearFilters));
-  const onlineControls=data.actorRole==='owner'?el('div',{class:'flex flex-wrap items-center gap-3'},el('a',{href:peopleHref({...f,status:undefined,online:!f.online},1),class:f.online?'btn-primary':'btn-secondary','data-people-online':'','aria-current':f.online?'page':null},`Online · ${data.onlineCount??'—'}`),el('span',{class:'text-xs text-ink-500'},t.presenceNote)):null;
+  const onlineWindow=data.actorRole==='owner'?onlinePresenceWindow(ctx):null;
+  const onlineButton=onlineWindow?el('button',{type:'button',class:'btn-secondary','data-people-online':'','aria-haspopup':'dialog'},`Online · ${data.onlineCount??'—'}`):null;
+  if(onlineButton)listen(onlineButton,'click',onlineWindow.open,signal);
+  const onlineControls=onlineWindow?el('div',{class:'flex flex-wrap items-center gap-3'},onlineButton,
+   el('span',{class:'text-xs text-ink-500'},t.presenceNote)):null;
   listen(form,'submit',e=>{e.preventDefault();void navigate(peopleHref({q:q.value.trim().slice(0,100),role:role.value||undefined,status:status.value||undefined,online:f.online},1));},signal);
   const range=fill(t.showingRange,{start:data.total===0?0:(data.page-1)*data.pageSize+1,end:Math.min(data.page*data.pageSize,data.total),total:data.total});
   const empty=tag=>tag==='tr'?el('tr',{},el('td',{colspan:'5',class:'py-8 text-center text-sm text-ink-500','data-people-empty':''},t.noResults)):el('p',{class:'card text-sm text-ink-500','data-people-empty':''},t.noResults);
