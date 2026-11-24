@@ -178,7 +178,7 @@ async def reading_submit(req:Request,id:str):
  if not u:return core.auth_error()
  b=await core.payload(req)
  entries=b.get('answers') if isinstance(b,dict) else None
- if not isinstance(entries,list) or any(not isinstance(x,dict) or not core.uuid_value(x.get('questionId')) or not isinstance(x.get('answer'),str) or len(x['answer'])>500 for x in entries):return core.j({'error':'invalid_input'},400)
+ if not isinstance(entries,list) or len(entries)>60 or any(not isinstance(x,dict) or not core.uuid_value(x.get('questionId')) or not isinstance(x.get('answer'),str) or len(x['answer'])>500 for x in entries):return core.j({'error':'invalid_input'},400)
  db=await core.pool()
  async with db.acquire() as con:
   async with con.transaction():
@@ -206,16 +206,21 @@ async def reading_submit(req:Request,id:str):
    timed_out=(datetime.now(timezone.utc)-attempt['started_at']).total_seconds()>=minutes*60
    actual=await con.fetch('SELECT question_id,user_answer FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',attempt['id']) if timed_out else []
    by_answer={str(x['question_id']):x['user_answer'] for x in actual} if timed_out else {x['questionId']:x['answer'] for x in entries}
-   score=0
    by_answer=align_source_choices(questions,by_answer)
+   question_ids,submitted_answers,verdicts=[],[],[]
+   for question in questions:
+    answer=by_answer.get(str(question['id']),'')
+    group=groups_map.get(question['group_id'])
+    question_ids.append(question['id'])
+    submitted_answers.append(answer)
+    verdicts.append(bool(correct(question,answer,group['shared_choices'] if group else None)))
    await con.execute('DELETE FROM reading_answers WHERE attempt_id=$1 AND is_correct IS NULL',attempt['id'])
-   for q in questions:
-    ans=by_answer.get(str(q['id']),'')
-    group=groups_map.get(q['group_id'])
-    checked=correct(q,ans,group['shared_choices'] if group else None)
-    score+=bool(checked)
+   if question_ids:
     await con.execute('''INSERT INTO reading_answers(attempt_id,question_id,user_answer,is_correct)
-            VALUES($1,$2,$3,$4)''',attempt['id'],q['id'],ans,checked)
+         SELECT $1,answer.question_id,answer.value,answer.verdict
+         FROM unnest($2::uuid[],$3::text[],$4::boolean[]) AS answer(question_id,value,verdict)''',
+         attempt['id'],question_ids,submitted_answers,verdicts)
+   score=sum(verdicts)
    await con.execute("UPDATE reading_attempts SET status='completed',score=$2,total_questions=$3,submitted_at=NOW() WHERE id=$1 AND status='in_progress'",attempt['id'],score,len(questions))
    await con.execute('''INSERT INTO activity_events(user_id,type,payload) VALUES($1,'READING_ATTEMPT_COMPLETED', $2::jsonb)''',
          u['id'],json.dumps({'attemptId':id,'score':score,'totalQuestions':len(questions)}))

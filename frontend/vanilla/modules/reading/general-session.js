@@ -8,7 +8,7 @@ import {questionType} from '../../js/generated/reading-lib/question-types.js';
 import {readingQuestionType} from '../../js/generated/reading-lib/question-model.js';
 import {questionTypeLabel} from '../../js/generated/reading-lib/reading-labels.js';
 import {occurrenceSpans} from '../../js/generated/reading-lib/occurrence-spans.js';
-import {groupHeading,groupQuestions,questionCard} from './questions.js';
+import {groupHeading,groupQuestions,questionCard,patchAnswer} from './questions.js';
 import {readingHighlighted} from './lesson-text.js';
 import {createWorkspace} from './workspace.js';
 import {failure} from '../../js/request-errors.js';
@@ -56,7 +56,7 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  signal.addEventListener('abort',()=>clearInterval(clock),{once:true});
  // The learner's own answers, checks and status for this one passage.
  const saved=initialProgress[passageId];
- const state={answers:saved?.answers??{},status:'idle',error:null,leaving:false,checkPending:false,pane:'passage',split:58,fontSize:16,check:saved?.checked&&saved.result?{rows:saved.result,score:saved.score,total:saved.total}:null,revision:0};
+ const state={answers:saved?.answers??{},status:'idle',error:null,leaving:false,checkPending:false,retry:null,pane:'passage',split:58,fontSize:16,check:saved?.checked&&saved.result?{rows:saved.result,score:saved.score,total:saved.total}:null,revision:0};
  let timer=null,queue=Promise.resolve(),pendingDraft=null,lastOk=true;
  // Open a session: create the progress row once (the original start request). Nothing is rebuilt for it.
  if(!hasSaved)api.request('/api/reading/general/progress',{method:'POST',body:{passageId,answers:{},check:false,start:true},signal})
@@ -68,19 +68,24 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
   const revision=state.revision;
   const run=async()=>{
    if(signal.aborted)return false;
-   state.status=check?'checking':'saving';draw();
+   state.status=check?'checking':'saving';state.error=null;state.retry=null;draw();
    try{
     const result=await api.request('/api/reading/general/progress',{method:'POST',body:{passageId,answers:nextAnswers,check},signal});
     // An answer typed while this save was in flight owns the screen now: its own save reports back.
     if(revision!==state.revision)return false;
-    state.error=null;lastOk=true;state.status='saved';
+    state.error=null;state.retry=null;lastOk=true;state.status='saved';
     if(check&&result?.result)state.check={rows:result.result,score:result.score,total:result.total};
     draw();
     return true;
    }catch(e){
     if(signal.aborted||revision!==state.revision)return false;
     // Original GeneralReadingSession: the failure is the mapped message, never a fabricated success.
-    lastOk=false;state.status='error';state.error=failure(e,dict);draw();
+    lastOk=false;
+    state.status='error';
+    const canRetry=e?.status==null||e.status===0||e.status>=500;
+    state.retry=canRetry?(check?'check':'save'):null;
+    state.error=canRetry?(check?t.checkUnavailable:t.draftUnsaved):failure(e,dict);
+    draw();
     return false;
    }
   };
@@ -88,8 +93,10 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
   return queue;
  }
  function setAnswer(questionId,value){
-  state.revision++;state.check=null;
+  state.revision++;state.check=null;state.error=null;state.retry=null;
   state.answers={...state.answers,[questionId]:value};pendingDraft=state.answers;
+  const question=questionById.get(questionId);
+  if(question)patchAnswer(ws.root,{question,group:groupById.get(question.groupId),value});
   clearTimeout(timer);timer=setTimeout(()=>void persist(state.answers,false),SAVE_DEBOUNCE_MS);
   draw();
  }
@@ -113,6 +120,9 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
  const range=dict.readingWorkspace.questionRange.replace('{from}',String(first)).replace('{to}',String(last));
  const groups=passage.groups??[],expanded=new Set();
+ const questionById=new Map(passage.questions.map(question=>[question.id,question]));
+ const groupById=new Map(groups.map(group=>[group.id,group]));
+ const getAnswer=id=>state.answers[id]??'';
  // The passage is static for this session: it is built once and never rebuilt on an answer.
  function buildPassage(){
   return el('div',{},
@@ -127,13 +137,18 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  }
  function buildQuestions(){
   const answers=state.answers;
+  const retry=state.retry?el('button',{type:'button',class:'btn-secondary','data-general-retry':''},t.retryAnswerRequest):null;
+  retry?.addEventListener('click',()=>{
+   if(state.retry==='check')requestCheck();
+   else if(state.retry==='save')void persist(state.answers,false);
+  });
   const paper=el('div',{'data-general-questions':true},
    el('h2',{class:'reading-pane-heading'},range),
    passage.questions.length===0?el('p',{},t.noQuestions):null,
    el('fieldset',{class:'reading-question-blocks',disabled:state.leaving?true:null},
-    groups.map(group=>el('section',{class:'reading-question-group'},groupHeading(dict,group),groupQuestions(context,{dict,group,questions:passage.questions.filter(q=>q.groupId===group.id),answers,onChange:setAnswer}))),
-    passage.questions.filter(q=>!q.groupId||!groups.some(g=>g.id===q.groupId)).map(q=>questionCard(context,{dict,question:q,group:null,value:answers[q.id]??'',onChange:v=>setAnswer(q.id,v),inputId:`answer-${q.id}`}))),
-   state.error?el('p',{role:'alert',class:'reading-error'},state.error):null);
+    groups.map(group=>el('section',{class:'reading-question-group'},groupHeading(dict,group),groupQuestions(context,{dict,group,questions:passage.questions.filter(q=>q.groupId===group.id),answers,onChange:setAnswer,getAnswer}))),
+    passage.questions.filter(q=>!q.groupId||!groups.some(g=>g.id===q.groupId)).map(q=>questionCard(context,{dict,question:q,group:null,value:getAnswer(q.id),getAnswer:()=>getAnswer(q.id),onChange:v=>setAnswer(q.id,v),inputId:`answer-${q.id}`}))),
+   state.error?el('div',{class:'space-y-2'},el('p',{role:'alert',class:'reading-error'},state.error),retry):null);
   if(state.check)inlineReview(paper,{dict,questions:passage.questions,rows:state.check.rows,answers,expanded});
   return paper;
  }
@@ -170,13 +185,20 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  host.replaceChildren(ws.root);
  const passagePane=buildPassage();
  const evidenceRoot=passagePane.querySelector('[data-reading-source],[data-passage-body]')??passagePane;
- const updateEvidence=bindEvidence(evidenceRoot,passage.body,signal);let painted;
+ const updateEvidence=bindEvidence(evidenceRoot,passage.body,signal);let painted,questionState;
+ function questionsPatch(){
+  const previous=questionState;
+  const next={check:state.check,error:state.error,leaving:state.leaving};
+  if(previous&&previous.check===next.check&&previous.error===next.error&&previous.leaving===next.leaving)return {};
+  questionState=next;
+  return {questionsPane:buildQuestions()};
+ }
  function draw(){
   if(signal.aborted)return;
   if(painted!==state.check){painted=state.check;updateEvidence(evidenceRanges(passage.body,passage.questions,state.check?.rows??[]));}
   const saveStatus=el('span',{class:'sr-only',role:'status','data-general-save-state':state.status},
    state.status==='saving'?t.saving:state.status==='saved'?t.saved:'');
-  ws.update({passagePane,questionsPane:buildQuestions(),navigation:[buildBackButton(),buildNavigation(),saveStatus],action:buildAction(),pane:state.pane});
+  ws.update({passagePane,...questionsPatch(),navigation:[buildBackButton(),buildNavigation(),saveStatus],action:buildAction(),pane:state.pane});
  }
  draw();
 }

@@ -7,7 +7,24 @@ test('search hover/arrows preserve result nodes, active descendant and Enter des
 test('malformed search is an error, not fake zero results, and stale transport cannot restore private text',async()=>{let resolve;const s=search(async()=>({bad:true}));type(s.input,'xx');await sleep(310);assert(s.node.textContent.includes(dict.common.error));api.request=()=>new Promise(r=>resolve=r);type(s.input,'yy');await sleep(310);s.close(false);resolve({results:[{type:'reading',title:'OLD PRIVATE FIXTURE',context:null,href:'/app'}]});await sleep(0);assert(!s.node.textContent.includes('OLD PRIVATE'));assert.equal(s.node.querySelector('[data-global-search-dialog]'),null);});
 test('abort clears pending search, visible private hits and global shortcut listener',async()=>{const s=search(async()=>({results:[{type:'reading',title:'PRIVATE FIXTURE',context:null,href:'/app'}]}));type(s.input,'xx');await sleep(310);assert(s.node.textContent.includes('PRIVATE FIXTURE'));c.abort();assert(!s.node.textContent.includes('PRIVATE FIXTURE'));document.dispatchEvent(new window.KeyboardEvent('keydown',{key:'f',ctrlKey:true,bubbles:true,cancelable:true}));assert.equal(s.node.querySelector('[data-global-search-dialog]'),null);});
 test('source Management direct link has real parent and nonmodule uses source breadcrumbs',()=>{setup();const management=heading({dict,pathname:'/app/owner/audit'});assert.equal(management.querySelector('[data-module-context-heading]').textContent,dict.nav.management);assert(management.querySelector('a[href]'));const profile=heading({dict,pathname:'/app/courses/ielts'});assert(profile.hasAttribute('data-breadcrumbs'));assert(!profile.querySelector('[data-module-context-heading]'));});
-test('stale avatar error cannot remove the current newer photo',()=>{const ctx=setup();ctx.session.user.photoPresent=true;const p=profileMenu(ctx);document.body.append(p.node);const old=p.node.querySelector('img');window.dispatchEvent(new window.CustomEvent('profile-photo-changed',{detail:{userId:ctx.session.user.id,present:true}}));const fresh=p.node.querySelector('img');assert.notEqual(old,fresh);old.dispatchEvent(new window.Event('error'));assert.equal(p.node.querySelector('img'),fresh);fresh.dispatchEvent(new window.Event('error'));assert(!p.node.querySelector('img'));});
+test('the header requests small photos and ignores stale image errors',()=>{
+ const ctx=setup();
+ ctx.session.user.photoPresent=true;
+ const profile=profileMenu(ctx);
+ document.body.append(profile.node);
+ const previous=profile.node.querySelector('img');
+ const before=new URL(previous.src);
+ assert.equal(before.searchParams.get('variant'),'avatar');
+ window.dispatchEvent(new window.CustomEvent('profile-photo-changed',{detail:{userId:ctx.session.user.id,present:true}}));
+ const current=profile.node.querySelector('img');
+ const after=new URL(current.src);
+ assert.equal(after.searchParams.get('variant'),'avatar');
+ assert.notEqual(after.searchParams.get('v'),before.searchParams.get('v'));
+ previous.dispatchEvent(new window.Event('error'));
+ assert.equal(profile.node.querySelector('img'),current);
+ current.dispatchEvent(new window.Event('error'));
+ assert.equal(profile.node.querySelector('img'),null);
+});
 
 for(const [platform,modifier,label] of [['MacIntel','metaKey','⌘ F'],['Win32','ctrlKey','Ctrl F']])test(`site search shortcut follows ${platform} without intercepting old/OS shortcuts`,()=>{
  const ctx=setup();Object.defineProperty(window.navigator,'platform',{value:platform,configurable:true});const s=globalSearch(ctx);document.body.append(s.node);

@@ -1,10 +1,16 @@
 import {el} from '../../js/dom.js';
 import {sourceTextRange} from './source-text.js';
 import {isUnstatedAnswer} from '../../js/generated/reading-lib/unstated.js';
+import {readingQuestionDescriptor} from '../../js/generated/reading-lib/question-model.js';
 import {ternaryLabel} from '../../js/generated/reading-lib/reading-choices.js';
 
 const number=q=>q.questionNo??q.order;
-const format=(q,answer)=>answer==null||answer===''?'—':['true_false_not_given','yes_no_not_given'].includes(q.typeCode??q.type)?ternaryLabel(q.typeCode??q.type,String(answer)):String(answer);
+function format(q,answer){
+ if(answer==null||answer==='')return '—';
+ const descriptor=readingQuestionDescriptor(q),value=String(answer);
+ if(descriptor?.answerModel.kind!=='ternary')return value;
+ return ternaryLabel(descriptor.id,value.trim().toLowerCase().replace(/\s+/g,'_')).toUpperCase();
+}
 const unstated=row=>isUnstatedAnswer(String(row.correctAnswer??''));
 /** Match only server-authored evidence in canonical coordinates. Ambiguous quotes are not painted. */
 export function evidenceRanges(body,questions,results){
@@ -73,10 +79,12 @@ function feedback(dict,q,row,answer,expanded){
   unstated(row)?el('p',{},dict.readingV4.unstatedEvidence):!row.evidenceQuote?el('p',{},dict.readingV4.evidenceMissing):null);
  details.open=expanded.has(id);
  details.addEventListener('toggle',()=>{if(details.open)expanded.add(id);else expanded.delete(id);});
- const alternatives=(row.acceptedAnswers??[]).filter(v=>String(v).trim().toLowerCase()!==String(row.correctAnswer??'').trim().toLowerCase());
+ const expected=format(q,row.correctAnswer);
+ const alternatives=[...new Set((row.acceptedAnswers??[]).map(value=>format(q,value)))]
+  .filter(value=>value.trim().toLowerCase()!==expected.trim().toLowerCase());
  return el('div',{'data-reading-inline-review':id,'data-review-question':id,'data-general-question':id,'data-general-result':correct?'correct':'incorrect',class:'reading-inline-review'},
   el('p',{class:'reading-review-student'},el('span',{class:'reading-review-number'},'Q'+number(q)+' '),el('span',{'aria-label':correct?dict.reading.correct:dict.reading.incorrect},correct?'✓':'✗'),' ',dict.reading.yourAnswer+': ',el('strong',{},format(q,answer))),
-  !correct?el('p',{class:'reading-review-correct'},dict.reading.correctAnswer+': ',el('strong',{},format(q,row.correctAnswer))):null,
+  !correct?el('p',{class:'reading-review-correct'},dict.reading.correctAnswer+': ',el('strong',{},expected)):null,
   !correct&&alternatives.length?el('p',{class:'reading-review-alternatives'},dict.readingPractice.acceptedAnswers+': '+alternatives.join(' / ')):null,
   details);
 }

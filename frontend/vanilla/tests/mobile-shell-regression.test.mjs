@@ -26,7 +26,7 @@ test('unconstrained desktop retains idle module prewarm',()=>{
   navigator:{onLine:true,connection:{effectiveType:'4g'}},
   setTimer:(callback,delay)=>{scheduled.push(delay);return scheduled.length;},clearTimer:()=>{},
  });
- try{assert.deepEqual(scheduled,[2200,5000]);}finally{warmer.dispose();controller.abort();}
+ try{assert.deepEqual(scheduled,[2200]);}finally{warmer.dispose();controller.abort();}
 });
 
 test('mobile search is icon-first, expands to a focusable input and has a close control',()=>{

@@ -1330,6 +1330,31 @@ async def student_position(conn, student_user_id) -> dict:
     }
 
 
+async def student_payment_statuses(conn, student_ids: list[UUID]) -> dict[UUID, str]:
+    """Classify current posted invoices using the same receivable rules as student_position."""
+    rows = await conn.fetch(f"""
+        WITH positions AS (
+          SELECT c.student_user_id, sum(c.net_amount_minor) AS charged,
+            sum((SELECT coalesce(sum(a.amount_minor),0) FROM tuition_payment_allocations a
+                 WHERE a.charge_id=c.id)) AS allocated,
+            sum((SELECT coalesce(sum(n.amount_minor),0) FROM tuition_credit_notes n
+                 WHERE n.charge_id=c.id AND n.status='posted')) AS credited
+          FROM tuition_charges c
+          WHERE c.student_user_id=ANY($1::uuid[]) AND c.{POSTED_EVENT}
+          GROUP BY c.student_user_id
+        )
+        SELECT id, CASE
+          WHEN coalesce(charged,0)<=0 THEN 'no_invoice'
+          WHEN charged<=allocated+credited AND allocated>0 THEN 'paid'
+          WHEN charged<=credited THEN 'credited'
+          WHEN allocated>0 THEN 'partial'
+          ELSE 'unpaid'
+        END AS payment_status
+        FROM unnest($1::uuid[]) ids(id) LEFT JOIN positions ON positions.student_user_id=ids.id
+        """, student_ids)
+    return {row['id']: row['payment_status'] for row in rows}
+
+
 async def student_statement(conn, student_user_id, limit: int = 100) -> dict:
     charges = await conn.fetch(
         '''SELECT id, contract_id, created_by, period_key, gross_amount_minor, discount_amount_minor, net_amount_minor,

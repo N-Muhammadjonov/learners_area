@@ -10,9 +10,10 @@ export function onlinePresenceWindow(ctx){
  const {locale,signal,navigate}=ctx;
  const uz=locale==='uz';
  const caption=(u,e)=>uz?u:e;
+ let opener=null,poll=null;
  const dialog=el('dialog',{class:'interaction-confirm-dialog','data-online-presence-dialog':'',
   'aria-label':caption('Hozir platformada','Currently on the platform'),
-  style:{width:'min(1040px, calc(100vw - 24px))',maxWidth:'1040px',maxHeight:'min(90vh, 900px)',overflowY:'auto',padding:'22px'}});
+  style:{width:'min(1040px, calc(100vw - 24px))',maxWidth:'1040px',maxHeight:'min(90dvh, 900px)',overflowY:'auto',padding:'22px'}});
  const close=el('button',{type:'button',class:'btn-secondary','data-online-presence-close':''},caption('Yopish','Close'));
  const refresh=el('button',{type:'button',class:'btn-secondary','data-online-presence-refresh':''},caption('Yangilash','Refresh'));
  const content=el('div',{'data-online-presence-content':'',role:'status'},caption('Yuklanmoqda…','Loading…'));
@@ -20,20 +21,32 @@ export function onlinePresenceWindow(ctx){
   el('h2',{class:'font-display text-2xl'},caption('Hozir platformada','Currently on the platform')),
   el('div',{class:'flex gap-2'},refresh,close));
  dialog.append(header,content);
- const open=()=>{if(!dialog.isConnected)document.body.append(dialog);
-  if(!dialog.open){typeof dialog.showModal==='function'?dialog.showModal():dialog.setAttribute('open','');}
-  void load();};
- const dismiss=()=>{if(dialog.open&&typeof dialog.close==='function')dialog.close();dialog.remove();};
+ const open=event=>{
+  if(dialog.open)return;
+  opener=event?.currentTarget??null;
+  document.body.append(dialog);
+  typeof dialog.showModal==='function'?dialog.showModal():dialog.setAttribute('open','');
+  void load();
+  poll=setInterval(()=>{if(document.visibilityState!=='hidden')void load();},15000);
+ };
+ const dismiss=(restore=true)=>{
+  clearInterval(poll);
+  if(dialog.open&&typeof dialog.close==='function')dialog.close();
+  else dialog.removeAttribute('open');
+  dialog.remove();
+  if(restore&&opener?.isConnected)opener.focus({preventScroll:true});
+  opener=null;
+ };
  const routeLabel=path=>{
   const part=(path||'').split('/').filter(Boolean)[1]||'dashboard';
   const labels={reading:'Reading',listening:'Listening',writing:'Writing',
    speaking:'Speaking',vocabulary:'Vocabulary',grammar:'Grammar',
-   assignments:'Assignments',admin:'Management',games:'Games',statistics:'Statistics'};
+   assignments:'Assignments',admin:'Management',management:'Management',teacher:'Management',games:'Games',statistics:'Statistics'};
   return labels[part]||'Dashboard';
  };
  const duration=seconds=>seconds<60?caption('Hozirgina','Just now'):Math.floor(seconds/60)+caption(' daqiqa','m');
  const makeChip=p=>{
-  const label=el('span',{class:'text-xs text-ink-500'},routeLabel(p.path)+' · '+duration(p.visitSeconds));
+  const label=el('span',{class:'text-xs text-ink-500'},routeLabel(p.path)+' · '+duration(Math.max(0,Math.floor((Date.now()-p.seenAt.getTime())/1000))));
   const name=p.role==='student'
    ?el('a',{href:'/app/admin/people/'+p.id,class:'font-medium underline-offset-2 hover:underline',
      'data-online-student-progress':p.id},p.name)
@@ -52,8 +65,9 @@ export function onlinePresenceWindow(ctx){
    stat(caption('ENG KO‘P (5 DAQIQA)','PEAK PER 5 MIN'),data.peakFiveMinute,caption('Bugungi eng yuqori 5 daqiqalik hisob','Highest sampled 5-minute window')));
   const buckets=new Map(data.buckets.map(b=>[Math.floor(b.bucketStart.getTime()/300000),b.activeUsers]));
   const now=new Date();
-  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).format(now);
-  const midnight=new Date(today+'T00:00:00+05:00');
+  const parts=new Intl.DateTimeFormat('en',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+  const {year,month,day}=Object.fromEntries(parts.map(({type,value})=>[type,value]));
+  const midnight=new Date(`${year}-${month}-${day}T00:00:00+05:00`);
   const numberOfBuckets=Math.max(1,Math.min(288,Math.floor((now.getTime()-midnight.getTime())/300000)+1));
   const max=Math.max(1,data.peakFiveMinute);
   const bars=el('div',{class:'flex items-end gap-px overflow-hidden rounded-lg bg-ink-50 p-2',
@@ -79,6 +93,7 @@ export function onlinePresenceWindow(ctx){
    caption('Hozir onlayn','Currently online')+' · '+data.onlineNow),
    list,data.truncated?el('p',{class:'text-xs text-ink-500'},
     caption('Birinchi 500 ta foydalanuvchi ko‘rsatilmoqda','Showing the first 500 users')):null);
+  if(opener?.isConnected)opener.textContent=`Online · ${data.onlineNow}`;
   content.replaceChildren(counts,history,members);
   content.className='mt-4 space-y-5';
   content.removeAttribute('role');
@@ -98,18 +113,20 @@ export function onlinePresenceWindow(ctx){
    }
   }finally{refresh.disabled=false;}
  }
- listen(close,'click',dismiss,signal);
+ listen(close,'click',()=>dismiss(),signal);
  listen(dialog,'cancel',e=>{e.preventDefault();dismiss();},signal);
  listen(refresh,'click',()=>void load(),signal);
  listen(dialog,'click',e=>{
   const a=e.target.closest?.('[data-online-student-progress]');
   if(!a||e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
-  e.preventDefault();dismiss();void navigate(a.getAttribute('href'));
+  e.preventDefault();dismiss(false);void navigate(a.getAttribute('href'));
  },signal);
- signal.addEventListener('abort',()=>dialog.remove(),{once:true});
+ signal.addEventListener('abort',()=>dismiss(false),{once:true});
  return {dialog,open};
 }
+const onlineWindows=new WeakMap();
 export const mount=mountStaff({name:'management-people',roles:['admin','owner'],pollMs:30000,
+ shouldPoll:ctx=>ctx.session.user.role==='owner'&&!document.querySelector('[data-online-presence-dialog][open]'),
  load:ctx=>directory(queryOf(ctx.url),ctx.signal),
  render(ctx,data,view){
   const {dict,locale,signal,navigate}=ctx,t={...(locale==='uz'?{notTracked:'Kuzatilmagan',visitTime:'Tashrif',totalTime:'Jami vaqt',presenceNote:'Faollik 90 soniya ichida yangilanadi.'}:{notTracked:'Not tracked',visitTime:'Visit time',totalTime:'Total time',presenceNote:'Online activity is refreshed from the server.'}),...dict.people},L=locale==='en'?'en':'uz',S=(ctx.state.people??={busy:null,error:null,askId:null,reason:''});
@@ -151,6 +168,12 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
   };
   const nameNode=p=>['owner','admin'].includes(data.actorRole)&&p.role==='student'?el('a',{href:`/app/admin/people/${p.id}`,class:'font-medium text-ink-900','data-people-name':''},p.name):el('span',{'data-people-name':'',class:'font-medium text-ink-900'},p.name);
   const you=p=>p.id===data.actorId?el('span',{class:'ml-2 badge bg-signal-100 text-signal-700'},t.you):null;
+  const paymentLabels={
+   paid:[L==='uz'?'To‘langan':'Paid','good'],partial:[L==='uz'?'Qisman to‘langan':'Partial','warn'],
+   unpaid:[L==='uz'?'To‘lanmagan':'Unpaid','bad'],credited:[L==='uz'?'Kredit bilan yopilgan':'Covered by credit','neutral'],
+   no_invoice:[L==='uz'?'Hisob chiqarilmagan':'No invoice','neutral'],
+  };
+  const payment=p=>p.paymentStatus?badge(...paymentLabels[p.paymentStatus],{'data-person-payment':p.paymentStatus}):null;
   const contact=p=>el('span',{class:'block text-xs text-ink-500'},el('span',{class:'block'},p.username?'@'+p.username:p.email??(p.telegramLinked?'Telegram':'—')),p.phoneNumber?el('span',{class:'block'},p.phoneNumber):null);
   const presence=p=>{
    if(data.actorRole!=='owner')return el('span',{'data-person-presence':'',class:'text-xs text-ink-300'},t.notTracked);
@@ -170,7 +193,11 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
   const status=el('select',{id:'people-status',name:'status',class:'input w-full'},el('option',{value:''},t.allStatuses),STATUSES.map(s=>el('option',{value:s},label(STATUS_LABELS,s))));status.value=f.status??'';
   const lab=(id,text)=>el('label',{for:id,class:'mb-1.5 block text-sm font-medium text-ink-700'},text);
   const form=el('form',{class:'panel flex flex-wrap items-end gap-3','data-people-search-form':''},f.online?el('input',{type:'hidden',name:'online',value:'1'}):null,el('div',{class:'min-w-[min(100%,16rem)] flex-1'},lab('people-search',t.searchLabel),q),el('button',{type:'submit',class:'btn-primary'},t.searchAction),el('div',{class:'min-w-[9rem] flex-1 sm:flex-none'},lab('people-role',t.role),role),el('div',{class:'min-w-[9rem] flex-1 sm:flex-none'},lab('people-status',t.status),status),el('a',{href:'/app/admin/people',class:'btn-secondary'},t.clearFilters));
-  const onlineWindow=data.actorRole==='owner'?onlinePresenceWindow(ctx):null;
+  let onlineWindow=null;
+  if(data.actorRole==='owner'){
+   onlineWindow=onlineWindows.get(ctx)??onlinePresenceWindow(ctx);
+   onlineWindows.set(ctx,onlineWindow);
+  }
   const onlineButton=onlineWindow?el('button',{type:'button',class:'btn-secondary','data-people-online':'','aria-haspopup':'dialog'},`Online · ${data.onlineCount??'—'}`):null;
   if(onlineButton)listen(onlineButton,'click',onlineWindow.open,signal);
   const onlineControls=onlineWindow?el('div',{class:'flex flex-wrap items-center gap-3'},onlineButton,
@@ -178,8 +205,8 @@ export const mount=mountStaff({name:'management-people',roles:['admin','owner'],
   listen(form,'submit',e=>{e.preventDefault();void navigate(peopleHref({q:q.value.trim().slice(0,100),role:role.value||undefined,status:status.value||undefined,online:f.online},1));},signal);
   const range=fill(t.showingRange,{start:data.total===0?0:(data.page-1)*data.pageSize+1,end:Math.min(data.page*data.pageSize,data.total),total:data.total});
   const empty=tag=>tag==='tr'?el('tr',{},el('td',{colspan:'5',class:'py-8 text-center text-sm text-ink-500','data-people-empty':''},t.noResults)):el('p',{class:'card text-sm text-ink-500','data-people-empty':''},t.noResults);
-  const table=el('table',{class:'w-full text-left text-sm'},el('thead',{},el('tr',{class:'border-b border-ink-100 text-xs uppercase tracking-wide text-ink-300'},[t.name,t.role,t.status,t.activity,t.actions].map(x=>el('th',{class:'py-2 pr-3'},x)))),el('tbody',{},data.people.length===0?empty('tr'):data.people.map(p=>el('tr',{class:'border-b border-ink-100/70 last:border-0',...attrs(p)},el('td',{class:'py-2 pr-3'},nameNode(p),you(p),contact(p)),el('td',{class:'py-2 pr-3'},roleControl(p)),el('td',{class:'py-2 pr-3'},statusBadge(p),p.statusReason?el('span',{class:'block text-xs text-ink-300'},p.statusReason):null),el('td',{class:'py-2 pr-3 text-xs text-ink-500'},presence(p)),el('td',{class:'py-2'},statusControl(p))))));
-  const cards=el('div',{class:'flex flex-col gap-3 md:hidden'},data.people.length===0?empty('p'):data.people.map(p=>el('div',{class:'card flex flex-col gap-2 p-4',...attrs(p)},el('div',{},el('p',{class:'text-sm font-medium text-ink-900'},nameNode(p),you(p)),contact(p)),el('div',{class:'flex flex-wrap items-center gap-2'},roleControl(p),statusBadge(p)),presence(p),statusControl(p))));
+  const table=el('table',{class:'w-full text-left text-sm'},el('thead',{},el('tr',{class:'border-b border-ink-100 text-xs uppercase tracking-wide text-ink-300'},[t.name,t.role,t.status,t.activity,t.actions].map(x=>el('th',{class:'py-2 pr-3'},x)))),el('tbody',{},data.people.length===0?empty('tr'):data.people.map(p=>el('tr',{class:'border-b border-ink-100/70 last:border-0',...attrs(p)},el('td',{class:'py-2 pr-3'},nameNode(p),you(p),contact(p),payment(p)),el('td',{class:'py-2 pr-3'},roleControl(p)),el('td',{class:'py-2 pr-3'},statusBadge(p),p.statusReason?el('span',{class:'block text-xs text-ink-300'},p.statusReason):null),el('td',{class:'py-2 pr-3 text-xs text-ink-500'},presence(p)),el('td',{class:'py-2'},statusControl(p))))));
+  const cards=el('div',{class:'flex flex-col gap-3 md:hidden'},data.people.length===0?empty('p'):data.people.map(p=>el('div',{class:'card flex flex-col gap-2 p-4',...attrs(p)},el('div',{},el('p',{class:'text-sm font-medium text-ink-900'},nameNode(p),you(p)),contact(p),payment(p)),el('div',{class:'flex flex-wrap items-center gap-2'},roleControl(p),statusBadge(p)),presence(p),statusControl(p))));
   return el('div',{class:'mx-auto flex flex-col gap-4','data-people-directory':''},heading(t.title,t.subtitle),
    el('div',{class:'flex flex-col gap-3'},S.error?el('p',{role:'alert',class:'text-xs text-band-bad'},S.error):null,
     onlineControls,

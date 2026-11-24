@@ -37,6 +37,7 @@ class Connection:
                 "seen_at": STAMP,
                 "path": "/app/reading",
                 "visit_seconds": 100,
+                "online_count": 2,
             }]
         raise AssertionError(f"unexpected query: {query}")
 

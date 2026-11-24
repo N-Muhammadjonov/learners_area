@@ -301,7 +301,13 @@ export async function mount(ctx) {
    sessionPanel(ctx,{id:groupId},[],false));
   return;
  }
- if (!groupId) host.append(attendanceSummary(ctx));
+ if (!groupId) {
+  const attendance=attendanceSummary(ctx);
+  if(url.searchParams.get('view')==='attendance'){
+   attendance.open=true;
+   host.insertBefore(attendance,section);
+  }else host.append(attendance);
+ }
  async function render() {
   if (signal.aborted) return;
   section.replaceChildren(el('p', {role: 'status'}, dict.common.loading));
