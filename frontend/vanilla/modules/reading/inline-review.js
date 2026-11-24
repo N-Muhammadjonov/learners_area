@@ -70,7 +70,7 @@ function feedback(dict,q,row,answer,expanded){
  const correct=row.isCorrect===true,id=q.id;
  const details=el('details',{class:'reading-inline-explanation','data-reading-explanation':id},el('summary',{},dict.reading.explanation),
   el('p',{},row.explanation||dict.readingV4.explanationMissing),
-  unstated(row)&&!row.evidenceQuote?el('p',{},dict.readingV4.unstatedEvidence):null);
+  unstated(row)?el('p',{},dict.readingV4.unstatedEvidence):!row.evidenceQuote?el('p',{},dict.readingV4.evidenceMissing):null);
  details.open=expanded.has(id);
  details.addEventListener('toggle',()=>{if(details.open)expanded.add(id);else expanded.delete(id);});
  const alternatives=(row.acceptedAnswers??[]).filter(v=>String(v).trim().toLowerCase()!==String(row.correctAnswer??'').trim().toLowerCase());
@@ -87,9 +87,9 @@ export function inlineReview(root,{dict,questions,rows,answers,expanded=new Set(
  for(const q of questions){
   const row=byId.get(q.id);if(!row)continue;
   const verdict=row.isCorrect===true?'correct':'incorrect',own=targets.filter(n=>n.dataset.question===q.id);
-  const fields=controls.filter(n=>n.dataset.answerInput===q.id||n.id==='answer-'+q.id||n.name==='answer-'+q.id||n.id.startsWith('answer-'+q.id+'-')||(n.closest('[data-question]')?.dataset.question===q.id)||((n.dataset.sourceNumbers||'').split(',').includes(String(q.sourceQuestionNo??q.questionNo))&&n.closest('[data-reading-source]')===own[0]?.closest('[data-reading-source]')));
+  const fields=controls.filter(n=>(n.dataset.readingQuestionIds||'').split(' ').includes(q.id)||n.dataset.answerInput===q.id||n.id==='answer-'+q.id||n.name==='answer-'+q.id||n.id.startsWith('answer-'+q.id+'-')||(n.closest('[data-question]')?.dataset.question===q.id));
   for(const field of fields){field.dataset.readingVerdict=verdict;if(readonly)field.disabled=true;}
-  const anchor=own[0]??fields[0]?.closest('[data-answer-slot],td,p,label,li,.qitem')??null;
+  const anchor=fields[0]?.closest('td,th')??own[0]??fields[0]?.closest('[data-answer-slot],p,label,li,.qitem')??null;
   const result=feedback(dict,q,row,answers[q.id],expanded);
   if(anchor){
    anchor.dataset.readingVerdict=verdict;
