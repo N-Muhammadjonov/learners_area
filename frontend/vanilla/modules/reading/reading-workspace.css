@@ -202,3 +202,25 @@ html[data-theme] #root .reading-focus .reading-workspace :is(
   gap: clamp(8px, 1.5vw, 20px);
   margin-inline-start: 0;
 }
+
+/* Checked answers: flat CD IELTS rows and evidence on the original paper. */
+.reading-part-label{display:inline-block;font-weight:700;font-size:14px;white-space:nowrap;padding:6px 0}
+.reading-evidence-mark{background:#cce8ff;color:#102740;border-bottom:2px solid #60a5fa;border-radius:2px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.reading-evidence-mark[data-evidence-label]:not([data-evidence-label=""])::before{content:attr(data-evidence-label);display:inline-block;vertical-align:super;margin-inline:2px 4px;padding:0 4px;background:#2563eb;color:white;border-radius:3px;font-size:10px;line-height:1.4;font-weight:700}
+html[data-theme="night"] .reading-evidence-mark{background:#294b70;color:#e4f1ff;border-bottom-color:#80bfff}
+.reading-inline-review{display:block;margin:7px 0 12px;padding:0;font-size:.88em;line-height:1.45;border:0;background:transparent}
+.reading-review-student,.reading-review-correct,.reading-review-alternatives{margin:3px 0}
+.reading-inline-review[data-general-result="correct"] .reading-review-student,.reading-review-correct{color:rgb(var(--band-good))}
+.reading-inline-review[data-general-result="incorrect"] .reading-review-student{color:rgb(var(--band-bad))}
+.reading-inline-explanation{margin-top:6px;color:rgb(var(--ink-900));font-size:inherit}
+.reading-inline-explanation summary{cursor:pointer;font-weight:600;color:rgb(var(--accent-strong));padding:5px 0}
+.reading-inline-explanation p{margin:4px 0 8px;padding-inline-start:12px;border-inline-start:2px solid rgb(var(--ink-100))}
+.reading-workspace [data-reading-verdict="correct"] input:checked{accent-color:rgb(var(--band-good))}
+.reading-workspace [data-reading-verdict="incorrect"] input:checked{accent-color:rgb(var(--band-bad))}
+.reading-workspace :is(input,select)[data-reading-verdict="correct"]{outline:1px solid rgb(var(--band-good))}
+.reading-workspace :is(input,select)[data-reading-verdict="incorrect"]{outline:1px solid rgb(var(--band-bad))}
+.reading-question-numbers button[data-reading-verdict="correct"]{background:rgb(var(--band-good));color:rgb(var(--paper));border-color:rgb(var(--band-good))}
+.reading-question-numbers button[data-reading-verdict="incorrect"]{background:rgb(var(--band-bad));color:rgb(var(--paper));border-color:rgb(var(--band-bad))}
+.reading-review-statistics{margin-top:24px;border-top:1px solid rgb(var(--ink-100));padding-top:12px}
+.reading-review-statistics>summary{cursor:pointer;font-weight:600;margin-bottom:12px}
+html[data-theme] #root .reading-focus .reading-question-blocks [data-question].card{border:0!important;border-radius:0!important;box-shadow:none!important}
