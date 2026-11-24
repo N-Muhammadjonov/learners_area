@@ -146,7 +146,7 @@ await check('Start errors: a rate-limited General start shows the mapped rate-li
 
 for(const theme of (localFixture?['day','night']:['day']))await check('Completion refresh ('+theme+'): a double-click on Check sends one check, keeps answers, shows the result, and the overview reflects it',async()=>{
  let checked=false;
- const rows=[{questionId:Q1,isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:[],evidenceQuote:'Paragraph A text.',explanation:'Synthetic explanation'},{questionId:Q2,isCorrect:false,correctAnswer:'90',acceptedAnswers:[],evidenceQuote:null,explanation:null},{questionId:Q3,isCorrect:true,correctAnswer:'B — Option two',acceptedAnswers:[],evidenceQuote:null,explanation:null}];
+ const rows=[{questionId:Q1,isCorrect:true,correctAnswer:'TRUE',acceptedAnswers:[],evidenceQuote:'Water boils at one hundred degrees.',explanation:'Synthetic explanation'},{questionId:Q2,isCorrect:false,correctAnswer:'90',acceptedAnswers:[],evidenceQuote:null,explanation:null},{questionId:Q3,isCorrect:true,correctAnswer:'B — Option two',acceptedAnswers:[],evidenceQuote:null,explanation:null}];
  const view=(rt)=>{const path=rt.split('?')[0];if(path===`/app/reading/general/${GSET}`){const progress=checked?{[P1]:{answers:{[Q2]:'90'},score:2,total:3,checked:true,result:rows}}:{};return {kind:'general_set',...generalSet({progress})};}if(rt.startsWith('/app/reading/general'))return libraryData(checked?{library:{items:[{id:GP,title:'Synthetic general passage',setId:null,questionTypes:['true_false_not_given'],topicCode:'science',questionCount:3,suggestedMinutes:20,status:'completed',lastScore:2,lastAttemptId:null,passageNo:null,testNo:null}],total:1,page:1,pageCount:1}}:{});return undefined;};
  const {context,page,errors,state}=await fixture({view,theme,api:async(p,{method,body})=>{if(p==='/api/reading/general/progress'&&method==='POST'){if(body.check){checked=true;return {ok:true,score:2,total:3,result:rows};}return {ok:true,updatedAt:new Date().toISOString(),score:null,total:null,result:null};}return undefined;}});
  try{
@@ -180,6 +180,14 @@ for(const theme of (localFixture?['day','night']:['day']))await check('Completio
   assert.equal(state.requests.filter(r=>r.method==='POST'&&r.path==='/api/reading/general/progress'&&r.body?.check===true).length,1,'exactly one check write');
   assert.equal(await page.locator(`[data-answer-input="${Q2}"]`).inputValue(),'90','the answer is kept after the check');
   assert.equal(await page.locator('[data-general-result]').count(),3);
+  assert.equal(await page.locator('[data-reading-evidence-mark][data-evidence-questions="'+Q1+'"]').first().getAttribute('data-evidence-label'),'Q1');
+  assert.equal(await page.locator('[data-reading-explanation]').count(),3);
+  assert.equal(await page.locator('[data-reading-explanation="'+Q1+'"]').getAttribute('open'),null);
+  await page.locator('[data-reading-explanation="'+Q1+'"] summary').click();
+  assert.equal(await page.locator('[data-reading-explanation="'+Q1+'"]').getAttribute('open'),'');
+  assert.equal(await page.locator('[data-general-passage-tab]').evaluate(n=>n.tagName),'SPAN');
+  assert.equal(await page.locator('[data-reading-inline-review="'+Q1+'"] .reading-review-correct').count(),0);
+  assert.equal(await page.locator('[data-reading-inline-review="'+Q2+'"] .reading-review-correct').count(),1);
   assert.ok((await page.locator('[data-general-score]').innerText()).includes('2'),'the latest score is shown');
   await page.locator('[data-general-back]').click();
   await page.waitForURL(/\/app\/reading\/general$/,{timeout:6000});
@@ -233,6 +241,53 @@ await check('Academic exam: typing keeps the passage node and the answer input, 
   assert.equal(await page.evaluate(()=>(document.querySelector('[data-exam-passage-text]')??document.querySelector('[data-passage-body]'))===window.__pn),true,'passage node kept');
   assert.ok(patches.length>=1,'autosave sent');
   assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+});
+
+for(const theme of ['day','night'])await check('Academic CD review ('+theme+'): source layout, evidence, explanations and pre-submit answer privacy',async()=>{
+ let finished=false;
+ const sourceHtml='<div class="pass-title">Synthetic passage</div><p>Paragraph A text. Water boils at one hundred degrees.</p>';
+ const authoredGroups=[{...groups[0],sourceHtml:'<table><tr><td><span class="fqn">1</span><input data-source-numbers="1"></td></tr><tr><td><span class="fqn">2</span><input data-source-numbers="2"></td></tr><tr><td><span class="fqn">3</span><input data-source-numbers="3"></td></tr></table>'}];
+ const baseQuestions=questions.map(q=>({...q,passageId:P1}));
+ const completedQuestions=baseQuestions.map((q,i)=>({...q,correctAnswer:['TRUE','one hundred','B — Option two'][i],acceptedAnswers:[],evidenceQuote:i===0?'Paragraph A text.':i===1?'Water boils at one hundred degrees.':null,explanation:'Reason '+(i+1)}));
+ const answers=baseQuestions.map((q,i)=>({questionId:q.id,userAnswer:['true','90','B — Option two'][i],isCorrect:i!==1}));
+ const view=rt=>{
+  if(rt.split('?')[0]!== '/app/reading/attempts/'+ATT)return undefined;
+  const d=attemptBase(finished?'completed':'in_progress');
+  const qs=finished?completedQuestions:baseQuestions;
+  return {kind:'attempt',detail:{...d,attempt:{...d.attempt,score:finished?2:null,totalQuestions:3},passage:{...d.passage,id:P1},groups:authoredGroups,questions:qs,answers:finished?answers:[],sections:[{passage:{...d.passage,id:P1,sourceHtml},paragraphs:d.paragraphs,groups:authoredGroups,questions:qs}]}};
+ };
+ const {context,page,errors}=await fixture({view,theme});
+ try{
+  await page.goto(base+'/app/reading/attempts/'+ATT);
+  await page.locator('#answer-'+Q2).waitFor();
+  assert.equal(await page.locator('[data-reading-evidence-mark],[data-reading-inline-review]').count(),0,'no answer key or evidence before grading');
+  assert.equal(await page.locator('#reading-questions-pane table tr').count(),3,'authored table remains in exam');
+  assert.equal(await page.locator('[data-submit-attempt]').count(),1,'timed exam retains its submit action');
+  assert.equal(await page.locator('[data-reading-review-shell]').count(),0,'no ordinary shell inserted into live exam');
+  finished=true;await page.reload();
+  await page.locator('[data-reading-inline-review="'+Q2+'"]').waitFor();
+  await page.locator('[data-reading-review-shell] [data-shell-topbar]').waitFor();
+  assert.equal(await page.locator('#reading-questions-pane table tr').count(),3,'same table remains in review');
+  assert.equal(await page.locator('#answer-'+Q2).inputValue(),'90');
+  assert.equal(await page.locator('#answer-'+Q2).isDisabled(),true);
+  assert.equal(await page.locator('[data-reading-inline-review="'+Q1+'"] .reading-review-correct').count(),0);
+  assert.equal(await page.locator('[data-reading-inline-review="'+Q2+'"] .reading-review-correct').count(),1);
+  assert.equal(await page.locator('[data-reading-explanation]').count(),3);
+  assert.equal(await page.locator('[data-evidence-label="Q1"]').count(),1);
+  assert.equal(await page.locator('[data-evidence-label="Q2"]').count(),1);
+  await page.locator('[data-reading-explanation="'+Q1+'"] summary').click();
+  assert.equal(await page.locator('[data-reading-explanation="'+Q1+'"]').getAttribute('open'),'');
+  await page.setViewportSize({width:390,height:844});
+  await page.locator('[role=tab][aria-controls=reading-questions-pane]').click();
+  await page.locator('[data-reading-explanation="'+Q2+'"] summary').click();
+  assert.equal(await page.locator('[data-reading-explanation="'+Q2+'"]').getAttribute('open'),'');
+  await page.locator('[role=tab][aria-controls=reading-passage-pane]').click();
+  await page.locator('[data-evidence-label="Q2"]').waitFor();
+  assert.deepEqual(errors,[]);
+ }catch(error){
+  console.error('Academic review diagnostic',JSON.stringify({url:page.url(),text:(await page.locator('body').innerText().catch(()=>'?')).slice(0,1200),errors}));
+  throw error;
  }finally{await context.close();}
 });
 

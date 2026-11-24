@@ -7,13 +7,12 @@ import {api} from '../../js/api-client.js';
 import {questionType} from '../../js/generated/reading-lib/question-types.js';
 import {readingQuestionType} from '../../js/generated/reading-lib/question-model.js';
 import {questionTypeLabel} from '../../js/generated/reading-lib/reading-labels.js';
-import {isUnstatedAnswer} from '../../js/generated/reading-lib/unstated.js';
 import {occurrenceSpans} from '../../js/generated/reading-lib/occurrence-spans.js';
 import {groupHeading,groupQuestions,questionCard} from './questions.js';
 import {readingHighlighted} from './lesson-text.js';
 import {createWorkspace} from './workspace.js';
 import {failure} from '../../js/request-errors.js';
-import {evidence} from './analysis.js';
+import {bindEvidence,evidenceRanges,inlineReview} from './inline-review.js';
 import {missing} from '../listening/catalogue-v9.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 /** Original (focus)/reading/general/[setId]/page.tsx + GeneralReadingSession.tsx (LEARNING mode). One passage per
@@ -113,7 +112,7 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  const highlightScope=`${userId}:${setId}`;
  const first=passage.questions[0]?.questionNo??1,last=passage.questions.at(-1)?.questionNo??first;
  const range=dict.readingWorkspace.questionRange.replace('{from}',String(first)).replace('{to}',String(last));
- const groups=passage.groups??[];
+ const groups=passage.groups??[],expanded=new Set();
  // The passage is static for this session: it is built once and never rebuilt on an answer.
  function buildPassage(){
   return el('div',{},
@@ -128,20 +127,21 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
  }
  function buildQuestions(){
   const answers=state.answers;
-  return el('div',{'data-general-questions':true},
+  const paper=el('div',{'data-general-questions':true},
    el('h2',{class:'reading-pane-heading'},range),
    passage.questions.length===0?el('p',{},t.noQuestions):null,
    el('fieldset',{class:'reading-question-blocks',disabled:state.leaving?true:null},
     groups.map(group=>el('section',{class:'reading-question-group'},groupHeading(dict,group),groupQuestions(context,{dict,group,questions:passage.questions.filter(q=>q.groupId===group.id),answers,onChange:setAnswer}))),
     passage.questions.filter(q=>!q.groupId||!groups.some(g=>g.id===q.groupId)).map(q=>questionCard(context,{dict,question:q,group:null,value:answers[q.id]??'',onChange:v=>setAnswer(q.id,v),inputId:`answer-${q.id}`}))),
-   feedback(state.check,t,dict,passage),
    state.error?el('p',{role:'alert',class:'reading-error'},state.error):null);
+  if(state.check)inlineReview(paper,{dict,questions:passage.questions,rows:state.check.rows,answers,expanded});
+  return paper;
  }
  function buildNavigation(){
   return el('div',{class:'reading-part-navigation','data-general-passage-tabs':true},el('div',{class:'reading-part-navigation'},
-   el('button',{type:'button',class:'reading-part-button','aria-pressed':'true','data-general-passage-tab':String(passage.passageNo)},t.passageN.replace('{n}',String(passage.passageNo))),
+   el('span',{class:'reading-part-label','data-general-passage-tab':String(passage.passageNo)},t.passageN.replace('{n}',String(passage.passageNo))),
    el('div',{class:'reading-question-numbers'},passage.questions.map(q=>{
-    const b=el('button',{type:'button','data-reading-question-nav':q.id,'data-answered':(state.answers[q.id]??'').trim()?'true':'false','aria-label':`${dict.reading.yourAnswer} ${q.questionNo??q.order}`},String(q.questionNo??q.order));
+    const b=el('button',{type:'button','data-reading-question-nav':q.id,'data-answered':(state.answers[q.id]??'').trim()?'true':'false','data-reading-verdict':state.check?.rows.find(r=>r.questionId===q.id)?.isCorrect===true?'correct':state.check?.rows.some(r=>r.questionId===q.id)?'incorrect':null,'aria-label':`${dict.reading.yourAnswer} ${q.questionNo??q.order}`},String(q.questionNo??q.order));
     b.addEventListener('click',()=>{state.pane='questions';draw();requestAnimationFrame(()=>focusQuestion(q.id));});return b;}))));
  }
  function buildAction(){
@@ -169,20 +169,14 @@ function mountSession(context,{setId,userId,passage,initialProgress,mode,root}){
   setPane:v=>{state.pane=v;ws.update({pane:v});},setFont:f=>{state.fontSize=Math.max(14,Math.min(22,f));ws.update({});}});
  host.replaceChildren(ws.root);
  const passagePane=buildPassage();
+ const evidenceRoot=passagePane.querySelector('[data-reading-source],[data-passage-body]')??passagePane;
+ const updateEvidence=bindEvidence(evidenceRoot,passage.body,signal);let painted;
  function draw(){
   if(signal.aborted)return;
+  if(painted!==state.check){painted=state.check;updateEvidence(evidenceRanges(passage.body,passage.questions,state.check?.rows??[]));}
   const saveStatus=el('span',{class:'sr-only',role:'status','data-general-save-state':state.status},
    state.status==='saving'?t.saving:state.status==='saved'?t.saved:'');
   ws.update({passagePane,questionsPane:buildQuestions(),navigation:[buildBackButton(),buildNavigation(),saveStatus],action:buildAction(),pane:state.pane});
  }
  draw();
-}
-/** Original `<ol className="reading-feedback">`: each checked question with its key, accepted answers, evidence and explanation. */
-function feedback(check,t,dict,passage){
- return el('ol',{class:'reading-feedback'},(check?.rows??[]).map(row=>el('li',{'data-general-question':row.questionId},el('div',{'data-general-result':row.isCorrect?'correct':'incorrect'},
-  el('p',{},`${row.isCorrect?'✓':'✗'} ${t.correctAnswer.replace('{answer}',row.correctAnswer)}`),
-  row.acceptedAnswers?.length?el('p',{'data-general-accepted':true},`${dict.readingPractice.acceptedAnswers}: ${row.acceptedAnswers.join(' / ')}`):null,
-  row.evidenceQuote?el('p',{'data-general-evidence':true},`${t.evidence} ${row.evidenceQuote}`):(isUnstatedAnswer(row.correctAnswer)?null:el('p',{'data-general-evidence-missing':true},dict.readingV4.evidenceMissing)),
-  (row.evidenceQuote||isUnstatedAnswer(row.correctAnswer))?evidence({dict},{dict,body:passage.body,title:passage.title,quote:row.evidenceQuote??'',unstated:isUnstatedAnswer(row.correctAnswer)}):null,
-  row.explanation?el('p',{'data-general-explanation':true},`${dict.reading.explanation}: ${row.explanation}`):el('p',{'data-general-explanation-missing':true},dict.readingV4.explanationMissing)))));
 }

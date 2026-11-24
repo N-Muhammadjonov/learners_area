@@ -50,7 +50,7 @@ export function focusFrame(context,staging){
  body.append(...staging.childNodes);
  const parent=examParent();
  if(parent)top.querySelector('[data-campus-back-link]').setAttribute('href',parent);
- frame.append(top,body);
+ if(readingWorkspace){const band=el('div',{'data-workspace-header':''},top);frame.append(band,body);}else frame.append(top,body);
  if(!listeningAttempt)frame.append(shellUtilities(context).node);
  return frame;
 }

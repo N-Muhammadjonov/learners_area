@@ -8,6 +8,7 @@ import {RegionFailureNotice} from '../shared/presentation.js';
 import {missing} from '../listening/catalogue-v9.js';
 import {mountExam} from './exam.js';
 import {cdReview as mountAnalysis} from './cd-review.js';
+import {createTopbar} from '../shell/layout.js';
 /** Original src/app/app/(focus)/reading/attempts/[id]/page.tsx. An open attempt is the exam; a finished one is the
  * analysis. The original's 404 rules (malformed id, unknown row) are answered by the not-found presentation. */
 export function mountAttempt(context){
@@ -23,7 +24,7 @@ export function mountAttempt(context){
    const types=d.questions.map(q=>readingQuestionType(q.typeCode??q.type)?.id);
    const notice=requested&&types.includes(requested)?el('p',{class:'body-text','data-requested-reading-type':requested},`${dict.readingV4.requestedType}: ${questionTypeLabel(requested,locale)}. ${dict.readingV4.wholePassage}`):null;
    host.replaceChildren(notice??'');
-   const body=el('div',{class:d.attempt.status==='in_progress'?'reading-fill':''});host.append(body);
+   const body=el('div',{class:'reading-fill'});host.append(body);
    const passageMeta=d.passage.testNo!=null&&d.passage.passageNo!=null?dict.readingPractice.passageMeta.replace('{test}',String(d.passage.testNo)).replace('{passage}',String(d.passage.passageNo)):null;
    if(d.attempt.status==='in_progress'){
     const sections=d.sections;
@@ -35,10 +36,13 @@ export function mountAttempt(context){
      draftHash:d.draftHash,savedAnswers:Object.fromEntries(d.answers.filter(a=>a.isCorrect===null).map(a=>[a.questionId,a.userAnswer])),
      questions:d.questions.map(publicQuestion)});
    }else{
+    const {top}=createTopbar(context);
+    const reviewShell=el('div',{'data-shell':'','data-campus-shell':'','data-ui-system':'','data-reading-review-shell':'',class:'flex min-h-0 flex-1 flex-col overflow-hidden'},el('div',{'data-workspace-header':''},top),body);
+    host.append(reviewShell);
     body.append(mountAnalysis({...context,root:body},{
      attemptId:id,score:d.attempt.score,total:d.attempt.totalQuestions,questions:d.questions,groups:d.groups,answers:d.answers,
      passageBody:d.passage.bodyText,passageTitle:d.passage.title,passageLevel:d.passage.difficultyLevel,occurrences:d.occurrences,
-     passages:d.sections.map(s=>({id:s.passage.id,title:s.passage.title,body:s.passage.bodyText,sourceHtml:s.passage.sourceHtml})),
+     passages:d.sections.map(s=>({id:s.passage.id,title:s.passage.title,body:s.passage.bodyText,sourceHtml:s.passage.sourceHtml,questionIds:s.questions.map(q=>q.id)})),
     }));
    }
   }catch(e){

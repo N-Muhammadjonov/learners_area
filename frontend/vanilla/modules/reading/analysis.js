@@ -42,6 +42,7 @@ export function mountAnalysis(context,p){
    el('span',{class:'w-12 shrink-0 text-right font-mono text-xs text-ink-500'},`${row.correct}/${row.total}`)))),
   weakest?el('p',{class:'text-xs text-ink-500'},`${dict.reading.weakTypeNote}: `,el('strong',{class:'text-ink-900'},questionTypeLabel(weakest.type,locale)),` (${weakest.correct}/${weakest.total})`):null));
  if(p.passageBody&&attemptId)root.append(retentionCheck(context,{passageTitle:p.passageTitle,passageBody:p.passageBody,passageLevel:p.passageLevel,sourceId:attemptId,occurrences:p.occurrences,lexicalAssistance:true}));
+ if(p.summaryOnly)return root;
  for(const [index,q] of ordered.entries()){
   const evidencePassage=p.passages.find(x=>x.id===q.passageId),a=answerBy.get(q.id),group=q.groupId?groupById.get(q.groupId):undefined;
   const isNewGroup=!!group&&ordered[index-1]?.groupId!==group.id;
