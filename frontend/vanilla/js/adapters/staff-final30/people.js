@@ -8,6 +8,26 @@ export function validateDirectory(d){
  return {people:arr(d.people,500).map(person),filters:{q:str(f.q??'',{max:100}),role:f.role==null?undefined:oneOf(f.role,ROLES),status:f.status==null?undefined:oneOf(f.status,STATUSES),online:f.online===undefined?false:bool(f.online)},page,pageSize,total,totalPages,onlineCount:d.onlineCount==null?null:int(d.onlineCount),actorId:d.actorId,actorRole:oneOf(d.actorRole,ROLES),grantableRoles:arr(d.grantableRoles,4).map(r=>oneOf(r,ROLES))};
 }
 export const directory=(query,signal)=>staffData('people',query,signal).then(validateDirectory);
+/** Owner-only, server-sampled presence. No historical values are fabricated. */
+export function validateOwnerPresence(d){
+ if(!isObj(d))throw bad();
+ const member=p=>{
+  if(!isObj(p)||!UUID.test(p.id))throw bad();
+  return {id:p.id,name:str(p.name,{max:300}),role:oneOf(p.role,ROLES),
+   seenAt:date(p.seenAt),path:p.path==null?null:str(p.path,{max:180}),
+   visitSeconds:int(p.visitSeconds,{min:0})};
+ };
+ const samples=arr(d.buckets,288).map(b=>{
+  if(!isObj(b))throw bad();
+  return {bucketStart:date(b.bucketStart),activeUsers:int(b.activeUsers,{min:0})};
+ });
+ if(d.sampleWindowMinutes!==5||d.onlineThresholdSeconds!==90)throw bad();
+ return {onlineNow:int(d.onlineNow,{min:0}),todayVisitors:int(d.todayVisitors,{min:0}),
+  peakFiveMinute:int(d.peakFiveMinute,{min:0}),truncated:bool(d.truncated),
+  historyStartedAt:date(d.historyStartedAt,{nullable:true}),
+  sampleWindowMinutes:5,people:arr(d.people,500).map(member),buckets:samples};
+}
+export const ownerPresence=signal=>staffData('owner-presence',{},signal).then(validateOwnerPresence);
 export function validateAdmissions(d){
  const req=r=>{if(!isObj(r)||!UUID.test(r.id))throw bad();return {id:r.id,applicantName:str(r.applicantName,{max:300}),applicantEmail:str(r.applicantEmail,{nullable:true,max:320}),message:str(r.message,{nullable:true,max:5000}),createdAt:date(r.createdAt)};};
  const rec=r=>{if(!isObj(r)||!UUID.test(r.id))throw bad();return {id:r.id,applicantName:str(r.applicantName,{max:300}),decidedAt:date(r.decidedAt,{nullable:true})};};
