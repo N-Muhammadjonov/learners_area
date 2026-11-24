@@ -512,8 +512,7 @@ async def presence(req: Request):
         await conn.execute("""INSERT INTO site_presence_samples(user_id,bucket_start,last_seen_at)
           VALUES($1::uuid, date_trunc('hour',now()) +
             floor(extract(minute FROM now())/5)::int * interval '5 minutes',now())
-          ON CONFLICT(user_id,bucket_start) DO UPDATE
-            SET last_seen_at=greatest(site_presence_samples.last_seen_at,excluded.last_seen_at)""",
+          ON CONFLICT(user_id,bucket_start) DO NOTHING""",
             str(user['id']))
     return Response(status_code=204, headers=PRIVATE)
 
