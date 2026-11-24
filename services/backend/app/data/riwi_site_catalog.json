@@ -2214,7 +2214,7 @@
     "frontend/vanilla/css/global.css": "a44b43c3f452f83fd42acaf48eb8dcb21fccb9f95e66d77e09693d59c3232a9c",
     "frontend/vanilla/css/riwi.css": "e75b4866e6a8854fb110f409e699780fe0977a8d6a89b24f517aa79d8ed84188",
     "frontend/vanilla/css/source.css": "e48ccbde3e66773ed7e5625e7c33c625c12c11808c3c2bbccbdef8ff2efb00ce",
-    "services/backend/app/browser_staff.py": "2e7d1076b818b3b78dd1b3a66417ef133d84adec4e8ca571b8a638cdb2fa5d3a",
+    "services/backend/app/browser_staff.py": "21e236225bf097a7cecc0dd129527605b3e4653a7920857d0126d1a5537a9c5f",
     "services/backend/app/browser_authoring.py": "b115e2b037f61b165852e3c0f06e84a280f9288e8a51f9fda0118e810983ecdc",
     "services/backend/app/admin_authoring_port.py": "c89f731cf17b0b576455b9f61c9b7a47801786ed96e59a3e5b2bfa7bb24ebedf",
     "services/backend/app/riwi_capabilities.py": "79aacd64aad31546a8cee835096c4a9397422aeb114775a42a91a5ff15dddb7b",
