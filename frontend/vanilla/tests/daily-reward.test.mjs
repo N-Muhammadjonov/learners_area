@@ -27,11 +27,10 @@ test('daily popup never claims until the user presses Claim, then shows receipt'
   dialog.querySelector('[data-daily-reward-claim]').click();await tick();
   assert.equal(calls.filter(row=>row.path.endsWith('/claim')).length,1);
   assert.equal(calls.find(row=>row.path.endsWith('/claim')).options.method,'POST');
-  assert.match(dialog.textContent,/Earned \+3 coins today/);
-  assert.equal(dialog.querySelector('[data-daily-reward-claim]').disabled,true);
-  assert.match(dialog.textContent,/Balance: 19/);
-  dialog.querySelector('a').click();await tick();assert.equal(document.querySelector('[data-daily-reward]'),null);
-  assert.equal(h.nav[0].path,'/app/study-plan/rewards?view=earn');
+  assert.equal(document.querySelector('[data-daily-reward]'),null,
+   'a verified daily claim must dismiss the modal without an X click');
+  assert.equal(h.nav.length,0,'claim keeps the user on the current page');
+  assert.equal(h.dom.window.localStorage.getItem('la:daily-reward-seen:v2:'+ID(1)+':2026-11-17'),'1');
   rewards.update(h.ctx);await tick();assert.equal(document.querySelector('[data-daily-reward]'),null);
  }finally{h.dispose();}
 });
