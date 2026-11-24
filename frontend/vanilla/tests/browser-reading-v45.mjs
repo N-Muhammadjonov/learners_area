@@ -133,6 +133,15 @@ await check('Completion refresh: a double-click on Check sends one check, keeps 
   await page.locator(`[data-answer-input="${Q2}"]`).waitFor();
   await page.locator(`[data-answer-input="${Q2}"]`).fill('90');
   await page.locator('[data-general-save-state="saved"]').waitFor({timeout:6000});
+  for(const viewport of [{width:1440,height:900},{width:390,height:844},{width:1440,height:900}]){
+   await page.setViewportSize(viewport);
+   const check=page.locator('[data-general-check]');
+   await check.waitFor({state:'visible'});
+   const bounds=await check.boundingBox();
+   assert(bounds&&bounds.x>=0&&bounds.y>=0&&bounds.x+bounds.width<=viewport.width&&bounds.y+bounds.height<=viewport.height,'Check stays inside the viewport '+JSON.stringify(viewport));
+   const exposed=await check.evaluate(node=>{const r=node.getBoundingClientRect();return node.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2));});
+   assert(exposed,'Check is not covered by the support launcher');
+  }
   await page.locator('[data-general-check]').dblclick();
   await page.locator('[data-general-result]').first().waitFor({timeout:6000});
   await page.waitForTimeout(300);

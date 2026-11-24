@@ -32,6 +32,26 @@ test('every Listening detail keeps the ordinary header design scope and preferen
   }
  }finally{h.dispose();}
 });
+test('Reading practice keeps the shared header and bounded flex body even after its workspace is mounted',()=>{
+ const {h,shell}=shellFixture('/app/reading/general');
+ try{
+  for(const path of ['/app/reading/general/set-id','/app/reading/academic/set-id']){
+   const staging=document.createElement('div');
+   staging.innerHTML='<main class="reading-focus" data-reading-full-focus><header class="reading-workspace-header"></header><button data-general-check>Check</button></main>';
+   const paper=staging.firstElementChild;
+   const frame=focusFrame({...h.ctx,url:new URL(path,h.ctx.url)},staging);
+   h.ctx.root.replaceChildren(frame);
+   assert(frame.hasAttribute('data-ui-system'),path);
+   const top=frame.querySelector('[data-shell-topbar]');
+   assert(top.querySelector('[data-campus-back-link]'),path);
+   for(const selector of ['[data-campus-header-search]','[data-campus-header-preferences]','[data-campus-header-profile]'])assert(top.querySelector(selector),path);
+   assert.equal(frame.querySelector('[data-profile-menu-trigger]').className,shell.host.querySelector('[data-profile-menu-trigger]').className,path);
+   assert.equal(frame.querySelector('[data-reading-full-focus]'),paper,path);
+   assert(frame.querySelector('[data-shell-main]').classList.contains('flex-col'),path);
+   assert(frame.querySelector('[data-shell-main]').classList.contains('min-h-0'),path);
+  }
+ }finally{h.dispose();}
+});
 test('ordinary modules and Management use the Dock without a Main control, sidebar or hamburger',async()=>{
  const {h,shell}=shellFixture('/app/management');
  try{
