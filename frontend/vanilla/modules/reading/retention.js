@@ -10,6 +10,7 @@ import {RegionFailureNotice} from '../shared/presentation.js';
  * text leaves state the moment the reading window closes (the awaiting phase keeps only ids and deadlines). The
  * recall draft autosaves; submit is confirmed by the server before the result shows. Every POST is sent once. */
 const LEVELS=['A2','B1','B2','C1','C2'],TARGET={A2:110,B1:175,B2:260,C1:300,C2:415},READ_SECONDS=120;
+const levelQuery=level=>LEVELS.includes(level)?'?level='+level:'';
 const clock=s=>{const safe=Math.max(0,s);return `${Math.floor(safe/60)}:${String(Math.floor(safe%60)).padStart(2,'0')}`;};
 const remaining=(iso,skew)=>iso?Math.ceil((Date.parse(iso)-(Date.now()+skew))/1000):0;
 export function mountRetention(context){
@@ -38,8 +39,9 @@ export function mountRetention(context){
    const raw=await viewData(url.pathname+url.search,signal);if(signal.aborted)return;
    const data=readingRetentionDTO(raw);
    if(isActive(data.initial)){
-    if(!url.searchParams.has('overview')){void context.navigate('/app/reading/retention/session',{replace:true});return;}
-    const continueButton=el('a',{href:'/app/reading/retention/session',class:'btn-primary w-fit','data-retention-resume':''},'Mashqni davom ettirish →');
+    const sessionHref='/app/reading/retention/session'+levelQuery(url.searchParams.get('level'));
+    if(!url.searchParams.has('overview')){void context.navigate(sessionHref,{replace:true});return;}
+    const continueButton=el('a',{href:sessionHref,class:'btn-primary w-fit','data-retention-resume':''},'Mashqni davom ettirish →');
     host.replaceChildren(el('section',{class:'panel flex flex-col gap-4','data-retention-active-overview':''},
      el('h2',{class:'section-title'},t.readingTitle),continueButton),
      summaryPanel(context,data),historySection(context,data.history));
@@ -57,17 +59,18 @@ export function mountRetention(context){
 /** Retention test uses its own route and Back control, not the catalogue panel. */
 export function mountRetentionSession(context){
  const {root,signal,dict,navigate}=context;
+ const scope=levelQuery(context.url?.searchParams.get('level'));
  const host=el('div',{class:'mx-auto flex max-w-6xl flex-col gap-4','data-retention-page':'session','data-route-usable':'retention-session'});
  root.append(host);
  async function load(){
   if(signal.aborted)return;
   host.replaceChildren(el('p',{class:'panel meta-text',role:'status','aria-busy':'true'},dict.common.loading));
   try{
-   const response=await api.request('/api/retention/attempts',{signal,fresh:true});
+   const response=await api.request('/api/retention/attempts'+scope,{signal,fresh:true});
    if(signal.aborted)return;
    const active=response?.active??null;
-   if(!isActive(active)){void navigate('/app/reading/retention',{replace:true});return;}
-   const back=el('a',{href:'/app/reading/retention?overview=1',class:'btn-ghost inline-flex min-h-11 w-fit items-center gap-1','data-back-link':''},'← ',dict.common.back);
+   if(!isActive(active)){void navigate('/app/reading/retention'+scope,{replace:true});return;}
+   const back=el('a',{href:'/app/reading/retention'+(scope?scope+'&overview=1':'?overview=1'),class:'btn-ghost inline-flex min-h-11 w-fit items-center gap-1','data-back-link':''},'← ',dict.common.back);
    back.setAttribute('data-retention-session-back','');
    host.replaceChildren(back,el('section',{class:'panel','data-retention-session-region':''},
     retentionSession(context,active,()=>{})));
@@ -167,14 +170,14 @@ function retentionSession(context,initial,onTerminal){
   if(state.busy||state.unknown)return;state.busy=true;state.error=null;draw();
   const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),12000);
   try{const body=await api.request('/api/retention/attempts',{method:'POST',body:{level},signal:ctl.signal});if(!alive()){if(body?.attemptId)void fetch('/api/retention/attempts/'+encodeURIComponent(body.attemptId),{method:'DELETE',credentials:'same-origin',cache:'no-store',keepalive:true}).catch(()=>{});return;}
-   if(body?.attemptId&&body?.phase){void navigate('/app/reading/retention/session');return;}
+   if(body?.attemptId&&body?.phase){void navigate('/app/reading/retention/session'+(levelQuery(planLevel)?levelQuery(level):''));return;}
    state.error=t.startUnknownOutcome;}
   catch(e){if(!alive())return;if(e?.code&&e.status&&e.status<500){state.error=errorText(e.code);}else{state.unknown=true;state.error=t.startUnknownOutcome;void recheck();}}
   finally{clearTimeout(timer);state.busy=false;if(alive())draw();}
  }
  async function recheck(){
   if(state.rechecking||!alive())return;state.rechecking=true;draw();
-  try{const body=await api.request('/api/retention/attempts',{signal});if(!alive())return;state.unknown=false;state.error=null;if(body.active)void navigate('/app/reading/retention/session');}
+  try{const scope=levelQuery(planLevel)?levelQuery(state.selected):'';const body=await api.request('/api/retention/attempts'+scope,{signal});if(!alive())return;state.unknown=false;state.error=null;if(body.active)void navigate('/app/reading/retention/session'+scope);}
   catch{if(alive())state.error=t.startUnknownOutcome;}
   finally{state.rechecking=false;if(alive())draw();}
  }

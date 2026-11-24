@@ -95,3 +95,17 @@ async def test_new_attempt_starts_with_two_minutes_to_read_and_five_to_write(mon
     reading_starts, writing_starts, writing_ends = recorded[0]
     assert writing_starts - reading_starts == timedelta(minutes=2)
     assert writing_ends - writing_starts == timedelta(minutes=5)
+
+
+@pytest.mark.asyncio
+async def test_plan_level_filters_active_recall_without_filtering_history(monkeypatch):
+    calls = []
+
+    async def existing(req, url):
+        calls.append(url)
+        return {'active': None} if '/attempts' in url else {'visible': True}
+
+    monkeypatch.setattr(reading, 'existing', existing)
+    result = await reading.read(None, {'id': 'learner'}, '/app/reading/retention', {'level': 'A2'})
+    assert result['initial'] is None
+    assert calls == ['/api/retention/attempts?level=A2', '/api/retention/summary', '/api/retention/history']

@@ -13,6 +13,7 @@ from .reading_schedules import activate_reading_schedules
 from .step21_reading_port import TYPE_IDS, correct
 from .step21_academic_start_port import OMISSIONS, eligible
 from .step17_mcq_port import staff
+from .step20_retention_transitions_port import RETENTION_LEVELS
 
 SECRET = {'correctAnswer','acceptedAnswers','evidenceQuote','explanation','answerKey'}
 
@@ -236,7 +237,9 @@ async def read(req, user, path, q):
         # Each read owns one region. A history/summary outage must not remove
         # the level selector or the learner's still valid reading session.
         values = {}
-        for region, endpoint in (('session','attempts'),('summary','summary'),('history','history')):
+        level = q.get('level')
+        attempts = 'attempts?level=' + level if level in RETENTION_LEVELS else 'attempts'
+        for region, endpoint in (('session',attempts),('summary','summary'),('history','history')):
             try:
                 values[region] = await existing(req, '/api/retention/'+endpoint)
             except Exception as error:

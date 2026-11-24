@@ -2000,7 +2000,7 @@
     "frontend/vanilla/modules/reading/reading-popover.css": "fc59b8ba3bd1ab847bb5e95eb75277563543f0a384e3dfe5eeb83a584d35c3da",
     "frontend/vanilla/modules/reading/reading-workspace.css": "a1e864d3271448d4dd80b752875b39146ef79b005026a3a82607363172c417b9",
     "frontend/vanilla/modules/reading/retention-check.js": "09206b5fcfc6ffe5c82f15562d3f71274c741f180942bbce3ffc406edbdcbcb8",
-    "frontend/vanilla/modules/reading/retention.js": "811c867e3d423bbcd1826c20ce2d772aff46e0ae68e39d897b1e007053b4ab15",
+    "frontend/vanilla/modules/reading/retention.js": "9ecabd2e254032c9c84d0a7641c1b53d3482084960908761f153bcb4ed1f6c25",
     "frontend/vanilla/modules/reading/source-layout.js": "41c1d839b80d4758cf4959b237f5e6f56a309d1fac58101794b7bf785e8250dc",
     "frontend/vanilla/modules/reading/source-text.js": "42a0de6db937451d77109fc68a335a5d5b970e177aad69503df4e39587eb139d",
     "frontend/vanilla/modules/reading/start.js": "db17f57a39706da0f7c950cc4e5e7c2a8acbd883904a77499e8c88bad08fb860",

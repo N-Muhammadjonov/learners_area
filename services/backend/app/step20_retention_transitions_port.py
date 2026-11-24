@@ -10,6 +10,7 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
 router=APIRouter()
+RETENTION_LEVELS = frozenset(('A2','B1','B2','C1','C2'))
 RECALL_SECONDS = 300
 STATUS={'retention_no_content':404,'retention_invalid_level':400,'retention_invalid_structure':422,'retention_scoring_failed':500,'retention_attempt_not_found':404,'retention_expired':410,'retention_wrong_phase':409,
         'retention_invalid_input':400,'retention_unavailable':500}
