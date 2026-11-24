@@ -106,9 +106,10 @@ async def migrate(connection):
         if migration.name in deferred:
             continue
         for block in migration.read_text().split('--> statement-breakpoint'):
-            if block.strip():
+            statement = '\n'.join(line for line in block.splitlines() if not line.lstrip().startswith('--'))
+            if statement.strip():
                 try:
-                    await connection.execute(block)
+                    await connection.execute(statement)
                 except asyncpg.PostgresError as error:
                     raise RuntimeError(f'Could not apply {migration.name}') from error
     for relative in json.loads((BACKEND / 'tests/platform-migrations.json').read_text()):
