@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright-core');
 const root=fileURLToPath(new URL('../../',import.meta.url));
-export const documentFixture=(script,body='<div data-shell data-campus-shell data-dock-shell style="height:100dvh;overflow:hidden"><main data-shell-main style="min-height:400px"><h1>Fixture</h1></main></div>')=>`<!doctype html><html data-theme="day"><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/campus.css"><link rel="stylesheet" href="/css/dock.css"></head><body><div id="root">${body}</div><script type="module">${script}</script></body></html>`;
+export const documentFixture=(script,body='<div data-shell data-campus-shell data-dock-shell style="height:100dvh;overflow:hidden"><main data-shell-main style="min-height:400px"><h1>Fixture</h1></main></div>')=>`<!doctype html><html data-theme="day"><head><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/css/global.css"><link rel="stylesheet" href="/css/campus.css"><link rel="stylesheet" href="/css/dock.css"><link rel="stylesheet" href="/modules/shared/design-system.css"></head><body><div id="root">${body}</div><script type="module">${script}</script></body></html>`;
 export const dockFixture=documentFixture(`
 import {moduleDock} from '/modules/shell/dock.js';
 import dict from '/js/i18n/en.js';

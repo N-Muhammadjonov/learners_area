@@ -585,7 +585,7 @@ export default {
             "listen": "Listen to your recording",
             "temporary": "Temporary recording",
             "notSaved": "Audio is not saved. Only you can play it here; it disappears when you leave this lesson.",
-            "limit": "Maximum 3 minutes per recording.",
+            "limit": "Maximum {minutes} minutes per recording.",
             "requesting": "Waiting for microphone permission…",
             "preparing": "Preparing your recording…",
             "unavailable": "Microphone unavailable in this browser or device.",

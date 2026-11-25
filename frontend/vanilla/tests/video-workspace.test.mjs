@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
+import {REFLECTION_LIMIT_MS} from '../modules/video/reflection-recorder.js';
+import {createDirectPlayer} from '../modules/video/direct-player.js';
 import {createVideoStudio} from '../modules/video/studio.js';
 import {createVideoVocabulary} from '../modules/video/vocabulary.js';
 import {progressRatio,videoProgressText} from '../modules/shared/progress.js';
@@ -38,6 +40,9 @@ test('progress shows saved counts/time only in progress, and never guesses an un
 test('a saved provider duration restores missing metadata without changing authored duration',()=>{
  const data=fixture();data.videoLesson.durationSeconds=null;data.progress.playbackDurationSeconds=1000;
  assert.equal(videoStudioDTO(data).videoLesson.durationSeconds,1000);
+ data.coinsEarned=3;data.videoLesson.mediaKind='audio';
+ assert.equal(videoStudioDTO(data).coinsEarned,3);
+ assert.equal(videoStudioDTO(data).videoLesson.mediaKind,'audio');
  data.videoLesson.durationSeconds=600;assert.equal(videoStudioDTO(data).videoLesson.durationSeconds,600);
  data.progress.playbackDurationSeconds='untrusted';assert.throws(()=>videoStudioDTO(data));
 });
@@ -67,6 +72,8 @@ test('transcript is inline and exclusive, player and draft survive tab switches,
   h.click(h.q('[data-video-tab=ownNotes]'));await tick(15);
   const input=h.q('textarea');h.input(input,'Keep this draft');
   assert(h.q('[data-local-reflection]'));assert.equal(h.q('[data-local-reflection]').hidden,false);
+  assert.equal(REFLECTION_LIMIT_MS,1800000);
+  assert.match(h.q('[data-local-reflection]').textContent,/Maximum 30 minutes/);
   h.click(h.q('[data-video-tab=transcript]'));await tick(15);
   assert.equal(h.q('[data-video-transcript-region]').hidden,false);
   assert(h.q('[data-video-inline-transcript]'));assert.equal(document.querySelector('dialog'),null);
@@ -121,5 +128,62 @@ test('folder dialog cancellation does not save and false success remains an erro
   h.click(dialog.querySelector('[data-dictionary-confirm-folder]'));await tick();
   assert.equal(h.calls.at(-1).body.folderId,null);assert(dialog.open);assert.equal(dialog.querySelector('[role=alert]').hidden,false);
   assert.notEqual(h.q('article button').textContent,h.ctx.dict.videoLesson.vocabularySaved);
+ }finally{h.dispose();}
+});
+
+test('video shows the stored total and sends the terminal sample once with the current session',async()=>{
+ const h=setup({role:'student'});
+ globalThis.AbortController=window.AbortController;
+ const original=globalThis.fetch,requests=[];
+ globalThis.fetch=async(path,options)=>{
+  if(!String(path).startsWith('/api/coins/'))return {ok:false};
+  const body=JSON.parse(options.body);
+  requests.push(body);
+  return {ok:true,json:async()=>({sessionId:ID(10),awarded:body.ended?1:0,coinsEarned:body.ended?4:3})};
+ };
+ let studio;
+ try{
+  const video=fixture();
+  video.coinsEarned=3;
+  studio=createVideoStudio(h.ctx,{mode:'standalone',video});
+  h.ctx.root.append(studio.node);
+  const frame=h.q('iframe');
+  const emit=(event,info)=>window.dispatchEvent(new window.MessageEvent('message',{
+   data:JSON.stringify({event,info}),source:frame.contentWindow,origin:'https://www.youtube-nocookie.com',
+  }));
+  assert.match(h.q('[data-video-coin-award]').textContent,/^\+3 /);
+  emit('infoDelivery',{duration:600,currentTime:0,playerState:1});
+  emit('onStateChange',0);
+  emit('infoDelivery',{duration:600,currentTime:600,playerState:0});
+  await tick();
+  assert.equal(requests.length,2);
+  assert.equal(requests[1].sessionId,ID(10));
+  assert.equal(requests[1].positionMs,600000);
+  assert.equal(requests[1].ended,true);
+  assert.equal(requests[1].playing,true);
+  assert.match(h.q('[data-video-coin-award]').textContent,/^\+4 /);
+ }finally{studio?.destroy();globalThis.fetch=original;h.dispose();}
+});
+
+test('direct media resets its coin anchor across a seek and reports the end once',()=>{
+ const h=setup({role:'student'}),pulses=[];
+ try{
+  const player=createDirectPlayer({src:'/fixture.mp4',title:'Fixture',
+   labels:h.ctx.dict.videoLesson.directPlayer,signal:h.ctx.signal,
+   onPulse:(pulse,force)=>pulses.push({pulse,force})});
+  const video=player.node.querySelector('video');
+  let ended=false,seeking=false,paused=false,position=0;
+  Object.defineProperties(video,{
+   currentTime:{get:()=>position},duration:{value:1203},readyState:{value:4},
+   ended:{get:()=>ended},seeking:{get:()=>seeking},paused:{get:()=>paused},
+  });
+  const emit=name=>video.dispatchEvent(new window.Event(name));
+  emit('playing');
+  position=90;seeking=true;emit('seeking');
+  seeking=false;emit('seeked');
+  position=1203;paused=true;ended=true;emit('pause');emit('ended');
+  assert.deepEqual(pulses.map(({pulse,force})=>[pulse.positionMs,pulse.playing,pulse.ended,force]),[
+   [0,true,false,true],[90000,false,false,true],[90000,true,false,true],[1203000,true,true,true],
+  ]);
  }finally{h.dispose();}
 });

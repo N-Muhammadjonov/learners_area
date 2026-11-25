@@ -562,7 +562,7 @@ const uz = {
             record: "Xulosani ovozga yozish", recording: "Yozilmoqda", stop: "To'xtatish", again: "Qayta yozish",
             listen: "Ovozli xulosangizni tinglang", temporary: "Vaqtinchalik yozuv",
             notSaved: "Audio saqlanmaydi. Uni faqat siz shu yerda tinglay olasiz; darsdan chiqsangiz o'chadi.",
-            limit: "Har bir yozuv ko'pi bilan 3 daqiqa.", requesting: "Mikrofon uchun ruxsat kutilmoqda…",
+            limit: "Har bir yozuv ko'pi bilan {minutes} daqiqa.", requesting: "Mikrofon uchun ruxsat kutilmoqda…",
             preparing: "Ovozli yozuv tayyorlanmoqda…", unavailable: "Bu brauzer yoki qurilmada mikrofon mavjud emas.",
             permissionDenied: "Mikrofonga ruxsat berilmadi. Yozma xulosani yozish va saqlash mumkin.",
             failed: "Ovoz yozilmadi yoki mikrofonga ruxsat kutish vaqti tugadi. Qayta urinib ko'ring yoki xulosani yozing.",

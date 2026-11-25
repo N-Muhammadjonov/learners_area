@@ -373,3 +373,50 @@ def test_gift_validation_refuses_fake_prices_and_unsafe_categories():
     assert not economy.valid_gift({**valid, "imageData": "data:image/png;base64,YWJj"})
     assert not economy.valid_gift({**valid, "imageData": "data:image/webp;base64," + "A" * 230001})
 
+
+
+@pytest.mark.asyncio
+async def test_twenty_minute_video_and_private_coin_history(setup_db, monkeypatch):
+    con, _schema, learner = setup_db
+    talk = uuid4()
+    other_learner = uuid4()
+    await con.execute("INSERT INTO users(id) VALUES($1)", other_learner)
+    await con.execute(
+        "INSERT INTO video_lessons VALUES($1,NULL,'youtube','video',NULL,true,'published',NULL)", talk)
+    await con.execute(
+        "INSERT INTO coin_ledger(user_id,event_key,coins,module,activity_type) "
+        "VALUES($1,'other-daily',7,'daily','login')", other_learner)
+    user = {"id": learner, "role": "student", "account_status": "active"}
+    client, identity = await make_client(monkeypatch, con, user)
+    async with client:
+        async def heartbeat(position: int, session: str | None = None, *, ended: bool = False) -> dict:
+            response = await client.post("/api/coins/media/heartbeat", json={
+                "module": "ted", "mediaId": str(talk), "sessionId": session,
+                "durationMs": 1_203_000, "positionMs": position, "playing": True, "ended": ended,
+            })
+            assert response.status_code == 200 and not response.json().get("unavailable"), response.text
+            return response.json()
+
+        first = await heartbeat(0)
+        session = first["sessionId"]
+        for position in range(10_000, 1_200_000, 10_000):
+            await con.execute("UPDATE coin_media_sessions SET last_at=clock_timestamp()-interval '10 seconds'")
+            await heartbeat(position, session)
+        await con.execute("UPDATE coin_media_sessions SET last_at=clock_timestamp()-interval '9 seconds'")
+        await heartbeat(1_199_000, session)
+        await con.execute("UPDATE coin_media_sessions SET last_at=clock_timestamp()-interval '4 seconds'")
+        final = await heartbeat(1_203_000, session, ended=True)
+        assert final == {"sessionId": session, "awarded": 1, "coinsEarned": 4}
+        assert (await heartbeat(1_203_000, session, ended=True))["awarded"] == 0
+        reopened = await heartbeat(0)
+        assert reopened["coinsEarned"] == 4 and reopened["awarded"] == 0
+
+        await con.execute("INSERT INTO coin_spend(user_id,spend_key,coins) VALUES($1,'gift',2)", learner)
+        history = await client.get("/api/coins/wallet?view=history")
+        assert history.status_code == 200
+        assert "private" in history.headers["cache-control"]
+        assert [(entry["module"], entry["delta"]) for entry in history.json()["entries"]] == [
+            ("purchase", -2), ("ted", 1), ("ted", 1), ("ted", 1), ("ted", 1),
+        ]
+        identity["current"] = {**user, "account_status": "blocked"}
+        assert (await client.get("/api/coins/wallet?view=history")).status_code == 401

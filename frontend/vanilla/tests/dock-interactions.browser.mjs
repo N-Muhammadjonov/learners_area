@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {withDockBrowser,frames,shellFixture} from './helpers/dock-browser.mjs';
+import {withDockBrowser,frames,shellFixture,documentFixture} from './helpers/dock-browser.mjs';
 
 test('hover grows icons to 1.1 and shows a glass pointer label with both motion preferences',async()=>{
  await withDockBrowser(async(browser,origin)=>{
@@ -123,7 +123,10 @@ test('study tools stay above Dock, Focus matches other actions and its active ba
    for(const theme of ['day','night']){
     await page.evaluate(value=>document.documentElement.dataset.theme=value,theme);
     const palette=await page.evaluate(()=>{const start=getComputedStyle(fixtureStart),focus=getComputedStyle(document.querySelector('[data-focus-toggle]')),badge=getComputedStyle(document.querySelector('[data-focus-indicator]'));return {start:start.backgroundImage,text:start.color,focus:focus.backgroundImage,focusText:focus.color,badge:badge.backgroundImage};});
-    assert.equal(palette.focus,palette.start);assert.equal(palette.focusText,palette.text);assert.equal(palette.badge,palette.start);
+    const normalizeStops=value=>value.replace(/ (?:0|100)%/g,'');
+    assert.equal(normalizeStops(palette.focus),normalizeStops(palette.start));
+    assert.equal(palette.focusText,palette.text);
+    assert.equal(normalizeStops(palette.badge),normalizeStops(palette.start));
    }
    await page.keyboard.press('f');await page.waitForFunction(()=>document.documentElement.dataset.studyFocus==='off');assert.equal(await page.locator('[data-focus-indicator]').count(),0);
   }finally{await context.close();}
@@ -138,10 +141,10 @@ test('the thirteen reference photographs share a decoded inline atlas and keep t
    page.on('request',request=>{if(request.resourceType()==='image'&&request.url().startsWith(origin))imageRequests.push(request.url());});
    await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);
    const artwork=await page.evaluate(()=>[...document.querySelectorAll('[data-dock-module]')].map(a=>({key:a.dataset.dockModule,art:a.querySelector('svg')?.dataset.dockArtwork,label:a.getAttribute('aria-label')})));
-   assert.equal(artwork.length,13);assert(artwork.every(a=>a.key===a.art&&a.label));
+   assert.equal(artwork.length,14);assert(artwork.every(a=>a.key===a.art&&a.label));
    assert(!artwork.some(a=>['courses','coach','reports','support'].includes(a.key)));
    const {references,atlas}=await page.evaluate(async()=>{
-    const pictures=[...document.querySelectorAll('[data-dock-reference]')];
+    const pictures=[...document.querySelectorAll('[data-dock-reference]:not([data-dock-artwork=leaderboard])')];
     const href=pictures[0].querySelector('image').getAttribute('href'),image=new Image();
     image.src=href;await image.decode();
     return {atlas:{inline:href.startsWith('data:image/webp;base64,'),size:href.length,width:image.naturalWidth,height:image.naturalHeight},references:pictures.map(svg=>{
@@ -150,7 +153,7 @@ test('the thirteen reference photographs share a decoded inline atlas and keep t
     })};
    });
    assert.deepEqual(references.map(r=>r.key),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','management']);
-   assert(atlas.inline&&atlas.size<135000);assert.equal(atlas.width,768);assert.equal(atlas.height,788);assert.deepEqual(imageRequests,[]);
+   assert(atlas.inline&&atlas.size<135000);assert.equal(atlas.width,768);assert.equal(atlas.height,788);assert.deepEqual(imageRequests,[origin+'/images/dock/neon/leaderboard.webp']);
    for(const [index,ref] of references.entries()){
     assert(ref.shared);assert.equal(ref.x,0-(index%4)*192);assert.equal(ref.y,0-Math.floor(index/4)*197);
     assert.equal(ref.viewBox,'0 0 192 197');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');
@@ -180,4 +183,56 @@ test('Back restores page scroll and navigation leaves one live workspace',async(
    }finally{await context.close();}
   }
  },{'/app':shellFixture.replace("article.style.minHeight='300px'","article.style.minHeight='1800px'")});
+});
+
+test('Dock switch, desktop sidebar and mobile drawer keep the workspace usable',async()=>{
+ const fixture=documentFixture(`
+ import {createShell} from '/modules/shell/layout.js';
+ import dict from '/js/i18n/en.js';
+ import {api} from '/js/api-client.js';
+ const controller=new AbortController();
+ api.request=async()=>({unread:0});
+ const shell=createShell({dict,locale:'en',url:new URL('/app',location.origin),signal:controller.signal,
+  session:{user:{role:'owner',name:'Fixture Owner'}},state:{},navigate(){},refresh(){}});
+ document.querySelector('#root').append(shell.host);
+ window.go=path=>shell.updateLocation(new URL(path,location.origin));
+ `,'');
+ await withDockBrowser(async(browser,origin)=>{
+  for(const [width,height,hasTouch] of [[320,800,true],[390,800,true],[844,390,true],[768,800,false],[1440,800,false]]){
+   const context=await browser.newContext({viewport:{width,height},hasTouch});
+   try{
+    const page=await context.newPage();
+    await page.goto(origin+'/sidebar-fixture');
+    const dock=page.locator('[data-module-dock]'),sidebar=page.locator('[data-module-sidebar]'),hamburger=page.locator('[data-module-nav-hamburger]');
+    const toSidebar=page.locator('[data-module-nav-switch="sidebar"]'),toDock=page.locator('[data-module-nav-switch="dock"]');
+    const dashboard=page.locator('[data-dock-module="dashboard"]');
+    assert((await toSidebar.boundingBox()).x<(await dashboard.boundingBox()).x);
+    await toSidebar.click();
+    assert(await sidebar.isVisible());
+    assert(await dock.isHidden());
+    assert(await toDock.isVisible());
+    if(hasTouch){
+     await hamburger.click();
+     assert(await sidebar.isHidden());
+     await hamburger.click();
+     assert(await sidebar.isVisible());
+     const header=page.locator('[data-shell-topbar]');
+     const [panelBox,headerBox]=await Promise.all([sidebar.boundingBox(),header.boundingBox()]);
+     assert(panelBox.y>=headerBox.y+headerBox.height-1);
+    }else{
+     assert(await hamburger.isHidden());
+     const workspace=await page.locator('[data-dock-workspace]').boundingBox(),panel=await sidebar.boundingBox();
+     assert(workspace.x>=panel.x+panel.width-1);
+    }
+    await page.evaluate(()=>window.go('/app/video-lessons/example'));
+    assert(await sidebar.isHidden()&&await dock.isHidden()&&await hamburger.isHidden());
+    assert(await page.locator('[data-campus-back-link]').isVisible());
+    await page.evaluate(()=>window.go('/app'));
+    if(hasTouch)await hamburger.click();
+    await toDock.click();
+    assert(await dock.isVisible()&&await sidebar.isHidden());
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+   }finally{await context.close();}
+  }
+ },{'/sidebar-fixture':fixture});
 });

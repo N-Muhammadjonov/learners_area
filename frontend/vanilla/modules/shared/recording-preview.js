@@ -5,7 +5,7 @@ import {prepareRecordingPlayback,releaseRecordingPlayback} from './recording-pla
  * the audio context before starting its buffer; no muted warm-up or second play.
  * Keep the original container as a native fallback and for the existing upload.
  * All bytes stay local. This component owns no object URL or microphone. */
-export function createRecordingPreview({blob,url,dict,label}){
+export function createRecordingPreview({blob,url,dict,label,preferNative=false}){
  const t=dict.videoLesson.directPlayer;
  const node=el('div',{class:'w-full min-w-0','data-recording-preview':'preparing'});
  const audio=el('audio',{src:url,controls:'',preload:'auto',class:'w-full max-w-full','aria-label':label});
@@ -65,7 +65,7 @@ export function createRecordingPreview({blob,url,dict,label}){
  }
  const AudioContext=globalThis.AudioContext??globalThis.webkitAudioContext??window.AudioContext??window.webkitAudioContext;
  let ready;
- if(!AudioContext||!blob?.arrayBuffer){fallback();ready=Promise.resolve();}
+ if(preferNative||!AudioContext||!blob?.arrayBuffer){fallback();ready=Promise.resolve();}
  else{
   audio.hidden=true;
   ready=(async()=>{

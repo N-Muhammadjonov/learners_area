@@ -28,7 +28,18 @@ export function dockItems(dict,role,paymentsEnabled=false){
  return items.map(([key,href,label,icon,top,bottom])=>({key,href,label,icon,top,bottom}));
 }
 
-export function moduleDock(context){
+export function activeDockModule(url){
+ const path=url.pathname.replace(/\/+$/,'');
+ const segment=path.split('/')[2]??'dashboard';
+ return path==='/app/study-plan/leaderboard'?'leaderboard':
+  ['admin','owner','teacher'].includes(segment)?'management':segment;
+}
+
+export function moduleNavigationVisible(url,html=document.documentElement){
+ return returnForWindow(url).mode!=='back'&&html.dataset.studyFocus!=='on'&&html.dataset.retentionFocus!=='on';
+}
+
+export function moduleDock(context,{switchButton,isSelected=()=>true}={}){
  const {dict,signal,session}=context,html=document.documentElement;
  const node=el('div',{'data-module-dock':'',class:'module-dock'});
  node.style.setProperty('--dock-edge-inset', `${EDGE_INSET}px`);
@@ -39,7 +50,7 @@ export function moduleDock(context){
   icon.style.setProperty('--dock-top',item.top);icon.style.setProperty('--dock-bottom',item.bottom);
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));
  });
- nav.append(...links);node.append(nav,tooltip);
+ nav.append(...links);if(switchButton)node.append(switchButton);node.append(nav,tooltip);
  let current=context.url,layoutFrame=0,scrollFrame=0;
  const win=document.defaultView;
  let pointerX = NaN;
@@ -157,17 +168,16 @@ export function moduleDock(context){
   if(next!==null){event.preventDefault();pointerX=pointerY=NaN;links[next].focus();}
  },signal);
  function visibility(){
-  const hidden=returnForWindow(current).mode==='back'||html.dataset.studyFocus==='on'||html.dataset.retentionFocus==='on';
+  const hidden=!isSelected()||!moduleNavigationVisible(current,html);
   const wasHidden=node.hidden;node.hidden=hidden;node.setAttribute('aria-hidden',String(hidden));if(hidden){reset();}else if(wasHidden)revealActive();
  }
  const observer=new MutationObserver(visibility);
  observer.observe(html,{attributes:true,attributeFilter:['data-study-focus','data-retention-focus']});
  function update(url){
-  current=url;const segment=url.pathname.split('/')[2]??'dashboard';
-  const active=['/app/leaderboard','/app/study-plan/leaderboard'].includes(url.pathname)?'leaderboard':['admin','owner','teacher'].includes(segment)?'management':segment;
+  current=url;const active=activeDockModule(url);
   for(const link of links){if(link.dataset.dockModule===active)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
   reset();visibility();revealActive();
  }
  signal.addEventListener('abort',()=>{observer.disconnect();reset();if(layoutFrame)win.cancelAnimationFrame(layoutFrame);node.remove();},{once:true});
- update(current);return {node,update};
+ update(current);return {node,update,visibility};
 }

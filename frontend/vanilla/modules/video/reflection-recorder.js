@@ -6,7 +6,8 @@ import {createRecordingPreview} from '../shared/recording-preview.js';
  * Memory only: the clip is never uploaded or saved. Microphone access happens only after an explicit click.
  * The stream, timers, object URL and listeners are released on stop, hide, visibility change, pagehide and destroy. */
 
-export const REFLECTION_LIMIT_MS = 180000;
+export const REFLECTION_LIMIT_MS = 30 * 60 * 1000;
+const NATIVE_PREVIEW_THRESHOLD_MS = 3 * 60 * 1000;
 
 export class RecorderError extends Error {
  constructor(code, message) {
@@ -190,11 +191,12 @@ export function createReflectionRecorder({ dict, signal }) {
  let elapsedNode = null;
  let preview = null;
  let playbackBlob = null;
+ let playbackDurationMs = 0;
 
  const root = el('div', { class: 'space-y-3 rounded-xl border border-ink-100 p-4', 'data-local-reflection': '' });
  const slot = el('div', { class: 'flex flex-col gap-3' });
  const alertNode = el('p', { role: 'alert' });
- root.append(el('p', { class: 'text-sm font-medium' }, t.temporary), el('p', { class: 'text-xs text-ink-500' }, `${t.notSaved} ${t.limit}`), slot, alertNode);
+ root.append(el('p', { class: 'text-sm font-medium' }, t.temporary), el('p', { class: 'text-xs text-ink-500' }, `${t.notSaved} ${t.limit.replace('{minutes}', String(REFLECTION_LIMIT_MS / 60000))}`), slot, alertNode);
  root.hidden = true;
 
  function clearTimers() {
@@ -207,6 +209,7 @@ export function createReflectionRecorder({ dict, signal }) {
   preview?.destroy();
   preview = null;
   playbackBlob = null;
+  playbackDurationMs = 0;
   if (playbackUrl) URL.revokeObjectURL(playbackUrl);
   playbackUrl = null;
  }
@@ -244,7 +247,8 @@ export function createReflectionRecorder({ dict, signal }) {
     elapsed = 0;
     render();
    }, { signal });
-   preview ??= createRecordingPreview({blob:playbackBlob,url:playbackUrl,dict,label:t.listen});
+   preview ??= createRecordingPreview({blob:playbackBlob,url:playbackUrl,dict,label:t.listen,
+    preferNative:playbackDurationMs>=NATIVE_PREVIEW_THRESHOLD_MS});
    slot.append(remove, preview.node);
   }
   alertNode.textContent = errorText;
@@ -268,6 +272,7 @@ export function createReflectionRecorder({ dict, signal }) {
    discardPlayback();
    if (result?.size) {
     playbackBlob = result.blob;
+    playbackDurationMs = result.durationMs;
     playbackUrl = URL.createObjectURL(result.blob);
    } else {
     errorText = t.noAudio;

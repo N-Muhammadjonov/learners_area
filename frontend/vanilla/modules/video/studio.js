@@ -11,6 +11,7 @@ import {videoProgressText} from '../shared/progress.js';
  * Player listeners, requests and dialogs belong to the studio lifetime. */
 
 const YOUTUBE_ORIGIN='https://www.youtube-nocookie.com';
+const COIN_PULSE_INTERVAL=10000;
 const PROGRESS_STEP=5;      // at least 5 new watched seconds before a periodic write
 const REQUEST_LIMIT=12000;  // every write gives up after 12 s
 let studioSeq=0;
@@ -24,6 +25,7 @@ export function createVideoStudio(context,{mode,video}){
  const isDirect=lesson.provider==='direct';
  const own=new AbortController(),life=own.signal;
  let destroyed=false;
+ let coinsEarned=Number.isInteger(video.coinsEarned)?video.coinsEarned:0;
 
  // ---- Derived content (same rules as the original useMemo blocks) ----
  const notes=(lesson.notes??'').trim();
@@ -59,12 +61,54 @@ export function createVideoStudio(context,{mode,video}){
  const stateLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-progress-state':''});
  const coinLabel=el('span',{class:'text-xs font-medium text-ink-700','data-video-coin-award':'',role:'status'});
  const meta=el('div',{class:'flex flex-wrap items-center gap-2'},rewardBadge(context,lesson.mediaKind==='audio'?'podcast':'ted'),liveLabel,stateLabel,coinLabel);
- function updateCoinAward(result) {
-  if(destroyed||signal.aborted||!result||typeof result!=='object')return;
-  if(Number.isInteger(result.awarded)&&result.awarded>0)
-   coinLabel.textContent='+'+result.awarded+' 🟡 '+(context.locale==='uz'?'tanga hisoblandi':'coins earned');
-  else if(result.unavailable===true)
-   coinLabel.textContent=context.locale==='uz'?'Tanga hisoblash vaqtincha ishlamayapti':'Coin tracking is temporarily unavailable';
+ function paintCoinTotal(unavailable=false) {
+  const label=unavailable
+   ? (context.locale==='uz'?'Tanga hisoblash vaqtincha ishlamayapti':'Coin tracking is temporarily unavailable')
+   : coinsEarned>0 ? '+'+coinsEarned+' 🟡 '+(context.locale==='uz'?'tanga yig‘ildi':coinsEarned===1?'coin earned':'coins earned') : '';
+  if(coinLabel.textContent!==label)coinLabel.textContent=label;
+ }
+
+ function coinReporter(playerSignal){
+  const module=lesson.mediaKind==='audio'?'podcast':'ted';
+  let sessionId=null, pending=false, queued=null, paused=null, terminal=null, lastSample=0;
+  async function send(pulse){
+   pending=true;
+   const request=new AbortController();
+   const timeout=setTimeout(()=>request.abort(),REQUEST_LIMIT);
+   try{
+    const reply=await fetch('/api/coins/media/heartbeat',{method:'POST',credentials:'same-origin',
+     headers:{'Content-Type':'application/json'},keepalive:pulse.ended===true,signal:request.signal,
+     body:JSON.stringify({sessionId,mediaId:String(lesson.id),module,...pulse})});
+    if(reply.ok){
+     const result=await reply.json();
+     if(result.sessionId)sessionId=result.sessionId;
+     if(!destroyed&&!playerSignal.aborted){
+      if(Number.isInteger(result.coinsEarned))coinsEarned=Math.max(coinsEarned,result.coinsEarned);
+      paintCoinTotal(result.unavailable===true);
+     }
+    }
+   }catch{
+    if(!destroyed&&!playerSignal.aborted)paintCoinTotal(true);
+   }finally{
+    clearTimeout(timeout);
+    pending=false;
+    const next=paused??terminal??queued;
+    if(paused)paused=null;
+    else if(terminal)terminal=null;
+    else queued=null;
+    if(next&&(!playerSignal.aborted||next.ended))void send(next);
+   }
+  }
+  return (pulse,force=false)=>{
+   if(mode!=='standalone'||playerSignal.aborted)return;
+   const now=Date.now();
+   if(!force&&(!pulse.playing||now-lastSample<COIN_PULSE_INTERVAL||pending))return;
+   lastSample=now;
+   if(!pending)void send(pulse);
+   else if(pulse.ended){terminal=pulse;queued=null;}
+   else if(!pulse.playing&&!terminal){paused=pulse;queued=null;}
+   else queued=pulse;
+  };
  }
  const tablist=el('div',{class:'flex flex-wrap gap-2',role:'tablist','aria-label':t.stagesLabel,'data-video-tablist':''});
  const requestErr=el('p',{role:'alert','data-video-request-error':''},dict.common.error);
@@ -123,21 +167,12 @@ export function createVideoStudio(context,{mode,video}){
   });
   frame=node;
   const ctl=new AbortController();
-  let youtubePlaying=false,youtubeRate=1,youtubeLastPulse=0,youtubeSession=null,youtubePulsePending=false,youtubePosition=0,youtubeQueued=false;
-  function youtubePulse(position,force=false){
-   youtubePosition=position;
-   const now=Date.now();
-   if(youtubePulsePending){youtubeQueued=youtubeQueued||force;return;}
-   if(!force&&(!youtubePlaying||document.visibilityState!=='visible'||now-youtubeLastPulse<15000))return;
-   youtubeLastPulse=now;
-   youtubePulsePending=true;
-   fetch('/api/coins/media/heartbeat',{method:'POST',credentials:'same-origin',
-     headers:{'Content-Type':'application/json'},
-     body:JSON.stringify({sessionId:youtubeSession,mediaId:String(lesson.id),module:lesson.mediaKind==='audio'?'podcast':'ted',
-       positionMs:Math.round(position*1000),playbackRate:youtubeRate,playing:youtubePlaying&&document.visibilityState==='visible',
-       durationMs:playbackDuration?Math.round(playbackDuration*1000):null})})
-     .then(async response=>{if(!response.ok)return;const data=await response.json();if(data.sessionId)youtubeSession=data.sessionId;updateCoinAward(data);})
-     .catch(()=>{}).finally(()=>{youtubePulsePending=false;if(youtubeQueued){youtubeQueued=false;youtubePulse(youtubePosition,true);}});
+  const reportCoin=coinReporter(ctl.signal);
+  let youtubePlaying=false,youtubeRate=1,youtubePosition=restartAt,youtubeDuration=null;
+  function youtubePulse(force=false,ended=false){
+   reportCoin({positionMs:Math.round(youtubePosition*1000),playbackRate:youtubeRate,
+    playing:(youtubePlaying||ended)&&document.visibilityState==='visible',ended,
+    durationMs:youtubeDuration===null?null:Math.round(youtubeDuration*1000)},force);
   }
   const ask=()=>{postTo(node,{event:'listening',id:1,channel:'widget'});postTo(node,{event:'command',func:'addEventListener',args:['onStateChange']});};
   let loadTimer=0;
@@ -151,21 +186,37 @@ export function createVideoStudio(context,{mode,video}){
    try{data=typeof event.data==='string'?JSON.parse(event.data):event.data;}catch{return;}
    if(!data||typeof data!=='object')return;
    const info=data.info;
-   if(!(lesson.durationSeconds>0)&&typeof info?.duration==='number'&&Number.isFinite(info.duration)&&info.duration>=1&&info.duration<=43200){
-    playbackDuration=Math.ceil(info.duration);setState(state);
+   if(typeof info?.duration==='number'&&Number.isFinite(info.duration)&&info.duration>=1&&info.duration<=43200){
+    youtubeDuration=info.duration;
+    if(!(lesson.durationSeconds>0)){
+     playbackDuration=Math.ceil(info.duration);setState(state);
+    }
    }
    const reachedEnd=(data.event==='onStateChange'&&data.info===0)||(data.event==='infoDelivery'&&info?.playerState===0);
    const playerState=data.event==='onStateChange'?data.info:info?.playerState;
-   if(Number.isFinite(info?.playbackRate)&&info.playbackRate>0)youtubeRate=info.playbackRate;
-   if(typeof playerState==='number'&&(playerState===1)!==youtubePlaying){youtubePlaying=playerState===1;youtubePulse(youtubePosition,true);}
-   if(info&&typeof info.currentTime==='number'&&Number.isFinite(info.currentTime)&&info.currentTime>=0){
-    onPosition(info.currentTime);
-    youtubePulse(info.currentTime);
+   const position=info?.currentTime;
+   const hasPosition=Number.isFinite(position)&&position>=0;
+   if(hasPosition){
+    youtubePosition=position;
+    onPosition(position);
+   }
+   const previousRate=youtubeRate;
+   if(Number.isFinite(info?.playbackRate)&&info.playbackRate>=0.5&&info.playbackRate<=2)youtubeRate=info.playbackRate;
+   if(reachedEnd&&youtubePlaying){
+    if(youtubeDuration!==null)youtubePosition=youtubeDuration;
+    youtubePlaying=false;
+    youtubePulse(true,true);
+   }else if(typeof playerState==='number'&&(playerState===1)!==youtubePlaying){
+    youtubePlaying=playerState===1;
+    // On replay, wait for the first position from the new playback.
+    if(!youtubePlaying||hasPosition||finalizedGeneration!==generation)youtubePulse(true);
+   }else if(hasPosition&&youtubePlaying){
+    youtubePulse(previousRate!==youtubeRate);
    }
    if(playerState===1){if(finalizedGeneration===generation)generation++;playbackStarted=true;}
    if(reachedEnd&&playbackStarted){flushFinalProgress();playbackStarted=false;}
   },{signal:ctl.signal});
-  document.addEventListener('visibilitychange',()=>youtubePulse(youtubePosition,true),{signal:ctl.signal});
+  document.addEventListener('visibilitychange',()=>youtubePulse(true),{signal:ctl.signal});
   frameTeardown=()=>{ctl.abort();clearInterval(interval);clearTimeout(loadTimer);node.removeAttribute('src');node.remove();};
   frameBox.append(node);
  }
@@ -333,19 +384,9 @@ export function createVideoStudio(context,{mode,video}){
   if(video.directMedia){
    import('./direct-player.js').then(({createDirectPlayer})=>{
     if(destroyed)return;
-    let sessionId=null;
     const player=createDirectPlayer({
      src:video.directMedia.src,captions:video.directMedia.captions,title:lesson.title,labels:t.directPlayer,
-     onTime:onPosition,signal:life,
-     onPulse(pulse){
-      const module=lesson.mediaKind==='audio'?'podcast':'ted';
-      fetch('/api/coins/media/heartbeat',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId,mediaId:String(lesson.id),module,...pulse})}).then(async response=>{
-       if(!response.ok)return;
-       const data=await response.json();
-       if(data.sessionId)sessionId=data.sessionId;
-       updateCoinAward(data);
-      }).catch(()=>{});
-     },
+     onTime:onPosition,signal:life,onPulse:coinReporter(life),
     });
     directHandle=player;
     stage.replaceChildren(player.node);
@@ -379,6 +420,7 @@ export function createVideoStudio(context,{mode,video}){
 
  // First paint: the tab strip, the first panel, and the progress/status labels.
  setState(state);
+ paintCoinTotal();
  paintTabs();
  mountPanel();
  return {node:section,destroy};

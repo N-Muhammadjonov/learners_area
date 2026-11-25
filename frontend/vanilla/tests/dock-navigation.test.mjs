@@ -145,3 +145,59 @@ test('glass styles ship in the Python native build and reserve space for mobile 
  const css=fs.readFileSync(new URL('../css/dock.css',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),builder=fs.readFileSync(new URL('../../../scripts/build_native_assets.py',import.meta.url),'utf8');
  assert.match(css,/backdrop-filter:blur/);assert.match(css,/overflow-x:auto/);assert.match(css,/transition:transform 140ms/);assert.match(html,/href="\/css\/dock.css"/);assert(builder.includes("'css/dock.css'"));
 });
+
+test('desktop switches between the Dock and the same role-scoped module routes',()=>{
+ const h=fixture('/app/reading/academic','owner');
+ try{
+  const shell=createShell(h.ctx);
+  h.ctx.root.append(shell.host);
+  const dock=h.q('[data-module-dock]'),sidebar=h.q('[data-module-sidebar]');
+  const toSidebar=h.q('[data-module-nav-switch="sidebar"]');
+  assert.equal(dock.firstElementChild,toSidebar);
+  assert(sidebar.hidden);
+  h.click(toSidebar);
+  assert(dock.hidden);
+  assert(!sidebar.hidden);
+  assert.deepEqual(h.qa('[data-module-sidebar-link]').map(link=>link.getAttribute('href')),
+   h.qa('[data-dock-module]').map(link=>link.getAttribute('href')));
+  assert.equal(sidebar.querySelector('[aria-current="page"]').dataset.moduleSidebarLink,'reading');
+  assert(h.q('[data-module-nav-hamburger]').hidden);
+  for(const path of ['/app/video-lessons/example','/app/management?view=mock-grading','/app/management?view=mock-create']){
+   shell.updateLocation(url(path));
+   assert(sidebar.hidden&&dock.hidden,path);
+   assert(!h.q('[data-campus-back-link]').hidden,path);
+  }
+  shell.updateLocation(url('/app/reading/academic'));
+  assert(!sidebar.hidden);
+  h.click(h.q('[data-module-nav-switch="dock"]'));
+  assert(sidebar.hidden&&!dock.hidden);
+  assert.equal(document.activeElement,toSidebar);
+ }finally{h.dispose();}
+});
+
+test('mobile remembers sidebar mode, opens from the header and closes on Escape or navigation',()=>{
+ const h=fixture('/app','student');
+ try{
+  window.localStorage.setItem('la-module-navigation-mode','sidebar');
+  window.matchMedia=()=>({matches:true,addEventListener(){}});
+  const shell=createShell(h.ctx);
+  h.ctx.root.append(shell.host);
+  const toggle=h.q('[data-module-nav-hamburger]'),sidebar=h.q('[data-module-sidebar]');
+  const dock=h.q('[data-module-dock]');
+  assert(sidebar.hidden&&dock.hidden&&!toggle.hidden);
+  h.click(toggle);
+  assert(!sidebar.hidden);
+  assert.equal(toggle.getAttribute('aria-expanded'),'true');
+  assert(shell.main.hasAttribute('inert'));
+  press(h,'Escape');
+  assert(sidebar.hidden&&!shell.main.hasAttribute('inert'));
+  assert.equal(document.activeElement,toggle);
+  h.click(toggle);
+  shell.updateLocation(url('/app/reading/academic'));
+  assert(sidebar.hidden&&!toggle.hidden);
+  h.click(toggle);
+  h.click(h.q('[data-module-nav-switch="dock"]'));
+  assert(sidebar.hidden&&toggle.hidden&&!dock.hidden);
+  assert.equal(window.localStorage.getItem('la-module-navigation-mode'),'dock');
+ }finally{h.dispose();}
+});

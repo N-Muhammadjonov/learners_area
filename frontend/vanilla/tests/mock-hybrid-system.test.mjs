@@ -25,12 +25,9 @@ test('A07 / Section 12: Management hub shows Mock Tests card ONLY to Teacher and
   }
 });
 
-test('A10 / A11: No module sidebar added; Mock runner and Staff Mock Grading Center use theme tokens only', () => {
+test('A10 / A11: Mock runner and Staff Mock Grading Center use theme tokens only', () => {
   const runnerSrc = read('modules/mocks/runner.js');
   const gradingSrc = read('modules/staff-final30/mock-grading.js');
-  const shellSrc = read('modules/shell/layout.js');
-
-  assert.equal(shellSrc.includes('no sidebar is rendered'), true);
   // Ensure no arbitrary hex colors (#123456) are hardcoded in runner.js or mock-grading.js
   assert.equal(/#[0-9a-fA-F]{3,8}\b/.test(runnerSrc), false, 'runner.js must use CSS theme tokens, not arbitrary hex colors');
   assert.equal(/#[0-9a-fA-F]{3,8}\b/.test(gradingSrc), false, 'mock-grading.js must use CSS theme tokens, not arbitrary hex colors');

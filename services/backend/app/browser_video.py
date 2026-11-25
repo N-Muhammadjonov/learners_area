@@ -6,6 +6,7 @@ import re
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, identifier, live
+from .coin_rewards import media_coins_earned
 from .security import normalize_origin, request_origin
 
 
@@ -17,7 +18,7 @@ def direct_media(video):
     return None
 
 
-async def studio(con, user, video, req):
+async def studio(con, user, video, req, *, standalone: bool = False):
     video_id=video['id']
     questions=await con.fetch('''SELECT id,stage,prompt,at_seconds FROM video_lesson_questions
         WHERE video_lesson_id=$1 ORDER BY position,id''',video_id)
@@ -31,6 +32,7 @@ async def studio(con, user, video, req):
         ORDER BY o.start_char,o.id''',video_id)
     return {'videoLesson':camel(video),'questions':[camel(r) for r in questions],
             'progress':camel(progress),'vocabulary':{'ready':True,'items':[camel(r) for r in words]},
+            'coinsEarned':await media_coins_earned(con,user['id'],str(video_id)) if standalone else 0,
             'directMedia':direct_media(video),
             'embedOrigin':request_origin(req)}
 
@@ -60,4 +62,4 @@ async def read(req,user,path,q):
             return {'standalone':[camel(r) for r in standalone],'course':[camel(r) for r in course]}
         video_id=identifier(path.rsplit('/',1)[-1])
         video=await con.fetchrow(f'SELECT * FROM video_lessons WHERE id=$1 AND lesson_id IS NULL AND {live()}',video_id)
-        return {'detail':await studio(con,user,video,req) if video else None}
+        return {'detail':await studio(con,user,video,req,standalone=True) if video else None}

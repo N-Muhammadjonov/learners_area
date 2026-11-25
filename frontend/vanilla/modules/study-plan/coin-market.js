@@ -63,6 +63,47 @@ function earnCards(ctx) {
       detail(localized(ctx, 'Har bir yangi tasdiqlangan do‘st', 'Each verified new friend'))));
 }
 
+const historyLabels = {
+  daily: ['Kunlik mukofot', 'Daily reward'],
+  referral: ['Do‘st taklifi', 'Friend referral'],
+  ted: ['TED Talk', 'TED Talk'],
+  podcast: ['Podkast', 'Podcast'],
+  listening: ['Tinglab tushunish', 'Listening'],
+  reading: ['O‘qish', 'Reading'],
+  articles: ['Maqola', 'Article'],
+  grammar: ['Grammatika', 'Grammar'],
+  vocabulary: ['Lug‘at', 'Vocabulary'],
+  writing: ['Yozish', 'Writing'],
+  speaking: ['Gapirish', 'Speaking'],
+  purchase: ['Sovg‘a xaridi', 'Gift purchase'],
+  refund: ['Qaytarilgan tanga', 'Coin refund'],
+};
+
+function coinHistory(ctx, result, retry) {
+  const title = heading(localized(ctx, 'Tanga tarixi', 'Coin history'));
+  const section = h('section', {class: 'coin-market-summary', 'data-coin-history': ''}, title);
+  if (!result) {
+    section.append(loading(ctx));
+  } else if (result.status !== 'fulfilled') {
+    section.append(errorNotice(ctx, localized(ctx, 'Tanga tarixini yuklab bo‘lmadi.', 'Could not load coin history.')),
+      button(localized(ctx, 'Qayta urinish', 'Retry'), retry, {class: 'btn-secondary'}));
+  } else if (!result.value.entries?.length) {
+    section.append(detail(localized(ctx, 'Hozircha tanga harakati yo‘q.', 'No coin activity yet.')));
+  } else {
+    const date = new Intl.DateTimeFormat(ctx.locale === 'uz' ? 'uz-UZ' : 'en-GB', {
+      dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Tashkent',
+    });
+    section.append(h('ul', {class: 'coin-history-list'}, result.value.entries.map(entry => {
+      const label = historyLabels[entry.module] ?? ['O‘quv faoliyati', 'Study activity'];
+      return h('li', {class: 'coin-history-entry'},
+        h('span', {class: 'coin-history-source'}, localized(ctx, ...label),
+          h('time', {datetime: entry.at}, date.format(new Date(entry.at)))),
+        h('strong', {class: 'coin-history-amount'}, (entry.delta > 0 ? '+' : '') + formatNumber(entry.delta), goldCoin()));
+    })));
+  }
+  return section;
+}
+
 async function earnPanel(ctx, host, options) {
   host.replaceChildren(loading(ctx));
   const results = await Promise.allSettled([
@@ -70,9 +111,10 @@ async function earnPanel(ctx, host, options) {
     api.request('/api/coins/daily', {signal:ctx.signal}),
     api.request('/api/coins/referral-link', {method: 'POST', signal: ctx.signal}),
     api.request('/api/study-plan/rewards', {signal: ctx.signal}),
+    api.request('/api/coins/wallet?view=history', {signal: ctx.signal}),
   ]);
   if (ctx.signal.aborted) return;
-  const [walletResult, dailyResult, referralResult, pointsResult] = results;
+  const [walletResult, dailyResult, referralResult, pointsResult, initialHistory] = results;
   if (walletResult.status !== 'fulfilled' || dailyResult.status !== 'fulfilled') {
     host.replaceChildren(errorNotice(ctx)); return;
   }
@@ -83,18 +125,29 @@ async function earnPanel(ctx, host, options) {
   const stars = pointsResult.status === 'fulfilled' ? pointsResult.value?.totalEarned ?? 0 : options.stars;
   const status = h('p', {role: 'status', class: 'coin-market-notice'});
   let claiming = false;
+  let history = initialHistory;
+  async function reloadHistory() {
+    history = null;
+    render();
+    const [result] = await Promise.allSettled([api.request('/api/coins/wallet?view=history', {signal: ctx.signal})]);
+    if (ctx.signal.aborted) return;
+    history = result;
+    render();
+  }
   async function claim() {
     if (claiming || daily.claimed) return;
     claiming = true;
     render();
     try {
       const result = await api.request('/api/coins/daily/claim', {method: 'POST', signal: ctx.signal});
+      if (ctx.signal.aborted) return;
       daily = result;
       wallet = result.wallet || wallet;
       status.textContent = localized(ctx, 'Mukofot balansga qo‘shildi.', 'The reward was added to your balance.');
       claiming = false;
-      render();
+      void reloadHistory();
     } catch {
+      if (ctx.signal.aborted) return;
       claiming = false;
       status.textContent = localized(ctx, 'Mukofotni olish amalga oshmadi.', 'Unable to claim the reward.');
       render();
@@ -130,7 +183,7 @@ async function earnPanel(ctx, host, options) {
           'Three ways to earn. Friends bring the highest reward.')),
         earnCards(ctx)),
       streakCard(ctx, daily, () => void claim(), claiming, null),
-      invite, status);
+      invite, status, coinHistory(ctx, history, () => void reloadHistory()));
   }
   render();
 }

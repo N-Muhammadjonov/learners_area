@@ -5,7 +5,7 @@ import {formatClock} from './provider.js';
  * controls, a WebVTT track, keyboard shortcuts and reported position. No autoplay; playback starts only on a user action. */
 const SPEEDS=[0.75,1,1.25,1.5];
 export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,signal}){
- let failed=false,ccOn=true;
+ let failed=false,ccOn=true,playing=false;
  const video=el('video',{class:'absolute inset-0 h-full w-full',src,title,preload:'metadata',playsinline:'',crossorigin:'anonymous',controlslist:'nodownload'});
  if(captions)video.append(el('track',{kind:'captions',src:captions,srclang:'en',label:'English',default:''}));
  const error=el('p',{role:'alert',class:'bg-warn-50 px-3 py-2 text-sm text-warn-800'},labels.error);
@@ -54,17 +54,21 @@ export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,sig
   }catch{fail();}
  }
 
- function pulse(force=false){
-  if(!onPulse)return;
-  const now=Date.now();
-  if(!force&&now-(video._coinPulse||0)<15000)return;
-  video._coinPulse=now;
-  onPulse({positionMs:Math.round((video.currentTime||0)*1000),playbackRate:Number(video.playbackRate)||1,
-   playing:!video.paused&&!video.seeking&&document.visibilityState==='visible',
-   durationMs:Number.isFinite(video.duration)?Math.round(video.duration*1000):null});
+ function pulse(force=false,ended=false){
+  onPulse?.({positionMs:Math.round((video.currentTime||0)*1000),playbackRate:Number(video.playbackRate)||1,
+   playing:(ended||(playing&&!video.paused&&!video.seeking))&&document.visibilityState==='visible',ended,
+   durationMs:Number.isFinite(video.duration)?Math.round(video.duration*1000):null},force);
  }
- for(const event of ['play','pause','seeking','seeked','ratechange','ended'])video.addEventListener(event,()=>pulse(true),{signal});
- document.addEventListener('visibilitychange',()=>pulse(true),{signal});
+ video.addEventListener('playing',()=>{playing=true;pulse(true);},{signal});
+ for(const event of ['pause','waiting','seeking'])
+  video.addEventListener(event,()=>{playing=false;if(!video.ended)pulse(true);},{signal});
+ video.addEventListener('seeked',()=>{
+  playing=!video.paused&&video.readyState>=3;
+  if(!video.ended)pulse(true);
+ },{signal});
+ video.addEventListener('ratechange',()=>{if(!video.ended)pulse(true);},{signal});
+ video.addEventListener('ended',()=>{playing=false;pulse(true,true);},{signal});
+ document.addEventListener('visibilitychange',()=>{if(!video.ended)pulse(true);},{signal});
  video.addEventListener('click',toggle,{signal});
  video.addEventListener('play',paintPlay,{signal});
  video.addEventListener('pause',paintPlay,{signal});
@@ -72,7 +76,7 @@ export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,sig
  video.addEventListener('timeupdate',()=>{
   paintTime();
   onTime?.(video.currentTime);
-  if(!video.paused&&document.visibilityState==='visible')pulse();
+  if(!video.ended&&!video.paused&&!video.seeking&&document.visibilityState==='visible')pulse();
  },{signal});
  video.addEventListener('error',fail,{signal});
  playButton.addEventListener('click',toggle,{signal});

@@ -51,6 +51,12 @@ test('earn panel reads daily status and pays only after explicit Claim click',as
   const calls=[];
   api.request=async (path,options={})=>{
     calls.push({path,method:options.method||'GET'});
+    if(path==='/api/coins/wallet?view=history')return {entries:[
+      ...(calls.some(call=>call.path==='/api/coins/daily/claim')
+        ? [{module:'daily',delta:3,at:'2026-11-25T15:00:00Z'}] : []),
+      {module:'ted',delta:1,at:'2026-11-25T12:00:00Z'},
+      {module:'purchase',delta:-5,at:'2026-11-25T10:00:00Z'},
+    ]};
     if(path==='/api/coins/wallet')return {balance:10};
     if(path==='/api/coins/daily')return {date:'2026-11-17',claimed:false,streak:2,todayCoins:0,nextCoins:3,cycle:7};
     if(path==='/api/coins/daily/claim')return {date:'2026-11-17',claimed:true,streak:3,todayCoins:3,nextCoins:0,cycle:7,wallet:{balance:13}};
@@ -60,6 +66,9 @@ test('earn panel reads daily status and pays only after explicit Claim click',as
   };
   await showCoinFeature(base(),'earn',root);
   assert.match(root.querySelector('[data-coin-balances]').textContent,/10/);
+  const history = () => root.querySelector('[data-coin-history]');
+  assert.match(history().textContent,/TED Talk/);
+  assert.match(history().textContent,/-5/);
   assert.equal(calls.filter(c=>c.path==='/api/coins/daily/claim').length,0);
   assert(root.querySelector('[data-coin-daily-claim]'));
   assert.equal(root.querySelector('[data-coin-streak]').dataset.coinStreak,'2');
@@ -68,6 +77,7 @@ test('earn panel reads daily status and pays only after explicit Claim click',as
   assert.equal(calls.filter(c=>c.path==='/api/coins/daily/claim'&&c.method==='POST').length,1);
   assert.match(root.querySelector('[data-coin-balances]').textContent,/13/);
   assert.equal(root.querySelector('[data-coin-daily-claim]'),null);
+  assert.match(history().textContent,/Kunlik mukofot.*\+3/);
 });
 
 test('buyer confirms exact price with Ha, then sees the success receipt', async () => {
