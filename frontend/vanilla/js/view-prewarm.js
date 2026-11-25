@@ -25,7 +25,7 @@ export function viewPrewarm({root,signal,win=window,doc=document,nav=navigator,c
      try{refund(capacity,await readCatalogue(path,{signal:controller.signal,maxBytes:capacity}));}catch{ /* Skip optional prewarm. */ }}
    }else{
     const regions=target==='/app/dashboard'?['dashboard','openLessons','mock']:
-      target==='/app/progress'?['progressSummary','progressStreak','progressTrends','progressMocks']:[undefined];
+      target==='/app/progress'?['progressSummary','progressStreak','progressTrends']:[undefined];
     for(const region of regions){if(!allowed())break;const capacity=reserve(regions.length>1?128*1024:256*1024);if(!capacity)break;
      try{refund(capacity,await viewData(target,controller.signal,region,{maxBytes:capacity}));}catch{}}
    }

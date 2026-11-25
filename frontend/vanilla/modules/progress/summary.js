@@ -28,7 +28,7 @@ function vocabDistribution(byState, t) {
 }
 
 /** Course and tasks. The roadmap link points at the native IELTS course roadmap. */
-export function courseCard(s, dict) {
+export function courseCard(s, dict, {showMocks = true} = {}) {
   const t = dict.progress;
   const l = s?.lessons ?? {total: null, open: null, completed: null};
   const a = s?.assignments ?? null;
@@ -41,7 +41,7 @@ export function courseCard(s, dict) {
       dlRow(t.lessonsOpen, show(l.open)),
       dlRow(t.assignmentsOpen, h('span', {'data-assignments-open': a?.open ?? undefined},
         a ? `${a.open} / ${a.total}` : '—')),
-      dlRow(t.mocksTaken, m ? `${m.finished}${m.bestBand === null ? '' : ` · ${t.bestBand} ${m.bestBand}`}` : '—')),
+      showMocks ? dlRow(t.mocksTaken, m ? `${m.finished}${m.bestBand === null ? '' : ` · ${t.bestBand} ${m.bestBand}`}` : '—') : null),
     h('a', {class: 'btn-secondary mt-3 w-fit', href: '/app'}, `${dict.courseRoadmap.open} →`));
 }
 

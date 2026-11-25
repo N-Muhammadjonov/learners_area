@@ -4,7 +4,7 @@ import {failureNode} from './shared.js';
 
 /** Module cards from the summary projection. Zero, no score and unavailable stay distinct:
  * `null` attempts/accuracy means unavailable or not scored, never 0. Speaking has no score by design. */
-export function skillCards(s, dict, refresh) {
+export function skillCards(s, dict, refresh, {showAttemptAccuracy = true} = {}) {
   const t = dict.progress;
   const w = s.writing;
   const modules = [
@@ -33,8 +33,10 @@ export function skillCards(s, dict, refresh) {
     },
       h('p', {class: 'text-sm font-medium text-ink-900'}, dict.nav[m.key]),
       h('p', {class: 'mt-1 text-xs text-ink-300'}, m.attempts === null ? '—' : `${m.attempts} ${t.attempts}`),
-      h('p', {class: 'mt-2 text-sm text-ink-900', 'data-progress-value': m.unavailable ? 'unavailable' : (m.value ?? 'none')},
-        m.unavailable ? '—' : (m.value ?? t.noScore)),
+      (showAttemptAccuracy || (m.key !== 'reading' && m.key !== 'listening'))
+        ? h('p', {class: 'mt-2 text-sm text-ink-900', 'data-progress-value': m.unavailable ? 'unavailable' : (m.value ?? 'none')},
+          m.unavailable ? '—' : (m.value ?? t.noScore))
+        : null,
       h('p', {class: 'text-xs text-ink-300'}, m.extra)))),
     h('p', {class: 'mt-3 text-xs text-ink-300', 'data-progress-note': ''}, t.speakingNote)));
 }

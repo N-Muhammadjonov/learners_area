@@ -1,28 +1,26 @@
 import {h} from '../../js/native.js';
 import {
-  progressSummaryDTO, progressStreakDTO, progressTrendsDTO, progressMocksDTO,
+  progressSummaryDTO, progressStreakDTO, progressTrendsDTO,
 } from '../../js/adapters/progress-v54.js';
 import {projection, loadingNode, failureNode} from './shared.js';
 import {skillCards} from './skills.js';
 import {trendCards} from './trends.js';
 import {statCards, vocabularyCard, courseCard} from './summary.js';
-import {mockOverview} from './mocks.js';
+import {attemptBandCards} from './attempt-bands.js';
 import {learnerJourney} from '../shared/learner-journey.js';
 import {studentCalendar} from '../staff-final30/academy-attendance.js';
 
-/** My Progress (`/app/progress`). Six independent projection regions on one route: summary (skills,
- * vocabulary, course), streak, trends and mocks. Each has its own loading, failure and retry state.
+/** My Progress (`/app/progress`). Summary, streak and trends have independent regions.
+ * Trends also supplies the Reading and Listening attempt cards. Each has its own loading, failure and retry state.
  * Responses that arrive after a newer request, a retry or unmount are ignored. */
 export async function mount(context) {
   const {root, url, signal, dict, locale} = context;
   const uz = locale === 'uz';
   const route = url.pathname;
   const retry = dict.errorPage.retry;
-  const mockMessage = uz ? "Mock natijalarini yuklab bo'lmadi." : 'Mock results could not be loaded.';
-  const mockRetry = uz ? 'Qayta urinish' : 'Retry';
   const pulse = () => h('div', {class: 'h-32 animate-pulse rounded-xl bg-ink-50', 'aria-hidden': 'true'});
 
-  const mocksHost = h('section', {class: 'min-w-0', 'data-progress-mocks-host': ''});
+  const bandsHost = h('div', {'data-progress-bands-host': ''});
   const modulesHost = h('div', {'data-progress-summary-host': ''});
   const trendsHost = h('div', {'data-progress-trends-host': ''});
   const statsHost = h('div', {'data-progress-stats-host': ''});
@@ -34,7 +32,7 @@ export async function mount(context) {
       h('p', {class: 'text-sm text-ink-500'}, dict.progress.subtitle),
       h('a', {class: 'mt-1 inline-block text-sm font-semibold text-ink-900 underline', href: '/app/reports', 'data-progress-reports-link': ''},
         dict.reporter.openFromProgress)),
-    mocksHost,
+    bandsHost,
     h('div', {class: 'flex flex-col gap-4', 'data-progress-content': '', 'data-async-content': 'progress'},
       modulesHost, trendsHost, statsHost, vocabHost, courseHost));
   root.append(page);
@@ -61,16 +59,16 @@ export async function mount(context) {
     },
     ready(summary) {
       state.summary = {state: 'ready', data: summary};
-      modulesHost.replaceChildren(skillCards(summary, dict, () => refreshSummary()));
+      modulesHost.replaceChildren(skillCards(summary, dict, () => refreshSummary(), {showAttemptAccuracy: false}));
       vocabHost.replaceChildren(vocabularyCard(summary.vocabulary, dict));
-      courseHost.replaceChildren(courseCard(summary, dict));
+      courseHost.replaceChildren(courseCard(summary, dict, {showMocks: false}));
       renderStats();
     },
     failed(refresh) {
       state.summary = {state: 'error'};
       modulesHost.replaceChildren(failureNode({region: 'progress-summary', message: dict.errors.unknown, retry, refresh}));
       vocabHost.replaceChildren(vocabularyCard(null, dict));
-      courseHost.replaceChildren(courseCard(null, dict));
+      courseHost.replaceChildren(courseCard(null, dict, {showMocks: false}));
       renderStats();
     },
   });
@@ -84,31 +82,26 @@ export async function mount(context) {
 
   const refreshTrends = projection({
     lifecycle:context, route, region: 'progressTrends', signal, parse: progressTrendsDTO,
-    loading() { trendsHost.replaceChildren(loadingNode(dict, 'progress-trends')); },
-    ready(trends) { trendsHost.replaceChildren(trendCards(trends, dict)); },
+    loading() {
+      bandsHost.replaceChildren(loadingNode(dict, 'progress-attempt-bands'));
+      trendsHost.replaceChildren(loadingNode(dict, 'progress-trends'));
+    },
+    ready(trends) {
+      bandsHost.replaceChildren(attemptBandCards(trends.attemptBands, dict, locale, refreshTrends));
+      trendsHost.replaceChildren(trendCards({...trends,
+        reading: trends.attemptBands.reading?.weekly ?? null,
+        listening: trends.attemptBands.listening?.weekly ?? null,
+      }, dict));
+    },
     failed(refresh) {
+      bandsHost.replaceChildren(failureNode({region: 'progress-attempt-bands', message: dict.errors.unknown, retry, refresh}));
       trendsHost.replaceChildren(failureNode({region: 'progress-trends', message: dict.errors.unknown, retry, refresh}));
     },
   });
 
-  const mockFailure = refresh => failureNode({region: 'mock-overview', message: mockMessage, retry: mockRetry, refresh});
-  const refreshMocks = projection({
-    lifecycle:context, route, region: 'progressMocks', signal, parse: progressMocksDTO,
-    loading() { mocksHost.replaceChildren(loadingNode(dict, 'progress-mocks')); },
-    ready(dto) {
-      if (dto.attemptsUnavailable || dto.attemptTitlesUnavailable) {
-        mocksHost.replaceChildren(mockFailure(() => refreshMocks()));
-        return;
-      }
-      mocksHost.replaceChildren(mockOverview(dto, uz, mockFailure(() => refreshMocks())));
-    },
-    failed(refresh) { mocksHost.replaceChildren(mockFailure(refresh)); },
-  });
-
-  context.onResume?.(()=>{for(const refresh of [refreshSummary,refreshStreak,refreshTrends,refreshMocks])void refresh({background:true});});
+  context.onResume?.(()=>{for(const refresh of [refreshSummary,refreshStreak,refreshTrends])void refresh({background:true});});
   renderStats();
   void refreshSummary();
   void refreshStreak();
   void refreshTrends();
-  void refreshMocks();
 }
