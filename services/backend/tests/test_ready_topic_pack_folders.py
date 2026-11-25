@@ -91,18 +91,19 @@ def test_unauthenticated_ready_pack_add_does_not_touch_the_database():
         assert pool.await_count==0
     asyncio.run(run())
 
-def test_uploaded_ready_packs_keep_all_ten_names_and_source_counts():
+def test_uploaded_ready_packs_keep_all_names_and_source_counts():
     from pathlib import Path
     from app.vocabulary_packs_port import built_in_summaries
     expected={'Food':302,'Health':225,'Shopping':97,'Sports':125,
-        'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':161,'Art':175,'Environment':223}
+        'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':161,'Art':175,'Environment':223,'Wildlife':158}
     summaries=built_in_summaries()
     assert {p['label']:p['wordCount'] for p in summaries}==expected
-    assert all(p['labelUz']==p['label'] for p in summaries if p['id']!='art')
+    assert all(p['labelUz']==p['label'] for p in summaries if p['id'] not in ('art','wildlife'))
     assert next(p for p in summaries if p['id']=='art')['labelUz']=='San’at'
+    assert next(p for p in summaries if p['id']=='wildlife')['labelUz']=='Yovvoyi tabiat'
     path=Path(port.__file__).with_name('vocabulary_builtin_packs.json')
     packs=json.loads(path.read_text(encoding='utf-8'))
-    assert len(packs)==11 and sum(len(p['words']) for p in packs)==2215
+    assert len(packs)==12 and sum(len(p['words']) for p in packs)==2373
     assert {p['id'] for p in packs}=={name.lower() for name in expected}
     food = next(pack for pack in packs if pack['id'] == 'food')
     assert food['words'][0]['term'] == 'Staple food'

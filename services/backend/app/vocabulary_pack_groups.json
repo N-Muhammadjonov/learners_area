@@ -2595,5 +2595,52 @@
       "start": 214,
       "end": 223
     }
+  ],
+  "wildlife": [
+    {
+      "label": "Animal types and features",
+      "start": 0,
+      "end": 36
+    },
+    {
+      "label": "Animal homes and groups",
+      "start": 36,
+      "end": 46
+    },
+    {
+      "label": "Behaviour, survival and development",
+      "start": 46,
+      "end": 64
+    },
+    {
+      "label": "Habitats and landscapes",
+      "start": 64,
+      "end": 73
+    },
+    {
+      "label": "Habitats and protection",
+      "start": 73,
+      "end": 79
+    },
+    {
+      "label": "Animal welfare and opinions",
+      "start": 79,
+      "end": 104
+    },
+    {
+      "label": "Conservation and extinction",
+      "start": 104,
+      "end": 118
+    },
+    {
+      "label": "Environmental threats and resources",
+      "start": 118,
+      "end": 145
+    },
+    {
+      "label": "Environmental responses and academic word families",
+      "start": 145,
+      "end": 158
+    }
   ]
 }
