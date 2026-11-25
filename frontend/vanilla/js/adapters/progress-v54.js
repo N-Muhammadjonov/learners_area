@@ -91,6 +91,22 @@ function weekSeries(rows, max) {
   });
 }
 
+function attemptBands(x) {
+  if (x == null) return null;
+  if (!object(x) || !count(x.completed) || !count(x.bandCount) || x.bandCount > x.completed
+    || !nullable(x.accuracy, n => number(n) && n >= 0 && n <= 100)
+    || !nullable(x.averageBand, band) || !nullable(x.bestBand, band) || !nullable(x.firstBand, band)
+    || !Array.isArray(x.recent) || x.recent.length > Math.min(x.bandCount, 12)) bad();
+  return {
+    completed: x.completed, accuracy: x.accuracy, bandCount: x.bandCount,
+    averageBand: x.averageBand, bestBand: x.bestBand, firstBand: x.firstBand,
+    recent: x.recent.map(point => {
+      if (!object(point) || !day(point.day) || !band(point.band)) bad();
+      return {day: point.day, band: point.band};
+    }),
+  };
+}
+
 /** Weekly and heatmap series exactly as getProgressTrends shapes them (empty weeks stay null). */
 export function progressTrendsDTO(d) {
   if (!object(d)) bad();
@@ -117,6 +133,7 @@ export function progressTrendsDTO(d) {
     });
   }
   return {
+    attemptBands: {reading: attemptBands(d.attemptBands?.reading), listening: attemptBands(d.attemptBands?.listening)},
     reading: weekSeries(d.reading, 100),
     listening: weekSeries(d.listening, 100),
     writing: weekSeries(d.writing, 9),

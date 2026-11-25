@@ -1,6 +1,6 @@
 /** V54 My Progress browser checks against SYNTHETIC per-region projections (the live backend is not
  * contacted). Covers: new learner, Reading/Listening zero vs no score, Writing with/without evaluation,
- * Speaking without a score, full mocks and a removed historical mock, empty and mixed vocabulary,
+ * Speaking without a score, attempt band charts, empty and mixed vocabulary,
  * retention, heatmap levels, single and total failures with retry, partial unavailable regions,
  * EN/UZ, light/dark, desktop/tablet/mobile overflow, routing, back, reload, stale-response isolation,
  * keyboard/accessibility semantics and cleanup. */
@@ -23,7 +23,7 @@ if (process.platform === 'linux') {
   process.env.LD_LIBRARY_PATH = path.join(deps, 'lib') + ':' + (process.env.LD_LIBRARY_PATH ?? '');
 }
 const browser = await playwright.launch({
-  executablePath: await chromium.executablePath(),
+  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || await chromium.executablePath(),
   args: chromium.args.filter(a => !a.includes('single-process') && !a.includes('disable-web-security') && !a.includes('allow-running-insecure-content')),
   headless: true,
 });
@@ -70,7 +70,14 @@ const summaryNew = {
   mocks: {attempts: 0, finished: 0, bestBand: null},
   unavailableRegions: [],
 };
+const emptyBands = {completed: 0, accuracy: null, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: []};
+const attemptBands = {
+  reading: {completed: 4, accuracy: 75, bandCount: 3, averageBand: 7.17, bestBand: 8, firstBand: 6.5,
+    recent: [{day: '2026-09-01', band: 6.5}, {day: '2026-09-08', band: 7}, {day: '2026-09-15', band: 8}]},
+  listening: {completed: 2, accuracy: 60, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: []},
+};
 const trendsFull = {
+  attemptBands,
   reading: series([50, null, 70, 80, null, 75, 90, 85]),
   listening: series([null, null, null, null, null, null, null, 0]),
   writing: series([null, null, 6, null, 6.5, null, null, null]),
@@ -85,6 +92,7 @@ const trendsFull = {
   ],
 };
 const trendsNew = {
+  attemptBands: {reading: emptyBands, listening: emptyBands},
   reading: series([null, null, null, null, null, null, null, null]),
   listening: series([null, null, null, null, null, null, null, null]),
   writing: series([null, null, null, null, null, null, null, null]),
@@ -92,25 +100,7 @@ const trendsNew = {
   heatmap: emptyHeatmap(),
   retention: retentionEmpty(),
 };
-const mocksFull = {
-  tests: [
-    {id: 'm1', title: 'Full Mock 1', skill: 'full'},
-    {id: 'm2', title: 'Full Mock 2', skill: 'full'},
-    {id: 'm3', title: 'Full Mock 3', skill: 'full'},
-    {id: 'l1', title: 'Listening only', skill: 'listening'},
-  ],
-  attempts: [
-    {id: 'a1', mockTestId: 'm1', title: 'Full Mock 1', skill: 'full', finishedAt: '2026-09-01T10:00:00Z', estimatedBand: 5.5},
-    {id: 'a2', mockTestId: 'm1', title: 'Full Mock 1', skill: 'full', finishedAt: '2026-09-08T10:00:00Z', estimatedBand: 6},
-    {id: 'a3', mockTestId: 'retired-mock', title: 'Retired full mock', skill: 'full', finishedAt: '2026-09-15T10:00:00Z', estimatedBand: 6.5},
-    {id: 'a4', mockTestId: 'm2', title: 'Full Mock 2', skill: 'full', finishedAt: '2026-09-22T10:00:00Z', estimatedBand: 7.5},
-    {id: 'a5', mockTestId: 'l1', title: 'Listening only', skill: 'listening', finishedAt: '2026-09-23T10:00:00Z', estimatedBand: 9},
-    {id: 'a6', mockTestId: 'm3', title: 'Full Mock 3', skill: 'full', finishedAt: null, estimatedBand: null},
-  ],
-  catalogueUnavailable: false, attemptsUnavailable: false, attemptTitlesUnavailable: false,
-};
-const mocksNew = {tests: mocksFull.tests, attempts: [], catalogueUnavailable: false, attemptsUnavailable: false, attemptTitlesUnavailable: false};
-const DEFAULTS = {progressSummary: summaryFull, progressStreak: {streak: 4}, progressTrends: trendsFull, progressMocks: mocksFull};
+const DEFAULTS = {progressSummary: summaryFull, progressStreak: {streak: 4}, progressTrends: trendsFull};
 
 async function fixture({locale = 'en', theme = 'day', width = 1440, regions = {}, navigate = true} = {}) {
   const context = await browser.newContext({viewport: {width, height: 900}});
@@ -191,7 +181,7 @@ await check('skill cards: attempts, accuracy, zero vs no score, submitted counts
 });
 
 await check('new learner: no attempts, no score, zero vocabulary and empty trend states', async () => {
-  const f = await fixture({regions: {progressSummary: summaryNew, progressStreak: {streak: 0}, progressTrends: trendsNew, progressMocks: mocksNew}});
+  const f = await fixture({regions: {progressSummary: summaryNew, progressStreak: {streak: 0}, progressTrends: trendsNew}});
   try {
     await open(f);
     assert.equal(await attr(f, '[data-progress-module="reading"]', 'data-progress-attempts'), '0');
@@ -202,8 +192,8 @@ await check('new learner: no attempts, no score, zero vocabulary and empty trend
     assert.equal(await f.page.locator('[data-heat="0"]').count(), 84);
     assert.equal(await f.page.locator('[data-retention-trend-level]').count(), 5);
     assert.equal(await f.page.locator('[data-vocab-state]').count(), 6);
-    assert.match(await text(f, '[data-mock-band-panel]'), /0 \/ 3|No graded full mock results yet\./);
-    assert.equal(await attr(f, '[data-mock-band-panel]', 'data-latest-band'), 'none');
+    assert.match(await text(f, '[data-attempt-band-panel="reading"]'), /No scored attempts yet/);
+    assert.equal(await text(f, '[data-attempt-band-panel="reading"] [data-attempt-band-stat="latest"]'), '—');
     noErrors(f);
   } finally { await f.close(); }
 });
@@ -247,46 +237,37 @@ await check('Speaking never shows a score: with and without transcript', async (
   }
 });
 
-await check('mock overview: completed full mocks, trend, removed mock kept as history, table', async () => {
+await check('Reading and Listening use the attempt projection with separate accuracy and band averages', async () => {
   const f = await fixture();
   try {
     await open(f);
-    const panel = f.page.locator('[data-mock-band-panel]');
-    assert.equal(await panel.getAttribute('data-latest-band'), '7.5');
-    assert.equal(await panel.getAttribute('data-completed-mocks'), '2');
-    assert.equal(await panel.getAttribute('data-total-mocks'), '3');
-    assert.equal(await f.page.locator('[data-mock-point]').count(), 4);
-    assert.equal(await f.page.locator('[data-mock-table] tbody tr').count(), 4);
-    assert.match(await panel.textContent(), /Retired full mock/);
-    assert.doesNotMatch(await panel.textContent(), /Listening only/);
-    assert.equal(await f.page.locator('[data-mock-stat]').nth(0).textContent(), '4');
-    assert.equal(await f.page.locator('[data-mock-stat]').nth(1).textContent(), '7.5');
-    assert.equal(await f.page.locator('[data-mock-stat]').nth(4).textContent(), '+2.0');
-    assert.equal(await f.page.locator('svg[role="img"]').count(), 1);
-    assert.equal(await panel.locator('progress').count(), 2);
-    assert.equal(await f.page.locator('[data-mock-band-panel] label progress').first().getAttribute('max'), '3');
-  } finally { await f.close(); }
-});
-
-await check('mock overview with no finished mocks: empty note, zero of catalogue, no fake band', async () => {
-  const f = await fixture({regions: {progressMocks: mocksNew}});
-  try {
-    await open(f);
-    assert.equal(await f.page.locator('[data-mock-point]').count(), 0);
-    assert.equal(await f.page.locator('[data-mock-table]').count(), 0);
-    assert.equal(await f.page.locator('[data-mock-stat]').nth(1).textContent(), '—');
-    assert.equal(await f.page.locator('[data-mock-stat]').nth(4).textContent(), '—');
-    assert.match(await f.page.locator('[data-mock-band-panel]').textContent(), /No graded full mock results yet\./);
-  } finally { await f.close(); }
-});
-
-await check('mock attempts unavailable shows a notice with retry, not a stale chart', async () => {
-  const f = await fixture({regions: {progressMocks: {...mocksFull, attemptsUnavailable: true}}});
-  try {
-    await open(f);
+    const reading = f.page.locator('[data-attempt-band-panel="reading"]');
+    const listening = f.page.locator('[data-attempt-band-panel="listening"]');
+    assert.equal(await reading.locator('[data-attempt-band-stat="average"]').textContent(), '7.17');
+    assert.equal(await reading.locator('[data-attempt-band-stat="completed"]').textContent(), '4');
+    assert.equal(await reading.locator('[data-attempt-band-stat="change"]').textContent(), '+1.5');
+    assert.equal(await reading.locator('[data-attempt-band-point]').count(), 3);
+    assert.equal(await reading.locator('[data-attempt-band-table] tbody tr').count(), 3);
+    assert.equal(await listening.locator('[data-attempt-band-stat="accuracy"]').textContent(), '60%');
+    assert.equal(await listening.locator('[data-attempt-band-stat="average"]').textContent(), '—');
+    assert.equal(await listening.locator('[data-attempt-band-point]').count(), 0);
+    assert(!f.state.views.some(view => view.region === 'progressMocks'));
     assert.equal(await f.page.locator('[data-mock-band-panel]').count(), 0);
-    assert.equal(await f.page.locator('[data-region-failure="mock-overview"]').count(), 1);
-    assert.equal(await f.page.locator('[data-region-retry="mock-overview"]').textContent(), 'Retry');
+  } finally { await f.close(); }
+});
+
+await check('a failed attempt query keeps the sibling skill and retries the trends projection', async () => {
+  let calls = 0;
+  const f = await fixture({regions: {progressTrends: async () =>
+    (++calls === 1 ? {...trendsFull, attemptBands: {...attemptBands, reading: null}} : trendsFull)}});
+  try {
+    await open(f);
+    assert.equal(await f.page.locator('[data-region-failure="progress-reading-bands"]').count(), 1);
+    assert.equal(await text(f, '[data-attempt-band-panel="listening"] [data-attempt-band-stat="accuracy"]'), '60%');
+    await f.page.locator('[data-region-retry="progress-reading-bands"]').click();
+    await until(async () => (await f.page.locator('[data-region-failure="progress-reading-bands"]').count()) === 0, 'band retry failed');
+    assert.equal(await text(f, '[data-attempt-band-panel="reading"] [data-attempt-band-stat="average"]'), '7.17');
+    assert.equal(calls, 2);
   } finally { await f.close(); }
 });
 
@@ -307,7 +288,7 @@ await check('vocabulary: mixed distribution shows counts; empty library shows re
   } finally { await g.close(); }
 });
 
-await check('course: lesson, task and mock figures, roadmap link and unavailable dashes', async () => {
+await check('course: lesson and task figures, roadmap link and unavailable dashes', async () => {
   const f = await fixture();
   try {
     await open(f);
@@ -369,7 +350,7 @@ await check('single failed widget: streak fails alone; others still render; retr
     assert.equal(await f.page.locator('[data-region-failure="progress-streak"]').count(), 1);
     assert.equal(await f.page.locator('[data-progress-module="reading"]').count(), 1);
     assert.equal(await f.page.locator('[data-trend="reading"]').count(), 1);
-    assert.equal(await f.page.locator('[data-mock-band-panel]').count(), 1);
+    assert.equal(await f.page.locator('[data-attempt-band-panel]').count(), 2);
     await f.page.locator('[data-region-retry="progress-streak"]').click();
     await until(async () => (await f.page.locator('[data-region-failure="progress-streak"]').count()) === 0, 'streak notice remains');
     assert.match(await f.page.locator('[data-progress-stats]').textContent(), /9/);
@@ -390,7 +371,7 @@ await check('partial summary: an unavailable section is a dash, the other sectio
 });
 
 await check('all requests failing: four independent notices, no fabricated numbers', async () => {
-  const f = await fixture({regions: {progressSummary: {status: 503}, progressStreak: {status: 503}, progressTrends: {status: 503}, progressMocks: {status: 503}}});
+  const f = await fixture({regions: {progressSummary: {status: 503}, progressStreak: {status: 503}, progressTrends: {status: 503}}});
   try {
     await open(f);
     assert.equal(await f.page.locator('[data-region-failure]').count(), 4);
@@ -468,7 +449,7 @@ await check('dark theme changes the surface and keeps every region visible witho
     const nightBg = await f.page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     assert.notEqual(nightBg, dayBg, 'night theme did not change the surface');
     await noOverflow(f);
-    assert.equal(await f.page.locator('[data-mock-band-panel]').isVisible(), true);
+    assert.equal(await f.page.locator('[data-attempt-band-panel]').first().isVisible(), true);
     assert.equal(await f.page.locator('[data-progress-heatmap]').isVisible(), true);
     noErrors(f);
   } finally { await f.close(); }
@@ -524,24 +505,14 @@ await check('back and forward restore the progress page after navigating away', 
   } finally { await f.close(); }
 });
 
-await check('catalogue unavailable keeps the learner band panel and shows one notice', async () => {
-  const f = await fixture({regions: {progressMocks: {...mocksFull, catalogueUnavailable: true}}});
-  try {
-    await open(f);
-    assert.equal(await f.page.locator('[data-region-failure="mock-overview"]').count(), 1);
-    assert.equal(await f.page.locator('[data-mock-band-panel]').count(), 1);
-    assert.equal(await f.page.locator('[data-mock-band-panel]').getAttribute('data-completed-mocks'), '2');
-    noErrors(f);
-  } finally { await f.close(); }
-});
-
-await check('UZ mock panel labels follow the locale', async () => {
+await check('UZ attempt panel labels follow the locale', async () => {
   const f = await fixture({locale: 'uz'});
   try {
     await open(f);
-    assert.match(await f.page.locator('[data-mock-band-panel] h2').textContent(), /Mock natijalari/);
-    assert.match(await f.page.locator('[data-mock-band-panel] label').first().textContent(), /Katalogdagi tugallangan mocklar/);
-    assert.equal(await f.page.locator('[data-mock-band-panel] svg').getAttribute('aria-label'), 'Haqiqiy tugallangan full mock bandlari');
+    const reading = f.page.locator('[data-attempt-band-panel="reading"]');
+    assert.match(await reading.locator('h2').textContent(), new RegExp(uz.nav.reading));
+    assert.match(await reading.textContent(), /O‘rtacha band/);
+    assert.match(await reading.locator('svg').getAttribute('aria-label'), /Band o‘zgarishi/);
   } finally { await f.close(); }
 });
 
