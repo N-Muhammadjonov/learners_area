@@ -29,7 +29,7 @@ async def add_pack(req:Request):
             has_any=await con.fetchval("SELECT id FROM vocabulary_topic_packs WHERE publication_state='published' LIMIT 1")
             # New content-authored packs can fall back when older DB packs are published.
             # Existing published pack definitions remain canonical.
-            if has_any and pack_id not in ('art','environment'):return core.j({'error':'unknown_pack'},400)
+            if has_any and pack_id not in ('art','environment','wildlife'):return core.j({'error':'unknown_pack'},400)
             built=json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
             pack=next((p for p in built if p['id']==pack_id),None)
             if not pack:return core.j({'error':'unknown_pack'},400)

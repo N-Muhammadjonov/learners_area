@@ -43,7 +43,7 @@ async def list_vocabulary_packs(req: Request):
     if rows:
         published_slugs = {p['id'] for p in packs}
         for fallback in built_in_summaries():
-            if fallback['id'] in ('art', 'environment') and fallback['id'] not in published_slugs:
+            if fallback['id'] in ('art', 'environment', 'wildlife') and fallback['id'] not in published_slugs:
                 packs.append(fallback)
     return core.j({'ok': True, 'packs': [
         {'id': p['id'], 'label': {'en': p['label'], 'uz': p['labelUz'] or p['label']},

@@ -15627,5 +15627,1302 @@
         "example": "The region has a semi-arid climate."
       }
     ]
+  },
+  {
+    "id": "wildlife",
+    "label": {
+      "en": "Wildlife",
+      "uz": "Yovvoyi tabiat"
+    },
+    "words": [
+      {
+        "term": "pets",
+        "partOfSpeech": "noun",
+        "definitionEn": "Animals kept in the home for companionship and pleasure",
+        "translationUz": "uy hayvonlari",
+        "example": "Common pets include dogs, cats, fish, and small mammals like hamsters and rabbits.",
+        "collocations": ""
+      },
+      {
+        "term": "livestock",
+        "partOfSpeech": "noun",
+        "definitionEn": "Farm animals raised for food, wool, or labor (uncountable)",
+        "translationUz": "chorva mollari",
+        "example": "Farmers raise livestock such as cattle, pigs, sheep, and chickens for commercial purposes.",
+        "collocations": ""
+      },
+      {
+        "term": "cattle",
+        "partOfSpeech": "noun",
+        "definitionEn": "Cows and bulls raised for meat or milk (plural, no singular form)",
+        "translationUz": "qoramol",
+        "example": "Cattle are among the most important livestock animals, providing beef, milk, and leather.",
+        "collocations": ""
+      },
+      {
+        "term": "poultry",
+        "partOfSpeech": "noun",
+        "definitionEn": "Domestic birds raised for eggs or meat, especially chickens, ducks, and turkeys (uncountable)",
+        "translationUz": "uy parrandalari",
+        "example": "Poultry farming is a major industry, supplying eggs and chicken meat to markets worldwide.",
+        "collocations": ""
+      },
+      {
+        "term": "wasp",
+        "partOfSpeech": "noun",
+        "definitionEn": "An insect with a narrow waist; many familiar species have a sting.",
+        "translationUz": "qovoqari",
+        "example": "A wasp landed on the fruit.",
+        "collocations": ""
+      },
+      {
+        "term": "cockroach",
+        "partOfSpeech": "noun",
+        "definitionEn": "A flat, fast-moving insect considered a pest in homes",
+        "translationUz": "suvarak",
+        "example": "A cockroach can survive in harsh conditions.",
+        "collocations": ""
+      },
+      {
+        "term": "rhino",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large plant-eating mammal with thick skin and one or two horns on its nose.",
+        "translationUz": "karkidon",
+        "example": "The rhino grazed near the water.",
+        "collocations": "rhino / rhinoceros",
+        "acceptedTranslations": [
+          "rhinoceros"
+        ]
+      },
+      {
+        "term": "fur",
+        "partOfSpeech": "noun",
+        "definitionEn": "The soft, thick hair covering mammals' bodies",
+        "translationUz": "hayvon juni (mo'yna)",
+        "example": "Arctic animals have thick fur to protect them from extreme cold.",
+        "collocations": ""
+      },
+      {
+        "term": "scales",
+        "partOfSpeech": "noun",
+        "definitionEn": "Small, flat plates covering fish and reptiles' skin",
+        "translationUz": "tangachalar",
+        "example": "Fish scales provide protection and help with swimming efficiency.",
+        "collocations": ""
+      },
+      {
+        "term": "feathers",
+        "partOfSpeech": "noun",
+        "definitionEn": "Light structures covering birds' bodies, enabling flight and providing insulation",
+        "translationUz": "patlar",
+        "example": "Bird feathers serve multiple functions including flight, warmth, and waterproofing.",
+        "collocations": ""
+      },
+      {
+        "term": "trunk",
+        "partOfSpeech": "noun",
+        "definitionEn": "An elephant's long, flexible nose used for breathing, smelling, touching, grasping, and sound production",
+        "translationUz": "fil xartumi",
+        "example": "An elephant's trunk contains over 40,000 muscles and can lift enormous weights.",
+        "collocations": ""
+      },
+      {
+        "term": "emu",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large, flightless Australian bird similar to an ostrich",
+        "translationUz": "emu (Avstraliyaning ucha olmaydigan yirik qushi)",
+        "example": "An emu can run at speeds of up to 50 km/h.",
+        "collocations": ""
+      },
+      {
+        "term": "ostrich",
+        "partOfSpeech": "noun",
+        "definitionEn": "The world's largest bird, native to Africa, which cannot fly",
+        "translationUz": "tuyaqush",
+        "example": "An ostrich can run at speeds of up to 70 km/h.",
+        "collocations": ""
+      },
+      {
+        "term": "pack animal",
+        "partOfSpeech": "noun",
+        "definitionEn": "Animals used to carry loads or equipment",
+        "translationUz": "yuk tashuvchi hayvon",
+        "example": "A donkey is a useful pack animal on a mountain path.",
+        "collocations": ""
+      },
+      {
+        "term": "venomous arachnid",
+        "partOfSpeech": "noun",
+        "definitionEn": "An eight-legged animal, such as a spider or scorpion, that delivers venom through a bite or sting.",
+        "translationUz": "zahar yuboruvchi o'rgimchaksimon hayvon",
+        "example": "The guide warned us about a venomous arachnid.",
+        "collocations": ""
+      },
+      {
+        "term": "aquatic species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Animals and plants that live in water",
+        "translationUz": "suvda yashovchi turlar",
+        "example": "Aquatic species face threats from pollution, overfishing, and ocean acidification.",
+        "collocations": ""
+      },
+      {
+        "term": "nocturnal species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Animals that are active at night and sleep during the day",
+        "translationUz": "tunda faol bo'ladigan turlar",
+        "example": "Nocturnal species like owls and bats have special adaptations for seeing and hunting in darkness.",
+        "collocations": ""
+      },
+      {
+        "term": "diurnal species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Animals that are active during the day and sleep at night",
+        "translationUz": "kunduzi faol bo'ladigan turlar",
+        "example": "Most diurnal species have evolved to take advantage of daylight for finding food and avoiding predators.",
+        "collocations": ""
+      },
+      {
+        "term": "hibernating mammals",
+        "partOfSpeech": "noun",
+        "definitionEn": "Mammals that enter a prolonged state of greatly reduced activity and metabolism to conserve energy.",
+        "translationUz": "qishki uyquga ketadigan sutemizuvchilar",
+        "example": "Hibernating mammals use stored energy during the winter.",
+        "collocations": ""
+      },
+      {
+        "term": "flightless birds",
+        "partOfSpeech": "noun",
+        "definitionEn": "Birds that cannot fly, such as penguins, ostriches, and emus",
+        "translationUz": "ucha olmaydigan qushlar",
+        "example": "Flightless birds have evolved other survival strategies, such as swimming or running at high speeds.",
+        "collocations": ""
+      },
+      {
+        "term": "parasitic insect",
+        "partOfSpeech": "noun",
+        "definitionEn": "An insect that lives on or in a host and gains food at the host’s expense.",
+        "translationUz": "parazit hasharot",
+        "example": "A flea is a parasitic insect that feeds on blood.",
+        "collocations": ""
+      },
+      {
+        "term": "primate",
+        "partOfSpeech": "noun",
+        "definitionEn": "A mammal belonging to the group that includes humans, apes, monkeys and lemurs.",
+        "translationUz": "primat (odam, maymun va lemurlar mansub turkum vakili)",
+        "example": "A chimpanzee is a primate.",
+        "collocations": ""
+      },
+      {
+        "term": "tarantula",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large, usually hairy spider belonging to a particular family.",
+        "translationUz": "tarantul (yirik o'rgimchak)",
+        "example": "A tarantula rested beneath the rock.",
+        "collocations": ""
+      },
+      {
+        "term": "jellyfish",
+        "partOfSpeech": "noun",
+        "definitionEn": "A marine animal with a gelatinous, umbrella-shaped body and trailing tentacles",
+        "translationUz": "meduza",
+        "example": "Jellyfish have existed for over 500 million years and some species have venomous stings.",
+        "collocations": ""
+      },
+      {
+        "term": "mammal",
+        "partOfSpeech": "noun",
+        "definitionEn": "An animal with hair or fur whose females produce milk for their young.",
+        "translationUz": "sutemizuvchi hayvon",
+        "example": "A whale is a mammal, although it lives in water.",
+        "collocations": ""
+      },
+      {
+        "term": "marsupial",
+        "partOfSpeech": "noun",
+        "definitionEn": "A mammal whose young are born at an early stage and usually develop in a pouch.",
+        "translationUz": "xaltali sutemizuvchi hayvon",
+        "example": "A kangaroo is a marsupial.",
+        "collocations": ""
+      },
+      {
+        "term": "rodent",
+        "partOfSpeech": "noun",
+        "definitionEn": "A mammal with continuously growing front teeth adapted for gnawing.",
+        "translationUz": "kemiruvchi",
+        "example": "A mouse is a rodent.",
+        "collocations": ""
+      },
+      {
+        "term": "reptile",
+        "partOfSpeech": "noun",
+        "definitionEn": "An animal such as a snake or lizard, usually with dry, scaly skin.",
+        "translationUz": "sudralib yuruvchi hayvon",
+        "example": "The lizard is a reptile.",
+        "collocations": ""
+      },
+      {
+        "term": "carnivore",
+        "partOfSpeech": "phrase",
+        "definitionEn": "An animal that eats mainly meat; describing that diet or animal.",
+        "translationUz": "go'shtxo'r hayvon / go'sht bilan oziqlanuvchi",
+        "example": "A lion is a carnivore with a carnivorous diet.",
+        "collocations": "carnivore / carnivorous"
+      },
+      {
+        "term": "herbivore",
+        "partOfSpeech": "phrase",
+        "definitionEn": "An animal that eats mainly plants; describing that diet or animal.",
+        "translationUz": "o'txo'r hayvon / o'simliklar bilan oziqlanuvchi",
+        "example": "A cow is a herbivore with a herbivorous diet.",
+        "collocations": "herbivore / herbivorous"
+      },
+      {
+        "term": "predator",
+        "partOfSpeech": "phrase",
+        "definitionEn": "An animal that hunts other animals; describing hunting behaviour.",
+        "translationUz": "yirtqich hayvon / yirtqichlarga xos",
+        "example": "The predator waited before making its predatory attack.",
+        "collocations": "predator / predatory"
+      },
+      {
+        "term": "scavenger",
+        "partOfSpeech": "noun",
+        "definitionEn": "An animal that feeds on dead animals it did not kill.",
+        "translationUz": "o'limtikxo'r hayvon",
+        "example": "The scavenger fed on the remains.",
+        "collocations": ""
+      },
+      {
+        "term": "warm-blooded",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Maintaining a relatively stable internal temperature largely through heat produced by the body.",
+        "translationUz": "issiq qonli",
+        "example": "A bird is warm-blooded.",
+        "collocations": ""
+      },
+      {
+        "term": "cold-blooded",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Depending mainly on external heat sources to regulate body temperature.",
+        "translationUz": "sovuq qonli",
+        "example": "A snake is cold-blooded.",
+        "collocations": ""
+      },
+      {
+        "term": "horn",
+        "partOfSpeech": "noun",
+        "definitionEn": "A hard, pointed growth on the head of certain animals.",
+        "translationUz": "shox",
+        "example": "The rhino's horn makes it a target for poachers.",
+        "collocations": ""
+      },
+      {
+        "term": "dodo",
+        "partOfSpeech": "noun",
+        "definitionEn": "An extinct flightless bird; figuratively, an outdated person or thing.",
+        "translationUz": "dodo (qirilib ketgan, ucha olmaydigan qush)",
+        "example": "The dodo disappeared centuries ago.",
+        "collocations": ""
+      },
+      {
+        "term": "a hive of bees",
+        "partOfSpeech": "noun",
+        "definitionEn": "A bee colony associated with the structure in which it lives.",
+        "translationUz": "asalari uyasi (undagi arilar oilasi)",
+        "example": "The beekeeper inspected a hive of bees.",
+        "collocations": ""
+      },
+      {
+        "term": "a bird's nest",
+        "partOfSpeech": "noun",
+        "definitionEn": "A structure or place where birds lay eggs, or where ants live and raise their young.",
+        "translationUz": "qush uyasi / chumoli uyasi",
+        "example": "We kept away from a bird's nest beside the path.",
+        "collocations": "a bird's nest / an ant's nest"
+      },
+      {
+        "term": "a lion's den",
+        "partOfSpeech": "noun",
+        "definitionEn": "A sheltered place used by a lion, especially a female with cubs.",
+        "translationUz": "sher ini",
+        "example": "The cubs remained near a lion's den.",
+        "collocations": "a lion's den"
+      },
+      {
+        "term": "a rabbit burrow",
+        "partOfSpeech": "noun",
+        "definitionEn": "A hole or tunnel used by rabbits or rodents as a home.",
+        "translationUz": "quyon ini / kemiruvchi hayvon ini",
+        "example": "We found a rabbit burrow beneath the hedge.",
+        "collocations": "a rabbit burrow / a rodent burrow"
+      },
+      {
+        "term": "a flock of birds",
+        "partOfSpeech": "noun",
+        "definitionEn": "A group of birds or a group of sheep.",
+        "translationUz": "qushlar galasi / qo'ylar suruvi",
+        "example": "A flock of birds flew above the field.",
+        "collocations": "a flock of birds / sheep"
+      },
+      {
+        "term": "swarm of insects",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large group of insects flying or moving together",
+        "translationUz": "hasharotlar galasi",
+        "example": "A swarm of insects can devastate crops across vast areas.",
+        "collocations": ""
+      },
+      {
+        "term": "a pack of wolves",
+        "partOfSpeech": "noun",
+        "definitionEn": "A group of these animals living, travelling or hunting together.",
+        "translationUz": "bo'rilar / itlar / chiyabo'rilar to'dasi",
+        "example": "We watched a pack of wolves cross the valley.",
+        "collocations": "a pack of wolves / dogs / jackals"
+      },
+      {
+        "term": "colony of ants",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large group of ants living together in an organized community",
+        "translationUz": "chumolilar koloniyasi",
+        "example": "A colony of ants can number in the millions, with different ants performing specialized roles.",
+        "collocations": ""
+      },
+      {
+        "term": "school of fish",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large group of fish swimming together",
+        "translationUz": "baliqlar galasi",
+        "example": "A school of fish moves as one unit, confusing predators with coordinated movements.",
+        "collocations": ""
+      },
+      {
+        "term": "herd of cattle",
+        "partOfSpeech": "noun",
+        "definitionEn": "A group of cattle or other large animals",
+        "translationUz": "qoramol podasi",
+        "example": "A herd of cattle grazed peacefully in the meadow.",
+        "collocations": ""
+      },
+      {
+        "term": "evolve",
+        "partOfSpeech": "verb",
+        "definitionEn": "To develop inherited changes in a population over generations.",
+        "translationUz": "evolyutsion rivojlanmoq",
+        "example": "Species evolve over many generations.",
+        "collocations": ""
+      },
+      {
+        "term": "defy imagination",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To be so extraordinary that it's hard to believe or comprehend",
+        "translationUz": "tasavvurga sig'mas darajada bo'lmoq",
+        "example": "The diversity of life in coral reefs can defy imagination.",
+        "collocations": ""
+      },
+      {
+        "term": "lifespan",
+        "partOfSpeech": "noun",
+        "definitionEn": "The length of time an organism normally lives",
+        "translationUz": "umr davomiyligi",
+        "example": "The lifespan of a Galápagos tortoise can exceed 150 years.",
+        "collocations": ""
+      },
+      {
+        "term": "forage",
+        "partOfSpeech": "verb",
+        "definitionEn": "To search for and collect food in the wild",
+        "translationUz": "ozuqa izlamoq",
+        "example": "Bears forage for berries, nuts, and fish to build up fat reserves before hibernation.",
+        "collocations": ""
+      },
+      {
+        "term": "capture prey",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To catch an animal to eat it.",
+        "translationUz": "o'ljani tutmoq",
+        "example": "The eagle swooped down to capture prey.",
+        "collocations": ""
+      },
+      {
+        "term": "metabolism",
+        "partOfSpeech": "noun",
+        "definitionEn": "All the chemical processes that sustain life in an organism.",
+        "translationUz": "moddalar almashinuvi (metabolizm)",
+        "example": "The animal's metabolism slows during hibernation.",
+        "collocations": ""
+      },
+      {
+        "term": "latitudes",
+        "partOfSpeech": "noun",
+        "definitionEn": "The distance north or south from the equator; regions at different distances from the equator",
+        "translationUz": "geografik kengliklar",
+        "example": "Different latitudes have distinct climates, affecting which species can survive there.",
+        "collocations": ""
+      },
+      {
+        "term": "vulnerable to",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To be susceptible or at risk from something harmful",
+        "translationUz": "biror narsadan zarar ko'rishga moyil bo'lmoq",
+        "example": "Young animals are vulnerable to predators and disease until they mature.",
+        "collocations": "be vulnerable to something"
+      },
+      {
+        "term": "Achilles' heel",
+        "partOfSpeech": "noun",
+        "definitionEn": "A weakness or vulnerable point despite overall strength (idiom from Greek mythology)",
+        "translationUz": "eng zaif nuqta",
+        "example": "Many powerful predators have an Achilles' heel – they require specific habitats that are disappearing.",
+        "collocations": "Achilles' heel"
+      },
+      {
+        "term": "interference from humans",
+        "partOfSpeech": "noun",
+        "definitionEn": "Negative impact on nature caused by human activities",
+        "translationUz": "insonlarning tabiatga aralashuvi",
+        "example": "Interference from humans through pollution, hunting, and habitat destruction threatens countless species.",
+        "collocations": ""
+      },
+      {
+        "term": "thrive",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To grow, develop or succeed strongly.",
+        "translationUz": "yaxshi rivojlanmoq / ravnaq topmoq",
+        "example": "Many species thrive in protected national parks. Biodiversity flourishes in undisturbed ecosystems.",
+        "collocations": "thrive / flourish",
+        "acceptedTranslations": [
+          "flourish"
+        ]
+      },
+      {
+        "term": "docile",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Easy to handle because it is calm and not aggressive.",
+        "translationUz": "yuvosh, itoatkor",
+        "example": "The docile animal allowed the keeper to approach.",
+        "collocations": ""
+      },
+      {
+        "term": "tame",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Not afraid of humans, often because of training or regular contact.",
+        "translationUz": "qo'lga o'rgatilgan",
+        "example": "The tame bird took food from my hand.",
+        "collocations": ""
+      },
+      {
+        "term": "domesticated",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Bred and adapted over generations to live with or be used by humans; that process.",
+        "translationUz": "xonakilashtirilgan / xonakilashtirish",
+        "example": "Domesticated animals depend on people to varying degrees.",
+        "collocations": "domesticated / domestication"
+      },
+      {
+        "term": "wild",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Living in natural conditions without domestication.",
+        "translationUz": "yovvoyi",
+        "example": "Wild animals should be observed from a safe distance.",
+        "collocations": ""
+      },
+      {
+        "term": "savage",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Extremely violent or fierce.",
+        "translationUz": "vahshiy, shafqatsiz",
+        "example": "The animal launched a savage attack.",
+        "collocations": ""
+      },
+      {
+        "term": "fierce",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Aggressive, threatening or powerful.",
+        "translationUz": "tajovuzkor, vajohatli",
+        "example": "A fierce dog guarded the entrance.",
+        "collocations": ""
+      },
+      {
+        "term": "migrate",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To move seasonally between regions; this movement.",
+        "translationUz": "mavsumiy ko'chib yurmoq / migratsiya",
+        "example": "The birds migrate south, and their migration takes several weeks.",
+        "collocations": "migrate / migration"
+      },
+      {
+        "term": "coniferous trees",
+        "partOfSpeech": "noun",
+        "definitionEn": "Cone-bearing trees, typically with needle-like or scale-like leaves.",
+        "translationUz": "ninabargli daraxtlar",
+        "example": "Coniferous trees grow on the hillside.",
+        "collocations": ""
+      },
+      {
+        "term": "deciduous trees",
+        "partOfSpeech": "noun",
+        "definitionEn": "Trees that shed their leaves seasonally, usually in autumn",
+        "translationUz": "mavsumiy barg to'kuvchi daraxtlar",
+        "example": "Deciduous trees like oaks and maples lose their leaves in fall and grow new ones in spring.",
+        "collocations": ""
+      },
+      {
+        "term": "bog",
+        "partOfSpeech": "noun",
+        "definitionEn": "Wetland area with acidic, waterlogged soil, often containing peat",
+        "translationUz": "torfli botqoq",
+        "example": "A bog supports plants adapted to wet, acidic soil.",
+        "collocations": ""
+      },
+      {
+        "term": "understorey",
+        "partOfSpeech": "noun",
+        "definitionEn": "Vegetation growing below the main forest canopy.",
+        "translationUz": "o'rmonning pastki o'simlik qatlami",
+        "example": "The understorey provides shelter for small birds.",
+        "collocations": "understorey / understory",
+        "acceptedTranslations": [
+          "understory"
+        ]
+      },
+      {
+        "term": "standing water",
+        "partOfSpeech": "noun",
+        "definitionEn": "Water that is not flowing; stagnant water in ponds, puddles, or containers",
+        "translationUz": "oqmaydigan (turg'un) suv",
+        "example": "Standing water provides breeding grounds for mosquitoes and supports aquatic life.",
+        "collocations": ""
+      },
+      {
+        "term": "decaying log",
+        "partOfSpeech": "noun",
+        "definitionEn": "A dead, rotting piece of wood; decomposing tree trunk or branch",
+        "translationUz": "chiriyotgan daraxt tanasi",
+        "example": "A decaying log provides habitat for insects and fungi.",
+        "collocations": ""
+      },
+      {
+        "term": "moss",
+        "partOfSpeech": "noun",
+        "definitionEn": "Small, soft, green plants that grow in dense clumps in damp, shady places",
+        "translationUz": "yo'sin",
+        "example": "Moss covers rocks and tree trunks in moist forests, helping to retain water in ecosystems.",
+        "collocations": ""
+      },
+      {
+        "term": "the countryside",
+        "partOfSpeech": "noun",
+        "definitionEn": "The countryside is rural land in general; a village is a small settlement.",
+        "translationUz": "qishloq joylari / qishloq",
+        "example": "We walked through the countryside to a village.",
+        "collocations": "the countryside / a village"
+      },
+      {
+        "term": "landscape",
+        "partOfSpeech": "noun",
+        "definitionEn": "The visible features of an area; the overall appearance of land including natural and man- made elements",
+        "translationUz": "landshaft, joy manzarasi",
+        "example": "The landscape of Iceland features volcanoes, glaciers, and geothermal springs.",
+        "collocations": ""
+      },
+      {
+        "term": "natural habitat",
+        "partOfSpeech": "noun",
+        "definitionEn": "The environment in which a species naturally lives and reproduces.",
+        "translationUz": "tabiiy yashash muhiti",
+        "example": "The forest is the animal's natural habitat.",
+        "collocations": ""
+      },
+      {
+        "term": "game reserve",
+        "partOfSpeech": "noun",
+        "definitionEn": "A protected area managed for wild animals, often large mammals.",
+        "translationUz": "yovvoyi hayvonlar qo'riqxonasi / yovvoyi hayvonlar muhofaza etiladigan park",
+        "example": "Visitors watched elephants in a game reserve.",
+        "collocations": "game reserve / game park",
+        "acceptedTranslations": [
+          "game park"
+        ]
+      },
+      {
+        "term": "game",
+        "partOfSpeech": "noun",
+        "definitionEn": "Wild animals or birds hunted for food or sport.",
+        "translationUz": "ovlanadigan yovvoyi hayvonlar va qushlar",
+        "example": "The law limits the hunting of game.",
+        "collocations": ""
+      },
+      {
+        "term": "bird sanctuary",
+        "partOfSpeech": "noun",
+        "definitionEn": "A protected place where birds can live and breed.",
+        "translationUz": "qushlar qo'riqxonasi",
+        "example": "The wetland became a bird sanctuary.",
+        "collocations": ""
+      },
+      {
+        "term": "animal rescue shelter",
+        "partOfSpeech": "noun",
+        "definitionEn": "A place that cares for lost, abandoned or rescued animals.",
+        "translationUz": "qutqarilgan hayvonlar boshpanasi",
+        "example": "The animal rescue shelter found the dog a new home.",
+        "collocations": ""
+      },
+      {
+        "term": "stray animal",
+        "partOfSpeech": "noun",
+        "definitionEn": "A domestic animal that is lost or has no home.",
+        "translationUz": "qarovsiz yoki adashib qolgan uy hayvoni",
+        "example": "Volunteers took the stray animal to a shelter.",
+        "collocations": ""
+      },
+      {
+        "term": "poacher",
+        "partOfSpeech": "phrase",
+        "definitionEn": "A poacher hunts or catches wildlife illegally; poach is the verb and poaching is the activity.",
+        "translationUz": "brakonyer / noqonuniy ov qilmoq / noqonuniy ov",
+        "example": "Rangers arrested a poacher during a patrol.",
+        "collocations": "poacher / poach / poaching"
+      },
+      {
+        "term": "horrifying",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Horrifying: Causing horror or shock; extremely disturbing Appalling: Causing shock or dismay; terrible",
+        "translationUz": "dahshatga soluvchi / larzaga soladigan darajada yomon",
+        "example": "The horrifying images showed animals suffering in captivity. The appalling conditions at the zoo led to its closure.",
+        "collocations": "horrifying / appalling",
+        "acceptedTranslations": [
+          "appalling"
+        ]
+      },
+      {
+        "term": "outrageous",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Shockingly bad or excessive; causing anger or moral outrage",
+        "translationUz": "g'azab uyg'otadigan, haddan oshgan",
+        "example": "The outrageous practice of trophy hunting continues despite international protests.",
+        "collocations": ""
+      },
+      {
+        "term": "distressing",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Distressing: Causing worry, sadness, or emotional pain Upsetting: Causing unhappiness or emotional disturbance",
+        "translationUz": "iztirobga soluvchi / ko'ngilni xira qiluvchi",
+        "example": "Distressing footage showed animals in cramped cages. The upsetting reality of factory farming shocked many viewers.",
+        "collocations": "distressing / upsetting",
+        "acceptedTranslations": [
+          "upsetting"
+        ]
+      },
+      {
+        "term": "use animals for research purposes",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To employ animals in scientific experiments and testing",
+        "translationUz": "hayvonlardan ilmiy tadqiqot maqsadlarida foydalanmoq",
+        "example": "Many scientists argue that it's necessary to use animals for research purposes to develop new medicines.",
+        "collocations": ""
+      },
+      {
+        "term": "caged animals",
+        "partOfSpeech": "noun",
+        "definitionEn": "Animals kept confined in cages or enclosures",
+        "translationUz": "qafasda saqlanadigan hayvonlar",
+        "example": "Caged animals in poorly maintained zoos often develop behavioral problems from lack of space and stimulation.",
+        "collocations": ""
+      },
+      {
+        "term": "be objective about",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To consider something without being influenced by personal feelings or bias; to be impartial",
+        "translationUz": "biror narsaga xolisona yondashmoq",
+        "example": "It's difficult to be objective about animal rights when you've witnessed cruelty firsthand.",
+        "collocations": "be objective about something"
+      },
+      {
+        "term": "objective views",
+        "partOfSpeech": "noun",
+        "definitionEn": "Objective views rely on evidence; subjective views reflect personal feelings or preferences.",
+        "translationUz": "xolis (dalillarga asoslangan) / subyektiv (shaxsiy) qarashlar",
+        "example": "The report separates objective views from subjective views.",
+        "collocations": "objective / subjective views"
+      },
+      {
+        "term": "vulnerable species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Species facing a high risk of extinction in the wild, below the endangered category in the IUCN system.",
+        "translationUz": "yo'qolib ketish xavfi yuqori bo'lgan turlar",
+        "example": "Vulnerable species need protection before their populations decline further.",
+        "collocations": ""
+      },
+      {
+        "term": "endangered species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Species facing a very high / extremely high risk of extinction in the wild.",
+        "translationUz": "yo'qolib ketish xavfi juda yuqori / o'ta yuqori bo'lgan turlar",
+        "example": "The reserve protects endangered species and monitors critically endangered species.",
+        "collocations": "endangered / critically endangered species"
+      },
+      {
+        "term": "on the verge of extinction",
+        "partOfSpeech": "phrase",
+        "definitionEn": "On the verge means very close to disappearing; at risk means in danger of disappearing.",
+        "translationUz": "yo'qolib ketish arafasida / yo'qolib ketish xavfi ostida",
+        "example": "Some populations are on the verge of extinction, while others are at risk of extinction.",
+        "collocations": "on the verge of extinction / at risk of extinction"
+      },
+      {
+        "term": "extinct species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Species with no living members remaining anywhere.",
+        "translationUz": "qirilib ketgan turlar",
+        "example": "The dodo is an example of an extinct species.",
+        "collocations": ""
+      },
+      {
+        "term": "go extinct",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To disappear completely as a species.",
+        "translationUz": "butunlay yo'qolib ketmoq / qirilib ketmoq",
+        "example": "Without protection, these animals could go extinct.",
+        "collocations": "go extinct / become extinct",
+        "acceptedTranslations": [
+          "become extinct"
+        ]
+      },
+      {
+        "term": "feel strongly about",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To have intense emotions or firm beliefs regarding something",
+        "translationUz": "biror masalaga nisbatan qat'iy fikr yoki kuchli his-tuyg'uga ega bo'lmoq",
+        "example": "Many people feel strongly about animal welfare and campaign against factory farming.",
+        "collocations": "feel strongly about something"
+      },
+      {
+        "term": "cause environmental damage",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To harm or destroy natural environments and ecosystems",
+        "translationUz": "atrof-muhitga zarar yetkazmoq",
+        "example": "Industrial activities can cause environmental damage through habitat destruction.",
+        "collocations": ""
+      },
+      {
+        "term": "be impartial about",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To be fair and not favor one side over another; to be unbiased",
+        "translationUz": "biror masalada tarafkashlik qilmaslik, xolis bo'lmoq",
+        "example": "Judges must be impartial about cases, considering evidence without prejudice.",
+        "collocations": "be impartial about something"
+      },
+      {
+        "term": "vegetarian",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who doesn't eat meat or fish; or relating to a diet without meat",
+        "translationUz": "vegetarian (go'sht va baliq iste'mol qilmaydigan kishi)",
+        "example": "Vegetarians consume plant-based foods, dairy, and eggs but avoid meat and fish. A vegetarian diet can be healthy and environmentally friendly.",
+        "collocations": ""
+      },
+      {
+        "term": "vegan",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who doesn't eat or use any animal products; or relating to complete avoidance of animal products",
+        "translationUz": "vegan (hayvonlardan olinadigan mahsulotlardan foydalanmaydigan kishi)",
+        "example": "Vegans avoid all animal products including meat, dairy, eggs, honey, and leather. A vegan lifestyle extends beyond diet to clothing and cosmetics.",
+        "collocations": ""
+      },
+      {
+        "term": "insist on rights for animals",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To demand firmly that animals should have legal protections and ethical treatment",
+        "translationUz": "hayvonlar huquqlarini qat'iy talab qilmoq",
+        "example": "Animal rights activists insist on rights for animals.",
+        "collocations": ""
+      },
+      {
+        "term": "hypocritical of",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Used when someone acts against the beliefs or standards they claim to support.",
+        "translationUz": "kimningdir o'z e'tiqodi yoki tamoyillariga zid ish qilishi ikkiyuzlamachilikdir",
+        "example": "It is hypocritical of someone to condemn poaching while knowingly buying illegal ivory.",
+        "collocations": "it is hypocritical of someone to do something"
+      },
+      {
+        "term": "blood sports",
+        "partOfSpeech": "noun",
+        "definitionEn": "Activities in which animals are injured or killed for entertainment.",
+        "translationUz": "hayvonlarga shikast yetkaziladigan yoki ular o'ldiriladigan ko'ngilochar musobaqalar",
+        "example": "The campaign opposes blood sports.",
+        "collocations": ""
+      },
+      {
+        "term": "fur trade",
+        "partOfSpeech": "noun",
+        "definitionEn": "The commercial buying and selling of animal skins with fur.",
+        "translationUz": "mo'yna savdosi",
+        "example": "The fur trade has faced strong criticism.",
+        "collocations": ""
+      },
+      {
+        "term": "ivory trade",
+        "partOfSpeech": "noun",
+        "definitionEn": "The buying and selling of ivory, especially elephant tusks.",
+        "translationUz": "fil suyagi (asosan filning uzun qoziq tishlari) savdosi",
+        "example": "Illegal activity in the ivory trade threatens elephants.",
+        "collocations": ""
+      },
+      {
+        "term": "animal rights activist",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who campaigns for the rights and protection of animals.",
+        "translationUz": "hayvonlar huquqlari himoyachisi",
+        "example": "The animal rights activist organised a peaceful protest.",
+        "collocations": ""
+      },
+      {
+        "term": "healing powers",
+        "partOfSpeech": "noun",
+        "definitionEn": "An alleged or actual ability to make illness or injury improve.",
+        "translationUz": "shifobaxsh xususiyatlar",
+        "example": "There is no sound evidence for the claimed healing powers of rhino horn.",
+        "collocations": ""
+      },
+      {
+        "term": "extinction",
+        "partOfSpeech": "noun",
+        "definitionEn": "The complete disappearance of a species.",
+        "translationUz": "turlarning butunlay yo'qolib ketishi",
+        "example": "Conservation work aims to prevent extinction.",
+        "collocations": ""
+      },
+      {
+        "term": "demise",
+        "partOfSpeech": "noun",
+        "definitionEn": "Death or end, especially of something significant; decline leading to death",
+        "translationUz": "halokat, barham topish",
+        "example": "Habitat loss led to the demise of many island species that couldn't adapt quickly enough.",
+        "collocations": ""
+      },
+      {
+        "term": "emerge",
+        "partOfSpeech": "verb",
+        "definitionEn": "To come into existence; to appear or become known; to come out",
+        "translationUz": "paydo bo'lmoq, yuzaga kelmoq",
+        "example": "New species emerge through evolution over millions of years.",
+        "collocations": ""
+      },
+      {
+        "term": "on the brink of",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To be at the point where something (usually bad) is about to happen; on the edge",
+        "translationUz": "biror hodisa (odatda salbiy) arafasida bo'lmoq",
+        "example": "Many species are on the brink of extinction due to human activities.",
+        "collocations": "be on the brink of something"
+      },
+      {
+        "term": "mass extinction",
+        "partOfSpeech": "noun",
+        "definitionEn": "The loss of a large proportion of species worldwide over a geologically short period.",
+        "translationUz": "turlarning ommaviy qirilib ketishi",
+        "example": "A mass extinction can transform ecosystems across the planet.",
+        "collocations": ""
+      },
+      {
+        "term": "rival",
+        "partOfSpeech": "verb",
+        "definitionEn": "To be as good as or equal to; to compete with",
+        "translationUz": "tenglashmoq, raqobatlashmoq",
+        "example": "Current biodiversity loss may rival major extinction events of the past.",
+        "collocations": ""
+      },
+      {
+        "term": "put at risk",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To expose something to danger or potential harm",
+        "translationUz": "biror narsani xavf ostiga qo'ymoq",
+        "example": "Countless species are put at risk by climate change.",
+        "collocations": "put something at risk"
+      },
+      {
+        "term": "habitat loss",
+        "partOfSpeech": "noun",
+        "definitionEn": "The destruction or reduction of natural environments where species live",
+        "translationUz": "tabiiy yashash muhitining yo'qolishi",
+        "example": "Habitat loss through deforestation is the primary threat to orangutans in Southeast Asia.",
+        "collocations": ""
+      },
+      {
+        "term": "overexploitation of natural resources",
+        "partOfSpeech": "noun",
+        "definitionEn": "Using natural resources faster than they can be replenished; excessive use",
+        "translationUz": "tabiiy resurslardan haddan tashqari foydalanish",
+        "example": "Overexploitation of natural resources includes overfishing, excessive logging, and mining that depletes ecosystems.",
+        "collocations": ""
+      },
+      {
+        "term": "invasive non-native species",
+        "partOfSpeech": "noun",
+        "definitionEn": "Introduced species that spread and cause harm in their new environment.",
+        "translationUz": "zarar keltiruvchi, chetdan kirib kelgan invaziv turlar",
+        "example": "Invasive non-native species can outcompete native organisms, disrupting entire ecosystems.",
+        "collocations": ""
+      },
+      {
+        "term": "biodiversity loss",
+        "partOfSpeech": "noun",
+        "definitionEn": "The reduction in variety of life forms; decrease in the number of species and genetic diversity",
+        "translationUz": "biologik xilma-xillikning kamayishi",
+        "example": "Biodiversity loss weakens ecosystems and reduces their ability to provide essential services.",
+        "collocations": ""
+      },
+      {
+        "term": "degradation",
+        "partOfSpeech": "noun",
+        "definitionEn": "The process of declining in quality; deterioration of environmental conditions",
+        "translationUz": "yemirilish, sifatning yomonlashuvi",
+        "example": "Soil degradation reduces land productivity and contributes to desertification.",
+        "collocations": ""
+      },
+      {
+        "term": "ecosystem services",
+        "partOfSpeech": "noun",
+        "definitionEn": "Benefits that humans receive from nature, including clean air, water, food, and climate regulation",
+        "translationUz": "ekotizim xizmatlari (tabiatning insonlarga beradigan foydalari)",
+        "example": "Ecosystem services like pollination and water purification are essential for human survival and worth trillions of dollars.",
+        "collocations": ""
+      },
+      {
+        "term": "damage",
+        "partOfSpeech": "noun",
+        "definitionEn": "Damage is injury or deterioration; harm is injury or a damaging effect. Their meanings often overlap.",
+        "translationUz": "shikast, zarar / ziyon",
+        "example": "Pollution causes damage to habitats and harm to wildlife.",
+        "collocations": "damage / harm",
+        "acceptedTranslations": [
+          "harm"
+        ]
+      },
+      {
+        "term": "shrinking habitats",
+        "partOfSpeech": "noun",
+        "definitionEn": "Natural living areas that are becoming smaller.",
+        "translationUz": "qisqarib borayotgan tabiiy yashash hududlari",
+        "example": "Shrinking habitats leave wildlife with less space.",
+        "collocations": ""
+      },
+      {
+        "term": "biodiversity",
+        "partOfSpeech": "noun",
+        "definitionEn": "The variety of life, including variation within species, between species and among ecosystems.",
+        "translationUz": "biologik xilma-xillik",
+        "example": "The forest supports remarkable biodiversity.",
+        "collocations": ""
+      },
+      {
+        "term": "legal protection",
+        "partOfSpeech": "noun",
+        "definitionEn": "Protection provided through laws and their enforcement.",
+        "translationUz": "huquqiy himoya",
+        "example": "The wetland needs legal protection.",
+        "collocations": ""
+      },
+      {
+        "term": "climate change sceptic",
+        "partOfSpeech": "noun",
+        "definitionEn": "Someone who questions aspects of climate change, its causes or its seriousness.",
+        "translationUz": "iqlim o'zgarishiga shubha bilan qarovchi kishi",
+        "example": "The speaker described himself as a climate change sceptic.",
+        "collocations": ""
+      },
+      {
+        "term": "global warming",
+        "partOfSpeech": "noun",
+        "definitionEn": "The long-term rise in the Earth’s average surface temperature.",
+        "translationUz": "global isish",
+        "example": "Global warming changes conditions in many habitats.",
+        "collocations": ""
+      },
+      {
+        "term": "polar ice",
+        "partOfSpeech": "noun",
+        "definitionEn": "Ice found in the regions around the North and South Poles.",
+        "translationUz": "qutb muzlari",
+        "example": "Researchers monitor changes in polar ice.",
+        "collocations": ""
+      },
+      {
+        "term": "rising sea levels",
+        "partOfSpeech": "noun",
+        "definitionEn": "An increase in the average height of the sea.",
+        "translationUz": "dengiz sathining ko'tarilishi",
+        "example": "Rising sea levels threaten low-lying coastal habitats.",
+        "collocations": ""
+      },
+      {
+        "term": "climatic changes",
+        "partOfSpeech": "noun",
+        "definitionEn": "Changes in long-term weather patterns.",
+        "translationUz": "iqlimdagi o'zgarishlar",
+        "example": "Climatic changes can alter migration routes.",
+        "collocations": ""
+      },
+      {
+        "term": "carbon dioxide emissions",
+        "partOfSpeech": "noun",
+        "definitionEn": "The release of carbon dioxide into the atmosphere.",
+        "translationUz": "atmosferaga karbonat angidrid (CO₂) chiqarilishi",
+        "example": "The city aims to cut carbon dioxide emissions.",
+        "collocations": ""
+      },
+      {
+        "term": "fossil fuels",
+        "partOfSpeech": "noun",
+        "definitionEn": "Coal, oil and natural gas formed from ancient organic material.",
+        "translationUz": "qazilma yoqilg'ilar",
+        "example": "Burning fossil fuels releases carbon dioxide.",
+        "collocations": ""
+      },
+      {
+        "term": "greenhouse effect",
+        "partOfSpeech": "noun",
+        "definitionEn": "The warming caused when atmospheric gases absorb and re-emit heat.",
+        "translationUz": "issiqxona effekti",
+        "example": "Human emissions strengthen the natural greenhouse effect.",
+        "collocations": ""
+      },
+      {
+        "term": "exert severe pressure on",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To place a very heavy demand or strain on something.",
+        "translationUz": "biror narsaga kuchli bosim o'tkazmoq",
+        "example": "Population growth can exert severe pressure on water supplies.",
+        "collocations": ""
+      },
+      {
+        "term": "finite resources",
+        "partOfSpeech": "noun",
+        "definitionEn": "Resources available in limited amounts.",
+        "translationUz": "cheklangan resurslar",
+        "example": "We need to use finite resources carefully.",
+        "collocations": ""
+      },
+      {
+        "term": "ecological balance",
+        "partOfSpeech": "noun",
+        "definitionEn": "The pattern of relationships and interactions that helps an ecosystem function.",
+        "translationUz": "ekologik muvozanat",
+        "example": "Removing predators can disrupt the ecological balance.",
+        "collocations": ""
+      },
+      {
+        "term": "uncontrolled deforestation",
+        "partOfSpeech": "noun",
+        "definitionEn": "Large-scale clearing of forests without effective restrictions.",
+        "translationUz": "o'rmonlarning nazoratsiz kesilishi",
+        "example": "Uncontrolled deforestation destroys wildlife habitats.",
+        "collocations": ""
+      },
+      {
+        "term": "demographic projections",
+        "partOfSpeech": "noun",
+        "definitionEn": "Estimates of future population size or structure.",
+        "translationUz": "demografik prognozlar",
+        "example": "Demographic projections help planners estimate future demand.",
+        "collocations": ""
+      },
+      {
+        "term": "grow exponentially",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To increase by a constant proportion over equal time intervals.",
+        "translationUz": "eksponensial o'smoq (teng vaqt oralig'ida bir xil nisbatda ortmoq)",
+        "example": "In a simplified model, a population may grow exponentially.",
+        "collocations": ""
+      },
+      {
+        "term": "depleted resources",
+        "partOfSpeech": "noun",
+        "definitionEn": "Supplies being used up / supplies already greatly reduced.",
+        "translationUz": "tugab borayotgan resurslar / zaxirasi keskin kamaygan resurslar",
+        "example": "Depleted resources cannot support unlimited demand.",
+        "collocations": "depleting resources / depleted resources"
+      },
+      {
+        "term": "waste disposal",
+        "partOfSpeech": "noun",
+        "definitionEn": "The process of getting rid of unwanted materials.",
+        "translationUz": "chiqindilarni yo'q qilish yoki utilizatsiya qilish",
+        "example": "Safe waste disposal protects rivers.",
+        "collocations": ""
+      },
+      {
+        "term": "toxic waste",
+        "partOfSpeech": "noun",
+        "definitionEn": "Waste containing substances that can poison living things.",
+        "translationUz": "zaharli chiqindilar",
+        "example": "Toxic waste must be handled carefully.",
+        "collocations": ""
+      },
+      {
+        "term": "contaminate",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To make something impure or unsafe; the resulting pollution.",
+        "translationUz": "ifloslantirmoq / ifloslanish",
+        "example": "Chemicals can contaminate water and cause contamination downstream.",
+        "collocations": "contaminate / contamination"
+      },
+      {
+        "term": "precious commodity",
+        "partOfSpeech": "noun",
+        "definitionEn": "Something valuable and often scarce that people need or trade.",
+        "translationUz": "qimmatli va ko'pincha tanqis resurs",
+        "example": "Clean water is a precious commodity.",
+        "collocations": ""
+      },
+      {
+        "term": "water security",
+        "partOfSpeech": "noun",
+        "definitionEn": "Reliable access to adequate quantities of safe water, with water-related risks managed.",
+        "translationUz": "suv xavfsizligi (yetarli va xavfsiz suvdan barqaror foydalanish)",
+        "example": "The drought threatens water security.",
+        "collocations": ""
+      },
+      {
+        "term": "worst-case scenario",
+        "partOfSpeech": "noun",
+        "definitionEn": "The most unfavourable plausible situation considered in planning.",
+        "translationUz": "eng yomon ehtimoliy ssenariy",
+        "example": "The team prepared for a worst-case scenario.",
+        "collocations": ""
+      },
+      {
+        "term": "tropical rainforest",
+        "partOfSpeech": "noun",
+        "definitionEn": "A forest in a warm region with high rainfall and rich biodiversity.",
+        "translationUz": "tropik yomg'ir o'rmoni",
+        "example": "A tropical rainforest supports thousands of species.",
+        "collocations": ""
+      },
+      {
+        "term": "pristine environment",
+        "partOfSpeech": "noun",
+        "definitionEn": "A natural area that is largely untouched and unspoilt.",
+        "translationUz": "inson ta'siridan deyarli xoli, buzilmagan tabiiy muhit",
+        "example": "Tourism must be managed to protect the pristine environment.",
+        "collocations": ""
+      },
+      {
+        "term": "preserve habitats",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To protect natural living areas from damage or destruction.",
+        "translationUz": "tabiiy yashash muhitlarini asrab qolmoq",
+        "example": "The project aims to preserve habitats along the river.",
+        "collocations": ""
+      },
+      {
+        "term": "green credentials",
+        "partOfSpeech": "noun",
+        "definitionEn": "A reputation or evidence of commitment to environmental protection.",
+        "translationUz": "atrof-muhitga mas'uliyatli munosabatning dalillari yoki obro'si",
+        "example": "The company wants to improve its green credentials.",
+        "collocations": ""
+      },
+      {
+        "term": "prophets of doom and gloom",
+        "partOfSpeech": "noun",
+        "definitionEn": "People who repeatedly predict serious trouble or disaster.",
+        "translationUz": "doim falokat va yomon oqibatlarni bashorat qiluvchilar",
+        "example": "The minister dismissed critics as prophets of doom and gloom.",
+        "collocations": ""
+      },
+      {
+        "term": "sustainable development",
+        "partOfSpeech": "noun",
+        "definitionEn": "Development that meets present needs while safeguarding future generations’ ability to meet theirs.",
+        "translationUz": "barqaror rivojlanish",
+        "example": "The plan places sustainable development at its centre.",
+        "collocations": ""
+      },
+      {
+        "term": "renewable energy",
+        "partOfSpeech": "noun",
+        "definitionEn": "Energy from sources that are naturally replenished, such as wind and sunlight.",
+        "translationUz": "qayta tiklanuvchi energiya",
+        "example": "The region is investing in renewable energy.",
+        "collocations": ""
+      },
+      {
+        "term": "environmental catastrophe",
+        "partOfSpeech": "noun",
+        "definitionEn": "An event causing extremely serious environmental destruction.",
+        "translationUz": "ekologik falokat",
+        "example": "The spill could become an environmental catastrophe.",
+        "collocations": ""
+      },
+      {
+        "term": "irreparable damage",
+        "partOfSpeech": "noun",
+        "definitionEn": "Harm that cannot be repaired or put right.",
+        "translationUz": "tiklab bo'lmaydigan zarar",
+        "example": "The development may cause irreparable damage to the wetland.",
+        "collocations": ""
+      },
+      {
+        "term": "overpopulation",
+        "partOfSpeech": "noun",
+        "definitionEn": "A population larger than an area’s resources and systems can support under given conditions.",
+        "translationUz": "aholining resurslar imkoniyatidan ortiq ko'payishi",
+        "example": "Overpopulation can put pressure on local resources.",
+        "collocations": ""
+      },
+      {
+        "term": "traffic gridlock",
+        "partOfSpeech": "noun",
+        "definitionEn": "Severe congestion in which traffic becomes almost unable to move.",
+        "translationUz": "transport harakati deyarli to'xtab qoladigan tirbandlik",
+        "example": "Better transport could reduce traffic gridlock.",
+        "collocations": ""
+      },
+      {
+        "term": "demography",
+        "partOfSpeech": "phrase",
+        "definitionEn": "The study of populations; relating to population characteristics.",
+        "translationUz": "demografiya / demografik",
+        "example": "Demography helps explain demographic change.",
+        "collocations": "demography / demographic"
+      },
+      {
+        "term": "projection",
+        "partOfSpeech": "phrase",
+        "definitionEn": "A forecast based on information; to estimate a future result.",
+        "translationUz": "prognoz / prognoz qilmoq",
+        "example": "Analysts project future demand and publish a projection.",
+        "collocations": "projection / project"
+      },
+      {
+        "term": "sustain",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To maintain; capable of continuing without exhausting its support; the ability to do so.",
+        "translationUz": "saqlab turmoq / barqaror / barqarorlik",
+        "example": "We must sustain these ecosystems for future generations.",
+        "collocations": "sustain / sustainable / sustainability"
+      },
+      {
+        "term": "toxic",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Poisonous; the degree to which a substance can cause poisoning.",
+        "translationUz": "zaharli / zaharlilik darajasi",
+        "example": "Scientists measure the toxicity of a toxic chemical.",
+        "collocations": "toxic / toxicity"
+      },
+      {
+        "term": "deplete",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To use up or greatly reduce a supply; that reduction.",
+        "translationUz": "tugatib yubormoq, zaxirani keskin kamaytirmoq / zaxiraning kamayishi",
+        "example": "Overuse can deplete groundwater and accelerate depletion.",
+        "collocations": "deplete / depletion"
+      }
+    ]
   }
 ]
