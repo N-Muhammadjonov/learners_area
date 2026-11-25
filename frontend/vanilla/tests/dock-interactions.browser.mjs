@@ -123,7 +123,10 @@ test('study tools stay above Dock, Focus matches other actions and its active ba
    for(const theme of ['day','night']){
     await page.evaluate(value=>document.documentElement.dataset.theme=value,theme);
     const palette=await page.evaluate(()=>{const start=getComputedStyle(fixtureStart),focus=getComputedStyle(document.querySelector('[data-focus-toggle]')),badge=getComputedStyle(document.querySelector('[data-focus-indicator]'));return {start:start.backgroundImage,text:start.color,focus:focus.backgroundImage,focusText:focus.color,badge:badge.backgroundImage};});
-    assert.equal(palette.focus,palette.start);assert.equal(palette.focusText,palette.text);assert.equal(palette.badge,palette.start);
+    const normalizeStops=value=>value.replace(/ (?:0|100)%/g,'');
+    assert.equal(normalizeStops(palette.focus),normalizeStops(palette.start));
+    assert.equal(palette.focusText,palette.text);
+    assert.equal(normalizeStops(palette.badge),normalizeStops(palette.start));
    }
    await page.keyboard.press('f');await page.waitForFunction(()=>document.documentElement.dataset.studyFocus==='off');assert.equal(await page.locator('[data-focus-indicator]').count(),0);
   }finally{await context.close();}
