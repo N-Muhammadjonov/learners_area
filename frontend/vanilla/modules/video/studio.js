@@ -70,7 +70,7 @@ export function createVideoStudio(context,{mode,video}){
 
  function coinReporter(playerSignal){
   const module=lesson.mediaKind==='audio'?'podcast':'ted';
-  let sessionId=null, pending=false, queued=null, terminal=null, lastSample=0;
+  let sessionId=null, pending=false, queued=null, paused=null, terminal=null, lastSample=0;
   async function send(pulse){
    pending=true;
    const request=new AbortController();
@@ -92,8 +92,10 @@ export function createVideoStudio(context,{mode,video}){
    }finally{
     clearTimeout(timeout);
     pending=false;
-    const next=terminal??queued;
-    if(terminal)terminal=null;else queued=null;
+    const next=paused??terminal??queued;
+    if(paused)paused=null;
+    else if(terminal)terminal=null;
+    else queued=null;
     if(next&&(!playerSignal.aborted||next.ended))void send(next);
    }
   }
@@ -104,6 +106,7 @@ export function createVideoStudio(context,{mode,video}){
    lastSample=now;
    if(!pending)void send(pulse);
    else if(pulse.ended){terminal=pulse;queued=null;}
+   else if(!pulse.playing&&!terminal){paused=pulse;queued=null;}
    else queued=pulse;
   };
  }

@@ -62,6 +62,10 @@ export function createDirectPlayer({src,captions,title,labels,onTime,onPulse,sig
  video.addEventListener('playing',()=>{playing=true;pulse(true);},{signal});
  for(const event of ['pause','waiting','seeking'])
   video.addEventListener(event,()=>{playing=false;if(!video.ended)pulse(true);},{signal});
+ video.addEventListener('seeked',()=>{
+  playing=!video.paused&&video.readyState>=3;
+  if(!video.ended)pulse(true);
+ },{signal});
  video.addEventListener('ratechange',()=>{if(!video.ended)pulse(true);},{signal});
  video.addEventListener('ended',()=>{playing=false;pulse(true,true);},{signal});
  document.addEventListener('visibilitychange',()=>{if(!video.ended)pulse(true);},{signal});
