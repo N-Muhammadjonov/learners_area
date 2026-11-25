@@ -109,12 +109,13 @@ jobs:
       - name: Browser dependency security gate
         run: npm audit --audit-level=high
         working-directory: frontend/vanilla
-      - name: Desktop and mobile motion parity in Chromium
+      - name: Desktop and mobile motion parity and My Progress in Chromium
         working-directory: frontend/vanilla
         run: |
           export CHROMIUM_EXECUTABLE="$(command -v google-chrome || command -v chromium)"
           test -n "$CHROMIUM_EXECUTABLE"
           node tests/browser-motion-parity.mjs
+          node tests/browser-progress-v54.mjs
       - name: General and Academic Reading CD review in Chromium
         working-directory: frontend/vanilla
         run: |

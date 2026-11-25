@@ -121,11 +121,17 @@ test('/app/progress is a protected native route, not the unavailable placeholder
 test('attempt bands retain real zero and validate separate skill aggregates', () => {
   const empty = {reading: null, listening: null, writing: null, speaking: null, heatmap: null, retention: null};
   const reading = {completed: 3, accuracy: 64.7, bandCount: 2, averageBand: 3.75, bestBand: 7.5,
-    firstBand: 0, weekly: [{weekStart: '2026-11-02', value: 75, count: 1}], recent: [{day: '2026-11-01', band: 0}, {day: '2026-11-05', band: 7.5}]};
-  assert.deepEqual(progressTrendsDTO({...empty, attemptBands: {reading, listening: null}}).attemptBands,
-    {reading, listening: null});
-  for (const changes of [{accuracy: 101}, {bandCount: 4}, {recent: [{day: '2026-11-05', band: 10}]}]) {
+    firstBand: 0, weekly: [{weekStart: '2026-11-02', value: 75, count: 1}],
+    weeklyBand: [{weekStart: '2026-11-02', value: 7.5, count: 1}],
+    recent: [{day: '2026-11-01', band: 0}, {day: '2026-11-05', band: 7.5}]};
+  const practice = {completed: 2, accuracy: 85};
+  const decoded = progressTrendsDTO({...empty, attemptBands: {reading, listening: null}, generalReadingPractice: practice});
+  assert.deepEqual(decoded.attemptBands, {reading, listening: null});
+  assert.deepEqual(decoded.generalReadingPractice, practice);
+  for (const changes of [{accuracy: 101}, {bandCount: 4}, {recent: [{day: '2026-11-05', band: 10}]},
+    {weeklyBand: [{weekStart: '2026-11-02', value: 75, count: 1}]}]) {
     assertBad(() => progressTrendsDTO({...empty, attemptBands: {reading: {...reading, ...changes}}}));
   }
   assert.deepEqual(progressTrendsDTO(empty).attemptBands, {reading: null, listening: null});
+  assert.equal(progressTrendsDTO(empty).generalReadingPractice, null);
 });

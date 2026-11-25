@@ -60,6 +60,11 @@ async def attempt_band_summary(con, uid, skill: str, *, today: date) -> dict:
                    count(*)::int AS attempts
             FROM scored WHERE submitted_at >= $3
             GROUP BY week_start
+        ), weekly_bands AS (
+            SELECT date_trunc('week', submitted_at AT TIME ZONE 'Asia/Tashkent')::date AS week_start,
+                   score, count(*)::int AS attempts
+            FROM full_tests WHERE submitted_at >= $3 AND submitted_at < $4
+            GROUP BY week_start, score
         )
         SELECT count(*)::int AS completed,
             round(avg(100.0 * score / total_questions), 1)::float8 AS accuracy,
@@ -69,9 +74,11 @@ async def attempt_band_summary(con, uid, skill: str, *, today: date) -> dict:
             ARRAY(SELECT submitted_at FROM recent ORDER BY submitted_at, id) AS recent_dates,
             ARRAY(SELECT week_start FROM weekly ORDER BY week_start) AS weekly_dates,
             ARRAY(SELECT accuracy FROM weekly ORDER BY week_start) AS weekly_accuracy,
-            ARRAY(SELECT attempts FROM weekly ORDER BY week_start) AS weekly_attempts
+            ARRAY(SELECT attempts FROM weekly ORDER BY week_start) AS weekly_attempts,
+            ARRAY(SELECT week_start FROM weekly_bands ORDER BY week_start, score) AS band_weeks,
+            ARRAY(SELECT ARRAY[score, attempts] FROM weekly_bands ORDER BY week_start, score) AS band_week_counts
         FROM scored
-    """, uid, RECENT_BAND_LIMIT, first_week)
+    """, uid, RECENT_BAND_LIMIT, first_week, first_week + timedelta(weeks=len(week_starts)))
     weekly = {
         week_start.isoformat(): {'value': accuracy, 'count': attempts}
         for week_start, accuracy, attempts in zip(
@@ -86,6 +93,12 @@ async def attempt_band_summary(con, uid, skill: str, *, today: date) -> dict:
             score_bands[score] = converted['band']
             band_count += count
             band_sum += converted['band'] * count
+    weekly_bands = {start: [0.0, 0] for start in week_starts}
+    for week_start, (score, count) in zip(row['band_weeks'], row['band_week_counts'], strict=True):
+        if score in score_bands:
+            bucket = weekly_bands[week_start.isoformat()]
+            bucket[0] += score_bands[score] * count
+            bucket[1] += count
     return {
         'completed': row['completed'],
         'accuracy': row['accuracy'],
@@ -97,12 +110,25 @@ async def attempt_band_summary(con, uid, skill: str, *, today: date) -> dict:
             {'weekStart': start, **weekly.get(start, {'value': None, 'count': 0})}
             for start in week_starts
         ],
+        'weeklyBand': [
+            {'weekStart': start, 'value': rounded(total / count, 2) if count else None, 'count': count}
+            for start, (total, count) in weekly_bands.items()
+        ],
         'recent': [
             {'day': submitted_at.astimezone(TASHKENT).date().isoformat(), 'band': score_bands[score]}
             for score, submitted_at in zip(row['recent_scores'], row['recent_dates'], strict=True)
             if score in score_bands
         ],
     }
+
+
+async def general_reading_summary(con, uid):
+    row = await con.fetchrow("""
+        SELECT count(*)::int AS completed, round(avg(100.0 * score / total), 1)::float8 AS accuracy
+        FROM general_reading_progress
+        WHERE user_id=$1 AND checked_at IS NOT NULL AND total>0 AND score BETWEEN 0 AND total
+    """, uid)
+    return dict(row)
 
 
 async def trends(con, uid):
@@ -120,6 +146,7 @@ async def trends(con, uid):
           FROM {skill}_attempts WHERE user_id=$1 AND status='completed' AND submitted_at>=$2
           AND score IS NOT NULL AND total_questions>0 GROUP BY day_key''', uid, since)
         attempt_bands[skill] = await reads.read(skill+'-attempt-bands', lambda:attempt_band_summary(con, uid, skill, today=today))
+    general_reading = await reads.read('general-reading-practice', lambda: general_reading_summary(con, uid))
     bands = {}
     for skill, source in (('writing','writing_submission'),('speaking','speaking_attempt')):
         bands[skill] = await fetch(skill,"""SELECT to_char(created_at AT TIME ZONE 'Asia/Tashkent','YYYY-MM-DD') AS day_key,
@@ -140,4 +167,4 @@ async def trends(con, uid):
         for r in rows or []:
             counts[r['day_key']] = counts.get(r['day_key'],0)+r['count']
     heatmap = [[{'day': (datetime.fromisoformat(w).date()+timedelta(days=d)).isoformat(), 'count': counts.get((datetime.fromisoformat(w).date()+timedelta(days=d)).isoformat(),0)} for d in range(7)] for w in weeks(today,12)]
-    return {'attemptBands': attempt_bands, **{k:series(v,today) if v is not None else None for k,v in graded.items()}, **{k:series(v,today,True) if v is not None else None for k,v in bands.items()}, 'heatmap':heatmap if all(v is not None for v in (*graded.values(),submitted,retention_days)) else None, 'retention':retention if aggregates is not None and recent is not None else None}
+    return {'attemptBands': attempt_bands, 'generalReadingPractice': general_reading, **{k:series(v,today) if v is not None else None for k,v in graded.items()}, **{k:series(v,today,True) if v is not None else None for k,v in bands.items()}, 'heatmap':heatmap if all(v is not None for v in (*graded.values(),submitted,retention_days)) else None, 'retention':retention if aggregates is not None and recent is not None else None}

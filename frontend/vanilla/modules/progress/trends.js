@@ -94,13 +94,15 @@ function retentionCard(t, retention) {
 /** Trends, heatmap and retention. Each series is independently null (unavailable), never zero. */
 export function trendCards(trends, dict) {
   const t = dict.progress.trends;
+  const reading = trends.attemptBands ? trends.attemptBands.reading?.weekly ?? null : trends.reading;
+  const listening = trends.attemptBands ? trends.attemptBands.listening?.weekly ?? null : trends.listening;
   return h('div', {class: 'flex flex-col gap-4'},
     h(Card, {'data-progress-trends': ''},
       h('h2', {class: 'mb-1 font-display text-lg text-ink-900'}, t.title),
       h('p', {class: 'meta-text mb-3'}, t.hint),
       h('div', {class: 'grid gap-4 sm:grid-cols-2'},
-        weekChart(t, t.readingAccuracy, trends.reading, 100, '%', 'reading'),
-        weekChart(t, t.listeningAccuracy, trends.listening, 100, '%', 'listening'),
+        weekChart(t, t.readingAccuracy, reading, 100, '%', 'reading'),
+        weekChart(t, t.listeningAccuracy, listening, 100, '%', 'listening'),
         weekChart(t, t.writingBand, trends.writing, 9, '', 'writing',4),
         weekChart(t, t.speakingBand, trends.speaking, 9, '', 'speaking',4))),
     heatmapCard(t, trends.heatmap),
