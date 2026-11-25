@@ -121,7 +121,7 @@ test('/app/progress is a protected native route, not the unavailable placeholder
 test('attempt bands retain real zero and validate separate skill aggregates', () => {
   const empty = {reading: null, listening: null, writing: null, speaking: null, heatmap: null, retention: null};
   const reading = {completed: 3, accuracy: 64.7, bandCount: 2, averageBand: 3.75, bestBand: 7.5,
-    firstBand: 0, recent: [{day: '2026-11-01', band: 0}, {day: '2026-11-05', band: 7.5}]};
+    firstBand: 0, weekly: [{weekStart: '2026-11-02', value: 75, count: 1}], recent: [{day: '2026-11-01', band: 0}, {day: '2026-11-05', band: 7.5}]};
   assert.deepEqual(progressTrendsDTO({...empty, attemptBands: {reading, listening: null}}).attemptBands,
     {reading, listening: null});
   for (const changes of [{accuracy: 101}, {bandCount: 4}, {recent: [{day: '2026-11-05', band: 10}]}]) {

@@ -70,16 +70,17 @@ const summaryNew = {
   mocks: {attempts: 0, finished: 0, bestBand: null},
   unavailableRegions: [],
 };
-const emptyBands = {completed: 0, accuracy: null, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: []};
+const emptyBands = {completed: 0, accuracy: null, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: [], weekly: series(Array(8).fill(null))};
 const attemptBands = {
-  reading: {completed: 4, accuracy: 75, bandCount: 3, averageBand: 7.17, bestBand: 8, firstBand: 6.5,
+  reading: {completed: 4, accuracy: 75, bandCount: 3, averageBand: 7.17, bestBand: 8, firstBand: 6.5, weekly: series([50, null, 70, 80, null, 75, 90, 85]),
     recent: [{day: '2026-09-01', band: 6.5}, {day: '2026-09-08', band: 7}, {day: '2026-09-15', band: 8}]},
-  listening: {completed: 2, accuracy: 60, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: []},
+  listening: {completed: 2, accuracy: 60, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: [],
+    weekly: series([null, null, null, null, null, null, null, 0])},
 };
 const trendsFull = {
   attemptBands,
-  reading: series([50, null, 70, 80, null, 75, 90, 85]),
-  listening: series([null, null, null, null, null, null, null, 0]),
+  reading: series([99, null, 99, 99, null, 99, 99, 99]),
+  listening: series([null, null, null, null, null, null, null, 99]),
   writing: series([null, null, 6, null, 6.5, null, null, null]),
   speaking: series([null, null, null, null, null, null, null, null]),
   heatmap: heatmap(),
@@ -166,13 +167,14 @@ await check('route resolves to native My Progress with heading, subtitle and Rep
   } finally { await f.close(); }
 });
 
-await check('skill cards: attempts, accuracy, zero vs no score, submitted counts and links', async () => {
+await check('skill cards show attempt counts and links with accuracy in the first-attempt section', async () => {
   const f = await fixture();
   try {
     await open(f);
     assert.equal(await attr(f, '[data-progress-module="reading"]', 'data-progress-attempts'), '5');
-    assert.equal(await attr(f, '[data-progress-module="reading"] [data-progress-value]', 'data-progress-value'), '75%');
-    assert.equal(await attr(f, '[data-progress-module="listening"] [data-progress-value]', 'data-progress-value'), '0%');
+    assert.equal(await f.page.locator('[data-progress-module="reading"] [data-progress-value]').count(), 0);
+    assert.equal(await text(f, '[data-attempt-band-panel="reading"] [data-attempt-band-stat="accuracy"]'), '75%');
+    assert.equal(await text(f, '[data-attempt-band-panel="listening"] [data-attempt-band-stat="accuracy"]'), '60%');
     assert.match(await text(f, '[data-progress-module="listening"]'), /3 attempts|3 /);
     assert.equal(await attr(f, '[data-progress-module="reading"]', 'href'), '/app/reading');
     assert.equal(await attr(f, '[data-progress-module="writing"]', 'href'), '/app/writing');
@@ -185,8 +187,7 @@ await check('new learner: no attempts, no score, zero vocabulary and empty trend
   try {
     await open(f);
     assert.equal(await attr(f, '[data-progress-module="reading"]', 'data-progress-attempts'), '0');
-    assert.equal(await attr(f, '[data-progress-module="reading"] [data-progress-value]', 'data-progress-value'), 'none');
-    assert.equal(await text(f, '[data-progress-module="reading"] [data-progress-value]'), en.progress.noScore);
+    assert.equal(await text(f, '[data-attempt-band-panel="reading"] [data-attempt-band-stat="accuracy"]'), '—');
     assert.equal(await f.page.locator('[data-trend-empty]').count(), 4);
     assert.equal(await f.page.locator('[data-trend-unavailable]').count(), 0);
     assert.equal(await f.page.locator('[data-heat="0"]').count(), 84);
@@ -315,6 +316,8 @@ await check('trends: weekly charts keep empty weeks as no value and render table
     await open(f);
     assert.equal(await f.page.locator('[data-trend="reading"]').count(), 1);
     assert.equal(await f.page.locator('[data-trend-table="reading"] tbody tr').count(), 8);
+    assert.equal(await text(f, '[data-trend-table="reading"] tbody tr:first-child td'), '50%');
+    assert.equal(await text(f, '[data-trend-table="listening"] tbody tr:last-child td'), '0%');
     assert.match(await f.page.locator('[data-trend-table="reading"] tbody tr').nth(1).textContent(), /—/);
     assert.equal(await f.page.locator('[data-trend-table="speaking"] tbody tr td').first().textContent(), '—');
     assert.equal(await f.page.locator('[data-trend="listening"] [data-trend-empty]').count(), 0);
@@ -363,8 +366,7 @@ await check('partial summary: an unavailable section is a dash, the other sectio
   const f = await fixture({regions: {progressSummary: {...summaryFull, reading: null, unavailableRegions: ['progress-reading']}}});
   try {
     await open(f);
-    assert.equal(await attr(f, '[data-progress-module="reading"] [data-progress-value]', 'data-progress-value'), 'unavailable');
-    assert.equal(await text(f, '[data-progress-module="reading"] [data-progress-value]'), '—');
+    assert.equal(await attr(f, '[data-progress-module="reading"]', 'data-progress-attempts'), 'unavailable');
     assert.equal(await f.page.locator('[data-region-failure="progress-reading"]').count(), 1);
     assert.equal(await attr(f, '[data-progress-module="listening"]', 'data-progress-attempts'), '3');
   } finally { await f.close(); }

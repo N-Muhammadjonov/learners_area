@@ -4,15 +4,15 @@ import {failureNode} from './shared.js';
 
 const LABELS = {
   en: {
-    completed: 'Scored attempts', accuracy: 'Average accuracy per attempt', average: 'Average band',
+    completed: 'First attempts scored', accuracy: 'Average accuracy', average: 'Average band',
     latest: 'Latest band', best: 'Best band', change: 'First → latest', noAttempts: 'No scored attempts yet.',
-    fullTests: 'Band estimates use completed 40-question tests.', table: 'Show attempts as a table',
+    fullTests: 'Each passage or test counts once. Band estimates use 40-question tests.', table: 'Show attempts as a table',
     date: 'Date', band: 'Band', trend: 'Band trend',
   },
   uz: {
-    completed: 'Baholangan urinishlar', accuracy: 'Urinishlar bo‘yicha o‘rtacha foiz', average: 'O‘rtacha band',
+    completed: 'Baholangan birinchi urinishlar', accuracy: 'O‘rtacha foiz', average: 'O‘rtacha band',
     latest: 'So‘nggi band', best: 'Eng yaxshi band', change: 'Birinchi → so‘nggi', noAttempts: 'Hali baholangan urinish yo‘q.',
-    fullTests: 'Band tugallangan 40 savollik testlardan hisoblanadi.', table: 'Urinishlarni jadvalda ko‘rish',
+    fullTests: 'Har bir passage yoki test bir marta hisoblanadi. Band 40 savollik testlardan olinadi.', table: 'Urinishlarni jadvalda ko‘rish',
     date: 'Sana', band: 'Band', trend: 'Band o‘zgarishi',
   },
 };

@@ -59,7 +59,7 @@ export async function mount(context) {
     },
     ready(summary) {
       state.summary = {state: 'ready', data: summary};
-      modulesHost.replaceChildren(skillCards(summary, dict, () => refreshSummary()));
+      modulesHost.replaceChildren(skillCards(summary, dict, () => refreshSummary(), {showAttemptAccuracy: false}));
       vocabHost.replaceChildren(vocabularyCard(summary.vocabulary, dict));
       courseHost.replaceChildren(courseCard(summary, dict, {showMocks: false}));
       renderStats();
@@ -88,7 +88,10 @@ export async function mount(context) {
     },
     ready(trends) {
       bandsHost.replaceChildren(attemptBandCards(trends.attemptBands, dict, locale, refreshTrends));
-      trendsHost.replaceChildren(trendCards(trends, dict));
+      trendsHost.replaceChildren(trendCards({...trends,
+        reading: trends.attemptBands.reading?.weekly ?? null,
+        listening: trends.attemptBands.listening?.weekly ?? null,
+      }, dict));
     },
     failed(refresh) {
       bandsHost.replaceChildren(failureNode({region: 'progress-attempt-bands', message: dict.errors.unknown, retry, refresh}));

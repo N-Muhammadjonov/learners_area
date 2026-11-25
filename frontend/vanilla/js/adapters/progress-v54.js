@@ -100,6 +100,7 @@ function attemptBands(x) {
   return {
     completed: x.completed, accuracy: x.accuracy, bandCount: x.bandCount,
     averageBand: x.averageBand, bestBand: x.bestBand, firstBand: x.firstBand,
+    weekly: weekSeries(x.weekly ?? null, 100),
     recent: x.recent.map(point => {
       if (!object(point) || !day(point.day) || !band(point.band)) bad();
       return {day: point.day, band: point.band};
