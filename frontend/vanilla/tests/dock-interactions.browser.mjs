@@ -198,8 +198,8 @@ test('Dock switch, desktop sidebar and mobile drawer keep the workspace usable',
  window.go=path=>shell.updateLocation(new URL(path,location.origin));
  `,'');
  await withDockBrowser(async(browser,origin)=>{
-  for(const width of [320,390,768,1440]){
-   const context=await browser.newContext({viewport:{width,height:800},hasTouch:width<768});
+  for(const [width,height,hasTouch] of [[320,800,true],[390,800,true],[844,390,true],[768,800,false],[1440,800,false]]){
+   const context=await browser.newContext({viewport:{width,height},hasTouch});
    try{
     const page=await context.newPage();
     await page.goto(origin+'/sidebar-fixture');
@@ -211,7 +211,7 @@ test('Dock switch, desktop sidebar and mobile drawer keep the workspace usable',
     assert(await sidebar.isVisible());
     assert(await dock.isHidden());
     assert(await toDock.isVisible());
-    if(width<768){
+    if(hasTouch){
      await hamburger.click();
      assert(await sidebar.isHidden());
      await hamburger.click();
@@ -228,7 +228,7 @@ test('Dock switch, desktop sidebar and mobile drawer keep the workspace usable',
     assert(await sidebar.isHidden()&&await dock.isHidden()&&await hamburger.isHidden());
     assert(await page.locator('[data-campus-back-link]').isVisible());
     await page.evaluate(()=>window.go('/app'));
-    if(width<768)await hamburger.click();
+    if(hasTouch)await hamburger.click();
     await toDock.click();
     assert(await dock.isVisible()&&await sidebar.isHidden());
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);

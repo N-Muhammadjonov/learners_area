@@ -11,7 +11,7 @@ export function navigationList(context){
 }
 
 const NAVIGATION_MODE_KEY='la-module-navigation-mode';
-const MOBILE_NAVIGATION='(max-width: 767px)';
+const MOBILE_NAVIGATION='(max-width: 767px), (max-width: 1024px) and (max-height: 500px) and (pointer: coarse)';
 const SIDEBAR_ID='module-sidebar';
 
 function readNavigationMode(){
