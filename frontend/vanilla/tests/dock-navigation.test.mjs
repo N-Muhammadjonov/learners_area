@@ -162,9 +162,11 @@ test('desktop switches between the Dock and the same role-scoped module routes',
    h.qa('[data-dock-module]').map(link=>link.getAttribute('href')));
   assert.equal(sidebar.querySelector('[aria-current="page"]').dataset.moduleSidebarLink,'reading');
   assert(h.q('[data-module-nav-hamburger]').hidden);
-  shell.updateLocation(url('/app/video-lessons/example'));
-  assert(sidebar.hidden&&dock.hidden);
-  assert(!h.q('[data-campus-back-link]').hidden);
+  for(const path of ['/app/video-lessons/example','/app/management?view=mock-grading','/app/management?view=mock-create']){
+   shell.updateLocation(url(path));
+   assert(sidebar.hidden&&dock.hidden,path);
+   assert(!h.q('[data-campus-back-link]').hidden,path);
+  }
   shell.updateLocation(url('/app/reading/academic'));
   assert(!sidebar.hidden);
   h.click(h.q('[data-module-nav-switch="dock"]'));
