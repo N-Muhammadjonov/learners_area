@@ -138,10 +138,10 @@ test('the thirteen reference photographs share a decoded inline atlas and keep t
    page.on('request',request=>{if(request.resourceType()==='image'&&request.url().startsWith(origin))imageRequests.push(request.url());});
    await page.goto(origin+'/dock-fixture');await page.waitForFunction(()=>window.fixtureDock);
    const artwork=await page.evaluate(()=>[...document.querySelectorAll('[data-dock-module]')].map(a=>({key:a.dataset.dockModule,art:a.querySelector('svg')?.dataset.dockArtwork,label:a.getAttribute('aria-label')})));
-   assert.equal(artwork.length,13);assert(artwork.every(a=>a.key===a.art&&a.label));
+   assert.equal(artwork.length,14);assert(artwork.every(a=>a.key===a.art&&a.label));
    assert(!artwork.some(a=>['courses','coach','reports','support'].includes(a.key)));
    const {references,atlas}=await page.evaluate(async()=>{
-    const pictures=[...document.querySelectorAll('[data-dock-reference]')];
+    const pictures=[...document.querySelectorAll('[data-dock-reference]:not([data-dock-artwork=leaderboard])')];
     const href=pictures[0].querySelector('image').getAttribute('href'),image=new Image();
     image.src=href;await image.decode();
     return {atlas:{inline:href.startsWith('data:image/webp;base64,'),size:href.length,width:image.naturalWidth,height:image.naturalHeight},references:pictures.map(svg=>{
@@ -150,7 +150,7 @@ test('the thirteen reference photographs share a decoded inline atlas and keep t
     })};
    });
    assert.deepEqual(references.map(r=>r.key),['dashboard','live-classes','assignments','mocks','video-lessons','listening','reading','writing','speaking','grammar','vocabulary','progress','management']);
-   assert(atlas.inline&&atlas.size<135000);assert.equal(atlas.width,768);assert.equal(atlas.height,788);assert.deepEqual(imageRequests,[]);
+   assert(atlas.inline&&atlas.size<135000);assert.equal(atlas.width,768);assert.equal(atlas.height,788);assert.deepEqual(imageRequests,[origin+'/images/dock/neon/leaderboard.webp']);
    for(const [index,ref] of references.entries()){
     assert(ref.shared);assert.equal(ref.x,0-(index%4)*192);assert.equal(ref.y,0-Math.floor(index/4)*197);
     assert.equal(ref.viewBox,'0 0 192 197');assert.equal(ref.background,'none');assert.equal(ref.overlay,'none');
