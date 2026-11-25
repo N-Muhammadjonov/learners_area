@@ -562,7 +562,7 @@ const en = {
             record: "Record summary", recording: "Recording", stop: "Stop", again: "Record again",
             listen: "Listen to your recording", temporary: "Temporary recording",
             notSaved: "Audio is not saved. Only you can play it here; it disappears when you leave this lesson.",
-            limit: "Maximum 3 minutes per recording.", requesting: "Waiting for microphone permission…",
+            limit: "Maximum {minutes} minutes per recording.", requesting: "Waiting for microphone permission…",
             preparing: "Preparing your recording…", unavailable: "Microphone unavailable in this browser or device.",
             permissionDenied: "Microphone permission denied. You can still write and save your summary.",
             failed: "Recording failed or the microphone request timed out. Try again, or write your summary.",

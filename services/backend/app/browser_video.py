@@ -6,6 +6,7 @@ import re
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, identifier, live
+from .coin_rewards import media_coins_earned
 from .security import normalize_origin, request_origin
 
 
@@ -31,6 +32,7 @@ async def studio(con, user, video, req):
         ORDER BY o.start_char,o.id''',video_id)
     return {'videoLesson':camel(video),'questions':[camel(r) for r in questions],
             'progress':camel(progress),'vocabulary':{'ready':True,'items':[camel(r) for r in words]},
+            'coinsEarned':await media_coins_earned(con,user['id'],str(video_id)) if video['lesson_id'] is None else 0,
             'directMedia':direct_media(video),
             'embedOrigin':request_origin(req)}
 

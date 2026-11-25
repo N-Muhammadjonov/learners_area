@@ -128,13 +128,13 @@ def add_unique_media_coverage(coverage: dict, start_ms: int, end_ms: int,
 
 
 def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
-                     playback_rate: float, playing: bool) -> dict:
+                     playback_rate: float, playing: bool, ended: bool = False) -> dict:
     """Server clock only. Seeking, pauses and stale tabs credit nothing."""
     position_ms = max(0, int(position_ms))
     rate = float(playback_rate or 0)
     if state is None:
         return {"state": {"at": now, "position": position_ms, "coverage": {}, "seen": {},
-                          "paid": set(), "credited": 0, "playing": playing, "rate": rate},
+                          "paid": set(), "credited": 0, "playing": playing and not ended, "rate": rate},
                 "credit_ms": 0, "buckets": []}
     elapsed = now - state["at"]
     if elapsed < timedelta(0):
@@ -145,9 +145,9 @@ def advance_playback(state: dict | None, now: datetime, *, position_ms: int,
     paid = set(state["paid"])
     credited = int(state["credited"])
     anchor = {"at": now, "position": position_ms, "coverage": coverage, "seen": seen,
-              "paid": paid, "credited": credited, "playing": playing, "rate": rate}
-    if (elapsed < timedelta(seconds=MIN_WALL_S) or elapsed > timedelta(seconds=MAX_WALL_S)
-            or not playing
+              "paid": paid, "credited": credited, "playing": playing and not ended, "rate": rate}
+    if ((not ended and elapsed < timedelta(seconds=MIN_WALL_S))
+            or elapsed > timedelta(seconds=MAX_WALL_S) or wall_ms <= 0 or not playing
             or not state.get("playing", True) or not isfinite(rate)
             or rate < MIN_RATE or rate > MAX_RATE):
         return {"state": anchor, "credit_ms": 0, "buckets": []}

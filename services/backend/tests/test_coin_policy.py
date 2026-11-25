@@ -119,3 +119,27 @@ def test_grammar_rejects_fabricated_choices_and_non_audio_confirmation():
     assert not grammar_submission_ok({"kind": "bank", "items": [{"a": ["red", "blue"]}], "bank": ["red", "blue"]}, ["red", "red"])
     assert grammar_submission_ok({"kind": "order", "items": [{"words": ["This", "works"]}]}, ["works This"])
     assert not grammar_submission_ok({"kind": "order", "items": [{"words": ["This", "works"]}]}, ["something else"])
+
+
+def test_twenty_minute_playback_counts_the_verified_tail_once():
+    started = datetime(2026, 11, 25, tzinfo=timezone.utc)
+    step = advance_playback(None, started, position_ms=0, playback_rate=1, playing=True)
+    awards = []
+    for position in range(10_000, 1_200_000, 10_000):
+        step = advance_playback(step["state"], started + timedelta(milliseconds=position),
+                                position_ms=position, playback_rate=1, playing=True)
+        awards.extend(step["buckets"])
+    step = advance_playback(step["state"], started + timedelta(seconds=1199),
+                            position_ms=1_199_000, playback_rate=1, playing=True)
+    awards.extend(step["buckets"])
+    finished = advance_playback(step["state"], started + timedelta(seconds=1203),
+                                position_ms=1_203_000, playback_rate=1, playing=True, ended=True)
+    assert awards + finished["buckets"] == [1, 2, 3, 4]
+    assert finished["state"]["playing"] is False
+    repeat = advance_playback(finished["state"], started + timedelta(seconds=1204),
+                              position_ms=1_203_000, playback_rate=1, playing=True, ended=True)
+    assert repeat["credit_ms"] == 0
+    assert repeat["buckets"] == []
+    seek_to_end = advance_playback(step["state"], started + timedelta(seconds=1201),
+                                   position_ms=1_203_000, playback_rate=1, playing=True, ended=True)
+    assert seek_to_end["credit_ms"] == 0

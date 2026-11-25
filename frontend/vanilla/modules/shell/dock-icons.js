@@ -14,8 +14,8 @@ const atlasColumns = 4;
 
 /** Dock-only references; entries without a supplied image keep their artwork.
  * The rest of the site's module icons keep their existing appearance. */
-export function dockIcon(key){
- if(key==='leaderboard'){
+export function dockIcon(key,{reference=true}={}){
+ if(reference&&key==='leaderboard'){
   // Same visual frame and responsive sizing as the other Dock reference assets.
   // The 104px WebP is stored alongside the existing neon icon assets.
   return svg('svg',{viewBox:'0 0 104 104',class:'dock-artwork dock-artwork--reference',
@@ -24,7 +24,7 @@ export function dockIcon(key){
     preserveAspectRatio:'xMidYMid meet'}));
  }
  const tile = referenceKeys.indexOf(key);
- if(tile >= 0){
+ if(reference&&tile >= 0){
   const clip='dock-reference-'+(++serial);
   const column = tile % atlasColumns;
   const row = Math.floor(tile / atlasColumns);

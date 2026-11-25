@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {withDockBrowser,frames,shellFixture} from './helpers/dock-browser.mjs';
+import {withDockBrowser,frames,shellFixture,documentFixture} from './helpers/dock-browser.mjs';
 
 test('hover grows icons to 1.1 and shows a glass pointer label with both motion preferences',async()=>{
  await withDockBrowser(async(browser,origin)=>{
@@ -180,4 +180,56 @@ test('Back restores page scroll and navigation leaves one live workspace',async(
    }finally{await context.close();}
   }
  },{'/app':shellFixture.replace("article.style.minHeight='300px'","article.style.minHeight='1800px'")});
+});
+
+test('Dock switch, desktop sidebar and mobile drawer keep the workspace usable',async()=>{
+ const fixture=documentFixture(`
+ import {createShell} from '/modules/shell/layout.js';
+ import dict from '/js/i18n/en.js';
+ import {api} from '/js/api-client.js';
+ const controller=new AbortController();
+ api.request=async()=>({unread:0});
+ const shell=createShell({dict,locale:'en',url:new URL('/app',location.origin),signal:controller.signal,
+  session:{user:{role:'owner',name:'Fixture Owner'}},state:{},navigate(){},refresh(){}});
+ document.querySelector('#root').append(shell.host);
+ window.go=path=>shell.updateLocation(new URL(path,location.origin));
+ `,'');
+ await withDockBrowser(async(browser,origin)=>{
+  for(const width of [320,390,768,1440]){
+   const context=await browser.newContext({viewport:{width,height:800},hasTouch:width<768});
+   try{
+    const page=await context.newPage();
+    await page.goto(origin+'/sidebar-fixture');
+    const dock=page.locator('[data-module-dock]'),sidebar=page.locator('[data-module-sidebar]'),hamburger=page.locator('[data-module-nav-hamburger]');
+    const toSidebar=page.locator('[data-module-nav-switch="sidebar"]'),toDock=page.locator('[data-module-nav-switch="dock"]');
+    const dashboard=page.locator('[data-dock-module="dashboard"]');
+    assert((await toSidebar.boundingBox()).x<(await dashboard.boundingBox()).x);
+    await toSidebar.click();
+    assert(await sidebar.isVisible());
+    assert(await dock.isHidden());
+    assert(await toDock.isVisible());
+    if(width<768){
+     await hamburger.click();
+     assert(await sidebar.isHidden());
+     await hamburger.click();
+     assert(await sidebar.isVisible());
+     const header=page.locator('[data-shell-topbar]');
+     const [panelBox,headerBox]=await Promise.all([sidebar.boundingBox(),header.boundingBox()]);
+     assert(panelBox.y>=headerBox.y+headerBox.height-1);
+    }else{
+     assert(await hamburger.isHidden());
+     const workspace=await page.locator('[data-dock-workspace]').boundingBox(),panel=await sidebar.boundingBox();
+     assert(workspace.x>=panel.x+panel.width-1);
+    }
+    await page.evaluate(()=>window.go('/app/video-lessons/example'));
+    assert(await sidebar.isHidden()&&await dock.isHidden()&&await hamburger.isHidden());
+    assert(await page.locator('[data-campus-back-link]').isVisible());
+    await page.evaluate(()=>window.go('/app'));
+    if(width<768)await hamburger.click();
+    await toDock.click();
+    assert(await dock.isVisible()&&await sidebar.isHidden());
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+   }finally{await context.close();}
+  }
+ },{'/sidebar-fixture':fixture});
 });

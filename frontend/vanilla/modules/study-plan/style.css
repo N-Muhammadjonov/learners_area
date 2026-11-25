@@ -107,6 +107,11 @@
 .coin-market-balance p{margin:0}
 .coin-market-summary,.coin-market-invite{padding:1.3rem;border-radius:16px;border:1px solid rgb(var(--workspace-line));background:rgb(var(--workspace-raised));display:grid;gap:1rem}
 .coin-market-summary>h2{font-size:1.3rem;font-weight:750}
+.coin-history-list{display:grid;list-style:none;margin:0;padding:0}
+.coin-history-entry{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.65rem 0;border-top:1px solid rgb(var(--workspace-line))}
+.coin-history-source{display:grid;gap:.15rem;min-width:0}
+.coin-history-source time{font-size:.8rem;color:rgb(var(--workspace-muted))}
+.coin-history-amount{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap;font-variant-numeric:tabular-nums}
 .coin-market-summary>p{margin-top:-.6rem}
 .coin-market-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem}
 .coin-market-action{display:flex;flex-direction:column;gap:.35rem;min-width:0;min-height:11rem;padding:1rem;border:1px solid rgb(var(--workspace-line));border-radius:15px;background:rgb(var(--workspace-sunken))}

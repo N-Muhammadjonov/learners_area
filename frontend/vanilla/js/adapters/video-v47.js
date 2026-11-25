@@ -59,13 +59,14 @@ export function videoStudioDTO(data){
  const directMedia=v.provider==='direct'?(data.directMedia==null?null:safeDirectMedia(data.directMedia)):null;
  return {
   videoLesson:{
-   id:v.id,provider:v.provider,videoId:v.videoId,title:v.title,beforeYouWatch:v.beforeYouWatch,durationSeconds:v.durationSeconds>0?v.durationSeconds:progress?.playbackDurationSeconds??v.durationSeconds,
+   id:v.id,provider:v.provider,videoId:v.videoId,mediaKind:v.mediaKind==='audio'?'audio':'video',title:v.title,beforeYouWatch:v.beforeYouWatch,durationSeconds:v.durationSeconds>0?v.durationSeconds:progress?.playbackDurationSeconds??v.durationSeconds,
    transcript:transcript?transcript.map(line=>({startSeconds:line.startSeconds,text:line.text})):null,
    transcriptSource:v.transcriptSource??null,transcriptAttribution:v.transcriptAttribution??null,transcriptText:v.transcriptText??null,notes:v.notes??null,
   },
   questions:data.questions.map(q=>({id:q.id,stage:q.stage,prompt:q.prompt,atSeconds:q.atSeconds})),
   progress:progress===null?null:{state:progress.state,watchedSeconds:progress.watchedSeconds,answers:progress.answers??{},responseText:progress.responseText??null,summaryText:progress.summaryText??null},
   vocabulary:{ready:vocab.ready,items:vocab.items.map(w=>({occurrenceId:w.occurrenceId,id:w.id,term:w.term,partOfSpeech:w.partOfSpeech??null,definitionEn:w.definitionEn,translationUz:w.translationUz??null,exampleSentence:w.exampleSentence??null}))},
+  coinsEarned:Number.isInteger(data.coinsEarned)&&data.coinsEarned>=0?data.coinsEarned:0,
   directMedia,
   embedOrigin:safeEmbedOrigin(data.embedOrigin??null),
  };

@@ -9,6 +9,7 @@ from .coin_rewards import award_grammar_book, media_heartbeat, wallet
 
 router = APIRouter()
 PRIVATE = {"Cache-Control": "private, no-store"}
+HISTORY_LIMIT = 50
 
 
 @router.get("/api/coins/policy")
@@ -30,6 +31,30 @@ async def coin_wallet(req: Request):
     return core.j(state, headers=PRIVATE)
 
 
+@router.get("/api/coins/history")
+async def coin_history(req: Request):
+    user = await core.current_user(req, active=True)
+    if not user:
+        return core.j({"error": "unauthenticated"}, 401, PRIVATE)
+    db = await core.pool()
+    async with db.acquire() as con:
+        rows = await con.fetch(
+            """SELECT entry_key, module, delta, happened_at FROM (
+                 SELECT event_key AS entry_key, module, coins::int AS delta, earned_at AS happened_at
+                 FROM coin_ledger WHERE user_id=$1
+                 UNION ALL
+                 SELECT spend_key, 'purchase', -coins::int, spent_at FROM coin_spend WHERE user_id=$1
+                 UNION ALL
+                 SELECT purchase_id::text, 'refund', coins, refunded_at FROM coin_gift_refunds WHERE user_id=$1
+               ) AS history
+               ORDER BY happened_at DESC, module, entry_key LIMIT $2""",
+            user["id"], HISTORY_LIMIT)
+    return core.j({"entries": [
+        {"module": row["module"], "delta": row["delta"], "at": row["happened_at"].isoformat()}
+        for row in rows
+    ]}, headers=PRIVATE)
+
+
 @router.post("/api/coins/media/heartbeat")
 async def heartbeat(req: Request):
     user = await core.current_user(req, active=True)
@@ -43,6 +68,7 @@ async def heartbeat(req: Request):
     position = body.get("positionMs")
     rate = body.get("playbackRate", 1)
     playing = body.get("playing")
+    ended = body.get("ended", False)
     duration = body.get("durationMs")
     session = body.get("sessionId")
     # Client heartbeat has no verifiable microphone/speech evidence. Never mint Speaking coins here.
@@ -50,7 +76,7 @@ async def heartbeat(req: Request):
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
     if type(position) is not int or position < 0 or position > 24 * 60 * 60 * 1000:
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
-    if (type(playing) is not bool or type(rate) not in (int, float)
+    if (type(playing) is not bool or type(ended) is not bool or type(rate) not in (int, float)
             or not 0.5 <= rate <= 2.0):
         return core.j({"error": "invalid_input"}, 400, PRIVATE)
     if duration is not None and (type(duration) is not int or duration < 0 or duration > 24 * 60 * 60 * 1000):
@@ -62,7 +88,7 @@ async def heartbeat(req: Request):
         result = await media_heartbeat(
             con, user["id"], session_id=core.uuid_value(session) if session else None,
             media_id=media_id.strip(), module=module, position_ms=position,
-            playback_rate=float(rate), playing=playing, duration_ms=duration)
+            playback_rate=float(rate), playing=playing, duration_ms=duration, ended=ended)
     if result.get("error"):
         return core.j(result, 400, PRIVATE)
     return core.j(result, headers=PRIVATE)

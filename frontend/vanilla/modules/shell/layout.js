@@ -13,7 +13,7 @@ import {profileMenu} from './profile.js';
 import {shellUtilities} from './utilities.js';
 import {sectionHeader} from './section-header.js';
 import {notificationBell} from './notifications.js';
-import {moduleDock} from './dock.js';
+import {moduleNavigation} from './navigation-list.js';
 import {shellPartnerRinging} from '../speaking/partner-ringing.js';
 
 /** Shared controls for ordinary workspaces and detached focus route frames. */
@@ -61,8 +61,6 @@ export function createShell(context){
  const {signal}=context;
  if(context.session.diagnostics||rootDiagnosticsEnabled())void enableDiagnostics(signal,{shell:true});
  const host=el('div',{'data-shell':'','data-campus-shell':'','data-dock-shell':'','data-ui-system':'',class:'flex h-dvh overflow-hidden bg-paper'});
- // Kept detached for the workspace scroll-state contract; no sidebar is rendered.
- const sidebar=el('aside');
  const column=el('div',{'data-dock-workspace':'',class:'flex min-h-0 min-w-0 flex-1 flex-col'});
  const {top,chrome,search,profile,pref}=createTopbar(context);
  const main=el('main',{id:'main-content',tabindex:-1,'data-shell-main':'',class:'min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-paper'});
@@ -70,14 +68,15 @@ export function createShell(context){
  const transition=workspaceTransition(context);outlet.append(transition.node);main.append(outlet);
  const sections=sectionHeader(context,chrome.sectionTitle,chrome.name);
  const band=el('div',{'data-workspace-header':''},top,sections.node);column.append(band,main);host.append(column);
- const utilities=shellUtilities(context),dock=moduleDock(context),ring=shellPartnerRinging(context);host.append(dock.node,utilities.node,ring.node);
+ const utilities=shellUtilities(context),navigation=moduleNavigation(context,{top,main}),ring=shellPartnerRinging(context);
+ host.prepend(navigation.panel);host.append(navigation.dock,navigation.backdrop,utilities.node,ring.node);
  function skill(url){host.dataset.workspaceSkill=url.pathname.split('/')[2]||'general';}
- function update(url,user,state){skill(url);host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);dock.update(url);ring.update(url);}
+ function update(url,user,state){skill(url);host.style.setProperty('--workspace-accent',workspaceAccent(url));chrome.update(url);sections.update(url);if(state)pref.updateState?.(state);if(user)profile.update(user);profile.close();search.close(false);utilities.update(url);navigation.update(url);ring.update(url);}
  let stopPending=()=>{};
  function end(committed=false){stopPending(committed===true);transition.end();}
  signal.addEventListener('abort',()=>stopPending(),{once:true});
  modulePrewarm({root:host,routes,signal});navigationIntent({root:host,signal});update(context.url);
- return {host,outlet:transition.content,main,sidebar,attachModuleHeader:sections.attach,preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){skill(url);chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);dock.update(url);ring.update(url);},
+ return {host,outlet:transition.content,main,sidebar:navigation.scroll,attachModuleHeader:sections.attach,preferenceFocus:()=>pref.preferenceFocus?.(),update,updateLocation(url){skill(url);chrome.update(url);sections.updateLocation(url);profile.close();search.close(false);utilities.update(url);navigation.update(url);ring.update(url);},
   begin:(url,flight,source)=>{end();profile.close();search.close(false);
    const anchor=source?.isConnected?source:null;const stop=beginLinkPending(anchor,flight);
    const restore=()=>{stop();flight.removeEventListener('abort',restore);stopPending=()=>{};};

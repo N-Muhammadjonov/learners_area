@@ -14,6 +14,8 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 
+from asyncpg import UndefinedTableError
+
 from .coin_policy import (POLICY_VERSION, answers_complete, cap_allows, coin_level,
                           grammar_submission_ok, next_level_at, vocab_milestone_coins)
 
@@ -317,10 +319,21 @@ async def sync_listening_activities(con, user_id, source_id: str, test_id: str, 
                              evidence_id=f"{source_id}:{name}")
 
 
+async def media_coins_earned(con, user_id, media_id: str) -> int:
+    try:
+        async with con.transaction():
+            return await con.fetchval(
+                """SELECT coalesce(sum(coins),0)::int FROM coin_ledger
+                   WHERE user_id=$1 AND parent_content_id=$2 AND module IN ('ted','podcast')
+                     AND activity_type='active_time'""", user_id, media_id)
+    except UndefinedTableError:
+        return 0
+
+
 async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: str,
                           position_ms: int, playback_rate: float, playing: bool,
-                          duration_ms: int | None):
-    """Credit unique active wall time for a published, server-owned direct media item.
+                          duration_ms: int | None, ended: bool = False) -> dict:
+    """Credit unique active wall time for a published media item.
 
     The public heartbeat is never accepted for Speaking: a browser-selected
     mediaId and playing flag do not prove that the learner spoke.
@@ -361,6 +374,10 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                 if source["duration_seconds"] and source["duration_seconds"] > 0 else None)
             if canonical_duration is not None and position_ms > canonical_duration + 2000:
                 return {"error": "invalid_position"}
+            terminal_duration = canonical_duration or duration_ms
+            finished = bool(ended and terminal_duration and abs(position_ms - terminal_duration) <= 2000)
+            if ended and not finished:
+                playing = False
             if session_id is not None:
                 row = await con.fetchrow(
                     """SELECT id,last_at,last_position_ms,credited_ms FROM coin_media_sessions
@@ -378,8 +395,9 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                     """INSERT INTO coin_media_coverage(user_id,media_id,bucket,credited_ms,paid)
                        VALUES($1,$2,-2,$3,$4) ON CONFLICT(user_id,media_id,bucket)
                        DO UPDATE SET credited_ms=excluded.credited_ms,paid=excluded.paid""",
-                    user_id, media_id, int(playback_rate * 1000), playing)
-                return {"sessionId": str(row["id"]), "awarded": 0}
+                    user_id, media_id, int(playback_rate * 1000), playing and not ended)
+                return {"sessionId": str(row["id"]), "awarded": 0,
+                        "coinsEarned": await media_coins_earned(con, user_id, media_id)}
             coverage_rows = await con.fetch(
                 """SELECT bucket,credited_ms,paid FROM coin_media_coverage
                    WHERE user_id=$1 AND media_id=$2""", user_id, media_id)
@@ -389,9 +407,9 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                     for item in coverage_rows if item["bucket"] <= -10}
             marker = next((item for item in coverage_rows if item["bucket"] == -2), None)
             paid_rows = await con.fetch(
-                """SELECT exercise_id FROM coin_ledger
-                   WHERE user_id=$1 AND parent_content_id=$2 AND activity_type='active_time'""",
-                user_id, media_id)
+                """SELECT exercise_id,coins FROM coin_ledger
+                   WHERE user_id=$1 AND parent_content_id=$2 AND activity_type='active_time' AND module=$3""",
+                user_id, media_id, module)
             paid = {int(item["exercise_id"]) for item in paid_rows
                     if item["exercise_id"] and item["exercise_id"].isdigit()}
             state = {"at": max(row["last_at"], latest_at or row["last_at"]),
@@ -401,7 +419,7 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                      "coverage": original, "paid": paid, "credited": int(row["credited_ms"] or 0)}
             step = advance_playback(
                 state, server_now, position_ms=position_ms,
-                playback_rate=playback_rate, playing=playing)
+                playback_rate=playback_rate, playing=playing, ended=finished)
             nxt = step["state"]
             await con.execute(
                 """UPDATE coin_media_sessions SET last_at=$2,last_position_ms=$3,credited_ms=$4
@@ -410,7 +428,7 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                 """INSERT INTO coin_media_coverage(user_id,media_id,bucket,credited_ms,paid)
                    VALUES($1,$2,-2,$3,$4) ON CONFLICT(user_id,media_id,bucket)
                    DO UPDATE SET credited_ms=excluded.credited_ms,paid=excluded.paid""",
-                user_id, media_id, int(playback_rate * 1000), playing)
+                user_id, media_id, int(playback_rate * 1000), nxt["playing"])
             if step["credit_ms"]:
                 await con.execute(
                     "INSERT INTO coin_practice_time(user_id,module,active_ms) VALUES($1,$2,$3)",
@@ -441,7 +459,8 @@ async def media_heartbeat(con, user_id, *, session_id, media_id: str, module: st
                         parent_content_id=media_id, exercise_id=str(bucket),
                         evidence_id=str(row["id"]), session_id=row["id"]):
                     awarded += 1
-            return {"sessionId": str(row["id"]), "awarded": awarded}
+            return {"sessionId": str(row["id"]), "awarded": awarded,
+                    "coinsEarned": sum(item["coins"] for item in paid_rows) + awarded}
     except Exception:
         logging.getLogger(__name__).exception("Coin media heartbeat failed for module %s", module)
         return {"sessionId": None, "awarded": 0, "unavailable": True}

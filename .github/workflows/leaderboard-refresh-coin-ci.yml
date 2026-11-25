@@ -8,6 +8,8 @@ on:
       - 'frontend/vanilla/js/routes.js'
       - 'frontend/vanilla/modules/study-plan/**'
       - 'frontend/vanilla/modules/video/studio.js'
+      - 'frontend/vanilla/modules/shell/**'
+      - 'frontend/vanilla/css/dock.css'
       - 'services/backend/app/coin_rewards.py'
   workflow_dispatch:
 permissions:
@@ -21,7 +23,7 @@ jobs:
         with:
           node-version: '24'
       - run: npm ci --ignore-scripts --no-audit --no-fund
-      - run: node --test frontend/vanilla/tests/route-refresh-regression.test.mjs frontend/vanilla/tests/leaderboard-podium.test.mjs frontend/vanilla/tests/video-workspace.test.mjs
+      - run: node --test frontend/vanilla/tests/route-refresh-regression.test.mjs frontend/vanilla/tests/leaderboard-podium.test.mjs frontend/vanilla/tests/video-workspace.test.mjs frontend/vanilla/tests/dock-navigation.test.mjs
       - run: node scripts/bundle_browser.mjs
       - run: node --check frontend/vanilla/modules/video/studio.js
   backend:
