@@ -17,6 +17,17 @@ router=APIRouter()
 
 def clip(v,n):return v.strip()[:n] if isinstance(v,str) and v.strip() else None
 
+def new_telegram_student_status() -> str:
+    enabled = os.getenv('TELEGRAM_AUTO_ACTIVATE_REGISTRATIONS', '').strip().lower()
+    return 'active' if enabled in ('1', 'true') else 'pending'
+
+
+async def audit_telegram_activation(conn, user_id, source: str) -> None:
+    await conn.execute('''INSERT INTO audit_log(action,target_type,target_id,metadata)
+        VALUES('access.auto_activated','user',$1,jsonb_build_object('source',$2::text))''',
+        str(user_id),source)
+
+
 async def gates(conn,tg):
     if not re.fullmatch(r'(?i)(?:1|true)',os.getenv('TELEGRAM_ACCESS_GATES_ENABLED','true').strip()):return None
     contact=await conn.fetchrow('SELECT phone_number,phone_verified_at FROM telegram_contacts WHERE telegram_user_id=$1',tg)
@@ -63,24 +74,27 @@ async def bot_admission_request(req:Request):
     gated=await gates(PooledReads(db),tg)
     if gated:
         code=gated['error'];return core.j(gated,403 if code in ('phone_required','not_subscribed') else 503)
-    async with db.acquire() as conn:
+    async with db.acquire() as conn, conn.transaction():
         name=clip(b.get('name'),200)
         if not name or len(name)<3 or not re.fullmatch(r'\S+(?:\s+\S+)+',name):return core.j({'error':'invalid_input'},400)
         username=clip(b.get('username'),120)
         username=username.lstrip('@') if username else None
         chat=clip(b.get('chatId'),64) or tg
+        user=await conn.fetchrow('SELECT id,account_status FROM users WHERE telegram_id=$1 FOR UPDATE',tg)
+        if not user:
+            user=await conn.fetchrow('''INSERT INTO users(telegram_id,name,role,account_status,locale)
+                VALUES($1,$2,'student',$4::account_status,$3)
+                ON CONFLICT(telegram_id) DO NOTHING RETURNING id,account_status''',
+                tg,name,'en' if b.get('languageCode')=='en' else 'uz',new_telegram_student_status())
+            if user and user['account_status']=='active':
+                await audit_telegram_activation(conn,user['id'],'telegram_bot')
+            if not user:
+                user=await conn.fetchrow('SELECT id,account_status FROM users WHERE telegram_id=$1 FOR UPDATE',tg)
+        if not user:return core.j({'error':'internal_error'},500)
         await conn.execute('''INSERT INTO telegram_contacts(telegram_user_id,chat_id,username,language_code,last_seen_at,updated_at)
              VALUES($1,$2,$3,$4,NOW(),NOW()) ON CONFLICT(telegram_user_id) DO UPDATE SET
              chat_id=EXCLUDED.chat_id,username=EXCLUDED.username,language_code=EXCLUDED.language_code,
              last_seen_at=NOW(),updated_at=NOW(),removed_at=NULL,bot_blocked_at=NULL''',tg,chat,username,clip(b.get('languageCode'),10))
-        user=await conn.fetchrow('SELECT id,account_status FROM users WHERE telegram_id=$1',tg)
-        if not user:
-            try:
-                user=await conn.fetchrow('''INSERT INTO users(telegram_id,name,role,account_status,locale)
-                    VALUES($1,$2,'student','pending',$3) RETURNING id,account_status''',tg,name,'en' if b.get('languageCode')=='en' else 'uz')
-            except Exception:
-                user=await conn.fetchrow('SELECT id,account_status FROM users WHERE telegram_id=$1',tg)
-        if not user:return core.j({'error':'internal_error'},500)
         if user['account_status'] in ('active','suspended'):
             return core.j({'success':True,'status':'already_active' if user['account_status']=='active' else 'suspended',
                            'userId':str(user['id']),'requestId':None})
