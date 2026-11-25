@@ -121,21 +121,19 @@ def test_handoff_never_issues_intent_for_blocked_account(monkeypatch, status):
     assert conn.insert_args is None
 
 
-@pytest.mark.parametrize("purpose,account", [
-    ("login", {"id": INTENT_ID, "account_status": "active"}),
-    ("register", None),
-])
-def test_handoff_generates_scoped_five_minute_confirmed_intent(monkeypatch, purpose, account):
+@pytest.mark.parametrize("account_status", ["active", "pending"])
+def test_handoff_generates_scoped_five_minute_confirmed_intent(monkeypatch, account_status):
+    account = {"id": INTENT_ID, "account_status": account_status}
     conn, _ = setup(monkeypatch, contact=verified_contact(), account=account)
     response = TestClient(core.app).post(
         ROUTE, headers=TOKEN_HEADERS, json={"telegramUserId": "12345"}
     )
     assert response.status_code == 200, response.text
     body = response.json()
-    assert body["purpose"] == purpose
+    assert body["purpose"] == "login"
     assert body["intentId"] == str(INTENT_ID)
     assert len(body["browserNonce"]) == 64
-    assert conn.insert_args[2:4] == ("12345", purpose)
+    assert conn.insert_args[2:4] == ("12345", "login")
     assert conn.insert_args[4] > datetime.now(timezone.utc)
     assert "token" not in body
 
@@ -148,4 +146,12 @@ def test_handoff_blocks_removed_contact(monkeypatch):
         ROUTE, headers=TOKEN_HEADERS, json={"telegramUserId": "12345"}
     )
     assert response.status_code == 403
+    assert conn.insert_args is None
+
+
+def test_missing_account_registers_in_bot_without_issuing_browser_proof(monkeypatch):
+    conn, _ = setup(monkeypatch, contact=verified_contact())
+    response = TestClient(core.app).post(ROUTE, headers=TOKEN_HEADERS, json={"telegramUserId": "12345"})
+    assert response.status_code == 404
+    assert response.json() == {"error": "no_linked_account"}
     assert conn.insert_args is None

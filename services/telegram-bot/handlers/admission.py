@@ -8,6 +8,7 @@ from html_text import esc
 from i18n import t
 from middlewares.auth import allows, denial_key
 from services.api_client import api_client
+from services.login_handoff import website_link
 
 admission_router = Router()
 
@@ -25,6 +26,9 @@ class RegistrationName(StatesGroup):
 
 async def begin_apply(message: Message, state: FSMContext | None, db_user: dict | None = None, lang: str | None = None):
     lang = lang or _lang(message, db_user)
+    if not message.from_user or not message.chat or message.chat.type != "private":
+        await message.answer(t(lang, "confirm_failed"))
+        return
     status = (db_user or {}).get("accountStatus")
     if status in {"active", "pending", "suspended"}:
         await message.answer(t(lang, "apply_" + status))
@@ -41,6 +45,9 @@ async def cmd_apply(message: Message, state: FSMContext | None = None, db_user: 
 @admission_router.message(RegistrationName.waiting, F.text & ~F.text.startswith("/"))
 async def registration_name(message: Message, state: FSMContext, db_user: dict | None = None, backend_error: bool = False):
     lang = _lang(message, db_user)
+    if not message.from_user or not message.chat or message.chat.type != "private":
+        await message.answer(t(lang, "confirm_failed"))
+        return
     name = " ".join((message.text or "").split())
     if len(name) > 200 or len(name.split()) < 2:
         await message.answer(t(lang, "full_name_prompt"))
@@ -55,6 +62,13 @@ async def registration_name(message: Message, state: FSMContext, db_user: dict |
             languageCode=message.from_user.language_code,
         )
         await state.clear()
+        if isinstance(raw, dict) and raw.get("success") is True and raw.get("status") == "already_active":
+            link, _error = await website_link(str(message.from_user.id))
+            if link:
+                from handlers.menu import main_keyboard
+                markup = main_keyboard(lang, None, "student", "active", site_link=link)
+                await message.answer(t(lang, "registered"), reply_markup=markup, protect_content=True)
+                return
         await message.answer(admission_text(lang, raw))
     except Exception:
         await message.answer(t(lang, "error"))
