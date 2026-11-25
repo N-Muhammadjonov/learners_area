@@ -20,39 +20,33 @@ async def policy(req: Request):
     return core.j(public_policy(), headers=PRIVATE)
 
 
-@router.get("/api/coins/wallet")
-async def coin_wallet(req: Request):
-    user = await core.current_user(req, active=True)
-    if not user:
-        return core.j({"error": "unauthenticated"}, 401, PRIVATE)
-    db = await core.pool()
-    async with db.acquire() as con:
-        state = await wallet(con, user["id"])
-    return core.j(state, headers=PRIVATE)
-
-
-@router.get("/api/coins/history")
-async def coin_history(req: Request):
-    user = await core.current_user(req, active=True)
-    if not user:
-        return core.j({"error": "unauthenticated"}, 401, PRIVATE)
-    db = await core.pool()
-    async with db.acquire() as con:
-        rows = await con.fetch(
-            """SELECT entry_key, module, delta, happened_at FROM (
-                 SELECT event_key AS entry_key, module, coins::int AS delta, earned_at AS happened_at
-                 FROM coin_ledger WHERE user_id=$1
-                 UNION ALL
-                 SELECT spend_key, 'purchase', -coins::int, spent_at FROM coin_spend WHERE user_id=$1
-                 UNION ALL
-                 SELECT purchase_id::text, 'refund', coins, refunded_at FROM coin_gift_refunds WHERE user_id=$1
-               ) AS history
-               ORDER BY happened_at DESC, module, entry_key LIMIT $2""",
-            user["id"], HISTORY_LIMIT)
-    return core.j({"entries": [
+async def coin_history(con, user_id) -> dict:
+    rows = await con.fetch(
+        """SELECT entry_key, module, delta, happened_at FROM (
+             SELECT event_key AS entry_key, module, coins::int AS delta, earned_at AS happened_at
+             FROM coin_ledger WHERE user_id=$1
+             UNION ALL
+             SELECT spend_key, 'purchase', -coins::int, spent_at FROM coin_spend WHERE user_id=$1
+             UNION ALL
+             SELECT purchase_id::text, 'refund', coins, refunded_at FROM coin_gift_refunds WHERE user_id=$1
+           ) AS history
+           ORDER BY happened_at DESC, module, entry_key LIMIT $2""",
+        user_id, HISTORY_LIMIT)
+    return {"entries": [
         {"module": row["module"], "delta": row["delta"], "at": row["happened_at"].isoformat()}
         for row in rows
-    ]}, headers=PRIVATE)
+    ]}
+
+
+@router.get("/api/coins/wallet")
+async def coin_wallet(req: Request, view: str = "balance"):
+    user = await core.current_user(req, active=True)
+    if not user:
+        return core.j({"error": "unauthenticated"}, 401, PRIVATE)
+    db = await core.pool()
+    async with db.acquire() as con:
+        state = await coin_history(con, user["id"]) if view == "history" else await wallet(con, user["id"])
+    return core.j(state, headers=PRIVATE)
 
 
 @router.post("/api/coins/media/heartbeat")

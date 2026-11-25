@@ -111,7 +111,7 @@ async function earnPanel(ctx, host, options) {
     api.request('/api/coins/daily', {signal:ctx.signal}),
     api.request('/api/coins/referral-link', {method: 'POST', signal: ctx.signal}),
     api.request('/api/study-plan/rewards', {signal: ctx.signal}),
-    api.request('/api/coins/history', {signal: ctx.signal}),
+    api.request('/api/coins/wallet?view=history', {signal: ctx.signal}),
   ]);
   if (ctx.signal.aborted) return;
   const [walletResult, dailyResult, referralResult, pointsResult, initialHistory] = results;
@@ -129,7 +129,7 @@ async function earnPanel(ctx, host, options) {
   async function reloadHistory() {
     history = null;
     render();
-    const [result] = await Promise.allSettled([api.request('/api/coins/history', {signal: ctx.signal})]);
+    const [result] = await Promise.allSettled([api.request('/api/coins/wallet?view=history', {signal: ctx.signal})]);
     if (ctx.signal.aborted) return;
     history = result;
     render();

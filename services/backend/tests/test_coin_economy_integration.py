@@ -412,11 +412,11 @@ async def test_twenty_minute_video_and_private_coin_history(setup_db, monkeypatc
         assert reopened["coinsEarned"] == 4 and reopened["awarded"] == 0
 
         await con.execute("INSERT INTO coin_spend(user_id,spend_key,coins) VALUES($1,'gift',2)", learner)
-        history = await client.get("/api/coins/history")
+        history = await client.get("/api/coins/wallet?view=history")
         assert history.status_code == 200
         assert "private" in history.headers["cache-control"]
         assert [(entry["module"], entry["delta"]) for entry in history.json()["entries"]] == [
             ("purchase", -2), ("ted", 1), ("ted", 1), ("ted", 1), ("ted", 1),
         ]
         identity["current"] = {**user, "account_status": "blocked"}
-        assert (await client.get("/api/coins/history")).status_code == 401
+        assert (await client.get("/api/coins/wallet?view=history")).status_code == 401

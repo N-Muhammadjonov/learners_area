@@ -51,7 +51,7 @@ test('earn panel reads daily status and pays only after explicit Claim click',as
   const calls=[];
   api.request=async (path,options={})=>{
     calls.push({path,method:options.method||'GET'});
-    if(path==='/api/coins/history')return {entries:[
+    if(path==='/api/coins/wallet?view=history')return {entries:[
       ...(calls.some(call=>call.path==='/api/coins/daily/claim')
         ? [{module:'daily',delta:3,at:'2026-11-25T15:00:00Z'}] : []),
       {module:'ted',delta:1,at:'2026-11-25T12:00:00Z'},
