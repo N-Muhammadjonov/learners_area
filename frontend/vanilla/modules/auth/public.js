@@ -5,7 +5,8 @@ import {publishSessionEvent} from '../../js/session-events.js';
 import {consumeLandingPlanIntent} from '../../js/plan-entry-intent.js';
 import {RegionFailureNotice} from '../shared/presentation.js';
 import {passwordForm} from './password-form.js';
-import {el,listen} from '../../js/dom.js';
+import {el} from '../../js/dom.js';
+import {accountResult} from '../../js/adapters/account.js';
 import {dictionary,readPreferences} from '../../js/preferences.js';
 import {publicPresentation} from '../../js/adapters/frontend.js';
 import {authShell} from '../../js/components/auth-shell.js';
@@ -35,59 +36,36 @@ export async function mount(context){
    return;
   }
   const intent={intentId:parts[1],browserNonce:parts[2]};
-  const complete=async registration=>{
-   region.replaceChildren(el('p',{role:'status',class:'text-sm text-ink-500'},
-    locale==='uz'?'Kirish tasdiqlanmoqda…':'Signing you in…'));
+  region.replaceChildren(el('p',{role:'status',class:'text-sm text-ink-500'},
+   locale==='uz'?'Kirish tasdiqlanmoqda…':'Signing you in…'));
+  try{
+   const result=accountResult(await api.request('/api/auth/telegram/intent/exchange',{
+    method:'POST',body:intent,signal
+   }),'login');
+   if(signal.aborted)return;
+   void consumePublicLevelHint();
+   publishSessionEvent('refresh');
+   context.invalidateSession?.();
+   const destination=result.accountStatus==='active'?
+     (result.role==='guardian'?'/app/progress':result.onboarded?(consumeLandingPlanIntent()??'/app'):'/onboarding'):'/pending';
+   await navigate(destination,{replace:true});
+  }catch(error){
+   if(signal.aborted)return;
+   const needsAccount=['full_name_required','gender_required','no_linked_account'].includes(error?.code);
+   const message=needsAccount?(locale==='uz'?'Ro‘yxatdan o‘tishni Telegram botda yakunlang.':
+    'Finish registration in the Telegram bot.'):
+    (locale==='uz'?'Bu havoladan kirib bo‘lmadi. Botdan yangi havola oling.':
+     'Could not sign in with this link. Get a new link from the bot.');
+   region.replaceChildren(el('p',{role:'alert',class:'text-sm text-band-bad'},message));
    try{
-    const result=await api.request('/api/auth/telegram/intent/exchange',{
-     method:'POST',body:{...intent,...registration},signal
-    });
+    const {auth}=await publicPresentation(signal);
     if(signal.aborted)return;
-    void consumePublicLevelHint();
-    publishSessionEvent('refresh');
-    context.invalidateSession?.();
-    const destination=result.accountStatus==='active'?
-      (result.role==='guardian'?'/app/progress':result.onboarded?(consumeLandingPlanIntent()??'/app'):'/onboarding'):'/pending';
-    await navigate(destination,{replace:true});
-   }catch(error){
-    if(signal.aborted)return;
-    region.replaceChildren(el('p',{role:'alert',class:'text-xs text-band-bad'},
-     locale==='uz'
-      ?'Kirish havolasi eskirgan yoki yaroqsiz. Botdan yangi havola oling.'
-      :'This sign-in link has expired or is invalid. Get a new link from the bot.'));
-   }
-  };
-  if(path!=='/register'){
-   await complete({});
-   return;
+    if(/^[A-Za-z0-9_]{5,32}$/.test(auth.botUsername??'')){
+     region.append(el('a',{class:'btn-secondary mt-3',href:'https://t.me/'+auth.botUsername},
+      locale==='uz'?'Botni ochish':'Open the bot'));
+    }
+   }catch{/* The recovery instruction stays visible if public settings cannot load. */}
   }
-  // First-time Telegram users must supply the registration fields required by
-  // the canonical server-side registration exchange. No second Telegram login.
-  const name=el('input',{type:'text',name:'name',class:'input w-full',minlength:'3',maxlength:'200',
-   required:true,autocomplete:'name',placeholder:locale==='uz'?'Ism va familiya':'Full name'});
-  const male=el('input',{type:'radio',name:'gender',value:'male',required:true});
-  const female=el('input',{type:'radio',name:'gender',value:'female',required:true});
-  const submit=el('button',{type:'submit',class:'btn-primary w-full'},
-   locale==='uz'?'Hisob yaratish va davom etish':'Create account and continue');
-  const error=el('p',{role:'alert',class:'text-xs text-band-bad'});
-  const form=el('form',{class:'flex flex-col gap-3'},
-   el('label',{class:'text-sm'},locale==='uz'?'Ism va familiyangiz':'Your full name',name),
-   el('fieldset',{},el('legend',{},locale==='uz'?'Jins':'Gender'),
-    el('label',{class:'mr-4'},male,locale==='uz'?' Erkak':' Male'),
-    el('label',{},female,locale==='uz'?' Ayol':' Female')),
-   submit,error);
-  listen(form,'submit',event=>{
-   event.preventDefault();
-   const fullName=name.value.trim().replace(/\s+/g,' ');
-   const gender=male.checked?'male':female.checked?'female':null;
-   if(!/^\S+(?:\s+\S+)+$/.test(fullName)||fullName.length<3||fullName.length>200||!gender){
-    error.textContent=locale==='uz'?'Ism, familiya va jinsni kiriting.':'Enter your full name and gender.';
-    return;
-   }
-   submit.disabled=true;
-   void complete({name:fullName,gender});
-  },signal);
-  region.replaceChildren(form);
   return;
  }
 

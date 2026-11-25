@@ -1835,7 +1835,7 @@
     "frontend/vanilla/modules/auth/onboarding.js": "1e9dfea7b5c4d58af7ab2b412bc821ddd9f37b4c5e816222f584bb253d3d765d",
     "frontend/vanilla/modules/auth/password-form.js": "d08ce21d4f7811ba06d8ac6c84c0a2aa932a8feb67b6e271ae326ac28f785c23",
     "frontend/vanilla/modules/auth/pending.js": "6fb85f3919e6e7c11be2187021d574fd354c319a9b4b4c950f95c0debb50b777",
-    "frontend/vanilla/modules/auth/public.js": "feea50e54e38e83db51303ad9a10063c0ef158cb817651e1ae5507cef45f0785",
+    "frontend/vanilla/modules/auth/public.js": "9614d881264932e23dc23e949fd4497f5affe8b698d169b1c98eb1218918a2b0",
     "frontend/vanilla/modules/auth/study-form.js": "eabc8dce26928aa466d0792e53fd39769eada296357365f904f7e6f4c360f03c",
     "frontend/vanilla/modules/auth/telegram.js": "b9fe41953da5e46a1f96a2d6534f1ec3ab8be099fc129604ec39d94f0b68a4c9",
     "frontend/vanilla/modules/auth-redesign.css": "e9f14166c9efa8e0f6bd2054fa7351de061aa7bccd9aa2a008f90d32a7d0d58d",

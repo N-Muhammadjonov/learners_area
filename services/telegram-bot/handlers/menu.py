@@ -1,6 +1,3 @@
-import re
-from urllib.parse import urlsplit
-
 from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
@@ -8,12 +5,12 @@ from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMar
 
 from handlers.admission import begin_apply
 
-from config import config
 from copy_format import admission_text
 from html_text import esc
 from i18n import t
 from middlewares.auth import allows, denial_key
 from services.api_client import api_client
+from services.login_handoff import website_link
 
 menu_router = Router()
 
@@ -28,17 +25,16 @@ def _lang(event, db_user, contact=None) -> str:
     return "en" if str(code).startswith("en") else "uz"
 
 
-def main_keyboard(lang: str, bot_access: dict | None, role: str | None = None, account_status: str | None = None) -> InlineKeyboardMarkup:
-    if role == "guardian":
-        return InlineKeyboardMarkup(inline_keyboard=[
-            [InlineKeyboardButton(text=t(lang, "g_btn_results"), callback_data="m:login")],
-            [InlineKeyboardButton(text=t(lang, "g_btn_site"), callback_data="m:login")],
-            [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support")],
-            [InlineKeyboardButton(text=t(lang, "menu_language"), callback_data="m:lang")],
-        ])
-    rows = [
-        [InlineKeyboardButton(text=t(lang, "menu_login"), callback_data="m:login")],
-    ]
+def main_keyboard(lang: str, bot_access: dict | None, role: str | None = None,
+                  account_status: str | None = None, *, site_link: str | None = None) -> InlineKeyboardMarkup:
+    if site_link:
+        label = "g_btn_results" if role == "guardian" else "handoff_open"
+        rows = [[InlineKeyboardButton(text=t(lang, label), url=site_link)],
+                [InlineKeyboardButton(text=t(lang, "handoff_refresh"), callback_data="m:login")]]
+    elif account_status in {None, "rejected"} and role != "guardian":
+        rows = [[InlineKeyboardButton(text=t(lang, "register_in_bot"), callback_data="m:apply")]]
+    else:
+        rows = [[InlineKeyboardButton(text=t(lang, "menu_login"), callback_data="m:login")]]
     if role == "student" and account_status == "active":
         rows.append([InlineKeyboardButton(text=t(lang, "g_btn_connect"), callback_data="m:guardian")])
         rows.append([InlineKeyboardButton(
@@ -48,7 +44,7 @@ def main_keyboard(lang: str, bot_access: dict | None, role: str | None = None, a
         [InlineKeyboardButton(text=t(lang, "menu_support"), callback_data="m:support")],
         [InlineKeyboardButton(text=t(lang, "menu_language"), callback_data="m:lang")],
     ]
-    if bot_access and (bot_access.get("isPrimaryOwner") or bot_access.get("permissions")):
+    if role != "guardian" and bot_access and (bot_access.get("isPrimaryOwner") or bot_access.get("permissions")):
         rows.append([InlineKeyboardButton(text=t(lang, "menu_owner"), callback_data="m:owner")])
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
@@ -86,12 +82,19 @@ async def show_home(event: Message | CallbackQuery, lang: str, bot_access: dict 
     else:
         name = (db_user or {}).get("name") or (event.from_user.full_name if event.from_user else "")
         text = t(lang, "welcome_linked", name=esc(name)) if db_user else t(lang, "welcome_new")
-    markup = main_keyboard(lang, bot_access, (db_user or {}).get("role"), (db_user or {}).get("accountStatus"))
-    if isinstance(event, CallbackQuery) and event.message:
+    role, status = (db_user or {}).get("role"), (db_user or {}).get("accountStatus")
+    is_callback = isinstance(event, CallbackQuery)
+    chat_message = event.message if is_callback else event
+    link = None
+    if (not backend_error and event.from_user and chat_message and chat_message.chat
+            and chat_message.chat.type == "private" and status in {"active", "pending"}):
+        link, _error = await website_link(str(event.from_user.id))
+    markup = main_keyboard(lang, bot_access, role, status, site_link=link)
+    if is_callback and event.message:
         await event.message.edit_text(text, reply_markup=markup)
         await event.answer()
     else:
-        await event.answer(text, reply_markup=markup)
+        await event.answer(text, reply_markup=markup, **({"protect_content": True} if link else {}))
 
 
 @menu_router.callback_query(F.data == "m:home")
@@ -148,47 +151,23 @@ async def cb_coin_invite(callback: CallbackQuery, db_user: dict | None = None,
 
 @menu_router.callback_query(F.data == "m:login")
 async def cb_login(callback: CallbackQuery, db_user: dict | None = None,
-                   contact: dict | None = None, backend_error: bool = False):
+                   contact: dict | None = None, backend_error: bool = False,
+                   state: FSMContext | None = None, bot_access: dict | None = None):
     lang = _lang(callback, db_user, contact)
     if (backend_error or not callback.from_user or not callback.message
-        or not callback.message.chat or callback.message.chat.type != "private"):
+            or not callback.message.chat or callback.message.chat.type != "private"):
         await callback.answer(t(lang, "temporary_error"), show_alert=True)
         return
-    try:
-        status, data = await api_client.create_login_handoff(str(callback.from_user.id))
-    except Exception:
-        status, data = 503, {}
-    if status != 200 or not isinstance(data, dict) or data.get("ok") is not True:
-        code = data.get("error") if isinstance(data, dict) else None
-        key = {
-            "phone_required": "phone_required",
-            "not_subscribed": "channels_required",
-            "no_linked_account": "status_none",
-            "account_unavailable": "handoff_unavailable",
-        }.get(code, "temporary_error" if status >= 500 else "handoff_unavailable")
-        await callback.answer(t(lang, key), show_alert=True)
+    link, error = await website_link(str(callback.from_user.id))
+    if error == "status_none":
+        await callback.answer()
+        await begin_apply(callback.message, state, None, lang)
         return
-    intent_id, nonce = data.get("intentId"), data.get("browserNonce")
-    if (not isinstance(intent_id, str) or not isinstance(nonce, str)
-        or not re.fullmatch(r"[0-9a-fA-F-]{36}", intent_id)
-        or not re.fullmatch(r"[0-9a-f]{64}", nonce)):
-        await callback.answer(t(lang, "temporary_error"), show_alert=True)
+    if not link:
+        await callback.answer(t(lang, error or "temporary_error"), show_alert=True)
         return
-    site = config.PUBLIC_SITE_URL.rstrip("/")
-    parsed = urlsplit(site)
-    if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password:
-        await callback.answer(t(lang, "temporary_error"), show_alert=True)
-        return
-    purpose = data.get("purpose")
-    if purpose not in ("login", "register"):
-        await callback.answer(t(lang, "temporary_error"), show_alert=True)
-        return
-    route = "/register" if purpose == "register" else "/login"
-    link = f"{site}{route}#tg-handoff={intent_id}.{nonce}"
-    markup = InlineKeyboardMarkup(inline_keyboard=[
-        [InlineKeyboardButton(text=t(lang, "handoff_open"), url=link)],
-        [InlineKeyboardButton(text=t(lang, "home"), callback_data="m:home")],
-    ])
+    account = db_user or {}
+    markup = main_keyboard(lang, bot_access, account.get("role"), account.get("accountStatus"), site_link=link)
     await callback.message.edit_text(t(lang, "handoff_ready"), reply_markup=markup)
     await callback.answer()
 

@@ -42,6 +42,8 @@ async def gates(conn,tg):
             return None
         from .guardian_port import guardian_channel_gate
         return await guardian_channel_gate(tg)
+    if os.getenv('TELEGRAM_LEARNER_CHANNEL_GATES_ENABLED','true').strip().lower() in ('0','false'):
+        return None
     channels=await list_channels(conn)
     if not channels:return None
     token=os.getenv('TELEGRAM_BOT_TOKEN')

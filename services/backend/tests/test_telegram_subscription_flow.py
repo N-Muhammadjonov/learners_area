@@ -267,3 +267,35 @@ def test_guardian_channel_is_required_only_while_child_is_linked(monkeypatch,lin
         assert result is None
         guard.assert_not_awaited()
     assert "l.status='linked'" in con.fetchval.call_args.args[0]
+
+
+def test_parent_channel_is_excluded_by_public_url_when_legacy_id_differs(monkeypatch):
+    monkeypatch.setenv('GUARDIAN_REQUIRED_CHANNEL_ID','-1008080808080')
+    monkeypatch.setenv('GUARDIAN_REQUIRED_CHANNEL_URL','https://t.me/PARENT_CHANNEL')
+    con=DB()
+    con.rows["key='required_channels'"]={'value':json.dumps([PARENT_CHANNEL,CHANNEL])}
+    assert asyncio.run(settings.list_channels(con))==[CHANNEL]
+
+
+@pytest.mark.parametrize('role,has_phone,expected', [
+    (None,True,None),
+    ('student',True,None),
+    ('student',False,{'error':'phone_required'}),
+    ('guardian',True,{'error':'not_subscribed','requiredChannels':[PARENT_CHANNEL]}),
+])
+def test_optional_learner_channels_preserve_phone_and_linked_guardian_gate(monkeypatch,role,has_phone,expected):
+    monkeypatch.setenv('TELEGRAM_ACCESS_GATES_ENABLED','true')
+    monkeypatch.setenv('TELEGRAM_LEARNER_CHANNEL_GATES_ENABLED','false')
+    con=DB()
+    if has_phone:
+        con.rows['SELECT phone_number']={'phone_number':'+998900000000','phone_verified_at':datetime.now(timezone.utc)}
+    if role:
+        con.rows['SELECT role FROM users']={'role':role}
+    con.fetchval=AsyncMock(return_value=1)
+    guard=AsyncMock(return_value={'error':'not_subscribed','requiredChannels':[PARENT_CHANNEL]})
+    learner_channels=AsyncMock(return_value=[PARENT_CHANNEL])
+    monkeypatch.setattr(guardian,'guardian_channel_gate',guard)
+    monkeypatch.setattr(admission,'list_channels',learner_channels)
+    assert asyncio.run(admission.gates(con,'12345'))==expected
+    learner_channels.assert_not_awaited()
+    assert guard.await_count==int(role=='guardian' and has_phone)

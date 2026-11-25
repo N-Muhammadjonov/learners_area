@@ -55,9 +55,10 @@ async def create_handoff(req: Request):
                 """SELECT id, account_status FROM users WHERE telegram_id=$1""",
                 actor,
             )
-            if account and account["account_status"] not in ("active", "pending"):
+            if not account:
+                return core.j({"error": "no_linked_account"}, 404)
+            if account["account_status"] not in ("active", "pending"):
                 return core.j({"error": "account_unavailable"}, 403)
-            purpose = "login" if account else "register"
 
             token_hash = hashlib.sha256(secrets.token_bytes(32)).hexdigest()
             nonce = secrets.token_hex(32)
@@ -69,10 +70,10 @@ async def create_handoff(req: Request):
                      purpose, status, expires_at, confirmed_at)
                    VALUES ($1, $2, $3, $4, 'confirmed', $5, NOW())
                    RETURNING id""",
-                token_hash, nonce_hash, actor, purpose, expires_at,
+                token_hash, nonce_hash, actor, "login", expires_at,
             )
 
-    return core.j({"ok": True, "intentId": str(intent_id), "browserNonce": nonce, "purpose": purpose})
+    return core.j({"ok": True, "intentId": str(intent_id), "browserNonce": nonce, "purpose": "login"})
 
 
 def install() -> None:

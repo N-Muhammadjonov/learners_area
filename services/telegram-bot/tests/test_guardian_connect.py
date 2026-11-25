@@ -19,9 +19,9 @@ def test_student_gets_connect_button_only_when_active():
     assert "m:guardian" not in datas(main_keyboard("uz", None, None, None))
 
 
-def test_guardian_menu_has_exactly_the_four_entries():
+def test_guardian_menu_has_one_website_entry():
     kb = main_keyboard("uz", None, "guardian", "active")
-    assert datas(kb) == ["m:login", "m:login", "m:support", "m:lang"]
+    assert datas(kb) == ["m:login", "m:support", "m:lang"]
 
 
 def test_public_commands_unchanged():
