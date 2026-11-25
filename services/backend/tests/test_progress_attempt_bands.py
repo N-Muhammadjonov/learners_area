@@ -126,5 +126,6 @@ async def test_only_the_first_scored_attempt_per_passage_or_test_counts():
         assert [point['band'] for point in reading['recent']] == [7, 7.5]
         assert listening['completed'] == 2 and listening['accuracy'] == 77.5
         assert listening['averageBand'] == 7.25
+        assert listening['weekly'][-1] == {'weekStart': '2026-11-23', 'count': 2, 'value': 78}
     finally:
         await connection.close()
