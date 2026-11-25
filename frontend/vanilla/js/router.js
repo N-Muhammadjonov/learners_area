@@ -14,7 +14,9 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
  function leave(){if(!active)return;const old=active;active=null;if(!reuse?.put(old.key,old))dispose(old);}
  function focusDestination(navigation){
   if(navigation.refresh)return;
-  const focus=navigation.focus?root.querySelector(navigation.focus):null,heading=root.querySelector('h1')??root.querySelector('[data-shell-main]');
+  const focus=navigation.focus?root.querySelector(navigation.focus):null;
+  const title=root.querySelector('h1');
+  const heading=(title&&!title.closest('[data-progressive-loading]')?title:null)??root.querySelector('[data-shell-main]');
   if(focus)focus.focus({preventScroll:true});else if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
   if(!win.location.hash)return;
   let targetId;try{targetId=decodeURIComponent(win.location.hash.slice(1));}catch{return;}
@@ -103,6 +105,7 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
       key,resume,pause,history:hooks.history,navigate:hooks.navigate,pendingMount:true,...reuse?.stamp()};
     active=current;controller=null;state=context.state;sameDocument=hooks.history;
     focusDestination(navigation);
+    const initialFocus=root.ownerDocument.activeElement;
     const result=await mounting;
     if(signal.aborted||id!==serial||active!==current){
      if(typeof result==='function')result();
@@ -110,6 +113,10 @@ export function createRouter({root,routes,notFound,onError,canonicalize,prepare,
     }
     cleanup=typeof result==='function'?result:undefined;
     current.pendingMount=false;current.history=hooks.history;current.navigate=hooks.navigate;
+    // A lazy view may add its heading after the shell has already taken focus.
+    if(!win.location.hash&&initialFocus?.matches('[data-shell-main]')&&root.ownerDocument.activeElement===initialFocus&&mountRoot.querySelector('h1')){
+     focusDestination(navigation);
+    }
     sameDocument=hooks.history;stopPlaceholder();measurement?.point('mount-end');measurement?.finish('committed');
     return;
    }

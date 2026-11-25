@@ -87,11 +87,8 @@ export async function mount(context) {
       trendsHost.replaceChildren(loadingNode(dict, 'progress-trends'));
     },
     ready(trends) {
-      bandsHost.replaceChildren(attemptBandCards(trends.attemptBands, dict, locale, refreshTrends));
-      trendsHost.replaceChildren(trendCards({...trends,
-        reading: trends.attemptBands.reading?.weekly ?? null,
-        listening: trends.attemptBands.listening?.weekly ?? null,
-      }, dict));
+      bandsHost.replaceChildren(attemptBandCards(trends.attemptBands, trends.generalReadingPractice, dict, locale, refreshTrends));
+      trendsHost.replaceChildren(trendCards(trends, dict));
     },
     failed(refresh) {
       bandsHost.replaceChildren(failureNode({region: 'progress-attempt-bands', message: dict.errors.unknown, retry, refresh}));

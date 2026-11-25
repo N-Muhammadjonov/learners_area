@@ -11,6 +11,7 @@ const count = x => Number.isSafeInteger(x) && x >= 0;
 const nullable = (x, check) => x === null || check(x);
 const band = x => number(x) && x >= 0 && x <= 9;
 const percent = x => Number.isSafeInteger(x) && x >= 0 && x <= 100;
+const accuracy = x => number(x) && x >= 0 && x <= 100;
 const day = x => typeof x === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x);
 const instant = x => {
   if (x == null) return true;
@@ -94,13 +95,14 @@ function weekSeries(rows, max) {
 function attemptBands(x) {
   if (x == null) return null;
   if (!object(x) || !count(x.completed) || !count(x.bandCount) || x.bandCount > x.completed
-    || !nullable(x.accuracy, n => number(n) && n >= 0 && n <= 100)
+    || !nullable(x.accuracy, accuracy)
     || !nullable(x.averageBand, band) || !nullable(x.bestBand, band) || !nullable(x.firstBand, band)
     || !Array.isArray(x.recent) || x.recent.length > Math.min(x.bandCount, 12)) bad();
   return {
     completed: x.completed, accuracy: x.accuracy, bandCount: x.bandCount,
     averageBand: x.averageBand, bestBand: x.bestBand, firstBand: x.firstBand,
     weekly: weekSeries(x.weekly ?? null, 100),
+    weeklyBand: weekSeries(x.weeklyBand ?? null, 9),
     recent: x.recent.map(point => {
       if (!object(point) || !day(point.day) || !band(point.band)) bad();
       return {day: point.day, band: point.band};
@@ -133,8 +135,11 @@ export function progressTrendsDTO(d) {
       return {level: r.level, attempts: r.attempts, textsCompleted: r.textsCompleted, best: r.best, recent: [...r.recent], average: r.average, change: r.change};
     });
   }
+  const practice = d.generalReadingPractice;
+  if (practice != null && (!object(practice) || !count(practice.completed) || !nullable(practice.accuracy, accuracy))) bad();
   return {
     attemptBands: {reading: attemptBands(d.attemptBands?.reading), listening: attemptBands(d.attemptBands?.listening)},
+    generalReadingPractice: practice == null ? null : {completed: practice.completed, accuracy: practice.accuracy},
     reading: weekSeries(d.reading, 100),
     listening: weekSeries(d.listening, 100),
     writing: weekSeries(d.writing, 9),

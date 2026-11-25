@@ -5,31 +5,19 @@
  * EN/UZ, light/dark, desktop/tablet/mobile overflow, routing, back, reload, stale-response isolation,
  * keyboard/accessibility semantics and cleanup. */
 import {chromium as playwright} from 'playwright-core';
-import chromium from '@sparticuz/chromium';
-import fs from 'node:fs';
+import fs from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import {brotliDecompressSync} from 'node:zlib';
-import {execFileSync} from 'node:child_process';
 import {publicPolicy, fixtureSession} from './fixtures.mjs';
 import en from '../js/i18n/en.js';
 import uz from '../js/i18n/uz.js';
 
-const deps = path.resolve(import.meta.dirname, '../node_modules');
-if (process.platform === 'linux') {
-  const tar = path.join(deps, 'al2023.tar');
-  fs.writeFileSync(tar, brotliDecompressSync(fs.readFileSync(path.join(deps, '@sparticuz/chromium/bin/al2023.tar.br'))));
-  execFileSync('tar', ['xf', tar, '-C', deps]);
-  process.env.LD_LIBRARY_PATH = path.join(deps, 'lib') + ':' + (process.env.LD_LIBRARY_PATH ?? '');
-}
 const browser = await playwright.launch({
-  executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || await chromium.executablePath(),
-  args: chromium.args.filter(a => !a.includes('single-process') && !a.includes('disable-web-security') && !a.includes('allow-running-insecure-content')),
+  executablePath: process.env.CHROMIUM_EXECUTABLE || process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined,
   headless: true,
 });
-const base = process.env.PREVIEW_URL ?? 'http://127.0.0.1:4173';
-const out = new URL('../docs/evidence/v54/', import.meta.url);
-fs.mkdirSync(out, {recursive: true});
+const base = 'http://learners-area-fixture.local';
+const root = path.resolve(import.meta.dirname, '..');
 const results = [];
 async function check(name, fn) {
   if (process.env.TEST_FILTER && !name.includes(process.env.TEST_FILTER)) return;
@@ -70,15 +58,19 @@ const summaryNew = {
   mocks: {attempts: 0, finished: 0, bestBand: null},
   unavailableRegions: [],
 };
-const emptyBands = {completed: 0, accuracy: null, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: [], weekly: series(Array(8).fill(null))};
+const emptyWeeks = series(Array(8).fill(null));
+const emptyBands = {completed: 0, accuracy: null, bandCount: 0, averageBand: null, bestBand: null, firstBand: null,
+  recent: [], weekly: emptyWeeks, weeklyBand: emptyWeeks};
 const attemptBands = {
   reading: {completed: 4, accuracy: 75, bandCount: 3, averageBand: 7.17, bestBand: 8, firstBand: 6.5, weekly: series([50, null, 70, 80, null, 75, 90, 85]),
+    weeklyBand: series([3.5, null, 7.25, null, null, null, null, 8]),
     recent: [{day: '2026-09-01', band: 6.5}, {day: '2026-09-08', band: 7}, {day: '2026-09-15', band: 8}]},
   listening: {completed: 2, accuracy: 60, bandCount: 0, averageBand: null, bestBand: null, firstBand: null, recent: [],
-    weekly: series([null, null, null, null, null, null, null, 0])},
+    weekly: series([null, null, null, null, null, null, null, 0]), weeklyBand: emptyWeeks},
 };
 const trendsFull = {
   attemptBands,
+  generalReadingPractice: {completed: 2, accuracy: 85},
   reading: series([99, null, 99, 99, null, 99, 99, 99]),
   listening: series([null, null, null, null, null, null, null, 99]),
   writing: series([null, null, 6, null, 6.5, null, null, null]),
@@ -103,25 +95,39 @@ const trendsNew = {
 };
 const DEFAULTS = {progressSummary: summaryFull, progressStreak: {streak: 4}, progressTrends: trendsFull};
 
-async function fixture({locale = 'en', theme = 'day', width = 1440, regions = {}, navigate = true} = {}) {
-  const context = await browser.newContext({viewport: {width, height: 900}});
+async function fixture({locale = 'en', theme = 'day', width = 1440, regions = {}, role = 'student'} = {}) {
+  const context = await browser.newContext({viewport: {width, height: 900}, serviceWorkers: 'block'});
   await context.addCookies([{name: 'la_locale', value: locale, url: base}, {name: 'la_theme', value: theme, url: base}]);
   const page = await context.newPage();
   page.setDefaultTimeout(8000);
   const errors = [];
   page.on('pageerror', e => errors.push(String(e.message)));
   const state = {views: [], writes: []};
-  await context.route('**/api/**', async route => {
+  await context.route('**/*', async route => {
     const r = route.request(), u = new URL(r.url()), p = u.pathname;
+    if (u.origin !== base) return route.abort();
+    if (!p.startsWith('/api/')) {
+      const name = r.resourceType() === 'document' ? 'index.html' : p.slice(1);
+      const file = path.resolve(root, name);
+      if (!file.startsWith(root + path.sep) || !await fs.stat(file).then(stat => stat.isFile(), () => false)) {
+        return route.fulfill({status: 404});
+      }
+      return route.fulfill({path: file});
+    }
+    if (p === '/api/presence') return route.fulfill({status: 204});
     if (r.method() !== 'GET' && !p.startsWith('/api/frontend/')) state.writes.push({method: r.method(), path: p});
     const reply = (status, json) => route.fulfill({status, json});
     if (p === '/api/frontend/public') return reply(200, publicPolicy);
-    if (p === '/api/frontend/session') return reply(200, fixtureSession('student'));
+    if (p === '/api/frontend/session') return reply(200, fixtureSession(role));
+    if (p === '/api/auth/state') return reply(200, {ok: true, role, accountStatus: 'active',
+      expiresAt: Math.floor(Date.now() / 1000) + 3600});
     if (p === '/api/notifications') return reply(200, {notifications: [], unread: 0});
-    if (p === '/api/frontend/view') {
-      const rt = u.searchParams.get('route'), region = u.searchParams.get('region');
+    if (p === '/api/guardian/children') return reply(200, {children: [{studentId: 'child-1', name: 'Fixture learner'}]});
+    if (p === '/api/frontend/view' || p === '/api/guardian/children/child-1/progress') {
+      const rt = u.searchParams.get('route') ?? '/app/progress', region = u.searchParams.get('region');
       state.views.push({route: rt, region, method: r.method()});
-      const spec = regions[region] ?? DEFAULTS[region];
+      const spec = regions[region] ?? DEFAULTS[region] ?? (region === 'progressMocks' ?
+        {tests: [], attempts: [], catalogueUnavailable: false, attemptsUnavailable: false, attemptTitlesUnavailable: false} : undefined);
       const data = typeof spec === 'function' ? await spec(state, region) : spec;
       if (data === undefined || data?.status) return reply(data?.status ?? 503, {error: 'unavailable'});
       return reply(200, {version: 1, route: rt, region, data: {[region]: data}});
@@ -247,11 +253,17 @@ await check('Reading and Listening use the attempt projection with separate accu
     assert.equal(await reading.locator('[data-attempt-band-stat="average"]').textContent(), '7.17');
     assert.equal(await reading.locator('[data-attempt-band-stat="completed"]').textContent(), '4');
     assert.equal(await reading.locator('[data-attempt-band-stat="change"]').textContent(), '+1.5');
-    assert.equal(await reading.locator('[data-attempt-band-point]').count(), 3);
-    assert.equal(await reading.locator('[data-attempt-band-table] tbody tr').count(), 3);
+    const chart = f.page.locator('[data-progress-attempt-bands] svg');
+    assert.deepEqual(await chart.locator('[data-band-tick]').evaluateAll(nodes => nodes.map(node => node.dataset.bandTick)),
+      ['4.0', '5.0', '6.0', '7.0', '8.0', '9.0']);
+    assert.equal(await reading.locator('progress').getAttribute('aria-valuetext'), '7.17');
+    assert.equal(await chart.locator('[data-weekly-band-series="reading"] [data-weekly-band-point]').count(), 3);
+    assert.match(await chart.locator('[data-weekly-band-point="3.5"]').textContent(), /3\.5.*↓/);
+    assert.equal(await text(f, '[data-attempt-band-table] tbody tr:first-child td'), '3.5');
+    assert.match(await reading.locator('[data-general-reading-practice]').textContent(), /2.*85%/);
     assert.equal(await listening.locator('[data-attempt-band-stat="accuracy"]').textContent(), '60%');
     assert.equal(await listening.locator('[data-attempt-band-stat="average"]').textContent(), '—');
-    assert.equal(await listening.locator('[data-attempt-band-point]').count(), 0);
+    assert.equal(await chart.locator('[data-weekly-band-series="listening"] [data-weekly-band-point]').count(), 0);
     assert(!f.state.views.some(view => view.region === 'progressMocks'));
     assert.equal(await f.page.locator('[data-mock-band-panel]').count(), 0);
   } finally { await f.close(); }
@@ -269,6 +281,23 @@ await check('a failed attempt query keeps the sibling skill and retries the tren
     await until(async () => (await f.page.locator('[data-region-failure="progress-reading-bands"]').count()) === 0, 'band retry failed');
     assert.equal(await text(f, '[data-attempt-band-panel="reading"] [data-attempt-band-stat="average"]'), '7.17');
     assert.equal(calls, 2);
+  } finally { await f.close(); }
+});
+
+await check('guardian sees the same weekly band and accuracy, including a scored zero', async () => {
+  const listening = {...attemptBands.listening, bandCount: 1, averageBand: 0, bestBand: 0, firstBand: 0,
+    recent: [{day: '2026-10-20', band: 0}], weeklyBand: series([null, null, null, null, null, null, null, 0])};
+  const f = await fixture({role: 'guardian', regions: {progressTrends: {...trendsFull, attemptBands: {...attemptBands, listening}}}});
+  try {
+    await f.page.goto(base + '/app/progress');
+    await f.page.locator('[data-guardian-readonly]').waitFor();
+    const chart = f.page.locator('[data-progress-attempt-bands] svg');
+    await chart.waitFor();
+    assert.equal(await text(f, '[data-attempt-band-panel="listening"] [data-attempt-band-stat="average"]'), '0.0');
+    assert.match(await chart.locator('[data-weekly-band-series="listening"] [data-weekly-band-point="0"]').textContent(), /0\.0.*↓/);
+    assert.equal(await text(f, '[data-trend-table="reading"] tbody tr:first-child td'), '50%');
+    assert.equal(await text(f, '[data-trend-table="listening"] tbody tr:last-child td'), '0%');
+    assert.match(await text(f, '[data-general-reading-practice]'), /2.*85%/);
   } finally { await f.close(); }
 });
 
@@ -423,7 +452,7 @@ await check('reload re-requests every region and repaints from scratch', async (
     await f.page.reload();
     await f.page.locator('[data-route-usable="progress"]').waitFor();
     await until(async () => (await f.page.locator('[data-progress-module]').count()) === 4, 'reload did not repaint');
-    assert.ok(f.state.views.length >= before + 4);
+    assert.ok(f.state.views.length >= before + 3);
     assert.equal(await f.page.locator('[data-progress-module]').count(), 4);
   } finally { await f.close(); }
 });
@@ -457,7 +486,7 @@ await check('dark theme changes the surface and keeps every region visible witho
   } finally { await f.close(); }
 });
 
-for (const width of [390, 768, 1440]) {
+for (const width of [320, 390, 768, 1440]) {
   await check(`responsive: no horizontal overflow at ${width}px with full data`, async () => {
     const f = await fixture({width});
     try {
@@ -512,14 +541,13 @@ await check('UZ attempt panel labels follow the locale', async () => {
   try {
     await open(f);
     const reading = f.page.locator('[data-attempt-band-panel="reading"]');
-    assert.match(await reading.locator('h2').textContent(), new RegExp(uz.nav.reading));
+    assert.match(await reading.locator('h3').textContent(), new RegExp(uz.nav.reading));
     assert.match(await reading.textContent(), /O‘rtacha band/);
-    assert.match(await reading.locator('svg').getAttribute('aria-label'), /Band o‘zgarishi/);
+    assert.match(await attr(f, '[data-progress-attempt-bands] svg', 'aria-label'), /Haftalik o‘rtacha band/);
   } finally { await f.close(); }
 });
 
 const fails = results.filter(r => r.status === 'FAIL').length;
-fs.writeFileSync(new URL('browser-progress-v54-results.json', out), JSON.stringify({suite: 'V54 My Progress (synthetic projections)', date: new Date().toISOString(), results, counts: {PASS: results.length - fails, FAIL: fails}}, null, 2));
 await browser.close();
 console.log(`V54 browser: ${results.length - fails} pass, ${fails} fail`);
 process.exit(fails ? 1 : 0);
