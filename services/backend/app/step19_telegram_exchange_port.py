@@ -11,7 +11,7 @@ from . import main as core
 from .db import PooledReads
 from .rate_limit import RULES,async_counter as counter,too_many,client_key
 from .telegram_preferences_port import valid_actor
-from .step18_telegram_admission_port import gates
+from .step18_telegram_admission_port import audit_telegram_activation, gates, new_telegram_student_status
 router=APIRouter()
 
 class IntentNotConsumable(Exception):
@@ -94,7 +94,21 @@ async def intent_exchange(req:Request):
                     await con.execute('UPDATE telegram_contacts SET linked_user_id=$2,updated_at=NOW() WHERE telegram_user_id=$1',tg,target['id'])
                     user=await con.fetchrow('SELECT * FROM users WHERE id=$1',target['id']);outcome='session'
                 else:
-                    previous=await con.fetchrow('SELECT * FROM users WHERE telegram_id=$1',tg)
+                    previous=await con.fetchrow('SELECT * FROM users WHERE telegram_id=$1 FOR UPDATE',tg)
+                    if not previous:
+                        if not full_name(b.get('name')):return fail('full_name_required')
+                        if gender not in ('male','female'):return fail('gender_required')
+                        user=await con.fetchrow('''INSERT INTO users(telegram_id,name,gender,role,account_status,locale)
+                          VALUES($1,$2,$3,'student',$5::account_status,$4)
+                          ON CONFLICT(telegram_id) DO NOTHING RETURNING *''',tg,b['name'].strip(),gender,
+                          'en' if intent['language_code']=='en' else 'uz',new_telegram_student_status())
+                        if user:
+                            outcome='created'
+                            if user['account_status']=='active':
+                                await audit_telegram_activation(con,user['id'],'telegram_intent')
+                        else:
+                            previous=await con.fetchrow('SELECT * FROM users WHERE telegram_id=$1 FOR UPDATE',tg)
+                            if not previous:return fail('no_linked_account')
                     if previous:
                         can_edit=previous['account_status'] in ('pending','rejected') and not previous['onboarding_completed_at']
                         if can_edit and (gender and previous['gender'] is None or full_name(b.get('name'))):
@@ -103,13 +117,6 @@ async def intent_exchange(req:Request):
                              b['name'].strip() if full_name(b.get('name')) else None)
                         else:user=previous
                         outcome='existing'
-                    else:
-                        if not full_name(b.get('name')):return fail('full_name_required')
-                        if gender not in ('male','female'):return fail('gender_required')
-                        user=await con.fetchrow('''INSERT INTO users(telegram_id,name,gender,role,account_status,locale)
-                          VALUES($1,$2,$3,'student','pending',$4) RETURNING *''',tg,b['name'].strip(),gender,
-                          'en' if intent['language_code']=='en' else 'uz')
-                        outcome='created'
                 if outcome!='session':
                     if user['account_status']=='active':outcome='already_active'
                     elif user['account_status']=='suspended':outcome='suspended'
