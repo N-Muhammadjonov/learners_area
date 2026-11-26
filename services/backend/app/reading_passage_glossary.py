@@ -1,4 +1,4 @@
-"""Read the reviewed vocabulary packaged inside standalone passage HTML."""
+"""Read reviewed vocabulary bound to canonical General Reading passages."""
 from __future__ import annotations
 
 from functools import lru_cache
@@ -146,10 +146,21 @@ _PASSAGES = {
 }
 _DEFAULT_DIST = Path(__file__).resolve().parents[3] / 'frontend' / 'vanilla' / 'build'
 _GLOSSARY_TAG = '<script type="application/json" id="reading-glossary">'
+_CONTEXTUAL_GLOSSARIES = Path(__file__).resolve().parents[1] / 'assets/reading-cd/contextual-glossaries.json'
 
 
-def has_passage_html(passage_id: object) -> bool:
-    return str(passage_id) in _PASSAGES
+@lru_cache(maxsize=1)
+def _contextual_glossaries() -> dict:
+    return json.loads(_CONTEXTUAL_GLOSSARIES.read_text(encoding='utf-8')) if _CONTEXTUAL_GLOSSARIES.is_file() else {}
+
+
+def has_passage_glossary(passage_id: object) -> bool:
+    source = str(passage_id)
+    return source in _PASSAGES or source in _contextual_glossaries()
+
+
+def supplements_stored_glosses(passage_id: object) -> bool:
+    return _contextual_glossaries().get(str(passage_id), {}).get('supplement', False)
 
 
 @lru_cache(maxsize=64)
@@ -166,11 +177,13 @@ def _read_glossary(dist: Path, source: str) -> dict | None:
 
 
 def passage_glosses(passage_id: object, body: str) -> list[dict] | None:
-    """Only use these offsets when the reader's source text matches the HTML."""
+    """Only use these offsets when the reader text matches the authored source."""
     source = str(passage_id)
-    if source not in _PASSAGES or not isinstance(body, str):
+    if not isinstance(body, str):
         return None
-    document = _read_glossary(Path(os.getenv('FRONTEND_DIST', str(_DEFAULT_DIST))), source)
+    document = _contextual_glossaries().get(source)
+    if document is None and source in _PASSAGES:
+        document = _read_glossary(Path(os.getenv('FRONTEND_DIST', str(_DEFAULT_DIST))), source)
     if not document or document.get('checksum') != sha256(body.encode()).hexdigest():
         return None
     rows = []

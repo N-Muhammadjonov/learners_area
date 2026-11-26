@@ -76,3 +76,24 @@ test('a labelled paragraph links every part of a reviewed expression, including 
     assert(popup?.textContent.includes('mustaqil ravishda'));
   }finally{h.dispose();}
 });
+
+test('a punctuated paragraph label preserves the canonical collocation offsets', async()=>{
+  const h=setup({path:'/app/reading/general/'+ID(2),role:'student'});
+  globalThis.DOMParser=h.dom.window.DOMParser;
+  const phrase='Pay close attention',passage='A.'+phrase+' to the sound.';
+  const occurrence={id:ID(5),startChar:2,endChar:2+phrase.length,surfaceForm:phrase,
+    definitionEn:'listen carefully',translationUz:'diqqat bilan tinglamoq',partOfSpeech:'verb phrase'};
+  h.stub({'/api/vocabulary/source-saved':{savedOccurrences:[]},'/api/vocabulary/folders':{folders:[]}});
+  try{
+    const source=sourceDocument('<p><span class="para-letter">A.</span>Pay close attention to the sound.</p>',{
+      lexicalContext:h.ctx,sourceId:ID(1),sourceBody:passage,occurrences:[occurrence]
+    });
+    h.ctx.root.append(source);
+    assert.equal(source.querySelector('[data-word="A"]'),null);
+    const target=source.querySelector('[data-word="attention"]');
+    assert.equal(target?.dataset.occurrenceId,ID(5));
+    target.dispatchEvent(new h.dom.window.MouseEvent('dblclick',{bubbles:true,button:0}));
+    await tick(5);
+    assert.equal(document.querySelector('[data-word-popover]')?.getAttribute('aria-label'),'Pay close attention');
+  }finally{h.dispose();}
+});

@@ -8,7 +8,7 @@ import json,re
 from fastapi import APIRouter,Request
 from . import main as core
 from .step21_meaning_access import text_access
-from .reading_passage_glossary import has_passage_html, passage_glosses
+from .reading_passage_glossary import has_passage_glossary, passage_glosses
 from .step21_vocab_batch import add_batch,normalize_term
 from .step17_listening_start_port import test_detail
 
@@ -55,7 +55,7 @@ def occurrence_item(lexeme: dict) -> dict:
 
 
 async def resolve_embedded_reading(con, source_id: str, occurrence_id: str) -> dict | None:
-    if not has_passage_html(source_id):
+    if not has_passage_glossary(source_id):
         return None
     pid = core.uuid_value(source_id)
     passage = await con.fetchrow('SELECT body_text,title FROM reading_passages WHERE id=$1',pid)
