@@ -35,7 +35,7 @@ test('guardian academic pages remain GET-only with only the scoped payments entr
     assert.deepEqual(links,file==='progress.js'?['/app/payments?child=']:[],file);
   }
   assert.equal(/h\(\s*'(form|textarea)'/.test(read('leaderboard.js')), false);
-  assert.match(read('progress.js'),/session\?\.paymentsEnabled===true/);
+  assert.match(read('progress.js'),/paymentsNavigationVisible\(ctx\.session\)/);
 });
 
 test('owner page never sends without an explicit confirm and a stable idempotency key', () => {

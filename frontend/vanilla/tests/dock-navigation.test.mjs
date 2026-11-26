@@ -5,6 +5,7 @@ import {setup,tick} from './staff-final30/harness.mjs';
 import {fixtureSession} from './fixtures.mjs';
 import {createShell,focusFrame} from '../modules/shell/layout.js';
 import {moduleDock} from '../modules/shell/dock.js';
+import {navigationList} from '../modules/shell/navigation-list.js';
 import {shellUtilities} from '../modules/shell/utilities.js';
 import {supportsStudyFocus} from '../modules/shell/study-focus.js';
 import routes from '../js/routes.js';
@@ -144,6 +145,24 @@ test('Dock navigation starts immediately without capturing or animating a window
 test('glass styles ship in the Python native build and reserve space for mobile scrolling',()=>{
  const css=fs.readFileSync(new URL('../css/dock.css',import.meta.url),'utf8'),html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8'),builder=fs.readFileSync(new URL('../../../scripts/build_native_assets.py',import.meta.url),'utf8');
  assert.match(css,/backdrop-filter:blur/);assert.match(css,/overflow-x:auto/);assert.match(css,/transition:transform 140ms/);assert.match(html,/href="\/css\/dock.css"/);assert(builder.includes("'css/dock.css'"));
+});
+
+for(const role of ['student','guardian'])test(`${role}: payments can be hidden from all module navigation`,()=>{
+ const h=fixture('/app/progress',role);
+ try{
+  h.ctx.session.paymentsEnabled=true;
+  for(const visible of [true,false]){
+   h.ctx.session.paymentsNavigationEnabled=visible;
+   const shell=createShell(h.ctx);
+   const links=[
+    shell.host.querySelector('[data-dock-module="payments"]'),
+    shell.host.querySelector('[data-module-sidebar-link="payments"]'),
+    navigationList(h.ctx).querySelector('[data-navigation-list-item="payments"]'),
+   ];
+   for(const link of links)assert.equal(Boolean(link),visible);
+   assert(shell.host.querySelector('[data-dock-module="leaderboard"]'));
+  }
+ }finally{h.dispose();}
 });
 
 test('desktop switches between the Dock and the same role-scoped module routes',()=>{

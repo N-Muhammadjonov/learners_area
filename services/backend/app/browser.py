@@ -69,6 +69,7 @@ async def session(req: Request):
         'diagnostics': diagnostics_enabled(),
         'academyEnabled': academy_enabled(),
         'paymentsEnabled': payments_enabled(),
+        'paymentsNavigationEnabled': os.getenv('SELF_SERVICE_PAYMENTS_NAVIGATION_ENABLED', '1') == '1',
         'assistantEnabled': academy_assistant_enabled(),
     }}, headers=core.PRIVATE)
 
