@@ -13,6 +13,16 @@ def test_longest_phrase_is_one_disjoint_projection_and_legacy_rows_are_unchanged
     assert len(rows)==3 and rows[0]['surface_form']=='find'
 
 
+def test_general_reading_ignores_basic_words_but_keeps_them_in_complete_collocations():
+    body = 'She noticed this by chance and took it into account.'
+    terms = ('She', 'this', 'by', 'by chance', 'and', 'it', 'took it into account')
+    rows = [row(term, body.index(term), term) for term in terms]
+
+    assert [item['surface_form'] for item in reading_glosses(body, rows)] == [
+        'by chance', 'took it into account',
+    ]
+
+
 def test_equal_conflicting_source_meanings_are_not_chosen_by_row_order():
     body='find out'
     first=row('one',0,body);other=row('two',0,body,'aniqlamoq')

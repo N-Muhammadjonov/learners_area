@@ -17,6 +17,16 @@ _READING_PRONOUNS: frozenset[str] = frozenset({
     "noone",
 })
 
+_BASIC_READING_WORDS = frozenset({
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'been', 'but', 'by', 'for',
+    'from', 'if', 'in', 'is', 'of', 'on', 'or', 'so', 'than', 'that', 'the',
+    'these', 'this', 'those', 'to', 'was', 'were', 'with',
+})
+
+
+def is_basic_reading_word(surface: str) -> bool:
+    return surface.strip().casefold() in _BASIC_READING_WORDS
+
 
 def is_reading_pronoun(surface: str, part_of_speech: object = None) -> bool:
     """Use authored POS where available; country US is not object pronoun us."""
@@ -86,7 +96,7 @@ def reading_glosses(body: str, rows: list[Mapping[str, object]]) -> list[Mapping
     """
     grouped: dict[tuple[int, int], list[Mapping[str, object]]] = {}
     for row in rows:
-        if is_verified_reading_gloss(body, row):
+        if is_verified_reading_gloss(body, row) and not is_basic_reading_word(row['surface_form']):
             grouped.setdefault((row['start_char'], row['end_char']), []).append(row)
     candidates = []
     for matches in grouped.values():
