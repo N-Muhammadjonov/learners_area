@@ -24,7 +24,13 @@ export function sourceTextRange(body,text,cursor=0){
   const after=source.positions.findIndex(at=>at>=cursor);
   if(after<0)continue;
   const hit=source.text.indexOf(needle,after);
-  if(hit<0||source.text.indexOf(needle,hit+1)>=0)continue;
+  if(hit<0)continue;
+  if(source.text.indexOf(needle,hit+1)>=0){
+   // Repeated stand-alone headings are unambiguous when they are the next
+   // complete paragraph at the canonical cursor.
+   const start=source.positions[hit],end=source.positions[hit+needle.length-1]+1;
+   if(body.slice(cursor,start).trim()!==''||(end!==body.length&&!/^\s*\n\s*\n/.test(body.slice(end))))continue;
+  }
   const map=new Array(text.length).fill(null);
   for(let index=skip;index<fragment.positions.length;index++){
    const local=fragment.positions[index],at=source.positions[hit+index-skip];
