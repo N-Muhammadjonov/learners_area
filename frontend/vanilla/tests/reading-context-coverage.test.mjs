@@ -22,6 +22,17 @@ test('source alignment maps whitespace and labels without shifting English word 
  assert.equal(sourceTextRange('A claim. Another claim.','claim.'),null);
 });
 
+test('repeated heading aligns only at the next complete canonical paragraph',()=>{
+ const body='Introduction.\n\nClan\n\nClan members live together.\n\nChiefdom\n\nChiefdom leaders govern.';
+ const first=sourceTextRange(body,'Introduction.');
+ const heading=sourceTextRange(body,'Clan',first.end);
+ assert.equal(heading.start,body.indexOf('Clan'));
+ assert.equal(sourceTextRange(body,'Clan',0),null);
+ const preceding=sourceTextRange(body,'Clan members live together.',heading.end);
+ assert.equal(sourceTextRange(body,'Chiefdom',preceding.end).start,body.indexOf('Chiefdom'));
+ assert.equal(sourceTextRange('Introduction.\n\nClans live here.\n\nClan','Clan',13),null);
+});
+
 test('verified Reading keeps curly apostrophes and compound words as full tokens',()=>{
  const words=readingTokens("The scientist’s non-identical twins find out.").filter(row=>row.isWord);
  assert.deepEqual(words.map(row=>row.clean),['The','scientist’s','non-identical','twins','find','out']);
