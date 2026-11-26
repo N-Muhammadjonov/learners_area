@@ -13,12 +13,24 @@ from .step21_vocab_batch import normalize_term, sense_key
 from .step25_content_version import pin
 
 router = APIRouter()
+BUILT_IN_PACK_FILES = ('vocabulary_builtin_packs.json', 'vocabulary_ielts_packs.json')
+
+
+def built_in_packs():
+    return [pack for filename in BUILT_IN_PACK_FILES
+            for pack in json.loads(Path(__file__).with_name(filename).read_text(encoding='utf-8'))]
 
 
 def built_in_summaries():
-    packs = json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text(encoding='utf-8'))
+    packs = built_in_packs()
     return [{'id': p['id'], 'slug': p['id'], 'label': p['label']['en'],
              'labelUz': p['label']['uz'], 'wordCount': len(p['words'])} for p in packs]
+
+
+def available_topic_packs(published: list[dict]) -> list[dict]:
+    builtins = built_in_summaries()
+    slugs = {pack['id'] for pack in published}
+    return [*published, *(pack for pack in builtins if pack['id'] not in slugs)]
 
 
 @router.get('/api/vocabulary/packs')
@@ -37,14 +49,10 @@ async def list_vocabulary_packs(req: Request):
             FROM user_vocabulary WHERE user_id=$1 AND topic_pack IS NOT NULL AND folder_id IS NOT NULL
             GROUP BY topic_pack''',user['id'])
     added={r['topic_pack']:int(r['count']) for r in owned}
-    packs = ([{'id': r['slug'], 'slug': r['slug'], 'label': r['labelEn'],
-               'labelUz': r['labelUz'], 'wordCount': int(r['wordCount'])} for r in rows]
-             if rows else built_in_summaries())
-    if rows:
-        published_slugs = {p['id'] for p in packs}
-        for fallback in built_in_summaries():
-            if fallback['id'] in ('art', 'environment', 'wildlife') and fallback['id'] not in published_slugs:
-                packs.append(fallback)
+    packs = available_topic_packs([
+        {'id': r['slug'], 'slug': r['slug'], 'label': r['labelEn'],
+         'labelUz': r['labelUz'], 'wordCount': int(r['wordCount'])} for r in rows
+    ])
     return core.j({'ok': True, 'packs': [
         {'id': p['id'], 'label': {'en': p['label'], 'uz': p['labelUz'] or p['label']},
          'wordCount': p['wordCount'], 'added':added.get(p['id'],0)>0} for p in packs]}, headers={'Cache-Control':'private, no-store'})

@@ -97,8 +97,10 @@ def test_uploaded_ready_packs_keep_all_names_and_source_counts():
     expected={'Food':302,'Health':225,'Shopping':97,'Sports':125,
         'Technology':266,'Fashion':152,'Work':308,'Housing':181,'Media':161,'Art':175,'Environment':223,'Wildlife':158}
     summaries=built_in_summaries()
-    assert {p['label']:p['wordCount'] for p in summaries}==expected
-    assert all(p['labelUz']==p['label'] for p in summaries if p['id'] not in ('art','wildlife'))
+    assert {p['label']:p['wordCount'] for p in summaries}=={
+        **expected, 'Education':12, 'Transport':12, 'Society':12}
+    assert all(p['labelUz']==p['label'] for p in summaries
+               if p['id'] not in ('art','wildlife','education','society'))
     assert next(p for p in summaries if p['id']=='art')['labelUz']=='San’at'
     assert next(p for p in summaries if p['id']=='wildlife')['labelUz']=='Yovvoyi tabiat'
     path=Path(port.__file__).with_name('vocabulary_builtin_packs.json')

@@ -5,10 +5,106 @@ not decorative inversion. Do not modify authored learning materials.
 """
 from __future__ import annotations
 
+import re
 from dataclasses import replace
-from datetime import date
 
 from .study_plan_thirty import PlanTask, owner_total_minutes_step
+
+OWNER_FOUNDATION_WRITING = (
+    "Articles and countability · write five accurate sentences and a short personal note",
+    "Subject–verb agreement · write a 60–80-word explanation and check the verb in each sentence",
+    "Sentence boundaries · correct five fragments or run-ons, then write your own examples",
+    "Tense control · describe one event in past, present and future forms",
+    "Reasons and contrast · express the same idea using because and although",
+    "Comparisons and cause–effect · write an 80–100-word explanation",
+    "Modals and conditionals · give advice and an example for three everyday situations",
+    "Passive and verb patterns · explain a process in 80–100 words and correct three errors",
+    "Grammar review · use three phrases from an article or clip in one original paragraph",
+)
+
+# Each assessed task starts with a familiar format. The final papers use the
+# existing 60-minute Writing exam and require both submitted answers.
+OWNER_WRITING_PRACTICE = (
+    ("task1", "line-graph", "Identify the main trends and write an overview and two detail paragraphs"),
+    ("task1", "line-graph", "Use feedback from Day 10 to correct the overview and check each figure"),
+    ("task1", "bar-chart", "Group figures and make meaningful comparisons"),
+    ("task1", "table", "Identify the main contrasts and check units and quantities"),
+    ("task1", "pie-chart", "Compare the biggest and smallest shares and group similar figures"),
+    ("task1", "process", "Give an overview of the process and order the main stages"),
+    ("task1", "maps-plans", "Group the changes and describe their locations accurately"),
+    ("task1", "mixed-charts", "Write a single overview that relates the two visuals"),
+    ("task1", "table", "Write a new report in 20 minutes and revise the weakest paragraph"),
+    ("task1", "bar-chart", "Use 20 minutes to check overview, figures, units and tense"),
+    ("task2", "opinion", "Plan a clear position, develop two reasons, then write your first essay"),
+    ("task2", "opinion", "Apply three corrections from Day 20 to a fresh response"),
+    ("task2", "discussion", "Discuss both views, support your reasoning and state your own view"),
+    ("task1", "table", "Write 150+ words in 20 minutes and check every figure"),
+    ("task2", "problem-solution", "Link each solution to the cause it addresses"),
+    ("task2", "multi-part-opinion", "Plan and answer each part of the question"),
+    ("task2", "outweigh", "Weigh the main advantage and disadvantage and justify your conclusion"),
+    ("task1", "process", "Write a 20-minute report and check the order and voice"),
+    ("full", "", "Complete both tasks in 60 minutes and rewrite the two weakest paragraphs"),
+    ("task2", "discussion", "Fix your three recurring errors on a fresh question"),
+    ("full", "", "Use a fresh paper and save both answers for the final band-readiness review"),
+)
+
+
+def owner_writing_assignments(prompts: list[dict]) -> dict[int, tuple[str, str, str]]:
+    assignments = {}
+    used = set()
+    by_type = {"task1": [], "task2": []}
+    for prompt in prompts:
+        task_type = re.sub(r"[\s_-]", "", str(prompt.get("task_type", "")).lower())
+        if task_type in by_type:
+            by_type[task_type].append(prompt)
+    for day, focus in enumerate(OWNER_FOUNDATION_WRITING, 1):
+        seconds = 30 if day == 1 else 60 if day < 5 else 120 if day < 8 else 180
+        assignments[day] = (
+            f"Writing foundation · {focus} · Typing {seconds}s",
+            f"/app/writing?tab=typing&preset={seconds}", f"typing:{seconds}",
+        )
+    for day, (task_type, category, focus) in enumerate(OWNER_WRITING_PRACTICE, 10):
+        if task_type == "full":
+            if all(by_type.values()):
+                assignments[day] = (f"Full Writing · Task 1 + Task 2 · {focus}",
+                                    "/app/writing?tab=exam", "writing-full")
+            else:
+                assignments[day] = ("Writing preparation · review your error log and practise typing",
+                                    "/app/writing?tab=typing&preset=180", "typing:180")
+            continue
+        matching = by_type[task_type]
+        fresh = [item for item in matching if item["source_key"] not in used]
+        candidates = fresh or matching
+        prompt = next((item for item in candidates if item.get("category") == category),
+                      candidates[0] if candidates else None)
+        label, minimum = ("Academic Task 1", 150) if task_type == "task1" else ("Task 2", 250)
+        if prompt:
+            used.add(prompt["source_key"])
+            # Use the source category to avoid describing a different prompt format as the planned one.
+            if prompt.get("category") != category:
+                focus = "Analyse the prompt, write independently and revise the weakest paragraph"
+            assignments[day] = (f"{label} · {prompt['title'].removeprefix('Writing — ')} · {focus} · {minimum}+ words",
+                                prompt["href"], prompt["source_key"])
+        else:
+            assignments[day] = (f"{label} preparation · {focus} · Typing 180s",
+                                "/app/writing?tab=typing&preset=180", "typing:180")
+    return assignments
+
+
+def owner_speaking_part(day: int) -> str:
+    if day < 7:
+        return "part1"
+    if day < 16:
+        return "part2"
+    return "part2" if day % 3 == 2 else "part3"
+
+
+def owner_listening_mcq_ordinal(day: int) -> int | None:
+    # Early intensive days also practise a single question type. Afterwards
+    # alternate that work with full papers, keeping MCQ source numbers stable.
+    if day <= 9:
+        return day
+    return (day + 9) // 2 if day % 2 else None
 
 # B2 fundamentals -> functional complex grammar -> C1 precision and transfer.
 # Every ID is an existing published Grammar unit with server-graded exercises.

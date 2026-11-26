@@ -4,11 +4,11 @@ The server verifies spelling/pair/sentence and deduplicates points per Tashkent 
 from __future__ import annotations
 import json,math,random,re
 from datetime import datetime,timezone,timedelta
-from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
 from .db import row_to_dict
 from .step19_vocab_srs_port import record_due_review
+from .vocabulary_packs_port import built_in_packs
 from .vocabulary_game_content import eligible_words
 router=APIRouter()
 SETS=('all','due','weak','reading','listening','topic','folder','assigned')
@@ -21,7 +21,7 @@ def normalize(s):
     return ' '.join(re.sub(r"[^a-z0-9' ]+",' ',s.lower().replace('\u2018',"'").replace('\u2019',"'").replace('\u02bb',"'").replace('`',"'")).split())
 
 def builtin_ids():
-    return {x['id'] for x in json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())}
+    return {pack['id'] for pack in built_in_packs()}
 
 def conditions(key,folder,topic,args):
     where=['uv.user_id=$1']

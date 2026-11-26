@@ -1,0 +1,281 @@
+[
+  {
+    "id": "education",
+    "label": {
+      "en": "Education",
+      "uz": "Ta’lim"
+    },
+    "words": [
+      {
+        "term": "bridge the attainment gap",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Reduce differences in academic results between groups of learners.",
+        "translationUz": "o‘zlashtirishdagi tafovutni qisqartirmoq",
+        "example": "Targeted tutoring can help bridge the attainment gap."
+      },
+      {
+        "term": "equitable access",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Fair opportunities for people with different needs or circumstances to use a service.",
+        "translationUz": "adolatli foydalanish imkoniyati",
+        "example": "Online materials alone do not ensure equitable access to education."
+      },
+      {
+        "term": "formative assessment",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Assessment used during learning to identify what needs more practice.",
+        "translationUz": "o‘qish jarayonidagi shakllantiruvchi baholash",
+        "example": "A short quiz can serve as a formative assessment."
+      },
+      {
+        "term": "vocational training",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Practical education that prepares people for a particular trade or job.",
+        "translationUz": "kasb-hunar ta’limi",
+        "example": "Vocational training can help students move directly into skilled work."
+      },
+      {
+        "term": "transferable skills",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Abilities that are useful in different jobs or situations.",
+        "translationUz": "turli sohalarda qo‘llanadigan ko‘nikmalar",
+        "example": "Team projects build transferable skills such as negotiation."
+      },
+      {
+        "term": "independent learning",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Learning in which students take responsibility for planning and checking their work.",
+        "translationUz": "mustaqil o‘rganish",
+        "example": "A weekly journal encourages independent learning."
+      },
+      {
+        "term": "evidence-based teaching",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Teaching guided by reliable findings about how students learn.",
+        "translationUz": "dalillarga asoslangan o‘qitish",
+        "example": "Evidence-based teaching starts with a clear learning objective."
+      },
+      {
+        "term": "meet individual needs",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Provide support suited to each person’s circumstances or abilities.",
+        "translationUz": "individual ehtiyojlarni qondirmoq",
+        "example": "Feedback should meet individual needs and suggest a concrete next step."
+      },
+      {
+        "term": "curriculum breadth",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The variety of topics and subjects included in an educational programme.",
+        "translationUz": "o‘quv dasturining qamrovi",
+        "example": "Greater curriculum breadth gives pupils more options later."
+      },
+      {
+        "term": "academic achievement",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "How well a learner performs in educational work.",
+        "translationUz": "ta’limdagi yutuq",
+        "example": "Stable attendance is associated with higher academic achievement."
+      },
+      {
+        "term": "lifelong learning",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Continuing to acquire knowledge and skills throughout life.",
+        "translationUz": "umr bo‘yi o‘rganish",
+        "example": "Public libraries make lifelong learning easier for adults."
+      },
+      {
+        "term": "retain knowledge",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Remember and remain able to use something after learning it.",
+        "translationUz": "bilimni xotirada saqlamoq",
+        "example": "Retrieving an idea from memory helps students retain knowledge."
+      }
+    ]
+  },
+  {
+    "id": "transport",
+    "label": {
+      "en": "Transport",
+      "uz": "Transport"
+    },
+    "words": [
+      {
+        "term": "ease congestion",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Reduce overcrowding and delays on busy roads or transport routes.",
+        "translationUz": "tirbandlikni kamaytirmoq",
+        "example": "More frequent buses could ease congestion near the city centre."
+      },
+      {
+        "term": "reliable public transport",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Public travel services that people can depend on to run regularly.",
+        "translationUz": "ishonchli jamoat transporti",
+        "example": "Reliable public transport matters as much as low fares."
+      },
+      {
+        "term": "commute time",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The time a person spends travelling between home and work or study.",
+        "translationUz": "uy bilan ish yoki o‘qish o‘rtasidagi qatnov vaqti",
+        "example": "The new station cut her commute time by twenty minutes."
+      },
+      {
+        "term": "shift to public transport",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Start using public transport in place of another mode of travel.",
+        "translationUz": "jamoat transportidan foydalanishga o‘tmoq",
+        "example": "People are more likely to shift to public transport when transfers are convenient."
+      },
+      {
+        "term": "pedestrian-friendly streets",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Streets arranged so that walking is safe, comfortable and convenient.",
+        "translationUz": "piyodalar yurishi uchun qulay ko‘chalar",
+        "example": "Pedestrian-friendly streets help local shops attract regular customers."
+      },
+      {
+        "term": "road safety measures",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Actions designed to reduce crashes and injuries on roads.",
+        "translationUz": "yo‘l harakati xavfsizligi choralari",
+        "example": "Road safety measures near schools include lower speed limits."
+      },
+      {
+        "term": "last-mile connection",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Transport that covers the final part of a journey to the destination.",
+        "translationUz": "manzilgacha so‘nggi masofani qamrab oluvchi qatnov",
+        "example": "A short shuttle provides a last-mile connection from the station to the campus."
+      },
+      {
+        "term": "travel demand",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The amount of travel people want or need to make.",
+        "translationUz": "qatnovga bo‘lgan talab",
+        "example": "Travel demand is highest on weekdays during the morning peak."
+      },
+      {
+        "term": "maintain infrastructure",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Keep facilities such as roads, tracks or bridges in usable condition.",
+        "translationUz": "infratuzilmani soz holatda saqlamoq",
+        "example": "Cities need a regular budget to maintain infrastructure."
+      },
+      {
+        "term": "emission standards",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Rules limiting the pollution a vehicle or other source can release.",
+        "translationUz": "chiqindi gaz me’yorlari",
+        "example": "Stricter emission standards can improve air quality over time."
+      },
+      {
+        "term": "fare affordability",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "How easily travellers can pay the cost of a journey.",
+        "translationUz": "yo‘l haqining hamyonbopligi",
+        "example": "Fare affordability is particularly important for people on low incomes."
+      },
+      {
+        "term": "expand cycling networks",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Increase the number and coverage of connected routes for cyclists.",
+        "translationUz": "veloyo‘llar tarmog‘ini kengaytirmoq",
+        "example": "The council plans to expand cycling networks beyond the city centre."
+      }
+    ]
+  },
+  {
+    "id": "society",
+    "label": {
+      "en": "Society",
+      "uz": "Jamiyat"
+    },
+    "words": [
+      {
+        "term": "social mobility",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The ability to move between different social or economic positions.",
+        "translationUz": "ijtimoiy mavqeni o‘zgartirish imkoniyati",
+        "example": "Access to affordable education can support social mobility."
+      },
+      {
+        "term": "community engagement",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The participation of local people in decisions or activities that affect them.",
+        "translationUz": "mahalliy aholining faol ishtiroki",
+        "example": "Community engagement helped planners identify which services were missing."
+      },
+      {
+        "term": "sense of belonging",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A feeling of being accepted as part of a group or place.",
+        "translationUz": "o‘zini jamoaning bir qismi deb his qilish",
+        "example": "A shared project can strengthen students’ sense of belonging."
+      },
+      {
+        "term": "reduce inequality",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Make differences in access, income or opportunities smaller.",
+        "translationUz": "tengsizlikni kamaytirmoq",
+        "example": "Affordable childcare can help reduce inequality in employment."
+      },
+      {
+        "term": "civic participation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Taking part in public life through actions such as voting or volunteering.",
+        "translationUz": "fuqarolarning jamoat hayotidagi ishtiroki",
+        "example": "Local volunteering is one form of civic participation."
+      },
+      {
+        "term": "social isolation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A state of having limited contact with other people.",
+        "translationUz": "ijtimoiy yakkalanish",
+        "example": "Affordable transport can reduce social isolation among older residents."
+      },
+      {
+        "term": "public trust",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "People’s confidence in institutions or in those who represent them.",
+        "translationUz": "jamoatchilik ishonchi",
+        "example": "Clear reporting helps rebuild public trust after a mistake."
+      },
+      {
+        "term": "shared responsibility",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A duty jointly held by different people or organisations.",
+        "translationUz": "umumiy mas’uliyat",
+        "example": "Accessible public spaces are a shared responsibility."
+      },
+      {
+        "term": "access essential services",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be able to use services needed for everyday life.",
+        "translationUz": "asosiy xizmatlardan foydalana olmoq",
+        "example": "Remote communities may struggle to access essential services."
+      },
+      {
+        "term": "address underlying causes",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Take action on the factors that create a problem.",
+        "translationUz": "muammoning tub sabablarini bartaraf etishga kirishmoq",
+        "example": "Long-term policy should address underlying causes of exclusion."
+      },
+      {
+        "term": "intergenerational support",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Practical or emotional help exchanged between people of different generations.",
+        "translationUz": "avlodlararo ko‘mak",
+        "example": "The project encourages intergenerational support through shared activities."
+      },
+      {
+        "term": "social cohesion",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The ability of people in a society to trust and cooperate with one another.",
+        "translationUz": "jamiyatning jipsligi",
+        "example": "Accessible community events can contribute to social cohesion."
+      }
+    ]
+  }
+]
