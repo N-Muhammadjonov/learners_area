@@ -1,4 +1,5 @@
 import {el,listen} from '../../js/dom.js';
+import {paymentsNavigationVisible} from '../../js/adapters/frontend.js';
 import {dockIcon} from './dock-icons.js';
 import {returnForWindow} from '../campus/return-policy.js';
 
@@ -45,7 +46,7 @@ export function moduleDock(context,{switchButton,isSelected=()=>true}={}){
  node.style.setProperty('--dock-edge-inset', `${EDGE_INSET}px`);
  const nav=el('nav',{'aria-label':dict.shell.learningNav,class:'module-dock__glass'});
  const tooltip=el('span',{class:'module-dock__label','aria-hidden':'true',hidden:true});
- const items=dockItems(dict,session.user.role,session.paymentsEnabled===true),links=items.map(item=>{
+ const items=dockItems(dict,session.user.role,paymentsNavigationVisible(session)),links=items.map(item=>{
   const artwork=dockIcon(item.key),icon=el('span',{class:'module-dock__icon'+(artwork.hasAttribute('data-dock-reference')?' module-dock__icon--reference':'')},artwork);
   icon.style.setProperty('--dock-top',item.top);icon.style.setProperty('--dock-bottom',item.bottom);
   return el('a',{href:item.href,'aria-label':item.label,'data-dock-module':item.key,class:'module-dock__item'},icon,el('span',{class:'module-dock__dot','aria-hidden':'true'}));

@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {paymentsNavigationVisible} from '../../js/adapters/frontend.js';
 import {
   progressSummaryDTO, progressStreakDTO, progressTrendsDTO,
 } from '../../js/adapters/progress-v54.js';
@@ -36,7 +37,7 @@ export async function mount(context) {
     h('div', {class: 'flex flex-col gap-4', 'data-progress-content': '', 'data-async-content': 'progress'},
       modulesHost, trendsHost, statsHost, vocabHost, courseHost));
   root.append(page);
-  if(context.session?.paymentsEnabled===true&&context.session.user.role==='student')page.firstElementChild.append(
+  if(paymentsNavigationVisible(context.session)&&context.session.user.role==='student')page.firstElementChild.append(
     h('a',{href:'/app/payments',class:'btn-primary'},uz?'Mening to‘lovlarim':'My payments'));
   if(context.session?.user?.role==='student'){
     const calendar=studentCalendar(context);

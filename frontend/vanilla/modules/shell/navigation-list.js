@@ -1,4 +1,5 @@
 import {el,listen} from '../../js/dom.js';
+import {paymentsNavigationVisible} from '../../js/adapters/frontend.js';
 import {dockIcon} from './dock-icons.js';
 import {activeDockModule,dockItems,moduleDock,moduleNavigationVisible} from './dock.js';
 /** Optional labelled navigation, inside Study tools. Uses the Dock's exact role-scoped items. */
@@ -6,7 +7,7 @@ export function navigationList(context){
  const details=el('details',{class:'la-navigation-list','data-navigation-list':''}),nav=el('nav',{'aria-label':context.dict.shell.learningNav});
  const active=activeDockModule(context.url);
  details.append(el('summary',{},context.dict.shell.learningNav),nav);
- for(const item of dockItems(context.dict,context.session.user.role,context.session.paymentsEnabled===true))nav.append(el('a',{href:item.href,...(item.key===active?{'aria-current':'page'}:{}),'data-navigation-list-item':item.key},dockIcon(item.key),el('span',{},item.label)));
+ for(const item of dockItems(context.dict,context.session.user.role,paymentsNavigationVisible(context.session)))nav.append(el('a',{href:item.href,...(item.key===active?{'aria-current':'page'}:{}),'data-navigation-list-item':item.key},dockIcon(item.key),el('span',{},item.label)));
  return details;
 }
 
@@ -37,7 +38,7 @@ export function moduleNavigation(context,{top,main}){
   el('span',{class:'module-nav-hamburger-icon','aria-hidden':'true'}));
  top.querySelector('[data-campus-header-identity]')?.prepend(toggle);
  const scroll=el('nav',{'aria-label':dict.shell.learningNav,class:'module-sidebar__links'});
- const links=dockItems(dict,session.user.role,session.paymentsEnabled===true).map(item=>
+ const links=dockItems(dict,session.user.role,paymentsNavigationVisible(session)).map(item=>
   el('a',{href:item.href,'data-module-sidebar-link':item.key},dockIcon(item.key,{reference:false}),el('span',{},item.label)));
  scroll.append(...links);
  const panel=el('aside',{id:SIDEBAR_ID,'data-module-sidebar':'',class:'module-sidebar',hidden:true},

@@ -1,4 +1,5 @@
 import {h} from '../../js/native.js';
+import {paymentsNavigationVisible} from '../../js/adapters/frontend.js';
 import {anySignal} from '../../js/signals.js';
 import {studentAttendance} from '../staff-final30/academy-attendance.js';
 import {learnerJourney} from '../shared/learner-journey.js';
@@ -64,7 +65,7 @@ export async function mount(ctx) {
           h('h1', {class: 'font-display text-2xl text-ink-900'}, `${child.name} — ${dict.nav.progress}`),
           h('p', {class: 'pc-muted'}, tr(ctx, 'Faqat tasdiqlangan farzandingizning natijalari', 'Results of your approved child only'))),
         marker(ctx)),
-      ctx.session?.paymentsEnabled===true?h('a',{href:'/app/payments?child='+encodeURIComponent(child.studentId),class:'btn-primary'},tr(ctx,'Farzandimning to‘lovlari','My child’s payments')):null,
+      paymentsNavigationVisible(ctx.session)?h('a',{href:'/app/payments?child='+encodeURIComponent(child.studentId),class:'btn-primary'},tr(ctx,'Farzandimning to‘lovlari','My child’s payments')):null,
       childPicker(ctx, kids.children, child, c => { const u = new URL(location.href); u.searchParams.set('child', c.studentId); history.replaceState(null, '', u); draw(c); }),
       studentAttendance(ctx,'/api/guardian/children/'+encodeURIComponent(child.studentId)+'/attendance',childSignal),
       learnerJourney(ctx,'/api/guardian/children/'+encodeURIComponent(child.studentId)+'/journey',childSignal),
