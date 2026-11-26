@@ -12,7 +12,7 @@ export function sourceDocument(html,{skipTitle=false,lexicalContext=null,sourceI
  }
  if(lexicalContext){
   for(const label of doc.body.querySelectorAll('.para-letter')){
-   if(/^\p{L}/u.test(label.nextSibling?.textContent??''))label.after(doc.createTextNode(' '));
+   if(/^[A-Z]$/u.test(label.textContent)&&/^\p{L}/u.test(label.nextSibling?.textContent??''))label.after(doc.createTextNode(' '));
   }
  }
  if(skipTitle)doc.body.querySelector('.pass-title')?.remove();

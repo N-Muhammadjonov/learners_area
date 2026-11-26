@@ -110,6 +110,18 @@ def reading_glosses(body: str, rows: list[Mapping[str, object]]) -> list[Mapping
     return sorted(accepted, key=lambda row: (row['start_char'], row['end_char']))
 
 
+def outside_reading_glosses(rows, contextual):
+    """Keep stored ranges outside the newly reviewed source positions."""
+    if not contextual:
+        return list(rows)
+    return [
+        row for row in rows if type(row['start_char']) is int and type(row['end_char']) is int and not any(
+            row['start_char'] < gloss['end_char'] and gloss['start_char'] < row['end_char']
+            for gloss in contextual
+        )
+    ]
+
+
 def paragraph_offsets(body: str, rows: list[Mapping[str, object]]) -> list[dict]:
     """Use paragraph order to distinguish repeated text without guessing a sense."""
     cursor = 0

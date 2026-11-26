@@ -5,7 +5,8 @@ from fastapi import APIRouter,Request
 from . import main as core
 from .db import PooledReads
 from .rate_limit import async_counter as counter,RULES
-from .reading_passage_glossary import passage_glosses
+from .reading_lexical_policy import outside_reading_glosses
+from .reading_passage_glossary import passage_glosses, supplements_stored_glosses
 from .step21_vocab_batch import sense_key
 from .step17_mcq_port import live,staff
 from .step20_retention_transitions_port import phase
@@ -157,7 +158,7 @@ async def source_saved(req:Request):
                      AND o.resolution_status='resolved' ORDER BY o.section_number,o.start_char LIMIT 1500"""
             from .js_text import slice as js_slice, length
             rows=await con.fetch(query,user['id'],source_id)
-            saved=[]
+            saved = []
             for row in rows:
                 section=row['section_number'] if source=='listening' else 1
                 if not isinstance(section,int) or not 1<=section<=len(parts):
@@ -168,8 +169,7 @@ async def source_saved(req:Request):
                     or not 0<=start<end<=length(body)
                     or js_slice(body,start,end)!=row['surface_form']):
                     continue
-                saved.append({'occurrenceId':str(row['id']),'startChar':start,'endChar':end,
-                              'section':section})
+                saved.append({'id':str(row['id']),'start_char':start,'end_char':end,'section':section})
             if embedded_glosses:
                 keys = {row['id']:sense_key({'term':row['surface_form'],
                     'partOfSpeech':row['part_of_speech'], 'definitionEn':row['definition_en']})
@@ -177,11 +177,14 @@ async def source_saved(req:Request):
                 known = {row['sense_key'] for row in await con.fetch(
                     'SELECT sense_key FROM user_vocabulary WHERE user_id=$1 AND sense_key=ANY($2::text[])',
                     user['id'],list(set(keys.values())))}
-                ids = {row['occurrenceId'] for row in saved}
-                saved = [{'occurrenceId':row['id'],'startChar':row['start_char'],
-                          'endChar':row['end_char'],'section':1} for row in embedded_glosses
-                         if row['id'] in ids or keys[row['id']] in known]
-        return core.j({'savedOccurrences':saved},headers=PRIVATE)
+                ids = {row['id'] for row in saved}
+                saved = outside_reading_glosses(saved, embedded_glosses) if supplements_stored_glosses(source_id) else []
+                saved.extend({**row, 'section':1} for row in embedded_glosses
+                             if row['id'] in ids or keys[row['id']] in known)
+                saved.sort(key=lambda row: row['start_char'])
+        return core.j({'savedOccurrences':[{
+            'occurrenceId':row['id'],'startChar':row['start_char'],'endChar':row['end_char'],'section':row['section']
+        } for row in saved]},headers=PRIVATE)
     except Exception:
         return core.j({'error':'temporarily_unavailable'},503,PRIVATE)
 

@@ -83,6 +83,34 @@ def test_locked_source_never_leaks_saved_occurrences(monkeypatch):
     assert con.arguments is None
 
 
+def test_source_saved_combines_reviewed_phrases_with_unaffected_stored_words(monkeypatch):
+    class SupplementalConnection(FakeConnection):
+        async def fetchval(self, query, *arguments):
+            return 'They came across fossils.'
+
+        async def fetch(self, query, *arguments):
+            if 'SELECT sense_key FROM user_vocabulary' in query:
+                return [{'sense_key': arguments[1][0]}]
+            return [
+                {'id':STALE,'start_char':5,'end_char':9,'surface_form':'came','section_number':None},
+                {'id':MATCH,'start_char':17,'end_char':24,'surface_form':'fossils','section_number':None},
+            ]
+
+    reviewed = {'id':str(SENSE),'start_char':5,'end_char':16,'surface_form':'came across',
+                'part_of_speech':'phrasal verb','definition_en':'encountered unexpectedly'}
+    install(monkeypatch, SupplementalConnection())
+    monkeypatch.setattr(route, 'passage_glosses', lambda *_: [reviewed])
+    monkeypatch.setattr(route, 'supplements_stored_glosses', lambda _: True)
+
+    response = asyncio.run(route.source_saved(request()))
+
+    assert response.status_code == 200
+    assert json.loads(response.body)['savedOccurrences'] == [
+        {'occurrenceId':str(SENSE),'startChar':5,'endChar':16,'section':1},
+        {'occurrenceId':str(MATCH),'startChar':17,'endChar':24,'section':1},
+    ]
+
+
 def test_saved_sense_is_bound_to_exact_dictionary_sense_not_surface_spelling():
     con=FakeConnection()
     context={'contextual':{'definitionEn':'to make an offer','dictionary':{'senseId':str(SENSE)}},

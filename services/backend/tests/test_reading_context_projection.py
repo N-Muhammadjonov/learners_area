@@ -1,4 +1,7 @@
-from app.reading_lexical_policy import paragraph_offsets, reading_glosses, is_verified_reading_gloss, is_reading_pronoun
+from app.reading_lexical_policy import (
+    is_reading_pronoun, is_verified_reading_gloss, outside_reading_glosses,
+    paragraph_offsets, reading_glosses,
+)
 
 
 def row(id, start, surface, translation='bilib olmoq'):
@@ -29,6 +32,17 @@ def test_equal_conflicting_source_meanings_are_not_chosen_by_row_order():
     assert reading_glosses(body,[first,other])==[]
     assert reading_glosses(body,[other,first])==[]
     assert [r['id'] for r in reading_glosses(body,[first,{**first,'id':'duplicate'}])]==['duplicate']
+
+
+def test_supplement_keeps_older_glosses_outside_the_reviewed_expression():
+    body = 'They came across a fossil.'
+    stored = [row('old-verb', 5, 'came'), row('old-noun', 19, 'fossil')]
+    reviewed = [row('new-phrase', 5, 'came across', 'tasodifan topdi')]
+
+    projected = reading_glosses(body, reviewed + outside_reading_glosses(stored, reviewed))
+
+    assert [item['id'] for item in projected] == ['new-phrase', 'old-noun']
+    assert [item['id'] for item in stored] == ['old-verb', 'old-noun']
 
 
 def test_word_boundaries_refuse_opposite_compound_and_partial_plural_but_accept_quotes():
