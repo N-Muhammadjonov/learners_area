@@ -4,6 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from . import main as core
 from .db import row_to_dict
+from .vocabulary_packs_port import built_in_packs
 
 BATCH_SIZE=10
 
@@ -21,8 +22,7 @@ def source_groups():
                 # Resolve exact source senses rather than assigning headings by
                 # user insertion order; unknown senses stay in normal batches.
                 if built_in is None:
-                    built_in={p['id']:p['words'] for p in json.loads(
-                        (root/'vocabulary_builtin_packs.json').read_text(encoding='utf-8'))}
+                    built_in={p['id']:p['words'] for p in built_in_packs()}
                 words=built_in.get(pack,[])
                 if not 0<=g['start']<g['end']<=len(words):
                     raise ValueError('invalid pack group bounds: '+pack)
@@ -36,7 +36,7 @@ def source_groups():
 @lru_cache(maxsize=1)
 def source_order():
     from .step21_vocab_batch import sense_key
-    packs=json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
+    packs=built_in_packs()
     return {(p['id'],sense_key(w)):position for p in packs for position,w in enumerate(p['words'])}
 
 def batch_plan(ids,marks,parts=None):

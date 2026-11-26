@@ -17,7 +17,8 @@ from .study_plan_thirty import (DAYS, SUPPORTED_DURATIONS, TARGET_MINUTES,
     make_thirty_day_schedule, normalize_level, owner_study_date)
 from .study_plan_materials import (assign_materials, load_material_pools,
     assign_owner_vocabulary, load_owner_pack_pool)
-from .study_plan_owner_curriculum import enrich_owner_plan, load_owner_video_pool, owner_retention_target
+from .study_plan_owner_curriculum import (OWNER_WRITING_PRACTICE, enrich_owner_plan,
+    load_owner_video_pool, owner_retention_target)
 
 router = APIRouter(prefix="/api/study-plan/monthly/sequence")
 OWNER_BASELINE_BANDS = {"listening": 6.5, "reading": 7.0, "writing": 5.5, "speaking": 6.0}
@@ -118,8 +119,10 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
     if cycle["status"] != "active":
         return cycle
     # Sunday has a separate owner programme and never advances this sequence.
-    if owner and now.astimezone(_timezone(cycle["timezone"])).weekday() == 6:
+    zone = _timezone(cycle["timezone"])
+    if owner and now.astimezone(zone).weekday() == 6:
         return cycle
+    evidence_zone = zone.key if owner else None
     uid, cid, day = cycle["user_id"], cycle["id"], cycle["current_day"]
     tasks = await con.fetch(CURRENT, cid, day)
     allowed = VALID_DAILY_TOTALS if owner else {TARGET_MINUTES}
@@ -135,7 +138,8 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
         events = await con.fetch(f"""SELECT source_key, MIN(happened_at) AS happened_at,
                  count(DISTINCT event_key)::int AS evidence_count
           FROM ({EVENTS}) e WHERE happened_at >= $2 AND happened_at <= $3
-          GROUP BY source_key""", uid, cycle["opened_at"], now)
+            AND ($4::text IS NULL OR EXTRACT(ISODOW FROM happened_at AT TIME ZONE $4) <> 7)
+          GROUP BY source_key""", uid, cycle["opened_at"], now, evidence_zone)
         verified = {}
         for item in events:
             kind = _event_kind(item["source_key"])
@@ -160,32 +164,38 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
                 FROM activity_events
                 WHERE user_id=$1 AND type='VOCAB_GAME_PRACTICED'
                   AND created_at >= $2 AND created_at <= $3
+                  AND EXTRACT(ISODOW FROM created_at AT TIME ZONE $4::text) <> 7
                   AND payload->>'verified'='true'
                   AND payload->>'correct'='true'
                   AND NULLIF(payload->>'entryId','') IS NOT NULL""",
-                uid, cycle["opened_at"], now)
+                uid, cycle["opened_at"], now, evidence_zone)
             if game_recall and game_recall["completed"] >= 10:
                 verified["vocabulary"] = (game_recall["at"], "vocab_game_recall")
 
-        # Writing must be a substantive submitted response, not a one-word draft.
+        # Submission is proof of work. An AI grade is never required here.
         if "writing" in verified:
             selected = pending["writing"]["source_key"]
             prompt_id = selected.split(":", 1)[1] if selected.startswith("writing:") else None
+            minimum = 120
+            if owner and prompt_id and 10 <= day <= DAYS:
+                task_type = OWNER_WRITING_PRACTICE[day - 10][0]
+                minimum = 250 if task_type == "task2" else 150
             done_at = await con.fetchval("""SELECT MIN(submitted_at)
               FROM writing_submissions WHERE user_id=$1
                 AND submitted_at >= $2 AND submitted_at <= $3
-                AND status<>'draft' AND word_count >= 120
+                AND status<>'draft' AND word_count >= $5
+                AND ($6::text IS NULL OR EXTRACT(ISODOW FROM submitted_at AT TIME ZONE $6) <> 7)
                 AND ($4::uuid IS NULL OR prompt_id=$4::uuid)""",
-                uid, cycle["opened_at"], now, prompt_id)
+                uid, cycle["opened_at"], now, prompt_id, minimum, evidence_zone)
             if done_at is None:
                 verified.pop("writing")
             else:
                 verified["writing"] = (done_at, selected)
 
-        typing_task = pending.get("writing")
-        if typing_task and typing_task["source_key"].startswith("typing:"):
+        writing_task = pending.get("writing")
+        if writing_task and writing_task["source_key"].startswith("typing:"):
             try:
-                seconds = int(typing_task["source_key"].split(":", 1)[1])
+                seconds = int(writing_task["source_key"].split(":", 1)[1])
             except (ValueError, IndexError):
                 seconds = 0
             if seconds in (30, 60, 120, 180):
@@ -193,10 +203,26 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
                     FROM typing_runs WHERE user_id=$1
                     AND started_at >= $2 AND finished_at <= $3
                     AND finished_at IS NOT NULL AND duration_ms >= $4
+                    AND ($5::text IS NULL OR EXTRACT(ISODOW FROM finished_at AT TIME ZONE $5) <> 7)
                     AND typed_chars >= 35 AND accuracy >= 75""",
-                    uid, cycle["opened_at"], now, seconds * 1000)
+                    uid, cycle["opened_at"], now, seconds * 1000, evidence_zone)
                 if finished_at is not None:
-                    verified["writing"] = (finished_at, typing_task["source_key"])
+                    verified["writing"] = (finished_at, writing_task["source_key"])
+
+        if owner and writing_task and writing_task["source_key"] == "writing-full":
+            finished_at = await con.fetchval("""SELECT MIN(paper.finished_at) FROM (
+              SELECT p.finalized_at AS finished_at
+              FROM writing_exam_papers p
+              JOIN writing_exam_paper_entries e ON e.paper_id=p.id
+              JOIN writing_submissions s ON s.id=e.submission_id AND s.user_id=p.user_id
+              WHERE p.user_id=$1 AND p.mode='full' AND p.started_at >= $2 AND p.finalized_at <= $3
+                AND p.finalize_reason IN ('submitted','timeout')
+                AND EXTRACT(ISODOW FROM p.finalized_at AT TIME ZONE $4::text) <> 7
+                AND s.status<>'draft' AND s.word_count >= CASE WHEN e.task_type='task1' THEN 150 ELSE 250 END
+              GROUP BY p.id,p.finalized_at HAVING COUNT(DISTINCT e.task_type)=2
+            ) paper""", uid, cycle["opened_at"], now, evidence_zone)
+            if finished_at is not None:
+                verified["writing"] = (finished_at, "writing-full")
 
         if owner:
             mcq_task = pending.get("listening")
@@ -271,7 +297,7 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
         WHERE cycle_id=$1 AND day_number=$2 AND completed_at IS NULL""", cid, day)
     if pending_count:
         return cycle
-    today = now.astimezone(_timezone(cycle["timezone"])).date()
+    today = now.astimezone(zone).date()
     if day == cycle.get("duration_days", DAYS):
         await con.execute("""UPDATE study_plan_30_cycles
             SET status='completed',updated_at=$2 WHERE id=$1""", cid, now)
@@ -283,7 +309,7 @@ async def _sync(con, cycle: dict, now: datetime, *, owner: bool = False) -> dict
         FROM study_plan_30_tasks WHERE cycle_id=$1 AND day_number=$2""", cid, day)
     if not isinstance(last_completed, datetime):
         raise ValueError("invalid_completion_timestamp")
-    finished_on = last_completed.astimezone(_timezone(cycle["timezone"])).date()
+    finished_on = last_completed.astimezone(zone).date()
     opens_on = max(
         owner_study_date(cycle["started_on"], day) if owner
         else cycle["started_on"] + timedelta(days=day),
@@ -391,32 +417,42 @@ async def _present(con, cycle: dict, now: datetime, *, owner: bool = False) -> d
                               and vocab_now["status"] == "ready" else None),
             }
         result.append(daily)
+    completed_days = sum(day["status"] == "completed" for day in result)
+    if completed_days >= 20:
+        sunday_writing = ("Writing — Task 1 (20 min) + Task 2 (40 min), then review",
+                          "/app/writing?tab=exam")
+    elif completed_days >= 10:
+        sunday_writing = ("Writing — Academic Task 1 (20 min), then check the overview and figures",
+                          "/app/writing?tab=exam")
+    else:
+        sunday_writing = ("Grammar and typing diagnostic — write and correct a short paragraph",
+                          "/app/grammar")
     sunday_programme = {
-        "title": "Yakshanba — mustaqil 7 soatlik haftalik tahlil",
+        "title": "Sunday Mock · Yakshanba sinovi",
         "active": today.weekday() == 6,
         "minutes": 420,
         "separateFromMainCycle": True,
         "tasks": [
-            {"title": "Retention va SRS", "minutes": 30, "href": "/app/vocabulary?tab=revision"},
-            {"title": "Reading/Listening xatolarini dalil bilan qayta ishlash",
-             "minutes": 90, "href": "/app/reading"},
-            {"title": "Writing: 4 IELTS mezoni bo‘yicha audit va paragraph rewrite",
-             "minutes": 90, "href": "/app/writing"},
-            {"title": "Speaking: audio, transkripsiya va qayta aytish",
-             "minutes": 60, "href": "/app/speaking/ai"},
-            {"title": "Shaxsiy grammatik xatolarni tuzatish",
-             "minutes": 45, "href": "/app/grammar"},
-            {"title": "TED/Article va language stealing",
-             "minutes": 45, "href": "/app/video-lessons"},
-            {"title": "Haftalik audit va eng zaif skill mashqi",
-             "minutes": 60, "href": "/app/assignments"},
+            {"title": "Mock Tests — fresh Listening and Academic Reading",
+             "minutes": 90, "href": "/app/mocks"},
+            {"title": "Speaking — record the mock, check two errors and repeat",
+             "minutes": 50, "href": "/app/speaking/ai"},
+            {"title": sunday_writing[0], "minutes": 90, "href": sunday_writing[1]},
+            {"title": "Reading and Listening — review wrong and guessed answers",
+             "minutes": 85, "href": "/app/reading"},
+            {"title": "Vocabulary — spaced recall and active use",
+             "minutes": 25, "href": "/app/vocabulary?tab=revision"},
+            {"title": "Language Stealing — use a source phrase in your own words",
+             "minutes": 35, "href": "/app/writing?tab=language-stealing"},
+            {"title": "Review the scores and pick three priorities for next week",
+             "minutes": 45, "href": "/app/progress"},
         ],
     }
     return {
         **({"sundayProgramme": sunday_programme} if owner else {}),
         "state": cycle["status"], "cycleId": cycle["id"],
         "level": cycle["cefr_level"], "totalDays": duration, "currentDay": cycle["current_day"],
-        "completedDays": sum(day["status"] == "completed" for day in result),
+        "completedDays": completed_days,
         "startedOn": cycle["started_on"], "today": today,
         "revision": cycle["revision"], "days": result,
     }
@@ -582,7 +618,9 @@ async def verify_skill_grammar(req: Request) -> JSONResponse:
     pool = await core.pool()
     async with pool.acquire() as con, con.transaction():
         row = await con.fetchrow(CYCLE, user["id"])
-        if not row or row["status"] != "active" or row["current_day"] != day:
+        owner = user["role"] == "owner"
+        if (not row or row["status"] != "active" or row["current_day"] != day
+                or (owner and now.astimezone(_timezone(row["timezone"])).weekday() == 6)):
             return failure("day_locked", 409)
         task = await con.fetchrow("""SELECT source_key,completed_at
           FROM study_plan_30_tasks WHERE cycle_id=$1 AND day_number=$2
@@ -592,7 +630,7 @@ async def verify_skill_grammar(req: Request) -> JSONResponse:
                     "skill-grammar:" + kind + ":"))):
             return failure("invalid_evidence", 409)
         if task["completed_at"]:
-            return response(await _current(con, user["id"], now))
+            return response(await _current(con, user["id"], now, owner=owner))
         result = _score_skill_stage(task["source_key"], answers)
         if result is None:
             return failure("invalid_evidence", 400)
@@ -605,7 +643,7 @@ async def verify_skill_grammar(req: Request) -> JSONResponse:
             row["id"], day, now, {"source": "server_scored_skill_grammar",
                                    "correct": result["correct"], "total": result["total"]},
             kind)
-        return response(await _current(con, user["id"], now))
+        return response(await _current(con, user["id"], now, owner=owner))
 
 
 def install() -> None:

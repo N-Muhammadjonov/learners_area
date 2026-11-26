@@ -44,7 +44,7 @@ def test_grammar_is_source_authored_and_exam_accuracy_first():
                    for day in make_thirty_day_schedule("B2", START))
 
 
-def test_ielts_academic_reading_is_full_on_intensive_days_and_passage_on_course_days():
+def test_owner_reading_progresses_from_passages_to_full_papers():
     pools = {
         "reading": [{"source_key": f"reading:test_{i}",
                      "title": f"Academic Reading Test {i}",
@@ -60,13 +60,13 @@ def test_ielts_academic_reading_is_full_on_intensive_days_and_passage_on_course_
     days = assign_materials(make_thirty_day_schedule("B2", monday, intensive=True),
                             pools, intensive=True)
     for day in days:
-        on = date.fromisoformat(day["date"])
         reading = day["tasks"][1]
-        if on.weekday() in (0, 2, 4):
-            assert reading.source_key.startswith("reading-practice:")
-        else:
+        if day["day"] >= 10 and day["day"] % 2 == 0:
             assert reading.source_key.startswith("reading:")
             assert reading.href.startswith("/app/reading/academic/")
+        else:
+            assert reading.source_key.startswith("reading-practice:")
+            assert reading.href.startswith("/app/reading/general/")
     student = assign_materials(make_thirty_day_schedule("B2", monday), pools)
     assert student[1]["tasks"][1].source_key.startswith("reading-practice:")
 
@@ -204,8 +204,9 @@ def test_owner_academic_passages_are_preferred_on_light_steps_regardless_of_week
                              "href": "/app/reading/general/general-1?passage=1"}],
     }
     assigned = assign_materials(plan, pools, intensive=True)
-    assert assigned[0]["tasks"][1].source_key == "reading-practice:academic-1"
-    assert assigned[1]["tasks"][1].source_key == "reading:full-1"
+    assert assigned[0]["tasks"][1].source_key == "reading-practice:general-1"
+    assert assigned[1]["tasks"][1].source_key == "reading-practice:academic-1"
     assert assigned[2]["tasks"][1].source_key == "reading-practice:academic-1"
+    assert assigned[9]["tasks"][1].source_key == "reading:full-1"
     assert assigned[0]["tasks"][2].source_key == "listening-mcq:1"
-    assert assigned[2]["tasks"][2].source_key == "listening-mcq:2"
+    assert assigned[2]["tasks"][2].source_key == "listening-mcq:3"

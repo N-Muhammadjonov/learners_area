@@ -1,10 +1,9 @@
 """Learner batch add of canonical Vocabulary topic packs."""
 from __future__ import annotations
-import json
-from pathlib import Path
 from fastapi import APIRouter,Request
 from . import main as core
 from .step21_vocab_batch import add_batch
+from .vocabulary_packs_port import built_in_packs
 router=APIRouter()
 
 @router.post('/api/vocabulary/packs')
@@ -26,12 +25,7 @@ async def add_pack(req:Request):
                 'definitionEn':r['definition_en'],'translationUz':r['translation_uz'] or '',
                 'exampleSentence':r['example_sentence'] or '', 'collocations':r['collocations'],'authored':True} for r in words]
         else:
-            has_any=await con.fetchval("SELECT id FROM vocabulary_topic_packs WHERE publication_state='published' LIMIT 1")
-            # New content-authored packs can fall back when older DB packs are published.
-            # Existing published pack definitions remain canonical.
-            if has_any and pack_id not in ('art','environment','wildlife'):return core.j({'error':'unknown_pack'},400)
-            built=json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
-            pack=next((p for p in built if p['id']==pack_id),None)
+            pack=next((p for p in built_in_packs() if p['id']==pack_id),None)
             if not pack:return core.j({'error':'unknown_pack'},400)
             folder_name=pack['label']['en']
             pack_words=[{'term':w['term'],'partOfSpeech':w.get('partOfSpeech',''),'definitionEn':w['definitionEn'],

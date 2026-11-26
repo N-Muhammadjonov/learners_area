@@ -3,7 +3,6 @@ import base64
 import json
 import re
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 from fastapi import HTTPException
 from . import main as core
 from .browser_common import camel, existing, identifier, live
@@ -12,6 +11,7 @@ from .writing_source_materials import catalogue,live_inventory,metadata_for_prom
 from .writing_stealing_collection import metadata_for_model,collection_info
 from .writing_study_data import personal_patterns,usage_uz
 from .writing_exam_bank import catalogue as exam_catalogue
+from .vocabulary_packs_port import built_in_packs
 
 
 async def evaluation(con, uid, source, id, external=False):
@@ -39,7 +39,7 @@ def evaluation_result(row, external=False):
 async def packs(con):
     rows = await con.fetch("SELECT id,slug,label_en,label_uz FROM vocabulary_topic_packs WHERE publication_state='published' ORDER BY position,label_en")
     if not rows:
-        return json.loads(Path(__file__).with_name('vocabulary_builtin_packs.json').read_text())
+        return built_in_packs()
     words=await con.fetch('''SELECT w.pack_id,l.term,l.part_of_speech,l.definition_en,l.translation_uz,l.example_sentence AS example,l.collocations
       FROM vocabulary_topic_pack_words w JOIN lexemes l ON l.id=w.lexeme_id WHERE w.pack_id=ANY($1::uuid[]) ORDER BY w.position''',
       [p['id'] for p in rows])

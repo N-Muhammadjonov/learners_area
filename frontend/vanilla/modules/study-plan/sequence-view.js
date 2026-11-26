@@ -194,6 +194,21 @@ function taskList(ctx, day) {
         text(ctx,...KIND_LABELS[task.kind])+' · '+task.minutes+' '+
         text(ctx,'daqiqa','min')),
       task.kind==='vocabulary'?vocabularySrs(ctx,day):null,
+      task.kind==='writing'&&task.status==='ready'&&ctx.session?.user?.role==='owner'?
+        h('div',{class:'flex flex-wrap items-center gap-2'},
+          day.day>=10?h('a',{class:'btn-secondary',href:'/app/writing?tab=typing',
+            'data-owner-plan-typing':''},text(ctx,'Typing mashqi','Typing warm-up')):null,
+          h('a',{class:'btn-secondary',href:'/app/writing?tab=language-stealing'+
+            (day.day<10?'':'&task='+(day.day<20?'task1':'task2')),
+            'data-owner-plan-stealing':''},'Language Stealing'),
+          h('span',{class:'sequence-subtitle'},day.day<10?
+            text(ctx,'Avval Grammar, so‘ng Typing va o‘z gapingizda bitta yangi ibora.',
+              'Start with Grammar, then practise typing and use one source phrase in your own sentence.'):
+            text(ctx,'Javobni mustaqil yozing va saqlang. Tashqi AI’ga savol, javob va Task 1 bo‘lsa grafikni yuboring. Uch xatoni tuzatib, paragrafni qayta yozing.',
+              'Save your independent answer. Send the prompt, answer and any Task 1 visual to external AI. Correct three issues and rewrite your weakest paragraph.'))):null,
+      task.kind==='speaking'&&task.status==='ready'&&ctx.session?.user?.role==='owner'&&[28,30].includes(day.day)?
+        h('a',{class:'btn-secondary',href:'/app/speaking/ai'},
+          text(ctx,'To‘liq Speaking mashqi','Full Speaking practice')):null,
       task.kind==='retention'?h('span',{class:'sequence-subtitle'},
         text(ctx,'Matnni o‘qing, yopib xotiradan yozing va natijani kamida 50 ballga yetkazing.',
           'Read, recall without the text and reach at least 50 points.')):null),
@@ -368,6 +383,11 @@ export function mountSequenceAssignments(ctx, root) {
         h('p',{class:'sequence-subtitle'},text(ctx,
           'Yakshanba 30 kunlik asosiy navbatdan mustaqil. Shanbadagi tugallanmagan vazifalar dushanba kuni davom etadi.',
           'Sunday is separate. Incomplete Saturday work resumes on Monday.')),
+        h('p',{class:'sequence-subtitle'},text(ctx,
+          'Katalogda mos mock bo‘lmasa, bo‘limlarni alohida ishlang. Writing vazifasini quyidagi bosqich bo‘yicha bajaring.',
+          'If the catalogue has no suitable mock, take the sections separately. Use the Writing stage below.'),' ',
+          h('a',{href:'/app/listening/academic',class:'underline'},'Listening'),' · ',
+          h('a',{href:'/app/reading/academic',class:'underline'},'Academic Reading')),
         h('ul',{class:'sequence-task-list'},sunday.tasks.map(task=>
           h('li',{class:'sequence-task'},h('div',{class:'sequence-task-description'},
             h('strong',{},task.title),h('span',{class:'sequence-subtitle'},task.minutes+' min')),
@@ -380,6 +400,11 @@ export function mountSequenceAssignments(ctx, root) {
       metric(text(ctx,'Joriy kun','Current day'),data.currentDay),
       metric(text(ctx,'Kunlik minimum ajratishingiz kerak bo‘lgan vaqt',
         'Minimum daily study time to allocate'),current.minutes+' min'));
+    const readiness=isOwner&&(data.currentDay===30||data.state==='completed')?
+      h('p',{class:'sequence-subtitle'},text(ctx,
+        '8.0 ga tayyorgarlikni ikki yangi to‘liq sinov bilan tekshiring. Writing va Speaking bahosini alohida tasdiqlang.',
+        'Check 8.0 readiness with two fresh full simulations. Verify Writing and Speaking scores separately.'),' ',
+        h('a',{href:'/app/progress',class:'underline'},text(ctx,'Natijalarim','My Progress'))):null;
     const confirm=state.confirming&&data.state==='active'?
       h('div',{class:'sequence-confirm',role:'group',
         'aria-label':text(ctx,'Rejani qayta tuzishni tasdiqlash','Confirm regeneration')},
@@ -395,7 +420,7 @@ export function mountSequenceAssignments(ctx, root) {
             onClick:()=>void change('regenerate')},
             text(ctx,'Tasdiqlash','Confirm')))):null;
     panel.replaceChildren(...[
-      toolbar,summary,confirm,sundayPanel,
+      toolbar,summary,readiness,confirm,sundayPanel,
       data.state==='completed'?h('p',{role:'status',class:'sequence-notice'},
         text(ctx,data.totalDays+' kunlik reja yakunlandi.',data.totalDays+'-day plan completed.')):null,
       calendar(ctx,data,state),

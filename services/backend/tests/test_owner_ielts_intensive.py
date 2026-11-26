@@ -11,8 +11,7 @@ from app.study_plan_thirty import (
     OWNER_SUNDAY_MINUTES, owner_total_minutes, make_thirty_day_schedule,
 )
 from app.study_plan_materials import (
-    assign_owner_vocabulary, owner_writing_order,
-    listening_plan_materials, assign_materials,
+    assign_owner_vocabulary, listening_plan_materials, assign_materials,
 )
 from app.listening_order import material_order
 from app.step19_vocab_srs_port import DAYS as SRS_INTERVALS
@@ -60,7 +59,7 @@ def test_owner_vocabulary_two_day_topic_windows_with_only_published_packs():
         assert expected in first.title and expected in second.title
         assert "10+ verified" in first.title or "10+ verified" in second.title
         assert first.source_key == second.source_key == "vocab"
-        assert first.href == second.href == "/app/vocabulary"
+        assert first.href == second.href == f"/app/vocabulary?pack=topic_{min(window, 10)}"
     assert assign_owner_vocabulary(plan, []) == plan
 
 
@@ -81,12 +80,13 @@ def test_listening_order_uses_original_manifest_instead_of_title_sorting():
     days = make_thirty_day_schedule("B2", START, intensive=True)
     assigned = assign_materials(days, {"listening": pool}, intensive=True)
     assert [day["tasks"][2].source_key for day in assigned[:6]] == [
-        "listening-mcq:1", "listening:test1",
-        "listening-mcq:2", "listening:test2",
-        "listening-mcq:3", "listening:test3",
+        f"listening-mcq:{i}" for i in range(1, 7)
     ]
     assert assigned[0]["tasks"][2].href == "/app/listening/mcq/day/1"
-    assert "Intensive day" in assigned[1]["tasks"][2].title
+    assert [day["tasks"][2].source_key for day in assigned[9:14]] == [
+        "listening:test1", "listening-mcq:10", "listening:test2",
+        "listening-mcq:11", "listening:test3",
+    ]
 
 
 def test_owner_server_retention_is_real_and_locked_links_are_hidden():
@@ -119,6 +119,8 @@ def test_owner_server_retention_is_real_and_locked_links_are_hidden():
     assert payload["days"][0]["retention"]["gamesHref"] == "/app/vocabulary/games"
     assert payload["sundayProgramme"]["minutes"] == 420
     assert payload["sundayProgramme"]["separateFromMainCycle"]
+    assert payload["sundayProgramme"]["tasks"][0]["href"] == "/app/mocks"
+    assert payload["sundayProgramme"]["tasks"][2]["href"] == "/app/grammar"
     for index, day in enumerate(payload["days"]):
         assert day["minutes"] == owner_total_minutes_step(index + 1)
         assert day["retention"]["minutesIncludedInVocabulary"] == day["tasks"][5]["minutes"]
@@ -195,17 +197,23 @@ def test_student_budget_rejects_owner_intensive_rows():
         asyncio.run(_sync(Fake(), cycle, datetime.now(timezone.utc)))
 
 
-def test_intensive_writing_favors_task_two_by_two_to_one():
-    original = [
-        *({"task_type": "task_1", "source_key": f"one:{i}"} for i in range(3)),
-        *({"task_type": "Task 2", "source_key": f"two:{i}"} for i in range(6)),
-    ]
-    ordered = owner_writing_order(original)
-    assert [item["source_key"].split(":")[0] for item in ordered] == [
-        "two", "two", "one", "two", "two", "one", "two", "two", "one"
-    ]
-    assert len(original) == 9
-    assert owner_writing_order(original[:3]) == original[:3]
+def test_owner_writing_starts_with_typing_then_task_one_and_task_two():
+    prompts = [{"task_type": task_type, "category": category, "source_key": f"writing:{i}",
+                "title": category, "href": f"/app/writing/prompts/{i}"}
+               for i, (task_type, category) in enumerate((
+                   ("Task 2", "discussion"), ("task_1", "bar-chart"),
+                   ("task1", "line-graph"), ("task2", "opinion")))]
+    calendar = make_thirty_day_schedule("B2", START, intensive=True)
+    days = assign_materials(calendar, {"writing_exam": prompts}, intensive=True)
+    tasks = [day["tasks"][3] for day in days]
+    assert all(task.source_key.startswith("typing:") for task in tasks[:9])
+    assert tasks[9].source_key == "writing:2"
+    assert all(task.source_key in {"writing:1", "writing:2"} for task in tasks[9:19])
+    assert tasks[19].source_key == "writing:3"
+    assert tasks[22].title.startswith("Academic Task 1")
+    assert tasks[27].source_key == tasks[29].source_key == "writing-full"
+    without_task_one = assign_materials(calendar, {"writing_exam": [prompts[0]]}, intensive=True)
+    assert without_task_one[9]["tasks"][3].source_key.startswith("typing:")
 
 
 def valid_input():
