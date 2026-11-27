@@ -1,0 +1,1613 @@
+{
+  "schema_version": 1,
+  "base_release_id": "rel-v1-1fa06d8d41d8ff701632573e",
+  "entries": [
+    {
+      "lexeme_id": "842f59ef-ab96-54f9-9e5f-46c3b2f41ea5",
+      "lemma": "a-ok",
+      "part_of_speech": "a",
+      "expected_sha256": "b5970d7af297f1912b00df0cc7446db162b2192dd2561ff27e6d3f940b494ebb",
+      "edits": [
+        {
+          "sense_id": "65ba47cb-959a-4796-b49e-edf7490c1f88",
+          "cefr": null,
+          "definition_uz": "Ishlar juda yaxshi ketayotganini yoki biror narsa butunlay sozligini bildiradi.",
+          "translations_uz": [
+            "hammasi joyida",
+            "a’lo holatda"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c85f95c8-fc17-5a44-86e8-cd7ea16b44b5",
+      "lemma": "a-okay",
+      "part_of_speech": "a",
+      "expected_sha256": "3d4f4591a6610eea1e100ec06c68ba4677e4bdf60025b9a9566c7b3767d08a5d",
+      "edits": [
+        {
+          "sense_id": "a52f3cb5-7016-4922-83ba-addd138cd9cb",
+          "cefr": null,
+          "definition_uz": "Biror narsa butunlay soz yoki ishlar juda yaxshi ekanini bildiradi.",
+          "translations_uz": [
+            "hammasi joyida",
+            "butunlay soz"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "44207bff-ce51-53d8-99da-3aff6bcf4066",
+      "lemma": "aa",
+      "part_of_speech": "n",
+      "expected_sha256": "8207f42b7c22d228c49441dce99d836f493507af892cab5b00cbbbbb22dddeb8",
+      "edits": [
+        {
+          "sense_id": "3493f7ae-e292-577c-a0dc-00b625588a63",
+          "cefr": null,
+          "definition_uz": "AQShda gumanitar va umumta’lim fanlari bo‘yicha odatda ikki yillik kollej dasturi yakunida beriladigan daraja.",
+          "translations_uz": [
+            "gumanitar fanlar bo‘yicha ikki yillik kollej darajasi"
+          ]
+        },
+        {
+          "sense_id": "881e8292-b0d8-4ec7-acb6-b4bb407dadce",
+          "cefr": null,
+          "definition_uz": "Soviganda g‘adir-budur, qirrali bo‘laklarga ajraladigan lava turi.",
+          "translations_uz": [
+            "g‘adir-budur lava",
+            "a’a lavasi"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "31aa3926-f4ff-526c-b40f-dc7999df06f1",
+      "lemma": "aardvark",
+      "part_of_speech": "n",
+      "expected_sha256": "dd68dcb656a727f3161801262fcb80d2af7a0cf20a42f94c7c51e9de0ec158f9",
+      "edits": [
+        {
+          "sense_id": "5b32a41e-cd7a-41f3-951a-74bc3b229a8a",
+          "cefr": null,
+          "definition_uz": "Afrikada yashaydigan, in qaziydigan va asosan tunda termit hamda chumoli bilan oziqlanadigan uzun tumshuqli sutemizuvchi.",
+          "translations_uz": [
+            "Afrika naytishi",
+            "naytish"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c660153f-556b-586b-8df4-ce96e60e28ff",
+      "lemma": "aback",
+      "part_of_speech": "r",
+      "expected_sha256": "3f8f7541d1ec1ed9d0f506ec1f3bca7e74fed3d9cb9f0f5738d930a820c44a7c",
+      "edits": [
+        {
+          "sense_id": "38e0dc3d-a3ef-42bc-8e9b-64fac33d91de",
+          "cefr": null,
+          "definition_uz": "Kutilmagan gap yoki voqea sababli birdan hayratga tushgan holatni bildiradi.",
+          "translations_uz": [
+            "hayratda",
+            "dovdirab"
+          ],
+          "add_collocations": [
+            {
+              "text": "be taken aback",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "5940f863-0024-511c-89b3-767f2b762221",
+      "lemma": "abacus",
+      "part_of_speech": "n",
+      "expected_sha256": "360f5d7cca0bf3452c8f7f89b39dba9559d37de9e3eb209e9ddf806c5b39e255",
+      "edits": [
+        {
+          "sense_id": "02feea49-a4b4-480b-adfd-7cd469bd2bda",
+          "cefr": null,
+          "definition_uz": "Ustun tepasidagi bosh qism ustiga qo‘yiladigan va to‘sinni tutib turadigan yassi me’moriy plita."
+        },
+        {
+          "sense_id": "5e114f43-1970-495b-94e2-e9cbdd5d7ff9",
+          "cefr": null,
+          "definition_uz": "Cho‘plarga o‘tkazilgan donalarni surib hisob-kitob qilishga mo‘ljallangan asbob.",
+          "translations_uz": [
+            "cho‘t",
+            "sanoq taxtachasi"
+          ],
+          "add_collocations": [
+            {
+              "text": "use an abacus",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "08257fa3-b65d-5cc8-aaa2-78a8904c7828",
+      "lemma": "abalone",
+      "part_of_speech": "n",
+      "expected_sha256": "987005eeb479c1c7d18de48931eb3a65072249b586275832ea8b16ef42f9e27e",
+      "edits": [
+        {
+          "sense_id": "b31d2d47-773e-4873-b797-6f52bbc664b6",
+          "cefr": null,
+          "definition_uz": "Ichki tomoni sadaf bilan qoplangan, quloqqa o‘xshash chig‘anoqli yirik dengiz mollyuskasi.",
+          "translations_uz": [
+            "dengiz qulog‘i",
+            "abalon"
+          ],
+          "add_collocations": [
+            {
+              "text": "abalone shell",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "689129d1-323c-5285-9636-ce1de65ea6f5",
+      "lemma": "abandon",
+      "part_of_speech": "n",
+      "expected_sha256": "ce85c14ac429a5c541543f4f12042bc2645e8deab2a3cfd008e137e38d4f1c60",
+      "edits": [
+        {
+          "sense_id": "a6f66357-8bb5-4b7b-be63-8e741ee532ef",
+          "cefr": null,
+          "definition_uz": "O‘zini tiyib o‘tirmay, oqibatidan tashvishlanmay harakat qilish holati.",
+          "translations_uz": [
+            "o‘zini tiymaslik",
+            "o‘zini erkin qo‘yib yuborish"
+          ],
+          "add_collocations": [
+            {
+              "text": "with reckless abandon",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "79c5b195-e076-51cf-8714-6411141754b1",
+      "lemma": "abandon",
+      "part_of_speech": "v",
+      "expected_sha256": "495307fa9a0e7f1b6377de2f204c67aae3fe333d9591dbc0f4cf5ccf0c8740f3",
+      "edits": [
+        {
+          "sense_id": "3bd5dd21-39ac-44ce-bfc8-a96630852dd9",
+          "definition_uz": "Biror joyni tark etib, u yerda yashashni yoki undan foydalanishni to‘xtatmoq.",
+          "translations_uz": [
+            "tark etmoq",
+            "bo‘shatib ketmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "abandon a building",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "67cc15a1-9e0b-41ff-90d2-11d6bcb5bc62",
+          "cefr": "B2",
+          "definition_uz": "Biror odamni, joyni yoki narsani ortda qoldirib ketmoq.",
+          "translations_uz": [
+            "tashlab ketmoq",
+            "tark etmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "abandon ship",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "e651f52d-5b8c-4487-979b-3f818076505f",
+          "definition_uz": "Avvalgi fikr, talab yoki niyatni davom ettirishdan voz kechmoq.",
+          "translations_uz": [
+            "voz kechmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "abandon a claim",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "abandon a plan",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "fe652325-0a55-4c97-8da8-f69a88756479",
+          "cefr": "B2",
+          "definition_uz": "O‘ziga muhtoj odamni yordamsiz yoki qarovsiz qoldirib ketmoq.",
+          "translations_uz": [
+            "yordamsiz tashlab ketmoq",
+            "qarovsiz qoldirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "abandon a child",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "a6cfcd0c-0a6f-5cc2-adfd-dd87f3dbce0b",
+      "lemma": "ability",
+      "part_of_speech": "n",
+      "expected_sha256": "77521265fb734ee1b5bbe255e8c60c84e519be47c477349ae94aede4c428064a",
+      "edits": [
+        {
+          "sense_id": "4671c62a-8d56-4a52-bfd7-5760dddd46ec",
+          "definition_uz": "Biror ishni bajarish uchun kerakli jismoniy yoki aqliy qobiliyat.",
+          "translations_uz": [
+            "qobiliyat",
+            "salohiyat"
+          ],
+          "add_collocations": [
+            {
+              "text": "physical ability",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "mental ability",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "ac05979b-44e7-4768-b1d6-2e684069db56",
+          "cefr": "B1",
+          "definition_uz": "Biror ishni uddalash imkonini beradigan qobiliyat yoki ko‘nikma.",
+          "translations_uz": [
+            "biror ishni bajara olish qobiliyati"
+          ],
+          "add_collocations": [
+            {
+              "text": "ability to concentrate",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "develop an ability",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "d69a648a-d5d3-52d6-8ac3-28890066add4",
+      "lemma": "able",
+      "part_of_speech": "a",
+      "expected_sha256": "a0fcc9b07f79cc28950419e1f3389abe2795702b5ca91f2c6d61d15eb5e1d285",
+      "edits": [
+        {
+          "sense_id": "8335a9d2-c965-4196-ac00-47dfa2b365b2",
+          "cefr": "A2",
+          "definition_uz": "Biror ishni qilishga kuchi, bilimi, imkoniyati yoki vakolati yetadigan.",
+          "translations_uz": [
+            "qila oladigan",
+            "qodir"
+          ],
+          "add_collocations": [
+            {
+              "text": "be able to",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        },
+        {
+          "sense_id": "e954048d-b1e3-401f-bc23-472e68e1b64e",
+          "cefr": "C2",
+          "definition_uz": "O‘z ishini yaxshi bajaradigan, kerakli bilim va ko‘nikmalarga ega.",
+          "translations_uz": [
+            "qobiliyatli",
+            "malakali"
+          ],
+          "add_collocations": [
+            {
+              "text": "an able leader",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "an able student",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "890a3951-b87b-56a3-9c27-8c50dcbfe548",
+      "lemma": "abroad",
+      "part_of_speech": "r",
+      "expected_sha256": "8991b24c78a9d9578e1e3f3643648a99d0aeade0bc9b53eaa5d05e831292baf4",
+      "edits": [
+        {
+          "sense_id": "9fd7804a-58a3-4b26-b7af-e788535dd05b",
+          "cefr": "B1",
+          "definition_uz": "Boshqa mamlakatda yoki boshqa mamlakat tomon.",
+          "translations_uz": [
+            "chet elda",
+            "chet elga",
+            "xorijda",
+            "xorijga"
+          ],
+          "add_collocations": [
+            {
+              "text": "study abroad",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "work abroad",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "go abroad",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "5151dc01-14f0-5291-84ea-546467436c46",
+      "lemma": "absent",
+      "part_of_speech": "a",
+      "expected_sha256": "cd6812cbec1d81480e1052b9850322d328f9e42113ef717ff56bdb24df9140ea",
+      "edits": [
+        {
+          "sense_id": "4a8c486a-8e5b-47cb-b42c-91a6edbbbd19",
+          "definition_uz": "Odatda bo‘lishi yoki kelishi kutilgan joyda yo‘q.",
+          "translations_uz": [
+            "kelmagan",
+            "hozir bo‘lmagan"
+          ],
+          "add_collocations": [
+            {
+              "text": "absent from class",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "absent from work",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c1103f1f-b4f5-52cf-8b04-aee0da61bb9f",
+      "lemma": "absorb",
+      "part_of_speech": "v",
+      "expected_sha256": "d5f66fe09f5d437aa253ba2cc494968fc0f5c2b02502953604a63ee198af470a",
+      "edits": [
+        {
+          "sense_id": "4e40c27a-3e4f-40f8-963f-ffb52f7ce0c8",
+          "cefr": "B2",
+          "definition_uz": "Suyuqlik, modda yoki energiyani o‘z ichiga olmoq.",
+          "translations_uz": [
+            "shimib olmoq",
+            "yutmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "absorb moisture",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "absorb heat",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "fe10a5e7-5133-59ce-b0b3-fb8f6071d3b5",
+          "cefr": "B2",
+          "definition_uz": "Suyuqlikni sirtidan ichiga tortib, o‘zida tutib qolmoq.",
+          "translations_uz": [
+            "shimib olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "absorb water",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "b741c6ed-33a6-43fa-8c27-047aa1dee2e4",
+          "definition_uz": "Eshitgan yoki o‘qigan ma’lumotni tushunib, o‘zlashtirmoq.",
+          "translations_uz": [
+            "o‘zlashtirmoq",
+            "anglab olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "absorb information",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "bca43b1d-b4f9-47b7-8d00-1b8ebe9233fd",
+          "definition_uz": "Xarajat yoki moliyaviy zararni o‘z mablag‘i hisobidan qoplamoq.",
+          "translations_uz": [
+            "xarajatni o‘z zimmasiga olmoq",
+            "zararni qoplamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "absorb the cost",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "48e09585-e223-5907-a143-261135955fcf",
+      "lemma": "accept",
+      "part_of_speech": "v",
+      "expected_sha256": "c8b7ea4e0ce7c20db714157e5b6995efa351a46a07e8f4fb507543c597c99b0b",
+      "edits": [
+        {
+          "sense_id": "80987687-fd97-4ad4-a48d-5b22498077de",
+          "cefr": "B2",
+          "definition_uz": "Biror fikr, xabar yoki izohni rost deb tan olmoq.",
+          "translations_uz": [
+            "rost deb qabul qilmoq",
+            "tan olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "accept an explanation",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "93b2a67e-0e9f-4b24-a91d-e696d71958e3",
+          "definition_uz": "Taklif yoki iltimosga rozilik bildirmoq.",
+          "translations_uz": [
+            "qabul qilmoq",
+            "rozi bo‘lmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "accept an invitation",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "accept an offer",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "e4c0eef5-ad23-44fb-ae0a-0d8c501c8954",
+          "definition_uz": "Taklif qilingan yoki uzatilgan narsani ixtiyoriy ravishda olmoq.",
+          "translations_uz": [
+            "qabul qilmoq",
+            "olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "accept a gift",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "8d72781f-449e-5df8-bf84-3b8e4b512f80",
+      "lemma": "access",
+      "part_of_speech": "n",
+      "expected_sha256": "5e2a0e45abd53d50a62078d6eee376057fdbb1b39d6315f34f57ee53e1ed47ee",
+      "edits": [
+        {
+          "sense_id": "29dff35e-5732-49c5-a248-1725f1d77769",
+          "definition_uz": "Biror joyga kirish yoki undan chiqish uchun foydalaniladigan yo‘l.",
+          "add_collocations": [
+            {
+              "text": "wheelchair access",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "5c845026-982a-487a-9d99-4f93cd7f636e",
+          "definition_uz": "Kompyuter xotirasidagi ma’lumotni o‘qish yoki unga ma’lumot yozish amali.",
+          "translations_uz": [
+            "ma’lumotga murojaat qilish"
+          ]
+        },
+        {
+          "sense_id": "8ab1a992-d727-4bb1-8c01-7ae4f06dccf3",
+          "definition_uz": "Muayyan joyga kirishga berilgan ruxsat yoki huquq.",
+          "translations_uz": [
+            "kirish huquqi",
+            "kirishga ruxsat"
+          ],
+          "add_collocations": [
+            {
+              "text": "grant access",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "deny access",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "98379369-98aa-43ca-a200-7ea783d31291",
+          "definition_uz": "Biror xizmat, manba yoki imkoniyatdan foydalanish huquqi.",
+          "translations_uz": [
+            "foydalanish huquqi",
+            "foydalanish imkoniyati"
+          ],
+          "add_collocations": [
+            {
+              "text": "have access to healthcare",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "internet access",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "d4c6f062-b69f-5fd7-ab72-a280b4964ef1",
+      "lemma": "access",
+      "part_of_speech": "v",
+      "expected_sha256": "a401cb86344108af3f65fac221c5e90c9ddbdd085edc67808faf9ce8e34e03ee",
+      "edits": [
+        {
+          "sense_id": "40a0648d-ae88-42e8-946b-a03c6c9f0aa3",
+          "definition_uz": "Kompyuter yoki saqlash qurilmasidagi ma’lumotni topib ochmoq yoki undan foydalanmoq.",
+          "translations_uz": [
+            "ma’lumotni ochmoq",
+            "ma’lumotdan foydalanmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "access a file",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "access a database",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "ae0a1d80-b1da-5823-a3a8-7b56036b3920",
+      "lemma": "accident",
+      "part_of_speech": "n",
+      "expected_sha256": "93212196c1a2423002040c47ea73f51349a2870139fc914370e2f89d202316a5",
+      "edits": [
+        {
+          "sense_id": "cdc31632-a642-4ee2-92c5-e1de6b787cdb",
+          "definition_uz": "Kutilmaganda ro‘y berib, jarohat yoki zarar keltirishi mumkin bo‘lgan hodisa.",
+          "translations_uz": [
+            "baxtsiz hodisa",
+            "avariya"
+          ],
+          "add_collocations": [
+            {
+              "text": "traffic accident",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "serious accident",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "2c8d3b37-0ca8-4b95-b14c-b83fb1f009fc",
+          "definition_uz": "Rejalashtirilmagan va tasodifan yuz bergan voqea.",
+          "translations_uz": [
+            "tasodif",
+            "tasodifiy hodisa"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "202c953d-1b51-52a5-a821-e374281de83c",
+      "lemma": "actual",
+      "part_of_speech": "a",
+      "expected_sha256": "b34245d1b4e256b1588cfbf170b7f9233f3277a92c6128daf603210d602634f0",
+      "edits": [
+        {
+          "sense_id": "853f6b3c-ae1e-4e4c-ae0e-140fbadec726",
+          "cefr": "B2",
+          "definition_uz": "Biror narsaning chinakam mohiyati yoki asl holatini ko‘rsatadigan.",
+          "translations_uz": [
+            "asl",
+            "chinakam"
+          ],
+          "add_collocations": [
+            {
+              "text": "actual cause",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "8cf3a9a9-9db2-4049-83d4-ad4d8645be9d",
+          "cefr": "B2",
+          "definition_uz": "Haqiqatan sodir bo‘lgan yoki amalda mavjud.",
+          "translations_uz": [
+            "haqiqiy",
+            "amalda yuz bergan"
+          ],
+          "add_collocations": [
+            {
+              "text": "actual events",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "d6e77043-9d69-42c0-a02f-06b07e952a25",
+          "definition_uz": "Taxminiy holat bilan solishtirganda amalda bor yoki ro‘y bergan.",
+          "translations_uz": [
+            "amaldagi",
+            "haqiqiy"
+          ],
+          "add_collocations": [
+            {
+              "text": "actual cost",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "dd32baf3-44e0-408c-bcb6-5240ad1325cc",
+          "cefr": "B2",
+          "definition_uz": "Amalda mavjud yoki rostdan sodir bo‘lgan.",
+          "translations_uz": [
+            "amaldagi",
+            "haqiqiy"
+          ],
+          "add_collocations": [
+            {
+              "text": "actual results",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "2ad6942a-a42e-50fd-b3ca-729e08bda34c",
+      "lemma": "bank",
+      "part_of_speech": "n",
+      "expected_sha256": "e4cc7459ae4b1401aafe32449723ac65a01a5993961c68fe96689898c137fe6d",
+      "edits": [
+        {
+          "sense_id": "28eedd77-8504-43d1-8d42-943740526cbc",
+          "definition_uz": "Omonatlarni qabul qiladigan, kredit beradigan va boshqa moliya xizmatlarini ko‘rsatadigan muassasa.",
+          "translations_uz": [
+            "bank"
+          ],
+          "add_collocations": [
+            {
+              "text": "bank account",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "bank loan",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "31df72f0-205f-5a91-8c44-bfb3c7f0c617",
+          "definition_uz": "Bank xizmatlari ko‘rsatiladigan bino yoki filial.",
+          "translations_uz": [
+            "bank binosi",
+            "bank filiali"
+          ]
+        },
+        {
+          "sense_id": "eb4663fa-a51d-429f-be59-7935751e5c38",
+          "definition_uz": "Daryo yoki boshqa suv havzasi bo‘yidagi qiya quruqlik.",
+          "translations_uz": [
+            "qirg‘oq",
+            "daryo bo‘yi"
+          ],
+          "add_collocations": [
+            {
+              "text": "river bank",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "steep bank",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "1b491799-7051-534e-a4f0-8812935f1360",
+      "lemma": "charge",
+      "part_of_speech": "n",
+      "expected_sha256": "0f589bd46d6b505c81d10a4842ec2db00e76428b5126e3b8c3e9a243f0946fd9",
+      "edits": [
+        {
+          "sense_id": "547a7d00-f0d6-49bb-84e3-1a5b409de9a7",
+          "definition_uz": "Tovar yoki xizmat uchun undiriladigan pul miqdori.",
+          "translations_uz": [
+            "to‘lov",
+            "haq"
+          ],
+          "add_collocations": [
+            {
+              "text": "service charge",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "delivery charge",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "a29da2f1-09de-404f-a140-7b14795e2123",
+          "definition_uz": "Shaxsga qonunbuzarlik yoki jinoyat yuzasidan rasmiy qo‘yilgan ayblov.",
+          "translations_uz": [
+            "rasmiy ayblov",
+            "jinoiy ayblov"
+          ],
+          "add_collocations": [
+            {
+              "text": "face criminal charges",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "drop a charge",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "87172327-a4da-58bd-b8bc-09eb36a025f5",
+      "lemma": "charge",
+      "part_of_speech": "v",
+      "expected_sha256": "6a3211de4521606283d34aae4b41268835ef593c82a528503015981ab61b1216",
+      "edits": [
+        {
+          "sense_id": "13f5706c-c190-5fc7-a167-dff2d5d379c7",
+          "cefr": "B1",
+          "definition_uz": "Tovar yoki xizmat uchun muayyan miqdorda pul so‘ramoq.",
+          "translations_uz": [
+            "haq olmoq",
+            "to‘lov undirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "charge a fee",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "charge for delivery",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "2e8d63fa-64e1-5c44-880d-2db3c2980a51",
+          "definition_uz": "Biror narsani modda yoki boshqa unsur bilan to‘yintirmoq.",
+          "translations_uz": [
+            "to‘yintirmoq"
+          ]
+        },
+        {
+          "sense_id": "4ece7d0a-8804-5744-85a5-382eeae28a6c",
+          "cefr": "B2",
+          "definition_uz": "Qayta foydalanish uchun batareya yoki akkumulyatorga elektr quvvatini to‘plamoq.",
+          "translations_uz": [
+            "quvvatlamoq",
+            "zaryadlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "charge a phone",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "charge a battery",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "b30d6778-8251-52b7-b12f-72f85582ae58",
+          "definition_uz": "Biror kishiga nisbatan jinoyat bo‘yicha rasmiy ayblov qo‘ymoq.",
+          "add_collocations": [
+            {
+              "text": "charge someone with fraud",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "7adf85cd-a923-5d43-b833-09a696701fd1",
+      "lemma": "currently",
+      "part_of_speech": "r",
+      "expected_sha256": "5f3f7c039c7551a695e2243fb70d9e5744204437454a0fc28bf66df0a7eae324",
+      "edits": [
+        {
+          "sense_id": "63dbc70c-961a-4c24-b9e1-3d4f00dae86a",
+          "cefr": "B2",
+          "definition_uz": "Ayni vaqtda yoki hozirgi davrda.",
+          "translations_uz": [
+            "hozir",
+            "ayni paytda"
+          ],
+          "add_collocations": [
+            {
+              "text": "currently available",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "currently working",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "03f7b2a4-f5b5-53fb-9724-fe10303f7ea1",
+      "lemma": "degree",
+      "part_of_speech": "n",
+      "expected_sha256": "ec06a9c6b0a9bc677a306482fbea3a179d105583041f0d76246eb63b015e0ed4",
+      "edits": [
+        {
+          "sense_id": "03302955-377f-5c06-8a23-3a0a80920c6c",
+          "cefr": "A2",
+          "definition_uz": "Harorat shkalasidagi, odatda ° belgisi bilan ifodalanadigan o‘lchov birligi.",
+          "translations_uz": [
+            "daraja",
+            "gradus"
+          ],
+          "add_collocations": [
+            {
+              "text": "degrees Celsius",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "degrees below zero",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "404d4759-3806-4d9e-bff2-0b2b8f66d451",
+          "cefr": "B2",
+          "definition_uz": "Miqdor, kuch yoki sifatning qay darajada ekanini bildiruvchi o‘lcham.",
+          "translations_uz": [
+            "daraja",
+            "miqyos"
+          ],
+          "add_collocations": [
+            {
+              "text": "degree of difficulty",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "degree of certainty",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "42b16e16-db86-4032-9e4d-6ef4f5e7089b",
+          "definition_uz": "Oliy o‘quv yurti dasturi muvaffaqiyatli tamomlanganda beriladigan malaka darajasi.",
+          "translations_uz": [
+            "oliy ta’lim darajasi"
+          ],
+          "add_collocations": [
+            {
+              "text": "earn a degree",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "master’s degree",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "786e4ef3-02a3-56d6-b6db-b757922c87b2",
+          "definition_uz": "Kuyish yoki jinoyat kabi hodisaning qanchalik og‘ir ekanini ko‘rsatadigan tasnif pog‘onasi.",
+          "translations_uz": [
+            "og‘irlik darajasi"
+          ],
+          "add_collocations": [
+            {
+              "text": "second-degree burn",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "9af4530c-c21b-4fce-a8cc-1940f5c5da23",
+          "cefr": null,
+          "definition_uz": "Burchak yoki yoyni o‘lchash birligi. To‘liq aylana 360 daraja.",
+          "translations_uz": [
+            "daraja",
+            "gradus"
+          ],
+          "add_collocations": [
+            {
+              "text": "a 90-degree angle",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "b02d6d5e-1c92-464b-9ba2-1066f76b11de",
+          "cefr": null,
+          "definition_uz": "Algebraik ifodadagi o‘zgaruvchining eng katta daraja ko‘rsatkichi."
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "fd4df3d4-8815-57fe-a726-597769201d97",
+      "lemma": "economic",
+      "part_of_speech": "a",
+      "expected_sha256": "2329b9edad7965408486d23df02b9d374930c0356bd91038f389485b31d281be",
+      "edits": [
+        {
+          "sense_id": "b256d82b-5ac7-4484-ab77-499044405016",
+          "cefr": "B2",
+          "definition_uz": "Iqtisodiyot, ishlab chiqarish yoki savdoga oid.",
+          "translations_uz": [
+            "iqtisodiy",
+            "iqtisodiyotga oid"
+          ],
+          "add_collocations": [
+            {
+              "text": "economic growth",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "economic policy",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "e4ef5c9a-f0eb-4c84-9d9b-218aa6e9e1b2",
+          "definition_uz": "Xarajatini oqlaydigan yoki moliyaviy foyda keltiradigan.",
+          "translations_uz": [
+            "foyda keltiradigan",
+            "o‘zini oqlaydigan"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "60339de7-4eba-59e1-a760-64dc62f2f5e0",
+      "lemma": "economical",
+      "part_of_speech": "a",
+      "expected_sha256": "fb4c5c86dfbda52a70e94f73dc3fbf7c157c926c3dda43aaea2077b4f34c9526",
+      "edits": [
+        {
+          "sense_id": "2ebd6920-aaab-4edc-926e-472b9e4fa785",
+          "definition_uz": "Kerakli natijaga kam vaqt, mablag‘ yoki resurs sarflab erishadigan.",
+          "translations_uz": [
+            "tejamkor",
+            "kam sarfli"
+          ],
+          "add_collocations": [
+            {
+              "text": "economical use of fuel",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "b1788f5d-93cc-4c39-bd82-fbfb686f1d63",
+          "cefr": "B2",
+          "definition_uz": "Ortiqcha sarf va isrofgarchilikka yo‘l qo‘ymaydigan.",
+          "translations_uz": [
+            "tejamkor",
+            "isrof qilmaydigan"
+          ],
+          "add_collocations": [
+            {
+              "text": "an economical car",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "an economical way to heat a home",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "726fd1d0-3eb9-5df2-9dfe-5ebd3bc03fa1",
+      "lemma": "eventually",
+      "part_of_speech": "r",
+      "expected_sha256": "37f7f348091e37b1e3bf5d291e49d259ff7849e4a4e48247f177eb9da7711eb5",
+      "edits": [
+        {
+          "sense_id": "3cb91371-19f8-4b7f-8848-2dc8e3dbea77",
+          "cefr": "B2",
+          "definition_uz": "Biroz vaqt o‘tgach yoki uzoq kutish va urinishlardan so‘ng.",
+          "translations_uz": [
+            "oxir-oqibat",
+            "oxiri"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "0cc907ce-d37d-5541-ad97-6e7881aba3ba",
+      "lemma": "fine",
+      "part_of_speech": "a",
+      "expected_sha256": "d489028f078014e59ed8d8cc052b9e3a450df056888f5f21ca9cfaa0a31b3870",
+      "edits": [
+        {
+          "sense_id": "0244d1c2-fab3-447e-b2f5-782e835f854d",
+          "definition_uz": "Holati yaxshi yoki qabul qilish uchun yetarli bo‘lgan.",
+          "translations_uz": [
+            "yaxshi",
+            "joyida"
+          ]
+        },
+        {
+          "sense_id": "a59f997d-086f-4b45-b0e6-c2ab68c02f24",
+          "definition_uz": "Ma’no yoki tafsilotdagi juda kichik farqlarni aniq ajratadigan.",
+          "translations_uz": [
+            "nozik",
+            "juda kichik"
+          ],
+          "add_collocations": [
+            {
+              "text": "a fine distinction",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": [
+        {
+          "sense_id": "bbd65472-6532-5cb0-b69e-e82d2593d2ea",
+          "definition_en": "Of unusually high quality or standard.",
+          "definition_uz": "Odatdagidan ancha yuqori sifatga ega.",
+          "translations_uz": [
+            "a’lo",
+            "yuqori sifatli"
+          ],
+          "example_en": "The small bakery makes some fine bread.",
+          "example_uz": "Bu kichik novvoyxonada a’lo sifatli non yopiladi.",
+          "add_collocations": [
+            {
+              "text": "fine craftsmanship",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "fine example",
+              "pattern_type": "collocation"
+            }
+          ],
+          "cefr": "B2"
+        }
+      ]
+    },
+    {
+      "lexeme_id": "fa72c873-99fb-54df-9418-ccdb0dd30a4d",
+      "lemma": "fine",
+      "part_of_speech": "n",
+      "expected_sha256": "857a3b0be95e9f9fa4532fbd1e4f01ac8259c8c2fcb200b097e4a9f8c5503615",
+      "edits": [
+        {
+          "sense_id": "555074a5-fb72-4f54-9bd6-ec1e4a235a74",
+          "definition_uz": "Qonun yoki qoidani buzganlik uchun undiriladigan pul jazosi.",
+          "add_collocations": [
+            {
+              "text": "pay a fine",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "parking fine",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "41aa336e-846f-504c-9ab6-bd560f80876d",
+      "lemma": "fine",
+      "part_of_speech": "v",
+      "expected_sha256": "caf66bccf2e6bfea1388bc571992aed66297b08317694eb85938ae5fb23d97f0",
+      "edits": [
+        {
+          "sense_id": "4d49df5d-0756-4c43-8184-4d4a92f98bed",
+          "cefr": "B2",
+          "definition_uz": "Qonun yoki qoidani buzgan kishidan jarima undirishni belgilamoq.",
+          "translations_uz": [
+            "jarima solmoq",
+            "jarimaga tortmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "fine someone for speeding",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "6ebde697-1bc1-5795-b53b-339c3058be02",
+      "lemma": "give up",
+      "part_of_speech": "v",
+      "expected_sha256": "6f7a5eadca1db3b9840c74cf3867b29e22184d6381eac07998f7615861e21826",
+      "edits": [
+        {
+          "sense_id": "54a16c87-fdd0-5ee9-bbf4-120898b6ff94",
+          "definition_uz": "Biror faoliyat yoki odatni davom ettirmay qo‘ymoq.",
+          "translations_uz": [
+            "to‘xtatmoq",
+            "tashlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "give up a habit",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "5b0fd752-74d1-58d2-8c1a-345348787c8a",
+          "definition_uz": "Avval iste’mol qilib yurgan yoki foydalanib kelgan narsani tashlamoq.",
+          "translations_uz": [
+            "iste’mol qilishni to‘xtatmoq",
+            "tashlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "give up sugar",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "give up alcohol",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "a1963e83-eb58-54d6-a1aa-27a436de590a",
+          "definition_uz": "Natija chiqishiga umid qolmaganda urinishni to‘xtatmoq.",
+          "translations_uz": [
+            "urinishni bas qilmoq",
+            "taslim bo‘lmoq"
+          ]
+        },
+        {
+          "sense_id": "e72fb72c-63af-5181-a9be-d4d79809e86d",
+          "definition_uz": "O‘ziga tegishli narsa yoki huquqdan voz kechmoq.",
+          "translations_uz": [
+            "voz kechmoq",
+            "berib yubormoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "give up a seat",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "a7d34003-4723-5587-86f0-477ac126e246",
+      "lemma": "issue",
+      "part_of_speech": "n",
+      "expected_sha256": "0107655116af1d814a6635dd9806d3f948e348e0a6db37f60ba691ac900efa90",
+      "edits": [
+        {
+          "sense_id": "24f2c5e7-ec6d-4e8d-a1ce-4210281724e1",
+          "cefr": "B1",
+          "definition_uz": "Muhokama qilinayotgan va hal etishni talab qiladigan masala.",
+          "translations_uz": [
+            "masala",
+            "muammo"
+          ],
+          "add_collocations": [
+            {
+              "text": "raise an issue",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "resolve an issue",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "8ca565e9-a4de-40bf-bfe1-b729a5019cc1",
+          "cefr": "B2",
+          "definition_uz": "Gazeta, jurnal yoki boshqa davriy nashrning alohida soni.",
+          "translations_uz": [
+            "son",
+            "nashr soni"
+          ],
+          "add_collocations": [
+            {
+              "text": "the latest issue",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a special issue",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "b953c85b-dbda-5306-bb7f-0bf70f51a96e",
+      "lemma": "look up",
+      "part_of_speech": "v",
+      "expected_sha256": "7db14c9de129b76ced2e95cb1370e9ae50123f4f5d5d1543529d3ac925d789ed",
+      "edits": [
+        {
+          "sense_id": "1969cd25-c950-5b9a-a690-3bc76e1bbb70",
+          "definition_uz": "Kitob, lug‘at yoki elektron manbadan kerakli ma’lumotni izlab topmoq.",
+          "translations_uz": [
+            "qarab topmoq",
+            "izlab topmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "look up a word",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "look up an address",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": [
+        {
+          "sense_id": "5b4e9c0e-b1a9-5cd2-99b4-0c5a967434cd",
+          "definition_en": "To improve after a period of difficulty.",
+          "definition_uz": "Qiyin davrdan keyin ishlar yoki vaziyat yaxshilana boshlamoq.",
+          "translations_uz": [
+            "yaxshilana boshlamoq"
+          ],
+          "example_en": "Things looked up once the shop found new customers.",
+          "example_uz": "Do‘kon yangi mijozlar topgach, ishlar yaxshilana boshladi.",
+          "add_collocations": [
+            {
+              "text": "things are looking up",
+              "pattern_type": "collocation"
+            }
+          ],
+          "cefr": "C1",
+          "register": "informal"
+        },
+        {
+          "sense_id": "a3509e48-1ff0-57c0-b4e7-3d4e7590012a",
+          "definition_en": "To contact or visit someone when you are in the area where they live.",
+          "definition_uz": "Biror joyga borganda u yerda yashaydigan tanishi bilan bog‘lanmoq yoki uni ko‘rgani bormoq.",
+          "translations_uz": [
+            "tanishini yo‘qlab bormoq",
+            "tanishi bilan bog‘lanmoq"
+          ],
+          "example_en": "I’ll look Malika up if I visit Bukhara next month.",
+          "example_uz": "Keyingi oy Buxoroga borsam, Malikani yo‘qlab o‘taman.",
+          "add_collocations": [],
+          "register": "informal"
+        },
+        {
+          "sense_id": "ae71476b-8fff-56d2-9880-979f38447cf6",
+          "definition_en": "To lift your eyes from something you were looking down at.",
+          "definition_uz": "Pastga qarab turgan narsasidan ko‘zini uzib, yuqoriga qaramoq.",
+          "translations_uz": [
+            "boshini ko‘tarib qaramoq"
+          ],
+          "example_en": "He looked up from his notes when he heard his name.",
+          "example_uz": "U ismini eshitgach, daftaridan boshini ko‘tarib qaradi.",
+          "add_collocations": [
+            {
+              "text": "look up from a book",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexeme_id": "b3c80833-7e89-5622-a9f0-e68577fa6fc1",
+      "lemma": "make up",
+      "part_of_speech": "v",
+      "expected_sha256": "cc23a0760b5c0a22de3594a81c67b82feb0ad76348e27fc0ebb5fadb61d7dc0d",
+      "edits": [
+        {
+          "sense_id": "f3f9b093-2c67-5eb0-816d-cc5a32809880",
+          "definition_uz": "Bo‘lmagan voqea yoki bahonani o‘ylab topib aytmoq.",
+          "translations_uz": [
+            "uydirmoq",
+            "to‘qib chiqarmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "make up an excuse",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "make up a story",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "273eef1d-04bc-59dd-bb3d-73b01130dbb8",
+          "definition_uz": "Biror butunning tarkibiy qismini tashkil etmoq.",
+          "translations_uz": [
+            "tashkil etmoq",
+            "tarkibiga kirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "make up a majority",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "95189306-0659-532b-9438-82b0742a9814",
+          "definition_uz": "Janjal yoki kelishmovchilikdan keyin yana yaxshi munosabatga qaytmoq.",
+          "add_collocations": [
+            {
+              "text": "make up after an argument",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "7ebceeda-cd35-54a9-83ae-e2418ccfcb05",
+      "lemma": "sensible",
+      "part_of_speech": "a",
+      "expected_sha256": "37b32526c6aeef86d23a3cd74fb7eba62ff04b166f6e5774177af68087da2a79",
+      "edits": [
+        {
+          "sense_id": "60278f23-36de-4c29-adb5-cabf8722fbb7",
+          "cefr": "B1",
+          "definition_uz": "Vaziyatga to‘g‘ri baho berib, aqlga muvofiq va amaliy yo‘l tutadigan.",
+          "translations_uz": [
+            "oqilona",
+            "aqlga muvofiq"
+          ],
+          "add_collocations": [
+            {
+              "text": "a sensible decision",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a sensible approach",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "2b33d2cd-ac4a-5b8e-bcd5-dd9e02cc37cb",
+      "lemma": "sensitive",
+      "part_of_speech": "a",
+      "expected_sha256": "a527cf5eb2eff27d2544788c8edb11499433e746a90a437d91e9f4e85ee63f7c",
+      "edits": [
+        {
+          "sense_id": "80a53c5a-e276-4678-a5b1-20f7388e860b",
+          "definition_uz": "Boshqalarning his-tuyg‘ulari yoki ehtiyojlarini tez ilg‘aydigan va hisobga oladigan.",
+          "translations_uz": [
+            "e’tiborli",
+            "his-tuyg‘ularga sezgir"
+          ],
+          "add_collocations": [
+            {
+              "text": "sensitive to others’ needs",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "f95ad7ae-b2a0-468b-80cb-0598a63768fc",
+          "definition_uz": "Tashqi ta’sir yoki kichik o‘zgarishga tez javob beradigan.",
+          "translations_uz": [
+            "sezgir",
+            "ta’sirchan"
+          ],
+          "add_collocations": [
+            {
+              "text": "sensitive to light",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "highly sensitive equipment",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "8a533e63-e3aa-50e9-8ece-64a759373d59",
+          "cefr": "B2",
+          "definition_uz": "Oshkor qilish yoki beparvo muomala qilish zarar yoki noqulaylik keltirishi mumkin bo‘lgan.",
+          "translations_uz": [
+            "ehtiyotkorlikni talab qiladigan",
+            "nozik"
+          ],
+          "add_collocations": [
+            {
+              "text": "sensitive information",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a sensitive topic",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "5ed0e9ed-5f42-5fba-8b9f-370ed319a00f",
+      "lemma": "sensitive",
+      "part_of_speech": "n",
+      "expected_sha256": "1089afe3d9ff4f544b414d2e8af5767dffa510a635ba80c40c40bda211bb2e66",
+      "edits": [
+        {
+          "sense_id": "1d6aa07d-1e9a-4cbf-be10-b54badb80e32",
+          "cefr": null,
+          "definition_uz": "Marhumlarning ruhi bilan aloqa qila olishini da’vo qiladigan kishi.",
+          "translations_uz": [
+            "ruhlar bilan aloqa qilishini da’vo qiluvchi kishi"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "8376fb0a-afd6-571f-a7ef-6f4d5ca2a0bc",
+      "lemma": "take off",
+      "part_of_speech": "v",
+      "expected_sha256": "4915dc3dc928e9f069c1abe5213764c24fde6fcff5d0b21d291eb296c6fbbdfb",
+      "edits": [
+        {
+          "sense_id": "588002bf-ebc8-50cb-98b8-775143b5fb4b",
+          "cefr": "A2",
+          "definition_uz": "Ustidagi kiyim, oyoq kiyim yoki boshqa taqilgan narsani yechmoq.",
+          "translations_uz": [
+            "yechmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "take off your shoes",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "take off your coat",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "bb8229ad-d1d3-5ba6-9c60-b0d61841ebbc",
+          "definition_uz": "Bir muddat ishga bormaslik uchun ta’til yoki dam olish kuni olmoq.",
+          "translations_uz": [
+            "ishdan dam olmoq",
+            "ta’til olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "take a day off",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "be677d75-a9dc-574a-8a8f-f3c0e47e1ef6",
+          "cefr": "A2",
+          "definition_uz": "Yer sathidan uzilib, uchishni boshlamoq.",
+          "translations_uz": [
+            "havoga ko‘tarilmoq",
+            "uchib chiqmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "the plane takes off",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        },
+        {
+          "sense_id": "b3260c8e-8d5e-4a10-af33-0addaa093759",
+          "cefr": "B2",
+          "definition_uz": "Loyiha, mahsulot yoki faoliyatning qisqa vaqtda ommalashishi yoki muvaffaqiyat qozona boshlashi.",
+          "translations_uz": [
+            "tez ommalashmoq",
+            "tez rivojlanib ketmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    }
+  ]
+}

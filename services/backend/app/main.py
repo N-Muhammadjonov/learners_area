@@ -58,6 +58,9 @@ async def lifespan(app):
     if os.getenv('DICTIONARY_WORKER_URL'):
         from .step17_dictionary_read_port import log_readiness
         probes.append(asyncio.create_task(log_readiness()))
+    from .dictionary_editorial_publication import production_target, run as publish_dictionary_editorial
+    if production_target(os.environ):
+        probes.append(asyncio.create_task(publish_dictionary_editorial()))
     try:
         yield
     finally:

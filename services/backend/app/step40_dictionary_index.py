@@ -87,7 +87,7 @@ def lookup(page,q):
             'translation_uz':translation,'match_type':('exact_lemma','canonical_normalized','form','prefix')[score]})
     return out
 
-async def build_index(release,descriptors,order,heartbeat):
+async def build_index(release,descriptors,order,heartbeat,*,writer=None,shard_reader=None):
     """Spool postings to disk and recursively split hot prefixes; never scan an entire
     release in one PostgreSQL transaction or return an unbounded index object.
     """
@@ -96,8 +96,10 @@ async def build_index(release,descriptors,order,heartbeat):
     with tempfile.TemporaryDirectory(prefix='la-dictionary-index-') as folder:
         root=Path(folder)
         def file_for(direction,prefix):return root/(checksum((direction+':'+prefix).encode())+'.jsonl')
-        for descriptor in descriptors:
-            records=await read_shard(release,descriptor)
+        async def serial_shards(release, descriptors):
+            for descriptor in descriptors:
+                yield descriptor, await read_shard(release, descriptor)
+        async for descriptor, records in (shard_reader or serial_shards)(release, descriptors):
             buffers=defaultdict(list)
             for e in records:
                 uid=e['lexeme_id']
@@ -116,7 +118,8 @@ async def build_index(release,descriptors,order,heartbeat):
             await heartbeat()
         pages={};page_bytes=0;branch_pages={}
         async def emit(name,payload):
-            desc=await write_index_object(release,name,payload)
+            write=writer.write if writer is not None else write_index_object
+            desc=await write(release,name,payload)
             published.append(desc)
             return desc
         async def flush_pages():
@@ -187,6 +190,7 @@ async def build_index(release,descriptors,order,heartbeat):
             if size+n>TARGET:await flush_branches()
             bunch[key]=hits;size+=n
         await flush_branches()
+        if writer is not None:await writer.drain()
         directory=compact({'release_id':release,'leaves':leaves,'branches':branches,'term_count':term_count})
         root_desc=await write_index_object(release,'directory',directory)
         groups=defaultdict(lambda:{'release_id':release,'leaves':{},'branches':{},'term_count':0})
@@ -202,6 +206,7 @@ async def build_index(release,descriptors,order,heartbeat):
             name='part-'+checksum(('routing:'+initial).encode())[:24]
             routes[initial]=await emit(name,compact(d))
         for initial in fallbacks:routes[initial]=root_desc
+        if writer is not None:await writer.drain()
         return {'version':VERSION,'directory':root_desc,'routes':routes,
             'objects':[root_desc,*published],'logicalTerms':logical_terms}
 
