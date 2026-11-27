@@ -1,8 +1,4 @@
-"""Published Vocabulary pack summaries; exact built-in fallback data copied from source.
-
-Published DB rows remain canonical. Built-in Art and Environment packs are
-exposed when absent from the DB, so a content release needs no migration.
-"""
+"""Published Vocabulary packs with built-in content for unseeded topics."""
 from __future__ import annotations
 import json
 import re
@@ -13,7 +9,11 @@ from .step21_vocab_batch import normalize_term, sense_key
 from .step25_content_version import pin
 
 router = APIRouter()
-BUILT_IN_PACK_FILES = ('vocabulary_builtin_packs.json', 'vocabulary_ielts_packs.json')
+BUILT_IN_PACK_FILES = (
+    'vocabulary_builtin_packs.json',
+    'vocabulary_ielts_packs.json',
+    'vocabulary_travel_pack.json',
+)
 
 
 def built_in_packs():

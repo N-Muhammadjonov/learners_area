@@ -1,0 +1,2591 @@
+[
+  {
+    "id": "travel",
+    "label": {
+      "en": "Travel",
+      "uz": "Sayohat"
+    },
+    "words": [
+      {
+        "term": "travel",
+        "partOfSpeech": "noun / verb",
+        "definitionEn": "The activity of going from one place to another; also a verb meaning to go between places.",
+        "translationUz": "sayohat, safar / sayohat qilmoq",
+        "example": "Travel can broaden your outlook.",
+        "collocations": "travelling (UK), traveling (US), travel for work"
+      },
+      {
+        "term": "a journey",
+        "partOfSpeech": "noun",
+        "definitionEn": "An occasion of travelling from one place to another.",
+        "translationUz": "bir joydan boshqa joyga safar, yo‘l",
+        "example": "We had a long journey by coach.",
+        "collocations": ""
+      },
+      {
+        "term": "a trip / business trip",
+        "partOfSpeech": "noun / noun phrase",
+        "definitionEn": "A visit away from home, often including the return journey; a work-related visit.",
+        "translationUz": "safar / xizmat safari",
+        "example": "She went on a business trip to Berlin.",
+        "collocations": ""
+      },
+      {
+        "term": "go on a trip / take a trip",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To travel somewhere for a visit.",
+        "translationUz": "safarga chiqmoq, sayohatga bormoq",
+        "example": "We plan to go on a trip to the coast.",
+        "collocations": ""
+      },
+      {
+        "term": "a voyage / a voyage of discovery",
+        "partOfSpeech": "noun / noun phrase",
+        "definitionEn": "A long journey, especially by sea; figuratively, a process of discovering new things.",
+        "translationUz": "uzoq dengiz safari / yangi narsalarni kashf etish jarayoni",
+        "example": "Learning about another culture can be a voyage of discovery.",
+        "collocations": ""
+      },
+      {
+        "term": "a scheduled flight",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A regular flight operating according to a published timetable.",
+        "translationUz": "jadval asosidagi muntazam reys",
+        "example": "We booked a scheduled flight to Madrid.",
+        "collocations": ""
+      },
+      {
+        "term": "a charter flight",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A flight hired for a particular group or purpose rather than a regular scheduled service.",
+        "translationUz": "charter reys, maxsus buyurtma qilingan reys",
+        "example": "The tour operator arranged a charter flight.",
+        "collocations": "charter a flight, charter an aircraft"
+      },
+      {
+        "term": "a low-cost / budget airline",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An airline offering relatively inexpensive fares, often charging separately for extras.",
+        "translationUz": "arzon narxli aviakompaniya, loukoster",
+        "example": "The budget airline charges extra for checked luggage.",
+        "collocations": ""
+      },
+      {
+        "term": "a national carrier",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An airline strongly associated with a particular country.",
+        "translationUz": "milliy aviakompaniya",
+        "example": "The national carrier operates international routes.",
+        "collocations": ""
+      },
+      {
+        "term": "first / business / economy class",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Different categories of travel service, comfort and fare.",
+        "translationUz": "birinchi toifa / biznes toifa / ekonom toifa",
+        "example": "We travelled in economy class.",
+        "collocations": "fly first class, fly business class, fly economy"
+      },
+      {
+        "term": "a route via",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A travel path passing through a particular place.",
+        "translationUz": "biror joy orqali o‘tadigan yo‘nalish",
+        "example": "We chose a route via Amsterdam to reach Oslo.",
+        "collocations": ""
+      },
+      {
+        "term": "flight only",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A booking covering air travel without accommodation or a holiday package.",
+        "translationUz": "faqat aviachipta, turar joysiz parvoz bandlovi",
+        "example": "We chose flight only and booked our own hotel.",
+        "collocations": ""
+      },
+      {
+        "term": "a package holiday",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday combining travel and accommodation, with other services depending on the package.",
+        "translationUz": "yo‘l va turar joyni o‘z ichiga olgan dam olish paketi",
+        "example": "A package holiday can simplify planning.",
+        "collocations": ""
+      },
+      {
+        "term": "an all-inclusive holiday",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday with specified accommodation, meals, drinks and other services included in its price.",
+        "translationUz": "belgilangan xizmatlar narxga kiritilgan dam olish paketi",
+        "example": "We checked which activities our all-inclusive holiday covered.",
+        "collocations": ""
+      },
+      {
+        "term": "travel extras",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Additional services or charges beyond the basic booking.",
+        "translationUz": "safarga oid qo‘shimcha xizmatlar yoki to‘lovlar",
+        "example": "Travel extras increased the final price.",
+        "collocations": ""
+      },
+      {
+        "term": "travel restrictions",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Rules or conditions limiting where, when or how people may travel or use a ticket.",
+        "translationUz": "sayohat cheklovlari",
+        "example": "Read the travel restrictions before buying.",
+        "collocations": "travel restriction, impose a travel restriction, lift a travel restriction"
+      },
+      {
+        "term": "non-refundable",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Describing a payment or ticket for which money is not normally returned after cancellation.",
+        "translationUz": "puli qaytarilmaydigan",
+        "example": "The cheapest ticket was non-refundable.",
+        "collocations": ""
+      },
+      {
+        "term": "a cancellation fee",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Money charged for cancelling a booking.",
+        "translationUz": "bandlovni bekor qilish to‘lovi",
+        "example": "We had to pay a cancellation fee.",
+        "collocations": ""
+      },
+      {
+        "term": "good value for money",
+        "partOfSpeech": "phrase",
+        "definitionEn": "Worth the price paid because of the quality or amount provided.",
+        "translationUz": "narxiga yarasha arziydigan",
+        "example": "The rail pass was good value for money.",
+        "collocations": ""
+      },
+      {
+        "term": "a stopover",
+        "partOfSpeech": "noun",
+        "definitionEn": "A planned stop during a longer journey before continuing to the destination.",
+        "translationUz": "safar orasidagi rejalashtirilgan to‘xtash",
+        "example": "We included a stopover in Singapore.",
+        "collocations": ""
+      },
+      {
+        "term": "a transfer",
+        "partOfSpeech": "noun",
+        "definitionEn": "Transport between places such as an airport and hotel.",
+        "translationUz": "transfer, masalan, aeroportdan mehmonxonaga olib borish xizmati",
+        "example": "The hotel booking included an airport transfer.",
+        "collocations": ""
+      },
+      {
+        "term": "a shuttle bus",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A bus making regular short journeys between particular places.",
+        "translationUz": "belgilangan ikki joy orasida muntazam qatnaydigan avtobus",
+        "example": "A shuttle bus connects the terminal and hotel.",
+        "collocations": ""
+      },
+      {
+        "term": "car hire",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The temporary use of a car in exchange for payment.",
+        "translationUz": "avtomobil ijarasi",
+        "example": "Car hire gave us greater flexibility.",
+        "collocations": ""
+      },
+      {
+        "term": "unlimited mileage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A hire arrangement with no distance-based limit or additional mileage charge.",
+        "translationUz": "bosib o‘tiladigan masofaga cheklov qo‘yilmagan ijara sharti",
+        "example": "The rental price includes unlimited mileage.",
+        "collocations": ""
+      },
+      {
+        "term": "accident insurance",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Insurance covering specified losses or costs associated with an accident.",
+        "translationUz": "baxtsiz hodisalardan sug‘urta",
+        "example": "We checked what the accident insurance covered.",
+        "collocations": ""
+      },
+      {
+        "term": "get around",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To travel between places in an area.",
+        "translationUz": "bir hudud ichida u yerdan bu yerga qatnamoq",
+        "example": "It is easy to get around by tram.",
+        "collocations": ""
+      },
+      {
+        "term": "come and go as you please",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To arrive and leave whenever you choose.",
+        "translationUz": "xohlagan paytda kelib-ketmoq",
+        "example": "The guest house gives you a key so you can come and go as you please.",
+        "collocations": ""
+      },
+      {
+        "term": "business travel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Travelling for work or business purposes.",
+        "translationUz": "ish yuzasidan sayohat qilish, xizmat safarlariga chiqish",
+        "example": "Business travel is becoming more common in our company.",
+        "collocations": "reduce business travel, business travel expenses"
+      },
+      {
+        "term": "be upgraded to business class",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be moved to a business-class seat, often without paying the full extra fare.",
+        "translationUz": "biznes toifadagi o‘ringa o‘tkazilmoq",
+        "example": "On an overbooked flight, you may be upgraded to business class.",
+        "collocations": "get bumped up to business class (informal)"
+      },
+      {
+        "term": "connection",
+        "partOfSpeech": "noun",
+        "definitionEn": "A flight, train or other service that you change to during a journey.",
+        "translationUz": "safar davomida o‘tiladigan keyingi reys yoki qatnov",
+        "example": "We had a tight connection in Istanbul.",
+        "collocations": "catch a connection, miss a connection, connecting flight"
+      },
+      {
+        "term": "layover",
+        "partOfSpeech": "noun",
+        "definitionEn": "A wait at an airport or another transport hub between connecting services.",
+        "translationUz": "keyingi reysni yoki qatnovni kutish uchun oraliq to‘xtash",
+        "example": "We had a three-hour layover in Istanbul.",
+        "collocations": "a short layover, overnight layover"
+      },
+      {
+        "term": "transit",
+        "partOfSpeech": "noun",
+        "definitionEn": "Passage through a place on the way to another destination.",
+        "translationUz": "tranzit, manzilga borish yo‘lida oraliq hududdan o‘tish",
+        "example": "Our bags stayed in transit until we reached Tashkent.",
+        "collocations": "in transit, transit passenger, transit visa"
+      },
+      {
+        "term": "airport pick-up",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A service in which someone meets you at the airport and takes you to your destination.",
+        "translationUz": "aeroportdan kutib olish va olib ketish xizmati",
+        "example": "The hotel offers a free airport pick-up.",
+        "collocations": "arrange an airport pick-up"
+      },
+      {
+        "term": "ultra all-inclusive",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A hotel or holiday package with more services or extras included than its standard all-inclusive option.",
+        "translationUz": "odatdagi all-inclusive paketiga qaraganda ko‘proq xizmatlar narxga kiritilgan paket",
+        "example": "The ultra all-inclusive package included access to a wider choice of restaurants.",
+        "collocations": "ultra all-inclusive package"
+      },
+      {
+        "term": "impose a travel restriction",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Officially introduce a rule that limits travel.",
+        "translationUz": "sayohatga cheklov joriy qilmoq",
+        "example": "The authorities may impose a travel restriction after a severe storm.",
+        "collocations": "impose restrictions on travel"
+      },
+      {
+        "term": "lift a travel restriction",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Officially remove a rule that limits travel.",
+        "translationUz": "sayohat cheklovini bekor qilmoq",
+        "example": "The authorities can lift a travel restriction once the roads are safe.",
+        "collocations": "lift travel restrictions"
+      },
+      {
+        "term": "hire a car",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Pay to use a car for a limited period.",
+        "translationUz": "avtomobilni ijaraga olmoq",
+        "example": "We plan to hire a car for a week to visit the villages.",
+        "collocations": "rent a car, hire a car for a day"
+      },
+      {
+        "term": "road trip",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A journey by road, often for pleasure and with stops along the way.",
+        "translationUz": "avtomobilda sayohat, avtosafar",
+        "example": "We took a road trip along the coast last summer.",
+        "collocations": "go on a road trip"
+      },
+      {
+        "term": "cross-country trip",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A journey across much of a country.",
+        "translationUz": "mamlakat bo‘ylab uzoq safar",
+        "example": "They took a cross-country trip by train.",
+        "collocations": "a cross-country journey"
+      },
+      {
+        "term": "itinerary",
+        "partOfSpeech": "noun",
+        "definitionEn": "A plan of a trip showing the places, dates or activities arranged.",
+        "translationUz": "sayohat rejasi, safar yo‘nalishi va jadvali",
+        "example": "Our itinerary included two days in Bukhara.",
+        "collocations": "plan an itinerary, travel itinerary"
+      },
+      {
+        "term": "a coach",
+        "partOfSpeech": "noun",
+        "definitionEn": "A long-distance bus; also a passenger carriage on a train.",
+        "translationUz": "shaharlararo avtobus / yo‘lovchi vagoni",
+        "example": "We travelled overnight by coach.",
+        "collocations": ""
+      },
+      {
+        "term": "a tram",
+        "partOfSpeech": "noun",
+        "definitionEn": "A passenger vehicle running on rails along streets.",
+        "translationUz": "tramvay",
+        "example": "A tram stops outside the station.",
+        "collocations": ""
+      },
+      {
+        "term": "a van / a lorry",
+        "partOfSpeech": "noun",
+        "definitionEn": "A road vehicle for carrying goods; a lorry is a large goods vehicle.",
+        "translationUz": "furgon / katta yuk mashinasi",
+        "example": "A lorry delivered supplies to the hotel.",
+        "collocations": ""
+      },
+      {
+        "term": "a boot / steering wheel",
+        "partOfSpeech": "noun",
+        "definitionEn": "A car’s luggage compartment / the wheel used to control its direction.",
+        "translationUz": "avtomobil yukxonasi / rul chambaragi",
+        "example": "Put the bags in the boot before taking the steering wheel.",
+        "collocations": ""
+      },
+      {
+        "term": "a motorist",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person driving a car.",
+        "translationUz": "avtomobil haydovchisi",
+        "example": "A motorist stopped to help us change the tyre.",
+        "collocations": ""
+      },
+      {
+        "term": "a mechanic",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who repairs machines, especially vehicle engines.",
+        "translationUz": "mexanik, avtomobil ustasi",
+        "example": "A mechanic inspected the engine.",
+        "collocations": ""
+      },
+      {
+        "term": "a chauffeur",
+        "partOfSpeech": "noun",
+        "definitionEn": "A driver employed to drive someone, usually in a private car.",
+        "translationUz": "yollanma shaxsiy haydovchi",
+        "example": "A chauffeur collected the guests.",
+        "collocations": ""
+      },
+      {
+        "term": "a petrol station",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A place where drivers buy fuel.",
+        "translationUz": "yonilg‘i quyish shoxobchasi",
+        "example": "We stopped at a petrol station.",
+        "collocations": ""
+      },
+      {
+        "term": "break down / a breakdown service",
+        "partOfSpeech": "phrasal verb / noun phrase",
+        "definitionEn": "To stop working, especially of a vehicle; a service that helps stranded motorists.",
+        "translationUz": "buzilib qolmoq / yo‘lda buzilgan transportga yordam xizmati",
+        "example": "If we break down, we can call a breakdown service.",
+        "collocations": ""
+      },
+      {
+        "term": "a high-speed / express train",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A train designed for high speeds / a service with relatively few stops.",
+        "translationUz": "tezyurar poyezd / kam bekatda to‘xtaydigan ekspress poyezd",
+        "example": "The express train stops only at major stations.",
+        "collocations": ""
+      },
+      {
+        "term": "a sleeping car",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A railway carriage with beds for overnight travel.",
+        "translationUz": "yotoqli vagon",
+        "example": "We booked beds in a sleeping car.",
+        "collocations": ""
+      },
+      {
+        "term": "a buffet car",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A railway carriage selling food and drinks.",
+        "translationUz": "bufet yoki ovqatlanish vagoni",
+        "example": "We bought sandwiches in the buffet car.",
+        "collocations": ""
+      },
+      {
+        "term": "a ticket collector / conductor",
+        "partOfSpeech": "noun",
+        "definitionEn": "A railway worker who checks tickets; a conductor may have wider onboard duties.",
+        "translationUz": "chipta nazoratchisi / konduktor",
+        "example": "The conductor checked our tickets.",
+        "collocations": ""
+      },
+      {
+        "term": "a platform",
+        "partOfSpeech": "noun",
+        "definitionEn": "The area beside a railway track where passengers board trains.",
+        "translationUz": "poyezdga chiqish platformasi",
+        "example": "Our train leaves from platform four.",
+        "collocations": "wait on the platform for your train, railway platform"
+      },
+      {
+        "term": "a seat reservation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An arrangement guaranteeing a particular seat.",
+        "translationUz": "muayyan o‘rindiqni oldindan band qilish",
+        "example": "A seat reservation is recommended on busy services.",
+        "collocations": ""
+      },
+      {
+        "term": "change trains",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To leave one train and board another during a journey.",
+        "translationUz": "bir poyezddan boshqasiga o‘tmoq",
+        "example": "We need to change trains at the next station.",
+        "collocations": ""
+      },
+      {
+        "term": "a through / direct train",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A train that reaches the destination without requiring passengers to change trains.",
+        "translationUz": "poyezd almashtirmasdan manzilga olib boradigan poyezd",
+        "example": "A direct train avoids the need for a connection.",
+        "collocations": ""
+      },
+      {
+        "term": "train station",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A place where trains stop for people to get on or off.",
+        "translationUz": "poyezd bekati, temiryo‘l vokzali",
+        "example": "We met at the train station before our journey.",
+        "collocations": "railway station, arrive at the train station"
+      },
+      {
+        "term": "get in a car",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "Enter a car as a driver or passenger.",
+        "translationUz": "avtomobilga chiqmoq",
+        "example": "It is safer to get in a car from the pavement when traffic is busy.",
+        "collocations": "get into a car"
+      },
+      {
+        "term": "get out of a car",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "Leave a car after riding in it.",
+        "translationUz": "avtomobildan tushmoq",
+        "example": "Wait until it stops before you get out of a car.",
+        "collocations": "get out of a taxi"
+      },
+      {
+        "term": "a liner / ferry / yacht",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large passenger ship on a route / a vessel carrying people or vehicles across water / a sailing or motor boat used for pleasure.",
+        "translationUz": "yo‘lovchi layneri / parom / yaxta",
+        "example": "A ferry carried us to the island.",
+        "collocations": ""
+      },
+      {
+        "term": "a crossing",
+        "partOfSpeech": "noun",
+        "definitionEn": "A journey across a stretch of water.",
+        "translationUz": "suv havzasini kesib o‘tish safari",
+        "example": "The crossing took two hours.",
+        "collocations": ""
+      },
+      {
+        "term": "a cruise",
+        "partOfSpeech": "noun",
+        "definitionEn": "A holiday travelling by ship, usually visiting several places.",
+        "translationUz": "kruiz, kemada dam olish sayohati",
+        "example": "The cruise stopped at three ports.",
+        "collocations": "go on a cruise, take a cruise"
+      },
+      {
+        "term": "a berth",
+        "partOfSpeech": "noun",
+        "definitionEn": "A bed on a train or ship; also a place where a ship can be moored.",
+        "translationUz": "poyezd yoki kemadagi yotoq joyi / kemaning bandargohdagi turish joyi",
+        "example": "We reserved a berth in a shared cabin.",
+        "collocations": ""
+      },
+      {
+        "term": "a shared / single / double / deluxe cabin",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A ship’s room shared with others / for one person / for two / with upgraded comfort.",
+        "translationUz": "umumiy / bir kishilik / ikki kishilik / yuqori qulaylikdagi kayuta",
+        "example": "We chose a double cabin for the crossing.",
+        "collocations": ""
+      },
+      {
+        "term": "an upper deck",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A higher level of a ship.",
+        "translationUz": "kemaning yuqori palubasi",
+        "example": "We watched the coastline from the upper deck.",
+        "collocations": ""
+      },
+      {
+        "term": "a bridge / gangway",
+        "partOfSpeech": "noun",
+        "definitionEn": "A ship’s control area / a passage used to board or leave a vessel.",
+        "translationUz": "kemani boshqarish ko‘prigi / kemaga chiqish yoki tushish uchun trap",
+        "example": "Passengers walked up the gangway.",
+        "collocations": ""
+      },
+      {
+        "term": "a captain / steward",
+        "partOfSpeech": "noun",
+        "definitionEn": "The person in command of a ship or aircraft / a worker looking after passengers.",
+        "translationUz": "kema kapitani / yo‘lovchilarga xizmat ko‘rsatuvchi xodim",
+        "example": "The steward showed us to our cabin.",
+        "collocations": ""
+      },
+      {
+        "term": "a port",
+        "partOfSpeech": "noun",
+        "definitionEn": "A harbour or town where ships arrive and depart.",
+        "translationUz": "port, bandargoh",
+        "example": "The ship returned to port before sunset.",
+        "collocations": ""
+      },
+      {
+        "term": "board",
+        "partOfSpeech": "verb",
+        "definitionEn": "Get onto a plane, train, ship or similar vehicle as a passenger.",
+        "translationUz": "samolyot, poyezd yoki kemaga chiqmoq",
+        "example": "Passengers began to board the ferry at nine.",
+        "collocations": "board a plane, board a train, board a ship"
+      },
+      {
+        "term": "disembark",
+        "partOfSpeech": "verb",
+        "definitionEn": "Get off a plane or ship, or leave another passenger vehicle at the end of a journey.",
+        "translationUz": "samolyot yoki kemadan tushmoq",
+        "example": "Please wait for the crew to say it is safe to disembark.",
+        "collocations": "disembark from a ship, get off a train"
+      },
+      {
+        "term": "cruise ship",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large passenger ship designed for holiday voyages.",
+        "translationUz": "kruiz kemasi",
+        "example": "The cruise ship stopped at several ports along the coast.",
+        "collocations": "large cruise ship"
+      },
+      {
+        "term": "cargo ship",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A vessel designed to carry goods rather than passengers.",
+        "translationUz": "yuk tashuvchi kema",
+        "example": "The cargo ship brought containers from overseas.",
+        "collocations": "container ship, load a cargo ship"
+      },
+      {
+        "term": "carry cargo",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Transport goods in a ship, aircraft or other vehicle.",
+        "translationUz": "yuk tashimoq",
+        "example": "These ships carry cargo between the main ports.",
+        "collocations": "carry heavy cargo"
+      },
+      {
+        "term": "vessel",
+        "partOfSpeech": "noun",
+        "definitionEn": "A ship or large boat.",
+        "translationUz": "kema, yirik suv transporti vositasi",
+        "example": "The rescue vessel returned to port before dark.",
+        "collocations": "fishing vessel, passenger vessel"
+      },
+      {
+        "term": "pier",
+        "partOfSpeech": "noun",
+        "definitionEn": "A structure built out from the shore into water, often for boats to stop at or people to walk along.",
+        "translationUz": "qirg‘oqdan suvga cho‘zilgan inshoot, qayiq to‘xtash joyi",
+        "example": "The ferry leaves from the pier at noon.",
+        "collocations": "ferry pier, walk along the pier"
+      },
+      {
+        "term": "aircraft / jumbo jet / helicopter",
+        "partOfSpeech": "noun",
+        "definitionEn": "A flying machine / a very large passenger jet / an aircraft lifted by rotating blades.",
+        "translationUz": "havo kemasi / yirik reaktiv yo‘lovchi samolyoti / vertolyot",
+        "example": "A helicopter flew over the harbour.",
+        "collocations": ""
+      },
+      {
+        "term": "a cockpit / wings",
+        "partOfSpeech": "noun",
+        "definitionEn": "The pilot’s control compartment / the structures that provide lift on an aircraft.",
+        "translationUz": "uchuvchilar kabinasi / samolyot qanotlari",
+        "example": "Passengers cannot normally enter the cockpit.",
+        "collocations": ""
+      },
+      {
+        "term": "an aisle / aisle seat",
+        "partOfSpeech": "noun / noun phrase",
+        "definitionEn": "A passage between rows of seats / a seat beside that passage.",
+        "translationUz": "salon yo‘lagi / yo‘lak yonidagi o‘rindiq",
+        "example": "I prefer an aisle seat on long flights.",
+        "collocations": ""
+      },
+      {
+        "term": "ground staff",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Airport employees working on the ground rather than as flight crew.",
+        "translationUz": "aeroportning yer usti xodimlari",
+        "example": "Ground staff helped passengers find the new gate.",
+        "collocations": ""
+      },
+      {
+        "term": "cabin crew",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The staff looking after passenger safety and comfort aboard an aircraft.",
+        "translationUz": "samolyot saloniga xizmat ko‘rsatuvchi ekipaj",
+        "example": "The cabin crew demonstrated the safety equipment.",
+        "collocations": ""
+      },
+      {
+        "term": "an air traffic controller",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person who directs aircraft movements to maintain safe separation.",
+        "translationUz": "havo harakati dispetcheri",
+        "example": "The air traffic controller guided the plane towards the runway.",
+        "collocations": ""
+      },
+      {
+        "term": "a duty-free shop",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A shop selling goods exempt from certain taxes under applicable rules.",
+        "translationUz": "bojsiz savdo do‘koni",
+        "example": "We visited the duty-free shop before departure.",
+        "collocations": ""
+      },
+      {
+        "term": "a terminal / runway",
+        "partOfSpeech": "noun",
+        "definitionEn": "An airport passenger building / the strip used by aircraft for take-off and landing.",
+        "translationUz": "aeroport terminali / uchish-qo‘nish yo‘lagi",
+        "example": "The bus took us to the terminal.",
+        "collocations": ""
+      },
+      {
+        "term": "go through security",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To pass the checks used to protect travellers and transport facilities.",
+        "translationUz": "xavfsizlik tekshiruvidan o‘tmoq",
+        "example": "Leave enough time to go through security.",
+        "collocations": ""
+      },
+      {
+        "term": "a customs officer",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An official checking goods entering or leaving a country.",
+        "translationUz": "bojxona xodimi",
+        "example": "A customs officer asked about the contents of the bag.",
+        "collocations": ""
+      },
+      {
+        "term": "jet",
+        "partOfSpeech": "noun",
+        "definitionEn": "An aircraft powered by one or more jet engines.",
+        "translationUz": "reaktiv samolyot",
+        "example": "The company hired a private jet for the trip.",
+        "collocations": "private jet, passenger jet"
+      },
+      {
+        "term": "check in for a flight",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "Register for a flight before boarding, online or at the airport.",
+        "translationUz": "reysga ro‘yxatdan o‘tmoq",
+        "example": "You can check in for a flight online before you leave for the airport.",
+        "collocations": "check in online, check in at the airport"
+      },
+      {
+        "term": "boarding pass",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A paper or digital document that gives a passenger permission to board a flight.",
+        "translationUz": "samolyotga chiqish taloni",
+        "example": "Show your boarding pass before entering the aircraft.",
+        "collocations": "scan a boarding pass, mobile boarding pass"
+      },
+      {
+        "term": "boarding gate",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The airport exit through which passengers go to board a particular flight.",
+        "translationUz": "samolyotga chiqish darvozasi",
+        "example": "The boarding gate changed just before departure.",
+        "collocations": "go to the boarding gate"
+      },
+      {
+        "term": "luggage",
+        "partOfSpeech": "noun",
+        "definitionEn": "Bags, cases and other containers that passengers take with them when they travel.",
+        "translationUz": "safar yuki, yuk-jomadonlar",
+        "example": "We left our luggage at the hotel before going sightseeing.",
+        "collocations": "baggage, a piece of luggage"
+      },
+      {
+        "term": "carry-on luggage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Bags that passengers are allowed to take into the aircraft cabin.",
+        "translationUz": "qo‘l yuki, samolyot saloniga olib kiriladigan yuk",
+        "example": "Keep your passport in your carry-on luggage.",
+        "collocations": "hand luggage, cabin baggage"
+      },
+      {
+        "term": "checked luggage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Bags that passengers hand over before boarding to travel in the aircraft hold.",
+        "translationUz": "ro‘yxatdan o‘tkazilib, samolyot yuk bo‘limiga topshiriladigan yuk",
+        "example": "Our checked luggage arrived on a later flight.",
+        "collocations": "checked baggage, hold luggage"
+      },
+      {
+        "term": "baggage reclaim area",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The area at an airport where passengers collect luggage after a flight.",
+        "translationUz": "aeroportda topshirilgan yukni olib ketish hududi",
+        "example": "Follow the signs to the baggage reclaim area.",
+        "collocations": "baggage claim area (US)"
+      },
+      {
+        "term": "baggage carousel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A moving belt on which checked luggage is delivered to passengers at an airport.",
+        "translationUz": "aeroportda yuk aylanib chiqadigan konveyer lentasi",
+        "example": "Our suitcase was already on the baggage carousel.",
+        "collocations": "baggage conveyor belt"
+      },
+      {
+        "term": "be severely delayed",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To be held up for a long time beyond the expected schedule.",
+        "translationUz": "ancha kechikmoq",
+        "example": "Our flight may be severely delayed because of fog.",
+        "collocations": ""
+      },
+      {
+        "term": "a cancelled flight",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A flight that will not operate as planned.",
+        "translationUz": "bekor qilingan reys",
+        "example": "Passengers on the cancelled flight needed alternative travel.",
+        "collocations": ""
+      },
+      {
+        "term": "be stuck at an airport",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To be unable to leave an airport or continue the journey.",
+        "translationUz": "aeroportda qolib ketmoq",
+        "example": "Nobody wants to be stuck at an airport overnight.",
+        "collocations": ""
+      },
+      {
+        "term": "put someone up",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To provide or arrange accommodation for someone.",
+        "translationUz": "birovni vaqtincha joylashtirmoq",
+        "example": "Can you put someone up for a night if their flight is cancelled?",
+        "collocations": ""
+      },
+      {
+        "term": "be on standby",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To wait for a place on a service if a seat becomes available.",
+        "translationUz": "bo‘sh joy chiqishini kutish ro‘yxatida bo‘lmoq",
+        "example": "I will be on standby for the morning flight.",
+        "collocations": ""
+      },
+      {
+        "term": "get a seat",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To obtain a place to sit or travel on a service.",
+        "translationUz": "o‘rin topmoq, joy olmoq",
+        "example": "We managed to get a seat on a later train.",
+        "collocations": ""
+      },
+      {
+        "term": "on time",
+        "partOfSpeech": "adverb phrase",
+        "definitionEn": "At the scheduled or agreed time.",
+        "translationUz": "o‘z vaqtida",
+        "example": "The train arrived on time.",
+        "collocations": ""
+      },
+      {
+        "term": "an early-morning flight",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A flight leaving near the beginning of the day.",
+        "translationUz": "erta tonggi reys",
+        "example": "We booked an early-morning flight.",
+        "collocations": ""
+      },
+      {
+        "term": "turbulence",
+        "partOfSpeech": "noun",
+        "definitionEn": "Irregular air movements that can make an aircraft shake.",
+        "translationUz": "turbulentlik, parvoz paytidagi havo silkinishi",
+        "example": "The pilot warned us about turbulence.",
+        "collocations": ""
+      },
+      {
+        "term": "a bumpy landing",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An aircraft landing that is not smooth.",
+        "translationUz": "silkinish bilan qo‘nish",
+        "example": "We had a bumpy landing in strong winds.",
+        "collocations": ""
+      },
+      {
+        "term": "get airsick / airsickness",
+        "partOfSpeech": "verb phrase / noun",
+        "definitionEn": "To feel ill because of movement during air travel; that illness.",
+        "translationUz": "samolyotda ko‘ngli aynimoq / parvozda ko‘ngil aynishi",
+        "example": "Some passengers get airsick on small aircraft.",
+        "collocations": ""
+      },
+      {
+        "term": "jet lag",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Tiredness and disturbed sleep caused by travelling quickly across time zones.",
+        "translationUz": "vaqt mintaqalari o‘zgarganidan uyqu rejimining buzilishi",
+        "example": "It took several days to recover from jet lag.",
+        "collocations": ""
+      },
+      {
+        "term": "a crew member on board",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A person working as part of a vessel’s or aircraft’s crew while aboard it.",
+        "translationUz": "bortdagi ekipaj a’zosi",
+        "example": "A crew member on board helped secure the equipment.",
+        "collocations": ""
+      },
+      {
+        "term": "run smoothly",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To proceed without significant difficulty or interruption.",
+        "translationUz": "bir maromda, muammosiz o‘tmoq",
+        "example": "We expect the transfer arrangements to run smoothly.",
+        "collocations": ""
+      },
+      {
+        "term": "a rough / calm sea",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Water with large waves / relatively still water.",
+        "translationUz": "to‘lqinli / sokin dengiz",
+        "example": "The ferry moved slowly through a rough sea.",
+        "collocations": ""
+      },
+      {
+        "term": "get seasick / seasickness",
+        "partOfSpeech": "verb phrase / noun",
+        "definitionEn": "To feel ill because of a boat’s movement; that illness.",
+        "translationUz": "kemada ko‘ngli aynimoq / dengiz kasalligi",
+        "example": "Some passengers get seasick when the sea is rough.",
+        "collocations": ""
+      },
+      {
+        "term": "catch your flight",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Arrive in time to take the flight you booked.",
+        "translationUz": "reysga ulgurmoq",
+        "example": "Leave early enough to catch your flight.",
+        "collocations": "catch a flight, catch the last flight"
+      },
+      {
+        "term": "miss your flight",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Fail to get on the flight you booked, especially because you arrive too late.",
+        "translationUz": "reysga ulgurmay qolmoq",
+        "example": "You may miss your flight if your train is late.",
+        "collocations": "miss a flight, miss a connecting flight"
+      },
+      {
+        "term": "a campsite",
+        "partOfSpeech": "noun",
+        "definitionEn": "An area where people can stay in tents or caravans.",
+        "translationUz": "chodir tikib tunash uchun ajratilgan joy",
+        "example": "The campsite has showers and drinking water.",
+        "collocations": ""
+      },
+      {
+        "term": "pitch a tent",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To put up a tent ready for use.",
+        "translationUz": "chodir tikmoq",
+        "example": "We learnt to pitch a tent before the trip.",
+        "collocations": ""
+      },
+      {
+        "term": "a caravan",
+        "partOfSpeech": "noun",
+        "definitionEn": "A vehicle or trailer equipped as living accommodation for travel.",
+        "translationUz": "turar joy sifatida jihozlangan tirkama",
+        "example": "They stayed in a caravan near the coast.",
+        "collocations": ""
+      },
+      {
+        "term": "a self-catering flat / apartment",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Holiday accommodation where guests prepare their own meals.",
+        "translationUz": "ovqatni o‘zi tayyorlash mumkin bo‘lgan kvartira",
+        "example": "We rented a self-catering apartment.",
+        "collocations": ""
+      },
+      {
+        "term": "a guest house",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A relatively small establishment offering accommodation, often with breakfast.",
+        "translationUz": "mehmon uyi",
+        "example": "The guest house was run by a local family.",
+        "collocations": ""
+      },
+      {
+        "term": "a youth hostel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Budget accommodation often offering shared rooms and facilities.",
+        "translationUz": "yoshlar uchun arzon umumiy turar joy, yoshlar hosteli",
+        "example": "We met other travellers at the youth hostel.",
+        "collocations": ""
+      },
+      {
+        "term": "bunk beds",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Beds arranged one above the other.",
+        "translationUz": "ikki qavatli karavotlar",
+        "example": "The hostel room had two sets of bunk beds.",
+        "collocations": ""
+      },
+      {
+        "term": "a chalet",
+        "partOfSpeech": "noun",
+        "definitionEn": "A small holiday house or cabin, often associated with mountain resorts.",
+        "translationUz": "tog‘dagi yog‘och dam olish uyi, shale",
+        "example": "We stayed in a chalet near the ski slopes.",
+        "collocations": ""
+      },
+      {
+        "term": "an inn",
+        "partOfSpeech": "noun",
+        "definitionEn": "A small establishment offering food, drink and accommodation.",
+        "translationUz": "kichik an’anaviy mehmonxona",
+        "example": "The inn overlooks the village square.",
+        "collocations": ""
+      },
+      {
+        "term": "half board / full board",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Accommodation with breakfast and one main meal / accommodation with three main meals a day.",
+        "translationUz": "nonushta va yana bir mahal ovqat / uch mahal ovqat kiritilgan turar joy tarifi",
+        "example": "We chose half board so we could eat lunch elsewhere.",
+        "collocations": "full board, full board accommodation, full board rate"
+      },
+      {
+        "term": "book accommodation",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Reserve a place to stay, usually before travelling.",
+        "translationUz": "turar joyni oldindan band qilmoq",
+        "example": "We need to book accommodation near the old town.",
+        "collocations": "book accommodation in advance"
+      },
+      {
+        "term": "room only",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An accommodation rate that does not include meals.",
+        "translationUz": "faqat xona, ovqat narxga kiritilmagan tarif",
+        "example": "We booked room only because we wanted to have breakfast at local cafés.",
+        "collocations": "room-only rate, bed only"
+      },
+      {
+        "term": "bed and breakfast",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Accommodation with breakfast included in the price.",
+        "translationUz": "tunash joyi va nonushta narxga kiritilgan tarif",
+        "example": "We booked bed and breakfast at a small guest house.",
+        "collocations": "B&B, B/B"
+      },
+      {
+        "term": "couchsurfing",
+        "partOfSpeech": "noun",
+        "definitionEn": "Travelling by staying at other people's homes, usually for free.",
+        "translationUz": "safarda mahalliy kishilarning uyida odatda bepul tunash",
+        "example": "Couchsurfing helped us meet local people during our trip.",
+        "collocations": "go couchsurfing"
+      },
+      {
+        "term": "hostel",
+        "partOfSpeech": "noun",
+        "definitionEn": "A low-cost place to stay that often has shared rooms and facilities.",
+        "translationUz": "arzon umumiy turar joy, hostel",
+        "example": "We booked a hostel near the old town.",
+        "collocations": "stay in a hostel, hostel dormitory"
+      },
+      {
+        "term": "dormitory",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large room where several people sleep.",
+        "translationUz": "bir necha kishi uchun umumiy yotoq xona",
+        "example": "Our hostel had a six-bed dormitory.",
+        "collocations": "shared dormitory, dormitory bed"
+      },
+      {
+        "term": "motel",
+        "partOfSpeech": "noun",
+        "definitionEn": "A hotel designed mainly for people travelling by car, usually with convenient parking.",
+        "translationUz": "avtomobilda sayohat qiluvchilar uchun yo‘l bo‘yidagi mehmonxona",
+        "example": "We stayed at a motel just off the motorway.",
+        "collocations": "roadside motel"
+      },
+      {
+        "term": "hotel",
+        "partOfSpeech": "noun",
+        "definitionEn": "A business that provides rooms for paying guests, often with meals or other services.",
+        "translationUz": "mehmonxona",
+        "example": "Our hotel was a short walk from the station.",
+        "collocations": "book a hotel room"
+      },
+      {
+        "term": "villa",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large detached house, especially one used for holidays.",
+        "translationUz": "keng alohida uy, villa",
+        "example": "They rented a villa with a pool for the summer.",
+        "collocations": "holiday villa, rent a villa"
+      },
+      {
+        "term": "cottage",
+        "partOfSpeech": "noun",
+        "definitionEn": "A small house, usually in the countryside.",
+        "translationUz": "qishloq joyidagi kichik uy",
+        "example": "We rented a cottage in the mountains.",
+        "collocations": "holiday cottage, country cottage"
+      },
+      {
+        "term": "an adventure holiday",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday involving exciting or challenging outdoor activities.",
+        "translationUz": "sarguzashtlarga boy dam olish safari",
+        "example": "An adventure holiday may involve rafting and trekking.",
+        "collocations": ""
+      },
+      {
+        "term": "go sightseeing",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To visit interesting or famous places.",
+        "translationUz": "diqqatga sazovor joylarni tomosha qilmoq",
+        "example": "We plan to go sightseeing in the old town.",
+        "collocations": ""
+      },
+      {
+        "term": "stop off",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To make a short visit during a longer journey.",
+        "translationUz": "yo‘lda qisqa muddatga to‘xtab o‘tmoq",
+        "example": "We want to stop off at a coastal village on the way home.",
+        "collocations": ""
+      },
+      {
+        "term": "a beach resort",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday destination with accommodation and leisure facilities beside the sea.",
+        "translationUz": "sohilbo‘yi dam olish maskani",
+        "example": "The beach resort was busy in summer.",
+        "collocations": ""
+      },
+      {
+        "term": "a touring holiday",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday travelling between several places rather than staying in one.",
+        "translationUz": "bir necha manzilni aylanib chiqish safari",
+        "example": "We planned a touring holiday by car.",
+        "collocations": ""
+      },
+      {
+        "term": "rough it",
+        "partOfSpeech": "idiom",
+        "definitionEn": "To live without the usual comforts for a time.",
+        "translationUz": "oddiy sharoitda, qulayliklarsiz yashamoq",
+        "example": "You need to be willing to rough it when camping there.",
+        "collocations": ""
+      },
+      {
+        "term": "keep on the move",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To continue travelling rather than remain in one place.",
+        "translationUz": "doim yo‘lda bo‘lmoq, joydan joyga ko‘chib yurmoq",
+        "example": "We like to keep on the move during our holidays.",
+        "collocations": ""
+      },
+      {
+        "term": "drift along",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To move or spend time without a fixed plan or much effort.",
+        "translationUz": "asta oqim bilan siljimoq",
+        "example": "On the cruise, we could simply drift along and relax.",
+        "collocations": ""
+      },
+      {
+        "term": "sleep under the stars",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To sleep outdoors with the night sky above you.",
+        "translationUz": "ochiq osmon ostida uxlamoq",
+        "example": "We hoped to sleep under the stars in dry weather.",
+        "collocations": ""
+      },
+      {
+        "term": "be out in the wilds",
+        "partOfSpeech": "phrase",
+        "definitionEn": "To be in a remote, relatively undeveloped natural area.",
+        "translationUz": "odam kam boradigan yovvoyi tabiat qo‘ynida bo‘lmoq",
+        "example": "We will be out in the wilds for three days, away from mobile coverage.",
+        "collocations": ""
+      },
+      {
+        "term": "be your own boss",
+        "partOfSpeech": "idiom",
+        "definitionEn": "To make your own decisions rather than follow someone else’s instructions.",
+        "translationUz": "o‘ziga o‘zi xo‘jayin bo‘lmoq",
+        "example": "A self-catering holiday lets you be your own boss.",
+        "collocations": ""
+      },
+      {
+        "term": "lounge around",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To spend time relaxing with little activity.",
+        "translationUz": "bekorchi dam olib, vaqt o‘tkazmoq",
+        "example": "They decided to lounge around beside the pool.",
+        "collocations": ""
+      },
+      {
+        "term": "spend a fortune on entrance fees",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To pay a very large amount to enter attractions.",
+        "translationUz": "kirish chiptalariga juda ko‘p pul sarflamoq",
+        "example": "It is easy to spend a fortune on entrance fees.",
+        "collocations": ""
+      },
+      {
+        "term": "a real learning experience",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An experience from which you gain useful knowledge or understanding.",
+        "translationUz": "ko‘p narsa o‘rgatadigan tajriba",
+        "example": "The guided visit was a real learning experience.",
+        "collocations": ""
+      },
+      {
+        "term": "a cosy atmosphere",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A comfortable, warm and welcoming feeling in a place.",
+        "translationUz": "shinam muhit",
+        "example": "The inn has a cosy atmosphere.",
+        "collocations": ""
+      },
+      {
+        "term": "a holiday of a lifetime",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An exceptionally special holiday that someone expects always to remember.",
+        "translationUz": "umrda bir marta nasib etadigan unutilmas ta’til",
+        "example": "The cruise was a holiday of a lifetime.",
+        "collocations": ""
+      },
+      {
+        "term": "tour",
+        "partOfSpeech": "noun",
+        "definitionEn": "An organised visit to a place or a journey around several places, sometimes with a guide.",
+        "translationUz": "ekskursiya, tashkil etilgan sayohat",
+        "example": "We went on a guided tour of the old town.",
+        "collocations": "go on a tour, guided tour"
+      },
+      {
+        "term": "escape the crowds",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To go somewhere with fewer people.",
+        "translationUz": "gavjum joylardan uzoqlashmoq",
+        "example": "We walked inland to escape the crowds.",
+        "collocations": ""
+      },
+      {
+        "term": "get off the beaten track",
+        "partOfSpeech": "idiom",
+        "definitionEn": "To visit places that few tourists normally go to.",
+        "translationUz": "sayyohlar kam boradigan joylarga chiqmoq",
+        "example": "We wanted to get off the beaten track.",
+        "collocations": ""
+      },
+      {
+        "term": "get back to nature",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To spend time in a natural environment away from urban routines.",
+        "translationUz": "tabiat qo‘ynida vaqt o‘tkazib, tabiatga yaqinlashmoq",
+        "example": "Camping helped us get back to nature.",
+        "collocations": ""
+      },
+      {
+        "term": "the tourist / tourism sector",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The part of the economy providing services for visitors.",
+        "translationUz": "turizm sohasi",
+        "example": "The tourism sector supports many local jobs.",
+        "collocations": ""
+      },
+      {
+        "term": "a discerning traveller",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A traveller who judges quality carefully and knows what they want.",
+        "translationUz": "tanlashda did va talabchanlik bilan yondashadigan sayohatchi",
+        "example": "The small hotel appeals to the discerning traveller.",
+        "collocations": ""
+      },
+      {
+        "term": "boast",
+        "partOfSpeech": "verb",
+        "definitionEn": "Of a place, to have an attractive or impressive feature.",
+        "translationUz": "faxrlanadigan jihatga ega bo‘lmoq",
+        "example": "Several coastal towns boast attractive waterfronts.",
+        "collocations": ""
+      },
+      {
+        "term": "hordes of tourists",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Very large crowds of visitors, often expressed negatively.",
+        "translationUz": "sayyohlarning katta olomoni",
+        "example": "Hordes of tourists gathered at the viewpoint.",
+        "collocations": ""
+      },
+      {
+        "term": "a wealth of wildlife",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large and rich variety or amount of wild animal life.",
+        "translationUz": "yovvoyi jonivorlarning boy xilma-xilligi",
+        "example": "The reserve supports a wealth of wildlife.",
+        "collocations": ""
+      },
+      {
+        "term": "flora and fauna",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The plants and animals of a place.",
+        "translationUz": "o‘simlik va hayvonot dunyosi",
+        "example": "Visitors should avoid disturbing the flora and fauna.",
+        "collocations": ""
+      },
+      {
+        "term": "a national park / nature reserve",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An area protected for natural or cultural importance / an area protected especially for wildlife and habitats.",
+        "translationUz": "milliy bog‘ / tabiat qo‘riqxonasi",
+        "example": "The national park includes a small nature reserve.",
+        "collocations": ""
+      },
+      {
+        "term": "large tracts of land",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Extensive areas of land.",
+        "translationUz": "keng yer maydonlari",
+        "example": "Large tracts of land remain forested.",
+        "collocations": ""
+      },
+      {
+        "term": "virgin rainforest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Rainforest described as largely untouched by human activity.",
+        "translationUz": "buzilmagan tabiiy tropik o‘rmon",
+        "example": "The guide described the remote area as virgin rainforest.",
+        "collocations": ""
+      },
+      {
+        "term": "seek something out of the ordinary",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To look for something unusual or different.",
+        "translationUz": "noodatiy narsa izlamoq",
+        "example": "These travellers seek something out of the ordinary.",
+        "collocations": ""
+      },
+      {
+        "term": "unwind / recharge your batteries",
+        "partOfSpeech": "verb / idiom",
+        "definitionEn": "To relax / recover your energy after a demanding period.",
+        "translationUz": "hordiq chiqarmoq / dam olib, kuchini tiklamoq",
+        "example": "A quiet break can help you unwind after a busy month.",
+        "collocations": ""
+      },
+      {
+        "term": "the bush",
+        "partOfSpeech": "noun",
+        "definitionEn": "Wild land with bushes, trees or grass, especially in Australia or Africa.",
+        "translationUz": "odam kam yashaydigan butazorli yovvoyi hudud",
+        "example": "The tour took us into the bush.",
+        "collocations": ""
+      },
+      {
+        "term": "a 4x4 / four-by-four",
+        "partOfSpeech": "noun",
+        "definitionEn": "A vehicle with power available to all four wheels.",
+        "translationUz": "to‘rt g‘ildiragiga kuch uzatiladigan avtomobil",
+        "example": "The guide drove a 4x4 along the rough track.",
+        "collocations": ""
+      },
+      {
+        "term": "a waterfront villa",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday house beside a river, lake or the sea.",
+        "translationUz": "suv bo‘yidagi villa",
+        "example": "We rented a waterfront villa.",
+        "collocations": ""
+      },
+      {
+        "term": "sleep up to six",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Of accommodation, to have space for as many as six people to sleep.",
+        "translationUz": "olti kishigacha tunashi uchun joyi bo‘lmoq",
+        "example": "The apartment can sleep up to six.",
+        "collocations": ""
+      },
+      {
+        "term": "stunning scenery / location",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Extremely beautiful natural surroundings or setting.",
+        "translationUz": "ajoyib manzara / ajoyib joy",
+        "example": "The route passes through stunning scenery.",
+        "collocations": ""
+      },
+      {
+        "term": "unbeatable prices",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Prices advertised as at least as good as competing offers.",
+        "translationUz": "juda hamyonbop, raqobatsiz narxlar",
+        "example": "The brochure promises unbeatable prices.",
+        "collocations": ""
+      },
+      {
+        "term": "awe-inspiring",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Creating a strong feeling of wonder or admiration.",
+        "translationUz": "hayratga soladigan, mahobatli",
+        "example": "The mountains were awe-inspiring.",
+        "collocations": ""
+      },
+      {
+        "term": "renowned",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Widely known and admired for something.",
+        "translationUz": "mashhur, dong‘i ketgan",
+        "example": "The region is renowned for its hiking trails.",
+        "collocations": ""
+      },
+      {
+        "term": "a ramble / hike / trek",
+        "partOfSpeech": "noun",
+        "definitionEn": "A leisurely countryside walk / a more demanding walk / a long, often difficult journey on foot.",
+        "translationUz": "rohat uchun piyoda sayr / uzoq piyoda yurish / uzoq va mashaqqatli piyoda safar",
+        "example": "We chose a short ramble rather than a demanding trek.",
+        "collocations": ""
+      },
+      {
+        "term": "unrivalled",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Described as having no equal in quality or ability.",
+        "translationUz": "tengi yo‘q, beqiyos",
+        "example": "The hotel advertises unrivalled views.",
+        "collocations": ""
+      },
+      {
+        "term": "scenic landscapes",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Natural surroundings with attractive views.",
+        "translationUz": "go‘zal tabiiy manzaralar",
+        "example": "The railway passes through scenic landscapes.",
+        "collocations": ""
+      },
+      {
+        "term": "a tropical paradise",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A warm-region destination presented as exceptionally beautiful and pleasant.",
+        "translationUz": "tropik jannatmonand maskan",
+        "example": "The island is promoted as a tropical paradise.",
+        "collocations": ""
+      },
+      {
+        "term": "ecotourism",
+        "partOfSpeech": "noun",
+        "definitionEn": "Travel to natural areas intended to support conservation and benefit local communities.",
+        "translationUz": "ekoturizm, tabiatga ehtiyotkorlik bilan sayohat qilish",
+        "example": "Good ecotourism supports local guides and protects habitats.",
+        "collocations": "ecotourism, eco-tourism, promote ecotourism"
+      },
+      {
+        "term": "tourist destination",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A town, region or country people travel to for a visit.",
+        "translationUz": "sayyohlik manzili, sayyohlar boradigan hudud",
+        "example": "The island is a popular tourist destination.",
+        "collocations": "popular tourist destination"
+      },
+      {
+        "term": "tourist attraction",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A particular place, landmark or activity that attracts visitors.",
+        "translationUz": "sayyohlarni jalb qiladigan diqqatga sazovor joy yoki faoliyat",
+        "example": "The old fortress is the city's main tourist attraction.",
+        "collocations": "major tourist attraction"
+      },
+      {
+        "term": "pristine forest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A forest that has experienced very little human disturbance.",
+        "translationUz": "deyarli inson ta’siriga uchramagan tabiiy o‘rmon",
+        "example": "The trail passes through a pristine forest.",
+        "collocations": "protect a pristine forest"
+      },
+      {
+        "term": "safari park",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large enclosed park where visitors can see wild animals moving in open areas, often from a vehicle.",
+        "translationUz": "yovvoyi hayvonlarni odatda avtomobildan kuzatish mumkin bo‘lgan safari bog‘i",
+        "example": "We saw giraffes at the safari park.",
+        "collocations": "visit a safari park"
+      },
+      {
+        "term": "go on a safari",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Take a trip to observe wild animals in their natural environment.",
+        "translationUz": "yovvoyi hayvonlarni tabiiy muhitida kuzatish safariga chiqmoq",
+        "example": "We hope to go on a safari to see elephants in the wild.",
+        "collocations": "go on safari, wildlife safari"
+      },
+      {
+        "term": "savour",
+        "partOfSpeech": "verb",
+        "definitionEn": "To enjoy something slowly and fully.",
+        "translationUz": "mazasidan yoki zavqidan bahramand bo‘lmoq",
+        "example": "Take time to savour the local food.",
+        "collocations": ""
+      },
+      {
+        "term": "the heartland",
+        "partOfSpeech": "noun",
+        "definitionEn": "The central or most characteristic area of a region or country.",
+        "translationUz": "mamlakat yoki mintaqaning asosiy, markaziy qismi",
+        "example": "The journey continues into the country’s agricultural heartland.",
+        "collocations": ""
+      },
+      {
+        "term": "a remote location",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A place far from towns or other centres of activity.",
+        "translationUz": "olis joy, markazdan uzoq manzil",
+        "example": "The lodge is in a remote location.",
+        "collocations": ""
+      },
+      {
+        "term": "a winding road",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A road with many bends.",
+        "translationUz": "burilishlari ko‘p, egri-bugri yo‘l",
+        "example": "A winding road led to the campsite.",
+        "collocations": ""
+      },
+      {
+        "term": "the surrounding countryside",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The rural land around a particular place.",
+        "translationUz": "atrofdagi qishloq va dala manzaralari",
+        "example": "We explored the surrounding countryside.",
+        "collocations": ""
+      },
+      {
+        "term": "a terrifying drive",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A drive that causes intense fear.",
+        "translationUz": "qo‘rqinchli avtomobil safari",
+        "example": "The narrow mountain road made it a terrifying drive.",
+        "collocations": ""
+      },
+      {
+        "term": "a memorable holiday",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A holiday that remains clear in your memory.",
+        "translationUz": "esda qolarli ta’til",
+        "example": "The walking tour made it a memorable holiday.",
+        "collocations": ""
+      },
+      {
+        "term": "a fascinating town",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A town that is extremely interesting.",
+        "translationUz": "juda qiziqarli shaharcha",
+        "example": "The guide introduced us to a fascinating town.",
+        "collocations": ""
+      },
+      {
+        "term": "impressive buildings",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Buildings that attract admiration through their appearance, scale or quality.",
+        "translationUz": "hayrat uyg‘otadigan binolar",
+        "example": "The square is surrounded by impressive buildings.",
+        "collocations": ""
+      },
+      {
+        "term": "a delightful hotel",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A very pleasant and charming hotel.",
+        "translationUz": "juda yoqimli mehmonxona",
+        "example": "We found a delightful hotel beside the river.",
+        "collocations": ""
+      },
+      {
+        "term": "an inconvenient location",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A setting that makes access or activities difficult.",
+        "translationUz": "borib-kelish uchun noqulay joy",
+        "example": "The hotel’s inconvenient location meant a long bus ride each day.",
+        "collocations": ""
+      },
+      {
+        "term": "exceptional food",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Food of unusually high quality.",
+        "translationUz": "alohida yuqori sifatli taomlar",
+        "example": "The village restaurant serves exceptional food.",
+        "collocations": ""
+      },
+      {
+        "term": "breathtaking views / scenery",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Views or natural surroundings of remarkable beauty.",
+        "translationUz": "nafasni rostlashni unuttiradigan darajada go‘zal manzaralar",
+        "example": "The summit offers breathtaking views.",
+        "collocations": ""
+      },
+      {
+        "term": "exclusive access",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Permission to enter or use something restricted to a selected group.",
+        "translationUz": "faqat muayyan kishilarga beriladigan kirish huquqi",
+        "example": "Guests have exclusive access to the private garden.",
+        "collocations": ""
+      },
+      {
+        "term": "an exhilarating experience",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An experience that makes you feel excited and full of energy.",
+        "translationUz": "kuchli hayajon va zavq uyg‘otadigan taassurot",
+        "example": "The mountain walk was an exhilarating experience.",
+        "collocations": ""
+      },
+      {
+        "term": "an exotic location",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A place perceived as unusual and exciting compared with what someone knows.",
+        "translationUz": "o‘ziga xos, odatdagidan farqli maskan",
+        "example": "The brochure promises an exotic location.",
+        "collocations": ""
+      },
+      {
+        "term": "glamorous surroundings",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "A setting associated with attractiveness, excitement and luxury.",
+        "translationUz": "hashamatli va jozibali muhit",
+        "example": "The reception was held in glamorous surroundings.",
+        "collocations": ""
+      },
+      {
+        "term": "luxurious accommodation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Accommodation providing a high level of comfort.",
+        "translationUz": "hashamatli turar joy",
+        "example": "The resort offers luxurious accommodation.",
+        "collocations": ""
+      },
+      {
+        "term": "picturesque streets / villages",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Streets or villages that are especially attractive to look at.",
+        "translationUz": "suratdagidek chiroyli ko‘chalar / qishloqlar",
+        "example": "We wandered through picturesque streets.",
+        "collocations": ""
+      },
+      {
+        "term": "unspoilt charm / woodland",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Natural attractiveness or woodland largely unaffected by damaging development.",
+        "translationUz": "buzilmagan tabiiy joziba / o‘z holicha saqlangan o‘rmonzor",
+        "example": "The island retains much of its unspoilt charm.",
+        "collocations": ""
+      },
+      {
+        "term": "a unique opportunity",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A special chance unlike others or not readily repeated.",
+        "translationUz": "noyob imkoniyat",
+        "example": "The visit offered a unique opportunity to meet local artists.",
+        "collocations": ""
+      },
+      {
+        "term": "give way",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To let other road users go first, stopping if necessary.",
+        "translationUz": "yo‘l bermoq",
+        "example": "At the junction, drivers must give way to traffic on the main road.",
+        "collocations": ""
+      },
+      {
+        "term": "the right of way",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Priority to proceed before other road users in a particular situation.",
+        "translationUz": "birinchi bo‘lib o‘tish huquqi",
+        "example": "The signs show who has the right of way.",
+        "collocations": ""
+      },
+      {
+        "term": "a pedestrian crossing",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A designated place where people cross a road.",
+        "translationUz": "piyodalar o‘tish joyi",
+        "example": "We crossed at a pedestrian crossing.",
+        "collocations": "pedestrian crossing, zebra crossing"
+      },
+      {
+        "term": "sound your horn / beep your horn",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To make a vehicle’s warning device produce a sound.",
+        "translationUz": "signal chalmoq",
+        "example": "You may need to sound your horn to warn another driver of danger.",
+        "collocations": "sound your horn, beep your horn, honk, beeping, honking"
+      },
+      {
+        "term": "jump a red light",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To drive past a traffic signal when it shows red.",
+        "translationUz": "qizil chiroqda o‘tib ketmoq",
+        "example": "Drivers who jump a red light put pedestrians at risk.",
+        "collocations": "run a red light, jump a red light"
+      },
+      {
+        "term": "reckless driving",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Driving with serious disregard for safety.",
+        "translationUz": "xavfni pisand qilmay mashina haydash",
+        "example": "The campaign warns about reckless driving.",
+        "collocations": ""
+      },
+      {
+        "term": "drink-driving / drug-driving",
+        "partOfSpeech": "noun",
+        "definitionEn": "Driving while unlawfully affected by alcohol / drugs.",
+        "translationUz": "alkogol / narkotik modda ta’sirida transport boshqarish",
+        "example": "The police campaign targets drink-driving and drug-driving.",
+        "collocations": "driving under the influence, DUI, drink-driving, drug-driving"
+      },
+      {
+        "term": "a breathalyser test",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A test of breath used to estimate alcohol levels.",
+        "translationUz": "nafas orqali alkogol miqdorini tekshirish",
+        "example": "The officer asked the driver to take a breathalyser test.",
+        "collocations": ""
+      },
+      {
+        "term": "a hit-and-run accident",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A collision in which a driver leaves without stopping to fulfil their responsibilities.",
+        "translationUz": "to‘qnashuvdan keyin haydovchi voqea joyidan qochib ketgan yo‘l-transport hodisasi",
+        "example": "Witnesses reported a hit-and-run accident.",
+        "collocations": ""
+      },
+      {
+        "term": "a driving ban",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A legal prohibition on driving for a period.",
+        "translationUz": "transport boshqarish huquqini vaqtincha taqiqlash",
+        "example": "The offence resulted in a driving ban.",
+        "collocations": ""
+      },
+      {
+        "term": "penalty points",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Points recorded for driving offences in some licensing systems.",
+        "translationUz": "jarima ballari",
+        "example": "Repeated offences can lead to penalty points.",
+        "collocations": ""
+      },
+      {
+        "term": "an on-the-spot fine",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A financial penalty issued at the place where an offence is detected.",
+        "translationUz": "joyida yoziladigan jarima",
+        "example": "The driver received an on-the-spot fine.",
+        "collocations": ""
+      },
+      {
+        "term": "exhaust emissions",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Gases and particles released through a vehicle’s exhaust.",
+        "translationUz": "transportdan chiqadigan gazlar",
+        "example": "Cleaner engines can reduce exhaust emissions.",
+        "collocations": ""
+      },
+      {
+        "term": "roadworthy",
+        "partOfSpeech": "adjective",
+        "definitionEn": "In a condition suitable for safe use on the road.",
+        "translationUz": "texnik jihatdan yo‘lda foydalanishga yaroqli",
+        "example": "A mechanic checked that the car was roadworthy.",
+        "collocations": ""
+      },
+      {
+        "term": "tyre tread / a bald tyre",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The patterned surface of a tyre / a tyre whose tread has worn away.",
+        "translationUz": "shina protektori / protektori yeyilgan shina",
+        "example": "The mechanic replaced a bald tyre with almost no tyre tread.",
+        "collocations": ""
+      },
+      {
+        "term": "traffic rules",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Rules that drivers, cyclists and pedestrians must follow on the road.",
+        "translationUz": "yo‘l harakati qoidalari",
+        "example": "All road users must follow the traffic rules.",
+        "collocations": "traffic regulations, obey the traffic rules"
+      },
+      {
+        "term": "traffic lights",
+        "partOfSpeech": "plural noun",
+        "definitionEn": "Red, amber and green signals that control traffic where roads meet or at crossings.",
+        "translationUz": "svetofor, yo‘l harakatini tartibga soluvchi rangli chiroqlar",
+        "example": "Turn right at the traffic lights.",
+        "collocations": "wait at the traffic lights"
+      },
+      {
+        "term": "road sign",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A sign beside or above a road giving drivers or other road users information, instructions or warnings.",
+        "translationUz": "yo‘l belgisi",
+        "example": "A road sign warned drivers about the sharp bend.",
+        "collocations": "warning sign, follow road signs"
+      },
+      {
+        "term": "signpost",
+        "partOfSpeech": "noun",
+        "definitionEn": "A sign, often on a post, that points towards a place or shows how far away it is.",
+        "translationUz": "yo‘nalish ko‘rsatkichi",
+        "example": "We followed the signpost to the railway station.",
+        "collocations": "follow a signpost"
+      },
+      {
+        "term": "traffic police",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Police officers who enforce road traffic rules and help manage traffic.",
+        "translationUz": "yo‘l-patrul politsiyasi, yo‘l harakati xavfsizligi xodimlari",
+        "example": "The traffic police closed the road after the collision.",
+        "collocations": "call the traffic police"
+      },
+      {
+        "term": "fine",
+        "partOfSpeech": "noun",
+        "definitionEn": "Money that a person is officially required to pay for breaking a rule or law.",
+        "translationUz": "jarima",
+        "example": "The fine for parking here is fifty dollars.",
+        "collocations": "pay a fine, a heavy fine"
+      },
+      {
+        "term": "get a fine",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Be officially ordered to pay money for breaking a law or rule.",
+        "translationUz": "jarimaga tortilmoq",
+        "example": "You may get a fine if you park in a bus lane.",
+        "collocations": "get a fine for speeding"
+      },
+      {
+        "term": "fine someone",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Order someone to pay money as punishment for breaking a rule or law.",
+        "translationUz": "birovga jarima solmoq",
+        "example": "The authorities can fine someone for parking in a bus lane.",
+        "collocations": "impose a fine on someone, fine someone for speeding"
+      },
+      {
+        "term": "impose a fine on someone",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Officially require a person to pay money as a penalty.",
+        "translationUz": "birovga rasman jarima solmoq",
+        "example": "A court can impose a fine on someone who breaks the law.",
+        "collocations": "impose a fine for a violation"
+      },
+      {
+        "term": "parking fine",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A financial penalty for parking in a prohibited place or breaking a parking rule.",
+        "translationUz": "to‘xtash qoidasini buzganlik uchun jarima",
+        "example": "She paid a parking fine for leaving her car in front of the gate.",
+        "collocations": "pay a parking fine"
+      },
+      {
+        "term": "parking ticket",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A notice telling a driver that they have broken a parking rule and usually owe a fine.",
+        "translationUz": "to‘xtash qoidasi buzilgani uchun jarima xabarnomasi",
+        "example": "I got a parking ticket for leaving my car in a loading zone.",
+        "collocations": "get a parking ticket"
+      },
+      {
+        "term": "run someone over",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "Hit a person with a moving vehicle and go over them.",
+        "translationUz": "birovni transport vositasi bilan bosib ketmoq",
+        "example": "A driver who ignores a crossing can run someone over.",
+        "collocations": "run over a pedestrian"
+      },
+      {
+        "term": "revoke a driving licence",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Officially cancel a driver's licence.",
+        "translationUz": "haydovchilik guvohnomasini bekor qilmoq",
+        "example": "The authorities can revoke a driving licence after repeated serious offences.",
+        "collocations": "revoke someone's licence, driver's license (US)"
+      },
+      {
+        "term": "break traffic rules",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Do something that is prohibited by road traffic rules.",
+        "translationUz": "yo‘l harakati qoidalarini buzmoq",
+        "example": "Drivers who break traffic rules may receive a fine.",
+        "collocations": "violate traffic regulations, breach traffic regulations"
+      },
+      {
+        "term": "issue an on-the-spot fine",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Give someone a fine immediately at the place where the offence occurred.",
+        "translationUz": "jarimani voqea joyida rasmiylashtirmoq",
+        "example": "An officer can issue an on-the-spot fine for illegal parking.",
+        "collocations": "issue a fine, on-the-spot fine"
+      },
+      {
+        "term": "rush hour",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A period when many people travel to or from work and traffic is heavy.",
+        "translationUz": "qatnov eng tig‘iz payt",
+        "example": "Avoid the motorway during rush hour.",
+        "collocations": ""
+      },
+      {
+        "term": "a tailback",
+        "partOfSpeech": "noun",
+        "definitionEn": "A long line of slow-moving or stationary traffic.",
+        "translationUz": "tirbandlikda cho‘zilib ketgan avtomobillar navbati",
+        "example": "The accident caused a tailback.",
+        "collocations": ""
+      },
+      {
+        "term": "traffic congestion / a congestion charge",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Heavy traffic that slows movement / a fee for driving in a designated congested area.",
+        "translationUz": "yo‘l tirbandligi / tirband hududga kirish uchun to‘lov",
+        "example": "A congestion charge aims to reduce traffic congestion.",
+        "collocations": "traffic jam, heavy congestion, pay a congestion charge"
+      },
+      {
+        "term": "pay a toll",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To pay a charge to use a road, bridge or similar route.",
+        "translationUz": "pulli yo‘l yoki ko‘prik uchun haq to‘lamoq",
+        "example": "Drivers must pay a toll to cross the bridge.",
+        "collocations": ""
+      },
+      {
+        "term": "a pile-up",
+        "partOfSpeech": "noun",
+        "definitionEn": "A collision involving several vehicles.",
+        "translationUz": "zanjirli avariya, bir nechta avtomobil to‘qnashuvi",
+        "example": "Fog contributed to a motorway pile-up.",
+        "collocations": ""
+      },
+      {
+        "term": "be diverted",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To be directed along a different route.",
+        "translationUz": "boshqa yo‘nalishga burilmoq",
+        "example": "Traffic will be diverted around the closed road.",
+        "collocations": ""
+      },
+      {
+        "term": "traffic disruption",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Interruption to the normal movement of vehicles.",
+        "translationUz": "yo‘l harakatining buzilishi",
+        "example": "Snow caused traffic disruption.",
+        "collocations": ""
+      },
+      {
+        "term": "a tow-away zone",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An area where illegally parked vehicles may be removed.",
+        "translationUz": "qoidabuzar avtomobil evakuator bilan olib ketiladigan hudud",
+        "example": "The car was left in a tow-away zone.",
+        "collocations": ""
+      },
+      {
+        "term": "be clamped",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Of a vehicle, to have a wheel immobilised with a locking device.",
+        "translationUz": "g‘ildiragi bloklagich bilan qotirib qo‘yilmoq",
+        "example": "An illegally parked car may be clamped.",
+        "collocations": ""
+      },
+      {
+        "term": "road rage",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Angry or violent behaviour by road users towards other road users.",
+        "translationUz": "yo‘ldagi tajovuzkor xatti-harakat",
+        "example": "The argument escalated into road rage.",
+        "collocations": ""
+      },
+      {
+        "term": "skid on a bend",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To slide out of control while turning a corner.",
+        "translationUz": "burilishda sirpanib ketmoq",
+        "example": "The car began to skid on a bend.",
+        "collocations": "skid, skid on ice, skid on a bend"
+      },
+      {
+        "term": "a head-on collision",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An accident in which vehicles strike each other front first.",
+        "translationUz": "ro‘parama-ro‘para to‘qnashuv",
+        "example": "The road was closed after a head-on collision.",
+        "collocations": ""
+      },
+      {
+        "term": "a junction",
+        "partOfSpeech": "noun",
+        "definitionEn": "A place where roads meet.",
+        "translationUz": "yo‘llar tutashadigan joy, chorraha",
+        "example": "Turn left at the next junction.",
+        "collocations": ""
+      },
+      {
+        "term": "be stuck in traffic",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "To be unable to move normally because traffic is very heavy.",
+        "translationUz": "tirbandlikda qolib ketmoq",
+        "example": "Take the tram if you do not want to be stuck in traffic.",
+        "collocations": "be stuck in traffic, be stuck in a traffic jam"
+      },
+      {
+        "term": "gridlock",
+        "partOfSpeech": "noun",
+        "definitionEn": "Congestion so severe that vehicles cannot move through a road network.",
+        "translationUz": "harakatni deyarli to‘xtatib qo‘yadigan kuchli tirbandlik",
+        "example": "The blocked junction caused gridlock.",
+        "collocations": "be gridlocked, severe gridlock"
+      },
+      {
+        "term": "pull over",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To move to the side of the road and stop.",
+        "translationUz": "yo‘l chetiga chiqib to‘xtamoq",
+        "example": "The driver will pull over as soon as it is safe.",
+        "collocations": ""
+      },
+      {
+        "term": "a minor bump",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A small collision causing limited damage.",
+        "translationUz": "yengil to‘qnashuv",
+        "example": "The car had a minor bump in the car park.",
+        "collocations": ""
+      },
+      {
+        "term": "conk out",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "To stop working suddenly, especially of an engine; informal.",
+        "translationUz": "to‘satdan ishlamay qolmoq",
+        "example": "An old engine can conk out without warning.",
+        "collocations": ""
+      },
+      {
+        "term": "a back-seat driver",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Someone who gives unwanted advice or criticism to the person driving.",
+        "translationUz": "haydovchiga so‘ralmagan maslahat berib turadigan yo‘lovchi",
+        "example": "He can be a back-seat driver when we travel together.",
+        "collocations": ""
+      },
+      {
+        "term": "disrupt the traffic flow",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Interrupt or slow the normal movement of vehicles on a road.",
+        "translationUz": "transport oqimiga xalaqit bermoq",
+        "example": "Roadworks can disrupt the traffic flow for hours.",
+        "collocations": "disrupt traffic, interrupt the flow of traffic"
+      },
+      {
+        "term": "tow away a car",
+        "partOfSpeech": "phrasal verb",
+        "definitionEn": "Remove a car by pulling it away with another vehicle.",
+        "translationUz": "avtomobilni evakuator bilan olib ketmoq",
+        "example": "The city may tow away a car if it is blocking an entrance.",
+        "collocations": "have your car towed away"
+      },
+      {
+        "term": "pass another car",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Drive past another car, for example by going ahead of it when it is travelling in the same direction.",
+        "translationUz": "boshqa avtomobil yonidan o‘tmoq, uni quvib o‘tmoq",
+        "example": "Wait until the road ahead is clear before you pass another car.",
+        "collocations": "overtake a car (UK)"
+      },
+      {
+        "term": "lane",
+        "partOfSpeech": "noun",
+        "definitionEn": "A marked or recognised strip of road for a single line of vehicles.",
+        "translationUz": "harakat bo‘lagi",
+        "example": "The driver moved into the left lane before turning.",
+        "collocations": "bus lane, change lanes, inside lane"
+      },
+      {
+        "term": "flyover",
+        "partOfSpeech": "noun",
+        "definitionEn": "A bridge carrying one road over another road or a railway.",
+        "translationUz": "ustki yo‘l o‘tkazgich, estakada",
+        "example": "The new flyover carries traffic over the busy junction.",
+        "collocations": "drive over a flyover, overpass (US)"
+      },
+      {
+        "term": "underpass",
+        "partOfSpeech": "noun",
+        "definitionEn": "A road or path that passes beneath another road or a railway.",
+        "translationUz": "yerosti yo‘li yoki o‘tish joyi",
+        "example": "Pedestrians can use the underpass to reach the station.",
+        "collocations": "pedestrian underpass"
+      },
+      {
+        "term": "roundabout",
+        "partOfSpeech": "noun",
+        "definitionEn": "A circular junction around which vehicles travel before leaving at an exit.",
+        "translationUz": "aylanma chorraha",
+        "example": "Take the second exit at the roundabout.",
+        "collocations": "enter a roundabout"
+      },
+      {
+        "term": "ease congestion",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Reduce overcrowding and delays on busy roads or transport routes.",
+        "translationUz": "tirbandlikni kamaytirmoq",
+        "example": "More frequent buses could ease congestion near the city centre."
+      },
+      {
+        "term": "reliable public transport",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Public travel services that people can depend on to run regularly.",
+        "translationUz": "ishonchli jamoat transporti",
+        "example": "Reliable public transport matters as much as low fares."
+      },
+      {
+        "term": "commute time",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The time a person spends travelling between home and work or study.",
+        "translationUz": "uy bilan ish yoki o‘qish o‘rtasidagi qatnov vaqti",
+        "example": "The new station cut her commute time by twenty minutes."
+      },
+      {
+        "term": "shift to public transport",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Start using public transport in place of another mode of travel.",
+        "translationUz": "jamoat transportidan foydalanishga o‘tmoq",
+        "example": "People are more likely to shift to public transport when transfers are convenient."
+      },
+      {
+        "term": "pedestrian-friendly streets",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Streets arranged so that walking is safe, comfortable and convenient.",
+        "translationUz": "piyodalar yurishi uchun qulay ko‘chalar",
+        "example": "Pedestrian-friendly streets help local shops attract regular customers."
+      },
+      {
+        "term": "road safety measures",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Actions designed to reduce crashes and injuries on roads.",
+        "translationUz": "yo‘l harakati xavfsizligi choralari",
+        "example": "Road safety measures near schools include lower speed limits."
+      },
+      {
+        "term": "last-mile connection",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Transport that covers the final part of a journey to the destination.",
+        "translationUz": "manzilgacha so‘nggi masofani qamrab oluvchi qatnov",
+        "example": "A short shuttle provides a last-mile connection from the station to the campus."
+      },
+      {
+        "term": "travel demand",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The amount of travel people want or need to make.",
+        "translationUz": "qatnovga bo‘lgan talab",
+        "example": "Travel demand is highest on weekdays during the morning peak."
+      },
+      {
+        "term": "maintain infrastructure",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Keep facilities such as roads, tracks or bridges in usable condition.",
+        "translationUz": "infratuzilmani soz holatda saqlamoq",
+        "example": "Cities need a regular budget to maintain infrastructure."
+      },
+      {
+        "term": "emission standards",
+        "partOfSpeech": "plural noun phrase",
+        "definitionEn": "Rules limiting the pollution a vehicle or other source can release.",
+        "translationUz": "chiqindi gaz me’yorlari",
+        "example": "Stricter emission standards can improve air quality over time."
+      },
+      {
+        "term": "fare affordability",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "How easily travellers can pay the cost of a journey.",
+        "translationUz": "yo‘l haqining hamyonbopligi",
+        "example": "Fare affordability is particularly important for people on low incomes."
+      },
+      {
+        "term": "expand cycling networks",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Increase the number and coverage of connected routes for cyclists.",
+        "translationUz": "veloyo‘llar tarmog‘ini kengaytirmoq",
+        "example": "The council plans to expand cycling networks beyond the city centre."
+      },
+      {
+        "term": "rainfall",
+        "partOfSpeech": "noun",
+        "definitionEn": "The amount of rain falling in a particular place over a period.",
+        "translationUz": "yog‘in miqdori, tushgan yomg‘ir miqdori",
+        "example": "The station records monthly rainfall.",
+        "collocations": ""
+      },
+      {
+        "term": "wet season",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The part of the year when a region typically receives most of its rain.",
+        "translationUz": "yomg‘irli mavsum",
+        "example": "The roads are harder to use during the wet season.",
+        "collocations": ""
+      },
+      {
+        "term": "dry season",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The part of the year when a region normally receives little rain.",
+        "translationUz": "quruq mavsum",
+        "example": "Water use rises during the dry season.",
+        "collocations": ""
+      },
+      {
+        "term": "arid",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Very dry, with little rainfall.",
+        "translationUz": "o‘ta quruq, yog‘ini kam",
+        "example": "The plants can survive in an arid climate.",
+        "collocations": ""
+      },
+      {
+        "term": "prone to",
+        "partOfSpeech": "adjective phrase",
+        "definitionEn": "Likely to experience or suffer from a particular problem.",
+        "translationUz": "biror muammo yoki hodisaga moyil",
+        "example": "The low-lying district is prone to flooding.",
+        "collocations": ""
+      },
+      {
+        "term": "drought",
+        "partOfSpeech": "noun",
+        "definitionEn": "A prolonged shortage of water caused by unusually low precipitation or related conditions.",
+        "translationUz": "qurg‘oqchilik",
+        "example": "The region experienced a serious drought.",
+        "collocations": ""
+      },
+      {
+        "term": "tundra",
+        "partOfSpeech": "noun",
+        "definitionEn": "A cold, mostly treeless biome where low-growing plants predominate.",
+        "translationUz": "tundra, sovuq va asosan daraxtsiz tabiiy mintaqa",
+        "example": "Few trees can grow on the tundra.",
+        "collocations": ""
+      },
+      {
+        "term": "vegetation",
+        "partOfSpeech": "noun",
+        "definitionEn": "The plants growing in a particular place.",
+        "translationUz": "o‘simlik qoplami",
+        "example": "Dense vegetation covers the slope.",
+        "collocations": ""
+      },
+      {
+        "term": "coniferous forest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A forest dominated by cone-bearing trees such as pines or firs.",
+        "translationUz": "ignabargli daraxtlar o‘rmoni",
+        "example": "The trail crosses a coniferous forest.",
+        "collocations": ""
+      },
+      {
+        "term": "evergreen",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Keeping leaves or needles throughout the year.",
+        "translationUz": "doim yashil",
+        "example": "An evergreen tree gives the garden colour in winter.",
+        "collocations": ""
+      },
+      {
+        "term": "deciduous",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Losing leaves seasonally.",
+        "translationUz": "mavsumda barg to‘kadigan",
+        "example": "A deciduous tree sheds its leaves during part of the year.",
+        "collocations": ""
+      },
+      {
+        "term": "taiga",
+        "partOfSpeech": "noun",
+        "definitionEn": "The broad belt of mainly coniferous forest in northern regions.",
+        "translationUz": "tayga, shimolning keng ignabargli o‘rmon mintaqasi",
+        "example": "The taiga stretches across large parts of Canada and Eurasia.",
+        "collocations": ""
+      },
+      {
+        "term": "prairie",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large expanse of North American grassland.",
+        "translationUz": "preriya, Shimoliy Amerikadagi keng o‘tloq tekisligi",
+        "example": "The prairie stretches towards the horizon.",
+        "collocations": ""
+      },
+      {
+        "term": "steppe",
+        "partOfSpeech": "noun",
+        "definitionEn": "An extensive, usually dry grassland, especially in Eurasia.",
+        "translationUz": "dasht, keng ochiq o‘tloq",
+        "example": "The road crosses open steppe.",
+        "collocations": ""
+      },
+      {
+        "term": "pampas",
+        "partOfSpeech": "noun",
+        "definitionEn": "The broad grassland plains of parts of southern South America.",
+        "translationUz": "pampa, Janubiy Amerikadagi keng o‘tloq tekisliklari",
+        "example": "The documentary follows wildlife on the pampas.",
+        "collocations": ""
+      },
+      {
+        "term": "temperate forest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A forest in a region with a generally moderate climate and seasonal variation.",
+        "translationUz": "mo‘tadil mintaqa o‘rmoni",
+        "example": "The reserve contains an old temperate forest.",
+        "collocations": ""
+      },
+      {
+        "term": "dense forest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Forest in which the trees grow very close together.",
+        "translationUz": "qalin o‘rmon",
+        "example": "The trail runs through dense forest.",
+        "collocations": ""
+      },
+      {
+        "term": "deciduous forest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A forest dominated by trees that lose their leaves seasonally.",
+        "translationUz": "barg to‘kadigan daraxtlar o‘rmoni",
+        "example": "We walked through a deciduous forest.",
+        "collocations": ""
+      },
+      {
+        "term": "rainforest",
+        "partOfSpeech": "noun",
+        "definitionEn": "A forest found in a region with very high rainfall.",
+        "translationUz": "sernam yomg‘ir o‘rmoni",
+        "example": "The research team surveyed the rainforest.",
+        "collocations": ""
+      },
+      {
+        "term": "mixed forest",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A forest containing a mixture of tree types, often conifers and broad-leaved trees.",
+        "translationUz": "aralash o‘rmon",
+        "example": "The path passes through a mixed forest.",
+        "collocations": ""
+      },
+      {
+        "term": "paddy field",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A field used for growing rice, often deliberately flooded.",
+        "translationUz": "sholipoya, sholi yetishtiriladigan dala",
+        "example": "Water covered the paddy field.",
+        "collocations": ""
+      },
+      {
+        "term": "crop",
+        "partOfSpeech": "noun",
+        "definitionEn": "Plants grown for harvest, or the produce gathered at one time.",
+        "translationUz": "qishloq xo‘jaligi ekini / hosil",
+        "example": "Rice is the main crop in the valley.",
+        "collocations": ""
+      },
+      {
+        "term": "harvest",
+        "partOfSpeech": "verb",
+        "definitionEn": "Gather a mature crop.",
+        "translationUz": "hosilni yig‘ib olmoq",
+        "example": "Farmers harvest the grain when it is ready.",
+        "collocations": ""
+      },
+      {
+        "term": "cereals",
+        "partOfSpeech": "plural noun",
+        "definitionEn": "Grasses grown for edible grain, or their grains collectively.",
+        "translationUz": "donli ekinlar, g‘alla",
+        "example": "The farm grows cereals such as wheat and barley.",
+        "collocations": ""
+      },
+      {
+        "term": "tend livestock",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Look after farm animals.",
+        "translationUz": "chorva mollarini parvarish qilmoq",
+        "example": "The family hires workers to tend livestock.",
+        "collocations": ""
+      },
+      {
+        "term": "plantation",
+        "partOfSpeech": "noun",
+        "definitionEn": "A large area managed for growing a particular crop or trees.",
+        "translationUz": "plantatsiya, bir turdagi ekin yoki daraxt yetishtiriladigan katta maydon",
+        "example": "The road passes through a tea plantation.",
+        "collocations": ""
+      },
+      {
+        "term": "manufacturing industry",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "The sector that makes goods from materials or components.",
+        "translationUz": "ishlab chiqarish sanoati",
+        "example": "The city has a large manufacturing industry.",
+        "collocations": ""
+      },
+      {
+        "term": "chemical industry",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Businesses that produce chemicals and related products.",
+        "translationUz": "kimyo sanoati",
+        "example": "The report examines waste from the chemical industry.",
+        "collocations": ""
+      },
+      {
+        "term": "at the forefront of",
+        "partOfSpeech": "prepositional phrase",
+        "definitionEn": "In a leading position in a field or activity.",
+        "translationUz": "…ning oldingi safida, …da yetakchi o‘rinda",
+        "example": "The lab is at the forefront of materials research.",
+        "collocations": ""
+      },
+      {
+        "term": "generate electricity",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Produce electrical energy.",
+        "translationUz": "elektr energiyasi ishlab chiqarmoq",
+        "example": "The installation uses wind to generate electricity.",
+        "collocations": ""
+      },
+      {
+        "term": "wheat field",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A field planted with wheat.",
+        "translationUz": "bug‘doy dalasi",
+        "example": "The farmer inspected the wheat field.",
+        "collocations": ""
+      },
+      {
+        "term": "oil field",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "An area with underground oil deposits that can be extracted.",
+        "translationUz": "neft koni",
+        "example": "Work at the oil field began many years ago.",
+        "collocations": ""
+      },
+      {
+        "term": "magnetic field",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A region in which magnetic forces act.",
+        "translationUz": "magnit maydoni",
+        "example": "A compass aligns with Earth’s magnetic field.",
+        "collocations": ""
+      },
+      {
+        "term": "pharmaceutical industry",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Businesses that develop or manufacture medicines.",
+        "translationUz": "farmatsevtika sanoati",
+        "example": "The report examines research in the pharmaceutical industry.",
+        "collocations": ""
+      },
+      {
+        "term": "textile industry",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Businesses that produce fabrics and other textile products.",
+        "translationUz": "to‘qimachilik sanoati",
+        "example": "The region was once a centre of the textile industry.",
+        "collocations": ""
+      },
+      {
+        "term": "steel industry",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "Businesses involved in making or processing steel.",
+        "translationUz": "po‘lat sanoati",
+        "example": "The steel industry supplies material for construction.",
+        "collocations": ""
+      },
+      {
+        "term": "coffee plantation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large area where coffee plants are cultivated.",
+        "translationUz": "qahva plantatsiyasi",
+        "example": "The farm includes a coffee plantation.",
+        "collocations": ""
+      },
+      {
+        "term": "rubber plantation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large area planted with trees grown for natural rubber.",
+        "translationUz": "kauchuk plantatsiyasi",
+        "example": "Workers collected latex on the rubber plantation.",
+        "collocations": ""
+      },
+      {
+        "term": "tea plantation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large area planted with tea bushes.",
+        "translationUz": "choy plantatsiyasi",
+        "example": "The hillsides are covered by a tea plantation.",
+        "collocations": ""
+      },
+      {
+        "term": "sugar plantation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A large area where a crop such as sugar cane is grown for sugar.",
+        "translationUz": "shakar olinadigan ekin plantatsiyasi",
+        "example": "The archive records the history of a sugar plantation.",
+        "collocations": ""
+      },
+      {
+        "term": "developed nation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A broad label often used for a country with a relatively advanced economy and infrastructure.",
+        "translationUz": "rivojlangan mamlakat",
+        "example": "The author explains what counts as a developed nation in the study.",
+        "collocations": ""
+      },
+      {
+        "term": "developing country",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A broad label applied to countries in some economic development classifications.",
+        "translationUz": "rivojlanayotgan mamlakat",
+        "example": "The report explains how it classifies a developing country.",
+        "collocations": ""
+      },
+      {
+        "term": "sovereign nation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A nation or state that governs itself and is not subject to another state’s authority.",
+        "translationUz": "suveren davlat",
+        "example": "The treaty recognises it as a sovereign nation.",
+        "collocations": ""
+      },
+      {
+        "term": "be descended from",
+        "partOfSpeech": "verb phrase",
+        "definitionEn": "Have a particular person or group among one’s ancestors.",
+        "translationUz": "…ning avlodi bo‘lmoq",
+        "example": "She is believed to be descended from early settlers.",
+        "collocations": ""
+      },
+      {
+        "term": "Indigenous",
+        "partOfSpeech": "adjective",
+        "definitionEn": "Relating to peoples with historical ties to a place predating colonisation or later settlement; more generally, native to a place.",
+        "translationUz": "tub, mahalliy",
+        "example": "The exhibition was developed with Indigenous communities.",
+        "collocations": ""
+      },
+      {
+        "term": "ancestor",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person in an earlier generation of one’s family.",
+        "translationUz": "ajdod",
+        "example": "An ancestor of hers lived in the village.",
+        "collocations": ""
+      },
+      {
+        "term": "descendant",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person related by descent to someone from an earlier generation.",
+        "translationUz": "avlod, zurriyot",
+        "example": "He is a descendant of the original owner.",
+        "collocations": ""
+      },
+      {
+        "term": "migrant",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who moves from one place to another to live, temporarily or permanently.",
+        "translationUz": "ko‘chib yuruvchi yoki boshqa joyga ko‘chgan kishi, migrant",
+        "example": "The survey interviewed a migrant who had moved within the country.",
+        "collocations": ""
+      },
+      {
+        "term": "emigrant",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who leaves a country to live elsewhere, viewed from the country of departure.",
+        "translationUz": "o‘z mamlakatidan ko‘chib ketgan kishi, emigrant",
+        "example": "The letter describes life as an emigrant.",
+        "collocations": ""
+      },
+      {
+        "term": "immigrant",
+        "partOfSpeech": "noun",
+        "definitionEn": "A person who comes into another country to live there, viewed from the destination.",
+        "translationUz": "boshqa mamlakatdan ko‘chib kelgan kishi, immigrant",
+        "example": "The book follows an immigrant settling in a new city.",
+        "collocations": ""
+      },
+      {
+        "term": "settle",
+        "partOfSpeech": "verb",
+        "definitionEn": "Make one’s home in a place.",
+        "translationUz": "o‘rnashib olmoq, yashab qolmoq",
+        "example": "The family decided to settle near the coast.",
+        "collocations": ""
+      },
+      {
+        "term": "colonial power",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A state that controls or has controlled colonies.",
+        "translationUz": "mustamlakachi davlat",
+        "example": "The archive contains maps drawn by the former colonial power.",
+        "collocations": ""
+      },
+      {
+        "term": "independent nation",
+        "partOfSpeech": "noun phrase",
+        "definitionEn": "A country that governs itself rather than being controlled by another country.",
+        "translationUz": "mustaqil davlat",
+        "example": "It became an independent nation after the agreement.",
+        "collocations": ""
+      }
+    ]
+  }
+]
