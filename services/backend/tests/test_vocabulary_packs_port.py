@@ -1,7 +1,11 @@
 """Canonical publication and EXACT built-in compatibility fallback for learner packs."""
 from fastapi.testclient import TestClient
 from app import main as core
-from app.vocabulary_packs_port import built_in_summaries
+from app.step19_vocab_games_port import GAMES, attempt_deck_limit
+from app.step21_vocab_batch import normalize_term, sense_key
+from app.vocabulary_flashcard_batches import source_groups
+from app.vocabulary_game_content import eligible_words
+from app.vocabulary_packs_port import built_in_packs, built_in_summaries
 from test_migration_phase2 import FakePool
 
 client = TestClient(core.app)
@@ -33,12 +37,12 @@ def test_vocab_packs_query_published_pack_summaries_only(monkeypatch):
     setup(monkeypatch,db)
     r=client.get('/api/vocabulary/packs')
     assert r.status_code==200
-    assert r.json()=={'ok':True,'packs':[
+    body=r.json()
+    assert body['ok'] is True
+    assert body['packs'][:2]==[
         {'id':'new-pack','label':{'en':'Renewable Energy','uz':'Qayta tiklanuvchi'},'wordCount':12,'added':False},
-        {'id':'some','label':{'en':'No Uzbek','uz':'No Uzbek'},'wordCount':1,'added':False},
-        {'id':'art','label':{'en':'Art','uz':'San’at'},'wordCount':175,'added':False},
-        {'id':'environment','label':{'en':'Environment','uz':'Environment'},'wordCount':223,'added':False},
-        {'id':'wildlife','label':{'en':'Wildlife','uz':'Yovvoyi tabiat'},'wordCount':158,'added':False}]}
+        {'id':'some','label':{'en':'No Uzbek','uz':'No Uzbek'},'wordCount':1,'added':False}]
+    assert [pack['id'] for pack in body['packs'][2:]]==[pack['id'] for pack in built_in_summaries()]
     sql,args=db.calls[0]
     assert "publication_state='published'" in sql and 'ORDER BY position' in sql
     assert 'INNER JOIN lexemes' in sql and 'SELECT count(*)' in sql
@@ -95,9 +99,42 @@ def test_published_art_overrides_builtin_fallback(monkeypatch):
     setup(monkeypatch,db)
     r=client.get('/api/vocabulary/packs')
     packs=r.json()['packs']
-    assert len(packs)==3
-    assert packs[0]['id']=='art'
-    assert packs[1]['id']=='environment'
-    assert packs[2]['id']=='wildlife'
+    ids=[pack['id'] for pack in packs]
+    assert ids==['art',*(p['id'] for p in built_in_summaries() if p['id']!='art')]
     assert packs[0]['wordCount']==7
     assert packs[0]['label']['uz']=='Tasdiqlangan san’at'
+
+
+def test_travel_replaces_transport_in_the_catalog(monkeypatch):
+    setup(monkeypatch, Conn())
+    response = client.get('/api/vocabulary/packs')
+    assert response.status_code == 200
+    summaries = {pack['id']: pack for pack in response.json()['packs']}
+    assert 'transport' not in summaries
+    assert summaries['travel'] == {
+        'id': 'travel', 'label': {'en': 'Travel', 'uz': 'Sayohat'},
+        'wordCount': 324, 'added': False,
+    }
+
+
+def test_travel_words_have_translations_and_playable_study_groups():
+    travel = next(pack for pack in built_in_packs() if pack['id'] == 'travel')
+    words = travel['words']
+    assert len({sense_key(word) for word in words}) == len(words) == 324
+    assert all(word['translationUz'] and word['definitionEn'] and word['example'] for word in words)
+
+    groups = source_groups()
+    memberships = [groups[('travel', sense_key(word))] for word in words]
+    assert [position for _, _, position in memberships] == list(range(len(words)))
+    for index in {index for index, _, _ in memberships}:
+        assert sum(group == index for group, _, _ in memberships) <= attempt_deck_limit('cards')
+
+    mobility = [word['term'] for word, (_, label, _) in zip(words, memberships, strict=True)
+                if label.endswith('Public transport and mobility')]
+    assert len(mobility) == 12
+    assert {'ease congestion', 'commute time', 'expand cycling networks'} <= set(mobility)
+
+    imported = [{**word, 'id': str(index), 'term': normalize_term(word['term']),
+                 'exampleSentence': word['example']} for index, word in enumerate(words)]
+    for game in GAMES:
+        assert len(eligible_words(imported, game)) == len(words), game

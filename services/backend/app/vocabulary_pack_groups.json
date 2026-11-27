@@ -2642,5 +2642,87 @@
       "start": 145,
       "end": 158
     }
+  ],
+  "travel": [
+    {
+      "label": "Safarni rejalash / Travel arrangements",
+      "start": 0,
+      "end": 27
+    },
+    {
+      "label": "Reys va yo‘nalish / Flights and itineraries",
+      "start": 27,
+      "end": 40
+    },
+    {
+      "label": "Yo‘l va temiryo‘l transporti / Road and rail transport",
+      "start": 40,
+      "end": 60
+    },
+    {
+      "label": "Dengiz safari / Sea travel",
+      "start": 60,
+      "end": 76
+    },
+    {
+      "label": "Aeroport va yuk / Airports and luggage",
+      "start": 76,
+      "end": 95
+    },
+    {
+      "label": "Safardagi kechikish va qulaylik / Delays and comfort",
+      "start": 95,
+      "end": 113
+    },
+    {
+      "label": "Turar joy / Accommodation",
+      "start": 113,
+      "end": 133
+    },
+    {
+      "label": "Dam olish mashg‘ulotlari / Holiday activities",
+      "start": 133,
+      "end": 150
+    },
+    {
+      "label": "Sayyohlik maskanlari va tabiat / Destinations and nature",
+      "start": 150,
+      "end": 182
+    },
+    {
+      "label": "Manzara va sayohat taassurotlari / Scenery and travel experiences",
+      "start": 182,
+      "end": 203
+    },
+    {
+      "label": "Yo‘l qoidalari va xavfsizlik / Road rules and safety",
+      "start": 203,
+      "end": 233
+    },
+    {
+      "label": "Yo‘l tarmog‘i va tirbandlik / Roads and congestion",
+      "start": 233,
+      "end": 259
+    },
+    {
+      "label": "Jamoat transporti va qatnov / Public transport and mobility",
+      "start": 259,
+      "end": 271
+    },
+    {
+      "label": "Iqlim va tabiiy mintaqalar / Climate and landscapes",
+      "start": 271,
+      "end": 291
+    },
+    {
+      "label": "Qishloq xo‘jaligi va sanoat / Agriculture and industry",
+      "start": 291,
+      "end": 311
+    },
+    {
+      "label": "Aholi va davlatlar / Populations and countries",
+      "start": 311,
+      "end": 324
+    }
   ]
 }
