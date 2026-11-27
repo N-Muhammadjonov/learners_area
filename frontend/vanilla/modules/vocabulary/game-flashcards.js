@@ -10,22 +10,18 @@ export function flashcards(ctx,host,{words,source,marks:initial={},answer,batche
  function completeView(){const current=groups.find(b=>b.index===batchIndex),next=groups.find(b=>b.index===batchIndex+1),panel=groupPanel();return h('div',{class:'flashcard-layout flashcard-completion-layout'},panel,gameFrame(ctx,'cards',`${count('known')}/${deck.length}`,h('section',{class:'flex flex-col items-center gap-4 py-6 text-center','data-flashcard-complete':'',role:'status','aria-live':'polite'},h('h2',{class:'font-display text-xl text-ink-900'},current?.complete&&!next?copy.allDone:g.passDone),h('p',{class:'text-sm text-ink-500'},`${source} · ${count('known')} ${g.learned} · ${count('notYet')} ${g.notYetLabel}`),h('div',{class:'flex flex-wrap justify-center gap-2'},count('notYet')?gameButton(g.reviewNotYet.replace('{count}',String(count('notYet'))),()=>start(true)):null,gameButton(g.reviewAll,onRetry??(()=>start(false))),current?.complete&&next?.unlocked?gameButton(copy.nextBatch,()=>onBatch?.(next.index),{class:'btn-primary','data-next-flashcard-batch':''}):null))));}
  const count=kind=>deck.filter(w=>marks[w.id]===kind).length;
  function syncFlip(){if(!article)return;article.dataset.flipped=String(flipped);article.dataset.flashcard=flipped?'answer':'definition';front.setAttribute('aria-hidden',String(flipped));back.setAttribute('aria-hidden',String(!flipped));front.inert=flipped;back.inert=!flipped;const w=deck[index],side=flipped?g.vocabularyAnswer:g.definition;announcement.textContent=side;article.setAttribute('aria-label',`${g.progress} ${index+1} ${g.of} ${deck.length}. ${side}. ${flipped?w.term:w.definitionEn}`);flipButton.textContent=flipped?g.showDefinition:g.flip;flipButton.setAttribute('aria-pressed',String(flipped));}
- let press,clickIntent=0;
- const turn=()=>{clickIntent++;if(!marking){flipped=!flipped;syncFlip();}};
+ let press;
+ const turn=()=>{if(!marking){flipped=!flipped;syncFlip();}};
  function hasSelection(card){
   const selection=card.ownerDocument.getSelection();
   return selection?.rangeCount>0&&!selection.isCollapsed&&selection.getRangeAt(0).intersectsNode(card);
  }
  function turnOnClick(event){
   const started=press;press=null;
-  const card=event.currentTarget,intent=++clickIntent;
-  if(event.target.closest('button')||event.detail>1||hasSelection(card))return;
+  if(event.target.closest('button')||event.detail>1||hasSelection(event.currentTarget))return;
   if(started&&(Math.hypot(event.clientX-started.x,event.clientY-started.y)>8||
     (started.type==='touch'&&event.timeStamp-started.time>450)))return;
-  if(event.detail===1&&started?.type==='mouse'&&event.target.closest('.flashcard-definition,.flashcard-instruction,.flashcard-answer-body')){
-   // Give a second click time to start native text selection.
-   timers.later(()=>{if(card===article&&intent===clickIntent&&!hasSelection(card))turn();},400);
-  }else turn();
+  turn();
  }
  function revealActiveGroup(){
   const active=host.querySelector('.flashcard-batch-list [aria-current=step]');
@@ -48,8 +44,8 @@ export function flashcards(ctx,host,{words,source,marks:initial={},answer,batche
   announcement=h('p',{class:'sr-only',role:'status','aria-live':'polite','data-flashcard-side-announcement':''});front=h('div',{class:'flashcard-face flashcard-face-front','data-flashcard-face':'definition'},h('span',{class:'flashcard-kicker'},g.definition),h('p',{class:'flashcard-definition'},w.definitionEn),h('p',{class:'flashcard-instruction'},g.flashcardInstruction));
   const extra=collocations(w.collocations);back=h('div',{class:'flashcard-face flashcard-face-back','data-flashcard-face':'answer'},h('div',{class:'flashcard-answer-toolbar'},pronounceButton(ctx,w.term)),h('div',{class:'flashcard-answer-body'},h('span',{class:'flashcard-kicker'},g.vocabularyAnswer),h('h3',{class:'flashcard-word'},w.term),w.partOfSpeech?h('p',{class:'flashcard-pos'},w.partOfSpeech):null,w.translationUz?h('p',{class:'flashcard-translation'},w.translationUz):null,extra.length?h('div',{class:'flashcard-extra-block'},h('span',{},g.collocations),h('div',{class:'flashcard-chips'},extra.map(x=>h('span',{},x)))):null,w.exampleSentence?h('div',{class:'flashcard-extra-block'},h('span',{},g.example),h('p',{class:'flashcard-example'},'“'+w.exampleSentence+'”')):null),h('div',{class:'flashcard-back-actions'},h('div',{class:'flex flex-wrap justify-center gap-2'},gameButton(g.known,()=>mark(true),{class:'btn-primary flashcard-mark-button','data-mark':'known','aria-pressed':marks[w.id]==='known'}),gameButton(g.notYet,()=>mark(false),{class:'btn-gold flashcard-mark-button','data-mark':'notYet','aria-pressed':marks[w.id]==='notYet'}))));
   article=h('article',{class:'flashcard-3d-card','data-flashcard':'definition','data-flipped':'false','data-card-motion':'full','aria-roledescription':g.flashcardRole,'aria-keyshortcuts':'Enter Space',tabIndex:0,
-   onPointerDown:event=>{clickIntent++;press={x:event.clientX,y:event.clientY,time:event.timeStamp,type:event.pointerType};},
-   onPointerCancel:()=>{press=null;clickIntent++;},onClick:turnOnClick,
+   onPointerDown:event=>{press={x:event.clientX,y:event.clientY,time:event.timeStamp,type:event.pointerType};},
+   onPointerCancel:()=>{press=null;},onClick:turnOnClick,
    onKeyDown:event=>{if(event.target===article&&['Enter',' '].includes(event.key)){event.preventDefault();turn();}}},h('div',{class:'flashcard-3d-inner','data-flashcard-inner':''},front,back));
   flipButton=gameButton(g.flip,turn,{class:'flashcard-flip-button','data-flashcard-flip':'','aria-pressed':false});
   host.replaceChildren(h('div',{class:'flex flex-col gap-3','data-flashcard-workspace':''},h('header',{class:'flex flex-wrap items-end justify-between gap-3'},h('div',{class:'min-w-0'},h('h2',{class:'font-display text-xl text-ink-900','data-flashcard-source':''},source),h('p',{class:'text-xs text-ink-500','data-flashcard-progress':''},`${g.studyPass} · ${g.passLabel} ${pass} · ${g.progress} ${index+1} ${g.of} ${deck.length} · ${count('known')} ${g.learned} · ${count('notYet')} ${g.notYetLabel}`))),h('div',{class:'flashcard-layout grid min-w-0 items-start gap-4','data-flashcard-layout':''},groupPanel(),queue,h('section',{class:'min-w-0 flashcard-study-stage','aria-label':g.cards},saveError?h('p',{role:'alert','data-flashcard-save-error':''},saveError):null,announcement,h('div',{class:'flashcard-stage','data-flashcard-stage':''},h('div',{class:'flashcard-scene','data-flashcard-scene':''},article),h('div',{class:'flashcard-flip-row'},flipButton))))));syncFlip();revealActiveGroup();

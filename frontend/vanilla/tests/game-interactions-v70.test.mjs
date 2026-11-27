@@ -9,23 +9,28 @@ function harness(id,words=[word('one')]){const h=setup({path:'/app/vocabulary/ga
 test('flashcards keep both faces on one card, keyboard flips, expose authored extras, and replay Not yet without an API reload',async()=>{
  const h=harness('cards');try{flashcards(h.ctx,h.ctx.root,{words:h.words,source:'My words',answer:h.answer});const card=h.q('[data-flashcard]');assert(h.q('[data-card-queue-item]'));assert.equal(card.dataset.flipped,'false');assert.equal(h.q('[data-flashcard-face=answer]').getAttribute('aria-hidden'),'true');card.dispatchEvent(new window.KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true}));assert.equal(h.q('[data-flashcard]'),card);assert.equal(card.dataset.flipped,'true');assert(h.q('.flashcard-chips').textContent.includes('run a business'));assert(h.q('[data-flashcard-pronounce]'));h.click(h.q('[data-mark=notYet]'));assert(h.q('[data-mark=known]').disabled);assert.deepEqual(h.submissions[0],{entryId:'one',submission:{kind:'self',known:false}});await tick();h.advance(520);assert.equal(card.dataset.flipped,'false');h.advance(560);assert(h.q('[data-flashcard-complete]'));h.click(h.button(h.ctx.dict.vocabulary.games.reviewNotYet.replace('{count}','1')));assert(h.q('[data-card-queue-item]'));assert(h.q('[data-flashcard-progress]').textContent.includes('2'));}finally{h.dispose();}
 });
-test('flashcard text selection stays on the active face and deliberate clicks still flip',()=>{
+test('flashcard text selection stays on the active face and one click flips immediately',()=>{
  const h=harness('cards');
  try{
   flashcards(h.ctx,h.ctx.root,{words:h.words,source:'My words',answer:h.answer});
   const card=h.q('[data-flashcard]'),definition=h.q('.flashcard-definition');
   const selection=document.getSelection(),range=document.createRange();
+  const mouseClick=node=>{
+   node.dispatchEvent(new window.PointerEvent('pointerdown',{bubbles:true,pointerType:'mouse'}));
+   node.dispatchEvent(new window.MouseEvent('click',{bubbles:true,detail:1}));
+  };
   range.selectNodeContents(definition);selection.addRange(range);
-  h.click(definition);
+  mouseClick(definition);
   assert.equal(card.dataset.flipped,'false');
   selection.removeAllRanges();
-  h.click(definition);
+  mouseClick(definition);
   assert.equal(card.dataset.flipped,'true');
+  assert.equal(h.timers.size,0);
   const speaker=h.q('.flashcard-answer-toolbar [data-flashcard-pronounce]');
   assert(speaker);h.click(speaker);
   assert.equal(card.dataset.flipped,'true');
   range.selectNodeContents(h.q('.flashcard-example'));selection.addRange(range);
-  h.click(h.q('.flashcard-example'));
+  mouseClick(h.q('.flashcard-example'));
   assert.equal(card.dataset.flipped,'true');
   h.click(h.q('[data-flashcard-flip]'));
   assert.equal(card.dataset.flipped,'false');
