@@ -119,7 +119,7 @@ function unitRelevantTo(claim: MeasurementClaim, unit: string[]): boolean {
   for (const group of claim.groups) for (const alternative of group.anyOf) for (const token of tokens(alternative)) claimTokens.add(token);
   return unit.every((token) =>
     claimTokens.has(token) || /^\d+$/u.test(token) || DENIAL_FILLER.has(token) ||
-    DISCLAIMER_PREFIXES.some((prefix) => token.startsWith(prefix)));
+    isDisclaimerForm(token));
 }
 
 const DENIAL_FILLER = new Set(["not", "never", "no", "but", "and", "so", "however", "what", "all", ",", "actually", "really", "at"]);
@@ -132,7 +132,7 @@ const DENIAL_FILLER = new Set(["not", "never", "no", "but", "and", "so", "howeve
  * weather report was not true" keeps "weather report" and is about something else.
  */
 function denialIsAnaphoric(unit: string[]): boolean {
-  return unit.every((token) => DENIAL_FILLER.has(token) || DISCLAIMER_PREFIXES.some((prefix) => token.startsWith(prefix)));
+  return unit.every((token) => DENIAL_FILLER.has(token) || isDisclaimerForm(token));
 }
 
 /**
@@ -144,7 +144,15 @@ function denialIsAnaphoric(unit: string[]): boolean {
  * negation token immediately followed (within three tokens) by a token that
  * begins with `happen`, `true`, `correct`, `accurate`, `real` or `fact`.
  */
-const DISCLAIMER_PREFIXES = ["happen", "true", "correct", "accurate", "real", "fact"];
+// Require known complete lexical forms: the previous startsWith("real")
+// falsely treated "not realistically be offset" as a denial that a remembered
+// fact was real, erasing a correct claim. Other prefixes were similarly broad.
+const DISCLAIMER_FORMS = new Set([
+  "happen", "happens", "happened", "happening", "true", "truth",
+  "correct", "correctly", "accurate", "accurately", "real",
+  "reality", "fact", "facts", "factual",
+]);
+const isDisclaimerForm = (token: string): boolean => DISCLAIMER_FORMS.has(token);
 
 function unitDisclaimsMeaning(unit: string[]): boolean {
   for (let index = 0; index < unit.length; index += 1) {
@@ -154,7 +162,7 @@ function unitDisclaimsMeaning(unit: string[]): boolean {
     const limit = Math.min(index + 4, unit.length);
     for (let cursor = index + 1; cursor < limit; cursor += 1) {
       const candidate = unit[cursor]!;
-      if (DISCLAIMER_PREFIXES.some((prefix) => candidate.startsWith(prefix))) return true;
+      if (isDisclaimerForm(candidate)) return true;
     }
   }
   return false;

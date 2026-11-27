@@ -221,7 +221,11 @@ function applyNumberWords(input: string[]): string[] {
  * on raw text first, then each piece is tokenised.
  */
 export function splitEvidenceUnits(raw: string): string[] {
-  const text = (raw ?? "").normalize("NFKC");
+  // Honorifics are part of a person's name, not sentence boundaries.
+  // Splitting "Dr. Pavel Orlov" into "Dr" and "Pavel Orlov" loses the
+  // actor's evidence in an otherwise correct sentence-scoped recall.
+  const text = (raw ?? "").normalize("NFKC")
+    .replace(/\b(Dr|Mr|Mrs|Ms|Prof)\.(?=\s+\p{L})/giu, "$1");
   const units = text
     // v4: a decimal point ("1.27 million") is not a sentence end.
     .split(/(?:(?<!\d)\.|\.(?!\d)|[!?\n\r])+|;/u)

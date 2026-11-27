@@ -141,7 +141,7 @@
     {
       "sourceId": "C2-004",
       "test": "source",
-      "got": 91
+      "got": 96
     },
     {
       "sourceId": "C2-005",
@@ -181,7 +181,7 @@
     {
       "sourceId": "C2-008",
       "test": "source",
-      "got": 87
+      "got": 92
     },
     {
       "sourceId": "C2-009",
@@ -201,7 +201,7 @@
     {
       "sourceId": "C2-010",
       "test": "source",
-      "got": 86
+      "got": 91
     },
     {
       "sourceId": "C2-011",
@@ -216,7 +216,7 @@
     {
       "sourceId": "C2-012",
       "test": "source",
-      "got": 87
+      "got": 92
     },
     {
       "sourceId": "C2-013",
@@ -231,12 +231,12 @@
     {
       "sourceId": "C2-014",
       "test": "canonical",
-      "got": 46
+      "got": 82
     },
     {
       "sourceId": "C2-014",
       "test": "source",
-      "got": 46
+      "got": 77
     },
     {
       "sourceId": "C2-015",
@@ -247,6 +247,46 @@
       "sourceId": "C2-015",
       "test": "source",
       "got": 83
+    }
+  ],
+  "lastVerifiedEvaluator": "retention-deterministic-v6",
+  "verificationNote": "Six score corrections measured against actual CI; 49 remaining mismatched inputs across 29 authored texts still held. No production publication or source rubric edits.",
+  "verifiedImprovements": [
+    {
+      "sourceId": "C2-004",
+      "test": "source",
+      "previous": 91,
+      "now": 96
+    },
+    {
+      "sourceId": "C2-008",
+      "test": "source",
+      "previous": 87,
+      "now": 92
+    },
+    {
+      "sourceId": "C2-010",
+      "test": "source",
+      "previous": 86,
+      "now": 91
+    },
+    {
+      "sourceId": "C2-012",
+      "test": "source",
+      "previous": 87,
+      "now": 92
+    },
+    {
+      "sourceId": "C2-014",
+      "test": "canonical",
+      "previous": 46,
+      "now": 82
+    },
+    {
+      "sourceId": "C2-014",
+      "test": "source",
+      "previous": 46,
+      "now": 77
     }
   ]
 }
