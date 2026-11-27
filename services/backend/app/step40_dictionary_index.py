@@ -192,7 +192,11 @@ async def build_index(release,descriptors,order,heartbeat,*,writer=None,shard_re
         await flush_branches()
         if writer is not None:await writer.drain()
         directory=compact({'release_id':release,'leaves':leaves,'branches':branches,'term_count':term_count})
-        root_desc=await write_index_object(release,'directory',directory)
+        if writer is None:
+            root_desc=await write_index_object(release,'directory',directory)
+        else:
+            root_desc=await writer.write(release,'directory',directory)
+            await writer.drain()
         groups=defaultdict(lambda:{'release_id':release,'leaves':{},'branches':{},'term_count':0})
         fallbacks=set()
         for kind in ('leaves','branches'):

@@ -118,3 +118,24 @@ def test_collocation_homographs_keep_every_exact_target_sense(monkeypatch):
     monkeypatch.setattr(presentation,'shard',lambda _:{HAPPY:stored})
     p=presentation.present(e)
     assert {c.get('senseId') for c in p['collocations'] if c['text']=='same phrase'}=={'0','1'}
+
+
+def test_live_collocations_are_added_to_existing_presentation_rows(monkeypatch):
+    entry = fixture()
+    first, second = entry['senses']
+    entry['collocations'] = [
+        {'text': 'Existing Phrase', 'sense_id': first['sense_id']},
+        {'text': 'new phrase', 'sense_id': first['sense_id']},
+        {'text': 'other sense phrase', 'sense_id': second['sense_id']},
+    ]
+    curated = {'text': 'existing phrase', 'lexemeId': 'curated-target', 'senseId': 'curated-sense'}
+    static = {'senses': {first['sense_id']: {
+        'meaningSha': presentation.meaning_hash(entry, first),
+        'synonyms': [], 'collocations': [curated],
+    }}}
+    monkeypatch.setattr(reader, 'stored', lambda _: None)
+    monkeypatch.setattr(presentation, 'shard', lambda _: {HAPPY: static})
+
+    views = presentation.present(entry)['senses']
+    assert views[first['sense_id']]['collocations'] == [curated, {'text': 'new phrase'}]
+    assert views[second['sense_id']]['collocations'] == [{'text': 'other sense phrase'}]

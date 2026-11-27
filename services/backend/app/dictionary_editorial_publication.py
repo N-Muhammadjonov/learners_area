@@ -17,6 +17,7 @@ from . import step40_dictionary_index as index_tools
 from .db import pool
 from .dictionary_canonical import stable
 from .dictionary_editorial_apply import apply_entry
+from .request_lifecycle import WorkBusy
 from .step17_dictionary_read_port import normalize_search, worker
 from .step39_dictionary_publish import LOCK, content_hash, make_manifest
 from .step40_dictionary_storage import (
@@ -24,11 +25,11 @@ from .step40_dictionary_storage import (
     read_shard, validate_entry, write_shard,
 )
 
-LOG = logging.getLogger(__name__)
+LOG = logging.getLogger("uvicorn.error")
 BASE = "rel-v1-1fa06d8d41d8ff701632573e"
 PLAN = (('2026-11-27-batch-01.json', '40e9af84932faed70308a930c4e6abf9768cec68f4bea1bd2efa533a2e2f3844'), ('2026-11-27-batch-02.json', '794273825aaf429f46d8a298c5563a9c683daafcb54e5777f1c7410cbb250c52'))
 LEASE_SECONDS = 120
-MAX_INDEX_UPLOADS = 8
+MAX_INDEX_UPLOADS = 3
 
 
 def production_target(env):
@@ -65,6 +66,16 @@ def decoded(value):
     return json.loads(value) if isinstance(value, str) else value
 
 
+async def retry_work(operation, *args):
+    for attempt in range(6):
+        try:
+            return await operation(*args)
+        except WorkBusy as error:
+            if str(error) == "worker_draining" or attempt == 5:
+                raise
+            await asyncio.sleep(0.25 * (attempt + 1))
+
+
 class IndexWriter:
     def __init__(self):
         self.pending = set()
@@ -86,7 +97,7 @@ class IndexWriter:
 
         async def upload():
             async with self.semaphore:
-                actual = await index_tools.write_index_object(release, name, payload)
+                actual = await retry_work(index_tools.write_index_object, release, name, payload)
                 descriptor.clear()
                 descriptor.update(actual)
 
@@ -110,9 +121,9 @@ class IndexWriter:
 
 
 async def shard_reader(release, descriptions):
-    for start in range(0, len(descriptions), 4):
-        batch = descriptions[start:start + 4]
-        records = await asyncio.gather(*(read_shard(release, desc) for desc in batch))
+    for start in range(0, len(descriptions), 2):
+        batch = descriptions[start:start + 2]
+        records = await asyncio.gather(*(retry_work(read_shard, release, desc) for desc in batch))
         for desc, entries in zip(batch, records):
             yield desc, entries
 
@@ -209,12 +220,17 @@ async def build_shards(con, release, targets, base_count, pulse):
     )]
     if len(descriptions) != 256 or sum(desc["entries"] for desc in descriptions) != base_count:
         raise ValueError("editorial_base_inventory_mismatch")
+    checkpoints = {row["shard"]: decoded(row["descriptor"]) for row in await con.fetch(
+        "SELECT shard,descriptor FROM dictionary_r2_shards WHERE release_id=$1", release
+    )}
+    edited_prefixes = {ident[:2] for ident in targets}
+    # The same content-addressed candidate resumes its committed shards. The
+    # catalogue comparison and full R2 verification still cover every shard.
+    remaining = [desc for desc in descriptions if desc["shard"] not in checkpoints or desc["shard"] in edited_prefixes]
     targets_found = {}
-    async for desc, entries in shard_reader(BASE, descriptions):
+    async for desc, entries in shard_reader(BASE, remaining):
         pref = desc["shard"]
-        existing = await con.fetchval(
-            "SELECT descriptor FROM dictionary_r2_shards WHERE release_id=$1 AND shard=$2", release, pref
-        )
+        existing = checkpoints.get(pref)
         for entry in entries:
             ident = entry["lexeme_id"]
             if ident in targets:
@@ -223,12 +239,12 @@ async def build_shards(con, release, targets, base_count, pulse):
                 targets_found[ident] = entry
             entry["release_id"] = release
         if existing:
-            checkpoint = await read_shard(release, decoded(existing))
+            checkpoint = await retry_work(read_shard, release, existing)
             if checkpoint != entries:
                 raise ValueError("editorial_checkpoint_content_mismatch")
         else:
             async with con.transaction():
-                await write_shard(con, entries, False)
+                await retry_work(write_shard, con, entries, False)
         await pulse()
         if int(pref, 16) % 16 == 15:
             LOG.info("Dictionary editorial shards: %d/256", int(pref, 16) + 1)
@@ -275,17 +291,17 @@ async def verify_catalogue(con, release, base_count, edited):
 
 async def verify_objects(release, manifest, pulse):
     async def check(desc):
-        raw = await read_immutable(index_key(release, desc["name"]), desc["compressed_bytes"])
+        raw = await retry_work(read_immutable, index_key(release, desc["name"]), desc["compressed_bytes"])
         if len(raw) != desc["compressed_bytes"] or checksum(raw) != desc["sha256"]:
             raise ValueError("editorial_index_checksum_mismatch")
 
     async for _, _entries in shard_reader(release, manifest["storage"]["shards"]):
         await pulse()
     descriptors = manifest["storage"]["search"]["objects"]
-    for start in range(0, len(descriptors), 8):
-        await asyncio.gather(*(check(desc) for desc in descriptors[start:start + 8]))
+    for start in range(0, len(descriptors), MAX_INDEX_UPLOADS):
+        await asyncio.gather(*(check(desc) for desc in descriptors[start:start + MAX_INDEX_UPLOADS]))
         await pulse()
-    body = await read_immutable(manifest_key(release), SHARD_LIMIT)
+    body = await retry_work(read_immutable, manifest_key(release), SHARD_LIMIT)
     if body != stable(manifest).encode():
         raise ValueError("editorial_manifest_checksum_mismatch")
 
@@ -434,7 +450,7 @@ async def run():
                 manifest = await make_manifest(con, release)
                 if any(manifest[key] != sizes[key] for key in ("senses", "examples")):
                     raise ValueError("editorial_candidate_manifest_mismatch")
-                await put_immutable(manifest_key(release), stable(manifest).encode())
+                await retry_work(put_immutable, manifest_key(release), stable(manifest).encode())
                 LOG.info("Dictionary editorial release verifying delivery")
                 await verify_objects(release, manifest, pulse)
                 await verify_search_and_entries(con, release, index, edited, pulse)

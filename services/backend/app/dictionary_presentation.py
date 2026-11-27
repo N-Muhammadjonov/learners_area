@@ -80,7 +80,15 @@ def present(entry):
         synonyms = {}
         for item in [*(row['synonyms'] if row else links(legacy)), *links(scoped)]:
             synonyms[(item.get('lexemeId'), item.get('senseId'), item['text'])] = item
-        collocations = row['collocations'] if row else [{'text': c['text']} for c in entry['collocations'] if c.get('sense_id') == sid or (not c.get('sense_id') and len(senses) == 1)]
+        collocations = list(row['collocations']) if row else []
+        retained_phrases = {usage_norm(item['text']) for item in collocations}
+        for item in entry['collocations']:
+            if item.get('sense_id') != sid and (item.get('sense_id') or len(senses) != 1):
+                continue
+            phrase = usage_norm(item['text'])
+            if phrase not in retained_phrases:
+                collocations.append({'text': item['text']})
+                retained_phrases.add(phrase)
         examples = [ex for ex in sense['examples'] if example_uses_entry(entry, ex['text_en'])]
         antonyms={}
         for item in [*reader['antonyms'].get(sid,[]), *links([r for r in entry['relations'] if r['relation_type']=='antonym' and (r.get('source_sense_id')==sid or (not r.get('source_sense_id') and len(senses)==1))])]:
