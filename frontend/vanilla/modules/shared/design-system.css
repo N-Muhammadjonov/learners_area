@@ -485,6 +485,24 @@ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is
 ){min-width:44px;min-height:44px;}
 @media(max-width:767px){
  html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-profile-name] {display:none;}
- html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-campus-header-search] {width:44px;min-width:44px;max-width:44px;}
- html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-global-search-trigger] {height:44px;}
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar {
+  --icon-btn:38px;row-gap:4px;column-gap:5px;padding-block:6px;
+ }
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is(
+  [data-campus-header-search], [data-theme-switch], .theme-btn, [data-global-search-trigger],
+  [data-campus-header-profile]>a, [data-profile-menu-trigger], [data-locale-switcher] button
+ ) {width:var(--icon-btn);min-width:var(--icon-btn);max-width:var(--icon-btn);}
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar :is(
+  [data-theme-switch], .theme-btn, [data-global-search-trigger],
+  [data-campus-header-profile]>a, [data-profile-menu-trigger], [data-locale-switcher] button
+ ) {height:var(--icon-btn);min-height:var(--icon-btn);padding:0;}
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-profile-menu-trigger]>:first-child {
+  width:28px;height:28px;
+ }
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-campus-topbar-brand] {
+  max-width:100%;flex:none;
+ }
+ html[data-theme] #root [data-campus-shell] [data-shell-topbar].native-topbar [data-campus-topbar-brand] .brand-name {
+  display:block;font-size:18px;line-height:1.15;white-space:nowrap;
+ }
 }

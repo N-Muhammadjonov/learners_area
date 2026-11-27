@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {setup,tick,ID} from './staff-final30/harness.mjs';
 import {mountGames} from '../modules/vocabulary/games.js';
+import {ApiError} from '../js/api-client.js';
 
 const group=Array.from({length:14},(_,index)=>({
  id:ID(100+index),term:'term '+(index+1),
@@ -21,7 +22,7 @@ function fixtures(initialAttempt=sourceAttempt,targetAttempt=null){
   starts,
   routes:{
    '/api/vocabulary/folders':{ok:true,folders:[]},
-   '/api/vocabulary/packs':{ok:true,packs:[{id:'environment',label:'Environment',wordCount:152}]},
+   '/api/vocabulary/packs':{ok:true,packs:[{id:'environment',label:'Environment',wordCount:152,added:true}]},
    '/api/vocabulary/games':(path,options={})=>{
     if(options.method==='POST'){
      const body=options.body;
@@ -48,6 +49,46 @@ function fixtures(initialAttempt=sourceAttempt,targetAttempt=null){
   }
  };
 }
+
+test('Games lists added topic packs and falls back to Due today when none are added',async()=>{
+ for(const added of [true,false]){
+  const h=setup({path:'/app/vocabulary/games?set=topic&topicPack=public&batch=3',role:'student'});
+  try{
+   const f=fixtures();
+   h.stub({...f.routes,'/api/vocabulary/packs':{ok:true,packs:[
+    {id:'public',label:'Public',wordCount:12,added:false},
+    {id:'environment',label:'Environment',wordCount:152,added}
+   ]}});
+   mountGames(h.ctx,h.ctx.root);await tick(10);
+   const params=new URL(window.location.href).searchParams;
+   assert.equal(params.get('batch'),null);
+   assert.equal(h.q('[data-game-set]').value,added?'topic':'due');
+   if(added)assert.deepEqual([...h.q('[data-game-topic-pack]').options].map(option=>option.value),['environment']);
+   else assert.equal(h.q('[data-game-topic-pack]'),null);
+   assert(!h.calls.some(call=>call.path.includes('topicPack=public')));
+  }finally{h.dispose();}
+ }
+});
+
+test('a stale Due today batch and saved deck recover to the current topic pack group',async()=>{
+ const h=setup({path:'/app/vocabulary/games/cards?set=due&batch=9',role:'student'});
+ try{
+  const f=fixtures();const route=f.routes['/api/vocabulary/games'];
+  h.stub({...f.routes,'/api/vocabulary/games':(path,options)=>{
+   const query=new URL(path,'https://fixture.invalid').searchParams;
+   if(query.get('batch')==='9')return new ApiError(404,'batch_not_found');
+   if(query.get('batches')==='1')return {...section,batchIndex:0,batches:[{index:0,count:14,label:'Travel arrangements',unlocked:true}]};
+   if(query.get('attempt')==='1')return {ok:true,attempt:{...sourceAttempt,deck:[group[0].id]}};
+   return route(path,options);
+  }});
+  mountGames(h.ctx,h.ctx.root,'cards');await tick(18);
+  assert.equal(h.q('[data-game-set]').value,'due');
+  assert.equal(new URL(window.location.href).searchParams.get('batch'),'0');
+  assert.match(h.q('[data-flashcard-batch]').textContent,/Travel arrangements/);
+  assert.equal(h.qa('[data-card-queue-item]').length,group.length);
+  assert.equal(f.starts.length,1);
+ }finally{h.dispose();}
+});
 
 test('flashcards switches to one of six games at the current section and word',async()=>{
  const h=setup({path:'/app/vocabulary/games/cards?set=topic&topicPack=environment&batch=2',role:'student'});

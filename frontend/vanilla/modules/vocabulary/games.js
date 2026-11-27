@@ -33,9 +33,9 @@ export function mountGames(ctx,host,id=null){
  function select(label,options,current,change,attrs={}){return h('label',{class:'flex flex-col gap-1 text-xs text-ink-500'},label,h('select',{class:'input','aria-label':label,value:current,...attrs,onChange:event=>{change(event.target.value);batch=null;from=null;cursor=null;address();renderHead();void load();}},options.map(o=>h('option',{value:o.value},o.label))));}
 
  function renderHead(data=null,loading=false,failed=false){
-  const controls=[select(g.set.label,SETS.map(value=>({value,label:g.set[value]})),selected,value=>selected=value,{'data-game-set':''})];
+  const controls=[select(g.set.label,SETS.filter(value=>value!=='topic'||packs.length).map(value=>({value,label:g.set[value]})),selected,value=>selected=value,{'data-game-set':''})];
   if(selected==='folder'&&folders.length)controls.push(select(t.folders.title,folders.map(x=>({value:x.id,label:`${x.name} · ${x.count??0}`})),folder,value=>folder=value));
-  if(selected==='topic'&&packs.length)controls.push(select(t.packs.title,packs.map(x=>({value:x.id,label:`${x.label} · ${x.wordCount??0}`})),pack,value=>pack=value));
+  if(selected==='topic'&&packs.length)controls.push(select(t.packs.title,packs.map(x=>({value:x.id,label:`${x.label} · ${x.wordCount??0}`})),pack,value=>pack=value,{'data-game-topic-pack':''}));
   const status=h('p',{class:id?'text-xs text-ink-500 sm:col-span-2':'mt-3 text-xs text-ink-500',
    'data-game-set-status':'','aria-live':'polite'},
    loading?dict.common.loading:failed?g.loadError:`${source()} · ${data?.total??0} ${t.packs.words}${!id&&data?` · ${data.due??0} ${t.summary.dueToday}`:''}`);
@@ -215,6 +215,11 @@ export function mountGames(ctx,host,id=null){
     }
    }
    let words=guardArray(data,'words');
+   if(id==='cards'&&Array.isArray(attempt?.deck)){
+    const currentIds=new Set(words.map(word=>word.id));
+    const changingSet=['due','weak'].includes(selected);
+    if((changingSet&&attempt.deck.length!==words.length)||attempt.deck.some(entry=>!currentIds.has(entry)))attempt=null;
+   }
    if(attempt){
     const lookup=new Map(words.map(w=>[w.id,w]));
     if(!Array.isArray(attempt.deck)||attempt.deck.some(entry=>!lookup.has(entry)))throw Error('attempt_deck_changed');
@@ -286,6 +291,9 @@ export function mountGames(ctx,host,id=null){
    renderSwitcher();
   }catch(error){
    if(!signal.aborted&&current===sequence){
+    if(id==='cards'&&['due','weak'].includes(selected)&&batch!==null&&['batch_not_found','batch_locked'].includes(error?.code)){
+     batch=null;from=null;cursor=null;address();await load();return;
+    }
     renderHead(null,false,true);
     game.replaceChildren(h('div',{class:'card flex items-center gap-3 p-4 text-sm text-band-bad',role:'alert'},
      h('p',{},error?.message==='handoff_word_not_eligible'
@@ -298,7 +306,16 @@ export function mountGames(ctx,host,id=null){
    }
   }
  }
- async function init(){renderHead(null,true);try{const [f,p]=await Promise.all([request('/api/vocabulary/folders',{signal}),request('/api/vocabulary/packs',{signal})]);if(signal.aborted)return;metaFailed=false;folders=guardArray(f,'folders');packs=guardArray(p,'packs').map(x=>({...x,label:typeof x.label==='object'?x.label[ctx.locale]??x.label.en:x.label}));folder=folders.some(x=>x.id===folder)?folder:folders[0]?.id??'';pack=packs.some(x=>x.id===pack)?pack:packs[0]?.id??'';await load();}catch{if(!signal.aborted){metaFailed=true;renderHead(null,false,true);game.replaceChildren(h('div',{class:'card flex items-center gap-3 p-4 text-sm text-band-bad',role:'alert'},h('p',{},g.loadError),h('button',{type:'button',class:'btn-secondary','data-game-load-retry':'',onClick:()=>void init()},dict.errorPage.retry)));}}}
+ async function init(){renderHead(null,true);try{const [f,p]=await Promise.all([request('/api/vocabulary/folders',{signal}),request('/api/vocabulary/packs',{signal,fresh:true})]);if(signal.aborted)return;metaFailed=false;folders=guardArray(f,'folders');
+  packs=guardArray(p,'packs').filter(x=>x.added===true).map(x=>({...x,label:typeof x.label==='object'?x.label[ctx.locale]??x.label.en:x.label}));
+  folder=folders.some(x=>x.id===folder)?folder:folders[0]?.id??'';
+  const requestedPack=pack;
+  pack=packs.some(x=>x.id===pack)?pack:packs[0]?.id??'';
+  if(selected==='topic'&&(requestedPack!==pack||!pack)){
+   if(!pack)selected='due';
+   batch=null;from=null;cursor=null;address();
+  }
+  await load();}catch{if(!signal.aborted){metaFailed=true;renderHead(null,false,true);game.replaceChildren(h('div',{class:'card flex items-center gap-3 p-4 text-sm text-band-bad',role:'alert'},h('p',{},g.loadError),h('button',{type:'button',class:'btn-secondary','data-game-load-retry':'',onClick:()=>void init()},dict.errorPage.retry)));}}}
  signal.addEventListener('abort',()=>{sequence++;roundLife?.abort();},{once:true});void init();
 }
 

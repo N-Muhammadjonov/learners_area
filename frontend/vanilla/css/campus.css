@@ -501,7 +501,26 @@ html[data-theme] body .dictionary-folder-dialog input:not([type=radio]){backgrou
 .flashcard-batch-button[aria-current=step]{background:#3d50fa;color:#fff}
 .flashcard-batch-button[aria-current=step] *{color:#fff!important}
 .flashcard-batch-button:disabled{opacity:.5;cursor:not-allowed}
-@media(max-width:1099px){#root [data-dedicated-game=cards] .flashcard-layout,#root [data-dedicated-game=cards] .flashcard-completion-layout{grid-template-columns:minmax(0,1fr)}.flashcard-batches{max-height:none}.flashcard-batch-list{display:flex;overflow-x:auto;padding-bottom:4px}.flashcard-batch-list>li{min-width:115px}.flashcard-study-stage{order:1}.flashcard-queue{order:2}}
+.flashcard-batch-button strong{max-width:100%;overflow-wrap:anywhere;line-height:1.4}
+@media(max-width:1099px){#root [data-dedicated-game=cards] .flashcard-layout,#root [data-dedicated-game=cards] .flashcard-completion-layout{grid-template-columns:minmax(0,1fr)}.flashcard-batches{max-height:none}.flashcard-batch-list{display:flex;overflow-x:auto;padding-bottom:4px}.flashcard-batch-list>li{flex:0 0 clamp(8rem,42vw,12rem);min-width:0}.flashcard-study-stage{order:1}.flashcard-queue{order:2}}
+
+/* Both faces share a grid cell so the larger one sets the card height. */
+[data-dedicated-game=cards] :is(.flashcard-scene,.flashcard-3d-card,.flashcard-3d-inner){height:auto}
+[data-dedicated-game=cards] .flashcard-3d-inner{display:grid;min-height:460px}
+[data-dedicated-game=cards] .flashcard-face{
+ grid-area:1/1;position:relative;inset:auto;overflow:visible;
+ -webkit-user-select:text;user-select:text;
+}
+[data-dedicated-game=cards] .flashcard-face-back{padding:clamp(12px,2vw,18px) clamp(12px,2vw,18px) 22px}
+.flashcard-answer-toolbar{display:flex;align-self:stretch;justify-content:flex-end;margin-bottom:.5rem}
+[data-dedicated-game=cards] .flashcard-answer-toolbar .flashcard-pronounce{position:relative;inset:auto;flex:none}
+[data-dedicated-game=cards] .flashcard-answer-body{width:min(100%,42.5rem);flex:1 0 auto;justify-content:center;overflow:visible}
+.flashcard-answer-body > *, .flashcard-chips span{max-width:100%;overflow-wrap:anywhere}
+.flashcard-back-actions{flex-shrink:0}
+@media(max-width:520px){
+ [data-dedicated-game=cards] .flashcard-3d-inner{min-height:390px}
+ [data-dedicated-game=cards] .flashcard-word{font-size:clamp(25px,7.8vw,38px);line-height:1.12}
+}
 @media(max-width:600px){html[data-theme] #root .vocabulary-dictionary .dictionary-search{gap:3px;padding:5px}html[data-theme] #root .vocabulary-dictionary .dictionary-search-submit{min-width:32px}html[data-theme] #root .vocabulary-dictionary :is(.dictionary-result-row,[data-dictionary-recent-row]){padding:14px 16px;border-radius:18px}.vocabulary-dictionary .dictionary-meaning-header{gap:10px;padding:16px 13px}.vocabulary-dictionary .dictionary-meaning-toggle strong{font-size:18px}.vocabulary-dictionary .dictionary-meaning-body{padding:0 16px 22px}.vocabulary-dictionary :is(.dictionary-definition,.dictionary-examples){font-size:16px}}
 
 
