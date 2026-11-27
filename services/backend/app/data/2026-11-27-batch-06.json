@@ -1,0 +1,912 @@
+{
+  "schema_version": 1,
+  "base_release_id": "rel-v1-6968c4924d69a0105aee9806",
+  "entries": [
+    {
+      "lexeme_id": "6042c506-4e6b-5e6c-94ca-1debeb6ef62b",
+      "lemma": "break down",
+      "part_of_speech": "v",
+      "expected_sha256": "5b0a7d707ede4ab69e448e2e1e91335a53b7e8e405aeb7e776a4515d3572f120",
+      "edits": [
+        {
+          "sense_id": "7ffbdad2-37a9-557f-8738-9278b9135bd3",
+          "definition_uz": "Transport vositasi yoki qurilma ishlab turgan joyida buzilib, ishlamay qolmoq.",
+          "translations_uz": [
+            "buzilmoq",
+            "ishdan chiqmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "the car broke down",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "36a7845b-e7f6-55b7-a406-2dbd84762d27",
+          "definition_uz": "His-tuyg‘uni boshqara olmay qolib, masalan, yig‘lab yubormoq.",
+          "translations_uz": [
+            "o‘zini tutolmay qolmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "break down in tears",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "c99d102a-66d3-5567-81a6-fa4871c72aa9",
+          "definition_uz": "Murakkab narsani tushunish uchun uning qismlarini alohida ko‘rib chiqmoq.",
+          "translations_uz": [
+            "qismlarga ajratib tahlil qilmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "break down the costs",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "0565c673-ba9c-5e31-a09a-667c0800a82d",
+      "lemma": "bring up",
+      "part_of_speech": "v",
+      "expected_sha256": "7ab3c76907de8dba8e76c09e504ec8f1810e0095576d0c21908345f8686ea635",
+      "edits": [
+        {
+          "sense_id": "1767fc85-f0e4-59e0-9c51-c1fe9f3f807f",
+          "definition_uz": "Bolani parvarish qilib, katta yoshga yetguniga qadar tarbiyalamoq.",
+          "translations_uz": [
+            "tarbiyalamoq",
+            "voyaga yetkazmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "bring up children",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "a1f99d16-45d9-513b-8f3a-03a9a3458072",
+          "cefr": "B2",
+          "definition_uz": "Biror masalani gap orasida muhokama qilish uchun ko‘tarmoq.",
+          "translations_uz": [
+            "masala ko‘tarmoq",
+            "muhokamaga qo‘ymoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "bring up a subject",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "bring up an issue",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "a64588f4-d500-595f-b6f1-0d99a40ad058",
+          "cefr": "B2",
+          "definition_uz": "Suhbatda biror mavzu yoki voqeani tilga olmoq.",
+          "translations_uz": [
+            "tilga olmoq",
+            "eslatmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "4d882a05-350b-5864-ad09-40067e57eb91",
+      "lemma": "carry out",
+      "part_of_speech": "v",
+      "expected_sha256": "4851666c7ecb132b56c186fe03c4e2e7e846dc40baec5f352e3943fb108df1e5",
+      "edits": [
+        {
+          "sense_id": "a568a298-22cd-5397-b93e-d55525efb437",
+          "definition_uz": "Reja, topshiriq yoki ishni amalda bajarmoq.",
+          "translations_uz": [
+            "amalga oshirmoq",
+            "bajarmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "carry out a plan",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "carry out instructions",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "f2355762-ff48-595f-81af-3300c2c19d5e",
+          "definition_uz": "Boshlangan ish yoki biror topshiriqni oxirigacha bajarmoq.",
+          "translations_uz": [
+            "oxirigacha bajarmoq",
+            "amalga oshirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "carry out an investigation",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "carry out a survey",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "35331629-3310-58c1-b363-6768f90aa22b",
+      "lemma": "come across",
+      "part_of_speech": "v",
+      "expected_sha256": "0ce3b65af77663137208043e653a1fdd11121fc98bdf97b77bce3d56227d8c4f",
+      "edits": [
+        {
+          "sense_id": "1ae18b25-3860-5e27-8ecc-d92e5f9b6a72",
+          "cefr": "B2",
+          "definition_uz": "Ataylab qidirmagan bo‘lsa ham, biror narsani tasodifan topib qolmoq.",
+          "translations_uz": [
+            "tasodifan topib qolmoq",
+            "duch kelmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "come across an old photo",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "81475f59-499d-4dc6-be29-cde055197843",
+          "cefr": "B2",
+          "definition_uz": "Tasodifan biror kishi yoki narsani uchratmoq.",
+          "translations_uz": [
+            "tasodifan duch kelmoq",
+            "uchratib qolmoq"
+          ]
+        },
+        {
+          "sense_id": "039ea3bc-bb71-56f5-aeed-cfc3eee0ca5d",
+          "cefr": "C1",
+          "definition_uz": "Boshqalarga o‘zini muayyan xususiyatga ega odamdek ko‘rsatmoq yoki shunday taassurot uyg‘otmoq.",
+          "translations_uz": [
+            "taassurot qoldirmoq",
+            "bo‘lib tuyulmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "come across as confident",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        },
+        {
+          "sense_id": "ed4c83e3-e791-5671-a325-355ab8f25d27",
+          "cefr": "C2",
+          "definition_uz": "Gapdagi yoki asardagi fikr va tuyg‘u boshqalarga aniq yetib bormoq.",
+          "translations_uz": [
+            "aniq yetib bormoq",
+            "ravshan ifodalanmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "1e6e2d79-d7bc-455c-9e1a-4fdb9ce527d6",
+      "lemma": "come up with",
+      "part_of_speech": "verb",
+      "expected_sha256": "8fde8a8383b4d780456ab8cdda210990e039b878b3a013f041b6123a03870437",
+      "edits": [
+        {
+          "sense_id": "8ee69c08-5285-494e-ab3e-baf48675e108",
+          "cefr": "B2",
+          "definition_uz": "Biror g‘oya, reja yoki yechimni o‘ylab topmoq.",
+          "translations_uz": [
+            "o‘ylab topmoq",
+            "taklif qilmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "come up with an idea",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "come up with a solution",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "come up with a plan",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "56e329a1-31af-5c46-9e9b-c559a1304a9e",
+      "lemma": "find out",
+      "part_of_speech": "v",
+      "expected_sha256": "21edf634d7f952b57556da761558af222314b5b716b5851c24c8335e6d83bd36",
+      "edits": [
+        {
+          "sense_id": "0d1cb737-9351-55c3-85cb-15dd853e2cfc",
+          "cefr": "A2",
+          "definition_uz": "So‘rab yoki surishtirib kerakli ma’lumotni bilib olmoq.",
+          "translations_uz": [
+            "bilib olmoq",
+            "aniqlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "find out the truth",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "e519e115-b8de-5ae5-a805-eadee800f777",
+          "cefr": "A2",
+          "definition_uz": "Ilgari bilmagan ma’lumot yoki voqeadan xabar topmoq.",
+          "translations_uz": [
+            "bilib qolmoq",
+            "xabar topmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "find out about an event",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "97db8b1d-fabe-5bc9-959c-929f7c4acd42",
+      "lemma": "give in",
+      "part_of_speech": "v",
+      "expected_sha256": "df06aa0d627e8c279b2b3004c0cd9194d608d2ae8ba7ebb853b7f1753e2f83d6",
+      "edits": [
+        {
+          "sense_id": "284be7d7-0da6-5c8e-a8d8-02d887d9af5a",
+          "definition_uz": "Qarshilikni to‘xtatib, boshqaning talabi yoki istagiga ko‘nmoq.",
+          "translations_uz": [
+            "yon bermoq",
+            "ko‘nmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "give in to pressure",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "aff0c973-658c-51ac-9adb-8e842c121868",
+          "cefr": "B1",
+          "definition_uz": "Biroz qarshilikdan so‘ng istamay rozi bo‘lmoq.",
+          "translations_uz": [
+            "istamay ko‘nmoq",
+            "yon bermoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "1633d74a-41b3-561d-95b5-a964e4920cb8",
+      "lemma": "look after",
+      "part_of_speech": "v",
+      "expected_sha256": "cbfe8530877067d0a94cf1c2aa85234c8fedbc2bdf62a7ea0d7dfa79ce0c4c0f",
+      "edits": [],
+      "added_senses": [
+        {
+          "sense_id": "284dad5b-559a-5f03-a6b7-a723e4628194",
+          "definition_en": "To be responsible for caring for a person, animal, or thing.",
+          "definition_uz": "Kishi, hayvon yoki narsaga qarab, uning parvarishi yoki xavfsizligi uchun javobgar bo‘lmoq.",
+          "translations_uz": [
+            "qaramoq",
+            "g‘amxo‘rlik qilmoq",
+            "parvarish qilmoq"
+          ],
+          "example_en": "My neighbour looks after my cat when I travel.",
+          "example_uz": "Safarga chiqsam, qo‘shnim mushugimga qarab turadi.",
+          "add_collocations": [
+            {
+              "text": "look after children",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "look after a pet",
+              "pattern_type": "collocation"
+            }
+          ],
+          "cefr": "A2"
+        }
+      ]
+    },
+    {
+      "lexeme_id": "709a7a3a-1672-593b-9bf2-8309efabfbf2",
+      "lemma": "look for",
+      "part_of_speech": "v",
+      "expected_sha256": "8ef2463c845d2c15ed7d1937c2f53f531cedf929392d22c0458cce3551b5408a",
+      "edits": [
+        {
+          "sense_id": "15ddce3a-f203-5e64-8798-ff2b93a4c69c",
+          "definition_uz": "Narsa, kishi yoki imkoniyatni topishga urinmoq.",
+          "translations_uz": [
+            "qidirmoq",
+            "izlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "look for a job",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "look for the keys",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "9a265854-c6b7-5905-9fd4-7da3fa889416",
+      "lemma": "look forward to",
+      "part_of_speech": "verb",
+      "expected_sha256": "e5bdeb5a1ed468cf2c162117329f141cc462046865037de72ed92b080d64927a",
+      "edits": [
+        {
+          "sense_id": "e65a575c-9394-595f-915d-aa80927bd7f1",
+          "cefr": "B1",
+          "definition_uz": "Yaqin yoki kelajakdagi yoqimli voqeani intizorlik bilan kutmoq.",
+          "translations_uz": [
+            "intizorlik bilan kutmoq",
+            "orziqib kutmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "look forward to a holiday",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "look forward to seeing someone",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        }
+      ],
+      "added_senses": [
+        {
+          "sense_id": "fbe7f36c-c1f2-5977-b753-cac75e6d71dd",
+          "definition_en": "A polite expression of expectation used near the end of a formal message.",
+          "definition_uz": "Rasmiy xat yakunida javob, uchrashuv yoki boshqa natijani kutayotganini muloyim ifodalash.",
+          "translations_uz": [
+            "javobingizni kutaman",
+            "uchrashuvni kutaman"
+          ],
+          "example_en": "I look forward to receiving your comments on the draft.",
+          "example_uz": "Loyiha bo‘yicha fikrlaringizni kutaman.",
+          "add_collocations": [
+            {
+              "text": "look forward to hearing from you",
+              "pattern_type": "usage_frame"
+            }
+          ],
+          "cefr": "B2",
+          "register": "formal"
+        }
+      ]
+    },
+    {
+      "lexeme_id": "9e107b1d-7df3-4505-ac0c-e6452d9351e3",
+      "lemma": "look into",
+      "part_of_speech": "phrasal verb",
+      "expected_sha256": "9494b355e985e36bcd73461c20babd6b5d0b5e7cf47432bc3be8f29b16a50a0a",
+      "edits": [
+        {
+          "sense_id": "1fce594b-77ff-4a8b-9034-0a5f198f4b9d",
+          "cefr": "B2",
+          "definition_uz": "Muammo yoki vaziyatni tushunish uchun tegishli dalillarni yaxshilab tekshirmoq.",
+          "translations_uz": [
+            "tekshirib ko‘rmoq",
+            "sinchiklab o‘rganmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "look into a complaint",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "look into the matter",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "3fc1b9e8-96ba-5016-8e0a-41ed8f998552",
+      "lemma": "look into",
+      "part_of_speech": "v",
+      "expected_sha256": "817b029bfd1535ae25af31e78c6b76909fdd3fb64779b7443acc5afef171e8af",
+      "edits": [
+        {
+          "sense_id": "21353f3b-4a6e-5fbd-aa5d-1629d8f386e1",
+          "cefr": "B2",
+          "definition_uz": "Muayyan holat yoki ma’lumotni aniqlash uchun batafsil tekshirmoq.",
+          "translations_uz": [
+            "tekshirmoq",
+            "surishtirmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "88136402-b037-5ec6-88ff-512049e17c62",
+      "lemma": "pick up",
+      "part_of_speech": "v",
+      "expected_sha256": "fd27fc87bcae181be62dd530bf42e325d8d2c5d75bb1a8de7188ce154626da49",
+      "edits": [
+        {
+          "sense_id": "69bd11a9-be4e-58ba-8c81-65b6fd7183cf",
+          "cefr": "A2",
+          "definition_uz": "Biror narsani qo‘l bilan pastdan olib ko‘tarmoq.",
+          "translations_uz": [
+            "ko‘tarmoq",
+            "qo‘lga olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "pick up a bag",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "2c9b0006-74aa-5aa5-92e5-45c38e4b72ae",
+          "cefr": "A2",
+          "definition_uz": "Kishini mashinada bir joydan olib ketmoq.",
+          "translations_uz": [
+            "olib ketmoq",
+            "mashinaga mindirib olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "pick someone up from the station",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "ca9417c2-2c54-44d6-8385-0d5a976d555b",
+          "cefr": "B2",
+          "definition_uz": "Til yoki ko‘nikmani rasmiy darslarsiz, foydalanish va tajriba orqali o‘rganib olmoq.",
+          "translations_uz": [
+            "tajriba orqali o‘zlashtirmoq",
+            "o‘rganib olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "pick up a language",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "3a9a2f28-fcb1-5dfd-a0ee-849370b19f18",
+      "lemma": "put off",
+      "part_of_speech": "v",
+      "expected_sha256": "b995fe2fc5c4e99d316154c4e9faaebfd2a937a7fb08ad68e71d90b944ce93c1",
+      "edits": [
+        {
+          "sense_id": "f742f158-c2f6-5367-90cd-9b30216cc43d",
+          "definition_uz": "Reja yoki tadbirni keyinroq vaqtga qoldirmoq.",
+          "translations_uz": [
+            "keyinga qoldirmoq",
+            "kechiktirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "put off a meeting",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "put off a decision",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "6967116b-f792-5566-b0da-93f86b5139c8",
+          "cefr": "B2",
+          "definition_uz": "Kishining biror ishga qiziqishi yoki xohishini pasaytirmoq.",
+          "translations_uz": [
+            "ishtiyoqini so‘ndirmoq",
+            "qiziqishini qaytarmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "74c2c6c3-b49d-535a-86e3-3534ca67ce42",
+      "lemma": "put on",
+      "part_of_speech": "v",
+      "expected_sha256": "bbd5bd8ff608fd8fb081cad7240166d7863df011505c6e2e5285042567e6a6b0",
+      "edits": [
+        {
+          "sense_id": "2b7a96a3-14db-50be-acb6-08edfedd2d4f",
+          "cefr": "A2",
+          "definition_uz": "Kiyim yoki oyoq kiyimni ustiga kiymoq.",
+          "translations_uz": [
+            "kiymoq",
+            "ustiga kiymoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "put on a coat",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "put on your shoes",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "e43f9f0e-19bf-5c5f-916b-ca17f91c2fce",
+          "cefr": "A2",
+          "definition_uz": "Pardoz vositasi yoki shunga o‘xshash moddani yuzga yoki teriga qo‘ymoq.",
+          "translations_uz": [
+            "surtmoq",
+            "qo‘ymoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "put on make-up",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "aa095c9a-ba07-5784-b0fe-de06d4b9b77a",
+          "definition_uz": "Tana vazni ortmoq yoki semirmoq.",
+          "translations_uz": [
+            "vazn orttirmoq",
+            "semirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "put on weight",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": [
+        {
+          "sense_id": "b020be93-1039-548b-a42f-c03fbd56c27f",
+          "definition_en": "To start a device or begin playing a recording by using its controls.",
+          "definition_uz": "Qurilmani yoqmoq yoki boshqaruv tugmasi orqali yozuvni ijro eta boshlamoq.",
+          "translations_uz": [
+            "yoqmoq",
+            "qo‘ymoq"
+          ],
+          "example_en": "He put on some music while we cooked.",
+          "example_uz": "Biz ovqat tayyorlayotganimizda u musiqa qo‘ydi.",
+          "add_collocations": [
+            {
+              "text": "put on some music",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "put on a recording",
+              "pattern_type": "collocation"
+            }
+          ],
+          "cefr": "A2"
+        }
+      ]
+    },
+    {
+      "lexeme_id": "3c19bddb-daaf-50fc-a47f-7302191d5230",
+      "lemma": "run out",
+      "part_of_speech": "v",
+      "expected_sha256": "8f502ee49fd0bb749cfe797342228a74bd5ec92d4b7e5a2ef543b1e6eed85949",
+      "edits": [
+        {
+          "sense_id": "961c1a35-c44b-59fa-9eae-7665a1566a24",
+          "definition_uz": "Bor zaxirani butunlay ishlatib yuborib, undan boshqa qolmasligi.",
+          "translations_uz": [
+            "zaxirasi tugamoq",
+            "ishlatib bo‘lmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "run out of money",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "run out of time",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "f2cd6738-17c1-5229-82f9-b1ac79fadf73",
+          "cefr": "B2",
+          "definition_uz": "Mavjud zaxiraning hammasi ishlatilib tugamoq.",
+          "translations_uz": [
+            "tugab qolmoq",
+            "tamom bo‘lmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "supplies run out",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "09f178a0-5281-5e29-abc0-f21cc310b186",
+      "lemma": "set up",
+      "part_of_speech": "v",
+      "expected_sha256": "4516f3f5edf99344697aef386ebf87bb0257a97b749ea1bb975b1e3b69eb7384",
+      "edits": [
+        {
+          "sense_id": "b65f2559-b476-567c-98fe-62291a5ec830",
+          "definition_uz": "Korxona, tashkilot, jamg‘arma yoki tizimga asos solmoq.",
+          "translations_uz": [
+            "tashkil etmoq",
+            "asos solmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "set up a company",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "set up a fund",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "f98308c7-e1e0-54aa-a7aa-e81389affbc5",
+          "definition_uz": "Jihoz yoki tizimni foydalanish uchun o‘rnatib, ishga tayyorlamoq.",
+          "translations_uz": [
+            "o‘rnatmoq",
+            "ishga tayyorlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "set up a computer",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "bf914bab-5967-5706-8c96-75f62e0dc93b",
+      "lemma": "take over",
+      "part_of_speech": "v",
+      "expected_sha256": "a9d9b3d5f8365398d1ed83024f43955385f49e46473bda4aaa6a74b0f463d60a",
+      "edits": [
+        {
+          "sense_id": "38adb53c-89ba-58b7-ba4e-ba75de35dbb0",
+          "cefr": "B2",
+          "definition_uz": "Oldin boshqa kishi bajarib turgan lavozim, ish yoki majburiyatni o‘z zimmasiga olmoq.",
+          "translations_uz": [
+            "vazifani o‘z zimmasiga olmoq",
+            "boshqaruvni qabul qilmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "take over as manager",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "dca8eef7-d5f0-5743-9be9-77057a500d70",
+          "definition_uz": "Korxona yoki kompaniyaning egaligi yoki nazoratini qo‘lga kiritmoq.",
+          "translations_uz": [
+            "nazoratni qo‘lga olmoq",
+            "kompaniyani o‘z mulkiga olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "take over a company",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "b9e79c5a-bf61-5573-9d70-f58668e82d56",
+      "lemma": "turn off",
+      "part_of_speech": "v",
+      "expected_sha256": "4eaaa599ea0b9bdfde298bf3015b411cbacd1d9b88cddd6ed6e31db543de2945",
+      "edits": [
+        {
+          "sense_id": "59460bf6-d368-5297-9eef-ae447e6d47f1",
+          "cefr": "A2",
+          "definition_uz": "Tugma yoki o‘chirgich orqali qurilma ishlashini to‘xtatmoq.",
+          "add_collocations": [
+            {
+              "text": "turn off the lights",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "turn off the TV",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "60d4136d-6f68-5a24-83ad-6d799529b665",
+      "lemma": "turn on",
+      "part_of_speech": "v",
+      "expected_sha256": "c64387f3cc47273768684bd4805bd31cdc93751f39fbd0c3fe92dd1456d92f90",
+      "edits": [
+        {
+          "sense_id": "d81851d9-63ba-5bdc-9de4-b1ea9302081d",
+          "cefr": "A2",
+          "definition_uz": "Tugma yoki yoqqich orqali qurilmani ishga tushirmoq.",
+          "translations_uz": [
+            "yoqmoq",
+            "ishga tushirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "turn on the light",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "turn on the radio",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "7f4e10e8-67b7-536f-a4c8-56a8385b1a38",
+      "lemma": "turn up",
+      "part_of_speech": "v",
+      "expected_sha256": "d88b40959c6b62eda82c58e770fef4a1227d76b2bf0aec78b55d67a340bc6fb1",
+      "edits": [
+        {
+          "sense_id": "23c61336-8311-4e4c-a281-ba6116ed6c63",
+          "definition_uz": "Odam yoki narsa ko‘pincha kutilmaganda ko‘rinmoq yoki topilmoq.",
+          "translations_uz": [
+            "paydo bo‘lmoq",
+            "topilib qolmoq"
+          ]
+        }
+      ],
+      "added_senses": [
+        {
+          "sense_id": "71112b7c-1006-56af-ba3f-8b2dc8722e63",
+          "definition_en": "To increase a device's volume, heat, or other output using its controls.",
+          "definition_uz": "Moslama sozlamasini o‘zgartirib, ovoz, issiqlik yoki boshqa ta’sirini kuchaytirmoq.",
+          "translations_uz": [
+            "balandlatmoq",
+            "kuchaytirmoq"
+          ],
+          "example_en": "Turn up the volume a little so everyone can hear.",
+          "example_uz": "Hamma eshitishi uchun ovozni biroz balandlat.",
+          "add_collocations": [
+            {
+              "text": "turn up the volume",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "turn up the heat",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexeme_id": "85fe3548-c25d-5b20-a19c-f79faed6b757",
+      "lemma": "work out",
+      "part_of_speech": "v",
+      "expected_sha256": "a31d1c8fa42fa8972de1a5ea8b9ecfb4cf48eb0aafe409d7b8fa52a276dda2fb",
+      "edits": [
+        {
+          "sense_id": "270b466c-b1bd-5b91-ad31-41285d3c30fc",
+          "definition_uz": "Gavdani chiniqtirish yoki kuchaytirish uchun jismoniy mashq bajarmoq.",
+          "translations_uz": [
+            "mashq qilmoq",
+            "jismoniy mashq qilmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "work out at the gym",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "91a96a54-8041-52fb-83cb-7bcb61c1a8fa",
+          "cefr": "B2",
+          "definition_uz": "Hisob-kitob qilib miqdor yoki javobni topmoq.",
+          "translations_uz": [
+            "hisoblab chiqmoq",
+            "hisoblamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "work out the total",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "work out the cost",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "a900245b-8b36-4a3c-8614-32c657ba0a06",
+          "cefr": "C2",
+          "definition_uz": "Mulohaza yuritib yoki tekshirib, tushunarsiz narsaning sababini yoki mazmunini aniqlamoq.",
+          "translations_uz": [
+            "tushunib yetmoq",
+            "aniqlab olmoq"
+          ]
+        },
+        {
+          "sense_id": "f2339e0e-fb3b-5ec2-98ce-8abe19b63f55",
+          "cefr": "B2",
+          "definition_uz": "Ish yoki vaziyat muayyan natija bilan, ko‘pincha muvaffaqiyat bilan tugamoq.",
+          "translations_uz": [
+            "yaxshi yakunlanmoq",
+            "ish o‘xshamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "things worked out well",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    }
+  ]
+}

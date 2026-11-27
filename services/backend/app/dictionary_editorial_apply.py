@@ -1,4 +1,4 @@
-"""Apply a checked editorial batch to a decoded dictionary release JSONL export."""
+"""Apply checked editorial batches to a decoded dictionary release JSONL export."""
 
 import argparse
 import hashlib
@@ -116,13 +116,24 @@ def apply_entry(entry, change):
     return entry
 
 
-def apply_batch(source_path, batch_path, result_path):
-    batch = json.loads(batch_path.read_text(encoding="utf-8"))
-    if batch.get("schema_version") != 1:
-        raise ValueError("Unsupported editorial batch version")
-    pending = {row["lexeme_id"]: row for row in batch["entries"]}
-    if len(pending) != len(batch["entries"]):
-        raise ValueError("Duplicate lexeme in editorial batch")
+def apply_batches(source_path, batch_paths, result_path):
+    pending = {}
+    base_release = None
+    for batch_path in batch_paths:
+        batch = json.loads(batch_path.read_text(encoding="utf-8"))
+        if batch.get("schema_version") != 1:
+            raise ValueError("Unsupported editorial batch version")
+        if base_release is None:
+            base_release = batch["base_release_id"]
+        elif base_release != batch["base_release_id"]:
+            raise ValueError("Editorial batches have different base releases")
+        for row in batch["entries"]:
+            key = row["lexeme_id"]
+            if key in pending:
+                raise ValueError(f"Duplicate lexeme in editorial batches: {key}")
+            pending[key] = row
+    if base_release is None:
+        raise ValueError("Expected at least one editorial batch")
     target_ids = set(pending)
 
     with TemporaryDirectory(dir=result_path.parent) as temp_dir:
@@ -130,7 +141,7 @@ def apply_batch(source_path, batch_path, result_path):
         with source_path.open(encoding="utf-8") as source, candidate.open("w", encoding="utf-8") as out:
             for number, line in enumerate(source, 1):
                 entry = json.loads(line)
-                if entry["release_id"] != batch["base_release_id"]:
+                if entry["release_id"] != base_release:
                     raise ValueError(f"Unexpected release ID on line {number}")
                 key = entry["lexeme_id"]
                 if key in target_ids:
@@ -144,13 +155,17 @@ def apply_batch(source_path, batch_path, result_path):
         os.link(candidate, result_path)
 
 
+def apply_batch(source_path, batch_path, result_path):
+    apply_batches(source_path, [batch_path], result_path)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path, help="Decoded JSONL for the batch's base release")
-    parser.add_argument("batch", type=Path, help="Editorial batch JSON")
+    parser.add_argument("batches", type=Path, nargs="+", help="Editorial batch JSON files with the same base release")
     parser.add_argument("output", type=Path, help="New JSONL file")
     args = parser.parse_args()
-    apply_batch(args.source, args.batch, args.output)
+    apply_batches(args.source, args.batches, args.output)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,771 @@
+{
+  "schema_version": 1,
+  "base_release_id": "rel-v1-6968c4924d69a0105aee9806",
+  "entries": [
+    {
+      "lexeme_id": "5f5689ec-0865-5740-b944-00996e833ce0",
+      "lemma": "alleviate",
+      "part_of_speech": "v",
+      "expected_sha256": "77d45df879fdf9043d54967211ad9c9a53e6abe45cb793fea9e9a08b375e0fa0",
+      "edits": [
+        {
+          "sense_id": "6d5fc643-fd0e-4c63-9d4b-e5448dc1b728",
+          "definition_uz": "Og‘ir holat yoki muammoning ta’sirini kamaytirib, uni yengilroq qilmoq.",
+          "translations_uz": [
+            "yengillashtirmoq",
+            "ta’sirini kamaytirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "alleviate poverty",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "alleviate distress",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "b9a89426-c6bb-40e1-8f0c-f7578b567146",
+          "definition_uz": "Og‘riq yoki jismoniy noqulaylikni kamaytirmoq.",
+          "translations_uz": [
+            "og‘riqni yengillashtirmoq",
+            "azobini kamaytirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "alleviate pain",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "alleviate symptoms",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "2ac59bc6-41a6-5619-9d48-8674d39aaabd",
+      "lemma": "ambiguous",
+      "part_of_speech": "a",
+      "expected_sha256": "a11bb6aa686901f7cdac1834dfb87315e994c22f37efc06dd9664374172c7391",
+      "edits": [
+        {
+          "sense_id": "3d96778e-4498-4637-aa6f-3f6979bcc513",
+          "cefr": "C2",
+          "definition_uz": "Birdan ortiq ma’noda tushunilishi mumkin bo‘lgan.",
+          "translations_uz": [
+            "bir necha ma’noli",
+            "noaniq"
+          ],
+          "add_collocations": [
+            {
+              "text": "ambiguous wording",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "7b5c98ae-5650-4f4e-b69d-d163808de008",
+          "cefr": "C2",
+          "definition_uz": "Turlicha talqin qilish mumkin bo‘lgan yoki mazmuni aniq bilinmaydigan.",
+          "translations_uz": [
+            "turlicha talqin qilinadigan",
+            "noaniq"
+          ],
+          "add_collocations": [
+            {
+              "text": "an ambiguous statement",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "2d3412a0-5d73-4f27-8082-d74441533800",
+          "cefr": "C2",
+          "definition_uz": "Bitta aniq talqin bilan cheklanmaydigan.",
+          "translations_uz": [
+            "bir nechta talqinga ega",
+            "noaniq"
+          ],
+          "add_collocations": [
+            {
+              "text": "an ambiguous phrase",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c68ab74e-0771-5eb2-a194-b19175280267",
+      "lemma": "arbitrary",
+      "part_of_speech": "a",
+      "expected_sha256": "3b36272c61d0561c73270aa2f2449c82ac929e76c4cdb6f311fe7488346ee181",
+      "edits": [
+        {
+          "sense_id": "465ce920-5f61-46f5-9230-af13b3c1fa0d",
+          "cefr": "C2",
+          "definition_uz": "Aniq qoida yoki sababga tayanmay, kishining xohishi bilan belgilanadigan.",
+          "translations_uz": [
+            "o‘zboshimcha",
+            "asoslanmagan"
+          ],
+          "add_collocations": [
+            {
+              "text": "an arbitrary decision",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "5c655cf3-e305-4c31-aae2-7057c959122a",
+          "cefr": "C2",
+          "definition_uz": "Tanlovi aniq asos yoki mezonga tayanmagan.",
+          "translations_uz": [
+            "asossiz tanlangan",
+            "ixtiyoriy belgilangan"
+          ],
+          "add_collocations": [
+            {
+              "text": "an arbitrary limit",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "8ef4b13c-7ffe-55c5-95ab-02664450422e",
+      "lemma": "bolster",
+      "part_of_speech": "n",
+      "expected_sha256": "a710bc553ee547ad06cf0661ced5f3afcab00a6a5988637eda987a567cd8ad56",
+      "edits": [
+        {
+          "sense_id": "8daeedab-209f-479d-9dc2-f70ff03aac3d",
+          "definition_uz": "Odatda karavot eniga qo‘yiladigan uzun yostiq."
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "51e9ce76-f2d2-5d4b-a6aa-f95ca694c4d2",
+      "lemma": "bolster",
+      "part_of_speech": "v",
+      "expected_sha256": "929ed1453100646ed57870eedfa060cc099ba49894299c35d8e8ddf837f41606",
+      "edits": [
+        {
+          "sense_id": "7997c742-3c13-4efc-b638-83e3ef2116cc",
+          "definition_uz": "Biror narsa, fikr yoki holatni qo‘llab-quvvatlab, kuchliroq yoki barqarorroq qilmoq.",
+          "translations_uz": [
+            "mustahkamlamoq",
+            "kuchaytirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "bolster confidence",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "bolster an argument",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "87d6275c-fa8b-5338-9242-b425a433b737",
+      "lemma": "constrain",
+      "part_of_speech": "v",
+      "expected_sha256": "498dbd9f9e2b2d56fba020538023852e87e77bdf0bee181ee30ea74eec06ca31",
+      "edits": [
+        {
+          "sense_id": "4c3aed29-1756-44ac-9ee8-d1deedb319dc",
+          "cefr": "C2",
+          "definition_uz": "Amal, imkoniyat yoki rivojlanish doirasini cheklamoq.",
+          "translations_uz": [
+            "cheklamoq",
+            "doirasini toraytirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "constrain growth",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "constrain spending",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "ee8eb47e-3c35-5c65-b2b0-fe012b61505c",
+          "definition_uz": "Miqdor, ko‘lam yoki erkinlikni keskin cheklamoq.",
+          "translations_uz": [
+            "keskin cheklamoq",
+            "doirasini toraytirmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c4dc7017-8eb3-59af-9422-b8d10bed5588",
+      "lemma": "corroborate",
+      "part_of_speech": "v",
+      "expected_sha256": "f066ab191eb78b9156894131368c6ae1458a0a1dff0f3b08e4f543ceb19b7712",
+      "edits": [
+        {
+          "sense_id": "d99109ac-d9f6-45d8-882c-cbb9e487c4ec",
+          "definition_uz": "Da’vo, ma’lumot yoki bayonotni boshqa dalillar bilan tasdiqlamoq.",
+          "translations_uz": [
+            "dalil bilan tasdiqlamoq",
+            "dalillarini mustahkamlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "corroborate a claim",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "corroborate an account",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "dcacf4e0-4626-415b-9e7d-8e06c444e0f4",
+          "definition_uz": "Yangi dalil yoki faktlar orqali avval aytilgan gapning ishonchliligini oshirmoq.",
+          "translations_uz": [
+            "qo‘shimcha dalil bilan tasdiqlamoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "corroborate the findings",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "0f5578b8-1bd1-52c7-9bcb-0cb3e1329af9",
+      "lemma": "enhance",
+      "part_of_speech": "v",
+      "expected_sha256": "eeeecc511fa4c84ed7fd53cd5fe081f734e7bb7051e343deb80c686054ea4c65",
+      "edits": [
+        {
+          "sense_id": "a0b454fa-8f9a-45ba-a51c-c4ba1cb18e06",
+          "cefr": "C1",
+          "definition_uz": "Biror narsaning kuchi, samarasi yoki darajasini oshirmoq.",
+          "translations_uz": [
+            "kuchaytirmoq",
+            "oshirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "enhance performance",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "eea0ab02-94cb-4776-9773-8e2fccf8a5d5",
+          "cefr": "C1",
+          "definition_uz": "Narsaning sifati yoki jozibasini yaxshilamoq.",
+          "translations_uz": [
+            "yaxshilamoq",
+            "jozibasini oshirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "enhance the experience",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "enhance the flavour",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "007d598c-4fed-409f-8736-6915c1740060",
+          "cefr": "C1",
+          "definition_uz": "Sifat, miqdor yoki ta’sirni oldingidan yuqoriroq darajaga ko‘tarmoq.",
+          "translations_uz": [
+            "oshirmoq",
+            "yaxshilamoq",
+            "kuchaytirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "enhance security",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "b0ae419b-888e-5dff-87b3-e9a9b6c8b9ba",
+      "lemma": "exacerbate",
+      "part_of_speech": "v",
+      "expected_sha256": "5b3620c03ae6c0d93466159982e96d061676b33f88746238cbb89d239cecf6c1",
+      "edits": [
+        {
+          "sense_id": "0bb8091d-8037-4121-bf61-0b2d0ff53a1e",
+          "definition_uz": "Mavjud muammo yoki noxush holatni battar og‘irlashtirmoq.",
+          "translations_uz": [
+            "og‘irlashtirmoq",
+            "battar qilmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "exacerbate a problem",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "exacerbate tensions",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "a1f9af5f-d003-4e1f-b6f5-f3f3f0cd8c37",
+          "definition_uz": "Mavjud muammo yoki zararli vaziyatni yanada kuchaytirib yubormoq.",
+          "translations_uz": [
+            "yanada og‘irlashtirmoq",
+            "keskinlashtirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "exacerbate inequality",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "7637c496-577f-5961-848f-0ee4ef151920",
+      "lemma": "foster",
+      "part_of_speech": "a",
+      "expected_sha256": "8bdace8774fc0b2a26117036fafb760a38a56a8c765d2831d605d14dd4c7d36e",
+      "edits": [
+        {
+          "sense_id": "0466c005-c500-4e84-9165-737bb8628ea9",
+          "definition_uz": "Bola bilan uni vaqtincha parvarish qilayotgan oila yoki ota-onaga oid.",
+          "translations_uz": [
+            "tarbiyaga olgan",
+            "tarbiyaga olingan"
+          ],
+          "add_collocations": [
+            {
+              "text": "foster parents",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a foster family",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "6843a09d-a089-540f-9972-0401a07811fd",
+      "lemma": "foster",
+      "part_of_speech": "v",
+      "expected_sha256": "8ad17ef40a00c494733386ada643be9c5244545dce10a80b8cbce8e1d61b9576",
+      "edits": [
+        {
+          "sense_id": "09207b48-fd6b-4aa3-b4c2-412f6234701c",
+          "definition_uz": "Narsaning o‘sishi yoki rivojlanishi uchun qulay sharoit yaratmoq.",
+          "translations_uz": [
+            "rivojlantirmoq",
+            "rivojiga ko‘maklashmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "foster cooperation",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "foster innovation",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "94ea9766-27bc-436c-afc6-56a69fc21578",
+          "definition_uz": "O‘z farzandi bo‘lmagan bolaga tarbiyachi oila sifatida vaqtincha qarab, parvarish qilmoq.",
+          "translations_uz": [
+            "bolani oilaga olib tarbiyalamoq",
+            "bolani parvarishga olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "foster a child",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "8887c6db-223f-5800-b6eb-b9349244e0d0",
+      "lemma": "hinder",
+      "part_of_speech": "v",
+      "expected_sha256": "d7f215b2bc8ddc0d6cc766712d6036a68160d314294f046218e75f0abe983430",
+      "edits": [
+        {
+          "sense_id": "0148a774-f387-4381-b524-30db090b2242",
+          "cefr": "C2",
+          "definition_uz": "Kishi yoki ishning oldinga siljishiga to‘sqinlik qilmoq.",
+          "translations_uz": [
+            "to‘sqinlik qilmoq",
+            "xalaqit bermoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "hinder development",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "38f9e167-e715-42fa-a3ce-baf08bf3486a",
+          "cefr": "C2",
+          "definition_uz": "Ishning amalga oshishi yoki davom etishini qiyinlashtirmoq.",
+          "translations_uz": [
+            "to‘sqinlik qilmoq",
+            "qiyinlashtirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "hinder progress",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "0c602681-85bb-4242-8930-0f5845179603",
+          "cefr": "C2",
+          "definition_uz": "Jarayonning oldinga siljishi yoki harakatning bajarilishini qiyinlashtirmoq.",
+          "translations_uz": [
+            "xalaqit bermoq",
+            "to‘sqinlik qilmoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "d5483220-d54d-50fd-9271-82e1ad698bdd",
+      "lemma": "mitigate",
+      "part_of_speech": "v",
+      "expected_sha256": "f545abac701ca2a37e128498f5b4e05d36c149892ea8644a1665ccc5a12fbce9",
+      "edits": [
+        {
+          "sense_id": "59a76f9a-ef2f-44c0-99be-a03dd5a89b2c",
+          "definition_uz": "Xavf yoki zarar qanchalik jiddiy bo‘lishini kamaytirmoq.",
+          "translations_uz": [
+            "yumshatmoq",
+            "ta’sirini kamaytirmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "mitigate risk",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "mitigate the impact",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c42068b6-6109-5642-b5c5-13d6c8083cce",
+      "lemma": "negligible",
+      "part_of_speech": "a",
+      "expected_sha256": "6c37eb96af498babef84487e27317ca311a37f3acb14057ae1448ed01784fa39",
+      "edits": [
+        {
+          "sense_id": "6ff44298-d172-4878-9031-6c8236d062b4",
+          "cefr": "C2",
+          "definition_uz": "Shunchalik kichikki, hisobga olmaslik natijani deyarli o‘zgartirmaydi.",
+          "translations_uz": [
+            "arzimas",
+            "hisobga olmasa bo‘ladigan"
+          ]
+        },
+        {
+          "sense_id": "7191f301-8c59-4924-9781-56774469f773",
+          "cefr": "C2",
+          "definition_uz": "Miqdori juda oz bo‘lib, amaliy ahamiyati deyarli yo‘q.",
+          "translations_uz": [
+            "arzimas",
+            "juda oz"
+          ],
+          "add_collocations": [
+            {
+              "text": "a negligible amount",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "f4bbc8d0-7e4b-4a16-a2c8-c6ce526b2a19",
+          "cefr": "C2",
+          "definition_uz": "Natijaga sezilarli ta’sir ko‘rsatmaydigan darajada kichik.",
+          "translations_uz": [
+            "ahamiyatsiz darajada kichik",
+            "arzimas"
+          ],
+          "add_collocations": [
+            {
+              "text": "a negligible effect",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c00f2602-5483-53f5-8027-cdf328de12ce",
+      "lemma": "plausible",
+      "part_of_speech": "a",
+      "expected_sha256": "b99cf12529415d224824e9b1586dcc803d131791ffaa00b77ce5618dcafb7bb1",
+      "edits": [
+        {
+          "sense_id": "8dd9cd83-bd38-4f0e-b59d-35390ea5d997",
+          "cefr": "C2",
+          "definition_uz": "Bir qarashda aqlga muvofiq va ishonish mumkin bo‘lgan.",
+          "translations_uz": [
+            "ishonarli",
+            "haqiqatga yaqin"
+          ],
+          "add_collocations": [
+            {
+              "text": "a plausible explanation",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "15295891-7839-4ab1-88da-daac6206e513",
+          "cefr": "C2",
+          "definition_uz": "Rost yoki yuz berishi mumkin deb hisoblashga asos bo‘lgandek ko‘rinadigan.",
+          "translations_uz": [
+            "haqiqatga yaqin",
+            "mumkindek ko‘rinadigan"
+          ],
+          "add_collocations": [
+            {
+              "text": "a plausible scenario",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "4d4fd3e9-900f-4f49-a5b6-0a53a2016d01",
+          "cefr": "C2",
+          "definition_uz": "Dalillarga zid kelmagandek va rost bo‘lishi mumkindek tuyuladigan.",
+          "translations_uz": [
+            "ishonarli",
+            "rostga o‘xshaydigan"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "4d27b432-bea4-5f2b-aa3a-7a56fa265831",
+      "lemma": "robust",
+      "part_of_speech": "a",
+      "expected_sha256": "f119dee59b45b0fc1a7245e66e9e0339b1ce27e97a26282186d93f33a26d1d49",
+      "edits": [
+        {
+          "sense_id": "2dd2abed-a831-432c-a674-b0d61fd8f482",
+          "definition_uz": "Sharoit o‘zgarganda ham barqaror va samarali ishlaydigan.",
+          "translations_uz": [
+            "barqaror",
+            "mustahkam",
+            "ishonchli"
+          ],
+          "add_collocations": [
+            {
+              "text": "a robust system",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a robust method",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "f666acd1-a20a-454d-84b0-1eec2dc37205",
+          "definition_uz": "Jismonan baquvvat yoki tuzilishi puxta va bardoshli.",
+          "translations_uz": [
+            "baquvvat",
+            "mustahkam"
+          ],
+          "add_collocations": [
+            {
+              "text": "robust construction",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "91ee959e-51e5-5240-a77f-9e71336435a1",
+      "lemma": "scrutinize",
+      "part_of_speech": "v",
+      "expected_sha256": "07cf04193a7747020f2fa0272e2cf2ccaf222ed7f6583caa41b8ab99a84606af",
+      "edits": [
+        {
+          "sense_id": "3ee638a5-4261-4276-8e76-07fe356ae14f",
+          "definition_uz": "Ma’lumot yoki hujjatning to‘g‘riligini aniqlash uchun sinchiklab tekshirmoq.",
+          "translations_uz": [
+            "sinchiklab tekshirmoq",
+            "batafsil ko‘rib chiqmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "scrutinize the evidence",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "scrutinize the accounts",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "2638ecbc-d36b-572c-925e-783e4c6925ff",
+      "lemma": "substantial",
+      "part_of_speech": "a",
+      "expected_sha256": "296270a3060a1a96041bf04e8b4b30b25b4cdb5438a5c509be6c128ce27c33ee",
+      "edits": [
+        {
+          "sense_id": "52788479-cff3-4414-b7d0-9c887c6d9ebf",
+          "cefr": "B2",
+          "definition_uz": "Miqdori, ko‘lami, qiymati yoki ahamiyati sezilarli darajada katta.",
+          "translations_uz": [
+            "salmoqli",
+            "sezilarli"
+          ],
+          "add_collocations": [
+            {
+              "text": "a substantial increase",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a substantial amount",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c8de3519-a015-5a58-9308-a67f3a756f4b",
+      "lemma": "undertake",
+      "part_of_speech": "v",
+      "expected_sha256": "0c3be40b082d7212fe74fb60c5002105896f1f06a1da32e69ec5fbceb01b0ca8",
+      "edits": [
+        {
+          "sense_id": "836b7130-fe1c-4010-ad9c-83618cfa69dc",
+          "cefr": "C1",
+          "definition_uz": "Ko‘pincha vaqt yoki mehnat talab qiladigan ishni boshlab, uni bajarishga kirishmoq.",
+          "translations_uz": [
+            "ishga kirishmoq",
+            "ishni o‘z zimmasiga olmoq"
+          ],
+          "add_collocations": [
+            {
+              "text": "undertake research",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "undertake a project",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "d778f411-11c3-48b8-b397-cdf05304d521",
+          "definition_uz": "Muayyan ishni bajarishga va’da bermoq yoki majburiyat olmoq.",
+          "translations_uz": [
+            "bajarishni o‘z zimmasiga olmoq",
+            "va’da bermoq"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "828ba812-cf4a-548a-8d9e-03723afc1678",
+      "lemma": "unprecedented",
+      "part_of_speech": "a",
+      "expected_sha256": "20e2fa47f050c86effe718d4e79e79373959a7cd96c04d7b02154880f8d82069",
+      "edits": [
+        {
+          "sense_id": "4adf986d-82a0-4e04-9964-b647d80f4bb8",
+          "cefr": "C2",
+          "definition_uz": "Avval bunday holat uchramagan yoki tarixda oldin misoli bo‘lmagan.",
+          "translations_uz": [
+            "misli ko‘rilmagan",
+            "avval kuzatilmagan"
+          ],
+          "add_collocations": [
+            {
+              "text": "on an unprecedented scale",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "e213cbdc-ca1d-4d28-b29c-ed93617092b6",
+          "cefr": "C2",
+          "definition_uz": "Ilgari yuz bermagan yoki mavjud bo‘lmagan.",
+          "translations_uz": [
+            "misli ko‘rilmagan",
+            "ilgari bo‘lmagan"
+          ],
+          "add_collocations": [
+            {
+              "text": "unprecedented demand",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    }
+  ]
+}

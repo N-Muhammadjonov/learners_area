@@ -26,8 +26,8 @@ from .step40_dictionary_storage import (
 )
 
 LOG = logging.getLogger("uvicorn.error")
-BASE = "rel-v1-1fa06d8d41d8ff701632573e"
-PLAN = (('2026-11-27-batch-01.json', '40e9af84932faed70308a930c4e6abf9768cec68f4bea1bd2efa533a2e2f3844'), ('2026-11-27-batch-02.json', '794273825aaf429f46d8a298c5563a9c683daafcb54e5777f1c7410cbb250c52'))
+BASE = 'rel-v1-6968c4924d69a0105aee9806'
+PLAN = (('2026-11-27-batch-03.json', 'b6365c1d8fae4a5daba1532329f3afb9793f3dfff7c30166d56c28bbc569122f'), ('2026-11-27-batch-04.json', 'ecbff40c00946079725db93b9c1834b05d67441c224d2c0eb5f54d79e9c5e4cf'), ('2026-11-27-batch-05.json', '366ad529d4a434c6cc267bf607f46ab04c819e495be136d5d6904e99aec8017c'), ('2026-11-27-batch-06.json', 'a3bd72aab19211b3dbd809e99dfb2faa63829a3c315d8f3ed16e0b8df1401238'), ('2026-11-27-batch-07.json', '41dc87cf609e5ab6734387ba4e2178824ad2fe13fe7e084b271ecb26f8363a19'), ('2026-11-27-batch-08.json', '7ed6038a77b0d6b3f09cf8fe8024f1dc5175b8beddb61c3a1db74bbd713562a4'), ('2026-11-27-batch-09.json', '176af607ccdb228f44b71678652f04ed2c043c0405ab30d477941428fb31482d'))
 LEASE_SECONDS = 120
 MAX_INDEX_UPLOADS = 3
 
@@ -214,7 +214,7 @@ async def heartbeat(con, job, token):
         raise ValueError("editorial_publish_authority_changed")
 
 
-async def build_shards(con, release, targets, base_count, pulse):
+async def build_shards(db, con, release, targets, base_count, pulse):
     descriptions = [decoded(row["descriptor"]) for row in await con.fetch(
         "SELECT descriptor FROM dictionary_r2_shards WHERE release_id=$1 ORDER BY shard", BASE
     )]
@@ -224,30 +224,49 @@ async def build_shards(con, release, targets, base_count, pulse):
         "SELECT shard,descriptor FROM dictionary_r2_shards WHERE release_id=$1", release
     )}
     edited_prefixes = {ident[:2] for ident in targets}
+    width = 2 if db.get_max_size() >= 4 else 1
     # The same content-addressed candidate resumes its committed shards. The
     # catalogue comparison and full R2 verification still cover every shard.
     remaining = [desc for desc in descriptions if desc["shard"] not in checkpoints or desc["shard"] in edited_prefixes]
-    targets_found = {}
-    async for desc, entries in shard_reader(BASE, remaining):
+
+    async def process_shard(desc):
+        entries = await retry_work(read_shard, BASE, desc)
         pref = desc["shard"]
         existing = checkpoints.get(pref)
+        edited = {}
         for entry in entries:
             ident = entry["lexeme_id"]
             if ident in targets:
                 apply_entry(entry, targets[ident])
                 validate_entry(entry)
-                targets_found[ident] = entry
+                edited[ident] = entry
             entry["release_id"] = release
         if existing:
             checkpoint = await retry_work(read_shard, release, existing)
             if checkpoint != entries:
                 raise ValueError("editorial_checkpoint_content_mismatch")
         else:
-            async with con.transaction():
-                await retry_work(write_shard, con, entries, False)
+            if width == 1:
+                async with con.transaction():
+                    await retry_work(write_shard, con, entries, False)
+            else:
+                async with db.acquire() as connection:
+                    async with connection.transaction():
+                        await retry_work(write_shard, connection, entries, False)
+        return edited
+
+    targets_found = {}
+    for start in range(0, len(remaining), width):
+        group = remaining[start:start + width]
+        results = await asyncio.gather(*(process_shard(desc) for desc in group), return_exceptions=True)
+        for result in results:
+            if isinstance(result, BaseException):
+                raise result
+            targets_found.update(result)
         await pulse()
-        if int(pref, 16) % 16 == 15:
-            LOG.info("Dictionary editorial shards: %d/256", int(pref, 16) + 1)
+        done = start + len(group)
+        if done % 16 == 0 or done == len(remaining):
+            LOG.info("Dictionary editorial shard work: %d/%d", done, len(remaining))
 
     if targets_found.keys() != targets.keys():
         raise ValueError("editorial_targets_missing")
@@ -325,6 +344,11 @@ async def verify_search_and_entries(con, release, index, edited, pulse):
         examples.append((entry["display_lemma"], "EN", ident))
         if entry["normalized_search_form"] == "degree":
             examples.append(("oliy ta’lim darajasi", "UZ", ident))
+        if entry["normalized_search_form"] == "account" and any(
+            normalize_search(translation["text"]) == "foydalanuvchi hisobi"
+            for sense in entry["senses"] for translation in sense["translations"]
+        ):
+            examples.append(("foydalanuvchi hisobi", "UZ", ident))
         prefix = ident[:2]
         if prefix not in shards:
             shards[prefix] = decoded(await con.fetchval(
@@ -428,7 +452,7 @@ async def run():
                         last_pulse = time.monotonic()
 
                 await pulse()
-                edited = await build_shards(con, release, changes, base_count, pulse)
+                edited = await build_shards(db, con, release, changes, base_count, pulse)
                 sizes = await verify_catalogue(con, release, base_count, edited)
                 LOG.info("Dictionary editorial search index building")
                 ordered = await con.fetch(

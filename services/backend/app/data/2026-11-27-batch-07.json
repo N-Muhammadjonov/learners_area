@@ -1,0 +1,692 @@
+{
+  "schema_version": 1,
+  "base_release_id": "rel-v1-6968c4924d69a0105aee9806",
+  "entries": [
+    {
+      "lexeme_id": "e0326f1d-fd04-5860-8b79-3a47b7a75af1",
+      "lemma": "actually",
+      "part_of_speech": "r",
+      "expected_sha256": "1a015ab483a8cf4b8390b349dc0c2ed8b7fb77d1dbc1f18b0670c5958d21a077",
+      "edits": [
+        {
+          "sense_id": "f744f937-db0d-43e6-a9eb-45c9ca048923",
+          "cefr": "A2",
+          "definition_uz": "Gap aytilgan yoki taxmin qilingan narsaning haqiqiy holatini ko‘rsatadi.",
+          "translations_uz": [
+            "aslida",
+            "haqiqatda",
+            "amalda"
+          ]
+        },
+        {
+          "sense_id": "8ca37d5b-6e2b-4c25-8f28-546efc1a6b7d",
+          "cefr": "B1",
+          "definition_uz": "Xabar kutilganidan boshqacha yoki hayratlanarli ekanini urg‘ulaydi.",
+          "translations_uz": [
+            "aslida",
+            "qarangki"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "1d1ba30b-59a8-5d54-ad93-0dd066f53101",
+      "lemma": "almost",
+      "part_of_speech": "r",
+      "expected_sha256": "fa7c0e24644b207dbe540f7ddfb55c5f502c3580995ee35a1c055f708cb1764c",
+      "edits": [
+        {
+          "sense_id": "b5a48ec7-bc02-4a69-908d-f8c6a1235fa9",
+          "cefr": "A2",
+          "definition_uz": "Miqdor, holat yoki natijaga juda yaqin qolganini bildiradi.",
+          "translations_uz": [
+            "deyarli",
+            "sal qoldi"
+          ],
+          "add_collocations": [
+            {
+              "text": "almost finished",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "almost all",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "almost impossible",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "b1b6e71a-dbfc-5b5b-afc4-b6dff873df25",
+      "lemma": "already",
+      "part_of_speech": "r",
+      "expected_sha256": "41622e9f84d7fb3d17ea67112feedaf8a259d0878517e6c7d48a66255a327363",
+      "edits": [
+        {
+          "sense_id": "98abbae2-d979-4898-8905-1cb49ae41536",
+          "cefr": "A2",
+          "definition_uz": "Ish yoki voqea hozirgi yoki aytilgan vaqtdan oldin bo‘lib o‘tganini bildiradi.",
+          "translations_uz": [
+            "allaqachon",
+            "bundan oldin"
+          ],
+          "add_collocations": [
+            {
+              "text": "already known",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": [
+        {
+          "sense_id": "89099106-7df3-532e-a132-5dad1a0e93c0",
+          "definition_en": "Used to express surprise that something has happened sooner than expected.",
+          "definition_uz": "Biror ish kutilganidan oldin sodir bo‘lganini hayrat bilan bildirishda ishlatiladi.",
+          "translations_uz": [
+            "allaqachon",
+            "shunchalik tez"
+          ],
+          "example_en": "Has the parcel arrived already?",
+          "example_uz": "Posilka shunchalik tez yetib keldimi?",
+          "add_collocations": [],
+          "cefr": "B1"
+        }
+      ]
+    },
+    {
+      "lexeme_id": "577e925d-e952-5d30-baff-29efee18416d",
+      "lemma": "although",
+      "part_of_speech": "conjunction",
+      "expected_sha256": "5553c37142b997893239a6e81e3bd7b83dd231d2d09653acc5a8b3aa3793c4a4",
+      "edits": [
+        {
+          "sense_id": "a89ad2d3-cbc5-5d8f-87b8-7d6913680941",
+          "cefr": "B1",
+          "definition_uz": "Oldingi yoki keyingi fikrga zid yoki unga to‘sqinlik qilishi mumkin bo‘lgan holatni bildiradi.",
+          "translations_uz": [
+            "garchi",
+            "bo‘lsa-da"
+          ],
+          "add_collocations": [
+            {
+              "text": "although it was difficult",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "619cff32-f177-5ab4-a447-bb781ede55c2",
+      "lemma": "despite",
+      "part_of_speech": "preposition",
+      "expected_sha256": "164075c052e17db79266d8e097aff7a98cc31f15edd4af6a5af25d823a68f38d",
+      "edits": [
+        {
+          "sense_id": "0fc49769-702a-501f-8681-3973a3b1d965",
+          "cefr": "B1",
+          "definition_uz": "To‘sqinlik qilishi mumkin bo‘lgan sharoitga qaramay, ish yuz berganini bildiradi.",
+          "translations_uz": [
+            "-ga qaramay"
+          ],
+          "add_collocations": [
+            {
+              "text": "despite the rain",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "despite the fact that",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "70adf66a-144a-58b8-89f0-feedc9887227",
+      "lemma": "enough",
+      "part_of_speech": "a",
+      "expected_sha256": "34e77c17af7c8337d51404a301c6004529c61f3dc8c93227c3caa5b3ec2c5b3f",
+      "edits": [
+        {
+          "sense_id": "6a546d2c-1303-4114-a9d3-c5acea1973bc",
+          "cefr": "A2",
+          "definition_uz": "Biror maqsad yoki ehtiyoj uchun talab qilingancha bor.",
+          "translations_uz": [
+            "yetarli",
+            "kifoya qiladigan"
+          ],
+          "add_collocations": [
+            {
+              "text": "enough time",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "enough money",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "7b875e95-32dd-5069-af7c-256c1322d0e2",
+      "lemma": "enough",
+      "part_of_speech": "r",
+      "expected_sha256": "80b681c47b63eb7a2700caccb3a97738e6df31dae003408289a4ee3163d4bc5e",
+      "edits": [
+        {
+          "sense_id": "d026e597-d905-4e78-8b13-66d9dcc34072",
+          "cefr": "A2",
+          "definition_uz": "Kerakli miqdor yoki darajagacha.",
+          "translations_uz": [
+            "yetarlicha",
+            "yetarli darajada"
+          ],
+          "add_collocations": [
+            {
+              "text": "warm enough",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "good enough",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "add5b4e0-5a21-5218-8c6f-9d93f2ac0c08",
+      "lemma": "even",
+      "part_of_speech": "a",
+      "expected_sha256": "b1dece7c2c072c1a6d57deb79b21c85f63250553acdd5f88b5a04e142b5039a6",
+      "edits": [],
+      "added_senses": [
+        {
+          "sense_id": "d284889a-9de3-5327-b553-a504ad0fd86a",
+          "definition_en": "Of a whole number, divisible by two with no remainder.",
+          "definition_uz": "Ikkiga bo‘lganda qoldiq chiqmaydigan butun songa oid.",
+          "translations_uz": [
+            "juft",
+            "juft son"
+          ],
+          "example_en": "Ten is an even number.",
+          "example_uz": "O‘n juft son.",
+          "add_collocations": [
+            {
+              "text": "an even number",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "lexeme_id": "3a48197d-23a2-583e-b419-e5551e7a7982",
+      "lemma": "even",
+      "part_of_speech": "r",
+      "expected_sha256": "3f47ef913df222be2cf49f90a3d170b5958b8384312298cc455a564de3219caf",
+      "edits": [
+        {
+          "sense_id": "28bdc972-106c-4460-a256-a5bbdfacb1d4",
+          "cefr": "B1",
+          "definition_uz": "Qiyosda ikki narsa orasidagi daraja farqini kuchaytiradi.",
+          "translations_uz": [
+            "yanada",
+            "bundan ham"
+          ],
+          "add_collocations": [
+            {
+              "text": "even better",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "even more difficult",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "6abc5c47-284b-4193-ad7a-5e1d6e36ff77",
+          "cefr": "A2",
+          "definition_uz": "Narsa, kishi yoki hodisa kutilmaganini urg‘ulash uchun ishlatiladi.",
+          "translations_uz": [
+            "hatto",
+            "ham"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "02f9b3b7-ce96-5526-a511-4cc85fce7068",
+      "lemma": "fairly",
+      "part_of_speech": "r",
+      "expected_sha256": "dbdaba7497f7a5c16f9fe641a34cbfa6f9c68042cec1897d798f91d8284cc7d6",
+      "edits": [
+        {
+          "sense_id": "cc257a99-61a5-4882-94bf-4d101176d73d",
+          "cefr": "B1",
+          "definition_uz": "Belgining darajasi o‘rtachadan yuqori, ammo juda katta emasligini bildiradi.",
+          "translations_uz": [
+            "anchagina",
+            "ma’lum darajada"
+          ],
+          "add_collocations": [
+            {
+              "text": "fairly easy",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "fairly common",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "6e387197-2823-42ad-a696-20ecee3e6a2c",
+          "definition_uz": "Hech kimning foydasini boshqalarnikidan ustun qo‘ymay, xolis tarzda.",
+          "translations_uz": [
+            "xolisona",
+            "adolat bilan"
+          ],
+          "add_collocations": [
+            {
+              "text": "treat someone fairly",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "8c06a653-23f0-597a-af68-2d15d8ee5b71",
+      "lemma": "however",
+      "part_of_speech": "r",
+      "expected_sha256": "d55940b6e090ade7752e2fd74616b62d22a525a05ac65404edd3a782e5618d3b",
+      "edits": [
+        {
+          "sense_id": "0d3797f0-b018-4e08-b5eb-16a5332ea12d",
+          "definition_uz": "Oldingi fikrdan farq qiladigan qarama-qarshi yoki kutilmagan fikrni bog‘laydi.",
+          "translations_uz": [
+            "biroq",
+            "ammo"
+          ]
+        },
+        {
+          "sense_id": "bbe82b0b-c9f5-4115-99b0-0b81b5f8e177",
+          "cefr": "B2",
+          "definition_uz": "Aytilgan sifat yoki holat qay darajada bo‘lishidan qat’i nazar.",
+          "translations_uz": [
+            "qanchalik bo‘lmasin",
+            "qay darajada bo‘lsa ham"
+          ],
+          "add_collocations": [
+            {
+              "text": "however difficult",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "7d3c0a33-4bda-505c-b909-b6706f858831",
+      "lemma": "nearly",
+      "part_of_speech": "r",
+      "expected_sha256": "203ca3cbd2cecd7111759ac5c56efd6ee1b7b5dfdf76041bd3005e2fd557a4bd",
+      "edits": [
+        {
+          "sense_id": "2770034b-913f-4ef7-a35f-2a3e8daf1b2c",
+          "definition_uz": "Aytilgan miqdor, holat yoki natijaning ozgina qismi yetishmayotganini bildiradi.",
+          "translations_uz": [
+            "deyarli",
+            "sal kam"
+          ],
+          "add_collocations": [
+            {
+              "text": "nearly ready",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "nearly all",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "84db8cd5-4d90-5721-a8be-140da6c4b1e0",
+      "lemma": "only",
+      "part_of_speech": "r",
+      "expected_sha256": "8183e29038aec60eff06cc85eef2eb3bfb334bc28003bff3942d83dca2b83aa2",
+      "edits": [
+        {
+          "sense_id": "668622b5-8dd3-45e0-aae3-1d71c543bc2d",
+          "definition_uz": "Miqdor, ish yoki tanlov aytilgan narsa bilan cheklanganini bildiradi.",
+          "translations_uz": [
+            "faqat",
+            "atigi"
+          ],
+          "add_collocations": [
+            {
+              "text": "only five minutes",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "7f0ef627-7d65-5c4a-86be-3fd9617e25a7",
+          "definition_uz": "Voqea juda yaqinda yuz berganini bildiradi.",
+          "translations_uz": [
+            "endigina",
+            "yaqindagina"
+          ],
+          "add_collocations": [
+            {
+              "text": "only just",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "only recently",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "9094bab3-9ec9-4dce-9e93-1a2420aa7e9a",
+          "definition_uz": "Aytilgan odam yoki narsadan boshqasi nazarda tutilmaganini bildiradi.",
+          "translations_uz": [
+            "faqat",
+            "birgina"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "e53a61b5-6a82-585d-8524-550e8ad58522",
+      "lemma": "otherwise",
+      "part_of_speech": "r",
+      "expected_sha256": "ca52810d27b2aa78e075a4f00640f746feafd30c9268e334bf1242b1e80573d5",
+      "edits": [
+        {
+          "sense_id": "82d17a1a-d151-5ded-99bd-c4d3c239d47b",
+          "cefr": "B1",
+          "definition_uz": "Avval aytilgan shart bajarilmasa, undan keyingi oqibat yuz berishini bildiradi.",
+          "translations_uz": [
+            "aks holda",
+            "bo‘lmasa"
+          ],
+          "add_collocations": [
+            {
+              "text": "otherwise we will be late",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        },
+        {
+          "sense_id": "fdbea21a-00aa-4b38-b0a0-9ce36b1b628c",
+          "definition_uz": "Aytilgan jihatdan tashqari qolgan tomonlarini nazarda tutadi.",
+          "translations_uz": [
+            "qolgan jihatdan",
+            "boshqa jihatdan"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "0ebfd8df-73aa-569c-b1e5-12a9b5c740e5",
+      "lemma": "probably",
+      "part_of_speech": "r",
+      "expected_sha256": "db017cacd2522f0ef45b82d19dbdbba2ea7c781ef09609d32d29de3da08444f5",
+      "edits": [
+        {
+          "sense_id": "1fabd1a7-e3b7-4354-87ca-a6e6c128a95f",
+          "cefr": "A2",
+          "definition_uz": "Mavjud dalillarga qaraganda biror narsa rost bo‘lishi ehtimoli katta.",
+          "translations_uz": [
+            "ehtimol",
+            "katta ehtimol bilan"
+          ],
+          "add_collocations": [
+            {
+              "text": "probably true",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "44776745-e45b-48b4-8cab-f2c253adad9d",
+          "cefr": "A2",
+          "definition_uz": "Biror fikr yoki voqea ehtimoli katta, ammo to‘liq aniq emas.",
+          "translations_uz": [
+            "ehtimol",
+            "katta ehtimol bilan"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "b76778e6-8c1c-5df4-a440-8f7ca07e3676",
+      "lemma": "quite",
+      "part_of_speech": "r",
+      "expected_sha256": "3377642bd26bae34cbfb26c91ae73695d10becd47838ecf46996265caf359e72",
+      "edits": [
+        {
+          "sense_id": "c0283d1b-c219-47dc-a5ff-9574671fcb92",
+          "definition_uz": "Belgining ma’lum yoki yetarlicha sezilarli darajada ekanini bildiradi.",
+          "translations_uz": [
+            "ancha",
+            "bir qadar"
+          ],
+          "add_collocations": [
+            {
+              "text": "quite easy",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "quite good",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "73570928-1351-45b2-8ce2-f49de34fb741",
+          "definition_uz": "Belgining to‘liq yoki mutlaq darajada ekanini bildiradi.",
+          "translations_uz": [
+            "butunlay",
+            "tamoman"
+          ],
+          "add_collocations": [
+            {
+              "text": "quite sure",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "quite impossible",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "23a2c82c-6136-56f2-b5b1-553367703204",
+      "lemma": "rather",
+      "part_of_speech": "r",
+      "expected_sha256": "f50dee3cc2a348eed8a234e9f2470e200d1a990a5fd4a9baa961d62ee6edeefc",
+      "edits": [
+        {
+          "sense_id": "6e75f085-48a0-4b10-9e43-3dafd019c227",
+          "cefr": "B1",
+          "definition_uz": "Biror belgi ma’lum yoki sezilarli darajada mavjudligini bildiradi.",
+          "translations_uz": [
+            "ancha",
+            "bir oz"
+          ],
+          "add_collocations": [
+            {
+              "text": "rather cold",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "rather difficult",
+              "pattern_type": "collocation"
+            }
+          ]
+        },
+        {
+          "sense_id": "cf6e8e13-96df-4246-bdf8-bb27ece4b112",
+          "definition_uz": "Sifat yoki tavsifning kutilganidan bir oz kuchliroq darajasini bildiradi.",
+          "translations_uz": [
+            "ancha",
+            "bir qadar"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "c44db8f2-a29e-5914-863e-c94fe6e070f8",
+      "lemma": "still",
+      "part_of_speech": "a",
+      "expected_sha256": "5f97f9d8db6e4f2ce29e8e837dcf386bd41e86871a220b4231950fd3a6205a70",
+      "edits": [
+        {
+          "sense_id": "fed59654-1082-43ff-bb15-71796c623306",
+          "cefr": "B1",
+          "definition_uz": "Ichimlik tarkibida gaz pufakchalari bo‘lmagan.",
+          "translations_uz": [
+            "gazsiz"
+          ],
+          "add_collocations": [
+            {
+              "text": "still mineral water",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "a bottle of still water",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "61ce4954-fa61-5d13-9f25-ea979597bd41",
+      "lemma": "still",
+      "part_of_speech": "r",
+      "expected_sha256": "b1c936f05cf0c9acb58d01db50f3967bfea9f29f8308d492d69c0531daac65ae",
+      "edits": [
+        {
+          "sense_id": "b248761a-ca2b-4af1-af5b-c90cb6b95f86",
+          "cefr": "A2",
+          "definition_uz": "Ish yoki holat avval qanday davom etgan bo‘lsa, hozir ham davom etayotganini bildiradi.",
+          "translations_uz": [
+            "hali ham",
+            "hamon"
+          ],
+          "add_collocations": [
+            {
+              "text": "still working",
+              "pattern_type": "collocation"
+            },
+            {
+              "text": "still waiting",
+              "pattern_type": "collocation"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "84b47c4f-6934-5fd9-a839-499becfaece5",
+      "lemma": "therefore",
+      "part_of_speech": "r",
+      "expected_sha256": "d94e398fc8eb7b63838aeab0c72d3de75c9304144a76d1f7a0004fdf2b1c7755",
+      "edits": [
+        {
+          "sense_id": "5bcd44b0-ed4c-46c3-a59f-25a2060e97a9",
+          "cefr": "B1",
+          "definition_uz": "Bundan oldin aytilgan sabab yoki dalildan kelib chiqadigan xulosani bildiradi.",
+          "translations_uz": [
+            "shuning uchun",
+            "demak",
+            "shu sababli"
+          ]
+        }
+      ],
+      "added_senses": []
+    },
+    {
+      "lexeme_id": "5f64152b-f6cd-555c-9bcd-292d99888780",
+      "lemma": "yet",
+      "part_of_speech": "r",
+      "expected_sha256": "1efe9164a6a24e2d7e0a41e6890f065e6d3be1ed6ad079937865b0ef813adcfb",
+      "edits": [
+        {
+          "sense_id": "2cd1a7dc-ba94-4f00-ae03-bde615e2caf9",
+          "cefr": "A2",
+          "definition_uz": "Ish yoki voqeaning hozirgacha sodir bo‘lgan-bo‘lmaganini bildirishda ishlatiladi.",
+          "translations_uz": [
+            "hali",
+            "hozirgacha"
+          ],
+          "add_collocations": [
+            {
+              "text": "not yet",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        },
+        {
+          "sense_id": "4250a940-8cbe-43ef-972e-9736c67ca710",
+          "cefr": "A2",
+          "definition_uz": "Kutilgan ish shu paytgacha hali sodir bo‘lmaganini bildiradi.",
+          "translations_uz": [
+            "hali",
+            "hanuz"
+          ]
+        },
+        {
+          "sense_id": "e0650a80-89e2-4106-a6c7-55334618a069",
+          "cefr": "B2",
+          "definition_uz": "Eng yuqori yoki eng past ko‘rsatkich hozirgacha kuzatilganlar orasida ekanini bildiradi.",
+          "translations_uz": [
+            "hozirgacha",
+            "shu paytgacha"
+          ],
+          "add_collocations": [
+            {
+              "text": "the best yet",
+              "pattern_type": "usage_frame"
+            }
+          ]
+        }
+      ],
+      "added_senses": []
+    }
+  ]
+}
